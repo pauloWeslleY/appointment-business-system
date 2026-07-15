@@ -9,14 +9,21 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
+import NotFoundPage from '@/components/layout/not-found'
 import { ColorModeButton } from '@/components/ui/color-mode'
 
 import ItemContentAuthLayout from './-components/item-content-auth-layout'
 
 export const Route = createFileRoute('/_auth')({
+  beforeLoad: ({ context }) => {
+    if (context.auth.isAuthenticated) {
+      throw redirect({ to: '/establishment' })
+    }
+  },
   component: AuthLayout,
+  notFoundComponent: NotFoundPage,
 })
 
 const loadContentAuthLayout = [
@@ -27,7 +34,14 @@ const loadContentAuthLayout = [
 
 function AuthLayout() {
   return (
-    <VStack align="center" minH="100vh" p={{ base: '4', md: '8' }}>
+    <VStack
+      align="center"
+      minH="dvh"
+      p={{ base: '4', md: '8' }}
+      bgGradient="to-tl"
+      gradientFrom={{ base: 'colorPalette.100', _dark: 'colorPalette.900/60' }}
+      gradientTo={{ base: 'gray.200/10', _dark: 'gray.900/60' }}
+    >
       <SimpleGrid
         columns={{ base: 1, md: 2 }}
         gap={{ base: 4, md: 8 }}
@@ -36,13 +50,12 @@ function AuthLayout() {
         flex="1"
       >
         <Stack
+          backdropFilter="blur(16px) saturate(160%)"
           justify="space-between"
-          bgGradient="to-tr"
-          gradientFrom={{
-            base: 'colorPalette.100',
-            _dark: 'colorPalette.900/60',
+          bg={{
+            base: 'colorPalette.400/20',
+            _dark: 'colorPalette.600/10',
           }}
-          gradientTo={{ base: 'pink.100', _dark: 'pink.900/60' }}
           rounded="4xl"
           p="10"
           h="full"
