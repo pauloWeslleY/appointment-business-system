@@ -150,7 +150,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
               </Avatar.Root>
 
               {!collapsed && (
-                <Box>
+                <div>
                   <Text
                     lineHeight="1"
                     fontWeight="medium"
@@ -165,7 +165,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
                   >
                     {data?.user?.email ?? 'email@example.com'}
                   </Text>
-                </Box>
+                </div>
               )}
             </HStack>
 
