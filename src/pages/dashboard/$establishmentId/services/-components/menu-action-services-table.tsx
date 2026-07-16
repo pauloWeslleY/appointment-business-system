@@ -1,4 +1,5 @@
 import { Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
+import { useNavigate } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
 
 import type { ServiceEstablishmentModel } from '@/shared/services/service-establishment/service-establishment.dto'
@@ -8,7 +9,7 @@ interface MenuActionServicesTableProps {
 }
 
 const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
-  console.log('service', service)
+  const navigate = useNavigate()
 
   return (
     <Menu.Root>
@@ -35,10 +36,36 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
             bg={{ base: 'white', _dark: 'gray.900' }}
             rounded="md"
           >
-            <Menu.Item value="rename" rounded="md" cursor="pointer">
+            <Menu.Item
+              value="rename"
+              rounded="md"
+              cursor="pointer"
+              onClick={() =>
+                navigate({
+                  to: '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit',
+                  params: {
+                    establishmentId: service.establishmentId,
+                    serviceEstablishmentId: service.id,
+                  },
+                })
+              }
+            >
               Editar
             </Menu.Item>
-            <Menu.Item value="export" rounded="md" cursor="pointer">
+            <Menu.Item
+              value="export"
+              rounded="md"
+              cursor="pointer"
+              onClick={() =>
+                navigate({
+                  to: '/dashboard/$establishmentId/services/$serviceEstablishmentId/info',
+                  params: {
+                    establishmentId: service.establishmentId,
+                    serviceEstablishmentId: service.id,
+                  },
+                })
+              }
+            >
               Visualizar
             </Menu.Item>
             <Menu.Item

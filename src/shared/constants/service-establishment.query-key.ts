@@ -16,6 +16,20 @@ export const serviceEstablishmentQueryKeys = {
       'detail',
     ] as const
   },
+  info: (serviceEstablishmentId?: string) => {
+    return [
+      ...serviceEstablishmentQueryKeys.all,
+      { serviceEstablishmentId: serviceEstablishmentId ?? null },
+      'info',
+    ] as const
+  },
+  getById: (serviceEstablishmentId?: string) => {
+    return [
+      ...serviceEstablishmentQueryKeys.all,
+      { serviceEstablishmentId: serviceEstablishmentId ?? null },
+      'by-id',
+    ] as const
+  },
 }
 
 export const serviceEstablishmentMutationKeys = {

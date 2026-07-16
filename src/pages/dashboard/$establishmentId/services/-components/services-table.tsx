@@ -79,8 +79,7 @@ const ServicesTable = () => {
             key={item.id}
             transition="colors"
             bg={{ base: 'white', _dark: 'gray.950/40' }}
-            _hover={{ bg: { base: 'gray.700', _dark: 'colorPalette.900/30' } }}
-            cursor="pointer"
+            _hover={{ bg: { base: 'gray.100', _dark: 'colorPalette.900/30' } }}
           >
             <Table.Cell>
               {item.imageUrl && (

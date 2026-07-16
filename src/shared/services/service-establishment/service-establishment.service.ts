@@ -3,16 +3,29 @@ import { HttpMethod } from '@/shared/http'
 
 import type {
   CreateServiceEstablishmentRequest,
+  ServiceEstablishmentDetailsModel,
   ServiceEstablishmentModel,
 } from './service-establishment.dto'
 
 export const getServiceEstablishmentByIdService = async (
-  establishmentId: string,
+  serviceEstablishmentId: string,
 ) => {
   const { api, validate } = httpDependencies<ServiceEstablishmentModel>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/service/establishment/${establishmentId}`,
+    url: `/service/establishment/${serviceEstablishmentId}`,
+  })
+
+  return validate.errors(response)
+}
+
+export const getServiceEstablishmentDetailService = async (
+  serviceEstablishmentId: string,
+) => {
+  const { api, validate } = httpDependencies<ServiceEstablishmentDetailsModel>()
+  const response = await api.request({
+    method: HttpMethod.GET,
+    url: `/service/establishment/details/${serviceEstablishmentId}`,
   })
 
   return validate.errors(response)
@@ -43,7 +56,7 @@ export const createServiceEstablishmentService = async (
   return validate.errors(response)
 }
 
-export const uploadServiceEstablishmentService = async (
+export const updateServiceEstablishmentService = async (
   data: CreateServiceEstablishmentRequest & { id: string },
 ) => {
   const { api, validate } = httpDependencies<ServiceEstablishmentModel>()

@@ -5,19 +5,22 @@ import {
   Card,
   chakra,
   FileUpload,
+  Flex,
   GridItem,
   HStack,
   Icon,
+  Image,
   Separator,
   SimpleGrid,
   Spinner,
   Text,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Upload } from 'lucide-react'
-import { Controller, useForm } from 'react-hook-form'
+import { useEffect, useMemo } from 'react'
+import { Controller, type DefaultValues, useForm } from 'react-hook-form'
 import { NumericFormat } from 'react-number-format'
 import z from 'zod'
 
@@ -25,17 +28,21 @@ import InputField from '@/components/input-field'
 import Header from '@/components/layout/header'
 import { Field } from '@/components/ui/field'
 import { toaster } from '@/components/ui/toaster'
+import { serviceEstablishmentQueryKeys } from '@/shared/constants/service-establishment.query-key'
 import type { ServiceEstablishmentModel } from '@/shared/services/service-establishment/service-establishment.dto'
-import { createServiceEstablishmentService } from '@/shared/services/service-establishment/service-establishment.service'
+import {
+  getServiceEstablishmentByIdService,
+  updateServiceEstablishmentService,
+} from '@/shared/services/service-establishment/service-establishment.service'
 import {
   type UploadFileResponse,
   uploadFileToR2,
 } from '@/shared/services/storage/upload.service'
 
 export const Route = createFileRoute(
-  '/dashboard/$establishmentId/services/_pages/new/',
+  '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/',
 )({
-  component: CreateServicePage,
+  component: EditServiceEstablishmentPage,
 })
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024 // 5 MB
@@ -66,12 +73,18 @@ const ServiceFormSchema = z.object({
 type ServiceFormData = z.infer<typeof ServiceFormSchema>
 type ServiceFormInput = z.input<typeof ServiceFormSchema>
 
-function CreateServicePage() {
-  const { establishmentId } = Route.useParams()
+function EditServiceEstablishmentPage() {
+  const { establishmentId, serviceEstablishmentId } = Route.useParams()
+
+  const { data: serviceEstablishment } = useQuery({
+    queryKey: serviceEstablishmentQueryKeys.getById(serviceEstablishmentId),
+    queryFn: () => getServiceEstablishmentByIdService(serviceEstablishmentId),
+    enabled: serviceEstablishmentId.trim() !== '',
+  })
 
   const {
-    mutate: createServiceEstablishment,
-    isPending: isCreatingServiceEstablishment,
+    mutate: updateServiceEstablishment,
+    isPending: isUpdatingServiceEstablishment,
   } = useMutation<
     ServiceEstablishmentModel,
     Error,
@@ -88,12 +101,23 @@ function CreateServicePage() {
         })
       }
 
-      return createServiceEstablishmentService({
+      return updateServiceEstablishmentService({
         ...data,
+        id: serviceEstablishmentId,
         imageUrl: urlImage?.key ?? null,
       })
     },
   })
+
+  const formDefaultValues = useMemo<DefaultValues<ServiceFormInput>>(
+    () => ({
+      name: serviceEstablishment?.name ?? '',
+      description: serviceEstablishment?.description ?? '',
+      servicePriceInCents: serviceEstablishment?.servicePriceInCents ?? 0,
+      image: null,
+    }),
+    [serviceEstablishment],
+  )
 
   const {
     control,
@@ -103,16 +127,13 @@ function CreateServicePage() {
     formState: { errors },
   } = useForm<ServiceFormInput, any, ServiceFormData>({
     resolver: zodResolver(ServiceFormSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      image: null,
-      servicePriceInCents: 0,
-    },
+    defaultValues: formDefaultValues,
   })
 
-  const onSubmitCreateServiceEstablishment = (data: ServiceFormData) => {
-    createServiceEstablishment(
+  useEffect(() => reset(formDefaultValues), [formDefaultValues, reset])
+
+  const onSubmitUpdateServiceEstablishment = (data: ServiceFormData) => {
+    updateServiceEstablishment(
       {
         ...data,
         establishmentId,
@@ -121,11 +142,11 @@ function CreateServicePage() {
       {
         onSuccess: () => {
           reset()
-          toaster.success({ title: 'Serviço cadastrado com sucesso' })
+          toaster.success({ title: 'Serviço atualizado com sucesso' })
         },
         onError: (error) => {
           toaster.error({
-            title: 'Erro ao cadastrar serviço',
+            title: 'Erro ao atualizar serviço',
             description: error.message,
           })
         },
@@ -140,9 +161,9 @@ function CreateServicePage() {
           <Header.Button />
 
           <div>
-            <Header.Title>Novo Serviço</Header.Title>
+            <Header.Title>Atualizar Serviço</Header.Title>
             <Header.SubTitle>
-              Cadastre um novo serviço para o seu estabelecimento
+              Atualize as informações do serviço para o seu estabelecimento
             </Header.SubTitle>
           </div>
         </HStack>
@@ -156,7 +177,7 @@ function CreateServicePage() {
       >
         <chakra.form
           w="full"
-          onSubmit={handleSubmit(onSubmitCreateServiceEstablishment)}
+          onSubmit={handleSubmit(onSubmitUpdateServiceEstablishment)}
         >
           <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
             <Field
@@ -216,31 +237,48 @@ function CreateServicePage() {
             <GridItem colSpan={{ base: 1, md: 2 }}>
               <Text pb="4">Imagem do serviço</Text>
 
-              <Controller
-                name="image"
-                control={control}
-                render={({ field }) => (
-                  <FileUpload.Root
-                    alignItems="stretch"
-                    maxFiles={10}
-                    rounded="xl"
-                  >
-                    <FileUpload.HiddenInput
-                      onChange={(e) => field.onChange(e.target.files)}
+              <Flex gap="2">
+                {serviceEstablishment?.imageUrl && (
+                  <Box flex="1">
+                    <Image
+                      border="1px solid"
+                      borderColor={{ base: 'gray.200', _dark: 'gray.800' }}
+                      rounded="xl"
+                      w="full"
+                      h="48"
+                      fit="contain"
+                      src={serviceEstablishment.imageUrl}
                     />
-                    <FileUpload.Dropzone rounded="xl" bg="gray.700/10">
-                      <Icon size="md" color="fg.muted">
-                        <Upload />
-                      </Icon>
-                      <FileUpload.DropzoneContent>
-                        <Box>Drag and drop files here</Box>
-                        <Box color="fg.muted">.png, .jpg up to 5MB</Box>
-                      </FileUpload.DropzoneContent>
-                    </FileUpload.Dropzone>
-                    <FileUpload.List />
-                  </FileUpload.Root>
+                  </Box>
                 )}
-              />
+
+                <Controller
+                  name="image"
+                  control={control}
+                  render={({ field }) => (
+                    <FileUpload.Root
+                      flex={serviceEstablishment?.imageUrl ? '1' : 'inherit'}
+                      alignItems="stretch"
+                      maxFiles={10}
+                      rounded="xl"
+                    >
+                      <FileUpload.HiddenInput
+                        onChange={(e) => field.onChange(e.target.files)}
+                      />
+                      <FileUpload.Dropzone rounded="xl" bg="gray.700/10">
+                        <Icon size="md" color="fg.muted">
+                          <Upload />
+                        </Icon>
+                        <FileUpload.DropzoneContent>
+                          <Box>Drag and drop files here</Box>
+                          <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+                        </FileUpload.DropzoneContent>
+                      </FileUpload.Dropzone>
+                      <FileUpload.List />
+                    </FileUpload.Root>
+                  )}
+                />
+              </Flex>
             </GridItem>
 
             <GridItem
@@ -252,14 +290,14 @@ function CreateServicePage() {
                 size="sm"
                 rounded="xl"
                 w="fit-content"
-                loading={isCreatingServiceEstablishment}
+                loading={isUpdatingServiceEstablishment}
               >
-                Cadastrar serviço
+                Salvar serviço
               </Button>
             </GridItem>
           </SimpleGrid>
 
-          {isCreatingServiceEstablishment && (
+          {isUpdatingServiceEstablishment && (
             <Alert.Root
               borderStartWidth="3px"
               borderStartColor="colorPalette.600"
@@ -268,7 +306,7 @@ function CreateServicePage() {
               <Alert.Indicator>
                 <Spinner size="sm" />
               </Alert.Indicator>
-              <Alert.Title>Cadastrando serviço...</Alert.Title>
+              <Alert.Title>Atualizando serviço...</Alert.Title>
             </Alert.Root>
           )}
         </chakra.form>

@@ -27,7 +27,10 @@ import { Route as AuthenticatedOwnerPagesNewIndexRouteImport } from './pages/_au
 import { Route as AuthenticatedOwnerPagesOwnerIdIndexRouteImport } from './pages/_authenticated/owner/_pages/$ownerId/index'
 import { Route as AuthenticatedEstablishmentPagesNewIndexRouteImport } from './pages/_authenticated/establishment/_pages/new/index'
 import { Route as AuthenticatedEstablishmentPagesEstablishmentIdIndexRouteImport } from './pages/_authenticated/establishment/_pages/$establishmentId/index'
+import { Route as DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteImport } from './pages/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/layout'
 import { Route as DashboardEstablishmentIdServicesPagesNewIndexRouteImport } from './pages/dashboard/$establishmentId/services/_pages/new/index'
+import { Route as DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/index'
+import { Route as DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRouteImport } from './pages/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/index'
 
 const AuthenticatedLayoutRoute = AuthenticatedLayoutRouteImport.update({
   id: '/_authenticated',
@@ -129,12 +132,38 @@ const AuthenticatedEstablishmentPagesEstablishmentIdIndexRoute =
     path: '/establishment/$establishmentId/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
+const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute =
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteImport.update(
+    {
+      id: '/services/_pages/$serviceEstablishmentId',
+      path: '/services/$serviceEstablishmentId',
+      getParentRoute: () => DashboardEstablishmentIdLayoutRoute,
+    } as any,
+  )
 const DashboardEstablishmentIdServicesPagesNewIndexRoute =
   DashboardEstablishmentIdServicesPagesNewIndexRouteImport.update({
     id: '/services/_pages/new/',
     path: '/services/new/',
     getParentRoute: () => DashboardEstablishmentIdLayoutRoute,
   } as any)
+const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute =
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRouteImport.update(
+    {
+      id: '/info/',
+      path: '/info/',
+      getParentRoute: () =>
+        DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute,
+    } as any,
+  )
+const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute =
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRouteImport.update(
+    {
+      id: '/edit/',
+      path: '/edit/',
+      getParentRoute: () =>
+        DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -149,11 +178,14 @@ export interface FileRoutesByFullPath {
   '/dashboard/$establishmentId/overview/': typeof DashboardEstablishmentIdOverviewIndexRoute
   '/dashboard/$establishmentId/reviews/': typeof DashboardEstablishmentIdReviewsIndexRoute
   '/dashboard/$establishmentId/services/': typeof DashboardEstablishmentIdServicesIndexRoute
+  '/dashboard/$establishmentId/services/$serviceEstablishmentId': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   '/establishment/$establishmentId/': typeof AuthenticatedEstablishmentPagesEstablishmentIdIndexRoute
   '/establishment/new/': typeof AuthenticatedEstablishmentPagesNewIndexRoute
   '/owner/$ownerId/': typeof AuthenticatedOwnerPagesOwnerIdIndexRoute
   '/owner/new/': typeof AuthenticatedOwnerPagesNewIndexRoute
   '/dashboard/$establishmentId/services/new/': typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
+  '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
+  '/dashboard/$establishmentId/services/$serviceEstablishmentId/info/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -168,11 +200,14 @@ export interface FileRoutesByTo {
   '/dashboard/$establishmentId/overview': typeof DashboardEstablishmentIdOverviewIndexRoute
   '/dashboard/$establishmentId/reviews': typeof DashboardEstablishmentIdReviewsIndexRoute
   '/dashboard/$establishmentId/services': typeof DashboardEstablishmentIdServicesIndexRoute
+  '/dashboard/$establishmentId/services/$serviceEstablishmentId': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   '/establishment/$establishmentId': typeof AuthenticatedEstablishmentPagesEstablishmentIdIndexRoute
   '/establishment/new': typeof AuthenticatedEstablishmentPagesNewIndexRoute
   '/owner/$ownerId': typeof AuthenticatedOwnerPagesOwnerIdIndexRoute
   '/owner/new': typeof AuthenticatedOwnerPagesNewIndexRoute
   '/dashboard/$establishmentId/services/new': typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
+  '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
+  '/dashboard/$establishmentId/services/$serviceEstablishmentId/info': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -190,11 +225,14 @@ export interface FileRoutesById {
   '/dashboard/$establishmentId/overview/': typeof DashboardEstablishmentIdOverviewIndexRoute
   '/dashboard/$establishmentId/reviews/': typeof DashboardEstablishmentIdReviewsIndexRoute
   '/dashboard/$establishmentId/services/': typeof DashboardEstablishmentIdServicesIndexRoute
+  '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   '/_authenticated/establishment/_pages/$establishmentId/': typeof AuthenticatedEstablishmentPagesEstablishmentIdIndexRoute
   '/_authenticated/establishment/_pages/new/': typeof AuthenticatedEstablishmentPagesNewIndexRoute
   '/_authenticated/owner/_pages/$ownerId/': typeof AuthenticatedOwnerPagesOwnerIdIndexRoute
   '/_authenticated/owner/_pages/new/': typeof AuthenticatedOwnerPagesNewIndexRoute
   '/dashboard/$establishmentId/services/_pages/new/': typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
+  '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
+  '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,11 +249,14 @@ export interface FileRouteTypes {
     | '/dashboard/$establishmentId/overview/'
     | '/dashboard/$establishmentId/reviews/'
     | '/dashboard/$establishmentId/services/'
+    | '/dashboard/$establishmentId/services/$serviceEstablishmentId'
     | '/establishment/$establishmentId/'
     | '/establishment/new/'
     | '/owner/$ownerId/'
     | '/owner/new/'
     | '/dashboard/$establishmentId/services/new/'
+    | '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit/'
+    | '/dashboard/$establishmentId/services/$serviceEstablishmentId/info/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -230,11 +271,14 @@ export interface FileRouteTypes {
     | '/dashboard/$establishmentId/overview'
     | '/dashboard/$establishmentId/reviews'
     | '/dashboard/$establishmentId/services'
+    | '/dashboard/$establishmentId/services/$serviceEstablishmentId'
     | '/establishment/$establishmentId'
     | '/establishment/new'
     | '/owner/$ownerId'
     | '/owner/new'
     | '/dashboard/$establishmentId/services/new'
+    | '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit'
+    | '/dashboard/$establishmentId/services/$serviceEstablishmentId/info'
   id:
     | '__root__'
     | '/'
@@ -251,11 +295,14 @@ export interface FileRouteTypes {
     | '/dashboard/$establishmentId/overview/'
     | '/dashboard/$establishmentId/reviews/'
     | '/dashboard/$establishmentId/services/'
+    | '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId'
     | '/_authenticated/establishment/_pages/$establishmentId/'
     | '/_authenticated/establishment/_pages/new/'
     | '/_authenticated/owner/_pages/$ownerId/'
     | '/_authenticated/owner/_pages/new/'
     | '/dashboard/$establishmentId/services/_pages/new/'
+    | '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/'
+    | '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -394,12 +441,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEstablishmentPagesEstablishmentIdIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
+    '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId': {
+      id: '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId'
+      path: '/services/$serviceEstablishmentId'
+      fullPath: '/dashboard/$establishmentId/services/$serviceEstablishmentId'
+      preLoaderRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteImport
+      parentRoute: typeof DashboardEstablishmentIdLayoutRoute
+    }
     '/dashboard/$establishmentId/services/_pages/new/': {
       id: '/dashboard/$establishmentId/services/_pages/new/'
       path: '/services/new'
       fullPath: '/dashboard/$establishmentId/services/new/'
       preLoaderRoute: typeof DashboardEstablishmentIdServicesPagesNewIndexRouteImport
       parentRoute: typeof DashboardEstablishmentIdLayoutRoute
+    }
+    '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/': {
+      id: '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/'
+      path: '/info'
+      fullPath: '/dashboard/$establishmentId/services/$serviceEstablishmentId/info/'
+      preLoaderRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRouteImport
+      parentRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute
+    }
+    '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/': {
+      id: '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/'
+      path: '/edit'
+      fullPath: '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit/'
+      preLoaderRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRouteImport
+      parentRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute
     }
   }
 }
@@ -456,11 +524,30 @@ const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
 const AuthenticatedLayoutRouteWithChildren =
   AuthenticatedLayoutRoute._addFileChildren(AuthenticatedLayoutRouteChildren)
 
+interface DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteChildren {
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
+}
+
+const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteChildren: DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteChildren =
+  {
+    DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute:
+      DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute,
+    DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute:
+      DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute,
+  }
+
+const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWithChildren =
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute._addFileChildren(
+    DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteChildren,
+  )
+
 interface DashboardEstablishmentIdLayoutRouteChildren {
   DashboardEstablishmentIdAppointmentsIndexRoute: typeof DashboardEstablishmentIdAppointmentsIndexRoute
   DashboardEstablishmentIdOverviewIndexRoute: typeof DashboardEstablishmentIdOverviewIndexRoute
   DashboardEstablishmentIdReviewsIndexRoute: typeof DashboardEstablishmentIdReviewsIndexRoute
   DashboardEstablishmentIdServicesIndexRoute: typeof DashboardEstablishmentIdServicesIndexRoute
+  DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute: typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   DashboardEstablishmentIdServicesPagesNewIndexRoute: typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
 }
 
@@ -474,6 +561,8 @@ const DashboardEstablishmentIdLayoutRouteChildren: DashboardEstablishmentIdLayou
       DashboardEstablishmentIdReviewsIndexRoute,
     DashboardEstablishmentIdServicesIndexRoute:
       DashboardEstablishmentIdServicesIndexRoute,
+    DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRoute:
+      DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWithChildren,
     DashboardEstablishmentIdServicesPagesNewIndexRoute:
       DashboardEstablishmentIdServicesPagesNewIndexRoute,
   }
