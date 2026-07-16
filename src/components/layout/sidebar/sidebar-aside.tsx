@@ -34,9 +34,9 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
       h="full"
       px="2"
       pb="10"
-      bg={{ base: 'colorPalette.100/10', _dark: 'gray.900/90' }}
+      bg={{ base: 'tertiary.300', _dark: 'secondary.900' }}
       borderRightWidth="1px"
-      borderRightColor={{ base: 'gray.200', _dark: 'gray.700' }}
+      borderRightColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       w={collapsed ? '20' : '60'}
       transition="width 0.2s ease"
       pos="relative"
@@ -142,7 +142,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
                 size="sm"
                 borderWidth="1px"
                 borderColor="colorPalette.500"
-                bg={{ base: 'colorPalette.100', _dark: 'colorPalette.300/40' }}
+                bg={{ base: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
                 color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
               >
                 <Avatar.Fallback />
@@ -154,16 +154,13 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
                   <Text
                     lineHeight="1"
                     fontWeight="medium"
-                    color={{
-                      base: 'colorPalette.600',
-                      _dark: 'colorPalette.700',
-                    }}
+                    color={{ base: 'primary.500', _dark: 'primary.300' }}
                   >
                     {data?.user?.name ?? 'Usuário'}
                   </Text>
                   <Text
                     fontSize="xs"
-                    color={{ base: 'gray.400', _dark: 'gray.700' }}
+                    color={{ base: 'gray.400', _dark: 'gray.600' }}
                     truncate
                   >
                     {data?.user?.email ?? 'email@example.com'}

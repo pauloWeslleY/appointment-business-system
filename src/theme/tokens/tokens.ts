@@ -1,0 +1,48 @@
+import { defineTokens } from '@chakra-ui/react'
+
+export const tokens = defineTokens.colors({
+  primary: {
+    100: { value: '#ECD9F5' },
+    200: { value: '#D7B5EC' },
+    300: { value: '#AA82C8' },
+    400: { value: '#725191' },
+    500: { value: '#321E48' },
+    600: { value: '#27153D' },
+    700: { value: '#1D0F33' },
+    800: { value: '#140929' },
+    900: { value: '#0D0522' },
+  },
+  secondary: {
+    100: { value: '#F0F4F6' },
+    200: { value: '#D7E7ED' },
+    300: { value: '#CADBE5' },
+    400: { value: '#8FB0C7' },
+    500: { value: '#43637e' },
+    600: { value: '#15283D' },
+    700: { value: '#101E30' },
+    800: { value: '#0B1525' },
+    900: { value: '#091020' },
+  },
+  tertiary: {
+    100: { value: '#FDFFFD' },
+    200: { value: '#F7FFFA' },
+    300: { value: '#F5FFFA' },
+    400: { value: '#E8FFF6' },
+    500: { value: '#d9fff4' },
+    600: { value: '#447B71' },
+    700: { value: '#34625E' },
+    800: { value: '#264C4C' },
+    900: { value: '#1E3E41' },
+  },
+  emerald: {
+    100: { value: '#F5FCF9' },
+    200: { value: '#DFFAF1' },
+    300: { value: '#D6F8F0' },
+    400: { value: '#A1EFE4' },
+    500: { value: '#65dcd5' },
+    600: { value: '#1F686A' },
+    700: { value: '#184D54' },
+    800: { value: '#113742' },
+    900: { value: '#0E2B38' },
+  },
+})

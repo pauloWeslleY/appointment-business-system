@@ -8,7 +8,7 @@ import {
   type IconButtonProps,
 } from '@chakra-ui/react'
 import { useRouter } from '@tanstack/react-router'
-import { ArrowBigLeftDash } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 const baseHeaderTitleRecipe = defineRecipe({
   className: 'base-header-title',
@@ -16,6 +16,7 @@ const baseHeaderTitleRecipe = defineRecipe({
     fontSize: '2xl',
     fontWeight: 'light',
     fontFamily: 'heading',
+    color: { base: 'primary.600', _dark: 'primary.200' },
   },
 })
 
@@ -24,7 +25,8 @@ const baseHeaderSubTitleRecipe = defineRecipe({
   base: {
     fontSize: 'md',
     fontWeight: 'medium',
-    color: 'gray.500',
+    letterSpacing: 'wider',
+    color: { base: 'gray.400', _dark: 'gray.500' },
   },
 })
 
@@ -47,7 +49,7 @@ const HeaderButton = (props: IconButtonProps) => {
       aria-label="Voltar"
       onClick={() => router.history.back()}
     >
-      <Icon as={ArrowBigLeftDash} boxSize="4" />
+      <Icon as={ArrowLeft} boxSize="4" />
     </IconButton>
   )
 }

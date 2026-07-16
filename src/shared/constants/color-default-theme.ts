@@ -1,3 +1,3 @@
 import { type BoxProps } from '@chakra-ui/react'
 
-export const colorDefaultTheme: BoxProps['colorPalette'] = 'teal'
+export const colorDefaultTheme: BoxProps['colorPalette'] = 'emerald'

@@ -13,7 +13,7 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
       w="full"
       px="4"
       borderBottomWidth="1px"
-      borderColor={{ base: 'gray.200', _dark: 'gray.700' }}
+      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       h="14"
     >
       <HStack pl={{ base: '0', md: '4' }}>

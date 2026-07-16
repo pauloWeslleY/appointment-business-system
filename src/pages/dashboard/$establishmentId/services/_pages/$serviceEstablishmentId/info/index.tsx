@@ -19,7 +19,7 @@ import { serviceEstablishmentQueryKeys } from '@/shared/constants/service-establ
 import { getServiceEstablishmentDetailService } from '@/shared/services/service-establishment/service-establishment.service'
 import { formattedDateAndHours } from '@/utils/formatted-date'
 
-import { formattedDataServiceEstablishmentDetails } from './formatted-data-services-establishment'
+import { formattedDataServiceEstablishmentDetails } from './-data/formatted-data-services-establishment'
 
 export const Route = createFileRoute(
   '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/',
@@ -76,13 +76,14 @@ function ServiceEstablishmentInfoPage() {
           rounded="xl"
           p="4"
           bg={{ base: 'white', _dark: 'gray.950/40' }}
+          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
         >
           <HStack align="center">
             <Box boxSize="48" mr="4">
               {serviceEstablishment?.imageUrl && (
                 <Image
                   border="1px solid"
-                  borderColor={{ base: 'gray.200', _dark: 'gray.800' }}
+                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
                   rounded="xl"
                   h="auto"
                   w="full"
@@ -125,6 +126,7 @@ function ServiceEstablishmentInfoPage() {
           rounded="xl"
           p="4"
           bg={{ base: 'white', _dark: 'gray.950/40' }}
+          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
         >
           <Text fontSize="md" fontWeight="medium">
             Agendamentos do serviço

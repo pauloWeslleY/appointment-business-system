@@ -40,7 +40,7 @@ function AuthLayout() {
       p={{ base: '4', md: '8' }}
       bgGradient="to-tl"
       gradientFrom={{ base: 'colorPalette.100', _dark: 'colorPalette.900/60' }}
-      gradientTo={{ base: 'gray.200/10', _dark: 'gray.900/60' }}
+      gradientTo={{ base: 'primary.100', _dark: 'primary.800' }}
     >
       <SimpleGrid
         columns={{ base: 1, md: 2 }}
@@ -53,7 +53,7 @@ function AuthLayout() {
           backdropFilter="blur(16px) saturate(160%)"
           justify="space-between"
           bg={{
-            base: 'colorPalette.400/20',
+            base: 'colorPalette.100/50',
             _dark: 'colorPalette.600/10',
           }}
           rounded="4xl"
@@ -77,7 +77,7 @@ function AuthLayout() {
                 fontFamily="heading"
                 lineHeight="shorter"
                 letterSpacing="wider"
-                color={{ base: 'blackAlpha.800', _dark: 'gray.100' }}
+                color={{ base: 'colorPalette.700', _dark: 'primary.200' }}
               >
                 Sua agenda, seus clientes e seu negócio em um só lugar.
               </Text>

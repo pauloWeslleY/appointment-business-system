@@ -7,7 +7,6 @@ import {
   For,
   HStack,
   Icon,
-  Input,
   InputGroup,
   SimpleGrid,
   Skeleton,
@@ -27,6 +26,7 @@ import {
   Store,
 } from 'lucide-react'
 
+import InputField from '@/components/input-field'
 import Header from '@/components/layout/header'
 import { toaster } from '@/components/ui/toaster'
 import { authClient } from '@/shared/auth'
@@ -104,12 +104,7 @@ function EstablishmentPage() {
         <Flex w="full" justify="space-between" align="center">
           <Box w="fit-content">
             <InputGroup startElement={<Icon as={SearchIcon} boxSize="5" />}>
-              <Input
-                placeholder="Buscar..."
-                size="sm"
-                rounded="xl"
-                borderColor={{ base: 'gray.300', _dark: 'gray.700' }}
-              />
+              <InputField placeholder="Buscar..." />
             </InputGroup>
           </Box>
 
@@ -142,6 +137,7 @@ function EstablishmentPage() {
                 justifyContent="center"
                 alignItems="center"
                 bg={{ base: 'white', _dark: 'gray.950/40' }}
+                borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
               >
                 <Card.Header
                   w="full"
@@ -161,12 +157,17 @@ function EstablishmentPage() {
                     <Icon as={Store} boxSize="6" />
                   </Flex>
 
-                  <Text fontWeight="light">{establishment.name}</Text>
+                  <Text
+                    fontWeight="light"
+                    color={{ base: 'primary.600', _dark: 'primary.300' }}
+                  >
+                    {establishment.name}
+                  </Text>
                 </Card.Header>
                 <Card.Body
                   w="full"
                   borderBottomWidth="1px"
-                  borderColor={{ base: 'gray.200', _dark: 'gray.700' }}
+                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
                 >
                   <For
                     each={[
@@ -187,7 +188,10 @@ function EstablishmentPage() {
                         <Text fontWeight="light">{item.label}:</Text>
                         <Text
                           fontWeight="semibold"
-                          color={{ base: 'gray.400', _dark: 'gray.500' }}
+                          color={{
+                            base: 'colorPalette.500',
+                            _dark: 'colorPalette.600',
+                          }}
                         >
                           {item.value}
                         </Text>

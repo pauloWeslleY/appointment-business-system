@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Icon } from '@chakra-ui/react'
+import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 
@@ -41,7 +41,15 @@ function ServicesPage() {
         </Button>
       </Header.Root>
 
-      <ServicesTable />
+      <Card.Root
+        variant="outline"
+        rounded="xl"
+        p="4"
+        bg={{ base: 'white', _dark: 'gray.950/40' }}
+        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+      >
+        <ServicesTable />
+      </Card.Root>
     </Box>
   )
 }

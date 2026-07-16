@@ -3,6 +3,8 @@ import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 import { fonts } from './fonts'
+import { semanticTokens } from './tokens/semantic-tokens'
+import { tokens } from './tokens/tokens'
 
 const themeConfig = defineConfig({
   globalCss: {
@@ -47,9 +49,11 @@ const themeConfig = defineConfig({
   },
   theme: {
     tokens: {
+      colors: tokens,
       fonts,
     },
     semanticTokens: {
+      colors: semanticTokens,
       shadows: {
         shape: {
           value: {

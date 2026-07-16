@@ -153,6 +153,7 @@ function CreateServicePage() {
         rounded="xl"
         p="4"
         bg={{ base: 'white', _dark: 'gray.950/40' }}
+        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       >
         <chakra.form
           w="full"
@@ -207,9 +208,15 @@ function CreateServicePage() {
 
             <GridItem colSpan={{ base: 1, md: 2 }} asChild>
               <HStack>
-                <Separator flex="1" />
+                <Separator
+                  flex="1"
+                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+                />
                 <Text flexShrink="0">Upload</Text>
-                <Separator flex="1" />
+                <Separator
+                  flex="1"
+                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+                />
               </HStack>
             </GridItem>
 
@@ -228,7 +235,14 @@ function CreateServicePage() {
                     <FileUpload.HiddenInput
                       onChange={(e) => field.onChange(e.target.files)}
                     />
-                    <FileUpload.Dropzone rounded="xl" bg="gray.700/10">
+                    <FileUpload.Dropzone
+                      rounded="xl"
+                      bg="gray.700/10"
+                      borderColor={{
+                        base: 'gray.200',
+                        _dark: 'secondary.500/20',
+                      }}
+                    >
                       <Icon size="md" color="fg.muted">
                         <Upload />
                       </Icon>
