@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 
-import { authClient } from '@/shared/auth'
+import { authClient } from '@/lib/auth'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 interface AuthContext {

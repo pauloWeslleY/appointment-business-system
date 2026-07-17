@@ -1,7 +1,6 @@
-import { Box } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 
-import FormStepsRegister from './-components/form-steps-register'
+import FormStepsRegister from '@/features/authentication/components/form-steps-register'
 
 export const Route = createFileRoute('/_auth/register/')({
   component: RegisterPage,
@@ -9,8 +8,8 @@ export const Route = createFileRoute('/_auth/register/')({
 
 function RegisterPage() {
   return (
-    <Box>
+    <div>
       <FormStepsRegister />
-    </Box>
+    </div>
   )
 }

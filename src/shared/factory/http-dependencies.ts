@@ -1,4 +1,5 @@
-import { AxiosHttpClient } from '../axios-client'
+import { AxiosHttpClient } from '@/lib/axios-client'
+
 import { ValidationErrors } from '../errors'
 import type { ApiDependencies } from '../types/api.dependencies'
 

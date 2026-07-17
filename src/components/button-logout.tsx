@@ -2,7 +2,7 @@ import { Button, Icon, IconButton } from '@chakra-ui/react'
 import { useNavigate } from '@tanstack/react-router'
 import { LogOut } from 'lucide-react'
 
-import { authClient } from '@/shared/auth'
+import { authClient } from '@/lib/auth'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 

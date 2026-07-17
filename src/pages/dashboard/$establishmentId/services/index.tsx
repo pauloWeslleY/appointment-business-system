@@ -3,8 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 
 import Header from '@/components/layout/header'
-
-import ServicesTable from './-components/services-table'
+import ServicesTable from '@/features/service-establishment/components/services-table'
 
 export const Route = createFileRoute('/dashboard/$establishmentId/services/')({
   component: ServicesPage,

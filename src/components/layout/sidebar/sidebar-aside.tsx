@@ -15,7 +15,7 @@ import { ChevronLeft } from 'lucide-react'
 
 import ButtonLogout from '@/components/button-logout'
 import { Tooltip } from '@/components/ui/tooltip'
-import { authClient } from '@/shared/auth'
+import { authClient } from '@/lib/auth'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
 interface SidebarAsideProps extends StackProps {

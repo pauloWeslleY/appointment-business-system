@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 import { FiMenu } from 'react-icons/fi'
 
 import { ColorModeButton } from '@/components/ui/color-mode'
-import { authClient } from '@/shared/auth'
+import { authClient } from '@/lib/auth'
 
 const SidebarHeader = ({ children }: PropsWithChildren) => {
   const { data } = authClient.useSession()

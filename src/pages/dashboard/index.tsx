@@ -10,9 +10,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import React from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
-import useGetEstablishmentById from '@/shared/hooks/use-get-establishment-by-id'
-
-import { loadMenuDashboardEstablishment } from './-constants/menu-dashboard-establishment'
+import { loadMenuDashboardEstablishment } from '@/features/establishment/constants/menu-dashboard-establishment'
+import useGetEstablishmentById from '@/features/establishment/hooks/use-get-establishment-by-id'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardLayout,
