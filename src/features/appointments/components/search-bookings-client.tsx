@@ -1,3 +1,5 @@
+import { Icon, InputGroup } from '@chakra-ui/react'
+import { SearchIcon } from 'lucide-react'
 import { debounce, parseAsString, useQueryState } from 'nuqs'
 import type { ChangeEvent } from 'react'
 
@@ -14,12 +16,13 @@ const SearchBookingsClient = () => {
   }
 
   return (
-    <InputField
-      placeholder="Buscar agendamento por cliente"
-      w="450px"
-      value={search}
-      onChange={handleSearchChange}
-    />
+    <InputGroup startElement={<Icon as={SearchIcon} boxSize="5" />} w="450px">
+      <InputField
+        placeholder="Buscar agendamento por cliente"
+        value={search}
+        onChange={handleSearchChange}
+      />
+    </InputGroup>
   )
 }
 

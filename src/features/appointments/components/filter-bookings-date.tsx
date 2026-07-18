@@ -53,6 +53,14 @@ const FilterBookingsDate = () => {
     return 'Selecione um período'
   }, [from, to])
 
+  const handleResetDate = () => {
+    const dateCurrent = dayjs()
+    setDateSearch({
+      from: dateCurrent.format('YYYY-MM-DD'),
+      to: dateCurrent.add(1, 'month').format('YYYY-MM-DD'),
+    })
+  }
+
   const onChangeInputCalendar = (details: DatePicker.ValueChangeDetails) => {
     setDateValue(details.value)
 
@@ -120,6 +128,19 @@ const FilterBookingsDate = () => {
                 </DatePicker.View>
               </DatePicker.Content>
             </DatePicker.Root>
+
+            <Popover.CloseTrigger asChild>
+              <Button
+                size="sm"
+                variant="outline"
+                rounded="xl"
+                mt="2"
+                w="full"
+                onClick={handleResetDate}
+              >
+                Resetar
+              </Button>
+            </Popover.CloseTrigger>
           </Popover.Body>
         </Popover.Content>
       </Popover.Positioner>

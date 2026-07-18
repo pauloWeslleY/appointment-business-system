@@ -1,23 +1,11 @@
-import {
-  Box,
-  Card,
-  DataList,
-  Flex,
-  For,
-  HStack,
-  Icon,
-  Image,
-  SimpleGrid,
-  Text,
-} from '@chakra-ui/react'
+import { Card, DataList, For, Stack, Text } from '@chakra-ui/react'
 import { useParams } from '@tanstack/react-router'
-import { FileImage } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
+import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
 import { useGetServiceEstablishmentDetails } from '../hooks/use-get-service-establishment-details'
-import { formattedDataServiceEstablishmentDetails } from '../utils/formatted-data-services-establishment'
 
 const ServiceEstablishmentDetails = () => {
   const { serviceEstablishmentId } = useParams({
@@ -27,9 +15,6 @@ const ServiceEstablishmentDetails = () => {
   const { data: serviceEstablishment } = useGetServiceEstablishmentDetails(
     serviceEstablishmentId,
   )
-
-  const loadServiceEstablishmentInfo =
-    formattedDataServiceEstablishmentDetails(serviceEstablishment)
 
   const servicesAppointments = serviceEstablishment?.bookings.map(
     (booking) => ({
@@ -58,60 +43,10 @@ const ServiceEstablishmentDetails = () => {
         </div>
       </Header.Root>
 
-      <SimpleGrid
-        columns={{ base: 1, md: 2 }}
-        gap={{ base: '4', lg: '6' }}
-        w="full"
-      >
-        <Card.Root
-          variant="outline"
-          rounded="xl"
-          p="4"
-          bg={{ base: 'white', _dark: 'gray.950/40' }}
-          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-        >
-          <HStack align="center">
-            <Box boxSize="48" mr="4">
-              {serviceEstablishment?.imageUrl && (
-                <Image
-                  border="1px solid"
-                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-                  rounded="xl"
-                  h="auto"
-                  w="full"
-                  fit="contain"
-                  src={serviceEstablishment.imageUrl}
-                />
-              )}
-              {!serviceEstablishment?.imageUrl && (
-                <Flex
-                  p="2"
-                  bg={{ base: 'gray.200', _dark: 'gray.800' }}
-                  rounded="lg"
-                  placeContent="center"
-                >
-                  <Icon boxSize="32">
-                    <FileImage />
-                  </Icon>
-                </Flex>
-              )}
-            </Box>
-
-            <Flex flex="1">
-              <DataList.Root orientation="vertical">
-                <For each={loadServiceEstablishmentInfo}>
-                  {(service) => (
-                    <DataList.Item key={service.label}>
-                      <DataList.ItemLabel>{service.label}</DataList.ItemLabel>
-
-                      <DataList.ItemValue>{service.content}</DataList.ItemValue>
-                    </DataList.Item>
-                  )}
-                </For>
-              </DataList.Root>
-            </Flex>
-          </HStack>
-        </Card.Root>
+      <Stack gap={{ base: '2', lg: '4' }} w="full">
+        <CardInfoServiceEstablishement
+          serviceEstablishment={serviceEstablishment}
+        />
 
         <Card.Root
           variant="outline"
@@ -130,7 +65,12 @@ const ServiceEstablishmentDetails = () => {
             </Text>
           )}
 
-          <DataList.Root orientation="vertical">
+          <DataList.Root
+            orientation="vertical"
+            mt="4"
+            flexDirection="row"
+            flexWrap="wrap"
+          >
             <For each={servicesAppointments}>
               {(service) => (
                 <DataList.Item key={service.label}>
@@ -141,7 +81,7 @@ const ServiceEstablishmentDetails = () => {
             </For>
           </DataList.Root>
         </Card.Root>
-      </SimpleGrid>
+      </Stack>
     </>
   )
 }

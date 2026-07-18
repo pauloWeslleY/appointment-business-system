@@ -6,3 +6,9 @@ export const AppointmentStatus = {
 
 export type AppointmentStatusType =
   (typeof AppointmentStatus)[keyof typeof AppointmentStatus]
+
+export const appointmentStatusLabel: Record<AppointmentStatusType, string> = {
+  confirmed: 'Confirmado',
+  cancelled: 'Cancelado',
+  concluded: 'Concluído',
+} as const

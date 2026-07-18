@@ -14,6 +14,7 @@ export const Route = createFileRoute(
     from: z.string().optional(),
     status: z.string().optional(),
     service_id: z.string().optional(),
+    q: z.string().optional(),
   }),
   beforeLoad: ({ search, params }) => {
     if (!search.from || !search.to) {

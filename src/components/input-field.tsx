@@ -8,9 +8,9 @@ const InputField = ({ ref, ...props }: InputFieldProps) => {
     <Input
       ref={ref}
       {...props}
+      variant="subtle"
       size="sm"
       rounded="xl"
-      variant="subtle"
       bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
     />
   )

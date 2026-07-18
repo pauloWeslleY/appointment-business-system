@@ -128,13 +128,24 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
         gap="4"
         align="center"
         justify="flex-end"
-        px="4"
       >
         {!loading && (
-          <>
+          <Flex
+            flexDir="column"
+            gap="4"
+            w="full"
+            py="4"
+            align={collapsed ? 'center' : 'flex-start'}
+            justify={collapsed ? 'center' : 'flex-start'}
+            px={collapsed ? '8' : '2'}
+            rounded="xl"
+            bg={{ base: 'tertiary.300', _dark: 'secondary.900' }}
+            borderWidth="1px"
+            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+          >
             <HStack
               w="full"
-              justify={!collapsed ? 'center' : 'flex-start'}
+              justify={collapsed ? 'center' : 'flex-start'}
               gap="2"
             >
               <Avatar.Root
@@ -170,7 +181,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
             </HStack>
 
             <ButtonLogout />
-          </>
+          </Flex>
         )}
       </Flex>
     </Stack>

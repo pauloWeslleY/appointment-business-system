@@ -1,13 +1,8 @@
-import {
-  Alert,
-  HStack,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
-  Stack,
-} from '@chakra-ui/react'
+import { Alert, HStack, SimpleGrid, Skeleton, Stack } from '@chakra-ui/react'
 import { useParams, useSearch } from '@tanstack/react-router'
+import { useMemo } from 'react'
 
+import CardAppointment from '../components/card-appointment'
 import FilterBookingsDate from '../components/filter-bookings-date'
 import FilterBookingsService from '../components/filter-bookings-service'
 import FilterBookingsStatus from '../components/filter-bookings-status'
@@ -35,6 +30,29 @@ const ListAppointmentEstablishment = () => {
 
   const validateBookingByEstablishment = loadBookingByEstablishment.length > 0
 
+  const filteredBookingByEstablishment = useMemo(() => {
+    const filteredClient = (clientName: string) => {
+      return search.q
+        ? clientName.toLowerCase().includes(search.q.toLowerCase())
+        : true
+    }
+
+    const filteredServices = (serviceId: string) => {
+      return search.service_id ? search.service_id === serviceId : true
+    }
+
+    const filteredStatus = (status: string) => {
+      return search.status ? search.status === status : true
+    }
+
+    return loadBookingByEstablishment.filter(
+      (booking) =>
+        filteredClient(booking.user.name) &&
+        filteredServices(booking.service.id) &&
+        filteredStatus(booking.status),
+    )
+  }, [loadBookingByEstablishment, search.q, search.service_id, search.status])
+
   return (
     <>
       {/* Filter Bookings */}
@@ -55,10 +73,6 @@ const ListAppointmentEstablishment = () => {
 
       {isLoadingBookingByEstablishment && (
         <Stack gap="2" w="full" p="2">
-          <HStack width="full">
-            <SkeletonCircle size="10" />
-            <SkeletonText noOfLines={2} />
-          </HStack>
           <Skeleton height="30px" rounded="xl" />
           <Skeleton height="30px" rounded="xl" />
           <Skeleton height="30px" rounded="xl" />
@@ -68,14 +82,11 @@ const ListAppointmentEstablishment = () => {
       {!isLoadingBookingByEstablishment && (
         <Stack gap="2" w="full" p="2">
           {validateBookingByEstablishment && (
-            <>
-              {loadBookingByEstablishment?.map((booking) => (
-                <HStack key={booking.id} width="full">
-                  <h1>{booking.date}</h1>
-                  <h1>{booking.service.name}</h1>
-                </HStack>
+            <SimpleGrid columns={{ base: 1, md: 5 }} gap="2" w="full">
+              {filteredBookingByEstablishment.map((booking) => (
+                <CardAppointment key={booking.id} appointment={booking} />
               ))}
-            </>
+            </SimpleGrid>
           )}
 
           {!validateBookingByEstablishment && (

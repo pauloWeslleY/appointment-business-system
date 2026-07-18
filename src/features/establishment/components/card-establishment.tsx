@@ -1,7 +1,8 @@
-import { Button, Card, Flex, For, HStack, Icon, Text } from '@chakra-ui/react'
+import { Button, Card, Icon, Text } from '@chakra-ui/react'
 import { useNavigate } from '@tanstack/react-router'
-import { ExternalLinkIcon, PencilLineIcon, Store } from 'lucide-react'
+import { ExternalLinkIcon, PencilLineIcon } from 'lucide-react'
 
+import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
 
 import type { EstablishmentModel } from '../types/establishment.model'
@@ -17,17 +18,6 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
     return formatterMask(phone, FormatMask.CELLPHONE)
   }
 
-  const loadEstablishmentInfo = [
-    {
-      label: 'Descrição',
-      value: establishment.description,
-    },
-    {
-      label: 'Telefone',
-      value: establishment.phones.map(formatPhone).join(' - '),
-    },
-  ]
-
   return (
     <Card.Root
       variant="outline"
@@ -38,51 +28,52 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
       alignItems="center"
       bg={{ base: 'white', _dark: 'gray.950/40' }}
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+      p="2"
     >
-      <Card.Header w="full" display="flex" flexDir="row" alignItems="center">
-        <Flex
-          gap="2"
-          align="center"
-          justify="center"
-          bg={{ base: 'colorPalette.300', _dark: 'colorPalette.700' }}
-          p="2"
-          rounded="full"
-          w="fit-content"
-        >
-          <Icon as={Store} boxSize="6" />
-        </Flex>
-
-        <Text
-          letterSpacing="wide"
-          fontWeight="light"
-          color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}
-        >
-          {establishment.name}
-        </Text>
-      </Card.Header>
       <Card.Body
+        p="0"
+        pb="2"
         w="full"
         borderBottomWidth="1px"
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       >
-        <For each={loadEstablishmentInfo}>
-          {(item) => (
-            <HStack w="full" gap="1">
-              <Text fontWeight="light">{item.label}:</Text>
-              <Text
-                fontWeight="semibold"
-                color={{
-                  base: 'colorPalette.500',
-                  _dark: 'colorPalette.600',
-                }}
-              >
-                {item.value}
-              </Text>
-            </HStack>
-          )}
-        </For>
+        <Text
+          letterSpacing="wide"
+          fontWeight="medium"
+          color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}
+        >
+          {establishment.name}
+        </Text>
+
+        <Text
+          letterSpacing="wide"
+          fontWeight="light"
+          color={{ base: 'colorPalette.500', _dark: 'colorPalette.600' }}
+        >
+          {establishment.description}
+        </Text>
+
+        <Text
+          letterSpacing="wide"
+          fontWeight="light"
+          color={{ base: 'colorPalette.500', _dark: 'colorPalette.600' }}
+        >
+          {establishment.phones.map(formatPhone).join(' - ')}
+        </Text>
+
+        <Text
+          letterSpacing="wide"
+          fontWeight="light"
+          color={{ base: 'gray.600', _dark: 'gray.500' }}
+          fontSize="sm"
+          pt="2"
+        >
+          {establishment.openingHours
+            .map((hour) => `${weekDaysLabels[hour.day].slice(0, 3)}`)
+            .join(' - ')}
+        </Text>
       </Card.Body>
-      <Card.Footer p="2" w="full">
+      <Card.Footer p="0" w="full" mt="2">
         <Button
           variant="ghost"
           rounded="xl"
