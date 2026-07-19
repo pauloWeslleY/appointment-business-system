@@ -3,9 +3,6 @@ import { z } from 'zod'
 export const EstablishmentFormSchema = z.object({
   name: z.string().min(1, 'O nome é obrigatório'),
   description: z.string().min(1, 'A descrição é obrigatória'),
-  imageUrl: z
-    .url('A URL da imagem é inválida')
-    .min(1, 'A URL da imagem é obrigatória'),
   weekdays: z.array(z.string()).min(1, {
     message: 'É necessário selecionar pelo menos um dia de funcionamento',
   }),

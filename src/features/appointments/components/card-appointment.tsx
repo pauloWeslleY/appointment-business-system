@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  type BoxProps,
   Card,
   Flex,
   HStack,
@@ -12,13 +11,11 @@ import {
 import dayjs from 'dayjs'
 import { UserCircle2 } from 'lucide-react'
 
-import {
-  AppointmentStatus,
-  appointmentStatusLabel,
-  type AppointmentStatusType,
-} from '../types/appointment-status.type'
+import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
+import { appointmentStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import DialogEditAppointment from './dialog-update-appointment'
+import DialogUpdateStatusAppointment from './dialog-update-status-appointment'
 
 dayjs.locale('pt-br')
 
@@ -33,15 +30,6 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
     )
     return formattedDate.at(0)?.toUpperCase() + formattedDate.slice(1)
   }
-
-  const getBadgeAppointmentColor: Record<
-    AppointmentStatusType,
-    BoxProps['colorPalette']
-  > = {
-    [AppointmentStatus.CONFIRMED]: 'blue',
-    [AppointmentStatus.CANCELLED]: 'red',
-    [AppointmentStatus.COMPLETED]: 'green',
-  } as const
 
   return (
     <Card.Root
@@ -114,6 +102,7 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
       </Card.Body>
       <Card.Footer p="0" w="full" mt="2">
         <DialogEditAppointment appointment={appointment} />
+        <DialogUpdateStatusAppointment appointment={appointment} />
       </Card.Footer>
     </Card.Root>
   )

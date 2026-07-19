@@ -53,6 +53,15 @@ const ListAppointmentEstablishment = () => {
     )
   }, [loadBookingByEstablishment, search.q, search.service_id, search.status])
 
+  if (errorBookingByEstablishment) {
+    return (
+      <Alert.Root status="error" rounded="xl" w="fit">
+        <Alert.Indicator />
+        <Alert.Title>{errorBookingByEstablishment.message}</Alert.Title>
+      </Alert.Root>
+    )
+  }
+
   return (
     <>
       {/* Filter Bookings */}
@@ -63,13 +72,6 @@ const ListAppointmentEstablishment = () => {
         <FilterBookingsStatus />
         <FilterBookingsService />
       </HStack>
-
-      {errorBookingByEstablishment && (
-        <Alert.Root status="error" rounded="xl">
-          <Alert.Indicator />
-          <Alert.Title>{errorBookingByEstablishment.message}</Alert.Title>
-        </Alert.Root>
-      )}
 
       {isLoadingBookingByEstablishment && (
         <Stack gap="2" w="full" p="2">

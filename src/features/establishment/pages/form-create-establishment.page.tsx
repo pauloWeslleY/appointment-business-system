@@ -17,7 +17,7 @@ import FormIntervalEstablishment from '../components/form-intervals-establishmen
 import FormTelephoneEstablishment from '../components/form-telephone-establishment'
 import { useFormCreateEstablishment } from '../hooks/use-form-create-establishment'
 
-const FormCreateEstablishment = () => {
+const FormCreateEstablishmentPage = () => {
   const {
     control,
     getValues,
@@ -50,18 +50,7 @@ const FormCreateEstablishment = () => {
           </Field>
 
           <Field
-            gridColumn={{ base: 'span 1', lg: 'span 2' }}
-            invalid={!!errors.imageUrl}
-            errorText={errors.imageUrl?.message}
-          >
-            <InputField
-              {...register('imageUrl')}
-              placeholder="Digite a URL da imagem"
-            />
-          </Field>
-
-          <Field
-            gridColumn={{ base: 'span 1', md: 'span 4' }}
+            gridColumn={{ base: 'span 1', md: 'span 2' }}
             invalid={!!errors.description}
             errorText={errors.description?.message}
           >
@@ -205,4 +194,4 @@ const FormCreateEstablishment = () => {
   )
 }
 
-export default FormCreateEstablishment
+export default FormCreateEstablishmentPage

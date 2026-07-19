@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 
 import Header from '@/components/layout/header'
-import FormCreateEstablishment from '@/features/establishment/pages/form-create-establishment.page'
+import FormCreateEstablishmentPage from '@/features/establishment/pages/form-create-establishment.page'
 
 export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/new/',
@@ -24,7 +24,7 @@ function CreateEstablishmentPage() {
         </div>
       </Header.Root>
 
-      <FormCreateEstablishment />
+      <FormCreateEstablishmentPage />
     </Box>
   )
 }

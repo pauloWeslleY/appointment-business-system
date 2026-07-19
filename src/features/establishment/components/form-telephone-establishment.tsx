@@ -17,6 +17,7 @@ import { PatternFormat } from 'react-number-format'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { Tooltip } from '@/components/ui/tooltip'
+import { FormatMask } from '@/shared/utils/formatted-mask'
 
 import type { EstablishmentFormData } from '../types/establishment-form-data.type'
 
@@ -39,6 +40,13 @@ const FormTelephoneEstablishment = ({
 
   const addNewTelephone = () => appendTelephone({ phone: '' })
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
+
+  const validNumberPhone = (telephone: string) => {
+    const numbers = telephone.replace(/\D/g, '')
+
+    if (!numbers) return FormatMask.TELEPHONE
+    return numbers.length > 10 ? FormatMask.CELLPHONE : FormatMask.TELEPHONE
+  }
 
   return (
     <Flex
@@ -67,26 +75,35 @@ const FormTelephoneEstablishment = ({
       </chakra.label>
 
       <Stack direction="row" wrap="wrap" flex="1">
-        {telephoneFields.map((field, index) => (
-          <Flex key={field.id} gap="2" flexDir={{ base: 'column', md: 'row' }}>
+        {telephoneFields.map((input, index) => (
+          <Flex key={input.id} gap="2" flexDir={{ base: 'column', md: 'row' }}>
             <Controller
               name={`phones.${index}.phone`}
               control={control}
-              render={({ field }) => (
-                <Field
-                  invalid={!!errors.phones?.[index]?.phone}
-                  errorText={errors.phones?.[index]?.phone?.message}
-                >
-                  <PatternFormat
-                    value={field.value}
-                    onValueChange={(values) => field.onChange(values.value)}
-                    format="(##) #####-####"
-                    placeholder="(00) 00000-0000"
-                    mask="_"
-                    customInput={InputField}
-                  />
-                </Field>
-              )}
+              render={({ field }) => {
+                const mask = validNumberPhone(field.value)
+                const phone = field.value.replace(/\D/g, '')
+
+                return (
+                  <Field
+                    invalid={!!errors.phones?.[index]?.phone}
+                    errorText={errors.phones?.[index]?.phone?.message}
+                  >
+                    <PatternFormat
+                      value={phone}
+                      onValueChange={(values) => field.onChange(values.value)}
+                      format={mask}
+                      placeholder={
+                        mask === FormatMask.TELEPHONE
+                          ? '(00) 0000-0000'
+                          : '(00) 00000-0000'
+                      }
+                      mask="_"
+                      customInput={InputField}
+                    />
+                  </Field>
+                )
+              }}
             />
 
             {telephoneFields.length > 1 && (

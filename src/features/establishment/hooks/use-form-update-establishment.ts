@@ -27,9 +27,9 @@ export function useFormUpdateEstablishment() {
     isPending: isPendingUpdateEstablishment,
   } = useMutation({
     ...establishmentMutationOptions.update(),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: establishmentQueryKeys.owner(owner?.id),
+        queryKey: establishmentQueryKeys.owner(variables.ownerId),
       })
 
       toaster.success({ title: 'Estabelecimento atualizado com sucesso' })
@@ -141,7 +141,6 @@ export function useFormUpdateEstablishment() {
         id: establishment.id,
         name: params.name,
         description: params.description,
-        imageUrl: params.imageUrl,
         ownerId: owner.id,
         phones: params.phones.map((item) => item.phone),
         openingHours: params.weekdays.map((day) => ({

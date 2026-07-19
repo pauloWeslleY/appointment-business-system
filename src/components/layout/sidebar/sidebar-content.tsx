@@ -5,14 +5,14 @@ const baseSidebarContentRecipe = defineRecipe({
   base: {
     flex: '1',
     transition: '.3s ease',
-    bgGradient: 'to-tr',
+    bgGradient: 'to-tl',
     gradientFrom: {
       base: 'secondary.200/70',
-      _dark: 'secondary.900',
+      _dark: 'colorPalette.900/90',
     },
     gradientTo: {
       base: 'colorPalette.100',
-      _dark: 'colorPalette.900/90',
+      _dark: 'secondary.700',
     },
   },
 })

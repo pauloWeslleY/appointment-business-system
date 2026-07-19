@@ -8,7 +8,9 @@ import {
   parseDate,
   Portal,
   Select,
+  Text,
 } from '@chakra-ui/react'
+import dayjs from 'dayjs'
 import { PencilLineIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { LuCalendar } from 'react-icons/lu'
@@ -28,7 +30,6 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
     form,
     errors,
     isPendingAppointment,
-    loadSelectStatusBookings,
     loadSelectTimeAppointment,
     onSubmitUpdateAppointment,
   } = useUpdateAppointmentForm(appointment)
@@ -47,7 +48,7 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
           <Dialog.Content
             colorPalette={colorDefaultTheme}
             borderWidth="1px"
-            bg={{ base: 'white', _dark: 'gray.950/40' }}
+            bg={{ base: 'white', _dark: 'secondary.700' }}
             borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
             rounded="lg"
           >
@@ -55,6 +56,13 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
               <Dialog.Title>Editar Agendamento</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body spaceY="2">
+              <Text
+                fontSize="sm"
+                color={{ base: 'gray.600', _dark: 'gray.400' }}
+              >
+                Serviço agendado:{' '}
+                {dayjs(appointment.date).format('DD/MM/YYYY [às] HH:mm')}
+              </Text>
               <HStack>
                 <Controller
                   control={form.control}
@@ -138,7 +146,7 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
                           rounded="xl"
                           bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
                         >
-                          <Select.ValueText placeholder="Selecione o serviço" />
+                          <Select.ValueText placeholder="Selecione o horário" />
                         </Select.Trigger>
                         <Select.IndicatorGroup>
                           <Select.Indicator />
@@ -171,57 +179,6 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
                   )}
                 />
               </HStack>
-
-              <Controller
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <Select.Root
-                    w="full"
-                    size="sm"
-                    variant="subtle"
-                    collection={loadSelectStatusBookings}
-                    value={field.value}
-                    onValueChange={(e) => field.onChange(e.value)}
-                  >
-                    <Select.HiddenSelect />
-                    <Select.Control>
-                      <Select.Trigger
-                        rounded="xl"
-                        bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
-                      >
-                        <Select.ValueText placeholder="Selecione o serviço" />
-                      </Select.Trigger>
-                      <Select.IndicatorGroup>
-                        <Select.Indicator />
-                      </Select.IndicatorGroup>
-                    </Select.Control>
-                    <Portal>
-                      <Select.Positioner>
-                        <Select.Content
-                          borderWidth="1px"
-                          borderColor={{
-                            base: 'gray.200',
-                            _dark: 'secondary.500/20',
-                          }}
-                          rounded="lg"
-                        >
-                          {loadSelectStatusBookings.items.map((status) => (
-                            <Select.Item
-                              item={status}
-                              key={status.value}
-                              rounded="lg"
-                            >
-                              {status.label}
-                              <Select.ItemIndicator />
-                            </Select.Item>
-                          ))}
-                        </Select.Content>
-                      </Select.Positioner>
-                    </Portal>
-                  </Select.Root>
-                )}
-              />
             </Dialog.Body>
             <Dialog.Footer gap="2">
               <Dialog.ActionTrigger asChild>

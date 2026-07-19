@@ -1,5 +1,5 @@
 export const FormatMask = {
-  CELLPHONE: '(##) #####-###',
+  CELLPHONE: '(##) #####-####',
   TELEPHONE: '(##) ####-####',
   TELEPHONE_FIXED: '### (##) ####-####',
   ZIP_CODE: '#####-###',

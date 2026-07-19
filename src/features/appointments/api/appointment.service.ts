@@ -2,6 +2,7 @@ import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/http'
 
 import type { AppointmentModel } from '../types/appointment.model'
+import type { AppointmentStatusType } from '../types/appointment-status.type'
 import type { CreateAppointmentRequest } from '../types/create-appointment-request'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import type { GetAppointmentByEstablishmentQueryParams } from '../types/get-appointment-by-establishment-query-params'
@@ -62,6 +63,23 @@ export const updateAppointmentService = async (
     method: HttpMethod.PUT,
     url: '/booking',
     body: data,
+  })
+
+  return validate.errors(response)
+}
+
+export const updateStatusAppointmentService = async (input: {
+  id: string
+  status: AppointmentStatusType
+}) => {
+  const { api, validate } = httpDependencies<AppointmentModel>()
+  const response = await api.request({
+    method: HttpMethod.PUT,
+    url: '/booking/status',
+    body: {
+      id: input.id,
+      status: input.status,
+    },
   })
 
   return validate.errors(response)

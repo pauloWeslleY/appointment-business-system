@@ -18,26 +18,6 @@ export function useFormCreateEstablishment() {
   const { data: owner } = useGetOwnerById()
 
   const {
-    mutate: createEstablishment,
-    isPending: isPendingCreateEstablishment,
-  } = useMutation({
-    ...establishmentMutationOptions.create(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: establishmentQueryKeys.owner(owner?.id),
-      })
-
-      toaster.success({ title: 'Estabelecimento criado com sucesso' })
-      navigate({ to: '/establishment' })
-    },
-    onError: (error) => {
-      toaster.error({
-        title: error.message || 'Erro ao criar estabelecimento',
-      })
-    },
-  })
-
-  const {
     control,
     reset,
     register,
@@ -51,7 +31,6 @@ export function useFormCreateEstablishment() {
     defaultValues: {
       name: '',
       description: '',
-      imageUrl: '',
       weekdays: ['0'],
       intervals: [{ open: '', close: '' }],
       phones: [{ phone: '' }],
@@ -64,6 +43,30 @@ export function useFormCreateEstablishment() {
         zipCode: '',
         complement: '',
       },
+    },
+  })
+
+  const {
+    mutate: createEstablishment,
+    isPending: isPendingCreateEstablishment,
+  } = useMutation({
+    ...establishmentMutationOptions.create(),
+    onSuccess: (establishment) => {
+      queryClient.invalidateQueries({
+        queryKey: establishmentQueryKeys.owner(owner?.id),
+      })
+
+      toaster.success({ title: 'Estabelecimento criado com sucesso' })
+      reset()
+      navigate({
+        to: '/establishment/$establishmentId',
+        params: { establishmentId: establishment.id },
+      })
+    },
+    onError: (error) => {
+      toaster.error({
+        title: error.message || 'Erro ao criar estabelecimento',
+      })
     },
   })
 
@@ -109,23 +112,17 @@ export function useFormCreateEstablishment() {
       return
     }
 
-    createEstablishment(
-      {
-        name: params.name,
-        description: params.description,
-        imageUrl: params.imageUrl,
-        ownerId: owner.id,
-        phones: params.phones.map((item) => item.phone),
-        openingHours: params.weekdays.map((day) => ({
-          day: parseInt(day, 10),
-          intervals: [intervals[parseInt(day, 10)]],
-        })),
-        address: params.address,
-      },
-      {
-        onSuccess: () => reset(),
-      },
-    )
+    createEstablishment({
+      name: params.name,
+      description: params.description,
+      ownerId: owner.id,
+      phones: params.phones.map((item) => item.phone),
+      openingHours: params.weekdays.map((day) => ({
+        day: parseInt(day, 10),
+        intervals: [intervals[parseInt(day, 10)]],
+      })),
+      address: params.address,
+    })
   }
 
   return {

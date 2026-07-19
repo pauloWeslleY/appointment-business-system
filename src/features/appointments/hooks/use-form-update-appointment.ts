@@ -7,34 +7,13 @@ import { useMemo } from 'react'
 import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { useSelectHoursEstablishment } from '@/features/establishment/hooks/use-select-hours-establishment'
+import { useListSelectHoursEstablishment } from '@/features/establishment/hooks/use-list-select-hours-establishment'
 
 import { appointmentMutationOptions } from '../queries/appointment-mutation-key'
 import { appointmentQueryKeys } from '../queries/appointment-query-key'
 import { UpdateAppointmentSchema } from '../schemas/update-appointment.schema'
 import type { UpdateAppointmentFormType } from '../types/appointment-form.type'
-import {
-  AppointmentStatus,
-  appointmentStatusLabel,
-} from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
-
-const loadSelectStatusBookings = createListCollection({
-  items: [
-    {
-      label: appointmentStatusLabel[AppointmentStatus.CONFIRMED],
-      value: AppointmentStatus.CONFIRMED,
-    },
-    {
-      label: appointmentStatusLabel[AppointmentStatus.CANCELLED],
-      value: AppointmentStatus.CANCELLED,
-    },
-    {
-      label: appointmentStatusLabel[AppointmentStatus.COMPLETED],
-      value: AppointmentStatus.COMPLETED,
-    },
-  ],
-})
 
 export function useUpdateAppointmentForm(
   appointment: GetAppointmentByEstablishmentModel,
@@ -49,7 +28,6 @@ export function useUpdateAppointmentForm(
     () => ({
       date: dayjs(appointment.date).format('YYYY-MM-DD'),
       hour: [dayjs(appointment.date).format('HH:mm')],
-      status: [appointment.status],
     }),
     [appointment],
   )
@@ -59,25 +37,22 @@ export function useUpdateAppointmentForm(
     defaultValues: formDefaultValues,
   })
 
-  const selectedDate = useWatch({
-    control: form.control,
-    name: 'date',
-  })
+  const selectedDate = useWatch({ control: form.control, name: 'date' })
 
-  const selectedHours = useSelectHoursEstablishment({
+  const selectedHours = useListSelectHoursEstablishment({
     establishmentId: appointment.service.establishmentId,
     serviceId: appointment.service.id,
     selectedDay: new Date(selectedDate),
   })
 
   const loadSelectTimeAppointment = createListCollection({
-    items: selectedHours,
+    items: selectedHours.availableHours,
   })
 
   const { mutate: updateAppointment, isPending: isPendingAppointment } =
     useMutation({
       ...appointmentMutationOptions.update(),
-      onSuccess: (updateAppointment, variables) => {
+      onSuccess: (updateAppointment) => {
         toaster.success({ title: 'Agendamento atualizado com sucesso.' })
         queryClient.setQueryData<GetAppointmentByEstablishmentModel[]>(
           appointmentQueryKeys.establishment({
@@ -94,12 +69,17 @@ export function useUpdateAppointmentForm(
                 ? {
                     ...appointment,
                     date: updateAppointment.date,
-                    status: variables.status,
                   }
                 : appointment,
             )
           },
         )
+
+        const bookingDate = dayjs(updateAppointment.date)
+        form.reset({
+          date: bookingDate.format('YYYY-MM-DD'),
+          hour: [bookingDate.format('HH:mm')],
+        })
       },
       onError: (error) => {
         toaster.error({
@@ -124,7 +104,6 @@ export function useUpdateAppointmentForm(
     updateAppointment({
       id: appointment.id,
       date: dateTime.toISOString(),
-      status: data.status?.[0] ?? appointment.status,
     })
   })
 
@@ -132,7 +111,6 @@ export function useUpdateAppointmentForm(
     form,
     errors,
     isPendingAppointment,
-    loadSelectStatusBookings,
     loadSelectTimeAppointment,
     onSubmitUpdateAppointment,
   }

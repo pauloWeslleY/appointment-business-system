@@ -50,18 +50,7 @@ const FormUpdateEstablishment = () => {
           </Field>
 
           <Field
-            gridColumn={{ base: 'span 1', lg: 'span 2' }}
-            invalid={!!errors.imageUrl}
-            errorText={errors.imageUrl?.message}
-          >
-            <InputField
-              {...register('imageUrl')}
-              placeholder="Digite a URL da imagem"
-            />
-          </Field>
-
-          <Field
-            gridColumn={{ base: 'span 1', md: 'span 4' }}
+            gridColumn={{ base: 'span 1', md: 'span 2' }}
             invalid={!!errors.description}
             errorText={errors.description?.message}
           >
@@ -193,10 +182,10 @@ const FormUpdateEstablishment = () => {
               type="submit"
               size="sm"
               rounded="xl"
-              w="fit-content"
+              w="fit"
               loading={isPendingUpdateEstablishment}
             >
-              Salvar estabelecimento
+              Salvar
             </Button>
           </GridItem>
         </SimpleGrid>

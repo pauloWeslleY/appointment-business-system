@@ -1,12 +1,29 @@
 import { Box } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { z } from 'zod'
 
 import Header from '@/components/layout/header'
-import FormUpdateEstablishment from '@/features/establishment/pages/form-update-establishment.page'
+import UpdateEstablishmentPage from '@/features/establishment/pages/update-establishment.page'
 
 export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/$establishmentId/',
 )({
+  validateSearch: z.object({
+    tab: z.string(),
+  }),
+  beforeLoad: ({ search, params }) => {
+    if (!search.tab) {
+      throw redirect({
+        to: '/establishment/$establishmentId',
+        search: {
+          tab: 'edit',
+        },
+        params: {
+          establishmentId: params.establishmentId,
+        },
+      })
+    }
+  },
   component: EditEstablishmentPage,
 })
 
@@ -23,7 +40,7 @@ function EditEstablishmentPage() {
         </div>
       </Header.Root>
 
-      <FormUpdateEstablishment />
+      <UpdateEstablishmentPage />
     </Box>
   )
 }

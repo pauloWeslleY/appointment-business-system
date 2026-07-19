@@ -3,6 +3,7 @@ import { mutationOptions } from '@tanstack/react-query'
 import {
   createAppointmentService,
   updateAppointmentService,
+  updateStatusAppointmentService,
 } from '../api/appointment.service'
 
 export const appointmentMutationOptions = {
@@ -17,6 +18,13 @@ export const appointmentMutationOptions = {
     return mutationOptions({
       mutationKey: ['update-appointment'],
       mutationFn: updateAppointmentService,
+    })
+  },
+
+  status() {
+    return mutationOptions({
+      mutationKey: ['update-status-appointment'],
+      mutationFn: updateStatusAppointmentService,
     })
   },
 }
