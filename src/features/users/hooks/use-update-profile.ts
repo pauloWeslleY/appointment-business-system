@@ -27,8 +27,6 @@ export function useUpdateProfile() {
     },
   })
 
-  console.log('[ERROR] => ', errors)
-
   const onSubmitUpdateProfile = async (data: UpdateProfileFormType) => {
     if (!session?.user?.id) {
       toaster.error({

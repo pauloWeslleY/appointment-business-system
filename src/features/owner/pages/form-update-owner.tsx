@@ -29,11 +29,12 @@ const FormUpdateOwner = () => {
         <Card.Title
           color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
         >
-          Atualize um proprietário para o seu estabelecimento.
+          Dados do proprietário.
         </Card.Title>
         <Card.Description>
-          Após a atualização, você poderá gerenciar os estabelecimentos
-          associados a este proprietário.
+          Atualize as informações do proprietário, como nome, telefone e razão
+          social. Certifique-se de fornecer informações precisas e atualizadas
+          para manter os registros corretos.
         </Card.Description>
       </Card.Header>
 

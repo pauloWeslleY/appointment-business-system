@@ -1,8 +1,6 @@
 import {
-  Avatar,
   Box,
   Flex,
-  HStack,
   Icon,
   IconButton,
   Image,
@@ -15,8 +13,9 @@ import { ChevronLeft } from 'lucide-react'
 
 import ButtonLogout from '@/components/button-logout'
 import { Tooltip } from '@/components/ui/tooltip'
-import { authClient } from '@/lib/auth'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
+
+import CardUserInfo from '../card-user-info'
 
 interface SidebarAsideProps extends StackProps {
   loading?: boolean
@@ -24,7 +23,6 @@ interface SidebarAsideProps extends StackProps {
 
 const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
   const { collapsed, setCollapsed } = useMenuCollapse()
-  const { data } = authClient.useSession()
 
   return (
     <Stack
@@ -143,42 +141,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
             borderWidth="1px"
             borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
           >
-            <HStack
-              w="full"
-              justify={collapsed ? 'center' : 'flex-start'}
-              gap="2"
-            >
-              <Avatar.Root
-                shape="full"
-                size="sm"
-                borderWidth="1px"
-                borderColor="colorPalette.500"
-                bg={{ base: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
-                color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
-              >
-                <Avatar.Fallback />
-                <Avatar.Image src={data?.user?.image ?? ''} />
-              </Avatar.Root>
-
-              {!collapsed && (
-                <div>
-                  <Text
-                    lineHeight="1"
-                    fontWeight="medium"
-                    color={{ base: 'primary.500', _dark: 'primary.300' }}
-                  >
-                    {data?.user?.name ?? 'Usuário'}
-                  </Text>
-                  <Text
-                    fontSize="xs"
-                    color={{ base: 'gray.400', _dark: 'gray.600' }}
-                    truncate
-                  >
-                    {data?.user?.email ?? 'email@example.com'}
-                  </Text>
-                </div>
-              )}
-            </HStack>
+            <CardUserInfo />
 
             <ButtonLogout />
           </Flex>

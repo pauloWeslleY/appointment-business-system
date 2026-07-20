@@ -3,7 +3,7 @@ import { z } from 'zod'
 import {
   ACCEPTED_IMAGE_TYPES,
   MAX_IMAGE_SIZE,
-} from '@/features/service-establishment/constants/files-config'
+} from '@/shared/constants/files-config'
 
 export const UpdateProfileFormSchema = z.object({
   name: z.string().trim().min(1, 'O nome é obrigatório'),

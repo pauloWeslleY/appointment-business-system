@@ -4,9 +4,11 @@ import { FiMenu } from 'react-icons/fi'
 
 import { ColorModeButton } from '@/components/ui/color-mode'
 import { authClient } from '@/lib/auth'
+import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
 
 const SidebarHeader = ({ children }: PropsWithChildren) => {
   const { data } = authClient.useSession()
+  const { data: storageData } = useStorageImage(data?.user?.image)
 
   return (
     <Flex
@@ -51,7 +53,7 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
             color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
           >
             <Avatar.Fallback />
-            <Avatar.Image src={data?.user?.image ?? ''} />
+            <Avatar.Image src={storageData ?? ''} />
           </Avatar.Root>
 
           <Text

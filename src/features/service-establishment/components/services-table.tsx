@@ -1,20 +1,34 @@
 import {
   Alert,
   Box,
+  ButtonGroup,
+  HStack,
   Icon,
+  IconButton,
   Image,
+  Pagination,
+  type PaginationPageChangeDetails,
   Skeleton,
+  Spinner,
   Stack,
   Table,
+  Text,
+  VStack,
 } from '@chakra-ui/react'
 import { useParams } from '@tanstack/react-router'
 import { FileImage } from 'lucide-react'
+import { parseAsInteger, useQueryStates } from 'nuqs'
+import { useMemo, useTransition } from 'react'
+import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
+import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
 import MenuActionServicesTable from './menu-action-services-table'
 
 const ServicesTable = () => {
+  const [isPendingPagination, startTransition] = useTransition()
   const { establishmentId } = useParams({
     from: '/dashboard/$establishmentId/services/',
   })
@@ -24,6 +38,32 @@ const ServicesTable = () => {
     isLoading: isLoadingServicesEstablishment,
     error: errorServicesEstablishment,
   } = useGetServiceByEstablishment(establishmentId)
+
+  const [pagination, setPagination] = useQueryStates(
+    {
+      page: parseAsInteger.withDefault(1),
+      page_size: parseAsInteger.withDefault(10),
+    },
+    {
+      shallow: true,
+    },
+  )
+
+  const visibleServices = useMemo(() => {
+    const start = (pagination.page - 1) * pagination.page_size
+    const end = start + pagination.page_size
+
+    return servicesEsblishment.slice(start, end)
+  }, [pagination.page, pagination.page_size, servicesEsblishment])
+
+  const handlePageChange = (details: PaginationPageChangeDetails) => {
+    startTransition(() => {
+      setPagination({
+        page: details.page,
+        page_size: details.pageSize,
+      })
+    })
+  }
 
   if (isLoadingServicesEstablishment) {
     return (
@@ -59,64 +99,120 @@ const ServicesTable = () => {
   }
 
   return (
-    <Table.Root size="sm" rounded="xl" overflow="hidden">
-      <Table.Header>
-        <Table.Row
-          bg={{ base: 'colorPalette.200', _dark: 'colorPalette.900/40' }}
-        >
-          <Table.ColumnHeader py="3">Imagem</Table.ColumnHeader>
-          <Table.ColumnHeader py="3">Nome</Table.ColumnHeader>
-          <Table.ColumnHeader py="3">Descrição</Table.ColumnHeader>
-          <Table.ColumnHeader py="3">Preço</Table.ColumnHeader>
-          <Table.ColumnHeader py="3" textAlign="end">
-            Ações
-          </Table.ColumnHeader>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {servicesEsblishment.map((item) => (
-          <Table.Row
-            key={item.id}
-            transition="colors"
-            bg={{ base: 'white', _dark: 'gray.950/40' }}
-            _hover={{ bg: { base: 'gray.100', _dark: 'colorPalette.900/30' } }}
-          >
-            <Table.Cell>
-              {item.imageUrl && (
-                <Image
-                  src={item.imageUrl}
-                  alt={item.name}
-                  boxSize="50px"
-                  objectFit="cover"
-                  rounded="lg"
-                />
-              )}
+    <Stack gap="4" w="full">
+      {isPendingPagination && (
+        <VStack colorPalette={colorDefaultTheme}>
+          <Spinner color="colorPalette.600" />
+          <Text color="colorPalette.600">Carregando dados...</Text>
+        </VStack>
+      )}
 
-              {!item.imageUrl && (
-                <Box
-                  p="2"
-                  bg={{ base: 'gray.200', _dark: 'gray.800' }}
-                  rounded="full"
-                  w="fit-content"
-                >
-                  <Icon boxSize="6">
-                    <FileImage />
-                  </Icon>
-                </Box>
-              )}
-            </Table.Cell>
-            <Table.Cell>{item.name}</Table.Cell>
-            <Table.Cell>{item.description}</Table.Cell>
-            <Table.Cell>
-              ${(item.servicePriceInCents / 100).toFixed(2)}
-            </Table.Cell>
-            <Table.Cell textAlign="end">
-              <MenuActionServicesTable service={item} />
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
+      {!isPendingPagination && (
+        <Table.Root size="sm" rounded="xl" overflow="hidden">
+          <Table.Header>
+            <Table.Row
+              bg={{ base: 'colorPalette.200', _dark: 'colorPalette.900/40' }}
+            >
+              <Table.ColumnHeader py="3">Imagem</Table.ColumnHeader>
+              <Table.ColumnHeader py="3">Nome</Table.ColumnHeader>
+              <Table.ColumnHeader py="3">Descrição</Table.ColumnHeader>
+              <Table.ColumnHeader py="3">Preço</Table.ColumnHeader>
+              <Table.ColumnHeader py="3" textAlign="end">
+                Ações
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {visibleServices.map((item) => (
+              <Table.Row
+                key={item.id}
+                transition="colors"
+                bg={{ base: 'white', _dark: 'gray.950/40' }}
+                _hover={{
+                  bg: { base: 'gray.100', _dark: 'colorPalette.900/30' },
+                }}
+              >
+                <Table.Cell>
+                  {item.imageUrl && (
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.name}
+                      boxSize="50px"
+                      objectFit="cover"
+                      rounded="lg"
+                    />
+                  )}
+
+                  {!item.imageUrl && (
+                    <Box
+                      p="2"
+                      bg={{ base: 'gray.200', _dark: 'gray.800' }}
+                      rounded="full"
+                      w="fit-content"
+                    >
+                      <Icon boxSize="6">
+                        <FileImage />
+                      </Icon>
+                    </Box>
+                  )}
+                </Table.Cell>
+                <Table.Cell>{item.name}</Table.Cell>
+                <Table.Cell>{item.description}</Table.Cell>
+                <Table.Cell>
+                  {formatCurrencyInCents(item.servicePriceInCents)}
+                </Table.Cell>
+                <Table.Cell textAlign="end">
+                  <MenuActionServicesTable service={item} />
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
+
+      {servicesEsblishment.length > pagination.page_size && (
+        <HStack justify="space-between" w="full">
+          <Pagination.Root
+            count={servicesEsblishment.length}
+            pageSize={pagination.page_size}
+            page={pagination.page}
+            onPageChange={handlePageChange}
+          >
+            <ButtonGroup alignSelf="end" size="sm" variant="subtle">
+              <Pagination.PrevTrigger asChild>
+                <IconButton aria-label="Página anterior" rounded="xl">
+                  <LuChevronLeft />
+                </IconButton>
+              </Pagination.PrevTrigger>
+
+              <Pagination.Items
+                render={(item) => (
+                  <IconButton
+                    aria-label={`Página ${item.value}`}
+                    variant={{ base: 'ghost', _selected: 'outline' }}
+                    rounded="xl"
+                  >
+                    {item.value}
+                  </IconButton>
+                )}
+              />
+
+              <Pagination.NextTrigger asChild>
+                <IconButton aria-label="Próxima página" rounded="xl">
+                  <LuChevronRight />
+                </IconButton>
+              </Pagination.NextTrigger>
+            </ButtonGroup>
+          </Pagination.Root>
+
+          <Box>
+            <Text fontSize="sm" color="gray.400">
+              {`Exibindo ${visibleServices.length} de ${servicesEsblishment.length} serviços`}
+            </Text>
+          </Box>
+        </HStack>
+      )}
+    </Stack>
   )
 }
 

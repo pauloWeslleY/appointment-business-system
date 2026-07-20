@@ -2,6 +2,7 @@ import { Box, Card, For, HStack, Icon, Image, Text } from '@chakra-ui/react'
 import { IdCard, Mail, PhoneCall } from 'lucide-react'
 
 import { authClient } from '@/lib/auth'
+import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
 
 import type { OwnerModel } from '../types/owner.model'
@@ -27,6 +28,7 @@ const loadOwnerInfo = (owner?: OwnerModel) => [
 
 const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
   const { data: session } = authClient.useSession()
+  const { data: storageData } = useStorageImage(session?.user?.image)
   const loadedOwnerInfo = loadOwnerInfo(owner)
 
   return (
@@ -58,7 +60,7 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
         alignItems="left"
       >
         <Image
-          src={session?.user?.image || '/user.png'}
+          src={storageData ?? '/user.png'}
           alt="Profile Picture"
           rounded="full"
           boxSize="150px"
