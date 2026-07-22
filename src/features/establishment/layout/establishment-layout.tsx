@@ -1,48 +1,26 @@
-import { For, Text } from '@chakra-ui/react'
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from '@tanstack/react-router'
-import type { ReactNode } from 'react'
+import { Box, For, Text } from '@chakra-ui/react'
+import { Navigate } from '@tanstack/react-router'
+import { type ReactNode } from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
 
 import { loadMenuDashboardEstablishment } from '../constants/menu-dashboard-establishment'
-import useGetEstablishmentById from '../hooks/use-get-establishment-by-id'
+import { useEstablishmentLayout } from '../hooks/use-establishment-layout'
 
 interface EstablishmentLayoutProps {
   children: ReactNode
 }
 
 const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId',
-  })
-  const { pathname } = useLocation()
-  const { data: establishment } = useGetEstablishmentById(establishmentId)
-  const navigate = useNavigate()
+  const {
+    establishmentId,
+    loadEstablishmentInfo,
+    validateUrlEstablishmentLayout,
+    activePath,
+    handleNavigation,
+  } = useEstablishmentLayout()
 
-  const handleNavigation = (path?: string) => {
-    if (path?.includes('$establishmentId') && establishmentId) {
-      navigate({ to: path, params: { establishmentId } })
-      return
-    }
-
-    navigate({ to: path })
-  }
-
-  const activePath = (path?: string) => {
-    if (path?.includes('$establishmentId') && establishmentId) {
-      const resolvedPath = path.replace('$establishmentId', establishmentId)
-      return pathname === resolvedPath
-    }
-
-    return pathname === path
-  }
-
-  if (pathname === `/dashboard/${establishmentId}`) {
+  if (validateUrlEstablishmentLayout) {
     return (
       <Navigate
         to="/dashboard/$establishmentId/overview"
@@ -70,7 +48,20 @@ const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
 
       <Sidebar.Content overflowY="auto">
         <Sidebar.Header>
-          <Text as="h2">{establishment?.name}</Text>
+          <Box spaceY="1">
+            <Text as="h2" lineHeight="shorter">
+              {loadEstablishmentInfo.establishment}
+            </Text>
+
+            <Text
+              as="h2"
+              fontSize="xs"
+              lineHeight="1"
+              color={{ base: 'colorPalette.700', _dark: 'colorPalette.500' }}
+            >
+              {loadEstablishmentInfo.openingHours}
+            </Text>
+          </Box>
         </Sidebar.Header>
 
         <Sidebar.Body>{children}</Sidebar.Body>

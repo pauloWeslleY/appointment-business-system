@@ -4,7 +4,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import Header from '@/components/layout/header'
 import { toaster } from '@/components/ui/toaster'
 import ListEstablishmentPage from '@/features/establishment/pages/list-establishment.page'
-import { getOwnerByUserIdService } from '@/features/owner/api/owner.service'
+import { getOwnerByUserIdService } from '@/features/owner/services/owner.service'
 import { authClient } from '@/lib/auth'
 
 export const Route = createFileRoute('/_authenticated/establishment/')({

@@ -45,6 +45,13 @@ const SidebarItem = ({ icon, children, active, ...rest }: SidebarItemProps) => {
       {...rest}
       className="group"
       justifyContent={!collapsed ? 'flex-start' : 'center'}
+      shadow={{
+        base: active ? 'shape' : 'none',
+        _dark: active
+          ? `0 0 0 1px rgba(161, 239, 228, 0.12),
+            0 6px 20px rgba(161, 239, 228, 0.18)`
+          : 'none',
+      }}
       transition="backgrounds"
       bg={{
         base: active ? 'colorPalette.muted' : 'transparent',

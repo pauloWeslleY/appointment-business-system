@@ -3,10 +3,11 @@ import { HttpMethod } from '@/shared/http'
 
 import type { CreateOwnerRequest } from '../types/create-owner-request.type'
 import type { OwnerModel } from '../types/owner.model'
+import type { OwnerDetailsModel } from '../types/owner-details.model'
 import type { UpdateOwnerRequest } from '../types/update-owner-request.type'
 
 export const getOwnerByUserIdService = async (userId?: string) => {
-  const { api, validate } = httpDependencies<OwnerModel>()
+  const { api, validate } = httpDependencies<OwnerDetailsModel>()
   const data = await api.request({
     method: HttpMethod.GET,
     url: `/owner/establishment/user/${userId}`,

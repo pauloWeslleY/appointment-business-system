@@ -61,6 +61,7 @@ export function useFormCreateEstablishment() {
       navigate({
         to: '/establishment/$establishmentId',
         params: { establishmentId: establishment.id },
+        search: { tab: 'edit' },
       })
     },
     onError: (error) => {

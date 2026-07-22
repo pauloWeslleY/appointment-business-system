@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getListAppointmentByServicesService } from '../api/appointment.service'
 import { appointmentQueryKeys } from '../queries/appointment-query-key'
+import { getListAppointmentByServicesService } from '../services/appointment.service'
 import type { GetListBookingByServiceQueryParams } from '../types/get-list-booking-by-service.query-params'
 
 export const useGetAppointmentByService = (

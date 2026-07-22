@@ -4,7 +4,7 @@ import {
   createAppointmentService,
   updateAppointmentService,
   updateStatusAppointmentService,
-} from '../api/appointment.service'
+} from '../services/appointment.service'
 
 export const appointmentMutationOptions = {
   create() {

@@ -8,7 +8,7 @@ import {
 import {
   createServiceEstablishmentService,
   updateServiceEstablishmentService,
-} from '../api/service-establishment.service'
+} from '../services/service-establishment.service'
 import type { ServiceEstablishmentFormData } from '../types/form-service-establishment.type'
 import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
 

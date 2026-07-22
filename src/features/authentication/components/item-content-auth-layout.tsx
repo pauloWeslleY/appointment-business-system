@@ -15,10 +15,10 @@ const ItemContentAuthLayout = ({
 
   return (
     <Flex
-      flexDir="column"
-      justify="space-between"
-      h="full"
-      minH="40"
+      h="20"
+      w="full"
+      align="center"
+      gap="2"
       rounded="2xl"
       p="2"
       bg={{
@@ -48,7 +48,7 @@ const ItemContentAuthLayout = ({
 
       <Text
         fontWeight={{ base: 'light', _dark: 'lighter' }}
-        fontSize="sm"
+        fontSize="md"
         lineHeight="short"
         letterSpacing="wider"
         color={{ base: 'blackAlpha.950', _dark: 'gray.100' }}

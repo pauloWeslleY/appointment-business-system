@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   CloseButton,
   DatePicker,
@@ -31,6 +32,7 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
     errors,
     isPendingAppointment,
     loadSelectTimeAppointment,
+    loadErrorAvailableHours,
     onSubmitUpdateAppointment,
   } = useUpdateAppointmentForm(appointment)
 
@@ -179,6 +181,13 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
                   )}
                 />
               </HStack>
+
+              {loadErrorAvailableHours && (
+                <Alert.Root rounded="xl" status="warning" variant="subtle">
+                  <Alert.Indicator />
+                  <Alert.Title>{loadErrorAvailableHours}</Alert.Title>
+                </Alert.Root>
+              )}
             </Dialog.Body>
             <Dialog.Footer gap="2">
               <Dialog.ActionTrigger asChild>

@@ -9,7 +9,7 @@ export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/$establishmentId/',
 )({
   validateSearch: z.object({
-    tab: z.string(),
+    tab: z.enum(['edit', 'upload']),
   }),
   beforeLoad: ({ search, params }) => {
     if (!search.tab) {

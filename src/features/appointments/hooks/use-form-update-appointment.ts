@@ -18,11 +18,11 @@ import type { GetAppointmentByEstablishmentModel } from '../types/get-appointmen
 export function useUpdateAppointmentForm(
   appointment: GetAppointmentByEstablishmentModel,
 ) {
+  const queryClient = useQueryClient()
+
   const search = useSearch({
     from: '/dashboard/$establishmentId/appointments/',
   })
-
-  const queryClient = useQueryClient()
 
   const formDefaultValues = useMemo<DefaultValues<UpdateAppointmentFormType>>(
     () => ({
@@ -90,6 +90,7 @@ export function useUpdateAppointmentForm(
     })
 
   const errors = form.formState.errors
+  const loadErrorAvailableHours = selectedHours.errorAvailableHours?.message
 
   const onSubmitUpdateAppointment = form.handleSubmit((data) => {
     const hour = Number(data.hour[0].split(':')[0])
@@ -111,6 +112,7 @@ export function useUpdateAppointmentForm(
     form,
     errors,
     isPendingAppointment,
+    loadErrorAvailableHours,
     loadSelectTimeAppointment,
     onSubmitUpdateAppointment,
   }

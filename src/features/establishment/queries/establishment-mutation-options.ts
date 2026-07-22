@@ -6,7 +6,7 @@ import {
   createEstablishmentService,
   updateEstablishmentService,
   uploadImageEstablishmentService,
-} from '../api/establishment.service'
+} from '../services/establishment.service'
 import type { EstablishmentModel } from '../types/establishment.model'
 
 export const establishmentMutationOptions = {

@@ -4,12 +4,14 @@ import { Plus } from 'lucide-react'
 import z from 'zod'
 
 import Header from '@/components/layout/header'
-import ServicesTable from '@/features/service-establishment/components/services-table'
+import SearchPage from '@/components/search-page'
+import ServicesTablePage from '@/features/service-establishment/pages/services-table.page'
 
 export const Route = createFileRoute('/dashboard/$establishmentId/services/')({
   validateSearch: z.object({
     page: z.number().optional(),
     page_size: z.number().optional(),
+    q: z.string().optional(),
   }),
   beforeLoad: ({ search, params }) => {
     if (!search.page) {
@@ -63,7 +65,9 @@ function ServicesPage() {
         bg={{ base: 'white', _dark: 'gray.950/40' }}
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       >
-        <ServicesTable />
+        <SearchPage mb="4" />
+
+        <ServicesTablePage />
       </Card.Root>
     </Box>
   )

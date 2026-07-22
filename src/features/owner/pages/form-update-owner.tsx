@@ -1,4 +1,4 @@
-import { Button, Card, chakra, GridItem, SimpleGrid } from '@chakra-ui/react'
+import { Button, Card, chakra, VStack } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
@@ -20,6 +20,7 @@ const FormUpdateOwner = () => {
   return (
     <Card.Root
       variant="outline"
+      h="fit"
       rounded="xl"
       p="4"
       bg={{ base: 'white', _dark: 'gray.950/40' }}
@@ -38,8 +39,14 @@ const FormUpdateOwner = () => {
         </Card.Description>
       </Card.Header>
 
-      <chakra.form w="full" onSubmit={handleSubmit(handleUpdateOwner)}>
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap="4" w="full">
+      <chakra.form
+        display="flex"
+        flexDirection="column"
+        gap="2"
+        w="full"
+        onSubmit={handleSubmit(handleUpdateOwner)}
+      >
+        <VStack gap="2" w="full">
           <Field invalid={!!errors.name} errorText={errors.name?.message}>
             <InputField {...register('name')} placeholder="Digite seu nome" />
           </Field>
@@ -70,22 +77,18 @@ const FormUpdateOwner = () => {
               placeholder="Digite a razão social ou nome empresarial da empresa"
             />
           </Field>
+        </VStack>
 
-          <GridItem
-            colSpan={{ base: 1, md: 3 }}
-            placeSelf={{ base: 'center', md: 'end' }}
-          >
-            <Button
-              type="submit"
-              size="sm"
-              rounded="xl"
-              w="fit-content"
-              loading={isPendingUpdateOwner}
-            >
-              Salvar proprietário
-            </Button>
-          </GridItem>
-        </SimpleGrid>
+        <Button
+          alignSelf="flex-end"
+          type="submit"
+          size="sm"
+          rounded="xl"
+          w="fit"
+          loading={isPendingUpdateOwner}
+        >
+          Salvar proprietário
+        </Button>
       </chakra.form>
     </Card.Root>
   )

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getAppointmentByEstablishmentService } from '../api/appointment.service'
+import { getAppointmentByEstablishmentService } from '../services/appointment.service'
 import { appointmentQueryKeys } from '../queries/appointment-query-key'
 import type { GetAppointmentByEstablishmentQueryParams } from '../types/get-appointment-by-establishment-query-params'
 

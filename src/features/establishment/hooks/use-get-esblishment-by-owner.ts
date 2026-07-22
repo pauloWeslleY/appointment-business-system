@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useGetOwnerById } from '@/features/owner/hooks/use-get-owner-by-id'
 
-import { getEstablishmentsByOwnerIdService } from '../api/establishment.service'
 import { establishmentQueryKeys } from '../queries/establishment-query-key'
+import { getEstablishmentsByOwnerIdService } from '../services/establishment.service'
 
 export function useGetEstablishmentsByOwner() {
   const { data: owner } = useGetOwnerById()

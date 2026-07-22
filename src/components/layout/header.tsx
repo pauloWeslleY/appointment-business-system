@@ -16,7 +16,7 @@ const baseHeaderTitleRecipe = defineRecipe({
     fontSize: '2xl',
     fontWeight: 'light',
     fontFamily: 'heading',
-    color: { base: 'primary.600', _dark: 'primary.200' },
+    color: { base: 'colorPalette.600', _dark: 'colorPalette.200' },
   },
 })
 

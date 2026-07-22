@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   For,
-  HStack,
   Image,
   SimpleGrid,
   Stack,
@@ -79,7 +78,7 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
               </Text>
             </Box>
 
-            <HStack gap={{ base: '2', lg: '6' }}>
+            <VStack w="full" align="flex-start" gap={{ base: '2', lg: '6' }}>
               <For each={loadContentAuthLayout}>
                 {(item, index) => (
                   <ItemContentAuthLayout
@@ -90,7 +89,7 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
                   />
                 )}
               </For>
-            </HStack>
+            </VStack>
           </Flex>
         </Stack>
 

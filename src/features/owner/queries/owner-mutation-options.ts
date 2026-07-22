@@ -1,6 +1,9 @@
 import { mutationOptions } from '@tanstack/react-query'
 
-import { createOwnerService, updateOwnerService } from '../api/owner.service'
+import {
+  createOwnerService,
+  updateOwnerService,
+} from '../services/owner.service'
 
 export const ownerMutationOptions = {
   create() {

@@ -10,7 +10,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
-import { ArrowRightCircle } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
@@ -98,8 +98,8 @@ const FormLoginPage = () => {
           loading={isSubmitting}
           loadingText="Entrando..."
         >
-          <Icon as={ArrowRightCircle} boxSize="5" />
           Entrar
+          <Icon as={ArrowRight} boxSize="5" />
         </Button>
 
         <HStack

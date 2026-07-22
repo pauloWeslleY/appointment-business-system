@@ -2,11 +2,12 @@ import { Alert, HStack, SimpleGrid, Skeleton, Stack } from '@chakra-ui/react'
 import { useParams, useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
+import SearchPage from '@/components/search-page'
+
 import CardAppointment from '../components/card-appointment'
 import FilterBookingsDate from '../components/filter-bookings-date'
 import FilterBookingsService from '../components/filter-bookings-service'
 import FilterBookingsStatus from '../components/filter-bookings-status'
-import SearchBookingsClient from '../components/search-bookings-client'
 import { useGetAppointmentByEstablishment } from '../hooks/use-get-appointment-by-establishment'
 
 const ListAppointmentEstablishment = () => {
@@ -66,7 +67,7 @@ const ListAppointmentEstablishment = () => {
     <>
       {/* Filter Bookings */}
       <HStack>
-        <SearchBookingsClient />
+        <SearchPage />
 
         <FilterBookingsDate />
         <FilterBookingsStatus />

@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 
 import { authClient } from '@/lib/auth'
 
-import { getOwnerByUserIdService } from '../api/owner.service'
 import { ownerQueryKeys } from '../queries/owner-query-key'
+import { getOwnerByUserIdService } from '../services/owner.service'
 
 export const useGetOwnerById = () => {
   const { data } = authClient.useSession()

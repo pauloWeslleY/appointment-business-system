@@ -16,6 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { useParams } from '@tanstack/react-router'
+import { useSearch } from '@tanstack/react-router'
 import { FileImage } from 'lucide-react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
@@ -25,11 +26,14 @@ import { useGetServiceByEstablishment } from '@/features/service-establishment/h
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
-import MenuActionServicesTable from './menu-action-services-table'
+import MenuActionServicesTable from '../components/menu-action-services-table'
 
-const ServicesTable = () => {
+const ServicesTablePage = () => {
   const [isPendingPagination, startTransition] = useTransition()
   const { establishmentId } = useParams({
+    from: '/dashboard/$establishmentId/services/',
+  })
+  const search = useSearch({
     from: '/dashboard/$establishmentId/services/',
   })
 
@@ -50,11 +54,26 @@ const ServicesTable = () => {
   )
 
   const visibleServices = useMemo(() => {
+    const query = search.q?.toLowerCase()
+    const loadTableServicesEsblishment = servicesEsblishment.filter(
+      (service) => {
+        const queryStringName = query
+          ? service.name.toLowerCase().includes(query)
+          : true
+
+        const queryStringDescription = query
+          ? service.description.toLowerCase().includes(query)
+          : true
+
+        return queryStringName || queryStringDescription
+      },
+    )
+
     const start = (pagination.page - 1) * pagination.page_size
     const end = start + pagination.page_size
 
-    return servicesEsblishment.slice(start, end)
-  }, [pagination.page, pagination.page_size, servicesEsblishment])
+    return loadTableServicesEsblishment.slice(start, end)
+  }, [search.q, servicesEsblishment, pagination.page, pagination.page_size])
 
   const handlePageChange = (details: PaginationPageChangeDetails) => {
     startTransition(() => {
@@ -216,4 +235,4 @@ const ServicesTable = () => {
   )
 }
 
-export default ServicesTable
+export default ServicesTablePage
