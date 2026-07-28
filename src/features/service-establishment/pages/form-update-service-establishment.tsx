@@ -68,7 +68,7 @@ const FormUpdateServiceEstablishment = () => {
                 errorText={errors.servicePriceInCents?.message}
               >
                 <NumericFormat
-                  value={field.value}
+                  value={field.value / 100}
                   onValueChange={(value) => field.onChange(value.floatValue)}
                   decimalScale={2}
                   fixedDecimalScale

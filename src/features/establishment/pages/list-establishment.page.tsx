@@ -1,11 +1,9 @@
 import {
   Alert,
-  Box,
   Button,
   Flex,
   HStack,
   Icon,
-  InputGroup,
   SimpleGrid,
   Skeleton,
   SkeletonCircle,
@@ -13,10 +11,10 @@ import {
   Stack,
   VStack,
 } from '@chakra-ui/react'
-import { useNavigate } from '@tanstack/react-router'
-import { PlusIcon, SearchIcon } from 'lucide-react'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { PlusIcon } from 'lucide-react'
 
-import InputField from '@/components/input-field'
+import SearchPage from '@/components/search-page'
 
 import CardEstablishment from '../components/card-establishment'
 import NotFoundEstablishment from '../components/not-found-establishment'
@@ -24,8 +22,16 @@ import { useGetEstablishmentsByOwner } from '../hooks/use-get-esblishment-by-own
 
 const ListEstablishmentPage = () => {
   const navigate = useNavigate()
-  const { establishments, errorEstablishments, isLoadingEstablishments } =
-    useGetEstablishmentsByOwner()
+
+  const search = useSearch({
+    from: '/_authenticated/establishment/',
+  })
+
+  const {
+    filteredEstablishments,
+    errorEstablishments,
+    isLoadingEstablishments,
+  } = useGetEstablishmentsByOwner(search.q)
 
   if (isLoadingEstablishments) {
     return (
@@ -48,11 +54,7 @@ const ListEstablishmentPage = () => {
   return (
     <VStack gap={{ base: '4', lg: '8' }}>
       <Flex w="full" justify="space-between" align="center">
-        <Box w="fit-content">
-          <InputGroup startElement={<Icon as={SearchIcon} boxSize="5" />}>
-            <InputField placeholder="Buscar..." />
-          </InputGroup>
-        </Box>
+        <SearchPage w="350px" />
 
         <Button
           rounded="xl"
@@ -64,16 +66,16 @@ const ListEstablishmentPage = () => {
         </Button>
       </Flex>
 
-      {establishments.length === 0 && (
+      {filteredEstablishments.length === 0 && (
         <Alert.Root status="warning" rounded="xl">
           <Alert.Indicator />
           <Alert.Title>Nenhum estabelecimento encontrado</Alert.Title>
         </Alert.Root>
       )}
 
-      {establishments.length >= 1 && (
+      {filteredEstablishments.length >= 1 && (
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap="4" w="full">
-          {establishments.map((establishment) => (
+          {filteredEstablishments.map((establishment) => (
             <CardEstablishment
               key={establishment.id}
               establishment={establishment}

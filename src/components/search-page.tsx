@@ -28,6 +28,7 @@ const SearchPage = (props: Omit<InputGroupProps, 'children'>) => {
 
   return (
     <InputGroup
+      w="450px"
       {...props}
       startElement={<Icon as={SearchIcon} boxSize="5" />}
       endElement={
@@ -41,7 +42,6 @@ const SearchPage = (props: Omit<InputGroupProps, 'children'>) => {
           <Icon as={X} boxSize="4" />
         </IconButton>
       }
-      w="450px"
     >
       <InputField
         placeholder="Buscar..."

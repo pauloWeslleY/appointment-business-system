@@ -47,7 +47,7 @@ const FilterReviewsNotes = () => {
           rounded="xl"
           bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
         >
-          <Select.ValueText placeholder="Selecione o status" />
+          <Select.ValueText placeholder="Selecione a nota" />
         </Select.Trigger>
         <Select.IndicatorGroup>
           <Select.ClearTrigger onClick={() => setNotes(null)} />

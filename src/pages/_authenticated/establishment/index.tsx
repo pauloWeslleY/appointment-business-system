@@ -1,26 +1,16 @@
 import { Box, HStack } from '@chakra-ui/react'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import z from 'zod'
 
 import Header from '@/components/layout/header'
-import { toaster } from '@/components/ui/toaster'
 import ListEstablishmentPage from '@/features/establishment/pages/list-establishment.page'
-import { getOwnerByUserIdService } from '@/features/owner/services/owner.service'
-import { authClient } from '@/lib/auth'
+import { establishmentGuardBeforeLoadRoute } from '@/features/establishment/services/establishment-guard-before-load-route'
 
 export const Route = createFileRoute('/_authenticated/establishment/')({
-  beforeLoad: async () => {
-    const { data } = await authClient.getSession()
-    if (!data) throw redirect({ to: '/login' })
-
-    try {
-      await getOwnerByUserIdService(data.user.id)
-    } catch (err) {
-      toaster.error({
-        title: (err as Error).message || 'Erro ao buscar proprietário',
-      })
-      throw redirect({ to: '/owner/new' })
-    }
-  },
+  validateSearch: z.object({
+    q: z.string().optional(),
+  }),
+  beforeLoad: establishmentGuardBeforeLoadRoute,
   component: EstablishmentPage,
 })
 
