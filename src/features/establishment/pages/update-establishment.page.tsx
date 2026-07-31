@@ -38,10 +38,26 @@ const UpdateEstablishmentPage = () => {
         aria-label="Establishment creation menu"
         bg={{ base: 'white', _dark: 'gray.950/40' }}
         rounded="xl"
+        shadow="xs"
+        w={{ base: 'full', lg: 'md' }}
       >
         <For each={loadMenuUpdateEstablishment}>
           {(item) => (
-            <Tabs.Trigger key={item.value} value={item.value} rounded="lg">
+            <Tabs.Trigger
+              key={item.value}
+              value={item.value}
+              rounded="xl"
+              flex="1"
+              _selected={{
+                borderWidth: '1px',
+                shadow: { base: 'sm', _dark: 'xs' },
+                bg: { base: 'emerald.300', _dark: 'emerald.500/40' },
+                borderColor: {
+                  base: 'emerald.200',
+                  _dark: 'emerald.500/40',
+                },
+              }}
+            >
               {item.label}
             </Tabs.Trigger>
           )}

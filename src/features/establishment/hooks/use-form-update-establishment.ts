@@ -11,6 +11,7 @@ import { onBlurZipCode } from '@/shared/services/via-cep/onblur-zip-code'
 import { establishmentMutationOptions } from '../queries/establishment-mutation-options'
 import { establishmentQueryKeys } from '../queries/establishment-query-key'
 import { EstablishmentFormSchema } from '../schemas/establishment.schema'
+import type { EstablishmentModel } from '../types/establishment.model'
 import type { EstablishmentFormData } from '../types/establishment-form-data.type'
 import useGetEstablishmentById from './use-get-establishment-by-id'
 
@@ -27,10 +28,15 @@ export function useFormUpdateEstablishment() {
     isPending: isPendingUpdateEstablishment,
   } = useMutation({
     ...establishmentMutationOptions.update(),
-    onSuccess: (_, variables) => {
+    onSuccess: (establishment, variables) => {
       queryClient.invalidateQueries({
         queryKey: establishmentQueryKeys.owner(variables.ownerId),
       })
+
+      queryClient.setQueryData<EstablishmentModel>(
+        establishmentQueryKeys.detail(establishmentId),
+        () => establishment,
+      )
 
       toaster.success({ title: 'Estabelecimento atualizado com sucesso' })
     },

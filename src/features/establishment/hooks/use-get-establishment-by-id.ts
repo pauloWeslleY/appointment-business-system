@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getEstablishmentByIdService } from '../services/establishment.service'
 import { establishmentQueryKeys } from '../queries/establishment-query-key'
+import { getEstablishmentByIdService } from '../services/establishment.service'
 
 const useGetEstablishmentById = (establishmentId: string) => {
   return useQuery({

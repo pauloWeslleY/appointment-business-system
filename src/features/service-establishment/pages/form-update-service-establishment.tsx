@@ -39,15 +39,19 @@ const FormUpdateServiceEstablishment = () => {
     <Card.Root
       variant="outline"
       rounded="xl"
+      shadow="xs"
       p="4"
       bg={{ base: 'white', _dark: 'gray.950/40' }}
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
     >
       <chakra.form
         w="full"
+        display="flex"
+        flexDirection="column"
+        gap="4"
         onSubmit={handleSubmit(onSubmitUpdateServiceEstablishment)}
       >
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap="4" w="full">
           <Field
             gridColumn={{ base: 'span 1' }}
             invalid={!!errors.name}
@@ -94,13 +98,9 @@ const FormUpdateServiceEstablishment = () => {
             />
           </Field>
 
-          <GridItem colSpan={{ base: 1, md: 2 }} asChild>
+          <GridItem colSpan={{ base: 1, md: 4 }} asChild>
             <HStack>
-              <Separator
-                flex="1"
-                borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-              />
-              <Text flexShrink="0">Upload</Text>
+              <Text flexShrink="0">Imagem do serviço</Text>
               <Separator
                 flex="1"
                 borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
@@ -108,9 +108,7 @@ const FormUpdateServiceEstablishment = () => {
             </HStack>
           </GridItem>
 
-          <GridItem colSpan={{ base: 1, md: 2 }}>
-            <Text pb="4">Imagem do serviço</Text>
-
+          <GridItem colSpan={{ base: 1, md: 4 }}>
             <Flex gap="2">
               {serviceEstablishment?.imageUrl && (
                 <Box flex="1">
@@ -164,22 +162,18 @@ const FormUpdateServiceEstablishment = () => {
               />
             </Flex>
           </GridItem>
-
-          <GridItem
-            colSpan={{ base: 1, md: 2 }}
-            placeSelf={{ base: 'center', md: 'end' }}
-          >
-            <Button
-              type="submit"
-              size="sm"
-              rounded="xl"
-              w="fit-content"
-              loading={isUpdatingServiceEstablishment}
-            >
-              Salvar serviço
-            </Button>
-          </GridItem>
         </SimpleGrid>
+
+        <Button
+          type="submit"
+          size="sm"
+          rounded="xl"
+          w="fit-content"
+          alignSelf="flex-end"
+          loading={isUpdatingServiceEstablishment}
+        >
+          Salvar serviço
+        </Button>
 
         {isUpdatingServiceEstablishment && (
           <Alert.Root

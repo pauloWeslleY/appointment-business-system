@@ -33,12 +33,9 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
       px="2"
       pb="10"
       bg={{ base: 'tertiary.300', _dark: 'secondary.900' }}
-      borderRightWidth="1px"
-      borderRightColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       w={collapsed ? '20' : '60'}
       transition="width 0.2s ease"
       pos="relative"
-      shadow={!collapsed ? 'none' : 'sm'}
       {...props}
     >
       <Tooltip
@@ -137,6 +134,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
             justify={collapsed ? 'center' : 'flex-start'}
             px={collapsed ? '8' : '2'}
             rounded="xl"
+            shadow="xs"
             bg={{ base: 'tertiary.300', _dark: 'secondary.900' }}
             borderWidth="1px"
             borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}

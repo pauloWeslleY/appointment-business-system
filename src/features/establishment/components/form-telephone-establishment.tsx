@@ -58,6 +58,7 @@ const FormTelephoneEstablishment = ({
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       borderWidth="1px"
       rounded="lg"
+      shadow={{ base: 'shape', md: '2xs' }}
       p="4"
     >
       <chakra.label display="flex" flexDir="column" alignItems="center" gap="4">

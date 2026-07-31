@@ -1,11 +1,21 @@
-import { Button, Card, Icon, Text } from '@chakra-ui/react'
+import {
+  Badge,
+  Button,
+  Card,
+  HStack,
+  Icon,
+  Separator,
+  Text,
+} from '@chakra-ui/react'
 import { useNavigate } from '@tanstack/react-router'
 import { ExternalLinkIcon, PencilLineIcon } from 'lucide-react'
+import { useMemo } from 'react'
 
 import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
 
 import type { EstablishmentModel } from '../types/establishment.model'
+import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 interface CardEstablishmentProps {
   establishment: EstablishmentModel
@@ -18,10 +28,16 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
     return formatterMask(phone, FormatMask.CELLPHONE)
   }
 
+  const loadEstablishmentDetails = useMemo(
+    () => validateOpeningHoursEstablishment(establishment),
+    [establishment],
+  )
+
   return (
     <Card.Root
       variant="outline"
       rounded="xl"
+      shadow="xs"
       display="flex"
       flexDir="column"
       justifyContent="center"
@@ -40,7 +56,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Text
           letterSpacing="wide"
           fontWeight="medium"
-          color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}
+          color={{ base: 'colorPalette.600', _dark: 'emerald.500' }}
         >
           {establishment.name}
         </Text>
@@ -48,15 +64,41 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Text
           letterSpacing="wide"
           fontWeight="light"
-          color={{ base: 'colorPalette.500', _dark: 'colorPalette.600' }}
+          color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+          truncate
         >
           {establishment.description}
         </Text>
 
+        <HStack align="center">
+          <Text
+            letterSpacing="wide"
+            fontWeight="light"
+            color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+          >
+            {loadEstablishmentDetails.openingHours}
+          </Text>
+
+          <Separator
+            h="4"
+            orientation="vertical"
+            borderColor={{ base: 'gray.200', _dark: 'gray.500' }}
+          />
+
+          <Badge
+            size="sm"
+            colorPalette={
+              loadEstablishmentDetails.establishmentOpen ? 'green' : 'red'
+            }
+          >
+            {loadEstablishmentDetails.establishmentOpen ? 'Aberto' : 'Fechado'}
+          </Badge>
+        </HStack>
+
         <Text
           letterSpacing="wide"
           fontWeight="light"
-          color={{ base: 'colorPalette.500', _dark: 'colorPalette.600' }}
+          color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
         >
           {establishment.phones.map(formatPhone).join(' - ')}
         </Text>
@@ -83,6 +125,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             navigate({
               to: '/establishment/$establishmentId',
               params: { establishmentId: establishment.id },
+              search: { tab: 'edit' },
             })
           }
         >

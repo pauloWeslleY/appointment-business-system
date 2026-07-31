@@ -36,6 +36,7 @@ const FormUpdateEstablishment = () => {
       variant="outline"
       rounded="xl"
       p="4"
+      shadow="xs"
       bg={{ base: 'white', _dark: 'gray.950/40' }}
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
     >

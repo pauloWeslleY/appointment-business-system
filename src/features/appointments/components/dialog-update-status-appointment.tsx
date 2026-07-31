@@ -4,12 +4,10 @@ import {
   CloseButton,
   Dialog,
   HStack,
-  Icon,
   Portal,
   Select,
   Text,
 } from '@chakra-ui/react'
-import { Sparkles } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
@@ -22,10 +20,14 @@ import type { GetAppointmentByEstablishmentModel } from '../types/get-appointmen
 
 interface DialogUpdateStatusAppointmentProps {
   appointment: GetAppointmentByEstablishmentModel
+  open: boolean
+  onOpen: (open: boolean) => void
 }
 
 const DialogUpdateStatusAppointment = ({
   appointment,
+  open,
+  onOpen,
 }: DialogUpdateStatusAppointmentProps) => {
   const {
     errors,
@@ -37,13 +39,12 @@ const DialogUpdateStatusAppointment = ({
   } = useUpdateStatusAppointmentForm(appointment)
 
   return (
-    <Dialog.Root motionPreset="slide-in-bottom" placement="center">
-      <Dialog.Trigger asChild>
-        <Button variant="ghost" rounded="xl" size="sm" flex="1">
-          <Icon as={Sparkles} boxSize="4" />
-          Status
-        </Button>
-      </Dialog.Trigger>
+    <Dialog.Root
+      motionPreset="slide-in-bottom"
+      placement="center"
+      open={open}
+      onOpenChange={(e) => onOpen(e.open)}
+    >
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>

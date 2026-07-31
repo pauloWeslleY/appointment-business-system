@@ -4,7 +4,7 @@ export interface GetAppointmentByEstablishmentModel {
   id: string
   date: string
   status: AppointmentStatusType
-  userId: string
+  notes: string | null
   user: {
     id: string
     name: string

@@ -17,9 +17,7 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
       justify="space-between"
       w="full"
       px="4"
-      borderBottomWidth="1px"
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-      h="14"
+      h="16"
     >
       <HStack pl={{ base: '0', md: '4' }}>
         <IconButton
@@ -39,7 +37,9 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
         <Flex
           align="center"
           gap="2"
-          p="1"
+          py="1"
+          px="2"
+          shadow="xs"
           rounded="full"
           borderWidth="1px"
           borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}

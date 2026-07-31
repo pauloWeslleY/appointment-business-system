@@ -4,7 +4,10 @@ const baseSidebarContentRecipe = defineRecipe({
   className: 'sidebar-content',
   base: {
     flex: '1',
+    overflowY: 'auto',
     transition: '.3s ease',
+    shadow: { base: 'lg', _dark: 'md' },
+    zIndex: '1',
     bgGradient: 'to-tl',
     gradientFrom: {
       base: 'secondary.200/70',

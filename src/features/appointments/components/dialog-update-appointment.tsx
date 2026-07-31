@@ -5,17 +5,16 @@ import {
   DatePicker,
   Dialog,
   HStack,
-  Icon,
   parseDate,
   Portal,
   Select,
   Text,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { PencilLineIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { LuCalendar } from 'react-icons/lu'
 
+import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
@@ -24,9 +23,15 @@ import type { GetAppointmentByEstablishmentModel } from '../types/get-appointmen
 
 interface DialogEditAppointmentProps {
   appointment: GetAppointmentByEstablishmentModel
+  open: boolean
+  onOpen: (open: boolean) => void
 }
 
-const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
+const DialogEditAppointment = ({
+  appointment,
+  open,
+  onOpen,
+}: DialogEditAppointmentProps) => {
   const {
     form,
     errors,
@@ -37,13 +42,12 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
   } = useUpdateAppointmentForm(appointment)
 
   return (
-    <Dialog.Root motionPreset="slide-in-bottom" placement="center">
-      <Dialog.Trigger asChild>
-        <Button variant="ghost" rounded="xl" size="sm" flex="1">
-          <Icon as={PencilLineIcon} boxSize="4" />
-          Editar
-        </Button>
-      </Dialog.Trigger>
+    <Dialog.Root
+      motionPreset="slide-in-bottom"
+      placement="center"
+      open={open}
+      onOpenChange={(e) => onOpen(e.open)}
+    >
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
@@ -181,6 +185,17 @@ const DialogEditAppointment = ({ appointment }: DialogEditAppointmentProps) => {
                   )}
                 />
               </HStack>
+
+              <Field
+                invalid={Boolean(errors.notes)}
+                errorText={errors.notes?.message}
+              >
+                <InputField
+                  {...form.register('notes')}
+                  placeholder="Observações (opcional)"
+                  w="full"
+                />
+              </Field>
 
               {loadErrorAvailableHours && (
                 <Alert.Root rounded="xl" status="warning" variant="subtle">

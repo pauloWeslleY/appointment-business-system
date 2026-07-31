@@ -2,6 +2,7 @@ import { useLocation, useNavigate, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import useGetEstablishmentById from '../hooks/use-get-establishment-by-id'
+import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 export function useEstablishmentLayout() {
   const { establishmentId } = useParams({
@@ -15,42 +16,10 @@ export function useEstablishmentLayout() {
   const validateUrlEstablishmentLayout =
     pathname === `/dashboard/${establishmentId}`
 
-  const loadEstablishmentInfo = useMemo(() => {
-    const erroMessage = 'Sem horário de funcionamento'
-
-    if (!establishment) {
-      return {
-        establishment: 'Sem estabelecimento',
-        openingHours: erroMessage,
-      }
-    }
-
-    const dateCurrency = new Date()
-    const dayOfWeek = dateCurrency.toLocaleDateString('pt-BR', {
-      weekday: 'short',
-    })
-
-    const filteredOpeningHours = establishment.openingHours.filter(
-      (item) => item.day === dateCurrency.getDay(),
-    )
-
-    if (filteredOpeningHours.length === 0) {
-      return {
-        establishment: establishment.name,
-        openingHours: erroMessage,
-      }
-    }
-
-    const intervals = filteredOpeningHours.map((item) => item.intervals).flat()
-    const hoursOpening = intervals.map(
-      (item) => `${item.open} ás ${item.close}`,
-    )
-
-    return {
-      establishment: establishment?.name,
-      openingHours: `Horário de funcionamento: ${dayOfWeek.toUpperCase()} ${hoursOpening.join(', ')}`,
-    }
-  }, [establishment])
+  const loadEstablishmentInfo = useMemo(
+    () => validateOpeningHoursEstablishment(establishment),
+    [establishment],
+  )
 
   const handleNavigation = (path?: string) => {
     if (path?.includes('$establishmentId') && establishmentId) {
@@ -62,15 +31,16 @@ export function useEstablishmentLayout() {
   }
 
   const activePath = (path?: string) => {
-    if (path?.includes('$establishmentId') && establishmentId) {
-      const resolvedPath = path.replace('$establishmentId', establishmentId)
-      return pathname === resolvedPath
+    if (path?.includes('$establishmentId')) {
+      const resolvedPath = path.replace('/dashboard/$establishmentId', '')
+      return pathname.includes(resolvedPath)
     }
 
-    return pathname === path
+    return pathname.includes(path ?? '')
   }
 
   return {
+    establishment,
     establishmentId,
     loadEstablishmentInfo,
     validateUrlEstablishmentLayout,

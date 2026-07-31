@@ -42,7 +42,10 @@ const OwnerLayoutContainer = ({ children }: OwnerLayoutProps) => {
       <Header.Root justify="space-between">
         <HStack align="center">
           <Header.Button />
-          <Header.Title lineHeight={0}>Proprietário</Header.Title>
+          <div>
+            <Header.Title>Proprietário</Header.Title>
+            <Header.SubTitle>Informações gerais</Header.SubTitle>
+          </div>
         </HStack>
 
         {!owner && (

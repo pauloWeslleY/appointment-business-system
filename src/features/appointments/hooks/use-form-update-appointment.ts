@@ -28,6 +28,7 @@ export function useUpdateAppointmentForm(
     () => ({
       date: dayjs(appointment.date).format('YYYY-MM-DD'),
       hour: [dayjs(appointment.date).format('HH:mm')],
+      notes: appointment.notes ?? null,
     }),
     [appointment],
   )
@@ -105,6 +106,7 @@ export function useUpdateAppointmentForm(
     updateAppointment({
       id: appointment.id,
       date: dateTime.toISOString(),
+      notes: data.notes ?? null,
     })
   })
 

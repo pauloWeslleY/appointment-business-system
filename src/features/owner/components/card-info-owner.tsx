@@ -48,6 +48,7 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
       gridColumn={{ base: '1', md: 'span 2' }}
       variant="outline"
       rounded="xl"
+      shadow="xs"
       bg={{ base: 'white', _dark: 'gray.950/40' }}
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       display="flex"

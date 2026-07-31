@@ -32,6 +32,7 @@ const UploadImageEstablishment = () => {
           <Image
             border="1px solid"
             borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+            shadow="xs"
             rounded="xl"
             h="auto"
             w="full"
@@ -58,6 +59,7 @@ const UploadImageEstablishment = () => {
       <Card.Root
         variant="outline"
         rounded="xl"
+        shadow="xs"
         p="4"
         bg={{ base: 'white', _dark: 'gray.950/40' }}
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}

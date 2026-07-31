@@ -14,8 +14,7 @@ import { UserCircle2 } from 'lucide-react'
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
 import { appointmentStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
-import DialogEditAppointment from './dialog-update-appointment'
-import DialogUpdateStatusAppointment from './dialog-update-status-appointment'
+import MenuCardAppointment from './menu-card-appointment'
 
 dayjs.locale('pt-br')
 
@@ -35,6 +34,7 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
     <Card.Root
       variant="outline"
       rounded="xl"
+      shadow="xs"
       display="flex"
       flexDir="column"
       justifyContent="center"
@@ -43,67 +43,68 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       p="2"
     >
-      <Card.Body
-        p="0"
-        pb="2"
+      <Card.Header
         w="full"
         display="flex"
-        flexDir="column"
-        flex="1"
-        borderBottomWidth="1px"
-        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+        flexDir="row"
+        alignItems="center"
+        justifyContent="space-between"
+        p="0"
+        mb="2"
       >
-        <Box w="full" flex="1">
-          <Text
-            letterSpacing="wide"
-            fontWeight="medium"
-            fontSize="sm"
-            color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}
-          >
-            {appointment.service.name}
-          </Text>
+        {appointment.service.name}
 
+        <MenuCardAppointment appointment={appointment} />
+      </Card.Header>
+      <Card.Body p="0" w="full" display="flex" flexDir="column" flex="1">
+        <Box spaceY="1" w="full" flex="1">
           <Text
+            fontSize="sm"
             letterSpacing="wide"
             fontWeight="light"
-            color={{ base: 'colorPalette.500', _dark: 'colorPalette.600' }}
+            color="colorPalette.500"
           >
             {formatAppointmentDate(appointment.date)}
           </Text>
+
+          <HStack align="center" w="full">
+            <Text
+              fontSize="sm"
+              letterSpacing="wide"
+              fontWeight="light"
+              color={{ base: 'gray.600', _dark: 'gray.400' }}
+            >
+              Status:
+            </Text>
+
+            <Badge
+              colorPalette={getBadgeAppointmentColor[appointment.status]}
+              w="fit-content"
+            >
+              {appointmentStatusLabel[appointment.status]}
+            </Badge>
+          </HStack>
         </Box>
 
-        <HStack align="center" w="full" justifySelf="flex-end">
-          <Flex
-            align="center"
-            gap="2"
-            color={{ base: 'gray.400', _dark: 'gray.500' }}
-          >
-            <Icon boxSize="4">
-              <UserCircle2 />
-            </Icon>
-            <Text letterSpacing="wide" fontWeight="light">
-              {appointment.user.name}
-            </Text>
-          </Flex>
+        <Separator
+          my="2"
+          orientation="horizontal"
+          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+        />
 
-          <Separator
-            h="5"
-            orientation="vertical"
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-          />
-
-          <Badge
-            colorPalette={getBadgeAppointmentColor[appointment.status]}
-            w="fit-content"
-          >
-            {appointmentStatusLabel[appointment.status]}
-          </Badge>
-        </HStack>
+        <Flex
+          align="center"
+          gap="2"
+          color={{ base: 'gray.400', _dark: 'gray.500' }}
+        >
+          <Icon boxSize="4">
+            <UserCircle2 />
+          </Icon>
+          <Text letterSpacing="wide" fontWeight="light" fontSize="sm">
+            {appointment.user.name}
+          </Text>
+        </Flex>
       </Card.Body>
-      <Card.Footer p="0" w="full" mt="2">
-        <DialogEditAppointment appointment={appointment} />
-        <DialogUpdateStatusAppointment appointment={appointment} />
-      </Card.Footer>
     </Card.Root>
   )
 }

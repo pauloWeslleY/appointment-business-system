@@ -20,7 +20,13 @@ function EstablishmentPage() {
       <Header.Root>
         <HStack align="center">
           <Header.Button />
-          <Header.Title lineHeight={0}>Estabelecimentos</Header.Title>
+          <div>
+            <Header.Title>Estabelecimentos</Header.Title>
+            <Header.SubTitle>
+              Mantenha seus estabelecimentos sempre atualizados e bem
+              organizados.
+            </Header.SubTitle>
+          </div>
         </HStack>
       </Header.Root>
 

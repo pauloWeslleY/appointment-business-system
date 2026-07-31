@@ -1,4 +1,4 @@
-import { Box, For, Text } from '@chakra-ui/react'
+import { Badge, Box, For, HStack, Separator, Text } from '@chakra-ui/react'
 import { Navigate } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
@@ -13,6 +13,7 @@ interface EstablishmentLayoutProps {
 
 const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
   const {
+    establishment,
     establishmentId,
     loadEstablishmentInfo,
     validateUrlEstablishmentLayout,
@@ -46,21 +47,39 @@ const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
         </For>
       </Sidebar.Aside>
 
-      <Sidebar.Content overflowY="auto">
+      <Sidebar.Content>
         <Sidebar.Header>
-          <Box spaceY="1">
-            <Text as="h2" lineHeight="shorter">
-              {loadEstablishmentInfo.establishment}
+          <Box spaceY="1" mt="1">
+            <Text as="h2" lineHeight="1">
+              {establishment?.name ?? 'Carregando...'}
             </Text>
 
-            <Text
-              as="h2"
-              fontSize="xs"
-              lineHeight="1"
-              color={{ base: 'colorPalette.700', _dark: 'colorPalette.500' }}
-            >
-              {loadEstablishmentInfo.openingHours}
-            </Text>
+            <HStack align="center">
+              <Text
+                lineHeight="1"
+                fontSize="sm"
+                letterSpacing="wide"
+                fontWeight="light"
+                color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+              >
+                {loadEstablishmentInfo.openingHours}
+              </Text>
+
+              <Separator
+                h="4"
+                orientation="vertical"
+                borderColor={{ base: 'gray.200', _dark: 'gray.500' }}
+              />
+
+              <Badge
+                size="sm"
+                colorPalette={
+                  loadEstablishmentInfo.establishmentOpen ? 'green' : 'red'
+                }
+              >
+                {loadEstablishmentInfo.establishmentOpen ? 'Aberto' : 'Fechado'}
+              </Badge>
+            </HStack>
           </Box>
         </Sidebar.Header>
 
