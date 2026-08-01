@@ -3,6 +3,7 @@ import { useParams } from '@tanstack/react-router'
 import { parseAsString, useQueryState } from 'nuqs'
 
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
+import { contentCss } from '@/theme/styles/global-styles'
 
 const FilterBookingsService = () => {
   const { establishmentId } = useParams({
@@ -57,13 +58,17 @@ const FilterBookingsService = () => {
       </Select.Control>
       <Portal>
         <Select.Positioner>
-          <Select.Content
-            borderWidth="1px"
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            rounded="lg"
-          >
+          <Select.Content css={contentCss}>
             {loadSelectServiceBookings.items.map((service) => (
-              <Select.Item item={service} key={service.id} rounded="lg">
+              <Select.Item
+                item={service}
+                key={service.id}
+                rounded="xl"
+                cursor="pointer"
+                _hover={{
+                  bg: { base: 'gray.100', _dark: 'secondary.600' },
+                }}
+              >
                 {service.name}
                 <Select.ItemIndicator />
               </Select.Item>

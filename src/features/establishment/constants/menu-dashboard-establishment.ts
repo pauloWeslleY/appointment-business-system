@@ -1,8 +1,8 @@
 import {
+  BriefcaseBusiness,
   CalendarIcon,
   ChevronLeftIcon,
   HomeIcon,
-  SettingsIcon,
   StarIcon,
   UserCog,
   UsersRound,
@@ -17,7 +17,7 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
     path: '/dashboard/$establishmentId/overview',
   },
   {
-    icon: SettingsIcon,
+    icon: BriefcaseBusiness,
     label: 'Serviços',
     path: '/dashboard/$establishmentId/services',
   },

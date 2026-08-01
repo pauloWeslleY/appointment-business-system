@@ -42,7 +42,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
       flexDir="column"
       justifyContent="center"
       alignItems="center"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
+      bg={{ base: 'white', _dark: 'primary.800/50' }}
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       p="2"
     >
@@ -56,7 +56,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Text
           letterSpacing="wide"
           fontWeight="medium"
-          color={{ base: 'colorPalette.600', _dark: 'emerald.500' }}
+          color={{ base: 'colorPalette.600', _dark: 'primary.100' }}
         >
           {establishment.name}
         </Text>
@@ -64,7 +64,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Text
           letterSpacing="wide"
           fontWeight="light"
-          color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+          color={{ base: 'primary.500', _dark: 'primary.200/50' }}
           truncate
         >
           {establishment.description}
@@ -74,7 +74,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           <Text
             letterSpacing="wide"
             fontWeight="light"
-            color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+            color={{ base: 'primary.500', _dark: 'primary.200/50' }}
           >
             {loadEstablishmentDetails.openingHours}
           </Text>
@@ -98,7 +98,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Text
           letterSpacing="wide"
           fontWeight="light"
-          color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+          color={{ base: 'primary.500', _dark: 'primary.200/50' }}
         >
           {establishment.phones.map(formatPhone).join(' - ')}
         </Text>
@@ -117,6 +117,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
       </Card.Body>
       <Card.Footer p="0" w="full" mt="2">
         <Button
+          colorPalette="primary"
           variant="ghost"
           rounded="xl"
           size="sm"
@@ -133,6 +134,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           Editar
         </Button>
         <Button
+          colorPalette="primary"
           variant="ghost"
           rounded="xl"
           size="sm"

@@ -6,5 +6,6 @@ export function useStorageImage(imagePath?: string | null) {
   return useQuery({
     queryKey: ['storage', imagePath],
     queryFn: () => getStorage(imagePath ?? ''),
+    enabled: !!imagePath,
   })
 }

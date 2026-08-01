@@ -1,10 +1,12 @@
-import { Box } from '@chakra-ui/react'
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import dayjs from 'dayjs'
+import { Box, Card, Flex, Icon } from '@chakra-ui/react'
+import { createFileRoute } from '@tanstack/react-router'
+import { CalendarIcon } from 'lucide-react'
 import z from 'zod'
 
 import Header from '@/components/layout/header'
 import ListAppointmentEstablishment from '@/features/appointments/pages/list-appointment-establishment'
+import { validationBookingRouteHome } from '@/features/appointments/validations/validation-booking.routes'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/dashboard/$establishmentId/appointments/',
@@ -16,40 +18,35 @@ export const Route = createFileRoute(
     service_id: z.string().optional(),
     q: z.string().optional(),
   }),
-  beforeLoad: ({ search, params }) => {
-    if (!search.from || !search.to) {
-      const dateCurrent = dayjs()
-
-      throw redirect({
-        to: '/dashboard/$establishmentId/appointments',
-        params: {
-          establishmentId: params.establishmentId,
-        },
-        search: {
-          from: dateCurrent.format('YYYY-MM-DD'),
-          to: dateCurrent.add(1, 'month').format('YYYY-MM-DD'),
-        },
-      })
-    }
-  },
-  component: AppointmentPage,
+  beforeLoad: ({ search, params }) =>
+    validationBookingRouteHome(search, params.establishmentId),
+  component: BookingPage,
 })
 
-function AppointmentPage() {
+function BookingPage() {
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
       <Header.Root>
-        <Header.Button />
+        <Flex
+          align="center"
+          justify="center"
+          boxSize="8"
+          rounded="full"
+          bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
+        >
+          <Icon
+            as={CalendarIcon}
+            boxSize="5"
+            color={{ base: 'primary.400', _dark: 'primary.200' }}
+          />
+        </Flex>
 
-        <div>
-          <Header.Title>Agendamentos</Header.Title>
-          <Header.SubTitle>
-            Acompanhe os horários marcados pelos clientes
-          </Header.SubTitle>
-        </div>
+        <Header.Title>Agendamentos</Header.Title>
       </Header.Root>
 
-      <ListAppointmentEstablishment />
+      <Card.Root variant="outline" css={cardSectionCss}>
+        <ListAppointmentEstablishment />
+      </Card.Root>
     </Box>
   )
 }

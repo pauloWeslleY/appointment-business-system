@@ -29,8 +29,8 @@ const CardUserInfo = () => {
         bg={{ base: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
         color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
       >
+        {storageData && <Avatar.Image src={storageData} />}
         <Avatar.Fallback />
-        <Avatar.Image src={storageData ?? ''} />
       </Avatar.Root>
 
       {!collapsed && (

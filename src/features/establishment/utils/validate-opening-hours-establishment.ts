@@ -16,7 +16,7 @@ export const validateOpeningHoursEstablishment = (
 
   const dateCurrency = dayjs()
   const today = dateCurrency.toDate()
-  const dayOfWeek = today.toLocaleDateString('pt-BR', { weekday: 'short' })
+  const dayOfWeek = today.toLocaleDateString('pt-BR', { weekday: 'long' })
 
   const filteredOpeningHours = establishment.openingHours.filter(
     (item) => item.day === today.getDay(),
@@ -34,7 +34,9 @@ export const validateOpeningHoursEstablishment = (
   const timeNow = dateCurrency.format('HH:mm')
   const establishmentOpen =
     timeNow >= intervals[0].open && timeNow <= intervals[0].close
-  const openingHours = `Horário de funcionamento: ${dayOfWeek.toUpperCase()} ${hoursOpening.join(', ')}`
+  const dayOfWeekFormatted =
+    dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)
+  const openingHours = `${dayOfWeekFormatted} das ${hoursOpening.join(', ')}`
 
   return {
     establishmentOpen,

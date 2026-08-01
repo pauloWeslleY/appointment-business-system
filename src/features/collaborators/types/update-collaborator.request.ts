@@ -7,4 +7,5 @@ export interface UpdateCollaboratorRequest {
   specialty: string
   imageUrl: string | null
   workSchedule: string
+  establishmentId: string
 }

@@ -1,9 +1,9 @@
-import type { AppointmentStatusType } from './appointment-status.type'
+import type { BookingStatusType } from './appointment-status.type'
 
 export interface GetAppointmentByEstablishmentModel {
   id: string
   date: string
-  status: AppointmentStatusType
+  status: BookingStatusType
   notes: string | null
   user: {
     id: string

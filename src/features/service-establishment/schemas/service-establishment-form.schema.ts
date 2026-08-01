@@ -8,6 +8,7 @@ import {
 export const ServiceEstablishmentFormSchema = z.object({
   name: z.string().trim().min(1, 'O nome é obrigatório'),
   description: z.string().trim().min(1, 'A descrição é obrigatória'),
+  servicePriceInCents: z.number().min(1, 'O preço é obrigatório'),
   image: z
     .instanceof(FileList)
     .nullable()
@@ -24,5 +25,4 @@ export const ServiceEstablishmentFormSchema = z.object({
         ),
       'Utilize uma imagem JPG, PNG ou WebP',
     ),
-  servicePriceInCents: z.number().min(1, 'O preço é obrigatório'),
 })

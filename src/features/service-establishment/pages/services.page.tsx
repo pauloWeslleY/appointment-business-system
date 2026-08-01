@@ -2,33 +2,29 @@ import {
   Alert,
   Box,
   ButtonGroup,
+  For,
   HStack,
-  Icon,
   IconButton,
-  Image,
   Pagination,
   type PaginationPageChangeDetails,
   Skeleton,
   Spinner,
   Stack,
-  Table,
   Text,
   VStack,
 } from '@chakra-ui/react'
 import { useParams } from '@tanstack/react-router'
 import { useSearch } from '@tanstack/react-router'
-import { FileImage } from 'lucide-react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
-import MenuActionServicesTable from '../components/menu-action-services-table'
+import CardServiceEsblishment from '../components/card-service-establishment'
 
-const ServicesTablePage = () => {
+const ServicesListPage = () => {
   const [isPendingPagination, startTransition] = useTransition()
   const { establishmentId } = useParams({
     from: '/dashboard/$establishmentId/services/',
@@ -118,7 +114,7 @@ const ServicesTablePage = () => {
   }
 
   return (
-    <Stack gap="4" w="full">
+    <Box spaceY="4" w="full">
       {isPendingPagination && (
         <VStack colorPalette={colorDefaultTheme}>
           <Spinner color="colorPalette.600" />
@@ -127,66 +123,13 @@ const ServicesTablePage = () => {
       )}
 
       {!isPendingPagination && (
-        <Table.Root size="sm" rounded="xl" overflow="hidden">
-          <Table.Header>
-            <Table.Row
-              bg={{ base: 'colorPalette.200', _dark: 'colorPalette.900/40' }}
-            >
-              <Table.ColumnHeader py="3">Imagem</Table.ColumnHeader>
-              <Table.ColumnHeader py="3">Nome</Table.ColumnHeader>
-              <Table.ColumnHeader py="3">Descrição</Table.ColumnHeader>
-              <Table.ColumnHeader py="3">Preço</Table.ColumnHeader>
-              <Table.ColumnHeader py="3" textAlign="end">
-                Ações
-              </Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {visibleServices.map((item) => (
-              <Table.Row
-                key={item.id}
-                transition="colors"
-                bg={{ base: 'white', _dark: 'gray.950/40' }}
-                _hover={{
-                  bg: { base: 'gray.100', _dark: 'colorPalette.900/30' },
-                }}
-              >
-                <Table.Cell>
-                  {item.imageUrl && (
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.name}
-                      boxSize="50px"
-                      objectFit="cover"
-                      rounded="lg"
-                    />
-                  )}
-
-                  {!item.imageUrl && (
-                    <Box
-                      p="2"
-                      bg={{ base: 'gray.200', _dark: 'gray.800' }}
-                      rounded="full"
-                      w="fit-content"
-                    >
-                      <Icon boxSize="6">
-                        <FileImage />
-                      </Icon>
-                    </Box>
-                  )}
-                </Table.Cell>
-                <Table.Cell>{item.name}</Table.Cell>
-                <Table.Cell>{item.description}</Table.Cell>
-                <Table.Cell>
-                  {formatCurrencyInCents(item.servicePriceInCents)}
-                </Table.Cell>
-                <Table.Cell textAlign="end">
-                  <MenuActionServicesTable service={item} />
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
+        <VStack align="stretch" gap="2" w="full">
+          <For each={visibleServices}>
+            {(service) => (
+              <CardServiceEsblishment key={service.id} service={service} />
+            )}
+          </For>
+        </VStack>
       )}
 
       {servicesEsblishment.length > pagination.page_size && (
@@ -231,8 +174,8 @@ const ServicesTablePage = () => {
           </Box>
         </HStack>
       )}
-    </Stack>
+    </Box>
   )
 }
 
-export default ServicesTablePage
+export default ServicesListPage

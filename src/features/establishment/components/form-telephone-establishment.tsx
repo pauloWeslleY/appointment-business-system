@@ -18,6 +18,7 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { Tooltip } from '@/components/ui/tooltip'
 import { FormatMask } from '@/shared/utils/formatted-mask'
+import { validNumberPhone } from '@/shared/utils/validate-field-cellphone-colaborators'
 
 import type { EstablishmentFormData } from '../types/establishment-form-data.type'
 
@@ -40,13 +41,6 @@ const FormTelephoneEstablishment = ({
 
   const addNewTelephone = () => appendTelephone({ phone: '' })
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
-
-  const validNumberPhone = (telephone: string) => {
-    const numbers = telephone.replace(/\D/g, '')
-
-    if (!numbers) return FormatMask.TELEPHONE
-    return numbers.length > 10 ? FormatMask.CELLPHONE : FormatMask.TELEPHONE
-  }
 
   return (
     <Flex

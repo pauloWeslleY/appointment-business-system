@@ -1,16 +1,10 @@
-import { createListCollection, Portal, Select } from '@chakra-ui/react'
+import { Portal, Select } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsString, useQueryState } from 'nuqs'
 
-import { AppointmentStatus } from '../types/appointment-status.type'
+import { contentCss } from '@/theme/styles/global-styles'
 
-const loadSelectStatusBookings = createListCollection({
-  items: [
-    { label: 'Confirmado', value: AppointmentStatus.CONFIRMED },
-    { label: 'Cancelado', value: AppointmentStatus.CANCELLED },
-    { label: 'Concluído', value: AppointmentStatus.COMPLETED },
-  ],
-})
+import { loadCollectionStatusBooking } from '../utils/select-booking'
 
 const FilterBookingsStatus = () => {
   const search = useSearch({
@@ -30,7 +24,7 @@ const FilterBookingsStatus = () => {
     <Select.Root
       variant="subtle"
       size="sm"
-      collection={loadSelectStatusBookings}
+      collection={loadCollectionStatusBooking}
       w="250px"
       value={[status]}
       onValueChange={(e) => onChangeStatus(e.value)}
@@ -50,14 +44,18 @@ const FilterBookingsStatus = () => {
       </Select.Control>
       <Portal>
         <Select.Positioner>
-          <Select.Content
-            borderWidth="1px"
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            rounded="lg"
-          >
-            {loadSelectStatusBookings.items.map((framework) => (
-              <Select.Item item={framework} key={framework.value} rounded="lg">
-                {framework.label}
+          <Select.Content css={contentCss}>
+            {loadCollectionStatusBooking.items.map((bookingStatus) => (
+              <Select.Item
+                key={bookingStatus.value}
+                item={bookingStatus}
+                rounded="xl"
+                cursor="pointer"
+                _hover={{
+                  bg: { base: 'gray.100', _dark: 'secondary.600' },
+                }}
+              >
+                <Select.ItemText>{bookingStatus.label}</Select.ItemText>
                 <Select.ItemIndicator />
               </Select.Item>
             ))}

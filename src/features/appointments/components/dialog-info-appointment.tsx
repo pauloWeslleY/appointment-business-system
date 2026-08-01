@@ -11,10 +11,10 @@ import {
 import dayjs from 'dayjs'
 import React from 'react'
 
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { contentCss } from '@/theme/styles/global-styles'
 
-import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
-import { appointmentStatusLabel } from '../types/appointment-status.type'
+import { getBadgeBookingColor } from '../constants/get-badge-appointment-color'
+import { bookingStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 
 interface DialogInfoAppointmentProps {
@@ -48,13 +48,7 @@ const DialogInfoAppointment = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            colorPalette={colorDefaultTheme}
-            borderWidth="1px"
-            bg={{ base: 'white', _dark: 'secondary.700' }}
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            rounded="lg"
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Informações do agendamento</Dialog.Title>
             </Dialog.Header>
@@ -95,11 +89,11 @@ const DialogInfoAppointment = ({
                           <DataList.ItemValue>
                             <Badge
                               colorPalette={
-                                getBadgeAppointmentColor[appointment.status]
+                                getBadgeBookingColor[appointment.status]
                               }
                               w="fit-content"
                             >
-                              {appointmentStatusLabel[appointment.status]}
+                              {bookingStatusLabel[appointment.status]}
                             </Badge>
                           </DataList.ItemValue>
                         </DataList.Item>

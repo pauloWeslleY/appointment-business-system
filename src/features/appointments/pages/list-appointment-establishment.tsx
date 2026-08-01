@@ -1,4 +1,11 @@
-import { Alert, HStack, SimpleGrid, Skeleton, Stack } from '@chakra-ui/react'
+import {
+  Alert,
+  Box,
+  HStack,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+} from '@chakra-ui/react'
 import { useParams, useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
@@ -64,7 +71,7 @@ const ListAppointmentEstablishment = () => {
   }
 
   return (
-    <>
+    <Box spaceY="2" w="full">
       {/* Filter Bookings */}
       <HStack>
         <SearchPage />
@@ -85,7 +92,7 @@ const ListAppointmentEstablishment = () => {
       {!isLoadingBookingByEstablishment && (
         <Stack gap="2" w="full" p="2">
           {validateBookingByEstablishment && (
-            <SimpleGrid columns={{ base: 1, md: 5 }} gap="2" w="full">
+            <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">
               {filteredBookingByEstablishment.map((booking) => (
                 <CardAppointment key={booking.id} appointment={booking} />
               ))}
@@ -102,7 +109,7 @@ const ListAppointmentEstablishment = () => {
           )}
         </Stack>
       )}
-    </>
+    </Box>
   )
 }
 

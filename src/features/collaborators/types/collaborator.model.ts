@@ -1,3 +1,5 @@
+import type { StatusCollaboratorType } from './status-collaborator.type'
+
 export interface CollaboratorModel {
   id: string
   name: string
@@ -10,7 +12,7 @@ export interface CollaboratorModel {
   cellphone: string
   document: string | null
   specialty: string
-  status: string
+  status: StatusCollaboratorType
   workSchedule: string
   invitationToken: string | null
   invitationExpiresAt: string | null

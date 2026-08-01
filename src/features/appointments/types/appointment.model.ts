@@ -1,11 +1,11 @@
-import type { AppointmentStatusType } from './appointment-status.type'
+import type { BookingStatusType } from './appointment-status.type'
 
 export interface AppointmentModel {
   id: string
   date: string
   createdAt: string
   updatedAt: string
-  status: AppointmentStatusType
+  status: BookingStatusType
   userId: string
   serviceId: string
 }

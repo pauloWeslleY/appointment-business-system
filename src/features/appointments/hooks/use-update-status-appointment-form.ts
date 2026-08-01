@@ -1,10 +1,9 @@
-import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from '@tanstack/react-router'
 import { useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
-import { type DefaultValues, useForm } from 'react-hook-form'
+import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 
@@ -12,28 +11,8 @@ import { appointmentMutationOptions } from '../queries/appointment-mutation-key'
 import { appointmentQueryKeys } from '../queries/appointment-query-key'
 import { UpdateStatusAppointmentSchema } from '../schemas/update-status-appointment.schema'
 import type { UpdateStatusAppointmentFormType } from '../types/appointment-form.type'
-import {
-  AppointmentStatus,
-  appointmentStatusLabel,
-} from '../types/appointment-status.type'
+import type { BookingStatusType } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
-
-const loadSelectStatusBookings = createListCollection({
-  items: [
-    {
-      label: appointmentStatusLabel[AppointmentStatus.CONFIRMED],
-      value: AppointmentStatus.CONFIRMED,
-    },
-    {
-      label: appointmentStatusLabel[AppointmentStatus.CANCELLED],
-      value: AppointmentStatus.CANCELLED,
-    },
-    {
-      label: appointmentStatusLabel[AppointmentStatus.COMPLETED],
-      value: AppointmentStatus.COMPLETED,
-    },
-  ],
-})
 
 export function useUpdateStatusAppointmentForm(
   appointment: GetAppointmentByEstablishmentModel,
@@ -52,14 +31,14 @@ export function useUpdateStatusAppointmentForm(
     DefaultValues<UpdateStatusAppointmentFormType>
   >(() => ({ status: [appointment.status] }), [appointment])
 
-  const {
-    control,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UpdateStatusAppointmentFormType>({
+  const formStatusBooking = useForm<UpdateStatusAppointmentFormType>({
     resolver: zodResolver(UpdateStatusAppointmentSchema),
     defaultValues: formDefaultValues,
+  })
+
+  const statusBookingValue = useWatch({
+    control: formStatusBooking.control,
+    name: 'status',
   })
 
   const {
@@ -85,7 +64,7 @@ export function useUpdateStatusAppointmentForm(
         },
       )
 
-      reset({ status: [appointment.status] })
+      formStatusBooking.reset({ status: [appointment.status] })
       toaster.success({
         title: 'Status do agendamento atualizado com sucesso!',
       })
@@ -100,21 +79,26 @@ export function useUpdateStatusAppointmentForm(
     },
   })
 
-  const onSubmitUpdateStatusAppointment = (
-    data: UpdateStatusAppointmentFormType,
-  ) => {
-    updateStatusAppointment({
-      id: appointment.id,
-      status: data.status[0],
+  const onChangeSelectStatusBooking = (status: BookingStatusType) => {
+    formStatusBooking.setValue('status', [status], {
+      shouldValidate: true,
+      shouldDirty: true,
     })
   }
 
+  const onSubmitUpdateStatusAppointment = formStatusBooking.handleSubmit(
+    (data) => {
+      updateStatusAppointment({
+        id: appointment.id,
+        status: data.status[0],
+      })
+    },
+  )
+
   return {
-    errors,
-    control,
-    handleSubmit,
+    statusBookingValue,
+    onChangeSelectStatusBooking,
     onSubmitUpdateStatusAppointment,
-    loadSelectStatusBookings,
     isPendingUpdateStatusAppointment,
   }
 }

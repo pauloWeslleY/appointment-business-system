@@ -1,8 +1,20 @@
-import { Card, DataList, For, Stack, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Card,
+  DataList,
+  Flex,
+  For,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { useParams } from '@tanstack/react-router'
+import { Info } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
 import { useGetServiceEstablishmentDetails } from '../hooks/use-get-service-establishment-details'
@@ -24,23 +36,37 @@ const ServiceEstablishmentDetails = () => {
   )
 
   return (
-    <>
+    <Box spaceY="4" w="full">
       <Header.Root>
         <Header.Button />
 
-        <div>
-          <Header.Title>
+        <HStack gap="2" align="center">
+          <Flex
+            align="center"
+            justify="center"
+            boxSize="8"
+            rounded="full"
+            bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
+          >
+            <Icon
+              as={Info}
+              boxSize="4"
+              color={{ base: 'primary.400', _dark: 'primary.200' }}
+            />
+          </Flex>
+
+          <Header.Title fontWeight="semibold" letterSpacing="wider">
             Serviço {' - '}
             <Text
               as="span"
-              color={{ base: 'colorPalette.700', _dark: 'colorPalette.200' }}
-              fontWeight="medium"
+              color={{ base: 'primary.700', _dark: 'primary.200' }}
+              fontWeight="light"
+              letterSpacing="tight"
             >
               {serviceEstablishment?.name}
             </Text>
           </Header.Title>
-          <Header.SubTitle>Informações detalhadas do serviço</Header.SubTitle>
-        </div>
+        </HStack>
       </Header.Root>
 
       <Stack gap={{ base: '2', lg: '4' }} w="full">
@@ -48,14 +74,7 @@ const ServiceEstablishmentDetails = () => {
           serviceEstablishment={serviceEstablishment}
         />
 
-        <Card.Root
-          variant="outline"
-          rounded="xl"
-          p="4"
-          shadow="xs"
-          bg={{ base: 'white', _dark: 'gray.950/40' }}
-          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-        >
+        <Card.Root variant="outline" css={cardSectionCss}>
           <Text fontSize="md" fontWeight="medium">
             Agendamentos do serviço
           </Text>
@@ -83,7 +102,7 @@ const ServiceEstablishmentDetails = () => {
           </DataList.Root>
         </Card.Root>
       </Stack>
-    </>
+    </Box>
   )
 }
 

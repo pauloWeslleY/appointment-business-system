@@ -5,10 +5,7 @@ import useGetEstablishmentById from '../hooks/use-get-establishment-by-id'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 export function useEstablishmentLayout() {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId',
-  })
-
+  const { establishmentId } = useParams({ from: '/dashboard/$establishmentId' })
   const { pathname } = useLocation()
   const { data: establishment } = useGetEstablishmentById(establishmentId)
   const navigate = useNavigate()
@@ -16,10 +13,10 @@ export function useEstablishmentLayout() {
   const validateUrlEstablishmentLayout =
     pathname === `/dashboard/${establishmentId}`
 
-  const loadEstablishmentInfo = useMemo(
-    () => validateOpeningHoursEstablishment(establishment),
-    [establishment],
-  )
+  const loadEstablishmentInfo = useMemo<{
+    establishmentOpen: boolean
+    openingHours: string
+  }>(() => validateOpeningHoursEstablishment(establishment), [establishment])
 
   const handleNavigation = (path?: string) => {
     if (path?.includes('$establishmentId') && establishmentId) {

@@ -1,5 +1,6 @@
 import {
   Alert,
+  Badge,
   Button,
   CloseButton,
   DatePicker,
@@ -8,6 +9,7 @@ import {
   parseDate,
   Portal,
   Select,
+  Separator,
   Text,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
@@ -16,10 +18,13 @@ import { LuCalendar } from 'react-icons/lu'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { contentCss } from '@/theme/styles/global-styles'
 
+import { getBadgeBookingColor } from '../constants/get-badge-appointment-color'
 import { useUpdateAppointmentForm } from '../hooks/use-form-update-appointment'
+import { bookingStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
+import FormUpdateStatusBooking from './form-update-status-booking'
 
 interface DialogEditAppointmentProps {
   appointment: GetAppointmentByEstablishmentModel
@@ -47,21 +52,30 @@ const DialogEditAppointment = ({
       placement="center"
       open={open}
       onOpenChange={(e) => onOpen(e.open)}
+      size="lg"
     >
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            colorPalette={colorDefaultTheme}
-            borderWidth="1px"
-            bg={{ base: 'white', _dark: 'secondary.700' }}
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            rounded="lg"
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Editar Agendamento</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body spaceY="2">
+              <HStack alignItems="center">
+                <Text
+                  fontSize="sm"
+                  color={{ base: 'gray.600', _dark: 'gray.400' }}
+                >
+                  Status:
+                </Text>
+                <Badge
+                  colorPalette={getBadgeBookingColor[appointment.status]}
+                  w="fit"
+                >
+                  {bookingStatusLabel[appointment.status]}
+                </Badge>
+              </HStack>
               <Text
                 fontSize="sm"
                 color={{ base: 'gray.600', _dark: 'gray.400' }}
@@ -69,6 +83,7 @@ const DialogEditAppointment = ({
                 Serviço agendado:{' '}
                 {dayjs(appointment.date).format('DD/MM/YYYY [às] HH:mm')}
               </Text>
+
               <HStack>
                 <Controller
                   control={form.control}
@@ -142,6 +157,7 @@ const DialogEditAppointment = ({
                       w="full"
                       size="sm"
                       variant="subtle"
+                      disabled={loadSelectTimeAppointment.items.length === 0}
                       collection={loadSelectTimeAppointment}
                       value={field.value}
                       onValueChange={(e) => field.onChange(e.value)}
@@ -203,6 +219,12 @@ const DialogEditAppointment = ({
                   <Alert.Title>{loadErrorAvailableHours}</Alert.Title>
                 </Alert.Root>
               )}
+
+              <Separator
+                borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+              />
+
+              <FormUpdateStatusBooking booking={appointment} />
             </Dialog.Body>
             <Dialog.Footer gap="2">
               <Dialog.ActionTrigger asChild>
@@ -220,7 +242,7 @@ const DialogEditAppointment = ({
                 size="sm"
                 variant="subtle"
                 rounded="xl"
-                colorPalette={colorDefaultTheme}
+                colorPalette="primary"
                 loading={isPendingAppointment}
                 loadingText="Salvando..."
                 onClick={onSubmitUpdateAppointment}

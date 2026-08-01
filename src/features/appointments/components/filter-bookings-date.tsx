@@ -5,6 +5,8 @@ import { Calendar } from 'lucide-react'
 import { parseAsString, useQueryStates } from 'nuqs'
 import { useEffect, useMemo, useState } from 'react'
 
+import { contentCss } from '@/theme/styles/global-styles'
+
 const FilterBookingsDate = () => {
   const search = useSearch({
     from: '/dashboard/$establishmentId/appointments/',
@@ -98,9 +100,17 @@ const FilterBookingsDate = () => {
       <Popover.Positioner>
         <Popover.Content
           w="auto"
-          borderWidth="1px"
-          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-          rounded="lg"
+          css={{
+            ...contentCss,
+            '& [data-part="arrow-tip"]': {
+              background: 'white !important',
+              borderColor: 'gray.200',
+              _dark: {
+                background: 'secondary.700 !important',
+                borderColor: 'secondary.500/20',
+              },
+            },
+          }}
         >
           <Popover.Arrow />
 

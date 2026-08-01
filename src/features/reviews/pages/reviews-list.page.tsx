@@ -1,31 +1,27 @@
 import {
   Alert,
   Box,
-  Icon,
-  Image,
+  For,
   type PaginationPageChangeDetails,
-  RatingGroup,
+  SimpleGrid,
   Skeleton,
   Spinner,
   Stack,
-  Table,
   Text,
   VStack,
 } from '@chakra-ui/react'
 import { useParams, useSearch } from '@tanstack/react-router'
-import { FileImage } from 'lucide-react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
+import CardReview from '../components/card-review'
 import PaginationTableReviews from '../components/pagination-table-reviews'
-import ReviewsTableHeader from '../components/reviews-table-header'
 import { useGetAllReviewsByEstablishment } from '../hooks/use-get-all-reviews-by-establishment'
 import type { ReviewEstablishmentModel } from '../types/reviews-establishment.model'
 
-const ReviewsTablePage = () => {
+const ReviewsListPage = () => {
   const [isPendingPagination, startTransition] = useTransition()
   const { establishmentId } = useParams({
     from: '/dashboard/$establishmentId/reviews/',
@@ -125,9 +121,7 @@ const ReviewsTablePage = () => {
       )}
 
       {!isPendingPagination && (
-        <Table.Root size="sm" rounded="xl" overflow="hidden">
-          <ReviewsTableHeader />
-
+        <Box>
           {visibleReviews.length === 0 && (
             <Alert.Root status="info" rounded="xl" my="4">
               <Alert.Indicator />
@@ -136,61 +130,13 @@ const ReviewsTablePage = () => {
           )}
 
           {visibleReviews.length > 0 && (
-            <Table.Body>
-              {visibleReviews.map((item) => (
-                <Table.Row
-                  key={item.id}
-                  transition="colors"
-                  bg={{ base: 'white', _dark: 'gray.950/40' }}
-                  _hover={{
-                    bg: { base: 'gray.100', _dark: 'colorPalette.900/30' },
-                  }}
-                >
-                  <Table.Cell>
-                    {item.user.image && (
-                      <Image
-                        src={item.user.image}
-                        alt={item.user.name}
-                        boxSize="50px"
-                        objectFit="cover"
-                        rounded="lg"
-                      />
-                    )}
-
-                    {!item.user.image && (
-                      <Box
-                        p="2"
-                        bg={{ base: 'gray.200', _dark: 'gray.800' }}
-                        rounded="full"
-                        w="fit"
-                      >
-                        <Icon boxSize="6">
-                          <FileImage />
-                        </Icon>
-                      </Box>
-                    )}
-                  </Table.Cell>
-                  <Table.Cell>{item.user.name}</Table.Cell>
-                  <Table.Cell>{item.comment}</Table.Cell>
-                  <Table.Cell>
-                    <RatingGroup.Root
-                      readOnly
-                      count={5}
-                      defaultValue={Number.parseInt(String(item.rating), 10)}
-                      size="sm"
-                    >
-                      <RatingGroup.HiddenInput />
-                      <RatingGroup.Control />
-                    </RatingGroup.Root>
-                  </Table.Cell>
-                  <Table.Cell>
-                    {formattedDateAndHours(item.createdAt)}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap="4">
+              <For each={visibleReviews}>
+                {(review) => <CardReview key={review.id} review={review} />}
+              </For>
+            </SimpleGrid>
           )}
-        </Table.Root>
+        </Box>
       )}
 
       {reviews.length > pagination.page_size && (
@@ -204,4 +150,4 @@ const ReviewsTablePage = () => {
   )
 }
 
-export default ReviewsTablePage
+export default ReviewsListPage

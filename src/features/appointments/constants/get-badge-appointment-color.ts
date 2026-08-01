@@ -1,15 +1,15 @@
 import { type BoxProps } from '@chakra-ui/react'
 
 import {
-  AppointmentStatus,
-  type AppointmentStatusType,
+  BookingStatus,
+  type BookingStatusType,
 } from '../types/appointment-status.type'
 
-export const getBadgeAppointmentColor: Record<
-  AppointmentStatusType,
+export const getBadgeBookingColor: Record<
+  BookingStatusType,
   BoxProps['colorPalette']
 > = {
-  [AppointmentStatus.CONFIRMED]: 'blue',
-  [AppointmentStatus.CANCELLED]: 'red',
-  [AppointmentStatus.COMPLETED]: 'green',
+  [BookingStatus.CONFIRMED]: 'blue',
+  [BookingStatus.CANCELLED]: 'red',
+  [BookingStatus.CONCLUDED]: 'green',
 } as const

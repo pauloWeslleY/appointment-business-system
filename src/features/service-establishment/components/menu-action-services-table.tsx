@@ -2,6 +2,9 @@ import { Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
 import { useNavigate } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
 
+import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { contentCss } from '@/theme/styles/global-styles'
+
 import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
 
 interface MenuActionServicesTableProps {
@@ -11,6 +14,16 @@ interface MenuActionServicesTableProps {
 const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
   const navigate = useNavigate()
 
+  const handleNavigateToService = (page: 'edit' | 'info') => {
+    navigate({
+      to: `/dashboard/$establishmentId/services/$serviceEstablishmentId/${page}`,
+      params: {
+        establishmentId: service.establishmentId,
+        serviceEstablishmentId: service.id,
+      },
+    })
+  }
+
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
@@ -19,7 +32,7 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
           variant="ghost"
           aria-label="Menu serviço"
           rounded="full"
-          colorPalette="gray"
+          colorPalette={colorDefaultTheme}
         >
           <Icon
             as={EllipsisVertical}
@@ -30,49 +43,31 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content
-            borderWidth="1px"
-            borderColor={{ base: 'gray.200', _dark: 'gray.800' }}
-            bg={{ base: 'white', _dark: 'gray.900' }}
-            rounded="md"
-          >
+          <Menu.Content css={contentCss}>
             <Menu.Item
-              value="rename"
-              rounded="md"
+              value="edit"
+              rounded="xl"
               cursor="pointer"
-              onClick={() =>
-                navigate({
-                  to: '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit',
-                  params: {
-                    establishmentId: service.establishmentId,
-                    serviceEstablishmentId: service.id,
-                  },
-                })
-              }
+              _hover={{ bg: { base: 'gray.100', _dark: 'secondary.600' } }}
+              onClick={() => handleNavigateToService('edit')}
             >
               Editar
             </Menu.Item>
             <Menu.Item
-              value="export"
-              rounded="md"
+              value="info"
+              rounded="xl"
               cursor="pointer"
-              onClick={() =>
-                navigate({
-                  to: '/dashboard/$establishmentId/services/$serviceEstablishmentId/info',
-                  params: {
-                    establishmentId: service.establishmentId,
-                    serviceEstablishmentId: service.id,
-                  },
-                })
-              }
+              _hover={{ bg: { base: 'gray.100', _dark: 'secondary.600' } }}
+              onClick={() => handleNavigateToService('info')}
             >
               Visualizar
             </Menu.Item>
+            <Menu.Separator />
             <Menu.Item
               value="delete"
               color="fg.error"
               _hover={{ bg: 'bg.error', color: 'fg.error' }}
-              rounded="md"
+              rounded="xl"
               cursor="pointer"
             >
               Excluir

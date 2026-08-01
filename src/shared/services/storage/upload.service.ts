@@ -9,6 +9,7 @@ export const UploadFolder = {
   ESTABLISHMENT: 'establishment',
   USERS: 'users',
   OWNERS: 'owners',
+  COLLABORATORS: 'collaborators',
 } as const
 
 export interface UploadFileResponse {

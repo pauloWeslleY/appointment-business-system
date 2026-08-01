@@ -11,8 +11,10 @@ import {
 import dayjs from 'dayjs'
 import { UserCircle2 } from 'lucide-react'
 
-import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
-import { appointmentStatusLabel } from '../types/appointment-status.type'
+import { cardCss } from '@/theme/styles/global-styles'
+
+import { getBadgeBookingColor } from '../constants/get-badge-appointment-color'
+import { bookingStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import MenuCardAppointment from './menu-card-appointment'
 
@@ -33,15 +35,11 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
   return (
     <Card.Root
       variant="outline"
-      rounded="xl"
-      shadow="xs"
       display="flex"
       flexDir="column"
       justifyContent="center"
       alignItems="center"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-      p="2"
+      css={cardCss}
     >
       <Card.Header
         w="full"
@@ -51,8 +49,16 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
         justifyContent="space-between"
         p="0"
         mb="2"
+        css={{
+          '& h3': {
+            color: 'primary.500',
+            _dark: { color: 'primary.200' },
+            letterSpacing: 'wider',
+            fontWeight: 'medium',
+          },
+        }}
       >
-        {appointment.service.name}
+        <h3>{appointment.service.name}</h3>
 
         <MenuCardAppointment appointment={appointment} />
       </Card.Header>
@@ -61,8 +67,7 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
           <Text
             fontSize="sm"
             letterSpacing="wide"
-            fontWeight="light"
-            color="colorPalette.500"
+            color={{ base: 'gray.600', _dark: 'gray.400' }}
           >
             {formatAppointmentDate(appointment.date)}
           </Text>
@@ -71,17 +76,16 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
             <Text
               fontSize="sm"
               letterSpacing="wide"
-              fontWeight="light"
               color={{ base: 'gray.600', _dark: 'gray.400' }}
             >
               Status:
             </Text>
 
             <Badge
-              colorPalette={getBadgeAppointmentColor[appointment.status]}
+              colorPalette={getBadgeBookingColor[appointment.status]}
               w="fit-content"
             >
-              {appointmentStatusLabel[appointment.status]}
+              {bookingStatusLabel[appointment.status]}
             </Badge>
           </HStack>
         </Box>

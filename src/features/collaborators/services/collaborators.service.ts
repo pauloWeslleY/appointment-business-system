@@ -2,6 +2,7 @@ import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/http'
 
 import type { CollaboratorModel } from '../types/collaborator.model'
+import type { CollaboratorEstablishmentModel } from '../types/collaborator-establishment.type'
 import type { CreateCollaboratorRequest } from '../types/create-collaborator.request'
 import type { UpdateCollaboratorRequest } from '../types/update-collaborator.request'
 
@@ -44,11 +45,15 @@ export const inviteCollaboratorService = async (data: { token: string }) => {
   return validate.errors(response)
 }
 
-export const deleteCollaboratorService = async (collaboratorId?: string) => {
+export const deleteCollaboratorService = async (searhParams: {
+  collaboratorId: string
+  establishmentId: string
+}) => {
   const { api, validate } = httpDependencies<CollaboratorModel>()
   const response = await api.request({
     method: HttpMethod.DELETE,
-    url: `/collaborator/${collaboratorId}`,
+    url: '/collaborator/inactive',
+    params: searhParams,
   })
 
   return validate.errors(response)
@@ -77,7 +82,7 @@ export const getCollaboratorsInactiveService = async () => {
 export const getCollaboratorByEstablishmentService = async (
   collaboratorId?: string,
 ) => {
-  const { api, validate } = httpDependencies<CollaboratorModel[]>()
+  const { api, validate } = httpDependencies<CollaboratorEstablishmentModel[]>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: `/collaborator/establishment/${collaboratorId}`,

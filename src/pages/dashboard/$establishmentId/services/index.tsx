@@ -1,11 +1,12 @@
-import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
+import { Box, Button, Card, Flex, HStack, Icon } from '@chakra-ui/react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { Plus } from 'lucide-react'
+import { BriefcaseBusiness, Plus } from 'lucide-react'
 import z from 'zod'
 
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
-import ServicesTablePage from '@/features/service-establishment/pages/services-table.page'
+import ServicesListPage from '@/features/service-establishment/pages/services.page'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/dashboard/$establishmentId/services/')({
   validateSearch: z.object({
@@ -32,20 +33,31 @@ function ServicesPage() {
   const navigate = Route.useNavigate()
 
   return (
-    <Box spaceY={{ base: '4', lg: '6' }}>
+    <Box spaceY={{ base: '4', lg: '6' }} pb="4">
       <Header.Root justify="space-between">
-        <HStack align="center">
-          <Header.Button />
+        <HStack gap="2" align="center">
+          <Flex
+            align="center"
+            justify="center"
+            boxSize="8"
+            rounded="full"
+            bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
+          >
+            <Icon
+              as={BriefcaseBusiness}
+              boxSize="5"
+              color={{ base: 'primary.400', _dark: 'primary.200' }}
+            />
+          </Flex>
 
-          <div>
-            <Header.Title>Serviços</Header.Title>
-            <Header.SubTitle>Gerencie seus serviços</Header.SubTitle>
-          </div>
+          <Header.Title>Serviços</Header.Title>
         </HStack>
 
         <Button
+          variant="surface"
+          colorPalette="primary"
           rounded="xl"
-          size="sm"
+          size="xs"
           onClick={() =>
             navigate({
               to: '/dashboard/$establishmentId/services/new',
@@ -58,17 +70,10 @@ function ServicesPage() {
         </Button>
       </Header.Root>
 
-      <Card.Root
-        variant="outline"
-        rounded="xl"
-        shadow="xs"
-        p="4"
-        bg={{ base: 'white', _dark: 'gray.950/40' }}
-        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-      >
+      <Card.Root variant="outline" css={cardSectionCss}>
         <SearchPage mb="4" />
 
-        <ServicesTablePage />
+        <ServicesListPage />
       </Card.Root>
     </Box>
   )

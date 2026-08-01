@@ -1,13 +1,12 @@
 import { For, Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
-import { EllipsisVertical, Info, PencilLineIcon, Sparkles } from 'lucide-react'
+import { EllipsisVertical, Info, PencilLineIcon } from 'lucide-react'
 import { useReducer } from 'react'
 
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { contentCss } from '@/theme/styles/global-styles'
 
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import DialogInfoAppointment from './dialog-info-appointment'
 import DialogEditAppointment from './dialog-update-appointment'
-import DialogUpdateStatusAppointment from './dialog-update-status-appointment'
 
 interface MenuCardAppointmentProps {
   appointment: GetAppointmentByEstablishmentModel
@@ -16,7 +15,6 @@ interface MenuCardAppointmentProps {
 type StateProps = {
   info: boolean
   update: boolean
-  'update-status': boolean
 }
 
 type ActionType = {
@@ -27,7 +25,6 @@ type ActionType = {
 const initialState: StateProps = {
   info: false,
   update: false,
-  'update-status': false,
 }
 
 const reducer = (state: StateProps, action: ActionType) => {
@@ -36,8 +33,6 @@ const reducer = (state: StateProps, action: ActionType) => {
       return { ...state, info: action.payload }
     case 'update':
       return { ...state, update: action.payload }
-    case 'update-status':
-      return { ...state, 'update-status': action.payload }
     default:
       return state
   }
@@ -50,19 +45,22 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
     {
       label: 'Info',
       icon: Info,
-      action: () => dispatch({ type: 'info', payload: true }),
+      action: () => handleOpenDialogInfo(true),
     },
     {
       label: 'Editar',
       icon: PencilLineIcon,
-      action: () => dispatch({ type: 'update', payload: true }),
-    },
-    {
-      label: 'Status',
-      icon: Sparkles,
-      action: () => dispatch({ type: 'update-status', payload: true }),
+      action: () => handleOpenDialogUpdate(true),
     },
   ]
+
+  function handleOpenDialogInfo(open: boolean) {
+    dispatch({ type: 'info', payload: open })
+  }
+
+  function handleOpenDialogUpdate(open: boolean) {
+    dispatch({ type: 'update', payload: open })
+  }
 
   return (
     <>
@@ -72,23 +70,18 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
             variant="ghost"
             rounded="full"
             aria-label="Options"
-            size="xs"
+            size="2xs"
           >
             <Icon as={EllipsisVertical} boxSize="4" />
           </IconButton>
         </Menu.Trigger>
         <Portal>
           <Menu.Positioner>
-            <Menu.Content
-              colorPalette={colorDefaultTheme}
-              borderWidth="1px"
-              bg={{ base: 'white', _dark: 'secondary.700' }}
-              borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-              rounded="lg"
-            >
+            <Menu.Content css={contentCss}>
               <For each={loadMenuCardAppointment}>
-                {(item) => (
+                {(item, index) => (
                   <Menu.Item
+                    key={index}
                     value={item.label.toLowerCase()}
                     rounded="xl"
                     cursor="pointer"
@@ -110,19 +103,13 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
       <DialogInfoAppointment
         appointment={appointment}
         open={state.info}
-        onOpen={(open) => dispatch({ type: 'info', payload: open })}
-      />
-
-      <DialogUpdateStatusAppointment
-        appointment={appointment}
-        open={state['update-status']}
-        onOpen={(open) => dispatch({ type: 'update-status', payload: open })}
+        onOpen={handleOpenDialogInfo}
       />
 
       <DialogEditAppointment
         appointment={appointment}
         open={state.update}
-        onOpen={(open) => dispatch({ type: 'update', payload: open })}
+        onOpen={handleOpenDialogUpdate}
       />
     </>
   )

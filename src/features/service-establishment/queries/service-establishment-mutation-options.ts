@@ -3,7 +3,9 @@ import { mutationOptions } from '@tanstack/react-query'
 import {
   type UploadFileResponse,
   uploadFileToR2,
+  UploadFolder,
 } from '@/shared/services/storage/upload.service'
+import { uploadFiles } from '@/shared/services/storage/upload-files'
 
 import {
   createServiceEstablishmentService,
@@ -21,19 +23,14 @@ export const serviceEstablishmentMutationOptions = {
     >({
       mutationKey: ['create-establishment'],
       mutationFn: async (data) => {
-        let urlImage: UploadFileResponse | undefined
-
-        if (data.image) {
-          urlImage = await uploadFileToR2({
-            id: data.establishmentId,
-            file: data.image,
-            folder: 'services',
-          })
-        }
+        const urlFile = await uploadFiles(data.image, {
+          id: data.establishmentId,
+          folder: UploadFolder.SERVICES,
+        })
 
         return createServiceEstablishmentService({
           ...data,
-          imageUrl: urlImage?.key ?? null,
+          imageUrl: urlFile,
         })
       },
     })

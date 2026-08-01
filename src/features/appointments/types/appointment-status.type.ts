@@ -1,14 +1,14 @@
-export const AppointmentStatus = {
+export const BookingStatus = {
   CONFIRMED: 'confirmed',
   CANCELLED: 'cancelled',
-  COMPLETED: 'concluded',
+  CONCLUDED: 'concluded',
 } as const
 
-export type AppointmentStatusType =
-  (typeof AppointmentStatus)[keyof typeof AppointmentStatus]
+export type BookingStatusType =
+  (typeof BookingStatus)[keyof typeof BookingStatus]
 
-export const appointmentStatusLabel: Record<AppointmentStatusType, string> = {
-  confirmed: 'Confirmado',
-  cancelled: 'Cancelado',
-  concluded: 'Concluído',
+export const bookingStatusLabel: Record<BookingStatusType, string> = {
+  [BookingStatus.CONFIRMED]: 'Confirmado',
+  [BookingStatus.CANCELLED]: 'Cancelado',
+  [BookingStatus.CONCLUDED]: 'Concluído',
 } as const

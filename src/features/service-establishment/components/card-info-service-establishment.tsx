@@ -11,6 +11,7 @@ import {
 import { FileImage } from 'lucide-react'
 
 import { ItemDetails } from '@/components/item-details'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import type { ServiceEstablishmentDetailsModel } from '../types/service-esatablishment-details.model'
 import { formattedDataServiceEstablishmentDetails } from '../utils/formatted-data-services-establishment'
@@ -26,15 +27,7 @@ const CardInfoServiceEstablishement = ({
     formattedDataServiceEstablishmentDetails(serviceEstablishment)
 
   return (
-    <Card.Root
-      variant="outline"
-      rounded="xl"
-      p="4"
-      shadow="xs"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-      h="fit"
-    >
+    <Card.Root variant="outline" css={cardSectionCss} h="fit">
       <HStack>
         <Box boxSize="48" mr="4">
           {serviceEstablishment?.imageUrl && (
