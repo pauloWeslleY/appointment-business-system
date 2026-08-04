@@ -69,6 +69,7 @@ const CustomersTable = () => {
       'Ativos',
       'Data de Nasc.',
     ]
+
     const query = search.q?.toLowerCase()
 
     const rows = loadTablePagination.filter((customer) => {
@@ -80,14 +81,20 @@ const CustomersTable = () => {
         ? customer.email.toLowerCase().includes(query)
         : true
 
-      return queryStringName || queryStringEmail
+      const queryString = queryStringName || queryStringEmail
+      const querySex = search.sex ? search.sex === customer.gender : true
+      const queryStatus = search.status
+        ? search.status === (customer.active ? 'active' : 'inactive')
+        : true
+
+      return queryString && querySex && queryStatus
     })
 
     return {
       headers,
       rows,
     }
-  }, [loadTablePagination, search.q])
+  }, [loadTablePagination, search.q, search.status, search.sex])
 
   const formattedPhoneCustomer = (phones: string[]) => {
     return phones.map(formattedPhone)[0]

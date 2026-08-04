@@ -11,8 +11,8 @@ import { toaster } from '@/components/ui/toaster'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import type { CustomerModel } from '../types/customer.model'
+import SidebarInfoCustomer from './dialog-info-customer'
 import DialogStatusCustomer from './dialog-status-customer'
-import SidebarInfoCustomer from './sidebar-info-customer'
 import SidebarUpdateCustomer from './sidebar-update-customer'
 
 interface MenuActionsTableCustomersProps {

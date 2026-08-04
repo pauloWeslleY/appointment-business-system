@@ -21,17 +21,17 @@ const SidebarInfoCustomer = ({
 }: SidebarInfoCustomerProps) => {
   const loadInfoCustomer = [
     { label: 'Nome', value: customer.name },
-    { label: 'Email', value: customer.email },
-    {
-      label: 'Telefone',
-      value: customer.phones.map(formattedPhone).join(', '),
-    },
+    { label: 'E-mail', value: customer.email },
     { label: 'Sexo', value: mapGenderLabel[customer.gender] },
-    { label: 'Data de Nascimento', value: customer.birthDate },
     { label: 'Status', value: customer.active },
+    { label: 'Data de Nascimento', value: customer.birthDate },
     {
       label: 'Data de Cadastro',
       value: dayjs(customer?.createdAt).format('DD/MM/YYYY'),
+    },
+    {
+      label: 'Telefone',
+      value: customer.phones.map(formattedPhone).join(', '),
     },
     { label: 'Observações', value: customer.notes ?? 'Nenhuma observação' },
   ]
@@ -90,7 +90,7 @@ const SidebarInfoCustomer = ({
                   colorPalette="red"
                   rounded="xl"
                 >
-                  Cancelar
+                  Fechar
                 </Button>
               </Dialog.ActionTrigger>
             </Dialog.Footer>

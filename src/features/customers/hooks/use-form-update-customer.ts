@@ -27,7 +27,7 @@ export function useFormUpdateCustomer(customer: CustomerModel) {
       email: customer.email ?? '',
       phones: customer.phones.map((phone) => ({ phone })) ?? [],
       notes: customer.notes ?? '',
-      birthDate: dayjs(customer.birthDate).format('YYYY-MM-DD') ?? '',
+      birthDate: dayjs(customer.birthDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       gender: [customer.gender] as CustomerFormData['gender'],
     }),
     [customer],
