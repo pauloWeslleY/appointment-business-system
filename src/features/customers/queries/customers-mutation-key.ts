@@ -6,7 +6,7 @@ import {
   updateCustomerService,
 } from '../services/customer.services'
 
-export const CustomersMutationOptions = {
+export const customersMutationOptions = {
   create() {
     return mutationOptions({
       mutationKey: ['create-customer'],

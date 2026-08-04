@@ -7,9 +7,13 @@ import {
 } from 'lucide-react'
 import React, { useReducer } from 'react'
 
+import { toaster } from '@/components/ui/toaster'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import type { CustomerModel } from '../types/customer.model'
+import DialogStatusCustomer from './dialog-status-customer'
+import SidebarInfoCustomer from './sidebar-info-customer'
+import SidebarUpdateCustomer from './sidebar-update-customer'
 
 interface MenuActionsTableCustomersProps {
   customer: CustomerModel
@@ -18,7 +22,7 @@ interface MenuActionsTableCustomersProps {
 type StateProps = {
   info: boolean
   update: boolean
-  inativar: boolean
+  status: boolean
 }
 
 type ActionType = {
@@ -29,7 +33,7 @@ type ActionType = {
 const initialState: StateProps = {
   info: false,
   update: false,
-  inativar: false,
+  status: false,
 }
 
 const reducer = (state: StateProps, action: ActionType) => {
@@ -38,8 +42,8 @@ const reducer = (state: StateProps, action: ActionType) => {
       return { ...state, info: action.payload }
     case 'update':
       return { ...state, update: action.payload }
-    case 'inativar':
-      return { ...state, inativar: action.payload }
+    case 'status':
+      return { ...state, status: action.payload }
     default:
       return state
   }
@@ -59,7 +63,7 @@ const MenuActionsTableCustomers = ({
   }
 
   const handleOpenDialogInactiveCustomers = (open: boolean) => {
-    return dispatch({ type: 'inativar', payload: open })
+    return dispatch({ type: 'status', payload: open })
   }
 
   const loadMenuCardBooking = [
@@ -71,10 +75,20 @@ const MenuActionsTableCustomers = ({
     {
       label: 'Editar',
       icon: PencilLineIcon,
-      action: () => handleOpenSidebarUpdateCustomers(true),
+      action: () => {
+        if (!customer.active) {
+          toaster.error({
+            title: 'Cliente inativo',
+            description: 'Não é possível editar um cliente inativo.',
+          })
+          return
+        }
+        handleOpenSidebarUpdateCustomers(true)
+      },
+      disabled: !customer.active,
     },
     {
-      label: 'Inativar',
+      label: 'Status',
       icon: ShieldMinus,
       action: () => handleOpenDialogInactiveCustomers(true),
     },
@@ -85,10 +99,11 @@ const MenuActionsTableCustomers = ({
       <Menu.Root>
         <Menu.Trigger asChild>
           <IconButton
-            variant="ghost"
-            rounded="full"
             aria-label="Options"
+            variant="surface"
+            rounded="lg"
             size="xs"
+            colorPalette="gray"
           >
             <Icon as={EllipsisVertical} boxSize="4" />
           </IconButton>
@@ -97,7 +112,7 @@ const MenuActionsTableCustomers = ({
           <Menu.Positioner>
             <Menu.Content css={contentCss}>
               <For each={loadMenuCardBooking}>
-                {(item, index) => (
+                {(menu, index) => (
                   <React.Fragment key={index}>
                     {index === 2 && (
                       <Menu.Separator
@@ -110,19 +125,17 @@ const MenuActionsTableCustomers = ({
                     )}
 
                     <Menu.Item
-                      value={item.label.toLowerCase()}
+                      value={menu.label.toLowerCase()}
                       rounded="xl"
-                      cursor="pointer"
-                      color={item.label === 'Inativar' ? 'fg.error' : 'inherit'}
-                      _hover={
-                        item.label === 'Inativar'
-                          ? { bg: 'bg.error', color: 'fg.error' }
-                          : { bg: { base: 'gray.100', _dark: 'secondary.600' } }
-                      }
-                      onClick={item.action}
+                      cursor={menu.disabled ? 'not-allowed' : 'pointer'}
+                      disabled={menu.disabled ?? false}
+                      _hover={{
+                        bg: { base: 'gray.100', _dark: 'secondary.600' },
+                      }}
+                      onClick={menu.action}
                     >
-                      <Icon as={item.icon} boxSize="4" />
-                      {item.label}
+                      <Icon as={menu.icon} boxSize="4" />
+                      {menu.label}
                     </Menu.Item>
                   </React.Fragment>
                 )}
@@ -132,23 +145,23 @@ const MenuActionsTableCustomers = ({
         </Portal>
       </Menu.Root>
 
-      {/* <DialogDetailsCollaborator
-        collaborator={collaborator}
-        open={state.info}
-        onOpen={handleOpenDialogInfoCollaborator}
-      />
-
-      <SidebarUpdateCollaborator
-        collaborator={collaborator}
+      <SidebarUpdateCustomer
+        customer={customer}
         open={state.update}
-        onOpen={handleOpenSidebarUpdateCollaborator}
+        onOpen={handleOpenSidebarUpdateCustomers}
       />
 
-      <DialogInactiveCollaborator
-        collaborator={collaborator}
-        open={state.inativar}
-        onOpen={handleOpenDialogInactiveCollaborator}
-      /> */}
+      <SidebarInfoCustomer
+        customer={customer}
+        open={state.info}
+        onOpen={handleOpenDialogInfoCustomers}
+      />
+
+      <DialogStatusCustomer
+        customer={customer}
+        open={state.status}
+        onOpen={handleOpenDialogInactiveCustomers}
+      />
     </>
   )
 }

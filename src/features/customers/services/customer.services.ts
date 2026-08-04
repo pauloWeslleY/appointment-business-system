@@ -35,9 +35,12 @@ export const statusCustomerService = async (customer: {
 }) => {
   const { api, validate } = httpDependencies<CustomerModel>()
   const response = await api.request({
-    method: HttpMethod.PUT,
-    url: '/customer',
-    body: customer,
+    method: HttpMethod.PATCH,
+    url: '/customer/status',
+    body: {
+      id: customer.id,
+      active: customer.active,
+    },
   })
   return validate.errors(response)
 }

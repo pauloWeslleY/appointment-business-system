@@ -32,7 +32,6 @@ const AppError = (props: { error: Error; reset: () => void }) => {
     >
       <VStack
         justify="center"
-        my="32"
         shadow="xs"
         p="8"
         w="full"

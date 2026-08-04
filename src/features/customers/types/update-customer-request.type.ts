@@ -3,8 +3,8 @@ export interface UpdateCustomerRequest {
   name: string
   email: string
   phones: string[]
-  gender: string
-  notes: string
+  notes: string | null
+  gender: string | null
   birthDate: string | null
-  userId: string
+  userId: string | null
 }

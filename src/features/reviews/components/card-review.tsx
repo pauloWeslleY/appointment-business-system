@@ -4,6 +4,7 @@ import {
   Card,
   DataList,
   Flex,
+  HStack,
   RatingGroup,
 } from '@chakra-ui/react'
 
@@ -26,20 +27,24 @@ const CardReview = ({ review }: CardReviewProps) => {
       gap="4"
       css={cardCss}
     >
-      <Box minW="14" maxW="14">
-        <Avatar.Root boxSize="14">
-          {review.user.image && (
-            <Avatar.Image src={review.user.image} alt={review.user.name} />
-          )}
-          <Avatar.Fallback aria-label={review.user.name} />
-        </Avatar.Root>
-      </Box>
-
       <Flex flex="1">
-        <DataList.Root orientation="horizontal" gap="2">
+        <DataList.Root orientation="vertical" gap="4">
           <DataList.Item>
             <DataList.ItemLabel>Nome</DataList.ItemLabel>
-            <DataList.ItemValue>{review.user.name}</DataList.ItemValue>
+            <DataList.ItemValue>
+              <HStack>
+                <Avatar.Root size="md">
+                  {review.user.image && (
+                    <Avatar.Image
+                      src={review.user.image}
+                      alt={review.user.name}
+                    />
+                  )}
+                  <Avatar.Fallback aria-label={review.user.name} />
+                </Avatar.Root>
+                <Box fontWeight="bold">{review.user.name}</Box>
+              </HStack>
+            </DataList.ItemValue>
           </DataList.Item>
 
           <DataList.Item>

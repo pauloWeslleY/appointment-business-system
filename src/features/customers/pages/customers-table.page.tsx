@@ -21,6 +21,7 @@ import { useMemo } from 'react'
 
 import { Status } from '@/components/ui/status'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { mapGenderLabel } from '@/shared/constants/map-label-gender-customer'
 import { usePagination } from '@/shared/hooks/use-pagination'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
@@ -44,17 +45,10 @@ const CustomersTable = () => {
   } = useGetAllCustomersByEstablishment(establishmentId)
 
   const loadCustomers = useMemo(() => {
-    const mapGenderLabel: Record<string, string> = {
-      male: 'Masculino',
-      female: 'Feminino',
-      other: 'Outro',
-    } as const
-
     return customers.map((customer) => ({
       ...customer,
       name: customer.name,
       email: customer.email,
-      gender: mapGenderLabel[customer.gender] ?? customer.gender,
       birthDate: formattedDateAndHours(customer.birthDate),
     }))
   }, [customers])
@@ -67,7 +61,7 @@ const CustomersTable = () => {
   } = usePagination(loadCustomers)
 
   const loadTableCustomres = useMemo(() => {
-    const header = [
+    const headers = [
       'Nome',
       'E-mail',
       'Sexo',
@@ -90,10 +84,14 @@ const CustomersTable = () => {
     })
 
     return {
-      header,
+      headers,
       rows,
     }
   }, [loadTablePagination, search.q])
+
+  const formattedPhoneCustomer = (phones: string[]) => {
+    return phones.map(formattedPhone)[0]
+  }
 
   if (errorCustomers) {
     return (
@@ -135,32 +133,43 @@ const CustomersTable = () => {
           {loadTableCustomres.rows.map((row, index) => (
             <Flex key={index} direction={{ base: 'row', md: 'column' }}>
               <SimpleGrid
-                gap={3}
-                columns={{ base: 1, md: loadTableCustomres.header.length + 1 }}
+                columns={{ base: 1, md: loadTableCustomres.headers.length + 2 }}
+                gap="3"
                 w={{ base: 120, md: 'full' }}
-                textTransform="uppercase"
                 bg={{ base: 'gray.100', _dark: 'gray.950/40' }}
-                color={'gray.500'}
-                py={{ base: 1, md: 4 }}
-                px={{ base: 2, md: 10 }}
+                color="gray.500"
+                py={{ base: 1, md: 2 }}
+                px={{ base: 2, md: 6, xl: 2 }}
+                textTransform="uppercase"
                 fontSize="md"
                 fontWeight="hairline"
                 roundedTop={index === 0 ? 'xl' : undefined}
               >
-                <For each={loadTableCustomres.header}>
-                  {(item) => <span key={item}>{item}</span>}
+                <For each={loadTableCustomres.headers}>
+                  {(header) => (
+                    <Text
+                      key={header}
+                      as="span"
+                      gridColumn={{
+                        md: header === 'E-mail' ? 'span 2' : undefined,
+                      }}
+                    >
+                      {header}
+                    </Text>
+                  )}
                 </For>
                 <chakra.span textAlign={{ md: 'right' }}>Ações</chakra.span>
               </SimpleGrid>
 
               <SimpleGrid
-                gap={3}
-                columns={{ base: 1, md: loadTableCustomres.header.length + 1 }}
+                columns={{ base: 1, md: loadTableCustomres.headers.length + 2 }}
+                gap="3"
                 w="full"
-                py={2}
-                px={10}
+                py="2"
+                alignItems="center"
+                px={{ base: '2', md: '4', xl: '2' }}
                 fontWeight="hairline"
-                bg={{ base: 'primary.100', _dark: 'primary.900/40' }}
+                bg={{ base: 'primary.100', _dark: 'primary.800/30' }}
                 roundedBottom={
                   index === loadTableCustomres.rows.length - 1
                     ? 'xl'
@@ -168,10 +177,12 @@ const CustomersTable = () => {
                 }
               >
                 <span>{row.name}</span>
-                <span>{row.email}</span>
-                <span>{row.gender}</span>
+                <Text as="span" gridColumn={{ md: 'span 2' }}>
+                  {row.email}
+                </Text>
+                <span>{mapGenderLabel[row.gender] ?? row.gender}</span>
                 <Text as="span" truncate>
-                  {row.phones.map(formattedPhone).join(', ')}
+                  {formattedPhoneCustomer(row.phones)}
                 </Text>
                 <span>
                   <Status value={row.active ? 'success' : 'error'}>

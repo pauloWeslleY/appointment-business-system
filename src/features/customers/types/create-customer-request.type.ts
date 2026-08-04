@@ -2,9 +2,9 @@ export interface CreateCustomerRequest {
   name: string
   email: string
   phones: string[]
-  gender: string
-  notes: string
+  notes: string | null
+  gender: string | null
   birthDate: string | null
-  userId: string
+  userId: string | null
   establishmentId: string
 }

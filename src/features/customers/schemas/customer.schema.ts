@@ -9,8 +9,8 @@ export const CustomerSchema = z.object({
   }),
   phones: z
     .array(
-      z.string().trim().min(1, {
-        error: 'Telefone é obrigatório',
+      z.object({
+        phone: z.string().trim().min(1, 'Telefone é obrigatório'),
       }),
     )
     .min(1, {
@@ -18,12 +18,12 @@ export const CustomerSchema = z.object({
     }),
 
   gender: z
-    .enum(['male', 'female', 'other'], {
-      error: 'Gênero inválido',
-    })
+    .array(
+      z.enum(['male', 'female', 'other'], {
+        error: 'Gênero inválido',
+      }),
+    )
     .optional(),
   notes: z.string().trim().optional(),
-  birthDate: z.string().trim().min(1, {
-    error: 'Data é obrigatória',
-  }),
+  birthDate: z.string().optional(),
 })
