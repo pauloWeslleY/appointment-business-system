@@ -118,7 +118,9 @@ const FormLoginPage = () => {
             transition="colors"
             _hover={{ color: 'colorPalette.500' }}
           >
-            <Link to="/register">Cadastre-se agora</Link>
+            <Link to="/register" params={{ step: '0' }}>
+              Cadastre-se agora
+            </Link>
           </Button>
         </HStack>
       </VStack>

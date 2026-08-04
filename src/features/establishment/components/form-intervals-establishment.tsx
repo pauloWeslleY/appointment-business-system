@@ -4,12 +4,14 @@ import {
   chakra,
   Checkbox,
   CheckboxGroup,
-  CloseButton,
   Fieldset,
   Flex,
   For,
+  Icon,
+  IconButton,
   Stack,
 } from '@chakra-ui/react'
+import { Trash2 } from 'lucide-react'
 import {
   type Control,
   Controller,
@@ -57,13 +59,23 @@ const FormIntervalEstablishment = ({
   const onChangeSelectedWeekdays = (weekdays: string[]) => {
     loadWeekdaysEstablishment.field.onChange(weekdays)
     const currentIntervals = values.intervals ?? []
+    const intervalsCount = currentIntervals.length
+    const weekdaysCount = weekdays.length
 
-    if (weekdays.length > 0 && currentIntervals.length === 0) {
-      appendInterval({ open: '08:00', close: '18:00' })
+    if (weekdaysCount > intervalsCount) {
+      const amountToAdd = weekdaysCount - intervalsCount
+
+      for (let i = 0; i < amountToAdd; i++) {
+        appendInterval({ open: '08:00', close: '18:00' })
+      }
     }
 
-    if (weekdays.length === 0) {
-      removeInterval()
+    if (weekdaysCount < intervalsCount) {
+      const amountToRemove = intervalsCount - weekdaysCount
+
+      for (let i = 0; i < amountToRemove; i++) {
+        removeInterval(intervalsCount - 1 - i)
+      }
     }
   }
 
@@ -182,14 +194,17 @@ const FormIntervalEstablishment = ({
 
               {intervalFields.length > 1 && (
                 <Tooltip content="Remover horário" showArrow>
-                  <CloseButton
+                  <IconButton
                     alignSelf={{ base: 'center', xl: 'flex-start' }}
                     size="xs"
                     rounded="full"
                     variant="ghost"
+                    colorPalette="red"
                     onClick={() => removeIntervalByIndex(index)}
                     mt="0.5"
-                  />
+                  >
+                    <Icon as={Trash2} boxSize="4" />
+                  </IconButton>
                 </Tooltip>
               )}
             </Flex>

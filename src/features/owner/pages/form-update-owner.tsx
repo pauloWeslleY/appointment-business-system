@@ -4,6 +4,7 @@ import { PatternFormat } from 'react-number-format'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import { useFormUpdateOwner } from '../hooks/use-form-update-owner'
 
@@ -18,15 +19,7 @@ const FormUpdateOwner = () => {
   } = useFormUpdateOwner()
 
   return (
-    <Card.Root
-      variant="outline"
-      h="fit"
-      rounded="xl"
-      p="4"
-      shadow="xs"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-    >
+    <Card.Root variant="outline" h="fit" css={cardSectionCss}>
       <Card.Header p="0" mb="4">
         <Card.Title
           color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
@@ -68,16 +61,6 @@ const FormUpdateOwner = () => {
               </Field>
             )}
           />
-
-          <Field
-            invalid={!!errors.businessName}
-            errorText={errors.businessName?.message}
-          >
-            <InputField
-              {...register('businessName')}
-              placeholder="Digite a razão social ou nome empresarial da empresa"
-            />
-          </Field>
         </VStack>
 
         <Button
@@ -86,6 +69,8 @@ const FormUpdateOwner = () => {
           size="sm"
           rounded="xl"
           w="fit"
+          variant="subtle"
+          colorPalette="primary"
           loading={isPendingUpdateOwner}
         >
           Salvar proprietário

@@ -14,6 +14,5 @@ export const establishmentGuardBeforeLoadRoute = async () => {
     toaster.error({
       title: (err as Error).message || 'Erro ao buscar proprietário',
     })
-    throw redirect({ to: '/owner/new' })
   }
 }

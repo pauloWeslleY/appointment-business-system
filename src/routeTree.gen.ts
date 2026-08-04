@@ -24,8 +24,7 @@ import { Route as DashboardEstablishmentIdReviewsIndexRouteImport } from './page
 import { Route as DashboardEstablishmentIdOverviewIndexRouteImport } from './pages/dashboard/$establishmentId/overview/index'
 import { Route as DashboardEstablishmentIdCustomersIndexRouteImport } from './pages/dashboard/$establishmentId/customers/index'
 import { Route as DashboardEstablishmentIdCollaboratorsIndexRouteImport } from './pages/dashboard/$establishmentId/collaborators/index'
-import { Route as DashboardEstablishmentIdAppointmentsIndexRouteImport } from './pages/dashboard/$establishmentId/appointments/index'
-import { Route as AuthenticatedOwnerRoutesNewIndexRouteImport } from './pages/_authenticated/owner/_routes/new/index'
+import { Route as DashboardEstablishmentIdBookingsIndexRouteImport } from './pages/dashboard/$establishmentId/bookings/index'
 import { Route as AuthenticatedOwnerRoutesOwnerIdIndexRouteImport } from './pages/_authenticated/owner/_routes/$ownerId/index'
 import { Route as AuthenticatedEstablishmentRoutesNewIndexRouteImport } from './pages/_authenticated/establishment/_routes/new/index'
 import { Route as AuthenticatedEstablishmentRoutesEstablishmentIdIndexRouteImport } from './pages/_authenticated/establishment/_routes/$establishmentId/index'
@@ -116,17 +115,11 @@ const DashboardEstablishmentIdCollaboratorsIndexRoute =
     path: '/collaborators/',
     getParentRoute: () => DashboardEstablishmentIdLayoutRoute,
   } as any)
-const DashboardEstablishmentIdAppointmentsIndexRoute =
-  DashboardEstablishmentIdAppointmentsIndexRouteImport.update({
-    id: '/appointments/',
-    path: '/appointments/',
+const DashboardEstablishmentIdBookingsIndexRoute =
+  DashboardEstablishmentIdBookingsIndexRouteImport.update({
+    id: '/bookings/',
+    path: '/bookings/',
     getParentRoute: () => DashboardEstablishmentIdLayoutRoute,
-  } as any)
-const AuthenticatedOwnerRoutesNewIndexRoute =
-  AuthenticatedOwnerRoutesNewIndexRouteImport.update({
-    id: '/_routes/new/',
-    path: '/new/',
-    getParentRoute: () => AuthenticatedOwnerLayoutRoute,
   } as any)
 const AuthenticatedOwnerRoutesOwnerIdIndexRoute =
   AuthenticatedOwnerRoutesOwnerIdIndexRouteImport.update({
@@ -188,7 +181,7 @@ export interface FileRoutesByFullPath {
   '/register/': typeof AuthRegisterIndexRoute
   '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/profile/': typeof AuthenticatedProfileIndexRoute
-  '/dashboard/$establishmentId/appointments/': typeof DashboardEstablishmentIdAppointmentsIndexRoute
+  '/dashboard/$establishmentId/bookings/': typeof DashboardEstablishmentIdBookingsIndexRoute
   '/dashboard/$establishmentId/collaborators/': typeof DashboardEstablishmentIdCollaboratorsIndexRoute
   '/dashboard/$establishmentId/customers/': typeof DashboardEstablishmentIdCustomersIndexRoute
   '/dashboard/$establishmentId/overview/': typeof DashboardEstablishmentIdOverviewIndexRoute
@@ -198,7 +191,6 @@ export interface FileRoutesByFullPath {
   '/establishment/$establishmentId/': typeof AuthenticatedEstablishmentRoutesEstablishmentIdIndexRoute
   '/establishment/new/': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
   '/owner/$ownerId/': typeof AuthenticatedOwnerRoutesOwnerIdIndexRoute
-  '/owner/new/': typeof AuthenticatedOwnerRoutesNewIndexRoute
   '/dashboard/$establishmentId/services/new/': typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
   '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
   '/dashboard/$establishmentId/services/$serviceEstablishmentId/info/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
@@ -212,7 +204,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterIndexRoute
   '/establishment': typeof AuthenticatedEstablishmentIndexRoute
   '/profile': typeof AuthenticatedProfileIndexRoute
-  '/dashboard/$establishmentId/appointments': typeof DashboardEstablishmentIdAppointmentsIndexRoute
+  '/dashboard/$establishmentId/bookings': typeof DashboardEstablishmentIdBookingsIndexRoute
   '/dashboard/$establishmentId/collaborators': typeof DashboardEstablishmentIdCollaboratorsIndexRoute
   '/dashboard/$establishmentId/customers': typeof DashboardEstablishmentIdCustomersIndexRoute
   '/dashboard/$establishmentId/overview': typeof DashboardEstablishmentIdOverviewIndexRoute
@@ -222,7 +214,6 @@ export interface FileRoutesByTo {
   '/establishment/$establishmentId': typeof AuthenticatedEstablishmentRoutesEstablishmentIdIndexRoute
   '/establishment/new': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
   '/owner/$ownerId': typeof AuthenticatedOwnerRoutesOwnerIdIndexRoute
-  '/owner/new': typeof AuthenticatedOwnerRoutesNewIndexRoute
   '/dashboard/$establishmentId/services/new': typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
   '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
   '/dashboard/$establishmentId/services/$serviceEstablishmentId/info': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
@@ -239,7 +230,7 @@ export interface FileRoutesById {
   '/_auth/register/': typeof AuthRegisterIndexRoute
   '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
-  '/dashboard/$establishmentId/appointments/': typeof DashboardEstablishmentIdAppointmentsIndexRoute
+  '/dashboard/$establishmentId/bookings/': typeof DashboardEstablishmentIdBookingsIndexRoute
   '/dashboard/$establishmentId/collaborators/': typeof DashboardEstablishmentIdCollaboratorsIndexRoute
   '/dashboard/$establishmentId/customers/': typeof DashboardEstablishmentIdCustomersIndexRoute
   '/dashboard/$establishmentId/overview/': typeof DashboardEstablishmentIdOverviewIndexRoute
@@ -249,7 +240,6 @@ export interface FileRoutesById {
   '/_authenticated/establishment/_routes/$establishmentId/': typeof AuthenticatedEstablishmentRoutesEstablishmentIdIndexRoute
   '/_authenticated/establishment/_routes/new/': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
   '/_authenticated/owner/_routes/$ownerId/': typeof AuthenticatedOwnerRoutesOwnerIdIndexRoute
-  '/_authenticated/owner/_routes/new/': typeof AuthenticatedOwnerRoutesNewIndexRoute
   '/dashboard/$establishmentId/services/_pages/new/': typeof DashboardEstablishmentIdServicesPagesNewIndexRoute
   '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute
   '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/': typeof DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRoute
@@ -265,7 +255,7 @@ export interface FileRouteTypes {
     | '/register/'
     | '/establishment/'
     | '/profile/'
-    | '/dashboard/$establishmentId/appointments/'
+    | '/dashboard/$establishmentId/bookings/'
     | '/dashboard/$establishmentId/collaborators/'
     | '/dashboard/$establishmentId/customers/'
     | '/dashboard/$establishmentId/overview/'
@@ -275,7 +265,6 @@ export interface FileRouteTypes {
     | '/establishment/$establishmentId/'
     | '/establishment/new/'
     | '/owner/$ownerId/'
-    | '/owner/new/'
     | '/dashboard/$establishmentId/services/new/'
     | '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit/'
     | '/dashboard/$establishmentId/services/$serviceEstablishmentId/info/'
@@ -289,7 +278,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/establishment'
     | '/profile'
-    | '/dashboard/$establishmentId/appointments'
+    | '/dashboard/$establishmentId/bookings'
     | '/dashboard/$establishmentId/collaborators'
     | '/dashboard/$establishmentId/customers'
     | '/dashboard/$establishmentId/overview'
@@ -299,7 +288,6 @@ export interface FileRouteTypes {
     | '/establishment/$establishmentId'
     | '/establishment/new'
     | '/owner/$ownerId'
-    | '/owner/new'
     | '/dashboard/$establishmentId/services/new'
     | '/dashboard/$establishmentId/services/$serviceEstablishmentId/edit'
     | '/dashboard/$establishmentId/services/$serviceEstablishmentId/info'
@@ -315,7 +303,7 @@ export interface FileRouteTypes {
     | '/_auth/register/'
     | '/_authenticated/establishment/'
     | '/_authenticated/profile/'
-    | '/dashboard/$establishmentId/appointments/'
+    | '/dashboard/$establishmentId/bookings/'
     | '/dashboard/$establishmentId/collaborators/'
     | '/dashboard/$establishmentId/customers/'
     | '/dashboard/$establishmentId/overview/'
@@ -325,7 +313,6 @@ export interface FileRouteTypes {
     | '/_authenticated/establishment/_routes/$establishmentId/'
     | '/_authenticated/establishment/_routes/new/'
     | '/_authenticated/owner/_routes/$ownerId/'
-    | '/_authenticated/owner/_routes/new/'
     | '/dashboard/$establishmentId/services/_pages/new/'
     | '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/'
     | '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/'
@@ -446,19 +433,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardEstablishmentIdCollaboratorsIndexRouteImport
       parentRoute: typeof DashboardEstablishmentIdLayoutRoute
     }
-    '/dashboard/$establishmentId/appointments/': {
-      id: '/dashboard/$establishmentId/appointments/'
-      path: '/appointments'
-      fullPath: '/dashboard/$establishmentId/appointments/'
-      preLoaderRoute: typeof DashboardEstablishmentIdAppointmentsIndexRouteImport
+    '/dashboard/$establishmentId/bookings/': {
+      id: '/dashboard/$establishmentId/bookings/'
+      path: '/bookings'
+      fullPath: '/dashboard/$establishmentId/bookings/'
+      preLoaderRoute: typeof DashboardEstablishmentIdBookingsIndexRouteImport
       parentRoute: typeof DashboardEstablishmentIdLayoutRoute
-    }
-    '/_authenticated/owner/_routes/new/': {
-      id: '/_authenticated/owner/_routes/new/'
-      path: '/new'
-      fullPath: '/owner/new/'
-      preLoaderRoute: typeof AuthenticatedOwnerRoutesNewIndexRouteImport
-      parentRoute: typeof AuthenticatedOwnerLayoutRoute
     }
     '/_authenticated/owner/_routes/$ownerId/': {
       id: '/_authenticated/owner/_routes/$ownerId/'
@@ -528,15 +508,12 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 
 interface AuthenticatedOwnerLayoutRouteChildren {
   AuthenticatedOwnerRoutesOwnerIdIndexRoute: typeof AuthenticatedOwnerRoutesOwnerIdIndexRoute
-  AuthenticatedOwnerRoutesNewIndexRoute: typeof AuthenticatedOwnerRoutesNewIndexRoute
 }
 
 const AuthenticatedOwnerLayoutRouteChildren: AuthenticatedOwnerLayoutRouteChildren =
   {
     AuthenticatedOwnerRoutesOwnerIdIndexRoute:
       AuthenticatedOwnerRoutesOwnerIdIndexRoute,
-    AuthenticatedOwnerRoutesNewIndexRoute:
-      AuthenticatedOwnerRoutesNewIndexRoute,
   }
 
 const AuthenticatedOwnerLayoutRouteWithChildren =
@@ -584,7 +561,7 @@ const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdLayoutRouteWith
   )
 
 interface DashboardEstablishmentIdLayoutRouteChildren {
-  DashboardEstablishmentIdAppointmentsIndexRoute: typeof DashboardEstablishmentIdAppointmentsIndexRoute
+  DashboardEstablishmentIdBookingsIndexRoute: typeof DashboardEstablishmentIdBookingsIndexRoute
   DashboardEstablishmentIdCollaboratorsIndexRoute: typeof DashboardEstablishmentIdCollaboratorsIndexRoute
   DashboardEstablishmentIdCustomersIndexRoute: typeof DashboardEstablishmentIdCustomersIndexRoute
   DashboardEstablishmentIdOverviewIndexRoute: typeof DashboardEstablishmentIdOverviewIndexRoute
@@ -596,8 +573,8 @@ interface DashboardEstablishmentIdLayoutRouteChildren {
 
 const DashboardEstablishmentIdLayoutRouteChildren: DashboardEstablishmentIdLayoutRouteChildren =
   {
-    DashboardEstablishmentIdAppointmentsIndexRoute:
-      DashboardEstablishmentIdAppointmentsIndexRoute,
+    DashboardEstablishmentIdBookingsIndexRoute:
+      DashboardEstablishmentIdBookingsIndexRoute,
     DashboardEstablishmentIdCollaboratorsIndexRoute:
       DashboardEstablishmentIdCollaboratorsIndexRoute,
     DashboardEstablishmentIdCustomersIndexRoute:

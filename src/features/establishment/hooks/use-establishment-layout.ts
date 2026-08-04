@@ -1,12 +1,15 @@
 import { useLocation, useNavigate, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
+import { useMenuCollapse } from '@/shared/store/menu-collapse'
+
 import useGetEstablishmentById from '../hooks/use-get-establishment-by-id'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 export function useEstablishmentLayout() {
   const { establishmentId } = useParams({ from: '/dashboard/$establishmentId' })
   const { pathname } = useLocation()
+  const { collapsed } = useMenuCollapse()
   const { data: establishment } = useGetEstablishmentById(establishmentId)
   const navigate = useNavigate()
 
@@ -37,6 +40,7 @@ export function useEstablishmentLayout() {
   }
 
   return {
+    collapsed,
     establishment,
     establishmentId,
     loadEstablishmentInfo,

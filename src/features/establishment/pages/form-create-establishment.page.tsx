@@ -183,10 +183,12 @@ const FormCreateEstablishmentPage = () => {
               type="submit"
               size="sm"
               rounded="xl"
-              w="fit-content"
+              w="fit"
+              variant="subtle"
+              colorPalette="primary"
               loading={isPendingCreateEstablishment}
             >
-              Criar estabelecimento
+              Cadastrar estabelecimento
             </Button>
           </GridItem>
         </SimpleGrid>

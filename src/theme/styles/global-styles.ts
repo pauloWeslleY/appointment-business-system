@@ -4,8 +4,8 @@ import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 export const contentCss = defineStyle({
   colorPalette: colorDefaultTheme,
-  borderWidth: '1px',
   bg: { base: 'white', _dark: 'secondary.700' },
+  borderWidth: '1px',
   borderColor: { base: 'gray.200', _dark: 'secondary.500/20' },
   rounded: 'lg',
 })

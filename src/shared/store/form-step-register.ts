@@ -6,6 +6,6 @@ type FormStepRegisterState = {
 }
 
 export const useFormStepRegister = create<FormStepRegisterState>((set) => ({
-  step: 1,
+  step: 0,
   setStep: (newStep: number) => set({ step: newStep }),
 }))

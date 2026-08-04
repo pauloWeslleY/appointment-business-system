@@ -12,6 +12,7 @@ import { ItemDetails } from '@/components/item-details'
 import { authClient } from '@/lib/auth'
 import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import type { OwnerDetailsModel } from '../types/owner-details.model'
 
@@ -47,10 +48,8 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
     <Card.Root
       gridColumn={{ base: '1', md: 'span 2' }}
       variant="outline"
-      rounded="xl"
-      shadow="xs"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+      css={cardSectionCss}
+      p="0"
       display="flex"
       flexDir="column"
       alignItems="center"

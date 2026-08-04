@@ -19,7 +19,7 @@ const FormProfileUser = () => {
 
   return (
     <chakra.form onSubmit={handleSubmit(onSubmitUpdateProfile)}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" p="4">
+      <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
         <Field invalid={!!errors.name} errorText={errors.name?.message}>
           <InputField placeholder="Usuário" {...register('name')} />
         </Field>
@@ -45,9 +45,10 @@ const FormProfileUser = () => {
         <Box gridColumn={{ base: 'span 1', md: 'span 2' }} placeSelf="end">
           <Button
             type="submit"
-            variant="solid"
             size="sm"
             rounded="xl"
+            variant="subtle"
+            colorPalette="primary"
             loading={isSubmitting}
           >
             Salvar

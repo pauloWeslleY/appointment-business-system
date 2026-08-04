@@ -45,7 +45,6 @@ export function useFormUpdateOwner() {
     defaultValues: {
       name: owner?.name ?? '',
       phone: owner?.phone ?? '',
-      businessName: owner?.businessName ?? '',
     },
   })
 

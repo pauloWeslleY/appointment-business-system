@@ -1,11 +1,15 @@
 import {
   Alert,
   Button,
+  ButtonGroup,
   chakra,
-  CloseButton,
   Flex,
+  Icon,
+  IconButton,
   Stack,
 } from '@chakra-ui/react'
+import { Trash2 } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import {
   type Control,
   Controller,
@@ -18,7 +22,6 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { Tooltip } from '@/components/ui/tooltip'
 import { FormatMask } from '@/shared/utils/formatted-mask'
-import { validNumberPhone } from '@/shared/utils/validate-field-cellphone-colaborators'
 
 import type { EstablishmentFormData } from '../types/establishment-form-data.type'
 
@@ -33,11 +36,33 @@ const FormTelephoneEstablishment = ({
   errors,
   onCloseAlertTelephone,
 }: FormTelephoneEstablishmentProps) => {
+  const [mask, setMask] = useState<string>(FormatMask.TELEPHONE)
+
   const {
     fields: telephoneFields,
     append: appendTelephone,
     remove: removeTelephone,
   } = useFieldArray({ control, name: 'phones' })
+
+  const labelFormTelephoneMask = useMemo(() => {
+    const labelFormTelephoneMask: Record<
+      string,
+      { title: string; label: string }
+    > = {
+      [FormatMask.TELEPHONE]: {
+        title: 'Telefone fixo',
+        label: 'Telefone',
+      },
+      [FormatMask.CELLPHONE]: {
+        title: 'Celular',
+        label: 'Celular',
+      },
+    } as const
+    return (
+      labelFormTelephoneMask[mask] ||
+      labelFormTelephoneMask[FormatMask.TELEPHONE]
+    )
+  }, [mask])
 
   const addNewTelephone = () => appendTelephone({ phone: '' })
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
@@ -55,8 +80,29 @@ const FormTelephoneEstablishment = ({
       shadow={{ base: 'shape', md: '2xs' }}
       p="4"
     >
+      <ButtonGroup gap="2" flexDir={{ base: 'column', md: 'row' }}>
+        <Button
+          id="telephone-button"
+          onClick={() => setMask(FormatMask.TELEPHONE)}
+          size="xs"
+          rounded="lg"
+          variant={mask === FormatMask.TELEPHONE ? 'solid' : 'outline'}
+        >
+          Telefone fixo
+        </Button>
+        <Button
+          id="cellphone-button"
+          onClick={() => setMask(FormatMask.CELLPHONE)}
+          size="xs"
+          rounded="lg"
+          variant={mask === FormatMask.CELLPHONE ? 'solid' : 'outline'}
+        >
+          Celular
+        </Button>
+      </ButtonGroup>
+
       <chakra.label display="flex" flexDir="column" alignItems="center" gap="4">
-        Telefones
+        {labelFormTelephoneMask.title}
         <Button
           type="button"
           size="xs"
@@ -65,7 +111,7 @@ const FormTelephoneEstablishment = ({
           colorPalette="green"
           onClick={addNewTelephone}
         >
-          Adicionar telefone
+          Adicionar {labelFormTelephoneMask.label}
         </Button>
       </chakra.label>
 
@@ -76,16 +122,13 @@ const FormTelephoneEstablishment = ({
               name={`phones.${index}.phone`}
               control={control}
               render={({ field }) => {
-                const mask = validNumberPhone(field.value)
-                const phone = field.value.replace(/\D/g, '')
-
                 return (
                   <Field
                     invalid={!!errors.phones?.[index]?.phone}
                     errorText={errors.phones?.[index]?.phone?.message}
                   >
                     <PatternFormat
-                      value={phone}
+                      value={field.value}
                       onValueChange={(values) => field.onChange(values.value)}
                       format={mask}
                       placeholder={
@@ -103,14 +146,17 @@ const FormTelephoneEstablishment = ({
 
             {telephoneFields.length > 1 && (
               <Tooltip content="Remover telefone" showArrow>
-                <CloseButton
+                <IconButton
                   alignSelf={{ base: 'center', xl: 'flex-start' }}
                   size="xs"
                   rounded="full"
                   variant="ghost"
+                  colorPalette="red"
                   onClick={() => removeTelephoneByIndex(index)}
                   mt="0.5"
-                />
+                >
+                  <Icon as={Trash2} boxSize="4" />
+                </IconButton>
               </Tooltip>
             )}
           </Flex>

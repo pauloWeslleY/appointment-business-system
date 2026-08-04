@@ -1,12 +1,18 @@
 import {
+  Alert,
   Button,
   Card,
   chakra,
+  For,
   GridItem,
   HStack,
+  Icon,
   SimpleGrid,
+  Skeleton,
+  Stack,
   Text,
 } from '@chakra-ui/react'
+import { Save } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
@@ -25,11 +31,46 @@ const FormUpdateEstablishment = () => {
     handleSubmit,
     errors,
     isPendingUpdateEstablishment,
+    isLoadingEstablishment,
+    errorEstablishment,
     handleUpdateEstablishment,
     handleCloseAlertUpdatePhone,
     handleCloseAlertUpdateIntervals,
     onBlurZipCodeUpdateEstablishment,
   } = useFormUpdateEstablishment()
+
+  if (errorEstablishment) {
+    return (
+      <Alert.Root status="error" variant="surface" rounded="xl">
+        <Alert.Indicator />
+        <Alert.Content>
+          <Alert.Title>
+            Ops! Não foi possível carregar estabelecimento
+          </Alert.Title>
+          <Alert.Description>
+            Error: {errorEstablishment.message}
+          </Alert.Description>
+        </Alert.Content>
+      </Alert.Root>
+    )
+  }
+
+  if (isLoadingEstablishment) {
+    return (
+      <Stack gap="2" w="full">
+        <For each={[1, 2, 3]}>
+          {(item) => (
+            <Skeleton
+              key={item}
+              height="60px"
+              rounded="lg"
+              bg={{ base: 'gray.200', _dark: 'gray.700/70' }}
+            />
+          )}
+        </For>
+      </Stack>
+    )
+  }
 
   return (
     <Card.Root
@@ -184,8 +225,11 @@ const FormUpdateEstablishment = () => {
               size="sm"
               rounded="xl"
               w="fit"
+              colorPalette="primary"
+              variant="subtle"
               loading={isPendingUpdateEstablishment}
             >
+              <Icon as={Save} boxSize="4" />
               Salvar
             </Button>
           </GridItem>

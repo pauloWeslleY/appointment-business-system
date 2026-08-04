@@ -1,4 +1,4 @@
-import { Avatar, Table } from '@chakra-ui/react'
+import { Avatar, Table, Text } from '@chakra-ui/react'
 
 import { Status } from '@/components/ui/status'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
@@ -52,7 +52,9 @@ const CollaboratorTableRows = ({
           size="sm"
           colorPalette={mapColorStatusCollaborator[collaborator.status]}
         >
-          {mapLabelStatusCollaborator(collaborator.status)}
+          <Text fontWeight="medium" letterSpacing="wider">
+            {mapLabelStatusCollaborator(collaborator.status)}
+          </Text>
         </Status>
       </Table.Cell>
 

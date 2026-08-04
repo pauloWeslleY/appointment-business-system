@@ -1,8 +1,10 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 import SideBarAuthenticatedLayout from '@/features/authentication/layout/sidebar-authenticated-layout'
+import { validateEnsureOwnerExists } from '@/features/authentication/validations/validate-owner-exists'
 
 export const Route = createFileRoute('/_authenticated')({
+  beforeLoad: () => validateEnsureOwnerExists(),
   component: AuthenticatedLayout,
 })
 

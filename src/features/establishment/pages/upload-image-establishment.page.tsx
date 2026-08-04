@@ -108,6 +108,8 @@ const UploadImageEstablishment = () => {
           rounded="xl"
           w="fit"
           alignSelf="flex-end"
+          variant="subtle"
+          colorPalette="primary"
           loading={isPendingUploadImageEstablishment}
           onClick={handleSubmit(onSubmitUploadImageEstablishment)}
         >

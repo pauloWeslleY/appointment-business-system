@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -12,20 +11,26 @@ import { authClient } from '@/lib/auth'
 import { ownerMutationOptions } from '../queries/owner-mutation-options'
 import { ownerQueryKeys } from '../queries/owner-query-key'
 
-export function useFormCreateOwner() {
+export function useFormCreateOwner(
+  setStepRegisterWithValidation: (step: number) => void,
+) {
   const { data } = authClient.useSession()
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
 
-  const { mutate: createOwner, isPending: isPendingCreateOwner } = useMutation({
+  const {
+    mutate: createOwner,
+    isPending: isPendingCreateOwner,
+    isSuccess: isSuccessCreateOwner,
+    data: dataCreateOwnerResponse,
+  } = useMutation({
     ...ownerMutationOptions.create(),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: ownerQueryKeys.user(data.userId),
       })
 
       toaster.success({ title: 'Proprietário criado com sucesso' })
-      navigate({ to: '/establishment' })
+      setStepRegisterWithValidation(2)
     },
     onError: (error) => {
       toaster.error({
@@ -40,7 +45,6 @@ export function useFormCreateOwner() {
       email: data?.user?.email || '',
       cnpj: '',
       phone: '',
-      businessName: '',
     }),
     [data],
   )
@@ -49,12 +53,55 @@ export function useFormCreateOwner() {
     control,
     reset,
     register,
+    getValues,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateOwnerFormData>({
     resolver: zodResolver(CreateOwnerFormSchema),
     defaultValues: formDefaultValues,
   })
+  const dataCreateOwner = getValues()
+
+  const handleGoBackToPreviousStep = () => {
+    const isValidFormCreateOwner = Object.values(dataCreateOwner).some(
+      (value) => value === '' || value === undefined,
+    )
+
+    if (isValidFormCreateOwner) {
+      toaster.warning({
+        title: 'Atenção',
+        description:
+          'Existem campos obrigatórios que não foram preenchidos. Por favor, preencha todos os campos antes de prosseguir.',
+      })
+
+      for (const [key, value] of Object.entries(dataCreateOwner)) {
+        if (value === '' || value === undefined) {
+          setError(key as keyof CreateOwnerFormData, {
+            type: 'manual',
+            message: 'Campo obrigatório',
+          })
+        }
+      }
+
+      return
+    }
+
+    setStepRegisterWithValidation(0)
+  }
+
+  const handleGoBackToNextStep = () => {
+    if (!isSuccessCreateOwner || !dataCreateOwnerResponse) {
+      toaster.error({
+        title: 'Ops! Não foi possível prosseguir.',
+        description:
+          'Ainda existem campos obrigatórios que não foram preenchidos.',
+      })
+
+      return
+    }
+    setStepRegisterWithValidation(2)
+  }
 
   const handleCreateOwner = (params: CreateOwnerFormData) => {
     if (!data || !data.user?.id) {
@@ -78,5 +125,7 @@ export function useFormCreateOwner() {
     errors,
     isPendingCreateOwner,
     handleCreateOwner,
+    handleGoBackToPreviousStep,
+    handleGoBackToNextStep,
   }
 }

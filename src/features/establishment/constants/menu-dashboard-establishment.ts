@@ -12,6 +12,11 @@ import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 
 export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
   {
+    type: 'header',
+    label: 'Menu ',
+    path: undefined,
+  },
+  {
     icon: HomeIcon,
     label: 'Dashsboard',
     path: '/dashboard/$establishmentId/overview',
@@ -24,7 +29,7 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
   {
     icon: CalendarIcon,
     label: 'Agendamentos',
-    path: '/dashboard/$establishmentId/appointments',
+    path: '/dashboard/$establishmentId/bookings',
   },
   {
     icon: StarIcon,

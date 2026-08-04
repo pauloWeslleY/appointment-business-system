@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import { useMemo } from 'react'
 
-import { useGetAppointmentByService } from '@/features/appointments/hooks/use-get-list-appointment-by-services'
+import { useGetBookingByService } from '@/features/bookings/hooks/use-get-list-booking-by-services'
 import type { OpeningHoursDayProps } from '@/shared/types/opening-hours.type'
 import { generateDayTimeList } from '@/shared/utils/generate-time-list'
 
@@ -29,7 +29,7 @@ export function useSelectHoursEstablishment({
     establishmentQueryKeys.detail(establishmentId),
   )
 
-  const { data: appointmentsByService } = useGetAppointmentByService({
+  const { data: bookingsByService } = useGetBookingByService({
     serviceId,
     date: selectedDay.toISOString(),
   })
@@ -81,12 +81,12 @@ export function useSelectHoursEstablishment({
       if (hasDateIsPast) return false
       if (hasTimePast && hasCurrentDate) return false
 
-      const listAppointments = (appointmentsByService ?? []).map((booking) => ({
+      const listBookings = (bookingsByService ?? []).map((booking) => ({
         ...booking,
         date: new Date(booking.date),
       }))
 
-      const hasHourAvailable = listAppointments.some(
+      const hasHourAvailable = listBookings.some(
         (booking) =>
           booking.date.getHours() === hour &&
           booking.date.getMinutes() === minutes,
@@ -101,7 +101,7 @@ export function useSelectHoursEstablishment({
       label: time,
       value: time,
     }))
-  }, [appointmentsByService, selectedDay, loadOpeningHours])
+  }, [bookingsByService, selectedDay, loadOpeningHours])
 
   return getTimeList
 }

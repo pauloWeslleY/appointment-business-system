@@ -1,14 +1,4 @@
-import {
-  Box,
-  Card,
-  DataList,
-  Flex,
-  For,
-  HStack,
-  Icon,
-  Stack,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Card, DataList, For, HStack, Stack, Text } from '@chakra-ui/react'
 import { useParams } from '@tanstack/react-router'
 import { Info } from 'lucide-react'
 
@@ -28,7 +18,7 @@ const ServiceEstablishmentDetails = () => {
     serviceEstablishmentId,
   )
 
-  const servicesAppointments = serviceEstablishment?.bookings.map(
+  const servicesBookings = serviceEstablishment?.bookings.map(
     (booking) => ({
       label: 'Data do agendamento',
       content: formattedDateAndHours(booking.date, true),
@@ -41,19 +31,7 @@ const ServiceEstablishmentDetails = () => {
         <Header.Button />
 
         <HStack gap="2" align="center">
-          <Flex
-            align="center"
-            justify="center"
-            boxSize="8"
-            rounded="full"
-            bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
-          >
-            <Icon
-              as={Info}
-              boxSize="4"
-              color={{ base: 'primary.400', _dark: 'primary.200' }}
-            />
-          </Flex>
+          <Header.Icon icon={Info} />
 
           <Header.Title fontWeight="semibold" letterSpacing="wider">
             Serviço {' - '}
@@ -79,7 +57,7 @@ const ServiceEstablishmentDetails = () => {
             Agendamentos do serviço
           </Text>
 
-          {!servicesAppointments?.length && (
+          {!servicesBookings?.length && (
             <Text mt="2" fontSize="sm" color="colorPalette.500">
               Nenhum agendamento encontrado para este serviço
             </Text>
@@ -91,7 +69,7 @@ const ServiceEstablishmentDetails = () => {
             flexDirection="row"
             flexWrap="wrap"
           >
-            <For each={servicesAppointments}>
+            <For each={servicesBookings}>
               {(service) => (
                 <DataList.Item key={service.label}>
                   <DataList.ItemLabel>{service.label}</DataList.ItemLabel>

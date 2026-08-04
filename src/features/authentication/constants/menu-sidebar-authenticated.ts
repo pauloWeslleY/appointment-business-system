@@ -4,6 +4,11 @@ import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 
 export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
   {
+    type: 'header',
+    label: 'Menu',
+    path: undefined,
+  },
+  {
     icon: HomeIcon,
     label: 'Estabelecimentos',
     path: '/establishment',

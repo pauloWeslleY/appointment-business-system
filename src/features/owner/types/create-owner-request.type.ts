@@ -4,5 +4,4 @@ export interface CreateOwnerRequest {
   cnpj: string
   name: string
   phone: string
-  businessName: string
 }

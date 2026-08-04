@@ -15,9 +15,7 @@ const ButtonLogout = () => {
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
-        onSuccess: () => {
-          navigate({ to: '/login' })
-        },
+        onSuccess: () => navigate({ to: '/login' }),
         onError: ({ error }) => {
           toaster.error({
             title: mapErrorsLabel[error.code] || 'Erro ao realizar logout',
@@ -32,15 +30,11 @@ const ButtonLogout = () => {
       {!collapsed && (
         <Button
           onClick={handleLogout}
-          size="sm"
+          size="xs"
           rounded="xl"
-          variant="outline"
+          variant="surface"
           w="full"
-          color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
-          borderColor={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
-          _hover={{
-            bg: { base: 'colorPalette.400/10', _dark: 'colorPalette.800' },
-          }}
+          colorPalette="primary"
         >
           <Icon as={LogOut} boxSize="4" />
           Sair
@@ -53,6 +47,7 @@ const ButtonLogout = () => {
           size="sm"
           rounded="xl"
           variant="outline"
+          colorPalette="primary"
           aria-label="Logout"
         >
           <Icon as={LogOut} boxSize="4" />

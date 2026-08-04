@@ -1,4 +1,4 @@
-import { Box, Card, Flex, HStack, Icon } from '@chakra-ui/react'
+import { Box, Card, HStack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { UserCog } from 'lucide-react'
 import { z } from 'zod'
@@ -25,20 +25,7 @@ function CollaboratorsPage() {
     <Box spaceY={{ base: '4', lg: '6' }}>
       <Header.Root justify="space-between" align="center">
         <HStack gap="2" align="center">
-          <Flex
-            align="center"
-            justify="center"
-            boxSize="8"
-            rounded="full"
-            bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
-          >
-            <Icon
-              as={UserCog}
-              boxSize="5"
-              color={{ base: 'primary.400', _dark: 'primary.200' }}
-            />
-          </Flex>
-
+          <Header.Icon icon={UserCog} />
           <Header.Title>Colaboradores</Header.Title>
         </HStack>
 

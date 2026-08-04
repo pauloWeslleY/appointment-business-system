@@ -65,7 +65,7 @@ const MenuActionsTableCollaborator = ({
     return dispatch({ type: 'inativar', payload: open })
   }
 
-  const loadMenuCardAppointment = [
+  const loadMenuCardBooking = [
     {
       label: 'Info',
       icon: Info,
@@ -99,7 +99,7 @@ const MenuActionsTableCollaborator = ({
         <Portal>
           <Menu.Positioner>
             <Menu.Content css={contentCss}>
-              <For each={loadMenuCardAppointment}>
+              <For each={loadMenuCardBooking}>
                 {(item, index) => (
                   <React.Fragment key={index}>
                     {index === 2 && (

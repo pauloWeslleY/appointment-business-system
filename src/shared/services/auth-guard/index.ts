@@ -1,6 +1,6 @@
 import { authClient } from '@/lib/auth'
 
-interface AuthContext {
+export interface AuthContext {
   auth: {
     isAuthenticated: boolean
   }

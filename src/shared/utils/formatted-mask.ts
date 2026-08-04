@@ -15,3 +15,23 @@ export const formatterMask = (value: string, mask: FormatMaskType): string => {
   const v = value.toString()
   return mask.replace(/#/g, () => v[i++]).replace(/undefined/g, '')
 }
+
+export const formattedCellphone = (value: string): string => {
+  return formatterMask(value, FormatMask.CELLPHONE)
+}
+
+export const formattedTelephone = (value: string): string => {
+  return formatterMask(value, FormatMask.TELEPHONE)
+}
+
+export const formattedPhone = (value: string): string => {
+  if (value.length === 10) {
+    return formattedTelephone(value)
+  }
+
+  if (value.length === 11) {
+    return formattedCellphone(value)
+  }
+
+  return value
+}

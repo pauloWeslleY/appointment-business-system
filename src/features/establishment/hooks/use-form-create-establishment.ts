@@ -123,6 +123,7 @@ export function useFormCreateEstablishment() {
         intervals: [intervals[parseInt(day, 10)]],
       })),
       address: params.address,
+      imageUrl: null,
     })
   }
 

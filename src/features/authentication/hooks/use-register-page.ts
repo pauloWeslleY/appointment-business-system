@@ -5,14 +5,14 @@ import { useForm } from 'react-hook-form'
 import { toaster } from '@/components/ui/toaster'
 import { authClient } from '@/lib/auth'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
-import { useFormStepRegister } from '@/shared/store/form-step-register'
 
 import { RegisterFormSchema } from '../schemas/register-form.schema'
 import type { AuthModel } from '../types/authentication.model'
 import type { RegisterFormData } from '../types/register-form-data.type'
+import { useStepRegister } from './use-step-register'
 
 export function useRegisterPage() {
-  const { step, setStep } = useFormStepRegister()
+  const { stepRegister, setStepRegisterWithValidation } = useStepRegister()
 
   const {
     reset,
@@ -43,7 +43,7 @@ export function useRegisterPage() {
           })
 
           reset()
-          setStep(step + 1)
+          setStepRegisterWithValidation(stepRegister + 1)
         },
         onError: ({ error }) => {
           const _error = mapErrorsLabel[error.code] ?? error.message

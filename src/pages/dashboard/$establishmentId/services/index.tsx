@@ -1,4 +1,4 @@
-import { Box, Button, Card, Flex, HStack, Icon } from '@chakra-ui/react'
+import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { BriefcaseBusiness, Plus } from 'lucide-react'
 import z from 'zod'
@@ -36,20 +36,7 @@ function ServicesPage() {
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
       <Header.Root justify="space-between">
         <HStack gap="2" align="center">
-          <Flex
-            align="center"
-            justify="center"
-            boxSize="8"
-            rounded="full"
-            bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
-          >
-            <Icon
-              as={BriefcaseBusiness}
-              boxSize="5"
-              color={{ base: 'primary.400', _dark: 'primary.200' }}
-            />
-          </Flex>
-
+          <Header.Icon icon={BriefcaseBusiness} />
           <Header.Title>Serviços</Header.Title>
         </HStack>
 

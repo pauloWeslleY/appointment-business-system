@@ -4,9 +4,11 @@ import { PatternFormat } from 'react-number-format'
 
 import { Field } from '@/components/ui/field'
 
-import { useFormCreateOwner } from '../hooks/use-form-create-owner'
+import { type useFormCreateOwner } from '../hooks/use-form-create-owner'
 
-const FormCreateOwner = () => {
+type FormCreateOwnerProps = ReturnType<typeof useFormCreateOwner>
+
+const FormCreateOwner = (props: FormCreateOwnerProps) => {
   const {
     control,
     register,
@@ -14,7 +16,7 @@ const FormCreateOwner = () => {
     errors,
     isPendingCreateOwner,
     handleCreateOwner,
-  } = useFormCreateOwner()
+  } = props
 
   return (
     <chakra.form
@@ -100,19 +102,6 @@ const FormCreateOwner = () => {
           )}
         />
       </HStack>
-
-      <Field
-        invalid={!!errors.businessName}
-        errorText={errors.businessName?.message}
-      >
-        <Input
-          {...register('businessName')}
-          placeholder="Digite a razão social ou nome empresarial da empresa"
-          rounded="xl"
-          size="sm"
-          borderColor={{ base: 'gray.400', _dark: 'gray.600' }}
-        />
-      </Field>
 
       <Button
         type="submit"

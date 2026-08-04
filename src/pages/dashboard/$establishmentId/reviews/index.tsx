@@ -1,4 +1,4 @@
-import { Box, Card, Flex, HStack, Icon } from '@chakra-ui/react'
+import { Box, Card, HStack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 import z from 'zod'
@@ -22,20 +22,7 @@ function ReviewsPage() {
     <Box spaceY={{ base: '4', lg: '6' }}>
       <Header.Root>
         <HStack align="center">
-          <Flex
-            align="center"
-            justify="center"
-            boxSize="8"
-            rounded="full"
-            bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
-          >
-            <Icon
-              as={Star}
-              boxSize="5"
-              color={{ base: 'primary.400', _dark: 'primary.200' }}
-            />
-          </Flex>
-
+          <Header.Icon icon={Star} />
           <Header.Title>Avaliações</Header.Title>
         </HStack>
       </Header.Root>

@@ -1,17 +1,19 @@
 import { Spinner, Text, VStack } from '@chakra-ui/react'
 
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-
 const PageLoader = () => {
   return (
     <VStack
       align="center"
       justify="center"
-      colorPalette={colorDefaultTheme}
+      colorPalette="primary"
       h={{ base: 'auto', md: 'xl', xl: 'dvh' }}
     >
-      <Spinner color="colorPalette.600" />
-      <Text color="colorPalette.600">Carregando...</Text>
+      <Spinner
+        color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}
+      />
+      <Text color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}>
+        Carregando...
+      </Text>
     </VStack>
   )
 }

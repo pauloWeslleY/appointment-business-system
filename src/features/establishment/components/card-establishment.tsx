@@ -13,6 +13,7 @@ import { useMemo } from 'react'
 
 import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
+import { cardCss } from '@/theme/styles/global-styles'
 
 import type { EstablishmentModel } from '../types/establishment.model'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
@@ -36,35 +37,32 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
   return (
     <Card.Root
       variant="outline"
-      rounded="xl"
-      shadow="xs"
       display="flex"
       flexDir="column"
       justifyContent="center"
       alignItems="center"
-      bg={{ base: 'white', _dark: 'primary.800/50' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-      p="2"
+      css={cardCss}
     >
       <Card.Body
         p="0"
         pb="2"
         w="full"
+        spaceY="1"
         borderBottomWidth="1px"
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       >
         <Text
-          letterSpacing="wide"
+          color={{ base: 'primary.500', _dark: 'primary.200' }}
+          letterSpacing="wider"
           fontWeight="medium"
-          color={{ base: 'colorPalette.600', _dark: 'primary.100' }}
         >
           {establishment.name}
         </Text>
 
         <Text
+          fontSize="sm"
           letterSpacing="wide"
-          fontWeight="light"
-          color={{ base: 'primary.500', _dark: 'primary.200/50' }}
+          color={{ base: 'gray.600', _dark: 'gray.400' }}
           truncate
         >
           {establishment.description}
@@ -72,9 +70,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
 
         <HStack align="center">
           <Text
+            fontSize="sm"
             letterSpacing="wide"
-            fontWeight="light"
-            color={{ base: 'primary.500', _dark: 'primary.200/50' }}
+            color={{ base: 'gray.600', _dark: 'gray.400' }}
           >
             {loadEstablishmentDetails.openingHours}
           </Text>
@@ -96,19 +94,17 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         </HStack>
 
         <Text
+          fontSize="sm"
           letterSpacing="wide"
-          fontWeight="light"
-          color={{ base: 'primary.500', _dark: 'primary.200/50' }}
+          color={{ base: 'gray.600', _dark: 'gray.400' }}
         >
           {establishment.phones.map(formatPhone).join(' - ')}
         </Text>
 
         <Text
           letterSpacing="wide"
-          fontWeight="light"
           color={{ base: 'gray.600', _dark: 'gray.500' }}
           fontSize="sm"
-          pt="2"
         >
           {establishment.openingHours
             .map((hour) => `${weekDaysLabels[hour.day].slice(0, 3)}`)

@@ -8,7 +8,7 @@ const CarduserProfile = () => {
   const { data: storageData } = useStorageImage(data?.user?.image)
 
   return (
-    <Flex flexDir="column" align="center" justify="center" p="4">
+    <Flex flexDir="column" align="center" justify="center">
       <Avatar.Root
         shape="full"
         boxSize="28"

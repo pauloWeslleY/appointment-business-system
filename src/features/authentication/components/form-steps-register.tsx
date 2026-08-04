@@ -1,56 +1,92 @@
-import { Box, Button, ButtonGroup, Steps } from '@chakra-ui/react'
+import { Box, Button, HStack, Icon, Steps } from '@chakra-ui/react'
+import { useNavigate } from '@tanstack/react-router'
+import { ArrowRight } from 'lucide-react'
 
-import { useFormStepRegister } from '@/shared/store/form-step-register'
+import { useFormCreateOwner } from '@/features/owner/hooks/use-form-create-owner'
 
 import FormCreateOwner from '../../owner/pages/form-create-owner'
+import { useStepRegister } from '../hooks/use-step-register'
 import FormRegister from '../pages/form-register.page'
 
-const steps = [
-  {
-    title: 'Step 1',
-    content: FormRegister,
-  },
-  {
-    title: 'Step 2',
-    content: FormCreateOwner,
-  },
-]
+const steps = ['Usuário', 'Proprietário'] as const
 
 const FormStepsRegister = () => {
-  const { step, setStep } = useFormStepRegister()
+  const { stepRegister, setStepRegisterWithValidation } = useStepRegister()
+  const formCreateOwner = useFormCreateOwner(setStepRegisterWithValidation)
+  const navigate = useNavigate()
 
   return (
     <Box p={{ base: '4', md: '8', xl: '40' }}>
       <Steps.Root
-        step={step}
-        onStepChange={(e) => setStep(e.step)}
+        step={stepRegister}
+        onStepChange={(e) => setStepRegisterWithValidation(e.step)}
         count={steps.length}
       >
         <Steps.List>
           {steps.map((step, index) => (
-            <Steps.Item key={index} index={index} title={step.title}>
+            <Steps.Item key={index} index={index} title={step}>
               <Steps.Indicator />
-              <Steps.Title>{step.title}</Steps.Title>
+              <Steps.Title>{step}</Steps.Title>
               <Steps.Separator />
             </Steps.Item>
           ))}
         </Steps.List>
 
-        {steps.map((step, index) => (
-          <Steps.Content key={index} index={index}>
-            <step.content />
-          </Steps.Content>
-        ))}
+        <Steps.Content index={0}>
+          <FormRegister />
+        </Steps.Content>
 
-        <Steps.CompletedContent>
+        <Steps.Content index={1}>
+          <FormCreateOwner {...formCreateOwner} />
+        </Steps.Content>
+
+        <Steps.CompletedContent
+          display="flex"
+          flexDir="column"
+          textAlign="center"
+          gap="4"
+          mt="6"
+        >
           Todos os passos foram concluídos!
+          <Button
+            variant="surface"
+            rounded="xl"
+            colorPalette="primary"
+            size="sm"
+            loading={formCreateOwner.isPendingCreateOwner}
+            onClick={() => navigate({ to: '/establishment' })}
+          >
+            Entrar
+            <Icon as={ArrowRight} ml="2" />
+          </Button>
         </Steps.CompletedContent>
 
-        <ButtonGroup size="sm" variant="outline">
-          <Steps.PrevTrigger asChild>
-            <Button rounded="xl">Voltar</Button>
-          </Steps.PrevTrigger>
-        </ButtonGroup>
+        <HStack align="center" gap="2">
+          {stepRegister === steps.length - 1 && (
+            <Button
+              flex="1"
+              size="sm"
+              variant="subtle"
+              colorPalette="secondary"
+              rounded="xl"
+              onClick={formCreateOwner.handleGoBackToPreviousStep}
+            >
+              Voltar
+            </Button>
+          )}
+          {stepRegister === steps.length - 1 && (
+            <Button
+              flex="1"
+              size="sm"
+              variant="subtle"
+              rounded="xl"
+              colorPalette="primary"
+              onClick={formCreateOwner.handleGoBackToNextStep}
+            >
+              Próximo
+            </Button>
+          )}
+        </HStack>
       </Steps.Root>
     </Box>
   )

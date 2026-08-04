@@ -7,5 +7,6 @@ export interface CreateEstablishmentRequest {
   phones: string[]
   openingHours: OpeningHoursDayProps[]
   ownerId: string
+  imageUrl?: string | null
   address: AddressProps
 }

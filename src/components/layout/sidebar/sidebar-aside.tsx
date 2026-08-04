@@ -32,7 +32,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
       h="full"
       px="2"
       pb="10"
-      bg={{ base: 'tertiary.300', _dark: 'secondary.900' }}
+      bg={{ base: 'tertiary.300', _dark: 'primary.900' }}
       w={collapsed ? '20' : '60'}
       transition="width 0.2s ease"
       pos="relative"

@@ -13,6 +13,7 @@ interface EstablishmentLayoutProps {
 
 const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
   const {
+    collapsed,
     establishment,
     establishmentId,
     loadEstablishmentInfo,
@@ -34,16 +35,35 @@ const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
     <Sidebar.Root>
       <Sidebar.Aside>
         <For each={loadMenuDashboardEstablishment}>
-          {(item) => (
-            <Sidebar.Nav
-              key={item.path}
-              icon={item.icon}
-              active={activePath(item.path)}
-              onClick={() => handleNavigation(item.path)}
-            >
-              {item.label}
-            </Sidebar.Nav>
-          )}
+          {(item) => {
+            if (item.type === 'header') {
+              return (
+                <Text
+                  key={item.label}
+                  display={collapsed ? 'none' : 'block'}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  letterSpacing="wider"
+                  color={{ base: 'gray.500', _dark: 'gray.400' }}
+                  my="4"
+                  pl="2"
+                >
+                  {item.label}
+                </Text>
+              )
+            }
+
+            return (
+              <Sidebar.Nav
+                key={item.path}
+                icon={item.icon}
+                active={activePath(item.path)}
+                onClick={() => handleNavigation(item.path)}
+              >
+                {item.label}
+              </Sidebar.Nav>
+            )
+          }}
         </For>
       </Sidebar.Aside>
 

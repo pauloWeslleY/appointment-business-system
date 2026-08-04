@@ -1,18 +1,14 @@
 import {
   Alert,
-  Button,
-  Flex,
+  Box,
   HStack,
-  Icon,
   SimpleGrid,
   Skeleton,
   SkeletonCircle,
   SkeletonText,
   Stack,
-  VStack,
 } from '@chakra-ui/react'
-import { useNavigate, useSearch } from '@tanstack/react-router'
-import { PlusIcon } from 'lucide-react'
+import { useSearch } from '@tanstack/react-router'
 
 import SearchPage from '@/components/search-page'
 
@@ -21,8 +17,6 @@ import NotFoundEstablishment from '../components/not-found-establishment'
 import { useGetEstablishmentsByOwner } from '../hooks/use-get-esblishment-by-owner'
 
 const ListEstablishmentPage = () => {
-  const navigate = useNavigate()
-
   const search = useSearch({
     from: '/_authenticated/establishment/',
   })
@@ -52,19 +46,10 @@ const ListEstablishmentPage = () => {
   }
 
   return (
-    <VStack gap={{ base: '4', lg: '8' }}>
-      <Flex w="full" justify="space-between" align="center">
+    <Box spaceY={{ base: '4', lg: '6' }}>
+      <div>
         <SearchPage w="350px" />
-
-        <Button
-          rounded="xl"
-          size="sm"
-          onClick={() => navigate({ to: '/establishment/new' })}
-        >
-          <Icon as={PlusIcon} boxSize="5" />
-          Novo estabelecimento
-        </Button>
-      </Flex>
+      </div>
 
       {filteredEstablishments.length === 0 && (
         <Alert.Root status="warning" rounded="xl">
@@ -83,7 +68,7 @@ const ListEstablishmentPage = () => {
           ))}
         </SimpleGrid>
       )}
-    </VStack>
+    </Box>
   )
 }
 

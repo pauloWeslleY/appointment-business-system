@@ -2,6 +2,7 @@ import { For, Tabs } from '@chakra-ui/react'
 import { useQueryState } from 'nuqs'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import FormUpdateEstablishment from './form-update-establishment.page'
 import UploadImageEstablishment from './upload-image-establishment.page'
@@ -12,13 +13,16 @@ const MenuUpdateEstablishment = {
 } as const
 
 const loadMenuUpdateEstablishment = [
-  { value: MenuUpdateEstablishment.EDIT, label: 'Editar' },
-  { value: MenuUpdateEstablishment.UPLOAD, label: 'Upload' },
-]
-
-const loadMenuUpdateEstablishmentPages = [
-  { value: MenuUpdateEstablishment.EDIT, page: FormUpdateEstablishment },
-  { value: MenuUpdateEstablishment.UPLOAD, page: UploadImageEstablishment },
+  {
+    label: 'Editar',
+    value: MenuUpdateEstablishment.EDIT,
+    page: FormUpdateEstablishment,
+  },
+  {
+    label: 'Upload',
+    value: MenuUpdateEstablishment.UPLOAD,
+    page: UploadImageEstablishment,
+  },
 ]
 
 const UpdateEstablishmentPage = () => {
@@ -35,10 +39,9 @@ const UpdateEstablishmentPage = () => {
       variant="enclosed"
     >
       <Tabs.List
-        aria-label="Establishment creation menu"
-        bg={{ base: 'white', _dark: 'gray.950/40' }}
-        rounded="xl"
-        shadow="xs"
+        aria-label="Establishment updated menu"
+        css={cardSectionCss}
+        p="1.5"
         w={{ base: 'full', lg: 'md' }}
       >
         <For each={loadMenuUpdateEstablishment}>
@@ -64,7 +67,7 @@ const UpdateEstablishmentPage = () => {
         </For>
       </Tabs.List>
 
-      <For each={loadMenuUpdateEstablishmentPages}>
+      <For each={loadMenuUpdateEstablishment}>
         {(item) => (
           <Tabs.Content key={item.value} value={item.value}>
             <item.page />

@@ -1,28 +1,22 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { Box } from '@chakra-ui/react'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { UserSquare2 } from 'lucide-react'
 
-import OwnerLayoutContainer from '@/features/owner/layout/owner-layout'
-import { authClient } from '@/lib/auth'
+import Header from '@/components/layout/header'
 
 export const Route = createFileRoute('/_authenticated/owner')({
-  beforeLoad: async () => {
-    const { data: session } = await authClient.getSession()
-    if (!session?.user) {
-      throw redirect({
-        to: '/login',
-        hash: 'owner',
-        search: `redirectTo=${encodeURIComponent(
-          window.location.pathname + window.location.search,
-        )}`,
-      })
-    }
-  },
   component: OwnerLayout,
 })
 
 function OwnerLayout() {
   return (
-    <OwnerLayoutContainer>
+    <Box spaceY={{ base: '4', lg: '6' }}>
+      <Header.Root>
+        <Header.Icon icon={UserSquare2} />
+        <Header.Title>Proprietário</Header.Title>
+      </Header.Root>
+
       <Outlet />
-    </OwnerLayoutContainer>
+    </Box>
   )
 }

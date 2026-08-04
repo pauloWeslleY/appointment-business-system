@@ -1,4 +1,4 @@
-import type { StatusProps } from '@/components/ui/status'
+import { type ColorPalette } from '@chakra-ui/react'
 
 export const StatusCollaborator = {
   PENDING: 'pending',
@@ -13,7 +13,7 @@ type MapLabelStatusCollaboratorProps = Record<StatusCollaboratorType, string>
 
 export const mapColorStatusCollaborator: Record<
   StatusCollaboratorType,
-  StatusProps['colorPalette']
+  ColorPalette
 > = {
   [StatusCollaborator.PENDING]: 'yellow',
   [StatusCollaborator.ACTIVE]: 'green',

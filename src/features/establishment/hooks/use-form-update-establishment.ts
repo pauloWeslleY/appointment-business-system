@@ -21,7 +21,11 @@ export function useFormUpdateEstablishment() {
   })
   const queryClient = useQueryClient()
   const { data: owner } = useGetOwnerById()
-  const { data: establishment } = useGetEstablishmentById(establishmentId)
+  const {
+    data: establishment,
+    isLoading: isLoadingEstablishment,
+    error: errorEstablishment,
+  } = useGetEstablishmentById(establishmentId)
 
   const {
     mutate: updateEstablishment,
@@ -168,6 +172,8 @@ export function useFormUpdateEstablishment() {
     handleSubmit,
     errors,
     isPendingUpdateEstablishment,
+    isLoadingEstablishment,
+    errorEstablishment,
     handleUpdateEstablishment,
     handleCloseAlertUpdatePhone,
     handleCloseAlertUpdateIntervals,
