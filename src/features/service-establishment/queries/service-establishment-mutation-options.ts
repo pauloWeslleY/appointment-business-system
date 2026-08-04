@@ -9,6 +9,7 @@ import { uploadFiles } from '@/shared/services/storage/upload-files'
 
 import {
   createServiceEstablishmentService,
+  statusServiceEstablishmentService,
   updateServiceEstablishmentService,
 } from '../services/service-establishment.service'
 import type { ServiceEstablishmentFormData } from '../types/form-service-establishment.type'
@@ -63,6 +64,17 @@ export const serviceEstablishmentMutationOptions = {
           imageUrl: urlImage?.key ?? null,
         })
       },
+    })
+  },
+
+  status() {
+    return mutationOptions<
+      ServiceEstablishmentModel,
+      Error,
+      { id: string; status: boolean }
+    >({
+      mutationKey: ['status-service-establishment'],
+      mutationFn: statusServiceEstablishmentService,
     })
   },
 }

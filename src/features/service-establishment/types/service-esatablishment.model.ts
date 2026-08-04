@@ -3,6 +3,7 @@ export interface ServiceEstablishmentModel {
   name: string
   description: string
   imageUrl: string | null
+  status: boolean
   servicePriceInCents: number
   establishmentId: string
   createdAt: string

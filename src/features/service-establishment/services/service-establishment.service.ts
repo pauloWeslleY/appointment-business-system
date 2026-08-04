@@ -67,13 +67,15 @@ export const updateServiceEstablishmentService = async (
   return validate.errors(response)
 }
 
-export const deleteServiceEstablishmentService = async (
-  serviceEstablishmentId: string,
-) => {
+export const statusServiceEstablishmentService = async (service: {
+  id: string
+  status: boolean
+}) => {
   const { api, validate } = httpDependencies<ServiceEstablishmentModel>()
   const response = await api.request({
-    method: HttpMethod.DELETE,
-    url: `/service/establishment/${serviceEstablishmentId}`,
+    method: HttpMethod.PATCH,
+    url: `/service/establishment/status`,
+    body: service,
   })
 
   return validate.errors(response)

@@ -1,12 +1,11 @@
 import {
   Alert,
   Box,
-  ButtonGroup,
+  Flex,
   For,
   HStack,
-  IconButton,
-  Pagination,
   type PaginationPageChangeDetails,
+  SimpleGrid,
   Skeleton,
   Spinner,
   Stack,
@@ -17,8 +16,9 @@ import { useParams } from '@tanstack/react-router'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
+import PaginationTable from '@/components/layout/pagination-table'
+import SelectPageSize from '@/components/layout/select-page-size'
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
@@ -42,34 +42,37 @@ const ServicesListPage = () => {
   const [pagination, setPagination] = useQueryStates(
     {
       page: parseAsInteger.withDefault(1),
-      page_size: parseAsInteger.withDefault(10),
+      page_size: parseAsInteger.withDefault(12).withOptions({
+        clearOnDefault: false,
+      }),
     },
     {
-      shallow: true,
+      shallow: false,
     },
   )
 
-  const visibleServices = useMemo(() => {
+  const filteredServices = useMemo(() => {
     const query = search.q?.toLowerCase()
-    const loadTableServicesEsblishment = servicesEsblishment.filter(
-      (service) => {
-        const queryStringName = query
-          ? service.name.toLowerCase().includes(query)
-          : true
+    return servicesEsblishment.filter((service) => {
+      const queryStringName = query
+        ? service.name.toLowerCase().includes(query)
+        : true
 
-        const queryStringDescription = query
-          ? service.description.toLowerCase().includes(query)
-          : true
+      const queryStringDescription = query
+        ? service.description.toLowerCase().includes(query)
+        : true
 
-        return queryStringName || queryStringDescription
-      },
-    )
+      return queryStringName || queryStringDescription
+    })
+  }, [search.q, servicesEsblishment])
 
+  const visibleServices = useMemo(() => {
     const start = (pagination.page - 1) * pagination.page_size
     const end = start + pagination.page_size
+    return filteredServices.slice(start, end)
+  }, [filteredServices, pagination.page, pagination.page_size])
 
-    return loadTableServicesEsblishment.slice(start, end)
-  }, [search.q, servicesEsblishment, pagination.page, pagination.page_size])
+  console.log(filteredServices.length, pagination.page_size)
 
   const handlePageChange = (details: PaginationPageChangeDetails) => {
     startTransition(() => {
@@ -123,53 +126,37 @@ const ServicesListPage = () => {
       )}
 
       {!isPendingPagination && (
-        <VStack align="stretch" gap="2" w="full">
+        <SimpleGrid columns={{ base: 1, lg: 4 }} gap="2" w="full">
           <For each={visibleServices}>
             {(service) => (
               <CardServiceEsblishment key={service.id} service={service} />
             )}
           </For>
-        </VStack>
+        </SimpleGrid>
       )}
 
-      {servicesEsblishment.length > pagination.page_size && (
+      {filteredServices.length > 0 && (
         <HStack justify="space-between" w="full">
-          <Pagination.Root
-            count={servicesEsblishment.length}
-            pageSize={pagination.page_size}
-            page={pagination.page}
-            onPageChange={handlePageChange}
-          >
-            <ButtonGroup alignSelf="end" size="sm" variant="subtle">
-              <Pagination.PrevTrigger asChild>
-                <IconButton aria-label="Página anterior" rounded="xl">
-                  <LuChevronLeft />
-                </IconButton>
-              </Pagination.PrevTrigger>
+          <Flex align="center" gap="2">
+            <PaginationTable
+              count={filteredServices.length}
+              pageSize={pagination.page_size}
+              page={pagination.page}
+              onPageChange={handlePageChange}
+            />
 
-              <Pagination.Items
-                render={(item) => (
-                  <IconButton
-                    aria-label={`Página ${item.value}`}
-                    variant={{ base: 'ghost', _selected: 'outline' }}
-                    rounded="xl"
-                  >
-                    {item.value}
-                  </IconButton>
-                )}
-              />
-
-              <Pagination.NextTrigger asChild>
-                <IconButton aria-label="Próxima página" rounded="xl">
-                  <LuChevronRight />
-                </IconButton>
-              </Pagination.NextTrigger>
-            </ButtonGroup>
-          </Pagination.Root>
+            <SelectPageSize
+              pages={[12, 24, 48]}
+              search={{
+                page: search?.page ?? 1,
+                pageSize: search?.page_size ?? 12,
+              }}
+            />
+          </Flex>
 
           <Box>
             <Text fontSize="sm" color="gray.400">
-              {`Exibindo ${visibleServices.length} de ${servicesEsblishment.length} serviços`}
+              {`Exibindo ${visibleServices.length} de ${filteredServices.length} serviços`}
             </Text>
           </Box>
         </HStack>

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getServiceEstablishmentDetailService } from '../services/service-establishment.service'
 import { serviceEstablishmentQueryKeys } from '../queries/service-establishment-query-key'
+import { getServiceEstablishmentDetailService } from '../services/service-establishment.service'
 
 export function useGetServiceEstablishmentDetails(
   serviceEstablishmentId: string,

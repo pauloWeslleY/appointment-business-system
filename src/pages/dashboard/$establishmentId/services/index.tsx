@@ -1,5 +1,5 @@
 import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { BriefcaseBusiness, Plus } from 'lucide-react'
 import z from 'zod'
 
@@ -10,21 +10,10 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/dashboard/$establishmentId/services/')({
   validateSearch: z.object({
-    page: z.number().optional(),
-    page_size: z.number().optional(),
+    page: z.number().optional().default(1),
+    page_size: z.number().optional().default(12),
     q: z.string().optional(),
   }),
-  beforeLoad: ({ search, params }) => {
-    if (!search.page) {
-      throw redirect({
-        to: '/dashboard/$establishmentId/services',
-        params: {
-          establishmentId: params.establishmentId,
-        },
-        search: { page: 1 },
-      })
-    }
-  },
   component: ServicesPage,
 })
 
