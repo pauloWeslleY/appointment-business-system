@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from '@tanstack/react-router'
 import dayjs from 'dayjs'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -19,6 +19,21 @@ export function useFormUpdateCustomer(customer: CustomerModel) {
     from: '/dashboard/$establishmentId/customers/',
   })
 
+  const validateBirthDate = useCallback(
+    (value: string) => {
+      const regexBirthDate =
+        /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/
+
+      if (regexBirthDate.test(value)) {
+        const [day, month, year] = value.split('/')
+        return `${year}-${month}-${day}`
+      }
+
+      return dayjs(customer.birthDate).format('YYYY-MM-DD')
+    },
+    [customer.birthDate],
+  )
+
   const formUpdateCustomerDefaultValues = useMemo<
     DefaultValues<CustomerFormData>
   >(
@@ -27,10 +42,18 @@ export function useFormUpdateCustomer(customer: CustomerModel) {
       email: customer.email ?? '',
       phones: customer.phones.map((phone) => ({ phone })) ?? [],
       notes: customer.notes ?? '',
-      birthDate: dayjs(customer.birthDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      birthDate: validateBirthDate(customer.birthDate),
       gender: [customer.gender] as CustomerFormData['gender'],
     }),
-    [customer],
+    [
+      customer.birthDate,
+      customer.email,
+      customer.gender,
+      customer.name,
+      customer.notes,
+      customer.phones,
+      validateBirthDate,
+    ],
   )
 
   const formUpdateCustomer = useForm<CustomerFormData>({

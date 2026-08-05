@@ -14,7 +14,11 @@ const CollaboratorsTableHeader = () => {
     <Table.Header>
       <Table.Row bg={{ base: 'primary.100', _dark: 'primary.900/40' }}>
         <For each={loadCollaboratorsTableHeader}>
-          {(header) => <Table.ColumnHeader py="3">{header}</Table.ColumnHeader>}
+          {(header) => (
+            <Table.ColumnHeader key={header} py="3">
+              {header}
+            </Table.ColumnHeader>
+          )}
         </For>
 
         <Table.ColumnHeader py="3" textAlign="end">

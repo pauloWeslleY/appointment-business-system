@@ -1,13 +1,10 @@
 import {
   Alert,
   Box,
-  ButtonGroup,
   chakra,
   Flex,
   For,
   HStack,
-  IconButton,
-  Pagination,
   SimpleGrid,
   Skeleton,
   Spinner,
@@ -16,9 +13,9 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { useParams, useSearch } from '@tanstack/react-router'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useMemo } from 'react'
 
+import PaginationTable from '@/components/layout/pagination-table'
 import { Status } from '@/components/ui/status'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { mapGenderLabel } from '@/shared/constants/map-label-gender-customer'
@@ -28,6 +25,15 @@ import { formattedPhone } from '@/shared/utils/formatted-mask'
 
 import MenuActionsTableCustomers from '../components/menu-actions-table-collaborator'
 import { useGetAllCustomersByEstablishment } from '../hooks/use-get-all-customers-esblishment'
+
+const customersTableHeaders = [
+  'Nome',
+  'E-mail',
+  'Sexo',
+  'Celulares',
+  'Ativos',
+  'Data de Nasc.',
+]
 
 const CustomersTable = () => {
   const { establishmentId } = useParams({
@@ -45,34 +51,16 @@ const CustomersTable = () => {
   } = useGetAllCustomersByEstablishment(establishmentId)
 
   const loadCustomers = useMemo(() => {
-    return customers.map((customer) => ({
+    const data = customers.map((customer) => ({
       ...customer,
       name: customer.name,
       email: customer.email,
       birthDate: formattedDateAndHours(customer.birthDate),
     }))
-  }, [customers])
-
-  const {
-    pagination,
-    isPendingPagination,
-    loadTablePagination,
-    handlePaginationChange,
-  } = usePagination(loadCustomers)
-
-  const loadTableCustomres = useMemo(() => {
-    const headers = [
-      'Nome',
-      'E-mail',
-      'Sexo',
-      'Celulares',
-      'Ativos',
-      'Data de Nasc.',
-    ]
 
     const query = search.q?.toLowerCase()
 
-    const rows = loadTablePagination.filter((customer) => {
+    const rows = data.filter((customer) => {
       const queryStringName = query
         ? customer.name.toLowerCase().includes(query)
         : true
@@ -89,12 +77,15 @@ const CustomersTable = () => {
 
       return queryString && querySex && queryStatus
     })
+    return rows
+  }, [customers, search.q, search.sex, search.status])
 
-    return {
-      headers,
-      rows,
-    }
-  }, [loadTablePagination, search.q, search.status, search.sex])
+  const {
+    pagination,
+    isPendingPagination,
+    loadTablePagination,
+    handlePaginationChange,
+  } = usePagination(loadCustomers)
 
   const formattedPhoneCustomer = (phones: string[]) => {
     return phones.map(formattedPhone)[0]
@@ -137,10 +128,10 @@ const CustomersTable = () => {
 
       {!isPendingPagination && (
         <>
-          {loadTableCustomres.rows.map((row, index) => (
+          {loadTablePagination.map((row, index) => (
             <Flex key={index} direction={{ base: 'row', md: 'column' }}>
               <SimpleGrid
-                columns={{ base: 1, md: loadTableCustomres.headers.length + 2 }}
+                columns={{ base: 1, md: customersTableHeaders.length + 2 }}
                 gap="3"
                 w={{ base: 120, md: 'full' }}
                 bg={{ base: 'gray.100', _dark: 'gray.950/40' }}
@@ -152,7 +143,7 @@ const CustomersTable = () => {
                 fontWeight="hairline"
                 roundedTop={index === 0 ? 'xl' : undefined}
               >
-                <For each={loadTableCustomres.headers}>
+                <For each={customersTableHeaders}>
                   {(header) => (
                     <Text
                       key={header}
@@ -169,7 +160,7 @@ const CustomersTable = () => {
               </SimpleGrid>
 
               <SimpleGrid
-                columns={{ base: 1, md: loadTableCustomres.headers.length + 2 }}
+                columns={{ base: 1, md: customersTableHeaders.length + 2 }}
                 gap="3"
                 w="full"
                 py="2"
@@ -178,9 +169,7 @@ const CustomersTable = () => {
                 fontWeight="hairline"
                 bg={{ base: 'primary.100', _dark: 'primary.800/30' }}
                 roundedBottom={
-                  index === loadTableCustomres.rows.length - 1
-                    ? 'xl'
-                    : undefined
+                  index === loadTablePagination.length - 1 ? 'xl' : undefined
                 }
               >
                 <span>{row.name}</span>
@@ -209,42 +198,16 @@ const CustomersTable = () => {
 
       {customers.length > pagination.page_size && (
         <HStack justify="space-between" w="full">
-          <Pagination.Root
+          <PaginationTable
             count={customers.length}
             pageSize={pagination.page_size}
             page={pagination.page}
             onPageChange={handlePaginationChange}
-          >
-            <ButtonGroup alignSelf="end" size="sm" variant="subtle">
-              <Pagination.PrevTrigger asChild>
-                <IconButton aria-label="Página anterior" rounded="xl">
-                  <ChevronLeft />
-                </IconButton>
-              </Pagination.PrevTrigger>
-
-              <Pagination.Items
-                render={(item) => (
-                  <IconButton
-                    aria-label={`Página ${item.value}`}
-                    variant={{ base: 'ghost', _selected: 'outline' }}
-                    rounded="xl"
-                  >
-                    {item.value}
-                  </IconButton>
-                )}
-              />
-
-              <Pagination.NextTrigger asChild>
-                <IconButton aria-label="Próxima página" rounded="xl">
-                  <ChevronRight />
-                </IconButton>
-              </Pagination.NextTrigger>
-            </ButtonGroup>
-          </Pagination.Root>
+          />
 
           <Box>
             <Text fontSize="sm" color="gray.400">
-              {`Exibindo ${pagination.page_size} de ${customers.length} clientes`}
+              {`Exibindo ${loadTablePagination.length} de ${loadCustomers.length} clientes`}
             </Text>
           </Box>
         </HStack>

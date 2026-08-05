@@ -72,8 +72,6 @@ const ServicesListPage = () => {
     return filteredServices.slice(start, end)
   }, [filteredServices, pagination.page, pagination.page_size])
 
-  console.log(filteredServices.length, pagination.page_size)
-
   const handlePageChange = (details: PaginationPageChangeDetails) => {
     startTransition(() => {
       setPagination({
