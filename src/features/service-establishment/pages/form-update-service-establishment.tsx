@@ -161,7 +161,7 @@ const FormUpdateServiceEstablishment = () => {
         rounded="xl"
         w="fit"
         alignSelf="flex-end"
-        colorPalette="primary"
+        colorPalette="emerald"
         variant="subtle"
         loading={isUpdatingServiceEstablishment}
       >

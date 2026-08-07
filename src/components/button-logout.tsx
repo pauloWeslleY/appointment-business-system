@@ -34,7 +34,7 @@ const ButtonLogout = () => {
           rounded="xl"
           variant="surface"
           w="full"
-          colorPalette="primary"
+          colorPalette="emerald"
         >
           <Icon as={LogOut} boxSize="4" />
           Sair

@@ -1,10 +1,11 @@
-import { Box, HStack } from '@chakra-ui/react'
+import { Box, Card, HStack } from '@chakra-ui/react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { PencilLine } from 'lucide-react'
 import { z } from 'zod'
 
 import Header from '@/components/layout/header'
 import UpdateEstablishmentPage from '@/features/establishment/pages/update-establishment.page'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/$establishmentId/',
@@ -16,12 +17,8 @@ export const Route = createFileRoute(
     if (!search.tab) {
       throw redirect({
         to: '/establishment/$establishmentId',
-        search: {
-          tab: 'edit',
-        },
-        params: {
-          establishmentId: params.establishmentId,
-        },
+        params: { establishmentId: params.establishmentId },
+        search: { tab: 'edit' },
       })
     }
   },
@@ -39,7 +36,9 @@ function EditEstablishmentPage() {
         </HStack>
       </Header.Root>
 
-      <UpdateEstablishmentPage />
+      <Card.Root variant="outline" css={cardSectionCss}>
+        <UpdateEstablishmentPage />
+      </Card.Root>
     </Box>
   )
 }

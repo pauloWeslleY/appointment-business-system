@@ -48,7 +48,7 @@ const FormProfileUser = () => {
             size="sm"
             rounded="xl"
             variant="subtle"
-            colorPalette="primary"
+            colorPalette="emerald"
             loading={isSubmitting}
           >
             Salvar

@@ -24,12 +24,7 @@ const AppError = (props: { error: Error; reset: () => void }) => {
   }
 
   return (
-    <Container
-      maxW="container.lg"
-      centerContent
-      py="8"
-      h={{ base: 'full', xl: 'dvh' }}
-    >
+    <Container maxW="container.lg" centerContent py="8">
       <VStack
         justify="center"
         shadow="xs"

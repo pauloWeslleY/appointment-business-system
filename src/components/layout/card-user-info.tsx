@@ -44,7 +44,8 @@ const CardUserInfo = () => {
           </Text>
           <Text
             fontSize="xs"
-            color={{ base: 'gray.400', _dark: 'gray.600' }}
+            letterSpacing="wider"
+            color={{ base: 'tertiary.700', _dark: 'tertiary.500/40' }}
             truncate
           >
             {data?.user?.email ?? 'email@example.com'}

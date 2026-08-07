@@ -38,7 +38,7 @@ const FilterCustomerStatus = () => {
       <Select.Control>
         <Select.Trigger
           rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
+          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
         >
           <Select.ValueText placeholder="Selecione o status" />
         </Select.Trigger>

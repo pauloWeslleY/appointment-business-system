@@ -113,7 +113,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
       </Card.Body>
       <Card.Footer p="0" w="full" mt="2">
         <Button
-          colorPalette="primary"
+          colorPalette="emerald"
           variant="ghost"
           rounded="xl"
           size="sm"
@@ -130,7 +130,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           Editar
         </Button>
         <Button
-          colorPalette="primary"
+          colorPalette="emerald"
           variant="ghost"
           rounded="xl"
           size="sm"

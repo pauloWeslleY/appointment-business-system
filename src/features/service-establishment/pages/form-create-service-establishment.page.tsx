@@ -139,7 +139,7 @@ const FormCreateServiceEstablishment = () => {
             size="sm"
             rounded="xl"
             w="fit"
-            colorPalette="primary"
+            colorPalette="emerald"
             variant="subtle"
             loading={isCreatingServiceEstablishment}
           >

@@ -11,11 +11,11 @@ const baseSidebarContentRecipe = defineRecipe({
     bgGradient: 'to-tl',
     gradientFrom: {
       base: 'secondary.200/70',
-      _dark: 'colorPalette.900/90',
+      _dark: 'primary.900/70',
     },
     gradientTo: {
       base: 'colorPalette.100',
-      _dark: 'secondary.700',
+      _dark: 'primary.900/80',
     },
   },
 })

@@ -17,7 +17,7 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
       justify="space-between"
       w="full"
       px="4"
-      h="16"
+      h="20"
     >
       <HStack pl={{ base: '0', md: '4' }}>
         <IconButton

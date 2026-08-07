@@ -2,7 +2,6 @@ import { For, Tabs } from '@chakra-ui/react'
 import { useQueryState } from 'nuqs'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import FormUpdateEstablishment from './form-update-establishment.page'
 import UploadImageEstablishment from './upload-image-establishment.page'
@@ -40,8 +39,11 @@ const UpdateEstablishmentPage = () => {
     >
       <Tabs.List
         aria-label="Establishment updated menu"
-        css={cardSectionCss}
         p="1.5"
+        rounded="xl"
+        borderWidth="1px"
+        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+        bg={{ base: 'gray.100', _dark: 'primary.800/40' }}
         w={{ base: 'full', lg: 'md' }}
       >
         <For each={loadMenuUpdateEstablishment}>

@@ -30,13 +30,7 @@ const CollaboratorTableRows = ({
   )
 
   return (
-    <Table.Row
-      transition="colors"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      _hover={{
-        bg: { base: 'gray.100', _dark: 'primary.900/30' },
-      }}
-    >
+    <Table.Row bg={{ base: 'white', _dark: 'transparent' }}>
       <Table.Cell>
         <AvatarTableRow
           imageUrl={collaborator.imageUrl}

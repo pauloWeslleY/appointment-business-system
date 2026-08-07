@@ -12,7 +12,7 @@ const loadCollaboratorsTableHeader = [
 const CollaboratorsTableHeader = () => {
   return (
     <Table.Header>
-      <Table.Row bg={{ base: 'primary.100', _dark: 'primary.900/40' }}>
+      <Table.Row bg={{ base: 'white', _dark: 'transparent' }}>
         <For each={loadCollaboratorsTableHeader}>
           {(header) => (
             <Table.ColumnHeader key={header} py="3">

@@ -1,42 +1,20 @@
-import {
-  Alert,
-  Box,
-  HStack,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-} from '@chakra-ui/react'
-import { useParams, useSearch } from '@tanstack/react-router'
+import { Alert, SimpleGrid, Stack } from '@chakra-ui/react'
+import { useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
-import SearchPage from '@/components/search-page'
-
 import CardBooking from '../components/card-booking'
-import FilterBookingsDate from '../components/filter-bookings-date'
-import FilterBookingsService from '../components/filter-bookings-service'
-import FilterBookingsStatus from '../components/filter-bookings-status'
-import { useGetBookingByEstablishment } from '../hooks/use-get-booking-by-establishment'
+import type { GetBookingByEstablishmentModel } from '../types/get-booking-by-establishment.model'
 
-const ListBookingEstablishment = () => {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
+interface ListBookingEstablishmentProps {
+  bookings: GetBookingByEstablishmentModel[]
+}
 
+const ListBookingEstablishment = ({
+  bookings,
+}: ListBookingEstablishmentProps) => {
   const search = useSearch({
     from: '/dashboard/$establishmentId/bookings/',
   })
-
-  const {
-    data: loadBookingByEstablishment = [],
-    error: errorBookingByEstablishment,
-    isLoading: isLoadingBookingByEstablishment,
-  } = useGetBookingByEstablishment({
-    establishmentId,
-    from: search.from ?? '',
-    to: search.to ?? '',
-  })
-
-  const validateBookingByEstablishment = loadBookingByEstablishment.length > 0
 
   const filteredBookingByEstablishment = useMemo(() => {
     const filteredClient = (clientName: string) => {
@@ -53,63 +31,33 @@ const ListBookingEstablishment = () => {
       return search.status ? search.status === status : true
     }
 
-    return loadBookingByEstablishment.filter(
+    return bookings.filter(
       (booking) =>
         filteredClient(booking.user.name) &&
         filteredServices(booking.service.id) &&
         filteredStatus(booking.status),
     )
-  }, [loadBookingByEstablishment, search.q, search.service_id, search.status])
-
-  if (errorBookingByEstablishment) {
-    return (
-      <Alert.Root status="error" rounded="xl" w="fit">
-        <Alert.Indicator />
-        <Alert.Title>{errorBookingByEstablishment.message}</Alert.Title>
-      </Alert.Root>
-    )
-  }
+  }, [bookings, search.q, search.service_id, search.status])
 
   return (
-    <Box spaceY="2" w="full">
-      {/* Filter Bookings */}
-      <HStack>
-        <SearchPage />
-
-        <FilterBookingsDate />
-        <FilterBookingsStatus />
-        <FilterBookingsService />
-      </HStack>
-
-      {isLoadingBookingByEstablishment && (
-        <Stack gap="2" w="full" p="2">
-          <Skeleton height="30px" rounded="xl" />
-          <Skeleton height="30px" rounded="xl" />
-          <Skeleton height="30px" rounded="xl" />
-        </Stack>
+    <Stack gap="2" w="full">
+      {bookings.length > 0 && (
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">
+          {filteredBookingByEstablishment.map((booking) => (
+            <CardBooking key={booking.id} booking={booking} />
+          ))}
+        </SimpleGrid>
       )}
 
-      {!isLoadingBookingByEstablishment && (
-        <Stack gap="2" w="full" p="2">
-          {validateBookingByEstablishment && (
-            <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">
-              {filteredBookingByEstablishment.map((booking) => (
-                <CardBooking key={booking.id} booking={booking} />
-              ))}
-            </SimpleGrid>
-          )}
-
-          {!validateBookingByEstablishment && (
-            <Alert.Root status="info" rounded="xl" w="fit-content">
-              <Alert.Indicator />
-              <Alert.Title>
-                Não há agendamentos para o período selecionado
-              </Alert.Title>
-            </Alert.Root>
-          )}
-        </Stack>
+      {bookings.length === 0 && (
+        <Alert.Root status="info" rounded="xl" w="fit-content">
+          <Alert.Indicator />
+          <Alert.Title>
+            Não há agendamentos para o período selecionado
+          </Alert.Title>
+        </Alert.Root>
       )}
-    </Box>
+    </Stack>
   )
 }
 

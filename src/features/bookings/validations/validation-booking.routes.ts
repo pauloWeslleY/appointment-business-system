@@ -1,5 +1,6 @@
 import { redirect } from '@tanstack/react-router'
 import dayjs from 'dayjs'
+
 export const validationBookingRouteHome = (
   search: {
     to?: string

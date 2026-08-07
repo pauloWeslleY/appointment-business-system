@@ -90,7 +90,7 @@ const DialogEditBooking = ({
                               rounded="xl"
                               bg={{
                                 base: 'blackAlpha.100',
-                                _dark: 'gray.950/40',
+                                _dark: 'gray.800/40',
                               }}
                               placeholder="Selecione a data"
                             />
@@ -146,7 +146,7 @@ const DialogEditBooking = ({
                               rounded="xl"
                               bg={{
                                 base: 'blackAlpha.100',
-                                _dark: 'gray.950/40',
+                                _dark: 'gray.800/40',
                               }}
                             >
                               <Select.ValueText placeholder="Selecione o horário" />

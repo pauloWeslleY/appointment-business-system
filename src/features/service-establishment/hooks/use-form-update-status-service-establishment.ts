@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useParams } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -9,12 +10,16 @@ import { serviceEstablishmentMutationOptions } from '../queries/service-establis
 import { serviceEstablishmentQueryKeys } from '../queries/service-establishment-query-key'
 import { StatusServiceEstablishmentSchema } from '../schemas/status-service-establishment.schema'
 import type { UpdateStatusServiceEstablishmentFormData } from '../types/form-service-establishment.type'
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
 
 export function useFormUpdateStatusServiceEstablishment(
-  serviceEstablishment: ServiceEstablishmentModel,
+  serviceEstablishment: ListServicesEstablishmentModel,
   onOpen: (open: boolean) => void,
 ) {
+  const { establishmentId } = useParams({
+    from: '/dashboard/$establishmentId/services/',
+  })
   const queryClient = useQueryClient()
 
   const formDefaultValues = useMemo<
@@ -49,9 +54,7 @@ export function useFormUpdateStatusServiceEstablishment(
       )
 
       queryClient.setQueryData<ServiceEstablishmentModel[]>(
-        serviceEstablishmentQueryKeys.detail(
-          serviceEstablishment.establishmentId,
-        ),
+        serviceEstablishmentQueryKeys.detail(establishmentId),
         (oldData) =>
           oldData
             ? oldData.map((item) =>

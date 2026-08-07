@@ -1,7 +1,7 @@
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
-import type { ServiceEstablishmentDetailsModel } from '../types/service-esatablishment-details.model'
+import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
 
 const WITHOUT_DATA = 'Sem dados' as const
 

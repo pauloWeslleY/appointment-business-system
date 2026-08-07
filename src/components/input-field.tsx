@@ -11,7 +11,7 @@ const InputField = ({ ref, ...props }: InputFieldProps) => {
       variant="subtle"
       size="sm"
       rounded="xl"
-      bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
+      bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
     />
   )
 }

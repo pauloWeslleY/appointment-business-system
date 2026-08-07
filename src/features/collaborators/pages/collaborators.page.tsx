@@ -3,14 +3,12 @@ import {
   Box,
   For,
   type PaginationPageChangeDetails,
-  Skeleton,
   Spinner,
-  Stack,
   Table,
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useParams, useSearch } from '@tanstack/react-router'
+import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
 
@@ -19,24 +17,16 @@ import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import ReviewsTableHeader from '../components/collaborators-table-header'
 import CollaboratorsTablePagination from '../components/collaborators-table-pagination'
 import CollaboratorTableRows from '../components/collaborators-table-rows'
-import { useGetAllCollaboratorsByEstablishment } from '../hooks/use-get-all-collaborators-by-establishment'
 import type { CollaboratorEstablishmentModel } from '../types/collaborator-establishment.type'
 
-const CollaboratorsTablePage = () => {
+interface CollaboratorsTablePageProps {
+  collaborators: CollaboratorEstablishmentModel[]
+}
+
+const CollaboratorsTablePage = ({
+  collaborators,
+}: CollaboratorsTablePageProps) => {
   const [isPendingPagination, startTransition] = useTransition()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
-
-  const {
-    data: collaborators = [],
-    isLoading: isLoadingCollaborators,
-    error: errorCollaborators,
-  } = useGetAllCollaboratorsByEstablishment(establishmentId)
-
   const [pagination, setPagination] = useQueryStates(
     {
       page: parseAsInteger.withDefault(1),
@@ -47,14 +37,17 @@ const CollaboratorsTablePage = () => {
     },
   )
 
+  const search = useSearch({
+    from: '/dashboard/$establishmentId/collaborators/',
+  })
+
   const loadCollaboratorsTableRows = useMemo<
     CollaboratorEstablishmentModel[]
   >(() => {
     const querySearch = search.q?.trim().toLowerCase()
 
-    const searchReviewsTable = (params: string) => {
-      return querySearch ? params.toLowerCase().includes(querySearch) : true
-    }
+    const searchReviewsTable = (params: string) =>
+      querySearch ? params.toLowerCase().includes(querySearch) : true
 
     const filteredReviews = collaborators.filter((collaborator) => {
       const emailQueryParams = searchReviewsTable(collaborator.name)
@@ -87,25 +80,6 @@ const CollaboratorsTablePage = () => {
     })
   }
 
-  if (isLoadingCollaborators) {
-    return (
-      <Stack gap="2" w="full" p="2">
-        <Skeleton height="40px" rounded="xl" />
-        <Skeleton height="40px" rounded="xl" />
-        <Skeleton height="40px" rounded="xl" />
-      </Stack>
-    )
-  }
-
-  if (errorCollaborators) {
-    return (
-      <Alert.Root status="error" rounded="xl">
-        <Alert.Indicator />
-        <Alert.Title>{errorCollaborators.message}</Alert.Title>
-      </Alert.Root>
-    )
-  }
-
   if (collaborators.length === 0) {
     return (
       <Alert.Root status="info" rounded="xl">
@@ -136,33 +110,27 @@ const CollaboratorsTablePage = () => {
         </Alert.Root>
       )}
 
-      {!isPendingPagination && (
-        <>
-          {loadCollaboratorsTableRows.length > 0 && (
-            <Table.Root size="sm" rounded="xl" overflow="hidden">
-              <ReviewsTableHeader />
-              <Table.Body>
-                <For each={loadCollaboratorsTableRows}>
-                  {(collaborator) => (
-                    <CollaboratorTableRows
-                      key={collaborator.id}
-                      collaborator={collaborator}
-                    />
-                  )}
-                </For>
-              </Table.Body>
-            </Table.Root>
-          )}
-        </>
+      {loadCollaboratorsTableRows.length > 0 && (
+        <Table.Root size="sm" overflow="hidden">
+          <ReviewsTableHeader />
+          <Table.Body>
+            <For each={loadCollaboratorsTableRows}>
+              {(collaborator) => (
+                <CollaboratorTableRows
+                  key={collaborator.id}
+                  collaborator={collaborator}
+                />
+              )}
+            </For>
+          </Table.Body>
+        </Table.Root>
       )}
 
-      {collaborators.length > pagination.page_size && (
-        <CollaboratorsTablePagination
-          count={collaborators.length}
-          pagination={pagination}
-          onPageChange={handlePageChange}
-        />
-      )}
+      <CollaboratorsTablePagination
+        count={collaborators.length}
+        pagination={pagination}
+        onPageChange={handlePageChange}
+      />
     </Box>
   )
 }

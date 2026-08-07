@@ -1,16 +1,18 @@
 import { Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
 import { useNavigate } from '@tanstack/react-router'
+import { useParams } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
 import { useState } from 'react'
 
+import { toaster } from '@/components/ui/toaster'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { contentCss } from '@/theme/styles/global-styles'
 
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
 import DialogStatusServiceEstablishment from './dialog-status-service-establishment'
 
 interface MenuActionServicesTableProps {
-  service: ServiceEstablishmentModel
+  service: ListServicesEstablishmentModel
 }
 
 const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
@@ -19,12 +21,15 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
     setIsOpenDialogStatusServiceEstablishment,
   ] = useState(false)
   const navigate = useNavigate()
+  const { establishmentId } = useParams({
+    from: '/dashboard/$establishmentId/services/',
+  })
 
   const handleNavigateToService = (page: 'edit' | 'info') => {
     navigate({
       to: `/dashboard/$establishmentId/services/$serviceEstablishmentId/${page}`,
       params: {
-        establishmentId: service.establishmentId,
+        establishmentId,
         serviceEstablishmentId: service.id,
       },
     })
@@ -54,9 +59,20 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
               <Menu.Item
                 value="edit"
                 rounded="xl"
-                cursor="pointer"
+                cursor={!service.status ? 'not-allowed' : 'pointer'}
+                disabled={!service.status}
                 _hover={{ bg: { base: 'gray.100', _dark: 'secondary.600' } }}
-                onClick={() => handleNavigateToService('edit')}
+                onClick={() => {
+                  if (!service.status) {
+                    toaster.error({
+                      title: 'Serviço inativo',
+                      description:
+                        'Não é possível editar um serviço que está inativo.',
+                    })
+                    return
+                  }
+                  handleNavigateToService('edit')
+                }}
               >
                 Editar
               </Menu.Item>

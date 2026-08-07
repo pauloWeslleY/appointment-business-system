@@ -13,7 +13,7 @@ import { FileImage } from 'lucide-react'
 import { ItemDetails } from '@/components/item-details'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import type { ServiceEstablishmentDetailsModel } from '../types/service-esatablishment-details.model'
+import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
 import { formattedDataServiceEstablishmentDetails } from '../utils/formatted-data-services-establishment'
 
 interface CardInfoServiceEstablishementProps {

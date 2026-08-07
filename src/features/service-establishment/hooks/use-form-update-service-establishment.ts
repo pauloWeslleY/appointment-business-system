@@ -12,7 +12,7 @@ import type {
   ServiceEstablishmentFormData,
   ServiceEstablishmentFormInput,
 } from '../types/form-service-establishment.type'
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
+import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
 import { useGetServiceEstablishmentById } from './use-get-service-establishment-by-id'
 
 export function useFormUpdateServiceEstablishment() {

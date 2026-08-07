@@ -14,11 +14,11 @@ import { FileImage } from 'lucide-react'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 import { cardCss } from '@/theme/styles/global-styles'
 
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
 import MenuActionServicesTable from './menu-action-services-table'
 
 interface CardServiceEsblishmentProps {
-  service: ServiceEstablishmentModel
+  service: ListServicesEstablishmentModel
 }
 
 const CardServiceEsblishment = ({ service }: CardServiceEsblishmentProps) => {

@@ -88,10 +88,11 @@ const MenuActionsTableCollaborator = ({
       <Menu.Root>
         <Menu.Trigger asChild>
           <IconButton
-            variant="ghost"
-            rounded="full"
             aria-label="Options"
+            variant="surface"
+            rounded="lg"
             size="xs"
+            colorPalette="gray"
           >
             <Icon as={EllipsisVertical} boxSize="4" />
           </IconButton>

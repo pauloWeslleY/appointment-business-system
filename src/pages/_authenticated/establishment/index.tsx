@@ -31,7 +31,7 @@ function EstablishmentPage() {
           rounded="xl"
           size="xs"
           variant="surface"
-          colorPalette="primary"
+          colorPalette="emerald"
           onClick={() => navigate({ to: '/establishment/new' })}
         >
           <Icon as={PlusIcon} boxSize="5" />

@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  Card,
   chakra,
   For,
   GridItem,
@@ -73,169 +72,160 @@ const FormUpdateEstablishment = () => {
   }
 
   return (
-    <Card.Root
-      variant="outline"
-      rounded="xl"
-      p="4"
-      shadow="xs"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-    >
-      <chakra.form w="full" onSubmit={handleSubmit(handleUpdateEstablishment)}>
-        <SimpleGrid columns={{ base: 1, md: 4 }} gap="4" w="full">
-          <Field
-            gridColumn={{ base: 'span 1', lg: 'span 2' }}
-            invalid={!!errors.name}
-            errorText={errors.name?.message}
+    <chakra.form w="full" onSubmit={handleSubmit(handleUpdateEstablishment)}>
+      <SimpleGrid columns={{ base: 1, md: 4 }} gap="4" w="full">
+        <Field
+          gridColumn={{ base: 'span 1', lg: 'span 2' }}
+          invalid={!!errors.name}
+          errorText={errors.name?.message}
+        >
+          <InputField {...register('name')} placeholder="Digite seu nome" />
+        </Field>
+
+        <Field
+          gridColumn={{ base: 'span 1', md: 'span 2' }}
+          invalid={!!errors.description}
+          errorText={errors.description?.message}
+        >
+          <InputField
+            {...register('description')}
+            placeholder="Digite a descrição"
+          />
+        </Field>
+
+        <FormIntervalEstablishment
+          values={getValues()}
+          control={control}
+          errors={errors}
+          onCloseAlertInterval={handleCloseAlertUpdateIntervals}
+        />
+
+        <FormTelephoneEstablishment
+          control={control}
+          errors={errors}
+          onCloseAlertTelephone={handleCloseAlertUpdatePhone}
+        />
+
+        <SimpleGrid
+          aria-label="Form Address"
+          gridColumn={{ base: 'span 1', md: 'span 4' }}
+          columns={{ base: 1, md: 4 }}
+          gap="4"
+          w="full"
+        >
+          <GridItem
+            colSpan={{ base: 1, md: 4 }}
+            placeSelf={{ base: 'center', md: 'start' }}
+            pl="2"
           >
-            <InputField {...register('name')} placeholder="Digite seu nome" />
-          </Field>
+            <Text as="span">Endereço</Text>
+          </GridItem>
+
+          <Controller
+            name="address.zipCode"
+            control={control}
+            render={({ field }) => (
+              <Field
+                invalid={!!errors.address?.zipCode}
+                errorText={errors.address?.zipCode?.message}
+              >
+                <PatternFormat
+                  value={field.value}
+                  onValueChange={(values) => field.onChange(values.value)}
+                  format="#####-###"
+                  placeholder="00000-000"
+                  mask="_"
+                  customInput={InputField}
+                  onBlur={() => onBlurZipCodeUpdateEstablishment(field.value)}
+                />
+              </Field>
+            )}
+          />
 
           <Field
             gridColumn={{ base: 'span 1', md: 'span 2' }}
-            invalid={!!errors.description}
-            errorText={errors.description?.message}
+            invalid={!!errors.address?.street}
+            errorText={errors.address?.street?.message}
           >
             <InputField
-              {...register('description')}
-              placeholder="Digite a descrição"
+              {...register('address.street')}
+              placeholder="Digite o endereço"
+            />
+          </Field>
+          <Field
+            invalid={!!errors.address?.number}
+            errorText={errors.address?.number?.message}
+          >
+            <InputField
+              {...register('address.number')}
+              placeholder="Digite o número"
+            />
+          </Field>
+          <Field
+            gridColumn={{ base: 'span 1', md: 'span 2' }}
+            invalid={!!errors.address?.neighborhood}
+            errorText={errors.address?.neighborhood?.message}
+          >
+            <InputField
+              {...register('address.neighborhood')}
+              placeholder="Digite o bairro"
             />
           </Field>
 
-          <FormIntervalEstablishment
-            values={getValues()}
-            control={control}
-            errors={errors}
-            onCloseAlertInterval={handleCloseAlertUpdateIntervals}
-          />
-
-          <FormTelephoneEstablishment
-            control={control}
-            errors={errors}
-            onCloseAlertTelephone={handleCloseAlertUpdatePhone}
-          />
-
-          <SimpleGrid
-            aria-label="Form Address"
-            gridColumn={{ base: 'span 1', md: 'span 4' }}
-            columns={{ base: 1, md: 4 }}
+          <HStack
             gap="4"
-            w="full"
+            align="start"
+            gridColumn={{ base: 'span 1', md: 'span 2' }}
           >
-            <GridItem
-              colSpan={{ base: 1, md: 4 }}
-              placeSelf={{ base: 'center', md: 'start' }}
-              pl="2"
-            >
-              <Text as="span">Endereço</Text>
-            </GridItem>
-
-            <Controller
-              name="address.zipCode"
-              control={control}
-              render={({ field }) => (
-                <Field
-                  invalid={!!errors.address?.zipCode}
-                  errorText={errors.address?.zipCode?.message}
-                >
-                  <PatternFormat
-                    value={field.value}
-                    onValueChange={(values) => field.onChange(values.value)}
-                    format="#####-###"
-                    placeholder="00000-000"
-                    mask="_"
-                    customInput={InputField}
-                    onBlur={() => onBlurZipCodeUpdateEstablishment(field.value)}
-                  />
-                </Field>
-              )}
-            />
-
             <Field
-              gridColumn={{ base: 'span 1', md: 'span 2' }}
-              invalid={!!errors.address?.street}
-              errorText={errors.address?.street?.message}
+              invalid={!!errors.address?.city}
+              errorText={errors.address?.city?.message}
             >
               <InputField
-                {...register('address.street')}
-                placeholder="Digite o endereço"
+                {...register('address.city')}
+                placeholder="Digite a cidade"
               />
             </Field>
             <Field
-              invalid={!!errors.address?.number}
-              errorText={errors.address?.number?.message}
+              invalid={!!errors.address?.state}
+              errorText={errors.address?.state?.message}
             >
               <InputField
-                {...register('address.number')}
-                placeholder="Digite o número"
+                {...register('address.state')}
+                placeholder="Digite o estado"
               />
             </Field>
             <Field
-              gridColumn={{ base: 'span 1', md: 'span 2' }}
-              invalid={!!errors.address?.neighborhood}
-              errorText={errors.address?.neighborhood?.message}
+              invalid={!!errors.address?.complement}
+              errorText={errors.address?.complement?.message}
             >
               <InputField
-                {...register('address.neighborhood')}
-                placeholder="Digite o bairro"
+                {...register('address.complement')}
+                placeholder="Digite o complemento"
               />
             </Field>
-
-            <HStack
-              gap="4"
-              align="start"
-              gridColumn={{ base: 'span 1', md: 'span 2' }}
-            >
-              <Field
-                invalid={!!errors.address?.city}
-                errorText={errors.address?.city?.message}
-              >
-                <InputField
-                  {...register('address.city')}
-                  placeholder="Digite a cidade"
-                />
-              </Field>
-              <Field
-                invalid={!!errors.address?.state}
-                errorText={errors.address?.state?.message}
-              >
-                <InputField
-                  {...register('address.state')}
-                  placeholder="Digite o estado"
-                />
-              </Field>
-              <Field
-                invalid={!!errors.address?.complement}
-                errorText={errors.address?.complement?.message}
-              >
-                <InputField
-                  {...register('address.complement')}
-                  placeholder="Digite o complemento"
-                />
-              </Field>
-            </HStack>
-          </SimpleGrid>
-
-          <GridItem
-            colSpan={{ base: 1, md: 4 }}
-            placeSelf={{ base: 'center', md: 'end' }}
-          >
-            <Button
-              type="submit"
-              size="sm"
-              rounded="xl"
-              w="fit"
-              colorPalette="primary"
-              variant="subtle"
-              loading={isPendingUpdateEstablishment}
-            >
-              <Icon as={Save} boxSize="4" />
-              Salvar
-            </Button>
-          </GridItem>
+          </HStack>
         </SimpleGrid>
-      </chakra.form>
-    </Card.Root>
+
+        <GridItem
+          colSpan={{ base: 1, md: 4 }}
+          placeSelf={{ base: 'center', md: 'end' }}
+        >
+          <Button
+            type="submit"
+            size="sm"
+            rounded="xl"
+            w="fit"
+            colorPalette="emerald"
+            variant="subtle"
+            loading={isPendingUpdateEstablishment}
+          >
+            <Icon as={Save} boxSize="4" />
+            Salvar
+          </Button>
+        </GridItem>
+      </SimpleGrid>
+    </chakra.form>
   )
 }
 

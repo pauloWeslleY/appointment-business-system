@@ -1,4 +1,4 @@
-import { Box, Card, HStack } from '@chakra-ui/react'
+import { Alert, Box, Card, HStack, Skeleton, Stack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 import z from 'zod'
@@ -6,6 +6,8 @@ import z from 'zod'
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterReviewsNotes from '@/features/reviews/components/filter-reviews-notes'
+import StatsReviews from '@/features/reviews/components/stats-reviews'
+import { useGetAllReviewsByEstablishment } from '@/features/reviews/hooks/use-get-all-reviews-by-establishment'
 import ReviewsListPage from '@/features/reviews/pages/reviews-list.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
@@ -18,8 +20,15 @@ export const Route = createFileRoute('/dashboard/$establishmentId/reviews/')({
 })
 
 function ReviewsPage() {
+  const { establishmentId } = Route.useParams()
+  const {
+    data: getReviews,
+    isLoading: isLoadingReviews,
+    error: errorReviews,
+  } = useGetAllReviewsByEstablishment(establishmentId)
+
   return (
-    <Box spaceY={{ base: '4', lg: '6' }}>
+    <Box spaceY={{ base: '4', lg: '6' }} pb="4">
       <Header.Root>
         <HStack align="center">
           <Header.Icon icon={Star} />
@@ -27,14 +36,35 @@ function ReviewsPage() {
         </HStack>
       </Header.Root>
 
-      <Card.Root variant="outline" css={cardSectionCss}>
-        <HStack mb="4">
-          <SearchPage />
-          <FilterReviewsNotes />
-        </HStack>
+      {errorReviews && (
+        <Alert.Root status="error" rounded="xl">
+          <Alert.Indicator />
+          <Alert.Title>{errorReviews.message}</Alert.Title>
+        </Alert.Root>
+      )}
 
-        <ReviewsListPage />
-      </Card.Root>
+      {isLoadingReviews && (
+        <Stack gap="2" w="full" p="2">
+          <Skeleton height="40px" rounded="xl" />
+          <Skeleton height="40px" rounded="xl" />
+          <Skeleton height="40px" rounded="xl" />
+        </Stack>
+      )}
+
+      {!isLoadingReviews && !errorReviews && (
+        <Box spaceY="4">
+          <StatsReviews />
+
+          <HStack>
+            <SearchPage />
+            <FilterReviewsNotes />
+          </HStack>
+
+          <Card.Root variant="outline" css={cardSectionCss}>
+            <ReviewsListPage reviews={getReviews ?? []} />
+          </Card.Root>
+        </Box>
+      )}
     </Box>
   )
 }

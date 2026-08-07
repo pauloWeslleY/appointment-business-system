@@ -16,10 +16,10 @@ import { Field } from '@/components/ui/field'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { useFormUpdateStatusServiceEstablishment } from '../hooks/use-form-update-status-service-establishment'
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
 
 interface DialogStatusServiceEstablishmentProps {
-  service: ServiceEstablishmentModel
+  service: ListServicesEstablishmentModel
   open: boolean
   onOpen: (open: boolean) => void
 }

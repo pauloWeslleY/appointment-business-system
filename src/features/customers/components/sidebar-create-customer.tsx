@@ -18,7 +18,7 @@ const SidebarCreateCustomer = () => {
   return (
     <Drawer.Root size="lg">
       <Drawer.Trigger asChild>
-        <Button rounded="xl" size="xs" variant="surface" colorPalette="primary">
+        <Button rounded="xl" size="xs" variant="surface" colorPalette="emerald">
           <Icon as={PlusIcon} boxSize="5" />
           Novo Cliente
         </Button>

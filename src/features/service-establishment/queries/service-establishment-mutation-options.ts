@@ -13,7 +13,7 @@ import {
   updateServiceEstablishmentService,
 } from '../services/service-establishment.service'
 import type { ServiceEstablishmentFormData } from '../types/form-service-establishment.type'
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
+import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
 
 export const serviceEstablishmentMutationOptions = {
   create() {

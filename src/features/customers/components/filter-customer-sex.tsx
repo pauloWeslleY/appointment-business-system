@@ -1,13 +1,16 @@
-import { HStack, RadioGroup } from '@chakra-ui/react'
+import { createListCollection, Portal, Select } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { useQueryState } from 'nuqs'
 
-const items = [
-  { label: 'Masculino', value: 'male' },
-  { label: 'Feminino', value: 'female' },
-  { label: 'Outro', value: 'other' },
-  { label: 'Todos', value: null },
-]
+import { contentCss } from '@/theme/styles/global-styles'
+
+const selectMaxCustomers = createListCollection({
+  items: [
+    { label: 'Masculino', value: 'male' },
+    { label: 'Feminino', value: 'female' },
+    { label: 'Outro', value: 'other' },
+  ],
+})
 
 const FilterCustomerSex = () => {
   const [customerSex, setCustomerSex] = useQueryState('sex')
@@ -20,23 +23,48 @@ const FilterCustomerSex = () => {
   }
 
   return (
-    <RadioGroup.Root
-      colorPalette="primary"
-      mt="4"
-      pl="2"
-      value={(customerSex ?? search.sex) || ''}
-      onValueChange={(e) => onChangeCustomerSex(e.value)}
+    <Select.Root
+      variant="subtle"
+      size="sm"
+      collection={selectMaxCustomers}
+      w="250px"
+      value={[customerSex ?? search.sex ?? '']}
+      onValueChange={(e) => onChangeCustomerSex(e.value[0])}
     >
-      <HStack gap="6">
-        {items.map((item) => (
-          <RadioGroup.Item key={item.value} value={item.value ?? ''}>
-            <RadioGroup.ItemHiddenInput />
-            <RadioGroup.ItemIndicator />
-            <RadioGroup.ItemText>{item.label}</RadioGroup.ItemText>
-          </RadioGroup.Item>
-        ))}
-      </HStack>
-    </RadioGroup.Root>
+      <Select.HiddenSelect />
+      <Select.Control>
+        <Select.Trigger
+          rounded="xl"
+          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
+        >
+          <Select.ValueText placeholder="Selecione o sexo" />
+        </Select.Trigger>
+        <Select.IndicatorGroup>
+          <Select.ClearTrigger onClick={() => setCustomerSex(null)} />
+          <Select.Indicator />
+        </Select.IndicatorGroup>
+      </Select.Control>
+      <Portal>
+        <Select.Positioner>
+          <Select.Content css={contentCss}>
+            {selectMaxCustomers.items.map((status) => (
+              <Select.Item
+                key={status.value}
+                item={status}
+                rounded="xl"
+                cursor="pointer"
+                _hover={{
+                  bg: { base: 'gray.100', _dark: 'secondary.600' },
+                }}
+              >
+                <Select.ItemText>{status.label}</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Positioner>
+      </Portal>
+    </Select.Root>
   )
 }
 

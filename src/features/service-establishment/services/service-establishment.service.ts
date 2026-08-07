@@ -2,8 +2,9 @@ import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/http'
 
 import type { CreateServiceEstablishmentRequest } from '../types/create-service-establishment-request.type'
-import type { ServiceEstablishmentModel } from '../types/service-esatablishment.model'
-import type { ServiceEstablishmentDetailsModel } from '../types/service-esatablishment-details.model'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
+import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
 
 export const getServiceEstablishmentByIdService = async (
   serviceEstablishmentId: string,
@@ -32,7 +33,7 @@ export const getServiceEstablishmentDetailService = async (
 export const getServicesByEstablishmentService = async (
   establishmentId?: string,
 ) => {
-  const { api, validate } = httpDependencies<ServiceEstablishmentModel[]>()
+  const { api, validate } = httpDependencies<ListServicesEstablishmentModel[]>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: `/service/establishment/establishments/${establishmentId}`,

@@ -1,14 +1,19 @@
-import { Portal, Select } from '@chakra-ui/react'
+import { createListCollection, Portal, Select } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsString, useQueryState } from 'nuqs'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
-import { loadCollectionStatusBooking } from '../utils/select-booking'
+const loadCollectionStatusActives = createListCollection({
+  items: [
+    { label: 'Ativo', value: 'active' },
+    { label: 'Inativo', value: 'inactive' },
+  ],
+})
 
-const FilterBookingsStatus = () => {
+const FilterServicesEstablishmentStatus = () => {
   const search = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
+    from: '/dashboard/$establishmentId/services/',
   })
 
   const [status, setStatus] = useQueryState(
@@ -24,7 +29,7 @@ const FilterBookingsStatus = () => {
     <Select.Root
       variant="subtle"
       size="sm"
-      collection={loadCollectionStatusBooking}
+      collection={loadCollectionStatusActives}
       w="250px"
       value={[status]}
       onValueChange={(e) => onChangeStatus(e.value)}
@@ -45,17 +50,17 @@ const FilterBookingsStatus = () => {
       <Portal>
         <Select.Positioner>
           <Select.Content css={contentCss}>
-            {loadCollectionStatusBooking.items.map((bookingStatus) => (
+            {loadCollectionStatusActives.items.map((status) => (
               <Select.Item
-                key={bookingStatus.value}
-                item={bookingStatus}
+                key={status.value}
+                item={status}
                 rounded="xl"
                 cursor="pointer"
                 _hover={{
                   bg: { base: 'gray.100', _dark: 'secondary.600' },
                 }}
               >
-                <Select.ItemText>{bookingStatus.label}</Select.ItemText>
+                <Select.ItemText>{status.label}</Select.ItemText>
                 <Select.ItemIndicator />
               </Select.Item>
             ))}
@@ -66,4 +71,4 @@ const FilterBookingsStatus = () => {
   )
 }
 
-export default FilterBookingsStatus
+export default FilterServicesEstablishmentStatus

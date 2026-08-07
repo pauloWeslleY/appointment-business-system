@@ -70,7 +70,7 @@ const FormUpdateOwner = () => {
           rounded="xl"
           w="fit"
           variant="subtle"
-          colorPalette="primary"
+          colorPalette="emerald"
           loading={isPendingUpdateOwner}
         >
           Salvar proprietário

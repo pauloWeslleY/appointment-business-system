@@ -1,18 +1,16 @@
 import {
-  Alert,
   Box,
   chakra,
   Flex,
   For,
   HStack,
   SimpleGrid,
-  Skeleton,
   Spinner,
   Stack,
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useParams, useSearch } from '@tanstack/react-router'
+import { useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
@@ -24,7 +22,7 @@ import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 
 import MenuActionsTableCustomers from '../components/menu-actions-table-collaborator'
-import { useGetAllCustomersByEstablishment } from '../hooks/use-get-all-customers-esblishment'
+import type { CustomerModel } from '../types/customer.model'
 
 const customersTableHeaders = [
   'Nome',
@@ -35,20 +33,14 @@ const customersTableHeaders = [
   'Data de Nasc.',
 ]
 
-const CustomersTable = () => {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+interface CustomerTableProps {
+  customers: CustomerModel[]
+}
 
+const CustomersTable = ({ customers }: CustomerTableProps) => {
   const search = useSearch({
     from: '/dashboard/$establishmentId/customers/',
   })
-
-  const {
-    data: customers = [],
-    error: errorCustomers,
-    isLoading: isLoadingCustomers,
-  } = useGetAllCustomersByEstablishment(establishmentId)
 
   const loadCustomers = useMemo(() => {
     const data = customers.map((customer) => ({
@@ -87,38 +79,11 @@ const CustomersTable = () => {
     handlePaginationChange,
   } = usePagination(loadCustomers)
 
-  const formattedPhoneCustomer = (phones: string[]) => {
-    return phones.map(formattedPhone)[0]
-  }
-
-  if (errorCustomers) {
-    return (
-      <Alert.Root status="error" rounded="lg" mt="4">
-        <Alert.Indicator />
-        <Alert.Title>Error: {errorCustomers?.message}</Alert.Title>
-      </Alert.Root>
-    )
-  }
-
-  if (isLoadingCustomers) {
-    return (
-      <Stack gap="2" w="full" mt="4">
-        <For each={[1, 2, 3]}>
-          {(item) => (
-            <Skeleton
-              key={item}
-              height="60px"
-              rounded="lg"
-              bg={{ base: 'gray.200', _dark: 'gray.700/70' }}
-            />
-          )}
-        </For>
-      </Stack>
-    )
-  }
+  const formattedPhoneCustomer = (phones: string[]) =>
+    phones.map(formattedPhone)[0]
 
   return (
-    <Stack direction={{ base: 'column' }} w="full" mt="4">
+    <Stack direction={{ base: 'column' }} w="full">
       {isPendingPagination && (
         <VStack colorPalette={colorDefaultTheme}>
           <Spinner color="colorPalette.600" />
@@ -127,8 +92,8 @@ const CustomersTable = () => {
       )}
 
       {!isPendingPagination && (
-        <>
-          {loadTablePagination.map((row, index) => (
+        <For each={loadTablePagination}>
+          {(row, index) => (
             <Flex key={index} direction={{ base: 'row', md: 'column' }}>
               <SimpleGrid
                 columns={{ base: 1, md: customersTableHeaders.length + 2 }}
@@ -167,7 +132,7 @@ const CustomersTable = () => {
                 alignItems="center"
                 px={{ base: '2', md: '4', xl: '2' }}
                 fontWeight="hairline"
-                bg={{ base: 'primary.100', _dark: 'primary.800/30' }}
+                bg={{ base: 'white', _dark: 'transparent' }}
                 roundedBottom={
                   index === loadTablePagination.length - 1 ? 'xl' : undefined
                 }
@@ -192,26 +157,24 @@ const CustomersTable = () => {
                 </Flex>
               </SimpleGrid>
             </Flex>
-          ))}
-        </>
+          )}
+        </For>
       )}
 
-      {customers.length > pagination.page_size && (
-        <HStack justify="space-between" w="full">
-          <PaginationTable
-            count={customers.length}
-            pageSize={pagination.page_size}
-            page={pagination.page}
-            onPageChange={handlePaginationChange}
-          />
+      <HStack justify="space-between" w="full">
+        <PaginationTable
+          count={customers.length}
+          pageSize={pagination.page_size}
+          page={pagination.page}
+          onPageChange={handlePaginationChange}
+        />
 
-          <Box>
-            <Text fontSize="sm" color="gray.400">
-              {`Exibindo ${loadTablePagination.length} de ${loadCustomers.length} clientes`}
-            </Text>
-          </Box>
-        </HStack>
-      )}
+        <Box>
+          <Text fontSize="sm" color="gray.400">
+            {`Exibindo ${loadTablePagination.length} de ${loadCustomers.length} clientes`}
+          </Text>
+        </Box>
+      </HStack>
     </Stack>
   )
 }

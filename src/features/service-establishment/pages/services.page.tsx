@@ -6,38 +6,30 @@ import {
   HStack,
   type PaginationPageChangeDetails,
   SimpleGrid,
-  Skeleton,
   Spinner,
-  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useParams } from '@tanstack/react-router'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
-import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 import CardServiceEsblishment from '../components/card-service-establishment'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
 
-const ServicesListPage = () => {
+interface ServicesListPageProps {
+  services: ListServicesEstablishmentModel[]
+}
+
+const ServicesListPage = ({ services }: ServicesListPageProps) => {
   const [isPendingPagination, startTransition] = useTransition()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/services/',
-  })
   const search = useSearch({
     from: '/dashboard/$establishmentId/services/',
   })
-
-  const {
-    data: servicesEsblishment = [],
-    isLoading: isLoadingServicesEstablishment,
-    error: errorServicesEstablishment,
-  } = useGetServiceByEstablishment(establishmentId)
 
   const [pagination, setPagination] = useQueryStates(
     {
@@ -53,7 +45,7 @@ const ServicesListPage = () => {
 
   const filteredServices = useMemo(() => {
     const query = search.q?.toLowerCase()
-    return servicesEsblishment.filter((service) => {
+    return services.filter((service) => {
       const queryStringName = query
         ? service.name.toLowerCase().includes(query)
         : true
@@ -62,9 +54,13 @@ const ServicesListPage = () => {
         ? service.description.toLowerCase().includes(query)
         : true
 
-      return queryStringName || queryStringDescription
+      const queryString = queryStringName || queryStringDescription
+      const queryStatus = service.status ? 'active' : 'inactive'
+      const status = search?.status ? search.status === queryStatus : true
+
+      return queryString && status
     })
-  }, [search.q, servicesEsblishment])
+  }, [search.q, search.status, services])
 
   const visibleServices = useMemo(() => {
     const start = (pagination.page - 1) * pagination.page_size
@@ -81,26 +77,7 @@ const ServicesListPage = () => {
     })
   }
 
-  if (isLoadingServicesEstablishment) {
-    return (
-      <Stack gap="2" w="full" p="2">
-        <Skeleton height="70px" rounded="xl" />
-        <Skeleton height="70px" rounded="xl" />
-        <Skeleton height="70px" rounded="xl" />
-      </Stack>
-    )
-  }
-
-  if (errorServicesEstablishment) {
-    return (
-      <Alert.Root status="error" rounded="xl">
-        <Alert.Indicator />
-        <Alert.Title>{errorServicesEstablishment.message}</Alert.Title>
-      </Alert.Root>
-    )
-  }
-
-  if (servicesEsblishment.length === 0) {
+  if (services.length === 0 || filteredServices.length === 0) {
     return (
       <Alert.Root status="info" rounded="xl">
         <Alert.Indicator />

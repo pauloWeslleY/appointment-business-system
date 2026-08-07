@@ -51,7 +51,7 @@ const FormStepsRegister = () => {
           <Button
             variant="surface"
             rounded="xl"
-            colorPalette="primary"
+            colorPalette="emerald"
             size="sm"
             loading={formCreateOwner.isPendingCreateOwner}
             onClick={() => navigate({ to: '/establishment' })}
@@ -80,7 +80,7 @@ const FormStepsRegister = () => {
               size="sm"
               variant="subtle"
               rounded="xl"
-              colorPalette="primary"
+              colorPalette="emerald"
               onClick={formCreateOwner.handleGoBackToNextStep}
             >
               Próximo

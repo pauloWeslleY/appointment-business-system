@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getBookingByEstablishmentService } from '../services/booking.service'
 import { bookingQueryKeys } from '../queries/booking-query-key'
+import { getBookingByEstablishmentService } from '../services/booking.service'
 import type { GetBookingByEstablishmentQueryParams } from '../types/get-booking-by-establishment-query-params'
 
 export const useGetBookingByEstablishment = (

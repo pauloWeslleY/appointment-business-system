@@ -86,7 +86,7 @@ const FilterBookingsDate = () => {
         <Button
           size="sm"
           rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
+          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
           color={{ base: 'gray.700', _dark: 'gray.100' }}
           transition="backgrounds"
           _hover={{

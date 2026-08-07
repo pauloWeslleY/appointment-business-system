@@ -38,7 +38,7 @@ const HeaderIcon = (props: { icon: ElementType }) => {
       justify="center"
       boxSize="8"
       rounded="full"
-      bg={{ base: 'primary.200/60', _dark: 'primary.700/80' }}
+      bg={{ base: 'primary.200/60', _dark: 'primary.500/80' }}
     >
       <Icon
         as={props.icon}
