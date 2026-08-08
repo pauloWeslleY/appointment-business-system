@@ -4,7 +4,6 @@ import NotFoundPage from '@/components/layout/not-found'
 import AuthLayoutContainer from '@/features/authentication/layout/authentication-layout'
 
 export const Route = createFileRoute('/_auth')({
-  // beforeLoad: async () => await validateEnsureAuthRoute(),
   component: AuthLayout,
   notFoundComponent: NotFoundPage,
 })

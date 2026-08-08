@@ -1,4 +1,5 @@
-import { For, Tabs } from '@chakra-ui/react'
+import { For, Icon, Tabs } from '@chakra-ui/react'
+import { PencilIcon, UploadCloud } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
@@ -15,11 +16,13 @@ const loadMenuUpdateEstablishment = [
   {
     label: 'Editar',
     value: MenuUpdateEstablishment.EDIT,
+    icon: PencilIcon,
     page: FormUpdateEstablishment,
   },
   {
     label: 'Upload',
     value: MenuUpdateEstablishment.UPLOAD,
+    icon: UploadCloud,
     page: UploadImageEstablishment,
   },
 ]
@@ -35,15 +38,10 @@ const UpdateEstablishmentPage = () => {
       value={tab}
       onValueChange={(e) => setTab(e.value)}
       colorPalette={colorDefaultTheme}
-      variant="enclosed"
+      variant="line"
     >
       <Tabs.List
         aria-label="Establishment updated menu"
-        p="1.5"
-        rounded="xl"
-        borderWidth="1px"
-        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-        bg={{ base: 'gray.100', _dark: 'primary.800/40' }}
         w={{ base: 'full', lg: 'md' }}
       >
         <For each={loadMenuUpdateEstablishment}>
@@ -51,18 +49,10 @@ const UpdateEstablishmentPage = () => {
             <Tabs.Trigger
               key={item.value}
               value={item.value}
-              rounded="xl"
               flex="1"
-              _selected={{
-                borderWidth: '1px',
-                shadow: { base: 'sm', _dark: 'xs' },
-                bg: { base: 'emerald.300', _dark: 'emerald.500/40' },
-                borderColor: {
-                  base: 'emerald.200',
-                  _dark: 'emerald.500/40',
-                },
-              }}
+              justifyContent="center"
             >
+              <Icon as={item.icon} boxSize="4" />
               {item.label}
             </Tabs.Trigger>
           )}

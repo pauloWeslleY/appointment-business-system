@@ -82,6 +82,19 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
   const formattedPhoneCustomer = (phones: string[]) =>
     phones.map(formattedPhone)[0]
 
+  if (customers.length === 0) {
+    return (
+      <Stack
+        direction={{ base: 'column' }}
+        w="full"
+        align="center"
+        justify="center"
+      >
+        <Text color="gray.500">Nenhum cliente encontrado.</Text>
+      </Stack>
+    )
+  }
+
   return (
     <Stack direction={{ base: 'column' }} w="full">
       {isPendingPagination && (

@@ -107,12 +107,13 @@ const CardBooking = ({ booking }: CardBookingProps) => {
         <Flex
           align="center"
           gap="2"
-          color={{ base: 'gray.400', _dark: 'gray.500' }}
+          color={{ base: 'tertiary.700', _dark: 'tertiary.600/80' }}
         >
           <Icon boxSize="4">
             <UserCircle2 />
           </Icon>
-          <Text letterSpacing="wide" fontWeight="light" fontSize="sm">
+
+          <Text letterSpacing="wide" fontWeight="medium" fontSize="sm">
             {booking.user.name}
           </Text>
         </Flex>

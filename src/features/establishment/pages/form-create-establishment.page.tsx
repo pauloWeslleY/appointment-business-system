@@ -4,6 +4,7 @@ import {
   chakra,
   GridItem,
   HStack,
+  Separator,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'
@@ -81,13 +82,13 @@ const FormCreateEstablishmentPage = () => {
             gap="4"
             w="full"
           >
-            <GridItem
-              colSpan={{ base: 1, md: 4 }}
-              placeSelf={{ base: 'center', md: 'start' }}
-              pl="2"
-            >
-              <Text as="span">Endereço</Text>
-            </GridItem>
+            <HStack gridColumn="span 4">
+              <Text flexShrink="0">Endereço</Text>
+              <Separator
+                flex="1"
+                borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+              />
+            </HStack>
 
             <Controller
               name="address.zipCode"
@@ -185,7 +186,7 @@ const FormCreateEstablishmentPage = () => {
               rounded="xl"
               w="fit"
               variant="subtle"
-              colorPalette="primary"
+              colorPalette="emerald"
               loading={isPendingCreateEstablishment}
             >
               Cadastrar estabelecimento

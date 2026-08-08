@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
+import { Route as ErrorRouteImport } from './pages/error'
 import { Route as AuthenticatedLayoutRouteImport } from './pages/_authenticated/layout'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as IndexRouteImport } from './pages/index'
@@ -33,6 +34,11 @@ import { Route as DashboardEstablishmentIdServicesPagesNewIndexRouteImport } fro
 import { Route as DashboardEstablishmentIdServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/index'
 import { Route as DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRouteImport } from './pages/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/index'
 
+const ErrorRoute = ErrorRouteImport.update({
+  id: '/error',
+  path: '/error',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedLayoutRoute = AuthenticatedLayoutRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -174,6 +180,7 @@ const DashboardEstablishmentIdServicesPagesServiceEstablishmentIdEditIndexRoute 
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/error': typeof ErrorRoute
   '/owner': typeof AuthenticatedOwnerLayoutRouteWithChildren
   '/dashboard/$establishmentId': typeof DashboardEstablishmentIdLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/error': typeof ErrorRoute
   '/owner': typeof AuthenticatedOwnerLayoutRouteWithChildren
   '/dashboard/$establishmentId': typeof DashboardEstablishmentIdLayoutRouteWithChildren
   '/dashboard': typeof DashboardIndexRoute
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthLayoutRouteWithChildren
   '/_authenticated': typeof AuthenticatedLayoutRouteWithChildren
+  '/error': typeof ErrorRoute
   '/_authenticated/owner': typeof AuthenticatedOwnerLayoutRouteWithChildren
   '/dashboard/$establishmentId': typeof DashboardEstablishmentIdLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
@@ -248,6 +257,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/error'
     | '/owner'
     | '/dashboard/$establishmentId'
     | '/dashboard/'
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/error'
     | '/owner'
     | '/dashboard/$establishmentId'
     | '/dashboard'
@@ -296,6 +307,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_authenticated'
+    | '/error'
     | '/_authenticated/owner'
     | '/dashboard/$establishmentId'
     | '/dashboard/'
@@ -322,12 +334,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
   AuthenticatedLayoutRoute: typeof AuthenticatedLayoutRouteWithChildren
+  ErrorRoute: typeof ErrorRoute
   DashboardEstablishmentIdLayoutRoute: typeof DashboardEstablishmentIdLayoutRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/error': {
+      id: '/error'
+      path: '/error'
+      fullPath: '/error'
+      preLoaderRoute: typeof ErrorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -600,6 +620,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
   AuthenticatedLayoutRoute: AuthenticatedLayoutRouteWithChildren,
+  ErrorRoute: ErrorRoute,
   DashboardEstablishmentIdLayoutRoute:
     DashboardEstablishmentIdLayoutRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,

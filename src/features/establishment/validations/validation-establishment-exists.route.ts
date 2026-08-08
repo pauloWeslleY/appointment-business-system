@@ -19,10 +19,15 @@ export const validationEstablishmentExistsRouteHome = async () => {
     throw redirect({ to: '/login', replace: true })
   }
 
-  if (
-    response.statusCode === HttpStatusCode.notFound ||
-    !response.body?.length
-  ) {
+  if (response.statusCode === HttpStatusCode.notFound) {
     throw redirect({ to: '/establishment/new', replace: true })
+  }
+
+  if (!response.body || response.body.length === 0) {
+    throw redirect({
+      to: '/error',
+      search: { search: response.statusCode?.toString() },
+      replace: true,
+    })
   }
 }

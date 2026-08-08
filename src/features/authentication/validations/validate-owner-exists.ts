@@ -6,9 +6,6 @@ import { HttpMethod, HttpStatusCode } from '@/shared/http'
 
 import { validateEnsureAuthRoute } from './validate-auth-route'
 
-const redirectToOwnerRegister = () =>
-  redirect({ to: '/register', search: { step: 1 }, replace: true })
-
 export const validateEnsureOwnerExists = async () => {
   const session = await validateEnsureAuthRoute()
   const { api } = httpDependencies<UserInfoModel>()
@@ -26,7 +23,7 @@ export const validateEnsureOwnerExists = async () => {
     response.statusCode === HttpStatusCode.notFound ||
     !response.body?.ownerId
   ) {
-    throw redirectToOwnerRegister()
+    throw redirect({ to: '/register', search: { step: 1 }, replace: true })
   }
 
   return response.body

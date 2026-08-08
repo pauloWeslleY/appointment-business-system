@@ -22,12 +22,12 @@ export function useEstablishmentLayout() {
   }>(() => validateOpeningHoursEstablishment(establishment), [establishment])
 
   const handleNavigation = (path?: string) => {
-    if (path?.includes('$establishmentId') && establishmentId) {
-      navigate({ to: path, params: { establishmentId } })
+    if (!path?.includes('$establishmentId')) {
+      navigate({ to: path })
       return
     }
 
-    navigate({ to: path })
+    navigate({ to: path, params: { establishmentId } })
   }
 
   const activePath = (path?: string) => {
