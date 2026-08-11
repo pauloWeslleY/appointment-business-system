@@ -1,5 +1,4 @@
 import { Button, DatePicker, Icon, parseDate, Popover } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import { Calendar } from 'lucide-react'
 import { parseAsString, useQueryStates } from 'nuqs'
@@ -7,15 +6,19 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
-const FilterBookingsDate = () => {
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
+interface FilterDatePickerProps {
+  from?: string
+  to?: string
+}
 
+const FilterDatePicker = ({
+  from: initialFrom,
+  to: initialTo,
+}: FilterDatePickerProps) => {
   const [{ from, to }, setDateSearch] = useQueryStates(
     {
-      from: parseAsString.withDefault(search.from ?? ''),
-      to: parseAsString.withDefault(search.to ?? ''),
+      from: parseAsString.withDefault(initialFrom ?? ''),
+      to: parseAsString.withDefault(initialTo ?? ''),
     },
     {
       shallow: false,
@@ -142,7 +145,8 @@ const FilterBookingsDate = () => {
             <Popover.CloseTrigger asChild>
               <Button
                 size="sm"
-                variant="outline"
+                colorPalette="primary"
+                variant="ghost"
                 rounded="xl"
                 mt="2"
                 w="full"
@@ -158,4 +162,4 @@ const FilterBookingsDate = () => {
   )
 }
 
-export default FilterBookingsDate
+export default FilterDatePicker

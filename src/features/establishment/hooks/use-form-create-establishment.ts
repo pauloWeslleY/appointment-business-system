@@ -99,12 +99,7 @@ export function useFormCreateEstablishment() {
       return
     }
 
-    const intervals = params.intervals.map((interval) => ({
-      open: interval.open.toString(),
-      close: interval.close.toString(),
-    }))
-
-    if (!intervals.some(Boolean)) {
+    if (!params.intervals.some(Boolean)) {
       toaster.error({
         title: 'Todos os horários devem estar preenchidos',
         description:
@@ -118,9 +113,9 @@ export function useFormCreateEstablishment() {
       description: params.description,
       ownerId: owner.id,
       phones: params.phones.map((item) => item.phone),
-      openingHours: params.weekdays.map((day) => ({
+      openingHours: params.weekdays.map((day, index) => ({
         day: parseInt(day, 10),
-        intervals: [intervals[parseInt(day, 10)]],
+        intervals: [params.intervals[index]],
       })),
       address: params.address,
       imageUrl: null,

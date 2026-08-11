@@ -12,6 +12,7 @@ import { FileImage, Upload, UploadCloud } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
+import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 import { useUploadImageEstablishment } from '../hooks/use-upload-image-establishment'
 
@@ -108,8 +109,8 @@ const UploadImageEstablishment = () => {
           rounded="xl"
           w="fit"
           alignSelf="flex-end"
-          variant="subtle"
-          colorPalette="primary"
+          variant="surface"
+          colorPalette={colorDefaultTheme}
           loading={isPendingUploadImageEstablishment}
           onClick={handleSubmit(onSubmitUploadImageEstablishment)}
         >

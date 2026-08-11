@@ -25,6 +25,7 @@ import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 import { cardCss } from '@/theme/styles/global-styles'
 
+import { formattedDateAndHours } from '../../../shared/utils/formatted-date'
 import type { EstablishmentModel } from '../types/establishment.model'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 import SidebarInfoEstablishment from './sidebar-info-establishment'
@@ -211,7 +212,8 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 letterSpacing="wide"
                 color={{ base: 'gray.600', _dark: 'gray.400' }}
               >
-                Próximo: {establishment.nextBookingAt ?? 'Nenhum agendamento'}
+                Próximo:{' '}
+                {formattedDateAndHours(establishment.nextBookingAt, true)}
               </Text>
             </HStack>
 

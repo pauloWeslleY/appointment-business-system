@@ -37,6 +37,13 @@ function EditEstablishmentPage() {
       </Header.Root>
 
       <Card.Root variant="outline" css={cardSectionCss}>
+        <Card.Header p="0" pb="4">
+          <Card.Title lineHeight="1">Informações do estabelecimento</Card.Title>
+          <Card.Description>
+            Aqui você pode atualizar as informações do seu estabelecimento.
+          </Card.Description>
+        </Card.Header>
+
         <UpdateEstablishmentPage />
       </Card.Root>
     </Box>

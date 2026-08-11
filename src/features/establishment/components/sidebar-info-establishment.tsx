@@ -20,6 +20,7 @@ import { useState } from 'react'
 
 import { Tooltip } from '@/components/ui/tooltip'
 import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
+import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 import { contentCss } from '@/theme/styles/global-styles'
 
@@ -223,7 +224,10 @@ const SidebarInfoEstablishment = ({
                     <Stat.Root>
                       <Stat.Label>Próximo</Stat.Label>
                       <Stat.ValueText>
-                        {establishment.nextBookingAt ?? '00:00'}
+                        {formattedDateAndHours(
+                          establishment.nextBookingAt,
+                          true,
+                        )}
                       </Stat.ValueText>
                     </Stat.Root>
                   </HStack>

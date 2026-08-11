@@ -8,19 +8,19 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useNavigate } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 
 const AppError = (props: { error: Error; reset: () => void }) => {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const handleResetAndReloadPage = () => {
     window.location.reload()
     props.reset()
   }
 
-  const handleNavigateToHomePage = () => {
-    navigate({ to: '/' })
+  const handleNavigateToPreviousPage = () => {
+    router.history.back()
   }
 
   return (
@@ -70,9 +70,9 @@ const AppError = (props: { error: Error; reset: () => void }) => {
             rounded="xl"
             size="sm"
             colorPalette="primary"
-            onClick={handleNavigateToHomePage}
+            onClick={handleNavigateToPreviousPage}
           >
-            Voltar para a página inicial
+            Voltar para a página anterior
           </Button>
         </Flex>
       </VStack>

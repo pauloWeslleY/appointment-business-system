@@ -3,9 +3,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { CalendarIcon } from 'lucide-react'
 import z from 'zod'
 
+import FilterDatePicker from '@/components/filter-date-picker'
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
-import FilterBookingsDate from '@/features/bookings/components/filter-bookings-date'
 import FilterBookingsService from '@/features/bookings/components/filter-bookings-service'
 import FilterBookingsStatus from '@/features/bookings/components/filter-bookings-status'
 import StatInfoBookings from '@/features/bookings/components/stat-info-bookings'
@@ -69,7 +69,7 @@ function BookingPage() {
 
           <HStack>
             <SearchPage />
-            <FilterBookingsDate />
+            <FilterDatePicker from={search.from} to={search.to} />
             <FilterBookingsStatus />
             <FilterBookingsService />
           </HStack>
