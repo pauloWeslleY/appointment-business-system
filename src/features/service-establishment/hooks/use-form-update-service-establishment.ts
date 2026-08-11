@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { getRouteApi, useParams } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -13,19 +12,11 @@ import type {
   ServiceEstablishmentFormInput,
 } from '../types/form-service-establishment.type'
 import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
-import { useGetServiceEstablishmentById } from './use-get-service-establishment-by-id'
+import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
-export function useFormUpdateServiceEstablishment() {
-  const establishment = dashboardSlugRoute.useLoaderData()
-  const { serviceEstablishmentId } = useParams({
-    from: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/',
-  })
-
-  const { data: serviceEstablishment } = useGetServiceEstablishmentById(
-    serviceEstablishmentId,
-  )
-
+export function useFormUpdateServiceEstablishment(
+  serviceEstablishment: ServiceEstablishmentDetailsModel,
+) {
   const {
     mutate: updateServiceEstablishment,
     isPending: isUpdatingServiceEstablishment,
@@ -66,7 +57,7 @@ export function useFormUpdateServiceEstablishment() {
     reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ServiceEstablishmentFormInput, any, ServiceEstablishmentFormData>(
     {
       resolver: zodResolver(ServiceEstablishmentFormSchema),
@@ -79,11 +70,16 @@ export function useFormUpdateServiceEstablishment() {
   const onSubmitUpdateServiceEstablishment = (
     data: ServiceEstablishmentFormData,
   ) => {
+    if (!isDirty) {
+      toaster.error({ title: 'Nenhuma alteração detectada' })
+      return
+    }
+
     updateServiceEstablishment(
       {
         ...data,
-        establishmentId: establishment.id,
-        serviceEstablishmentId,
+        establishmentId: serviceEstablishment.establishmentId,
+        serviceEstablishmentId: serviceEstablishment.id,
         servicePriceInCents: data.servicePriceInCents * 100,
       },
       {
@@ -97,7 +93,6 @@ export function useFormUpdateServiceEstablishment() {
     control,
     register,
     handleSubmit,
-    serviceEstablishment,
     isUpdatingServiceEstablishment,
     onSubmitUpdateServiceEstablishment,
   }

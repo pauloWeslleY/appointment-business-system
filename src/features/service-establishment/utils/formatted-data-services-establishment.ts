@@ -28,14 +28,10 @@ export const formattedDataServiceEstablishmentDetails = (
   },
   {
     label: 'Criado em',
-    content: service?.createdAt
-      ? formattedDateAndHours(service.createdAt, true)
-      : WITHOUT_DATA,
+    content: formattedDateAndHours(service?.createdAt ?? null, true),
   },
   {
     label: 'Atualizado em',
-    content: service?.updatedAt
-      ? formattedDateAndHours(service.updatedAt, true)
-      : WITHOUT_DATA,
+    content: formattedDateAndHours(service?.updatedAt ?? null, true),
   },
 ]

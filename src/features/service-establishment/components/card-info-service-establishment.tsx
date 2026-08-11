@@ -21,10 +21,11 @@ const CardInfoServiceEstablishement = ({
     <Card.Root
       variant="outline"
       css={cardSectionCss}
-      h="fit"
       display="flex"
       alignItems="center"
+      flexDir="row"
       gap="2"
+      h="fit"
     >
       <Box boxSize="48" mr="4">
         {serviceEstablishment?.imageUrl && (

@@ -1,5 +1,5 @@
 import { Box, Card, DataList, For, HStack, Stack, Text } from '@chakra-ui/react'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { Info } from 'lucide-react'
 
 import Header from '@/components/layout/header'
@@ -7,17 +7,13 @@ import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
-import { useGetServiceEstablishmentDetails } from '../hooks/use-get-service-establishment-details'
+
+const serviceEstablishmentRoute = getRouteApi(
+  '/dashboard/$slug/services/_pages/$serviceEstablishmentId',
+)
 
 const ServiceEstablishmentDetails = () => {
-  const { serviceEstablishmentId } = useParams({
-    from: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/',
-  })
-
-  const { data: serviceEstablishment } = useGetServiceEstablishmentDetails(
-    serviceEstablishmentId,
-  )
-
+  const serviceEstablishment = serviceEstablishmentRoute.useLoaderData()
   const servicesBookings = serviceEstablishment?.bookings.map((booking) => ({
     label: 'Data do agendamento',
     content: formattedDateAndHours(booking.date, true),
@@ -39,7 +35,7 @@ const ServiceEstablishmentDetails = () => {
               fontWeight="light"
               letterSpacing="tight"
             >
-              {serviceEstablishment?.name}
+              {serviceEstablishment.name}
             </Text>
           </Header.Title>
         </HStack>
@@ -68,8 +64,8 @@ const ServiceEstablishmentDetails = () => {
             flexWrap="wrap"
           >
             <For each={servicesBookings}>
-              {(service) => (
-                <DataList.Item key={service.label}>
+              {(service, index) => (
+                <DataList.Item key={service.label + index}>
                   <DataList.ItemLabel>{service.label}</DataList.ItemLabel>
                   <DataList.ItemValue>{service.content}</DataList.ItemValue>
                 </DataList.Item>

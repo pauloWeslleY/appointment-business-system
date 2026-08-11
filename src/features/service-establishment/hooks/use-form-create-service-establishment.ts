@@ -13,6 +13,7 @@ import type {
 } from '../types/form-service-establishment.type'
 
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 export function useFormCreateServiceEstablishment() {
   const establishment = dashboardSlugRoute.useLoaderData()
 

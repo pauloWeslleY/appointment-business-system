@@ -14,6 +14,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react'
+import { getRouteApi } from '@tanstack/react-router'
 import { Upload } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { NumericFormat } from 'react-number-format'
@@ -23,16 +24,21 @@ import { Field } from '@/components/ui/field'
 
 import { useFormUpdateServiceEstablishment } from '../hooks/use-form-update-service-establishment'
 
+const serviceEstablishmentPageRoute = getRouteApi(
+  '/dashboard/$slug/services/_pages/$serviceEstablishmentId',
+)
+
 const FormUpdateServiceEstablishment = () => {
+  const serviceEstablishment = serviceEstablishmentPageRoute.useLoaderData()
+
   const {
     errors,
     control,
     register,
     handleSubmit,
-    serviceEstablishment,
     isUpdatingServiceEstablishment,
     onSubmitUpdateServiceEstablishment,
-  } = useFormUpdateServiceEstablishment()
+  } = useFormUpdateServiceEstablishment(serviceEstablishment)
 
   return (
     <chakra.form

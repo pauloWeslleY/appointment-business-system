@@ -89,7 +89,6 @@ function ServicesPage() {
 
           <Flex gap="2" align="center">
             <SearchPage />
-
             <FilterServicesEstablishmentStatus />
           </Flex>
 
