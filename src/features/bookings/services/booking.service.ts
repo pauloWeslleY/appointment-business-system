@@ -33,7 +33,7 @@ export const getListBookingByServicesService = async (
   const { api, validate } = httpDependencies<BookingModel[]>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: '/booking/services',
+    url: '/booking/service',
     params: {
       serviceId: queryParams.serviceId,
       date: queryParams.date,
