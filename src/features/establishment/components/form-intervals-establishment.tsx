@@ -7,9 +7,11 @@ import {
   Fieldset,
   Flex,
   For,
+  HStack,
   Icon,
   IconButton,
   Stack,
+  Text,
 } from '@chakra-ui/react'
 import { Trash2 } from 'lucide-react'
 import {
@@ -24,7 +26,10 @@ import { PatternFormat } from 'react-number-format'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { Tooltip } from '@/components/ui/tooltip'
-import { createListWeekDays } from '@/shared/utils/create-list-weekdays'
+import {
+  createListWeekDays,
+  weekDaysLabels,
+} from '@/shared/utils/create-list-weekdays'
 
 import type { EstablishmentFormData } from '../types/establishment-form-data.type'
 
@@ -143,70 +148,71 @@ const FormIntervalEstablishment = ({
 
         <Stack direction="row" wrap="wrap" flex="1">
           {intervalFields.map((field, index) => (
-            <Flex
-              key={field.id}
-              gap="2"
-              flexDir={{ base: 'column', md: 'row' }}
-            >
-              <Controller
-                name={`intervals.${index}.open`}
-                control={control}
-                render={({ field }) => (
-                  <Field
-                    invalid={!!errors.intervals?.[index]?.open}
-                    errorText={errors.intervals?.[index]?.open?.message}
-                  >
-                    <PatternFormat
-                      value={field.value}
-                      onValueChange={(values) =>
-                        field.onChange(values.formattedValue)
-                      }
-                      format="##:##"
-                      placeholder="00:00"
-                      mask="_"
-                      customInput={InputField}
-                    />
-                  </Field>
-                )}
-              />
+            <Flex key={field.id} gap="2" flexDir="row" align="center">
+              <Text fontSize="sm" color="secondary.500" w="16">
+                {weekDaysLabels[index + 1] ?? weekDaysLabels[0]}
+              </Text>
+              <HStack gap="2" align="center">
+                <Controller
+                  name={`intervals.${index}.open`}
+                  control={control}
+                  render={({ field }) => (
+                    <Field
+                      invalid={!!errors.intervals?.[index]?.open}
+                      errorText={errors.intervals?.[index]?.open?.message}
+                    >
+                      <PatternFormat
+                        value={field.value}
+                        onValueChange={(values) =>
+                          field.onChange(values.formattedValue)
+                        }
+                        format="##:##"
+                        placeholder="00:00"
+                        mask="_"
+                        customInput={InputField}
+                      />
+                    </Field>
+                  )}
+                />
 
-              <Controller
-                name={`intervals.${index}.close`}
-                control={control}
-                render={({ field }) => (
-                  <Field
-                    invalid={!!errors.intervals?.[index]?.close}
-                    errorText={errors.intervals?.[index]?.close?.message}
-                  >
-                    <PatternFormat
-                      value={field.value}
-                      onValueChange={(values) =>
-                        field.onChange(values.formattedValue)
-                      }
-                      format="##:##"
-                      placeholder="00:00"
-                      mask="_"
-                      customInput={InputField}
-                    />
-                  </Field>
-                )}
-              />
+                <Controller
+                  name={`intervals.${index}.close`}
+                  control={control}
+                  render={({ field }) => (
+                    <Field
+                      invalid={!!errors.intervals?.[index]?.close}
+                      errorText={errors.intervals?.[index]?.close?.message}
+                    >
+                      <PatternFormat
+                        value={field.value}
+                        onValueChange={(values) =>
+                          field.onChange(values.formattedValue)
+                        }
+                        format="##:##"
+                        placeholder="00:00"
+                        mask="_"
+                        customInput={InputField}
+                      />
+                    </Field>
+                  )}
+                />
 
-              {intervalFields.length > 1 && (
-                <Tooltip content="Remover horário" showArrow>
-                  <IconButton
-                    alignSelf={{ base: 'center', xl: 'flex-start' }}
-                    size="xs"
-                    rounded="full"
-                    variant="ghost"
-                    colorPalette="red"
-                    onClick={() => removeIntervalByIndex(index)}
-                    mt="0.5"
-                  >
-                    <Icon as={Trash2} boxSize="4" />
-                  </IconButton>
-                </Tooltip>
-              )}
+                {intervalFields.length > 1 && (
+                  <Tooltip content="Remover horário" showArrow>
+                    <IconButton
+                      alignSelf={{ base: 'center', xl: 'flex-start' }}
+                      size="xs"
+                      rounded="full"
+                      variant="ghost"
+                      colorPalette="red"
+                      onClick={() => removeIntervalByIndex(index)}
+                      mt="0.5"
+                    >
+                      <Icon as={Trash2} boxSize="4" />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </HStack>
             </Flex>
           ))}
         </Stack>

@@ -76,10 +76,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
               <DatePicker.Control>
                 <DatePicker.Input
                   rounded="xl"
-                  bg={{
-                    base: 'blackAlpha.100',
-                    _dark: 'gray.950/40',
-                  }}
+                  bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
                   placeholder="Selecione a data"
                 />
                 <DatePicker.IndicatorGroup>
@@ -131,10 +128,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
               <Select.Control>
                 <Select.Trigger
                   rounded="xl"
-                  bg={{
-                    base: 'blackAlpha.100',
-                    _dark: 'gray.950/40',
-                  }}
+                  bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
                 >
                   <Select.ValueText placeholder="Selecione o sexo" />
                 </Select.Trigger>
@@ -182,9 +176,9 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
           variant="subtle"
           placeholder="Digite as observações"
           size="sm"
-          rounded="xl"
           rows={5}
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.950/40' }}
+          rounded="xl"
+          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
         />
       </Field>
     </SimpleGrid>

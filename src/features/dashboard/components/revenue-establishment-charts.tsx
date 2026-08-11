@@ -1,4 +1,5 @@
 import { Chart } from '@chakra-ui/charts'
+import { Alert } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import {
   Bar,
@@ -23,7 +24,17 @@ interface RevenueEstablishmentChartsProps {
 const RevenueEstablishmentCharts = ({
   revenue,
 }: RevenueEstablishmentChartsProps) => {
-  const { chartRevenue, verifyNumber } = useRevenueEstablishmentCharts(revenue)
+  const { chartRevenue, revenueIfExists, verifyNumber } =
+    useRevenueEstablishmentCharts(revenue)
+
+  if (!revenueIfExists) {
+    return (
+      <Alert.Root status="info" variant="subtle" rounded="xl">
+        <Alert.Indicator />
+        <Alert.Title>Não há dados de receita para esse período.</Alert.Title>
+      </Alert.Root>
+    )
+  }
 
   return (
     <Chart.Root maxH={{ base: '300px', xl: '360px' }} chart={chartRevenue}>

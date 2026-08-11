@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import type { RevenueEstablishmentModel } from '../types/revenue-establishment.model'
 
 export function useRevenueEstablishmentCharts(
-  dailyRevenueData: RevenueEstablishmentModel[],
+  dailyRevenue: RevenueEstablishmentModel[],
 ) {
   const chartData = useMemo(() => {
     const chartDays = Array.from({ length: 15 }).map((_, index) => {
@@ -13,7 +13,7 @@ export function useRevenueEstablishmentCharts(
     })
 
     const dataRevenueCharts = chartDays.map((date) => {
-      const dataForDay = dailyRevenueData.find((item) => item.date === date)
+      const dataForDay = dailyRevenue.find((item) => item.date === date)
 
       return {
         date: dayjs(date).format('DD/MM'),
@@ -23,8 +23,10 @@ export function useRevenueEstablishmentCharts(
       }
     })
 
-    return dataRevenueCharts
-  }, [dailyRevenueData])
+    return dataRevenueCharts.filter(
+      (item) => item.bookings > 0 || item.revenue > 0,
+    )
+  }, [dailyRevenue])
 
   const chartRevenue = useChart({
     data: chartData,
@@ -34,6 +36,10 @@ export function useRevenueEstablishmentCharts(
     ],
   })
 
+  const revenueIfExists = chartData.some(
+    (item) => item.revenue > 0 || item.bookings > 0,
+  )
+
   function verifyNumber<T>(value: T) {
     return typeof value === 'number' ? value : 0
   }
@@ -41,5 +47,6 @@ export function useRevenueEstablishmentCharts(
   return {
     chartRevenue,
     verifyNumber,
+    revenueIfExists,
   }
 }

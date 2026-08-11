@@ -42,7 +42,7 @@ function BookingPage() {
   })
 
   return (
-    <Box spaceY={{ base: '4', lg: '6' }}>
+    <Box spaceY={{ base: '4', lg: '6' }} pb="4">
       <Header.Root>
         <Header.Icon icon={CalendarIcon} />
         <Header.Title>Agendamentos</Header.Title>

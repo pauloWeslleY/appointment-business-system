@@ -49,7 +49,7 @@ const SidebarInfoCustomer = ({
         <Dialog.Positioner>
           <Dialog.Content css={contentCss}>
             <Dialog.Header>
-              <Dialog.Title>Atualizar Cliente</Dialog.Title>
+              <Dialog.Title>Informações do Cliente</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body py="0">
               <DataList.Root

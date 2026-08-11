@@ -9,6 +9,7 @@ import Header from '@/components/layout/header'
 import DailyBookingsEstablishmentDashboard from '@/features/dashboard/components/daily-bookings-establishment-dashboard'
 import RevenueEstablishmentDashboard from '@/features/dashboard/components/revenue-establishment-dashboard'
 import StatsEstablishmentDashboard from '@/features/dashboard/components/stats-establishment-dashboard'
+import TopClientsBookingsEstablishmentDashboard from '@/features/dashboard/components/top-clients-bookings-establishment-dashboard'
 import TopServicesEstablishmentDashboard from '@/features/dashboard/components/top-services-establishment-dashboard'
 
 const currentDate = dayjs()
@@ -60,6 +61,11 @@ function OverviewPage() {
 
           <Stack gap="4">
             <TopServicesEstablishmentDashboard
+              from={search.from}
+              to={search.to}
+            />
+
+            <TopClientsBookingsEstablishmentDashboard
               from={search.from}
               to={search.to}
             />

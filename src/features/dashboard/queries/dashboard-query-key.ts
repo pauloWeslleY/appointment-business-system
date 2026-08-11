@@ -36,4 +36,11 @@ export const dashboardQueryKeys = {
       'top-services',
       dashboardQueryParams(params),
     ] as const,
+
+  topClientsBookings: (params: Partial<DashboardQueryParams>) =>
+    [
+      ...dashboardQueryKeys.all(),
+      'top-clients-bookings',
+      dashboardQueryParams(params),
+    ] as const,
 }

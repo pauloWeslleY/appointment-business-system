@@ -4,6 +4,7 @@ import { HttpMethod } from '@/shared/http'
 import type { DailyBookingsEstablishmentModel } from '../types/daily-bookings-establishment.model'
 import type { RevenueEstablishmentModel } from '../types/revenue-establishment.model'
 import type { StatsEstablishmentModel } from '../types/stats-establishment.model'
+import type { ITopClientsBookingsEstablishment } from '../types/top-clients-bookings-establishment.model'
 import type { TopServicesEstablishmentModel } from '../types/top-services-establishment.model'
 
 export const getDailyBookingsEstablishmentService = async (input: {
@@ -70,6 +71,25 @@ export const getTopServicesEstablishmentService = async (input: {
   const response = await api.request({
     method: HttpMethod.GET,
     url: '/dashboard/establishment/top/services',
+    params: {
+      establishmentId: input.establishmentId,
+      from: input.from,
+      to: input.to,
+    },
+  })
+  return validate.errors(response)
+}
+
+export const getTopClientsBookingsEstablishmentService = async (input: {
+  establishmentId: string
+  from: string
+  to: string
+}) => {
+  const { api, validate } =
+    httpDependencies<ITopClientsBookingsEstablishment[]>()
+  const response = await api.request({
+    method: HttpMethod.GET,
+    url: '/dashboard/establishment/top/clients/bookings',
     params: {
       establishmentId: input.establishmentId,
       from: input.from,

@@ -61,7 +61,7 @@ const TopServicesEstablishmentDashboard = ({
 
   if (errorTopServicesEstablishmentDashboard) {
     return (
-      <Alert.Root w="full" variant="subtle" status="error">
+      <Alert.Root w="full" variant="subtle" status="error" rounded="xl">
         <Alert.Indicator />
         <Alert.Content>
           <Alert.Title>Erro ao carregar os dados do dashboard</Alert.Title>
