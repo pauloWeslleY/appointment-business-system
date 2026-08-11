@@ -59,8 +59,8 @@ export function useFormCreateEstablishment() {
       toaster.success({ title: 'Estabelecimento criado com sucesso' })
       reset()
       navigate({
-        to: '/establishment/$establishmentId',
-        params: { establishmentId: establishment.id },
+        to: '/establishment/$establishmentSlug',
+        params: { establishmentSlug: establishment.slug },
         search: { tab: 'edit' },
       })
     },
