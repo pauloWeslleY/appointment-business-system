@@ -9,15 +9,15 @@ export const validationBookingRouteHome = (
     service_id?: string
     q?: string
   },
-  establishmentId: string,
+  slug: string,
 ) => {
   if (!search.from || !search.to) {
     const dateCurrent = dayjs()
 
     throw redirect({
-      to: '/dashboard/$establishmentId/bookings',
+      to: '/dashboard/$slug/bookings',
       params: {
-        establishmentId: establishmentId,
+        slug: slug,
       },
       search: {
         from: dateCurrent.format('YYYY-MM-DD'),

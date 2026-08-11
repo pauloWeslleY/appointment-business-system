@@ -6,7 +6,7 @@ import FormCreateServiceEstablishment from '@/features/service-establishment/pag
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
-  '/dashboard/$establishmentId/services/_pages/new/',
+  '/dashboard/$slug/services/_pages/new/',
 )({
   component: CreateServicePage,
 })

@@ -1,20 +1,20 @@
 import { Flex, Icon, Stat } from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 import { useMemo } from 'react'
 
 import { reviewsQueryKeys } from '../queries/reviews-query-key'
 import type { ReviewEstablishmentModel } from '../types/reviews-establishment.model'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const StatsReviews = () => {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/reviews/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const getReviewsList = queryClient.getQueryData<ReviewEstablishmentModel[]>(
-    reviewsQueryKeys.establishments(establishmentId),
+    reviewsQueryKeys.establishments(establishment.id),
   )
 
   const getAverageRating = useMemo(() => {

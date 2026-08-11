@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
 import { useSearch } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
@@ -14,17 +14,13 @@ import type { UpdateStatusBookingFormType } from '../types/booking-form.type'
 import type { BookingStatusType } from '../types/booking-status.type'
 import type { GetBookingByEstablishmentModel } from '../types/get-booking-by-establishment.model'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 export function useUpdateStatusBookingForm(
   booking: GetBookingByEstablishmentModel,
 ) {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
-
-  const { from, to } = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
-
+  const establishment = dashboardSlugRoute.useLoaderData()
+  const { from, to } = useSearch({ from: '/dashboard/$slug/bookings/' })
   const queryClient = useQueryClient()
 
   const formDefaultValues = useMemo<DefaultValues<UpdateStatusBookingFormType>>(
@@ -49,7 +45,11 @@ export function useUpdateStatusBookingForm(
     ...bookingMutationOptions.status(),
     onSuccess: (booking) => {
       queryClient.setQueryData<GetBookingByEstablishmentModel[]>(
-        bookingQueryKeys.establishment({ establishmentId, from, to }),
+        bookingQueryKeys.establishment({
+          establishmentId: establishment.id,
+          from,
+          to,
+        }),
         (oldBookings) => {
           return (
             oldBookings ??

@@ -17,10 +17,7 @@ const loadSelectStatusCollaborator = createListCollection({
 })
 
 const FilterSelectStatusCollaborator = () => {
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
-
+  const search = useSearch({ from: '/dashboard/$slug/collaborators/' })
   const [statusCollaborator, setStatusCollaborator] = useQueryState(
     'status',
     parseAsString.withDefault(search.status ?? ''),

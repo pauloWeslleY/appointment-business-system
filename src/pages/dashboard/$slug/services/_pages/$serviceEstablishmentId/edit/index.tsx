@@ -7,7 +7,7 @@ import FormUpdateServiceEstablishment from '@/features/service-establishment/pag
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
-  '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/',
+  '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/',
 )({
   component: EditServiceEstablishmentPage,
 })

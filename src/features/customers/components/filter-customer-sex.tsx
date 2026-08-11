@@ -14,9 +14,7 @@ const selectMaxCustomers = createListCollection({
 
 const FilterCustomerSex = () => {
   const [customerSex, setCustomerSex] = useQueryState('sex')
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+  const search = useSearch({ from: '/dashboard/$slug/customers/' })
 
   const onChangeCustomerSex = (sex: string | null) => {
     setCustomerSex(sex || null)

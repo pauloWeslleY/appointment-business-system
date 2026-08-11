@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -11,11 +11,10 @@ import { CustomerSchema } from '../schemas/customer.schema'
 import type { CustomerModel } from '../types/customer.model'
 import type { CustomerFormData } from '../types/customer-form-data.type'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 export function useFormCreateCustomer() {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const formCreateCustomer = useForm<CustomerFormData>({
     resolver: zodResolver(CustomerSchema),
@@ -65,7 +64,7 @@ export function useFormCreateCustomer() {
     })
 
   const onSubmitCreateCustomer = formCreateCustomer.handleSubmit((data) => {
-    if (!establishmentId) {
+    if (!establishment.id) {
       toaster.error({
         title: 'Erro ao cadastrar cliente',
         description: 'ID do estabelecimento não encontrado',
@@ -81,7 +80,7 @@ export function useFormCreateCustomer() {
         gender: data.gender ? data.gender[0] : null,
         birthDate: data.birthDate || null,
         phones: data.phones.map((phone) => phone.phone),
-        establishmentId,
+        establishmentId: establishment.id,
       },
       {
         onSuccess: () => formCreateCustomer.reset(),

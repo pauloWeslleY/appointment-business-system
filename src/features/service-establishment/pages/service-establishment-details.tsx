@@ -11,19 +11,17 @@ import { useGetServiceEstablishmentDetails } from '../hooks/use-get-service-esta
 
 const ServiceEstablishmentDetails = () => {
   const { serviceEstablishmentId } = useParams({
-    from: '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/info/',
+    from: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/',
   })
 
   const { data: serviceEstablishment } = useGetServiceEstablishmentDetails(
     serviceEstablishmentId,
   )
 
-  const servicesBookings = serviceEstablishment?.bookings.map(
-    (booking) => ({
-      label: 'Data do agendamento',
-      content: formattedDateAndHours(booking.date, true),
-    }),
-  )
+  const servicesBookings = serviceEstablishment?.bookings.map((booking) => ({
+    label: 'Data do agendamento',
+    content: formattedDateAndHours(booking.date, true),
+  }))
 
   return (
     <Box spaceY="4" w="full">

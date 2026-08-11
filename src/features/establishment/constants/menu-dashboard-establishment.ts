@@ -19,32 +19,32 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
   {
     icon: HomeIcon,
     label: 'Dashsboard',
-    path: '/dashboard/$establishmentId/overview',
+    path: '/dashboard/$slug/overview',
   },
   {
     icon: BriefcaseBusiness,
     label: 'Serviços',
-    path: '/dashboard/$establishmentId/services',
+    path: '/dashboard/$slug/services',
   },
   {
     icon: CalendarIcon,
     label: 'Agendamentos',
-    path: '/dashboard/$establishmentId/bookings',
+    path: '/dashboard/$slug/bookings',
   },
   {
     icon: StarIcon,
     label: 'Avaliações',
-    path: '/dashboard/$establishmentId/reviews',
+    path: '/dashboard/$slug/reviews',
   },
   {
     icon: UserCog,
     label: 'Colaboradores',
-    path: '/dashboard/$establishmentId/collaborators',
+    path: '/dashboard/$slug/collaborators',
   },
   {
     icon: UsersRound,
     label: 'Clientes',
-    path: '/dashboard/$establishmentId/customers',
+    path: '/dashboard/$slug/customers',
   },
   {
     icon: ChevronLeftIcon,

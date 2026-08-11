@@ -149,7 +149,11 @@ const FormIntervalEstablishment = ({
         <Stack direction="row" wrap="wrap" flex="1">
           {intervalFields.map((field, index) => (
             <Flex key={field.id} gap="2" flexDir="row" align="center">
-              <Text fontSize="sm" color="secondary.500" w="16">
+              <Text
+                fontSize="sm"
+                color={{ base: 'secondary.600', _dark: 'secondary.400' }}
+                w="16"
+              >
                 {weekDaysLabels[index + 1] ?? weekDaysLabels[0]}
               </Text>
               <HStack gap="2" align="center">

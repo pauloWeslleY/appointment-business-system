@@ -1,19 +1,19 @@
 import { type ColorPalette, For, SimpleGrid, Stat } from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import { customersQueryKeys } from '../queries/customers-query-key'
 import type { CustomerModel } from '../types/customer.model'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const StatInfoCustomers = () => {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const getCustomersList = queryClient.getQueryData<CustomerModel[]>(
-    customersQueryKeys.establishment(establishmentId),
+    customersQueryKeys.establishment(establishment.id),
   )
 
   const getStatCustomers = useMemo<

@@ -15,19 +15,10 @@ export function useSidebarAuthenticated() {
   const today = dateCurrent.charAt(0).toUpperCase() + dateCurrent.slice(1)
 
   const handleNavigationSidebarAuthenticated = (path?: string) => {
-    if (path?.includes('$ownerId') && owner) {
-      navigate({ to: path, params: { ownerId: owner.id } })
-      return
-    }
-
     navigate({ to: path })
   }
 
   const activePathSidebarAuthenticated = (path?: string) => {
-    if (path?.includes('$ownerId')) {
-      return pathname.includes(path.replace('$ownerId', ''))
-    }
-
     return pathname.includes(path ?? '')
   }
 

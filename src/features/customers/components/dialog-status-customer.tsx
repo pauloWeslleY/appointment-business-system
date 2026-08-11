@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { Save } from 'lucide-react'
 
 import { toaster } from '@/components/ui/toaster'
@@ -25,22 +25,21 @@ interface DialogStatusCustomerProps {
   onOpen: (open: boolean) => void
 }
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 const DialogStatusCustomer = ({
   customer,
   open,
   onOpen,
 }: DialogStatusCustomerProps) => {
   const queryClient = useQueryClient()
-  const params = useParams({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const { mutate: mutateStatusCustomer, isPending: isPendingStatusCustomer } =
     useMutation({
       ...customersMutationOptions.status(),
       onSuccess: (updateStatusCustomer) => {
         queryClient.setQueryData<CustomerModel[]>(
-          customersQueryKeys.establishment(params.establishmentId),
+          customersQueryKeys.establishment(establishment.id),
           (listCustomersCache) => {
             if (!listCustomersCache) return []
 

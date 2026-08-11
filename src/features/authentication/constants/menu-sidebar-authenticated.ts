@@ -21,6 +21,6 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
   {
     icon: UserSquare2,
     label: 'Proprietário',
-    path: '/owner/$ownerId',
+    path: '/owner',
   },
 ]

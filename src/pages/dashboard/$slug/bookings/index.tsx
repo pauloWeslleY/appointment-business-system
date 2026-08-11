@@ -1,5 +1,5 @@
 import { Alert, Box, Card, HStack, Skeleton, Stack } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { CalendarIcon } from 'lucide-react'
 import z from 'zod'
 
@@ -14,7 +14,7 @@ import ListBookingEstablishment from '@/features/bookings/pages/list-booking-est
 import { validationBookingRouteHome } from '@/features/bookings/validations/validation-booking.routes'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-export const Route = createFileRoute('/dashboard/$establishmentId/bookings/')({
+export const Route = createFileRoute('/dashboard/$slug/bookings/')({
   validateSearch: z.object({
     to: z.string().optional(),
     from: z.string().optional(),
@@ -23,12 +23,14 @@ export const Route = createFileRoute('/dashboard/$establishmentId/bookings/')({
     q: z.string().optional(),
   }),
   beforeLoad: ({ search, params }) =>
-    validationBookingRouteHome(search, params.establishmentId),
+    validationBookingRouteHome(search, params.slug),
   component: BookingPage,
 })
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 function BookingPage() {
-  const { establishmentId } = Route.useParams()
+  const establishment = dashboardSlugRoute.useLoaderData()
   const search = Route.useSearch()
 
   const {
@@ -36,7 +38,7 @@ function BookingPage() {
     error: errorBookingByEstablishment,
     isLoading: isLoadingBookingByEstablishment,
   } = useGetBookingByEstablishment({
-    establishmentId,
+    establishmentId: establishment.id,
     from: search.from ?? '',
     to: search.to ?? '',
   })

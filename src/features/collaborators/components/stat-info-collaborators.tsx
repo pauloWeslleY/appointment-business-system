@@ -1,6 +1,6 @@
 import { type ColorPalette, For, SimpleGrid, Stat } from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import { collaboratorsQueryKeys } from '../queries/collaborators-query-key'
@@ -10,15 +10,14 @@ import {
   type StatusCollaboratorType,
 } from '../types/status-collaborator.type'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const StatInfoCollaborators = () => {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
-
+  const establishment = dashboardSlugRoute.useLoaderData()
   const getCollaboratosList = queryClient.getQueryData<
     CollaboratorEstablishmentModel[]
-  >(collaboratorsQueryKeys.establishment(establishmentId))
+  >(collaboratorsQueryKeys.establishment(establishment.id))
 
   const getStatCollaborators = useMemo<
     { title: string; value: string; color: ColorPalette }[]

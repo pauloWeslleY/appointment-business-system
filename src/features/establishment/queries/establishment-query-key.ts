@@ -3,6 +3,9 @@ export const establishmentQueryKeys = {
 
   lists: () => [...establishmentQueryKeys.all, 'list'] as const,
 
+  slug: (slug: string) =>
+    [...establishmentQueryKeys.all, 'slug', slug] as const,
+
   owner: (ownerId?: string) => {
     return [
       ...establishmentQueryKeys.lists(),

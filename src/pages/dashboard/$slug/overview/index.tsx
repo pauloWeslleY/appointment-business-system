@@ -19,7 +19,7 @@ const filteredDateOverview = {
   to: currentDate.add(1, 'month').format('YYYY-MM-DD'),
 }
 
-export const Route = createFileRoute('/dashboard/$establishmentId/overview/')({
+export const Route = createFileRoute('/dashboard/$slug/overview/')({
   validateSearch: z.object({
     to: z.string().optional().default(filteredDateOverview.to),
     from: z.string().optional().default(filteredDateOverview.from),

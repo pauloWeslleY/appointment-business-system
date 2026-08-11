@@ -31,10 +31,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
     },
     { shallow: true },
   )
-
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/reviews/',
-  })
+  const search = useSearch({ from: '/dashboard/$slug/reviews/' })
 
   const visibleReviews = useMemo<ReviewEstablishmentModel[]>(() => {
     const searchReviewsTable = (params: string) => {

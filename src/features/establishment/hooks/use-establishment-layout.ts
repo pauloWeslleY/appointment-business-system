@@ -1,20 +1,18 @@
-import { useLocation, useNavigate, useParams } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
-import useGetEstablishmentById from '../hooks/use-get-establishment-by-id'
+import type { EstablishmentSlugModel } from '../types/establishment.model'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
-export function useEstablishmentLayout() {
-  const { establishmentId } = useParams({ from: '/dashboard/$establishmentId' })
+export function useEstablishmentLayout(establishment: EstablishmentSlugModel) {
   const { pathname } = useLocation()
   const { collapsed } = useMenuCollapse()
-  const { data: establishment } = useGetEstablishmentById(establishmentId)
   const navigate = useNavigate()
 
   const validateUrlEstablishmentLayout =
-    pathname === `/dashboard/${establishmentId}`
+    pathname === `/dashboard/${establishment.slug}`
 
   const loadEstablishmentInfo = useMemo<{
     establishmentOpen: boolean
@@ -22,17 +20,17 @@ export function useEstablishmentLayout() {
   }>(() => validateOpeningHoursEstablishment(establishment), [establishment])
 
   const handleNavigation = (path?: string) => {
-    if (!path?.includes('$establishmentId')) {
+    if (!path?.includes('$slug')) {
       navigate({ to: path })
       return
     }
 
-    navigate({ to: path, params: { establishmentId } })
+    navigate({ to: path, params: { slug: establishment.slug } })
   }
 
   const activePath = (path?: string) => {
-    if (path?.includes('$establishmentId')) {
-      const resolvedPath = path.replace('/dashboard/$establishmentId', '')
+    if (path?.includes('$slug')) {
+      const resolvedPath = path.replace('/dashboard/$slug', '')
       return pathname.includes(resolvedPath)
     }
 
@@ -41,8 +39,6 @@ export function useEstablishmentLayout() {
 
   return {
     collapsed,
-    establishment,
-    establishmentId,
     loadEstablishmentInfo,
     validateUrlEstablishmentLayout,
     activePath,

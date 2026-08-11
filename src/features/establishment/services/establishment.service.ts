@@ -2,8 +2,21 @@ import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/http'
 
 import type { CreateEstablishmentRequest } from '../types/create-establishment-request.type'
-import type { EstablishmentModel } from '../types/establishment.model'
+import type {
+  EstablishmentModel,
+  EstablishmentSlugModel,
+} from '../types/establishment.model'
 import type { UploadImageEstablishmentRequestParams } from '../types/upload-image-establishment.type'
+
+export const getEstablishmentBySlugService = async (slug: string) => {
+  const { api, validate } = httpDependencies<EstablishmentSlugModel>()
+  const response = await api.request({
+    method: HttpMethod.GET,
+    url: `/establishment/info/details/slug/${slug}`,
+  })
+
+  return validate.errors(response)
+}
 
 export const getEstablishmentByIdService = async (establishmentId: string) => {
   const { api, validate } = httpDependencies<EstablishmentModel>()

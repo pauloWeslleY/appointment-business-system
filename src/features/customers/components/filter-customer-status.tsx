@@ -12,18 +12,13 @@ const loadCollectionStatusActives = createListCollection({
 })
 
 const FilterCustomerStatus = () => {
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/customers/',
-  })
-
+  const search = useSearch({ from: '/dashboard/$slug/customers/' })
   const [status, setStatus] = useQueryState(
     'status',
     parseAsString.withDefault(search.status ?? ''),
   )
 
-  const onChangeStatus = (status: string[]) => {
-    setStatus(status[0])
-  }
+  const onChangeStatus = (status: string[]) => setStatus(status[0])
 
   return (
     <Select.Root

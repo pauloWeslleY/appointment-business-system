@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -13,13 +13,13 @@ import type { UpdateStatusServiceEstablishmentFormData } from '../types/form-ser
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
 import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 export function useFormUpdateStatusServiceEstablishment(
   serviceEstablishment: ListServicesEstablishmentModel,
   onOpen: (open: boolean) => void,
 ) {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/services/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
   const queryClient = useQueryClient()
 
   const formDefaultValues = useMemo<
@@ -54,7 +54,7 @@ export function useFormUpdateStatusServiceEstablishment(
       )
 
       queryClient.setQueryData<ServiceEstablishmentModel[]>(
-        serviceEstablishmentQueryKeys.detail(establishmentId),
+        serviceEstablishmentQueryKeys.detail(establishment.id),
         (oldData) =>
           oldData
             ? oldData.map((item) =>

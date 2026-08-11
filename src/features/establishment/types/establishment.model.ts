@@ -4,6 +4,7 @@ import type { OpeningHoursDayProps } from '@/shared/types/opening-hours.type'
 export interface EstablishmentModel {
   id: string
   name: string
+  slug: string
   description: string
   imageUrl: string | null
   phones: string[]
@@ -19,3 +20,13 @@ export interface EstablishmentModel {
   todayBookingsTotal: number
   nextBookingAt: string | null
 }
+
+export type EstablishmentSlugModel = Omit<
+  EstablishmentModel,
+  | 'totalServices'
+  | 'totalCollaborators'
+  | 'totalRatings'
+  | 'averageRating'
+  | 'todayBookingsTotal'
+  | 'nextBookingAt'
+>

@@ -1,22 +1,22 @@
 import { createListCollection, Portal, Select, Spinner } from '@chakra-ui/react'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { parseAsString, useQueryState } from 'nuqs'
 
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 import { contentCss } from '@/theme/styles/global-styles'
 
-const FilterBookingsService = () => {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
+const FilterBookingsService = () => {
+  const establishment = dashboardSlugRoute.useLoaderData()
   const [serviceId, setServiceId] = useQueryState(
     'service_id',
     parseAsString.withDefault(''),
   )
 
-  const loadServiceByEstablishment =
-    useGetServiceByEstablishment(establishmentId)
+  const loadServiceByEstablishment = useGetServiceByEstablishment(
+    establishment.id,
+  )
 
   const loadSelectServiceBookings = createListCollection({
     items: loadServiceByEstablishment.data ?? [],

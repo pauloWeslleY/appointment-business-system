@@ -1,5 +1,5 @@
 import { Alert, Box, Card, HStack, Skeleton, Stack } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 import z from 'zod'
 
@@ -11,21 +11,21 @@ import { useGetAllReviewsByEstablishment } from '@/features/reviews/hooks/use-ge
 import ReviewsListPage from '@/features/reviews/pages/reviews-list.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-export const Route = createFileRoute('/dashboard/$establishmentId/reviews/')({
+export const Route = createFileRoute('/dashboard/$slug/reviews/')({
   validateSearch: z.object({
     q: z.string().optional(),
     notes: z.coerce.number().min(0).max(5).optional(),
   }),
   component: ReviewsPage,
 })
-
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 function ReviewsPage() {
-  const { establishmentId } = Route.useParams()
+  const establishment = dashboardSlugRoute.useLoaderData()
   const {
     data: getReviews,
     isLoading: isLoadingReviews,
     error: errorReviews,
-  } = useGetAllReviewsByEstablishment(establishmentId)
+  } = useGetAllReviewsByEstablishment(establishment.id)
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">

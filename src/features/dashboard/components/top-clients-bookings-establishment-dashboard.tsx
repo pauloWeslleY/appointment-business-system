@@ -14,8 +14,8 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useParams } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { User2Icon, UsersRound } from 'lucide-react'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
@@ -28,13 +28,14 @@ interface TopClientsBookingsEstablishmentDashboardProps {
   to: string
 }
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const TopClientsBookingsEstablishmentDashboard = ({
   from,
   to,
 }: TopClientsBookingsEstablishmentDashboardProps) => {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/overview/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
+  const establishmentId = establishment.id
 
   const {
     data: topClientsBookingsEstablishmentDashboard,
@@ -117,8 +118,8 @@ const TopClientsBookingsEstablishmentDashboard = ({
           colorPalette={colorDefaultTheme}
         >
           <Link
-            to="/dashboard/$establishmentId/customers"
-            params={{ establishmentId }}
+            to="/dashboard/$slug/customers"
+            params={{ slug: establishment.slug }}
           >
             Ver todos
           </Link>

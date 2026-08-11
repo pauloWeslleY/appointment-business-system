@@ -12,9 +12,7 @@ interface ListBookingEstablishmentProps {
 const ListBookingEstablishment = ({
   bookings,
 }: ListBookingEstablishmentProps) => {
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
+  const search = useSearch({ from: '/dashboard/$slug/bookings/' })
 
   const filteredBookingByEstablishment = useMemo(() => {
     const filteredClient = (clientName: string) => {

@@ -38,9 +38,7 @@ interface CustomerTableProps {
 }
 
 const CustomersTable = ({ customers }: CustomerTableProps) => {
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+  const search = useSearch({ from: '/dashboard/$slug/customers/' })
 
   const loadCustomers = useMemo(() => {
     const data = customers.map((customer) => ({

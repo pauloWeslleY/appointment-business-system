@@ -6,16 +6,23 @@ import dayjs from 'dayjs'
 import { NuqsAdapter } from 'nuqs/adapters/tanstack-router'
 
 import AppError from './components/layout/app-error'
+import NotFoundPage from './components/layout/not-found'
 import PageLoader from './components/page-loader'
 import { Provider as ThemeProvider } from './components/ui/provider'
 import { Toaster } from './components/ui/toaster'
 import { routeTree } from './routeTree.gen'
 dayjs.locale('pt-br')
 
+const queryClient = new QueryClient()
+
 const router = createRouter({
   routeTree,
+  context: {
+    queryClient,
+  },
   defaultPendingComponent: PageLoader,
   defaultErrorComponent: AppError,
+  defaultNotFoundComponent: NotFoundPage,
 })
 
 declare module '@tanstack/react-router' {
@@ -24,12 +31,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const makeQueryClient = () => new QueryClient()
-
 const App = () => {
   return (
     <NuqsAdapter>
-      <QueryClientProvider client={makeQueryClient()}>
+      <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <RouterProvider router={router} />
           <Toaster />

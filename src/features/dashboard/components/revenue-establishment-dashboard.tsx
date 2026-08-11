@@ -1,5 +1,5 @@
 import { Alert, Card, Flex, Icon, Skeleton, Stack } from '@chakra-ui/react'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { DollarSignIcon } from 'lucide-react'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
@@ -13,19 +13,19 @@ interface RevenueEstablishmentDashboardProps {
   to: string
 }
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const RevenueEstablishmentDashboard = (
   props: RevenueEstablishmentDashboardProps,
 ) => {
-  const params = useParams({
-    from: '/dashboard/$establishmentId/overview/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const {
     data: revenueEstablishmentDashboard,
     error: errorRevenueEstablishmentDashboard,
     isLoading: isLoadingRevenueEstablishmentDashboard,
   } = useGetRevenueEstablishmentDashboard({
-    establishmentId: params.establishmentId,
+    establishmentId: establishment.id,
     from: props.from,
     to: props.to,
   })

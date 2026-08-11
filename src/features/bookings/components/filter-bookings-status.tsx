@@ -7,18 +7,13 @@ import { contentCss } from '@/theme/styles/global-styles'
 import { loadCollectionStatusBooking } from '../utils/select-booking'
 
 const FilterBookingsStatus = () => {
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
-
+  const search = useSearch({ from: '/dashboard/$slug/bookings/' })
   const [status, setStatus] = useQueryState(
     'status',
     parseAsString.withDefault(search.status ?? ''),
   )
 
-  const onChangeStatus = (status: string[]) => {
-    setStatus(status[0])
-  }
+  const onChangeStatus = (status: string[]) => setStatus(status[0])
 
   return (
     <Select.Root

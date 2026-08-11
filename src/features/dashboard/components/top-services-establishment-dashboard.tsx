@@ -14,7 +14,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { Link, useParams } from '@tanstack/react-router'
+import { getRouteApi, Link } from '@tanstack/react-router'
 import { BriefcaseBusiness } from 'lucide-react'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
@@ -33,13 +33,14 @@ const servicosImageFallback = (name: string) => {
   return nameDoctor.join('').slice(0, 2)
 }
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const TopServicesEstablishmentDashboard = ({
   from,
   to,
 }: TopServicesEstablishmentDashboardProps) => {
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/overview/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
+  const establishmentId = establishment.id
 
   const {
     data: topServicesEstablishmentDashboard,
@@ -113,8 +114,8 @@ const TopServicesEstablishmentDashboard = ({
           colorPalette={colorDefaultTheme}
         >
           <Link
-            to="/dashboard/$establishmentId/services"
-            params={{ establishmentId }}
+            to="/dashboard/$slug/services"
+            params={{ slug: establishment.slug }}
           >
             Ver todos
           </Link>

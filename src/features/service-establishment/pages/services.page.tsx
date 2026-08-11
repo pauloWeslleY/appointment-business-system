@@ -27,10 +27,6 @@ interface ServicesListPageProps {
 
 const ServicesListPage = ({ services }: ServicesListPageProps) => {
   const [isPendingPagination, startTransition] = useTransition()
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/services/',
-  })
-
   const [pagination, setPagination] = useQueryStates(
     {
       page: parseAsInteger.withDefault(1),
@@ -42,6 +38,7 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
       shallow: false,
     },
   )
+  const search = useSearch({ from: '/dashboard/$slug/services/' })
 
   const filteredServices = useMemo(() => {
     const query = search.q?.toLowerCase()

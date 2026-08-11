@@ -1,31 +1,32 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getRouteApi, useParams } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { useGetOwnerById } from '@/features/owner/hooks/use-get-owner-by-id'
 import { onBlurZipCode } from '@/shared/services/via-cep/onblur-zip-code'
 
 import { establishmentMutationOptions } from '../queries/establishment-mutation-options'
 import { establishmentQueryKeys } from '../queries/establishment-query-key'
+import { establishmentSlugQueryOptions } from '../queries/establishment-query-options'
 import { EstablishmentFormSchema } from '../schemas/establishment.schema'
 import type { EstablishmentModel } from '../types/establishment.model'
 import type { EstablishmentFormData } from '../types/establishment-form-data.type'
-import useGetEstablishmentById from './use-get-establishment-by-id'
+
+const authenticatedRoute = getRouteApi('/_authenticated')
 
 export function useFormUpdateEstablishment() {
-  const { establishmentId } = useParams({
-    from: '/_authenticated/establishment/_routes/$establishmentId/',
+  const { establishmentSlug } = useParams({
+    from: '/_authenticated/establishment/_routes/$establishmentSlug/',
   })
+  const context = authenticatedRoute.useRouteContext()
   const queryClient = useQueryClient()
-  const { data: owner } = useGetOwnerById()
   const {
     data: establishment,
     isLoading: isLoadingEstablishment,
     error: errorEstablishment,
-  } = useGetEstablishmentById(establishmentId)
+  } = useQuery(establishmentSlugQueryOptions(establishmentSlug))
 
   const {
     mutate: updateEstablishment,
@@ -38,7 +39,7 @@ export function useFormUpdateEstablishment() {
       })
 
       queryClient.setQueryData<EstablishmentModel>(
-        establishmentQueryKeys.detail(establishmentId),
+        establishmentQueryKeys.detail(establishment.id),
         () => establishment,
       )
 
@@ -127,7 +128,7 @@ export function useFormUpdateEstablishment() {
       return
     }
 
-    if (!owner || !establishment) {
+    if (!context.ownerId || !establishment) {
       toaster.error({ title: 'Dados do usuário inválidos' })
       return
     }
@@ -146,7 +147,7 @@ export function useFormUpdateEstablishment() {
     updateEstablishment(
       {
         id: establishment.id,
-        ownerId: owner.id,
+        ownerId: context.ownerId,
         name: params.name,
         description: params.description,
         phones: params.phones.map((item) => item.phone),

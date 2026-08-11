@@ -1,6 +1,6 @@
 import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 
 import { toaster } from '@/components/ui/toaster'
 import { contentCss } from '@/theme/styles/global-styles'
@@ -15,15 +15,15 @@ interface DialogInactiveCollaboratorProps {
   onOpen: (open: boolean) => void
 }
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const DialogInactiveCollaborator = ({
   collaborator,
   open,
   onOpen,
 }: DialogInactiveCollaboratorProps) => {
   const queryClient = useQueryClient()
-  const params = useParams({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const {
     mutate: mutateInactiveCollaborator,
@@ -70,7 +70,7 @@ const DialogInactiveCollaborator = ({
   const handleInactiveCollaborator = () => {
     mutateInactiveCollaborator({
       collaboratorId: collaborator.id,
-      establishmentId: params.establishmentId,
+      establishmentId: establishment.id,
     })
   }
 

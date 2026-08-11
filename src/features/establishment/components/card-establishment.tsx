@@ -238,8 +238,8 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           flex="1"
           onClick={() =>
             navigate({
-              to: '/establishment/$establishmentId',
-              params: { establishmentId: establishment.id },
+              to: '/establishment/$establishmentSlug',
+              params: { establishmentSlug: establishment.slug },
               search: { tab: 'edit' },
             })
           }
@@ -255,8 +255,8 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           flex="1"
           onClick={() =>
             navigate({
-              to: '/dashboard/$establishmentId/overview',
-              params: { establishmentId: establishment.id },
+              to: '/dashboard/$slug/overview',
+              params: { slug: establishment.slug },
             })
           }
         >

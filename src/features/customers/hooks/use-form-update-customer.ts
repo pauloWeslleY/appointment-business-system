@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import { useCallback, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
@@ -13,11 +13,11 @@ import { CustomerSchema } from '../schemas/customer.schema'
 import type { CustomerModel } from '../types/customer.model'
 import type { CustomerFormData } from '../types/customer-form-data.type'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 export function useFormUpdateCustomer(customer: CustomerModel) {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/customers/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const validateBirthDate = useCallback(
     (value: string) => {
@@ -66,7 +66,7 @@ export function useFormUpdateCustomer(customer: CustomerModel) {
       ...customersMutationOptions.update(),
       onSuccess: (updateCustomer) => {
         queryClient.setQueryData<CustomerModel[]>(
-          customersQueryKeys.establishment(establishmentId),
+          customersQueryKeys.establishment(establishment.id),
           (oldData) => {
             if (!oldData) {
               return [updateCustomer]
@@ -91,14 +91,6 @@ export function useFormUpdateCustomer(customer: CustomerModel) {
     })
 
   const onSubmitUpdateCustomer = formUpdateCustomer.handleSubmit((data) => {
-    if (!establishmentId) {
-      toaster.error({
-        title: 'Erro ao cadastrar cliente',
-        description: 'ID do estabelecimento não encontrado',
-      })
-      return
-    }
-
     updateCustomer(
       {
         ...data,

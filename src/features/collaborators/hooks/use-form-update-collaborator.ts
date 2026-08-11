@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -15,13 +15,13 @@ import type {
   CollaboratorsFormDataInput,
 } from '../types/form-collaborators.type'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 export function useFormUpdateCollaborator(
   collaborator: CollaboratorEstablishmentModel,
 ) {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const formDefaultValues = useMemo<DefaultValues<CollaboratorsFormDataInput>>(
     () => ({
@@ -85,7 +85,7 @@ export function useFormUpdateCollaborator(
   })
 
   const onSubmitUpdateCollaborator = form.handleSubmit((data) => {
-    if (!establishmentId) {
+    if (!establishment?.id) {
       toaster.error({
         title: 'Erro ao cadastrar colaborador',
         description: 'ID do estabelecimento não encontrado',
@@ -111,7 +111,7 @@ export function useFormUpdateCollaborator(
         specialty: data.specialty,
         workSchedule: data.workSchedule,
         image: data.image ?? null,
-        establishmentId,
+        establishmentId: establishment.id,
       },
       {
         onSuccess: () => form.reset(),

@@ -1,5 +1,5 @@
 import { Alert, Box, Card, HStack, Skeleton, Stack } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { UserCog } from 'lucide-react'
 import { z } from 'zod'
 
@@ -12,9 +12,7 @@ import { useGetAllCollaboratorsByEstablishment } from '@/features/collaborators/
 import CollaboratorsTablePage from '@/features/collaborators/pages/collaborators.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-export const Route = createFileRoute(
-  '/dashboard/$establishmentId/collaborators/',
-)({
+export const Route = createFileRoute('/dashboard/$slug/collaborators/')({
   validateSearch: z.object({
     status: z.string().optional(),
     q: z.string().optional(),
@@ -22,13 +20,15 @@ export const Route = createFileRoute(
   component: CollaboratorsPage,
 })
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 function CollaboratorsPage() {
-  const { establishmentId } = Route.useParams()
+  const establishment = dashboardSlugRoute.useLoaderData()
   const {
     data: getCollaborators,
     isLoading: isLoadingCollaborators,
     error: errorCollaborators,
-  } = useGetAllCollaboratorsByEstablishment(establishmentId)
+  } = useGetAllCollaboratorsByEstablishment(establishment.id)
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>

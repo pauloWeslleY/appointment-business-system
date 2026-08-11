@@ -1,9 +1,14 @@
 import { Box } from '@chakra-ui/react'
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import type { QueryClient } from '@tanstack/react-query'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
-export const Route = createRootRoute({
+interface RouterContext {
+  queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 })
 

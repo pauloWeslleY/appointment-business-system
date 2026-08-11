@@ -1,6 +1,6 @@
 import { For, SimpleGrid, Stat } from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
@@ -11,21 +11,21 @@ import {
 } from '../types/booking-status.type'
 import type { GetBookingByEstablishmentModel } from '../types/get-booking-by-establishment.model'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const StatInfoBookings = () => {
   const queryClient = useQueryClient()
-  const { establishmentId } = useParams({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const search = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
+    from: '/dashboard/$slug/bookings/',
   })
 
   const getBookings = queryClient.getQueryData<
     GetBookingByEstablishmentModel[]
   >(
     bookingQueryKeys.establishment({
-      establishmentId,
+      establishmentId: establishment.id,
       from: search.from ?? '',
       to: search.to ?? '',
     }),

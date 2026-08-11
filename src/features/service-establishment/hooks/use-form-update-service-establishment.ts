@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi, useParams } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -15,9 +15,11 @@ import type {
 import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
 import { useGetServiceEstablishmentById } from './use-get-service-establishment-by-id'
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 export function useFormUpdateServiceEstablishment() {
-  const { establishmentId, serviceEstablishmentId } = useParams({
-    from: '/dashboard/$establishmentId/services/_pages/$serviceEstablishmentId/edit/',
+  const establishment = dashboardSlugRoute.useLoaderData()
+  const { serviceEstablishmentId } = useParams({
+    from: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/',
   })
 
   const { data: serviceEstablishment } = useGetServiceEstablishmentById(
@@ -80,7 +82,7 @@ export function useFormUpdateServiceEstablishment() {
     updateServiceEstablishment(
       {
         ...data,
-        establishmentId,
+        establishmentId: establishment.id,
         serviceEstablishmentId,
         servicePriceInCents: data.servicePriceInCents * 100,
       },

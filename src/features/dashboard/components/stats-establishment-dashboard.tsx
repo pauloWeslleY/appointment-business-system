@@ -10,7 +10,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { useParams } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import {
   BriefcaseBusinessIcon,
   CalendarIcon,
@@ -29,19 +29,19 @@ interface StatsEstablishmentDashboardProps {
   to: string
 }
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 const StatsEstablishmentDashboard = (
   props: StatsEstablishmentDashboardProps,
 ) => {
-  const params = useParams({
-    from: '/dashboard/$establishmentId/overview/',
-  })
+  const establishment = dashboardSlugRoute.useLoaderData()
 
   const {
     data: statsEstablishmentDashboard,
     error: errorStatsEstablishmentDashboard,
     isLoading: isLoadingStatsEstablishmentDashboard,
   } = useGetStatsEstablishmentDashboard({
-    establishmentId: params.establishmentId,
+    establishmentId: establishment.id,
     from: props.from,
     to: props.to,
   })

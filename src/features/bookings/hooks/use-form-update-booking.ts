@@ -17,10 +17,7 @@ import type { GetBookingByEstablishmentModel } from '../types/get-booking-by-est
 
 export function useUpdateBookingForm(booking: GetBookingByEstablishmentModel) {
   const queryClient = useQueryClient()
-
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/bookings/',
-  })
+  const search = useSearch({ from: '/dashboard/$slug/bookings/' })
 
   const formDefaultValues = useMemo<DefaultValues<UpdateBookingFormType>>(
     () => ({

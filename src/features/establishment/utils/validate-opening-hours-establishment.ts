@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import type { EstablishmentModel } from '../types/establishment.model'
 
 export const validateOpeningHoursEstablishment = (
-  establishment?: EstablishmentModel,
+  establishment?: Pick<EstablishmentModel, 'openingHours'>,
 ) => {
   const erroMessage = 'Sem horário de funcionamento'
 

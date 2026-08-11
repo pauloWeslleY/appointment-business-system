@@ -36,10 +36,7 @@ const CollaboratorsTablePage = ({
       shallow: true,
     },
   )
-
-  const search = useSearch({
-    from: '/dashboard/$establishmentId/collaborators/',
-  })
+  const search = useSearch({ from: '/dashboard/$slug/collaborators/' })
 
   const loadCollaboratorsTableRows = useMemo<
     CollaboratorEstablishmentModel[]

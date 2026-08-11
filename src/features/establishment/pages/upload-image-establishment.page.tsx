@@ -20,7 +20,7 @@ const UploadImageEstablishment = () => {
   const {
     errors,
     control,
-    loadEstablishment,
+    getEstablishment,
     handleSubmit,
     onSubmitUploadImageEstablishment,
     isPendingUploadImageEstablishment,
@@ -29,7 +29,7 @@ const UploadImageEstablishment = () => {
   return (
     <SimpleGrid gap="2" columns={{ base: 1, lg: 2 }} w="full">
       <Box>
-        {loadEstablishment?.imageUrl && (
+        {getEstablishment?.imageUrl && (
           <Image
             border="1px solid"
             borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
@@ -38,11 +38,11 @@ const UploadImageEstablishment = () => {
             h="auto"
             w="full"
             fit="contain"
-            src={loadEstablishment.imageUrl}
+            src={getEstablishment.imageUrl}
           />
         )}
 
-        {!loadEstablishment?.imageUrl && (
+        {!getEstablishment?.imageUrl && (
           <Flex
             w="full"
             p="2"

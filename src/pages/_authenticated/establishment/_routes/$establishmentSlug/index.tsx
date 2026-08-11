@@ -5,10 +5,11 @@ import { z } from 'zod'
 
 import Header from '@/components/layout/header'
 import UpdateEstablishmentPage from '@/features/establishment/pages/update-establishment.page'
+import { establishmentSlugQueryOptions } from '@/features/establishment/queries/establishment-query-options'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
-  '/_authenticated/establishment/_routes/$establishmentId/',
+  '/_authenticated/establishment/_routes/$establishmentSlug/',
 )({
   validateSearch: z.object({
     tab: z.enum(['edit', 'upload']),
@@ -16,12 +17,16 @@ export const Route = createFileRoute(
   beforeLoad: ({ search, params }) => {
     if (!search.tab) {
       throw redirect({
-        to: '/establishment/$establishmentId',
-        params: { establishmentId: params.establishmentId },
+        to: '/establishment/$establishmentSlug',
+        params: { establishmentSlug: params.establishmentSlug },
         search: { tab: 'edit' },
       })
     }
   },
+  loader: ({ context, params }) =>
+    context.queryClient.ensureQueryData(
+      establishmentSlugQueryOptions(params.establishmentSlug),
+    ),
   component: EditEstablishmentPage,
 })
 

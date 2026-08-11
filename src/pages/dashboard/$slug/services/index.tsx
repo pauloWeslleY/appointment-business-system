@@ -9,7 +9,7 @@ import {
   Skeleton,
   Stack,
 } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { BriefcaseBusiness, Plus } from 'lucide-react'
 import z from 'zod'
 
@@ -21,7 +21,7 @@ import { useGetServiceByEstablishment } from '@/features/service-establishment/h
 import ServicesListPage from '@/features/service-establishment/pages/services.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-export const Route = createFileRoute('/dashboard/$establishmentId/services/')({
+export const Route = createFileRoute('/dashboard/$slug/services/')({
   validateSearch: z.object({
     page: z.number().optional().default(1),
     page_size: z.number().optional().default(12),
@@ -31,15 +31,17 @@ export const Route = createFileRoute('/dashboard/$establishmentId/services/')({
   component: ServicesPage,
 })
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 function ServicesPage() {
-  const { establishmentId } = Route.useParams()
+  const establishment = dashboardSlugRoute.useLoaderData()
   const navigate = Route.useNavigate()
 
   const {
     data: servicesEsblishment,
     isLoading: isLoadingServicesEstablishment,
     error: errorServicesEstablishment,
-  } = useGetServiceByEstablishment(establishmentId)
+  } = useGetServiceByEstablishment(establishment.id)
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -56,8 +58,8 @@ function ServicesPage() {
           size="xs"
           onClick={() =>
             navigate({
-              to: '/dashboard/$establishmentId/services/new',
-              params: { establishmentId },
+              to: '/dashboard/$slug/services/new',
+              params: { slug: establishment.slug },
             })
           }
         >

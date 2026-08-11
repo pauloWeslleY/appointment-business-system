@@ -6,27 +6,30 @@ import Sidebar from '@/components/layout/sidebar'
 
 import { loadMenuDashboardEstablishment } from '../constants/menu-dashboard-establishment'
 import { useEstablishmentLayout } from '../hooks/use-establishment-layout'
+import type { EstablishmentSlugModel } from '../types/establishment.model'
 
 interface EstablishmentLayoutProps {
+  establishment: EstablishmentSlugModel
   children: ReactNode
 }
 
-const EstablishmentLayout = ({ children }: EstablishmentLayoutProps) => {
+const EstablishmentLayout = ({
+  children,
+  establishment,
+}: EstablishmentLayoutProps) => {
   const {
     collapsed,
-    establishment,
-    establishmentId,
     loadEstablishmentInfo,
     validateUrlEstablishmentLayout,
     activePath,
     handleNavigation,
-  } = useEstablishmentLayout()
+  } = useEstablishmentLayout(establishment)
 
   if (validateUrlEstablishmentLayout) {
     return (
       <Navigate
-        to="/dashboard/$establishmentId/overview"
-        params={{ establishmentId }}
+        to="/dashboard/$slug/overview"
+        params={{ slug: establishment.slug }}
       />
     )
   }

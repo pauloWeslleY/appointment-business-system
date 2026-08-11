@@ -8,7 +8,7 @@ import {
   Skeleton,
   Stack,
 } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { Users2 } from 'lucide-react'
 import z from 'zod'
 
@@ -22,7 +22,7 @@ import { useGetAllCustomersByEstablishment } from '@/features/customers/hooks/us
 import CustomersTable from '@/features/customers/pages/customers-table.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-export const Route = createFileRoute('/dashboard/$establishmentId/customers/')({
+export const Route = createFileRoute('/dashboard/$slug/customers/')({
   validateSearch: z.object({
     sex: z.string().optional(),
     status: z.string().optional(),
@@ -31,13 +31,15 @@ export const Route = createFileRoute('/dashboard/$establishmentId/customers/')({
   component: CustomersPage,
 })
 
+const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 function CustomersPage() {
-  const { establishmentId } = Route.useParams()
+  const establishment = dashboardSlugRoute.useLoaderData()
   const {
     data: getCustomers,
     error: errorCustomers,
     isLoading: isLoadingCustomers,
-  } = useGetAllCustomersByEstablishment(establishmentId)
+  } = useGetAllCustomersByEstablishment(establishment.id)
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
