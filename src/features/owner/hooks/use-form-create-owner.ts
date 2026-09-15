@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -46,7 +46,7 @@ export function useFormCreateOwner(
       cnpj: '',
       phone: '',
     }),
-    [data],
+    [data?.user],
   )
 
   const {
@@ -61,6 +61,11 @@ export function useFormCreateOwner(
     resolver: zodResolver(CreateOwnerFormSchema),
     defaultValues: formDefaultValues,
   })
+
+  useEffect(() => {
+    reset(formDefaultValues)
+  }, [formDefaultValues, reset])
+
   const dataCreateOwner = getValues()
 
   const handleGoBackToPreviousStep = () => {

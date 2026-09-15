@@ -27,12 +27,13 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
   return (
     <Stack
       as="aside"
+      display={{ base: 'none', md: 'flex' }}
       gap="0"
       align="flex-start"
       h="full"
       px="2"
       pb="10"
-      bg={{ base: 'tertiary.300', _dark: 'primary.900' }}
+      bg={{ base: 'tertiary.800', _dark: 'primary.900' }}
       w={collapsed ? '20' : '60'}
       transition="width 0.2s ease"
       pos="relative"
@@ -135,9 +136,9 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
             px={collapsed ? '8' : '2'}
             rounded="xl"
             shadow="xs"
-            bg={{ base: 'tertiary.300', _dark: 'secondary.900' }}
+            bg={{ base: 'tertiary.800', _dark: 'secondary.900' }}
             borderWidth="1px"
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+            borderColor={{ base: 'gray.600', _dark: 'secondary.500/20' }}
           >
             <CardUserInfo />
 

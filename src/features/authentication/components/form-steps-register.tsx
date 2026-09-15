@@ -1,6 +1,6 @@
-import { Box, Button, HStack, Icon, Steps } from '@chakra-ui/react'
+import { Box, Button, HStack, Icon, Steps, VStack } from '@chakra-ui/react'
 import { useNavigate } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, CircleCheckBig } from 'lucide-react'
 
 import { useFormCreateOwner } from '@/features/owner/hooks/use-form-create-owner'
 
@@ -16,7 +16,7 @@ const FormStepsRegister = () => {
   const navigate = useNavigate()
 
   return (
-    <Box p={{ base: '4', md: '8', xl: '40' }}>
+    <Box p={{ base: '4', md: '8', xl: '40' }} mt={{ base: '28', md: '0' }}>
       <Steps.Root
         step={stepRegister}
         onStepChange={(e) => setStepRegisterWithValidation(e.step)}
@@ -43,15 +43,26 @@ const FormStepsRegister = () => {
         <Steps.CompletedContent
           display="flex"
           flexDir="column"
+          justifyContent="center"
+          alignItems="center"
           textAlign="center"
           gap="4"
           mt="6"
+          p="4"
+          rounded="xl"
+          bg={{ base: 'green.300/20', _dark: 'green.500/10' }}
+          borderWidth="1px"
+          borderColor={{ base: 'green.300', _dark: 'green.700' }}
         >
-          Todos os passos foram concluídos!
+          <VStack color={{ base: 'green.600', _dark: 'green.400' }}>
+            <Icon as={CircleCheckBig} boxSize="8" />
+            Todos os passos foram concluídos!
+          </VStack>
+
           <Button
             variant="surface"
             rounded="xl"
-            colorPalette="emerald"
+            colorPalette="primary"
             size="sm"
             loading={formCreateOwner.isPendingCreateOwner}
             onClick={() => navigate({ to: '/establishment' })}

@@ -51,7 +51,7 @@ const SidebarItem = ({ icon, children, active, ...rest }: SidebarItemProps) => {
       }}
       borderWidth="1px"
       borderColor={{
-        base: active ? 'colorPalette.200' : 'transparent',
+        base: active ? 'colorPalette.200/30' : 'transparent',
         _dark: active ? 'colorPalette.focusRing/40' : 'transparent',
       }}
       transition="backgrounds"
@@ -60,19 +60,19 @@ const SidebarItem = ({ icon, children, active, ...rest }: SidebarItemProps) => {
         _dark: active ? 'colorPalette.focusRing/40' : 'transparent',
       }}
       color={{
-        base: active ? 'colorPalette.950' : 'colorPalette.800',
+        base: active ? 'colorPalette.950' : 'colorPalette.300',
         _dark: active ? 'colorPalette.300' : 'colorPalette.200',
       }}
       _hover={{
-        bg: { base: 'colorPalette.200', _dark: 'colorPalette.fg/90' },
-        color: { base: 'colorPalette.900', _dark: 'colorPalette.800' },
+        bg: { base: 'colorPalette.200/30', _dark: 'colorPalette.fg/90' },
+        color: { base: 'colorPalette.500', _dark: 'colorPalette.800' },
       }}
     >
       {icon && (
         <Icon
           boxSize="4"
           _groupHover={{
-            color: { base: 'colorPalette.900', _dark: 'colorPalette.800' },
+            color: { base: 'colorPalette.500', _dark: 'colorPalette.800' },
           }}
           as={icon}
         />

@@ -1,4 +1,10 @@
-import { Card, Separator, Stat } from '@chakra-ui/react'
+import {
+  Card,
+  Separator,
+  type SeparatorProps,
+  Stat,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
@@ -15,6 +21,7 @@ const StatsEstablishments = () => {
   const getEstablishmentsByOwner = queryClient.getQueryData<
     EstablishmentModel[]
   >(establishmentQueryKeys.owner(owner?.id))
+  const breakPoints = useBreakpointValue({ base: 'horizontal', md: 'vertical' })
 
   const getStatInfoEstablishments = useMemo(() => {
     const totalEstablishments = getEstablishmentsByOwner?.length ?? 0
@@ -36,22 +43,31 @@ const StatsEstablishments = () => {
       variant="outline"
       css={cardSectionCss}
       display="flex"
-      gap="4"
+      gap={{ base: '2', md: '4' }}
       flexDir={{ base: 'column', md: 'row' }}
       alignItems="center"
     >
-      <Stat.Root>
+      <Stat.Root
+        w={{ base: 'full', md: 'auto' }}
+        justifyContent={{ base: 'space-between', lg: 'flex-start' }}
+        flexDir={{ base: 'row', md: 'column' }}
+      >
         <Stat.Label>Total de Estabelecimentos</Stat.Label>
         <Stat.ValueText>{getStatInfoEstablishments.total}</Stat.ValueText>
       </Stat.Root>
 
       <Separator
-        orientation="vertical"
-        height="14"
+        orientation={breakPoints as SeparatorProps['orientation']}
+        height={{ base: 'auto', lg: '14' }}
+        width={{ base: 'full', lg: 'auto' }}
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       />
 
-      <Stat.Root>
+      <Stat.Root
+        w={{ base: 'full', md: 'auto' }}
+        justifyContent={{ base: 'space-between', lg: 'flex-start' }}
+        flexDir={{ base: 'row', md: 'column' }}
+      >
         <Stat.Label>Total de Estabelecimentos Abertos</Stat.Label>
         <Stat.ValueText>
           {getStatInfoEstablishments.totalOpening}
@@ -59,12 +75,17 @@ const StatsEstablishments = () => {
       </Stat.Root>
 
       <Separator
-        orientation="vertical"
-        height="14"
+        orientation={breakPoints as SeparatorProps['orientation']}
+        height={{ base: 'auto', lg: '14' }}
+        width={{ base: 'full', lg: 'auto' }}
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       />
 
-      <Stat.Root>
+      <Stat.Root
+        w={{ base: 'full', md: 'auto' }}
+        justifyContent={{ base: 'space-between', lg: 'flex-start' }}
+        flexDir={{ base: 'row', md: 'column' }}
+      >
         <Stat.Label>Total de Estabelecimentos Fechados</Stat.Label>
         <Stat.ValueText>{getStatInfoEstablishments.totalClosed}</Stat.ValueText>
       </Stat.Root>

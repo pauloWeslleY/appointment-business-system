@@ -66,7 +66,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         pb="2"
         w="full"
         display="flex"
-        flexDir="row"
+        flexDir={{ base: 'column', md: 'row' }}
         gap="2"
         borderBottomWidth="1px"
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
@@ -145,8 +145,12 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             {formatPhone}
           </Text>
 
-          <Box spaceY="2">
-            <HStack>
+          <Box spaceY="2" w="full">
+            <Flex
+              gap={{ base: '2', md: '4' }}
+              align={{ base: 'flex-start', md: 'center' }}
+              flexDir={{ base: 'column', md: 'row' }}
+            >
               <Text
                 fontSize="sm"
                 letterSpacing="wide"
@@ -155,7 +159,11 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 {establishment.totalServices} serviços
               </Text>
 
-              <Separator orientation="vertical" height="4" />
+              <Separator
+                orientation="vertical"
+                height="8"
+                display={{ base: 'none', md: 'block' }}
+              />
 
               <Text
                 fontSize="sm"
@@ -165,7 +173,11 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 {establishment.totalCollaborators} colaboradores
               </Text>
 
-              <Separator orientation="vertical" height="4" />
+              <Separator
+                orientation="vertical"
+                height="8"
+                display={{ base: 'none', md: 'block' }}
+              />
 
               <Flex gap="2" align="center">
                 <HStack align="center" gap="1">
@@ -192,7 +204,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                   {establishment.totalRatings} avaliações
                 </Text>
               </Flex>
-            </HStack>
+            </Flex>
 
             <HStack align="center" gap="1">
               <Text
@@ -235,7 +247,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           variant="ghost"
           rounded="xl"
           size="sm"
-          flex="1"
+          flex={{ base: 'auto', md: '1' }}
           onClick={() =>
             navigate({
               to: '/establishment/$establishmentSlug',
@@ -252,7 +264,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           variant="ghost"
           rounded="xl"
           size="sm"
-          flex="1"
+          flex={{ base: 'auto', md: '1' }}
           onClick={() =>
             navigate({
               to: '/dashboard/$slug/overview',

@@ -24,6 +24,8 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_authenticated/establishment/')({
   validateSearch: z.object({
+    page: z.number().optional().default(1),
+    page_size: z.number().optional().default(12),
     q: z.string().optional(),
   }),
   beforeLoad: async () => await validationEstablishmentExistsRouteHome(),
@@ -33,7 +35,6 @@ export const Route = createFileRoute('/_authenticated/establishment/')({
 function EstablishmentPage() {
   const navigate = Route.useNavigate()
   const search = Route.useSearch()
-
   const {
     filteredEstablishments,
     errorEstablishments,
@@ -41,8 +42,11 @@ function EstablishmentPage() {
   } = useGetEstablishmentsByOwner(search.q)
 
   return (
-    <Box spaceY={{ base: '4', lg: '8' }}>
-      <Header.Root justify="space-between" align="center">
+    <Box spaceY={{ base: '4', lg: '8' }} pb="4">
+      <Header.Root
+        justify="space-between"
+        flexDir={{ base: 'column', lg: 'row' }}
+      >
         <HStack gap="2" align="center">
           <Header.Icon icon={Store} />
           <Header.Title>Estabelecimentos</Header.Title>

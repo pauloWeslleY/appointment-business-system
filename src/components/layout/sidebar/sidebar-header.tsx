@@ -1,10 +1,11 @@
-import { Avatar, Flex, HStack, Icon, IconButton, Text } from '@chakra-ui/react'
+import { Avatar, Box, Flex, HStack, Text } from '@chakra-ui/react'
 import type { PropsWithChildren } from 'react'
-import { FiMenu } from 'react-icons/fi'
 
 import { ColorModeButton } from '@/components/ui/color-mode'
 import { authClient } from '@/lib/auth'
 import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
+
+import SidebarMobile from './sidebar-mobile'
 
 const SidebarHeader = ({ children }: PropsWithChildren) => {
   const { data } = authClient.useSession()
@@ -16,25 +17,34 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
       align="center"
       justify="space-between"
       w="full"
-      px="4"
+      px={{ base: '2', lg: '4' }}
       h="20"
     >
       <HStack pl={{ base: '0', md: '4' }}>
-        <IconButton
-          aria-label="Menu"
-          display={{ base: 'inline-flex', md: 'none' }}
-          size="sm"
-        >
-          <Icon as={FiMenu} />
-        </IconButton>
+        <SidebarMobile />
 
         {children}
       </HStack>
 
-      <Flex align="center" gap="4">
+      <Flex align="center" gap={{ base: '2', md: '4' }}>
         <ColorModeButton rounded="full" variant="ghost" size="sm" />
 
+        <Box display={{ base: 'block', md: 'none' }}>
+          <Avatar.Root
+            shape="full"
+            size="2xs"
+            borderWidth="1px"
+            borderColor="colorPalette.500"
+            bg={{ base: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
+            color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
+          >
+            <Avatar.Fallback />
+            <Avatar.Image src={storageData ?? ''} />
+          </Avatar.Root>
+        </Box>
+
         <Flex
+          display={{ base: 'none', md: 'flex' }}
           align="center"
           gap="2"
           py="1"

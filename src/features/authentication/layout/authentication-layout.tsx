@@ -28,7 +28,17 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
       bgGradient="to-tl"
       gradientFrom={{ base: 'colorPalette.100', _dark: 'colorPalette.900/60' }}
       gradientTo={{ base: 'primary.100', _dark: 'primary.800' }}
+      pos="relative"
     >
+      <Box
+        pos="absolute"
+        top="2"
+        right="2"
+        display={{ base: 'block', md: 'none' }}
+      >
+        <ColorModeButton rounded="full" variant="ghost" />
+      </Box>
+
       <SimpleGrid
         columns={{ base: 1, md: 2 }}
         gap={{ base: 4, md: 8 }}
@@ -37,6 +47,7 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
         flex="1"
       >
         <Stack
+          display={{ base: 'none', md: 'flex' }}
           backdropFilter="blur(16px) saturate(160%)"
           justify="space-between"
           bg={{
@@ -49,7 +60,12 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
           minH="2xl"
           pos="relative"
         >
-          <Box pos="absolute" top="2" right="2">
+          <Box
+            pos="absolute"
+            top="2"
+            right="2"
+            display={{ base: 'none', md: 'block' }}
+          >
             <ColorModeButton rounded="full" variant="ghost" />
           </Box>
 

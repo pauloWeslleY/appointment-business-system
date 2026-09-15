@@ -106,7 +106,9 @@ const EstablishmentLayout = ({
           </Box>
         </Sidebar.Header>
 
-        <Sidebar.Body>{children}</Sidebar.Body>
+        <Sidebar.Body>
+          <Box maxW={{ base: 'lg', lg: 'breakpoint-2xl' }}>{children}</Box>
+        </Sidebar.Body>
       </Sidebar.Content>
     </Sidebar.Root>
   )
