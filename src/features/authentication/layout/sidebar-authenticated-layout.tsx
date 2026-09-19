@@ -34,7 +34,7 @@ const SideBarAuthenticatedLayout = ({
                   fontSize="sm"
                   fontWeight="medium"
                   letterSpacing="wider"
-                  color={{ base: 'gray.500', _dark: 'gray.400' }}
+                  color={{ base: 'gray.100', _dark: 'gray.400' }}
                   my="4"
                   pl="2"
                 >
@@ -68,7 +68,12 @@ const SideBarAuthenticatedLayout = ({
         </Sidebar.Header>
 
         <Sidebar.Body>
-          <Box maxW={{ base: 'auto', lg: 'breakpoint-2xl' }}>{children}</Box>
+          <Box
+            maxW={{ base: 'auto', xl: 'breakpoint-2xl' }}
+            mx={{ base: '0', xl: 'auto' }}
+          >
+            {children}
+          </Box>
         </Sidebar.Body>
       </Sidebar.Content>
     </Sidebar.Root>

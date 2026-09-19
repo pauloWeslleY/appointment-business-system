@@ -85,7 +85,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
                 fontFamily="heading"
                 fontSize="lg"
                 fontWeight="semibold"
-                color={{ base: 'colorPalette.600', _dark: 'colorPalette.400' }}
+                color={{ base: 'primary.100', _dark: 'primary.300' }}
               >
                 Appointly
               </Text>

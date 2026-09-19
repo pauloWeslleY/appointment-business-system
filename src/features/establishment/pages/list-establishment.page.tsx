@@ -40,7 +40,7 @@ const ListEstablishmentPage = ({
   )
   const search = useSearch({ from: '/_authenticated/establishment/' })
 
-  const visibleEstablishments = useMemo(() => {
+  const visibleEstablishments = useMemo<EstablishmentModel[]>(() => {
     const start = (pagination.page - 1) * pagination.page_size
     const end = start + pagination.page_size
     return establishments.slice(start, end)
@@ -68,8 +68,8 @@ const ListEstablishmentPage = ({
         <>
           {isPendingPagination && (
             <VStack colorPalette={colorDefaultTheme}>
-              <Spinner color="colorPalette.600" />
-              <Text color="colorPalette.600">Carregando dados...</Text>
+              <Spinner color="colorPalette.500" />
+              <Text color="colorPalette.500">Carregando dados...</Text>
             </VStack>
           )}
 

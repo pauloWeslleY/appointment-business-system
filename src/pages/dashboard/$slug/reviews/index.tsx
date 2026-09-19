@@ -19,6 +19,7 @@ export const Route = createFileRoute('/dashboard/$slug/reviews/')({
   component: ReviewsPage,
 })
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+
 function ReviewsPage() {
   const establishment = dashboardSlugRoute.useLoaderData()
   const {

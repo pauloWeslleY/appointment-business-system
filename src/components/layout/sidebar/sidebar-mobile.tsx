@@ -41,7 +41,7 @@ const SidebarMobile = () => {
       <Drawer.Trigger asChild>
         <IconButton
           rounded="xl"
-          variant="outline"
+          variant="ghost"
           size="sm"
           aria-label="Menu"
           display={{ base: 'inline-flex', md: 'none' }}

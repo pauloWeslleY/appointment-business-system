@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  Flex,
   HStack,
   Icon,
   Skeleton,
@@ -16,6 +17,7 @@ import z from 'zod'
 
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
+import FilterEstablishmentOpening from '@/features/establishment/components/filter-establishment-opening'
 import StatsEstablishments from '@/features/establishment/components/stats-establishments'
 import { useGetEstablishmentsByOwner } from '@/features/establishment/hooks/use-get-esblishment-by-owner'
 import ListEstablishmentPage from '@/features/establishment/pages/list-establishment.page'
@@ -27,6 +29,7 @@ export const Route = createFileRoute('/_authenticated/establishment/')({
     page: z.number().optional().default(1),
     page_size: z.number().optional().default(12),
     q: z.string().optional(),
+    opening: z.coerce.string().optional(),
   }),
   beforeLoad: async () => await validationEstablishmentExistsRouteHome(),
   component: EstablishmentPage,
@@ -39,7 +42,7 @@ function EstablishmentPage() {
     filteredEstablishments,
     errorEstablishments,
     isLoadingEstablishments,
-  } = useGetEstablishmentsByOwner(search.q)
+  } = useGetEstablishmentsByOwner(search.q, search.opening)
 
   return (
     <Box spaceY={{ base: '4', lg: '8' }} pb="4">
@@ -94,7 +97,10 @@ function EstablishmentPage() {
         <Box spaceY="4">
           <StatsEstablishments />
 
-          <SearchPage w="350px" />
+          <Flex gap="2" align="center">
+            <SearchPage w="350px" />
+            <FilterEstablishmentOpening />
+          </Flex>
 
           <Card.Root variant="outline" css={cardSectionCss}>
             <ListEstablishmentPage establishments={filteredEstablishments} />
