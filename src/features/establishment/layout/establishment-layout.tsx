@@ -47,7 +47,7 @@ const EstablishmentLayout = ({
                   fontSize="sm"
                   fontWeight="medium"
                   letterSpacing="wider"
-                  color={{ base: 'gray.500', _dark: 'gray.400' }}
+                  color={{ base: 'gray.200', _dark: 'gray.400' }}
                   my="4"
                   pl="2"
                 >
@@ -107,7 +107,12 @@ const EstablishmentLayout = ({
         </Sidebar.Header>
 
         <Sidebar.Body>
-          <Box maxW={{ base: 'lg', lg: 'breakpoint-2xl' }}>{children}</Box>
+          <Box
+            maxW={{ base: 'lg', lg: 'breakpoint-2xl' }}
+            mx={{ base: 0, xl: 'auto' }}
+          >
+            {children}
+          </Box>
         </Sidebar.Body>
       </Sidebar.Content>
     </Sidebar.Root>

@@ -1,5 +1,5 @@
 import { Box, Button, chakra, FileUpload, SimpleGrid } from '@chakra-ui/react'
-import { Upload } from 'lucide-react'
+import { FileText, Upload, X } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
@@ -34,10 +34,50 @@ const FormProfileUser = () => {
               />
               <FileUpload.Trigger asChild>
                 <Button variant="outline" size="sm" rounded="xl">
-                  <Upload /> Upload file
+                  <Upload /> Selecionar arquivo
                 </Button>
               </FileUpload.Trigger>
-              <FileUpload.List />
+
+              <FileUpload.ItemGroup mt="1" gap="2">
+                <FileUpload.Context>
+                  {({ acceptedFiles }) =>
+                    acceptedFiles.map((file) => (
+                      <FileUpload.Item
+                        key={file.name}
+                        file={file}
+                        px="4"
+                        py="3"
+                        rounded="lg"
+                        borderWidth="1px"
+                        borderColor={{
+                          base: 'gray.300',
+                          _dark: 'secondary.500/20',
+                        }}
+                        bg={{ base: 'secondary.200', _dark: 'gray.900' }}
+                        color={{ base: 'gray.900', _dark: 'white' }}
+                      >
+                        <FileText size={18} />
+
+                        <FileUpload.ItemName
+                          flex="1"
+                          minW="0"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                        />
+
+                        <FileUpload.ItemDeleteTrigger
+                          aria-label={`Remover ${file.name}`}
+                          color="gray.400"
+                          _hover={{ color: 'red.400' }}
+                        >
+                          <X size={16} />
+                        </FileUpload.ItemDeleteTrigger>
+                      </FileUpload.Item>
+                    ))
+                  }
+                </FileUpload.Context>
+              </FileUpload.ItemGroup>
             </FileUpload.Root>
           )}
         />

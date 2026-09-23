@@ -5,7 +5,7 @@ import SideBarAuthenticatedLayout from '@/features/authentication/layout/sidebar
 import { validateEnsureOwnerExists } from '@/features/authentication/validations/validate-owner-exists'
 
 export const Route = createFileRoute('/_authenticated')({
-  beforeLoad: () => validateEnsureOwnerExists(),
+  beforeLoad: async () => await validateEnsureOwnerExists(),
   component: AuthenticatedLayout,
   notFoundComponent: NotFoundPage,
 })

@@ -27,7 +27,7 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute('/_authenticated/establishment/')({
   validateSearch: z.object({
     page: z.number().optional().default(1),
-    page_size: z.number().optional().default(12),
+    page_size: z.number().optional().default(4),
     q: z.string().optional(),
     opening: z.coerce.string().optional(),
   }),

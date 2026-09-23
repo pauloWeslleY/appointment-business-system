@@ -39,7 +39,7 @@ export function useFormUpdateEstablishment() {
       })
 
       queryClient.setQueryData<EstablishmentModel>(
-        establishmentQueryKeys.detail(establishment.id),
+        establishmentQueryKeys.slug(establishmentSlug),
         () => establishment,
       )
 

@@ -37,7 +37,6 @@ const FormTelephoneEstablishment = ({
   onCloseAlertTelephone,
 }: FormTelephoneEstablishmentProps) => {
   const [mask, setMask] = useState<string>(FormatMask.TELEPHONE)
-
   const {
     fields: telephoneFields,
     append: appendTelephone,
@@ -58,6 +57,7 @@ const FormTelephoneEstablishment = ({
         label: 'Celular',
       },
     } as const
+
     return (
       labelFormTelephoneMask[mask] ||
       labelFormTelephoneMask[FormatMask.TELEPHONE]
@@ -101,7 +101,7 @@ const FormTelephoneEstablishment = ({
         </Button>
       </ButtonGroup>
 
-      <chakra.label display="flex" flexDir="column" alignItems="center" gap="4">
+      <chakra.div display="flex" flexDir="column" alignItems="center" gap="4">
         {labelFormTelephoneMask.title}
         <Button
           type="button"
@@ -113,7 +113,7 @@ const FormTelephoneEstablishment = ({
         >
           Adicionar {labelFormTelephoneMask.label}
         </Button>
-      </chakra.label>
+      </chakra.div>
 
       <Stack direction="row" wrap="wrap" flex="1">
         {telephoneFields.map((input, index) => (

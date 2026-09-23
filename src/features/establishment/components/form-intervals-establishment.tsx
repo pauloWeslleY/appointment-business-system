@@ -127,7 +127,7 @@ const FormIntervalEstablishment = ({
         shadow={{ base: 'shape', md: '2xs' }}
         p="4"
       >
-        <chakra.label
+        <chakra.div
           display="flex"
           flexDir="column"
           alignItems="center"
@@ -144,7 +144,7 @@ const FormIntervalEstablishment = ({
           >
             Adicionar horário
           </Button>
-        </chakra.label>
+        </chakra.div>
 
         <Stack direction="row" wrap="wrap" flex="1">
           {intervalFields.map((field, index) => (

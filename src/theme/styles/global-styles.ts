@@ -10,6 +10,14 @@ export const contentCss = defineStyle({
   rounded: 'lg',
 })
 
+export const menuItemCss = defineStyle({
+  rounded: 'xl',
+  cursor: 'pointer',
+  _hover: {
+    bg: { base: 'gray.100', _dark: 'secondary.600' },
+  },
+})
+
 export const cardCss = defineStyle({
   rounded: 'xl',
   shadow: 'xs',

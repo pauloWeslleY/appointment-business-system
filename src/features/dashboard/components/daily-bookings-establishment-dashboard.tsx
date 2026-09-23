@@ -1,4 +1,12 @@
-import { Alert, Card, Flex, Icon, Skeleton, Stack } from '@chakra-ui/react'
+import {
+  Alert,
+  Card,
+  Flex,
+  Icon,
+  Skeleton,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
 import { CalendarIcon } from 'lucide-react'
 
@@ -19,7 +27,6 @@ const DailyBookingsEstablishmentDashboard = (
   props: DailyBookingsEstablishmentDashboardProps,
 ) => {
   const establishment = dashboardSlugRoute.useLoaderData()
-
   const {
     data: dailyBookingsEstablishmentDashboard = [],
     error: errorDailyBookingsEstablishmentDashboard,
@@ -87,9 +94,17 @@ const DailyBookingsEstablishmentDashboard = (
           </Card.Header>
 
           <Card.Body>
-            <TableDailyBookingsEstablishmentDashboard
-              bookings={dailyBookingsEstablishmentDashboard}
-            />
+            {dailyBookingsEstablishmentDashboard.length === 0 && (
+              <Text color={{ base: 'gray.600', _dark: 'gray.400' }}>
+                Nenhum agendamento encontrado para o período selecionado.
+              </Text>
+            )}
+
+            {dailyBookingsEstablishmentDashboard.length > 0 && (
+              <TableDailyBookingsEstablishmentDashboard
+                bookings={dailyBookingsEstablishmentDashboard}
+              />
+            )}
           </Card.Body>
         </Card.Root>
       )}

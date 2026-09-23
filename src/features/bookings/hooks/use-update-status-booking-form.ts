@@ -50,17 +50,16 @@ export function useUpdateStatusBookingForm(
           from,
           to,
         }),
-        (oldBookings) => {
+        (oldBookings: GetBookingByEstablishmentModel[] | undefined) => {
           return (
-            oldBookings ??
-            ([] as GetBookingByEstablishmentModel[]).map((oldBooking) =>
+            oldBookings?.map((oldBooking) =>
               oldBooking.id === booking.id
                 ? {
                     ...oldBooking,
                     status: booking.status,
                   }
                 : oldBooking,
-            )
+            ) ?? ([] as GetBookingByEstablishmentModel[])
           )
         },
       )

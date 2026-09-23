@@ -21,6 +21,8 @@ export const Route = createFileRoute('/dashboard/$slug/bookings/')({
     status: z.string().optional(),
     service_id: z.string().optional(),
     q: z.string().optional(),
+    page: z.number().optional().default(1),
+    page_size: z.number().optional().default(12),
   }),
   beforeLoad: ({ search, params }) =>
     validationBookingRouteHome(search, params.slug),

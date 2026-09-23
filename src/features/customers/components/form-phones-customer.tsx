@@ -30,7 +30,6 @@ interface FormPhonesCustomerProps extends FlexProps {
 
 const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
   const [mask, setMask] = useState<string>(FormatMask.TELEPHONE)
-
   const {
     fields: phonesFields,
     append: appendPhones,
@@ -89,7 +88,7 @@ const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
           borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
         />
 
-        <chakra.label display="flex" flexDir="row" alignItems="center" gap="4">
+        <chakra.div display="flex" flexDir="row" alignItems="center" gap="4">
           {labelFormPhonesMask.title}
           <Button
             type="button"
@@ -101,7 +100,7 @@ const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
           >
             Adicionar {labelFormPhonesMask.label}
           </Button>
-        </chakra.label>
+        </chakra.div>
       </HStack>
 
       <SimpleGrid

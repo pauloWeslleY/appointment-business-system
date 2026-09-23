@@ -5,6 +5,7 @@ import { ColorModeButton } from '@/components/ui/color-mode'
 import { authClient } from '@/lib/auth'
 import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
 
+import MenuSettings from '../menu-settings'
 import SidebarMobile from './sidebar-mobile'
 
 const SidebarHeader = ({ children }: PropsWithChildren) => {
@@ -28,6 +29,8 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
 
       <Flex align="center" gap={{ base: '2', md: '4' }}>
         <ColorModeButton rounded="full" variant="ghost" size="sm" />
+
+        <MenuSettings />
 
         <Box display={{ base: 'block', md: 'none' }}>
           <Avatar.Root
@@ -69,7 +72,7 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
           <Text
             lineHeight="1"
             fontWeight="light"
-            color={{ base: 'primary.500', _dark: 'primary.300' }}
+            color={{ base: 'secondary.500', _dark: 'secondary.300' }}
             textTransform="capitalize"
           >
             {data?.user?.name ?? 'Usuário'}

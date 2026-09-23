@@ -8,6 +8,8 @@ export const validationBookingRouteHome = (
     status?: string
     service_id?: string
     q?: string
+    page?: number
+    page_size?: number
   },
   slug: string,
 ) => {
