@@ -1,12 +1,15 @@
-import { Box, Card, DataList, For, HStack, Stack, Text } from '@chakra-ui/react'
+import { Box, Card, HStack, Separator, Stack, Text } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
 import { Info } from 'lucide-react'
+import { useMemo } from 'react'
 
 import Header from '@/components/layout/header'
-import { formattedDateAndHours } from '@/shared/utils/formatted-date'
+import { Status } from '@/components/ui/status'
+import { BookingStatus } from '@/features/bookings/types/booking-status.type'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
+import HistoryBookingServiceTable from '../components/table-history-bookings-service'
 
 const serviceEstablishmentRoute = getRouteApi(
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId',
@@ -14,10 +17,40 @@ const serviceEstablishmentRoute = getRouteApi(
 
 const ServiceEstablishmentDetails = () => {
   const serviceEstablishment = serviceEstablishmentRoute.useLoaderData()
-  const servicesBookings = serviceEstablishment?.bookings.map((booking) => ({
-    label: 'Data do agendamento',
-    content: formattedDateAndHours(booking.date, true),
-  }))
+  const hasHistoryBookings = serviceEstablishment?.bookings.length > 0
+
+  const getDetailHistoryBookingsSummary = useMemo(() => {
+    const now = new Date()
+
+    return serviceEstablishment.bookings.reduce(
+      (summary, booking) => {
+        summary.all += 1
+
+        if (booking.status === BookingStatus.CONCLUDED) {
+          summary.concluded += 1
+        }
+
+        if (booking.status === BookingStatus.CANCELLED) {
+          summary.cancelled += 1
+        }
+
+        if (
+          booking.status === BookingStatus.CONFIRMED &&
+          new Date(booking.date) >= now
+        ) {
+          summary.upcoming += 1
+        }
+
+        return summary
+      },
+      {
+        all: 0,
+        upcoming: 0,
+        concluded: 0,
+        cancelled: 0,
+      },
+    )
+  }, [serviceEstablishment.bookings])
 
   return (
     <Box spaceY="4" w="full">
@@ -48,30 +81,38 @@ const ServiceEstablishmentDetails = () => {
 
         <Card.Root variant="outline" css={cardSectionCss}>
           <Text fontSize="md" fontWeight="medium">
-            Agendamentos do serviço
+            Histórico de agendamentos do serviço
           </Text>
 
-          {!servicesBookings?.length && (
+          <HStack mt="4" gap="4">
+            <Text fontWeight="medium" fontSize="sm">
+              {getDetailHistoryBookingsSummary.all} Todos
+            </Text>
+
+            <Separator orientation="vertical" height="4" />
+
+            <Status value="error">
+              {getDetailHistoryBookingsSummary.cancelled} Cancelado
+            </Status>
+            <Status value="info">
+              {getDetailHistoryBookingsSummary.upcoming} Próximos
+            </Status>
+            <Status value="success">
+              {getDetailHistoryBookingsSummary.concluded} Concluídos
+            </Status>
+          </HStack>
+
+          {!hasHistoryBookings && (
             <Text mt="2" fontSize="sm" color="colorPalette.500">
               Nenhum agendamento encontrado para este serviço
             </Text>
           )}
 
-          <DataList.Root
-            orientation="vertical"
-            mt="4"
-            flexDirection="row"
-            flexWrap="wrap"
-          >
-            <For each={servicesBookings}>
-              {(service, index) => (
-                <DataList.Item key={service.label + index}>
-                  <DataList.ItemLabel>{service.label}</DataList.ItemLabel>
-                  <DataList.ItemValue>{service.content}</DataList.ItemValue>
-                </DataList.Item>
-              )}
-            </For>
-          </DataList.Root>
+          {hasHistoryBookings && (
+            <HistoryBookingServiceTable
+              servicesBookings={serviceEstablishment.bookings}
+            />
+          )}
         </Card.Root>
       </Stack>
     </Box>

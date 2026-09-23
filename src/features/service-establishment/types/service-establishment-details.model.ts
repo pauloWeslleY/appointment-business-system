@@ -1,21 +1,27 @@
-import type { EstablishmentModel } from '@/features/establishment/types/establishment.model'
+import type { BookingStatusType } from '@/features/bookings/types/booking-status.type'
 
 export interface ServiceEstablishmentDetailsModel {
   id: string
   name: string
   description: string
-  imageUrl: string | null
+  imageUrl: string
   servicePriceInCents: number
-  establishmentId: string
+  status: boolean
   createdAt: string
   updatedAt: string | null
-  bookings: {
-    id: string
-    createdAt: string
-    updatedAt: string | null
-    date: string
-    userId: string
-    serviceId: string
-  }[]
-  establishment: EstablishmentModel
+  bookings: [
+    {
+      id: string
+      date: string
+      status: BookingStatusType
+      notes: string
+      createdAt: string
+      updatedAt: string
+      user: {
+        id: string
+        name: string
+        image: string
+      }
+    },
+  ]
 }

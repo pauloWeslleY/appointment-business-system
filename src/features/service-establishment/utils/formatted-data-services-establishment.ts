@@ -22,9 +22,7 @@ export const formattedDataServiceEstablishmentDetails = (
   },
   {
     label: 'Total de agendamentos',
-    content: String(
-      service?.bookings?.length !== 0 ? service?.bookings.length : 0,
-    ),
+    content: String(service?.bookings.length ?? 0),
   },
   {
     label: 'Criado em',
