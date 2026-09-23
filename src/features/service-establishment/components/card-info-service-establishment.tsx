@@ -24,10 +24,10 @@ const CardInfoServiceEstablishement = ({
       display="flex"
       alignItems="center"
       flexDir="row"
-      gap="2"
-      h="fit"
+      gap="8"
+      h="full"
     >
-      <Box boxSize="48" mr="4">
+      <Box w="52">
         {serviceEstablishment?.imageUrl && (
           <Image
             border="1px solid"
@@ -39,6 +39,7 @@ const CardInfoServiceEstablishement = ({
             src={serviceEstablishment.imageUrl}
           />
         )}
+
         {!serviceEstablishment?.imageUrl && (
           <Flex
             p="2"

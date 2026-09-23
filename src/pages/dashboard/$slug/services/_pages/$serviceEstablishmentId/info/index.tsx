@@ -15,8 +15,8 @@ export const Route = createFileRoute(
 
 function ServiceEstablishmentInfoPage() {
   return (
-    <div>
+    <>
       <ServiceEstablishmentDetails />
-    </div>
+    </>
   )
 }
