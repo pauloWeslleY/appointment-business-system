@@ -21,10 +21,6 @@ export const formattedDataServiceEstablishmentDetails = (
     content: formatCurrencyInCents(service?.servicePriceInCents ?? 0),
   },
   {
-    label: 'Total de agendamentos',
-    content: String(service?.bookings.length ?? 0),
-  },
-  {
     label: 'Criado em',
     content: formattedDateAndHours(service?.createdAt ?? null, true),
   },
