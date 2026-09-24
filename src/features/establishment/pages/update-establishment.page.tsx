@@ -38,7 +38,7 @@ const UpdateEstablishmentPage = () => {
       value={tab}
       onValueChange={(e) => setTab(e.value)}
       colorPalette={colorDefaultTheme}
-      variant="line"
+      variant="subtle"
     >
       <Tabs.List
         aria-label="Establishment updated menu"
@@ -51,6 +51,7 @@ const UpdateEstablishmentPage = () => {
               value={item.value}
               flex="1"
               justifyContent="center"
+              rounded="lg"
             >
               <Icon as={item.icon} boxSize="4" />
               {item.label}

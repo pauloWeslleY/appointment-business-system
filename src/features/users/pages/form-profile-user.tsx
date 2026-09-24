@@ -1,7 +1,8 @@
 import { Box, Button, chakra, FileUpload, SimpleGrid } from '@chakra-ui/react'
-import { FileText, Upload, X } from 'lucide-react'
+import { Upload } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
+import FileUploadCardItem from '@/components/file-upload-item'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 
@@ -42,38 +43,7 @@ const FormProfileUser = () => {
                 <FileUpload.Context>
                   {({ acceptedFiles }) =>
                     acceptedFiles.map((file) => (
-                      <FileUpload.Item
-                        key={file.name}
-                        file={file}
-                        px="4"
-                        py="3"
-                        rounded="lg"
-                        borderWidth="1px"
-                        borderColor={{
-                          base: 'gray.300',
-                          _dark: 'secondary.500/20',
-                        }}
-                        bg={{ base: 'secondary.200', _dark: 'gray.900' }}
-                        color={{ base: 'gray.900', _dark: 'white' }}
-                      >
-                        <FileText size={18} />
-
-                        <FileUpload.ItemName
-                          flex="1"
-                          minW="0"
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                        />
-
-                        <FileUpload.ItemDeleteTrigger
-                          aria-label={`Remover ${file.name}`}
-                          color="gray.400"
-                          _hover={{ color: 'red.400' }}
-                        >
-                          <X size={16} />
-                        </FileUpload.ItemDeleteTrigger>
-                      </FileUpload.Item>
+                      <FileUploadCardItem key={file.name} file={file} />
                     ))
                   }
                 </FileUpload.Context>

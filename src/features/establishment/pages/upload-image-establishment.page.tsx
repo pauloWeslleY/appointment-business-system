@@ -11,6 +11,7 @@ import {
 import { FileImage, Upload, UploadCloud } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
+import FileUploadCardItem from '@/components/file-upload-item'
 import { Field } from '@/components/ui/field'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
@@ -85,20 +86,27 @@ const UploadImageEstablishment = () => {
                 <FileUpload.Dropzone
                   rounded="xl"
                   bg="gray.700/10"
-                  borderColor={{
-                    base: 'gray.200',
-                    _dark: 'secondary.500/20',
-                  }}
+                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
                 >
                   <Icon size="md" color="fg.muted">
                     <Upload />
                   </Icon>
+
                   <FileUpload.DropzoneContent>
                     <Box>Drag and drop files here</Box>
                     <Box color="fg.muted">.png, .jpg up to 5MB</Box>
                   </FileUpload.DropzoneContent>
                 </FileUpload.Dropzone>
-                <FileUpload.List />
+
+                <FileUpload.ItemGroup mt="1">
+                  <FileUpload.Context>
+                    {({ acceptedFiles }) =>
+                      acceptedFiles.map((file) => (
+                        <FileUploadCardItem key={file.name} file={file} />
+                      ))
+                    }
+                  </FileUpload.Context>
+                </FileUpload.ItemGroup>
               </FileUpload.Root>
             </Field>
           )}

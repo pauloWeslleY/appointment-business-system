@@ -16,6 +16,7 @@ import { Upload } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { NumericFormat } from 'react-number-format'
 
+import FileUploadCardItem from '@/components/file-upload-item'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 
@@ -124,7 +125,16 @@ const FormCreateServiceEstablishment = () => {
                     <Box color="fg.muted">.png, .jpg up to 5MB</Box>
                   </FileUpload.DropzoneContent>
                 </FileUpload.Dropzone>
-                <FileUpload.List />
+
+                <FileUpload.ItemGroup mt="1" gap="2">
+                  <FileUpload.Context>
+                    {({ acceptedFiles }) =>
+                      acceptedFiles.map((file) => (
+                        <FileUploadCardItem key={file.name} file={file} />
+                      ))
+                    }
+                  </FileUpload.Context>
+                </FileUpload.ItemGroup>
               </FileUpload.Root>
             )}
           />
