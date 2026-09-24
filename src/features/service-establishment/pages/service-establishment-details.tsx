@@ -6,7 +6,6 @@ import { useMemo } from 'react'
 import Header from '@/components/layout/header'
 import { Status } from '@/components/ui/status'
 import { BookingStatus } from '@/features/bookings/types/booking-status.type'
-import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
@@ -19,6 +18,12 @@ interface DetailHistoryBookingsSummary {
   cancelled: number
 }
 
+interface HistoryBookingSummaryList {
+  label: string
+  value: number
+  status?: 'success' | 'error' | 'info'
+}
+
 const serviceEstablishmentRoute = getRouteApi(
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId',
 )
@@ -27,53 +32,72 @@ const ServiceEstablishmentDetails = () => {
   const serviceEstablishment = serviceEstablishmentRoute.useLoaderData()
   const hasHistoryBookings = serviceEstablishment.bookings.length > 0
 
-  const { getDetailHistoryBookingsSummary, totalAmountBookings } =
-    useMemo(() => {
-      const now = new Date()
-      const totalBookingsConcluded = serviceEstablishment.bookings.filter(
-        (booking) => booking.status === BookingStatus.CONCLUDED,
+  const totalHistoryBookingsSummaryList = useMemo(() => {
+    const now = new Date()
+    const totalBookingsConcluded = serviceEstablishment.bookings.filter(
+      (booking) => booking.status === BookingStatus.CONCLUDED,
+    )
+    const totalAmountBookings =
+      serviceEstablishment.servicePriceInCents * totalBookingsConcluded.length
+
+    const getDetailHistoryBookingsSummary =
+      serviceEstablishment.bookings.reduce<DetailHistoryBookingsSummary>(
+        (summary, booking) => {
+          summary.all += 1
+
+          if (booking.status === BookingStatus.CONCLUDED) {
+            summary.concluded += 1
+          }
+
+          if (booking.status === BookingStatus.CANCELLED) {
+            summary.cancelled += 1
+          }
+
+          if (
+            booking.status === BookingStatus.CONFIRMED &&
+            new Date(booking.date) >= now
+          ) {
+            summary.upcoming += 1
+          }
+
+          return summary
+        },
+        {
+          all: 0,
+          upcoming: 0,
+          concluded: 0,
+          cancelled: 0,
+        },
       )
-      const totalAmountBookings =
-        serviceEstablishment.servicePriceInCents * totalBookingsConcluded.length
 
-      const getDetailHistoryBookingsSummary =
-        serviceEstablishment.bookings.reduce<DetailHistoryBookingsSummary>(
-          (summary, booking) => {
-            summary.all += 1
+    const totalHistoryBookingsSummaryList: HistoryBookingSummaryList[] = [
+      {
+        label: 'Total faturado em agendamentos concluídos',
+        value: totalAmountBookings,
+      },
+      {
+        label: 'Total de agendamentos',
+        value: getDetailHistoryBookingsSummary.all,
+      },
+      {
+        label: 'Agendamentos concluídos',
+        value: getDetailHistoryBookingsSummary.concluded,
+        status: 'success',
+      },
+      {
+        label: 'Agendamentos cancelados',
+        value: getDetailHistoryBookingsSummary.cancelled,
+        status: 'error',
+      },
+      {
+        label: 'Agendamentos futuros',
+        value: getDetailHistoryBookingsSummary.upcoming,
+        status: 'info',
+      },
+    ]
 
-            if (booking.status === BookingStatus.CONCLUDED) {
-              summary.concluded += 1
-            }
-
-            if (booking.status === BookingStatus.CANCELLED) {
-              summary.cancelled += 1
-            }
-
-            if (
-              booking.status === BookingStatus.CONFIRMED &&
-              new Date(booking.date) >= now
-            ) {
-              summary.upcoming += 1
-            }
-
-            return summary
-          },
-          {
-            all: 0,
-            upcoming: 0,
-            concluded: 0,
-            cancelled: 0,
-          },
-        )
-
-      return {
-        totalAmountBookings: formatCurrencyInCents(totalAmountBookings),
-        getDetailHistoryBookingsSummary,
-      }
-    }, [
-      serviceEstablishment.bookings,
-      serviceEstablishment.servicePriceInCents,
-    ])
+    return totalHistoryBookingsSummaryList
+  }, [serviceEstablishment.bookings, serviceEstablishment.servicePriceInCents])
 
   return (
     <Box spaceY="4" w="full">
@@ -118,65 +142,19 @@ const ServiceEstablishmentDetails = () => {
             gap="10"
             mt="4"
           >
-            <DataList.Item>
-              <DataList.ItemLabel>
-                Total faturado em agendamentos concluídos
-              </DataList.ItemLabel>
-              <DataList.ItemValue>{totalAmountBookings}</DataList.ItemValue>
-            </DataList.Item>
-            <DataList.Item>
-              <DataList.ItemLabel>Total de agendamentos</DataList.ItemLabel>
-              <DataList.ItemValue>
-                {getDetailHistoryBookingsSummary.all}
-              </DataList.ItemValue>
-            </DataList.Item>
-            <DataList.Item>
-              <DataList.ItemLabel>Agendamentos concluídos</DataList.ItemLabel>
-              <DataList.ItemValue>
-                <Status value="success">
-                  {getDetailHistoryBookingsSummary.concluded}
-                </Status>
-              </DataList.ItemValue>
-            </DataList.Item>
-            <DataList.Item>
-              <DataList.ItemLabel>Agendamentos cancelados</DataList.ItemLabel>
-              <DataList.ItemValue>
-                <Status value="error">
-                  {getDetailHistoryBookingsSummary.cancelled}
-                </Status>
-              </DataList.ItemValue>
-            </DataList.Item>
-            <DataList.Item>
-              <DataList.ItemLabel>Próximos agendamentos</DataList.ItemLabel>
-              <DataList.ItemValue>
-                <Status value="info">
-                  {getDetailHistoryBookingsSummary.upcoming}
-                </Status>
-              </DataList.ItemValue>
-            </DataList.Item>
+            {totalHistoryBookingsSummaryList.map((item) => (
+              <DataList.Item key={item.label}>
+                <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
+                <DataList.ItemValue>
+                  {item.status ? (
+                    <Status value={item.status}>{item.value}</Status>
+                  ) : (
+                    item.value
+                  )}
+                </DataList.ItemValue>
+              </DataList.Item>
+            ))}
           </DataList.Root>
-
-          {/* <Text fontSize="sm">
-            Total faturado em agendamentos concluídos: {totalAmountBookings}
-          </Text>
-
-          <HStack mt="4" gap="4">
-            <Text fontWeight="medium" fontSize="sm">
-              {getDetailHistoryBookingsSummary.all} Todos
-            </Text>
-
-            <Separator orientation="vertical" height="4" />
-
-            <Status value="error">
-              {getDetailHistoryBookingsSummary.cancelled} Cancelado
-            </Status>
-            <Status value="info">
-              {getDetailHistoryBookingsSummary.upcoming} Próximos
-            </Status>
-            <Status value="success">
-              {getDetailHistoryBookingsSummary.concluded} Concluídos
-            </Status>
-          </HStack> */}
 
           {!hasHistoryBookings && (
             <Text mt="2" fontSize="sm" color="colorPalette.500">

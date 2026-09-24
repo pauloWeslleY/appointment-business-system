@@ -5,10 +5,7 @@ import { authClient } from '@/lib/auth'
 export const authGuardUserAuthenticated = async () => {
   const { data } = await authClient.getSession()
 
-  if (data?.session?.token || !data?.user?.id) {
-    throw redirect({
-      to: '/establishment',
-      replace: true,
-    })
+  if (data) {
+    throw redirect({ to: '/establishment', replace: true })
   }
 }

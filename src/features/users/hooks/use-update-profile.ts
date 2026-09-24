@@ -13,12 +13,12 @@ import type { UpdateProfileFormType } from '../types/update-profile-form.type'
 
 export function useUpdateProfile() {
   const { data: session } = authClient.useSession()
-
   const {
+    reset,
     control,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isDirty, isSubmitting },
   } = useForm<UpdateProfileFormType>({
     resolver: zodResolver(UpdateProfileFormSchema),
     defaultValues: {
@@ -28,6 +28,11 @@ export function useUpdateProfile() {
   })
 
   const onSubmitUpdateProfile = async (data: UpdateProfileFormType) => {
+    if (!isDirty) {
+      toaster.warning({ title: 'Nenhuma alteração detectada.' })
+      return
+    }
+
     if (!session?.user?.id) {
       toaster.error({
         title: 'Usuário não autenticado. Por favor, faça login novamente.',
@@ -50,6 +55,7 @@ export function useUpdateProfile() {
         name: data.name,
         image: urlImage?.key ?? null,
       })
+      reset(data)
     } catch (error: unknown) {
       toaster.error({
         title: 'Erro ao atualizar perfil.',
