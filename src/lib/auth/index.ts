@@ -1,4 +1,8 @@
-import { emailOTPClient, magicLinkClient } from 'better-auth/client/plugins'
+import {
+  emailOTPClient,
+  magicLinkClient,
+  organizationClient,
+} from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/react'
 
 if (!import.meta.env.VITE_API_URL) {
@@ -7,5 +11,5 @@ if (!import.meta.env.VITE_API_URL) {
 
 export const authClient = createAuthClient({
   baseURL: import.meta.env.VITE_API_URL,
-  plugins: [magicLinkClient(), emailOTPClient()],
+  plugins: [magicLinkClient(), emailOTPClient(), organizationClient()],
 })

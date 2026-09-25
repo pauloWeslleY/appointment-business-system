@@ -5,7 +5,6 @@ export interface OwnerModel {
   email: string
   phone: string
   cnpj: string
-  businessName: string
   createdAt: string
   updatedAt: string
 }

@@ -4,7 +4,6 @@ export interface OwnerDetailsModel {
   email: string
   phone: string
   cnpj: string
-  businessName: string
   createdAt: string
   updatedAt: string
   totalEstablishments: number

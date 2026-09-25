@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   For,
   Image,
@@ -7,10 +8,12 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 
 import { ItemDetails } from '@/components/item-details'
 import { authClient } from '@/lib/auth'
 import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
+import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { FormatMask, formatterMask } from '@/shared/utils/formatted-mask'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
@@ -22,7 +25,7 @@ interface CardInfoOwnerProps {
 
 const loadOwnerInfo = (owner?: OwnerDetailsModel) => [
   {
-    label: 'CPF/CNPJ',
+    label: 'CNPJ',
     value: formatterMask(owner?.cnpj || '', FormatMask.COMPANY_TAX_ID),
   },
   {
@@ -30,12 +33,20 @@ const loadOwnerInfo = (owner?: OwnerDetailsModel) => [
     value: formatterMask(owner?.phone || '', FormatMask.CELLPHONE),
   },
   {
-    label: 'E-mail',
+    label: 'E-mail comercial',
     value: owner?.email,
   },
   {
     label: 'Estabelecimentos',
     value: owner?.totalEstablishments || 0,
+  },
+  {
+    label: 'Cadastrado em',
+    value: formattedDateAndHours(owner?.createdAt ?? null, true),
+  },
+  {
+    label: 'Atualizado em',
+    value: formattedDateAndHours(owner?.updatedAt ?? null, true),
   },
 ]
 
@@ -52,8 +63,6 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
       p="0"
       display="flex"
       flexDir="column"
-      alignItems="center"
-      justifyContent="center"
     >
       <Box
         bg={{ base: 'white', _dark: 'gray.800' }}
@@ -68,7 +77,7 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
         width="100%"
         roundedTopLeft="lg"
         roundedTopRight="lg"
-        p={8}
+        p="8"
         display="flex"
         alignItems="left"
       >
@@ -79,18 +88,19 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
           boxSize="150px"
           shadow="lg"
           border="5px solid"
-          mb={-20}
+          mb="-20"
           borderColor={{ base: 'gray.800', _dark: 'gray.200' }}
           bg="gray.200"
         />
       </Box>
+
       <Box
         spaceY={{ base: '4', lg: '6' }}
-        p={8}
+        p="8"
         w="full"
         h="full"
         textAlign="left"
-        mt={10}
+        mt="10"
       >
         <VStack gap="0" align="baseline">
           <Text
@@ -99,7 +109,7 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
             lineHeight="shorter"
             color={{ base: 'gray.800', _dark: 'gray.200' }}
           >
-            Nome
+            Nome/Razão social
           </Text>
 
           <Text
@@ -133,6 +143,18 @@ const CardInfoOwner = ({ owner }: CardInfoOwnerProps) => {
           </For>
         </SimpleGrid>
       </Box>
+
+      <Button
+        asChild
+        variant="outline"
+        size="sm"
+        rounded="lg"
+        mb="4"
+        mx="8"
+        alignSelf="flex-end"
+      >
+        <Link to="/establishment">Ver estabelecimentos</Link>
+      </Button>
     </Card.Root>
   )
 }

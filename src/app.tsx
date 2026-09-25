@@ -20,6 +20,11 @@ const router = createRouter({
   context: {
     queryClient,
   },
+
+  scrollRestoration: true,
+  scrollToTopSelectors: ['.sidebar-content'],
+  scrollRestorationBehavior: 'instant',
+
   defaultPendingComponent: PageLoader,
   defaultErrorComponent: AppError,
   defaultNotFoundComponent: NotFoundPage,

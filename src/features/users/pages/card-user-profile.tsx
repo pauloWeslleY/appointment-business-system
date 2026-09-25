@@ -21,12 +21,14 @@ const CarduserProfile = () => {
         <Avatar.Image src={storageData ?? ''} />
       </Avatar.Root>
 
-      <Box mt="6" textAlign="center">
-        <Text>{data?.user?.name ?? 'Usuário'}</Text>
-        <Text fontSize="sm" color={{ base: 'gray.500', _dark: 'gray.400' }}>
-          {data?.user?.email ?? ''}
-        </Text>
-      </Box>
+      {data?.user && (
+        <Box mt="6" textAlign="center">
+          <Text>{data.user.name}</Text>
+          <Text fontSize="sm" color={{ base: 'gray.500', _dark: 'gray.400' }}>
+            {data.user.email}
+          </Text>
+        </Box>
+      )}
     </Flex>
   )
 }
