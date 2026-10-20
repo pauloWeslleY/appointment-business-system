@@ -1,9 +1,11 @@
-import { Box, SimpleGrid } from '@chakra-ui/react'
+import { Box, Button, HStack, Icon, SimpleGrid } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Building2, UserSquare2 } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { Building2, PlusIcon, UserSquare2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import { validateEnsureOrganizationExists } from '@/features/authentication/validations/validate-organization-exists'
+import ActiveOrganization from '@/features/organization-profile/components/active-organization'
 import CardOrganizationProfileSummary from '@/features/organization-profile/components/card-organization-profile-stats'
 import SummaryOrganizationProfile from '@/features/organization-profile/components/summary-organization-profile'
 import FormUpdateOrganizationProfile from '@/features/organization-profile/pages/form-update-organization-profile'
@@ -49,9 +51,18 @@ function RouteComponent() {
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
-      <Header.Root align="center">
-        <Header.Icon icon={Building2} />
-        <Header.Title>Perfil Empresarial</Header.Title>
+      <Header.Root align="center" justify="space-between">
+        <HStack align="center">
+          <Header.Icon icon={Building2} />
+          <Header.Title>Perfil Empresarial</Header.Title>
+        </HStack>
+
+        <Button rounded="lg" size="xs" asChild>
+          <Link to="/organization/create">
+            <Icon as={PlusIcon} boxSize="5" />
+            Novo perfil empresarial
+          </Link>
+        </Button>
       </Header.Root>
 
       <CardOrganizationProfileSummary
@@ -65,8 +76,11 @@ function RouteComponent() {
           title="Dados empresariais"
           data={loadListDataOrganizationProfile}
         />
+
         <FormUpdateOrganizationProfile />
       </SimpleGrid>
+
+      <ActiveOrganization />
     </Box>
   )
 }

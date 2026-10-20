@@ -1,4 +1,4 @@
-import { Card, DataList, HStack, Icon, Text } from '@chakra-ui/react'
+import { Card, DataList, Icon } from '@chakra-ui/react'
 
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
@@ -21,10 +21,15 @@ const SummaryOrganizationProfile = ({
       flexDir="column"
       gap="4"
     >
-      <HStack>
+      <Card.Title
+        display="flex"
+        alignItems="center"
+        gap="2"
+        color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
+      >
         <Icon as={icon} color={{ _light: 'teal.700', _dark: 'teal.400' }} />
-        <Text>{title}</Text>
-      </HStack>
+        {title}
+      </Card.Title>
 
       <DataList.Root orientation="vertical">
         {data.map(({ label, value }) => (

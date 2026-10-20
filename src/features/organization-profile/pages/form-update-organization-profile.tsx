@@ -3,9 +3,11 @@ import {
   Card,
   chakra,
   HStack,
+  Icon,
   RadioGroup,
   SimpleGrid,
 } from '@chakra-ui/react'
+import { Settings2 } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
@@ -30,8 +32,15 @@ const FormUpdateOrganizationProfile = () => {
     <Card.Root variant="outline" h="fit" css={cardSectionCss}>
       <Card.Header p="0" mb="4">
         <Card.Title
+          display="flex"
+          alignItems="center"
+          gap="2"
           color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
         >
+          <Icon
+            as={Settings2}
+            color={{ _light: 'teal.700', _dark: 'teal.400' }}
+          />
           Editar perfil empresarial.
         </Card.Title>
         <Card.Description>
@@ -137,10 +146,8 @@ const FormUpdateOrganizationProfile = () => {
           alignSelf="flex-end"
           type="submit"
           size="sm"
-          rounded="xl"
+          rounded="lg"
           w="fit"
-          variant="subtle"
-          colorPalette="emerald"
           loading={isPendingUpdateOrganizationProfile}
         >
           Salvar

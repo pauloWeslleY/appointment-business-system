@@ -85,7 +85,7 @@ const CardOrganizationProfileStats = ({
 
         <Badge
           colorPalette={statusOrganizationProfile.color}
-          variant="subtle"
+          variant="surface"
           size="lg"
         >
           {statusOrganizationProfile.label}
@@ -94,7 +94,7 @@ const CardOrganizationProfileStats = ({
 
       <Separator
         orientation="horizontal"
-        borderColor={{ _light: 'slate.500', _dark: 'slate.800' }}
+        borderColor={{ _light: 'slate.200', _dark: 'slate.800' }}
       />
 
       <SimpleGrid columns={{ base: 1, md: 3 }} gap="4">
