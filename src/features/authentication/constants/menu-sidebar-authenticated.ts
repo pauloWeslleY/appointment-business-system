@@ -1,10 +1,4 @@
-import {
-  Building2,
-  CreditCard,
-  UserCog,
-  UserSquare2,
-  UsersRound,
-} from 'lucide-react'
+import { Building2, CreditCard, Store, UserCog, UsersRound } from 'lucide-react'
 
 import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 
@@ -15,14 +9,14 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
     path: undefined,
   },
   {
-    icon: Building2,
-    label: 'Organizações',
-    path: '/organization',
+    icon: Store,
+    label: 'Estabelecimento',
+    path: '/establishment',
   },
   {
-    icon: UserSquare2,
+    icon: Building2,
     label: 'Perfil empresarial',
-    path: '/business-profile',
+    path: '/organization',
   },
   {
     icon: UsersRound,

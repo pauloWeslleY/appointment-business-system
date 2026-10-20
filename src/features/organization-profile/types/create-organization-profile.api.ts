@@ -1,6 +1,13 @@
 import type z from 'zod'
 
-import type { CreateOrganizationProfileApiResponse } from '../schemas/create-organization-profile.schema'
+import type {
+  CreateOrganizationProfileApiResponse,
+  CreateOrganizationProfileFormSchema,
+} from '../schemas/create-organization-profile.schema'
+
+export type CreateOrganizationProfileFormData = z.infer<
+  typeof CreateOrganizationProfileFormSchema
+>
 
 export type CreateProfileOrganizationResponse = z.infer<
   typeof CreateOrganizationProfileApiResponse

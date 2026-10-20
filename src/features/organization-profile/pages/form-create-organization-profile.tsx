@@ -5,7 +5,6 @@ import {
   chakra,
   Flex,
   Group,
-  HStack,
   Input,
 } from '@chakra-ui/react'
 import { CheckIcon } from 'lucide-react'
@@ -25,7 +24,6 @@ const FormCreateOrganizationProfile = () => {
     register,
     handleSubmit,
     handleCreateOrganizationProfile,
-    handleCancelCreateOrganizationProfile,
     syncNameFromTradeName,
   } = useFormCreateOrganizationProfile()
 
@@ -147,28 +145,18 @@ const FormCreateOrganizationProfile = () => {
         </Alert.Root>
       )}
 
-      <HStack alignSelf="flex-end">
-        <Button
-          type="button"
-          rounded="lg"
-          colorPalette="red"
-          variant="ghost"
-          onClick={handleCancelCreateOrganizationProfile}
-        >
-          Cancelar
-        </Button>
+      <Button
+        type="submit"
+        rounded="lg"
+        loading={isPendingCreateOrganizationProfile}
+        variant="solid"
+        colorPalette="brand"
 
-        <Button
-          type="submit"
-          rounded="lg"
-          loading={isPendingCreateOrganizationProfile}
-          variant="solid"
-          colorPalette="brand"
-        >
-          <CheckIcon size="5" />
-          Criar perfil empresarial
-        </Button>
-      </HStack>
+        alignSelf="flex-end"
+      >
+        <CheckIcon size="5" />
+        Criar perfil empresarial
+      </Button>
     </chakra.form>
   )
 }

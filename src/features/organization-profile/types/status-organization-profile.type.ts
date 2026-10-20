@@ -26,6 +26,13 @@ interface MapStatusOrganizationProfile {
   color: ColorPalette
 }
 
+export const loadOptionsStatusOrganizationProfile = [
+  { value: StatusOrganizationProfile.PENDING, label: 'Pendente' },
+  { value: StatusOrganizationProfile.ACTIVE, label: 'Ativo' },
+  { value: StatusOrganizationProfile.INACTIVE, label: 'Inativo' },
+  { value: StatusOrganizationProfile.SUSPENDED, label: 'Suspenso' },
+]
+
 export const mapStatusOrganizationProfile = (
   statusKey: StatusOrganizationProfileType,
 ): MapStatusOrganizationProfile => {

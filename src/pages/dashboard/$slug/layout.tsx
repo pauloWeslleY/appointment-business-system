@@ -7,9 +7,7 @@ import { establishmentSlugQueryOptions } from '@/features/establishment/queries/
 export const Route = createFileRoute('/dashboard/$slug')({
   beforeLoad: () => validateEnsureAuthRoute(),
   loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(
-      establishmentSlugQueryOptions(params.slug),
-    ),
+    context.queryClient.query(establishmentSlugQueryOptions(params.slug)),
   component: DashboardLayout,
 })
 

@@ -1,7 +1,10 @@
 import { mutationOptions } from '@tanstack/react-query'
 
-import { createOrganizationProfileService } from '../services/organizaton-profile.service'
-import { updateOwnerService } from '../services/owner.service'
+import {
+  createOrganizationProfileService,
+  deleteOrganizationProfileService,
+  updateOrganizationProfileService,
+} from '../services/organizaton-profile.service'
 
 export const organizationProfileMutationOptions = {
   create() {
@@ -13,8 +16,15 @@ export const organizationProfileMutationOptions = {
 
   update() {
     return mutationOptions({
-      mutationKey: ['update-owner'],
-      mutationFn: updateOwnerService,
+      mutationKey: ['update-organization-profile'],
+      mutationFn: updateOrganizationProfileService,
+    })
+  },
+
+  delete() {
+    return mutationOptions({
+      mutationKey: ['delete-organization-profile'],
+      mutationFn: deleteOrganizationProfileService,
     })
   },
 }

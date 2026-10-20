@@ -26,7 +26,6 @@ import { Route as AuthenticatedBusinessProfileIndexRouteImport } from './pages/_
 import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
 import { Route as AuthenticatedMembersIndexRouteImport } from './pages/_authenticated/members/index'
 import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_authenticated/organization/index'
-import { Route as AuthenticatedOwnerIndexRouteImport } from './pages/_authenticated/owner/index'
 import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
 import { Route as SubscriptionAssinaturaIndexRouteImport } from './pages/_subscription/assinatura/index'
 import { Route as SubscriptionAssinaturaCanceladoRouteImport } from './pages/_subscription/assinatura/cancelado'
@@ -132,11 +131,6 @@ const AuthenticatedOrganizationIndexRoute =
     path: '/organization/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
-const AuthenticatedOwnerIndexRoute = AuthenticatedOwnerIndexRouteImport.update({
-  id: '/owner/',
-  path: '/owner/',
-  getParentRoute: () => AuthenticatedLayoutRoute,
-} as any)
 const AuthenticatedProfileIndexRoute =
   AuthenticatedProfileIndexRouteImport.update({
     id: '/profile/',
@@ -259,7 +253,6 @@ export interface FileRoutesByFullPath {
   '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/members/': typeof AuthenticatedMembersIndexRoute
   '/organization/': typeof AuthenticatedOrganizationIndexRoute
-  '/owner/': typeof AuthenticatedOwnerIndexRoute
   '/profile/': typeof AuthenticatedProfileIndexRoute
   '/assinatura/': typeof SubscriptionAssinaturaIndexRoute
   '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
@@ -293,7 +286,6 @@ export interface FileRoutesByTo {
   '/establishment': typeof AuthenticatedEstablishmentIndexRoute
   '/members': typeof AuthenticatedMembersIndexRoute
   '/organization': typeof AuthenticatedOrganizationIndexRoute
-  '/owner': typeof AuthenticatedOwnerIndexRoute
   '/profile': typeof AuthenticatedProfileIndexRoute
   '/assinatura': typeof SubscriptionAssinaturaIndexRoute
   '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
@@ -331,7 +323,6 @@ export interface FileRoutesById {
   '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
   '/_authenticated/organization/': typeof AuthenticatedOrganizationIndexRoute
-  '/_authenticated/owner/': typeof AuthenticatedOwnerIndexRoute
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_subscription/assinatura/': typeof SubscriptionAssinaturaIndexRoute
   '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
@@ -367,7 +358,6 @@ export interface FileRouteTypes {
     | '/establishment/'
     | '/members/'
     | '/organization/'
-    | '/owner/'
     | '/profile/'
     | '/assinatura/'
     | '/organization/create/'
@@ -401,7 +391,6 @@ export interface FileRouteTypes {
     | '/establishment'
     | '/members'
     | '/organization'
-    | '/owner'
     | '/profile'
     | '/assinatura'
     | '/organization/create'
@@ -438,7 +427,6 @@ export interface FileRouteTypes {
     | '/_authenticated/establishment/'
     | '/_authenticated/members/'
     | '/_authenticated/organization/'
-    | '/_authenticated/owner/'
     | '/_authenticated/profile/'
     | '/_subscription/assinatura/'
     | '/_authenticated/organization/create/'
@@ -588,13 +576,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOrganizationIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
-    '/_authenticated/owner/': {
-      id: '/_authenticated/owner/'
-      path: '/owner'
-      fullPath: '/owner/'
-      preLoaderRoute: typeof AuthenticatedOwnerIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
     '/_authenticated/profile/': {
       id: '/_authenticated/profile/'
       path: '/profile'
@@ -742,7 +723,6 @@ interface AuthenticatedLayoutRouteChildren {
   AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
   AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
   AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
-  AuthenticatedOwnerIndexRoute: typeof AuthenticatedOwnerIndexRoute
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
   AuthenticatedOrganizationCreateIndexRoute: typeof AuthenticatedOrganizationCreateIndexRoute
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
@@ -755,7 +735,6 @@ const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
   AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
   AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
   AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
-  AuthenticatedOwnerIndexRoute: AuthenticatedOwnerIndexRoute,
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
   AuthenticatedOrganizationCreateIndexRoute:
     AuthenticatedOrganizationCreateIndexRoute,

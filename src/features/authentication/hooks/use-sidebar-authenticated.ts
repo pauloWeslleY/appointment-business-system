@@ -1,17 +1,17 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 
-import { useGetOwnerById } from '@/features/organization-profile/hooks/use-get-owner-by-id'
+import { authClient } from '@/lib/auth'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
 export function useSidebarAuthenticated() {
   const { collapsed } = useMenuCollapse()
   const { pathname } = useLocation()
-  const { data: owner } = useGetOwnerById()
+  const { data } = authClient.useSession()
   const navigate = useNavigate()
 
   const dateCurrent = dayjs().format('dddd, D [de] MMMM')
-  const welcomeMessage = `Olá, ${owner?.name ?? 'usuário'}!`
+  const welcomeMessage = `Olá, ${data?.user?.name ?? 'usuário'}!`
   const today = dateCurrent.charAt(0).toUpperCase() + dateCurrent.slice(1)
 
   const handleNavigationSidebarAuthenticated = (path?: string) => {

@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { type CreateOrganizationProfileFormData } from '@/features/organization-profile/types/organization-profile-form.type'
+import { authClient } from '@/lib/auth'
 import { createSlug } from '@/shared/utils/create-slug'
 import {
   generateIdempontecyKey,
@@ -13,6 +13,7 @@ import {
 
 import { organizationProfileMutationOptions } from '../queries/organization-profile-mutation-options'
 import { CreateOrganizationProfileFormSchema } from '../schemas/create-organization-profile.schema'
+import type { CreateOrganizationProfileFormData } from '../types/create-organization-profile.api'
 
 const formDefaultValues =
   (): DefaultValues<CreateOrganizationProfileFormData> => ({
@@ -59,7 +60,6 @@ export function useFormCreateOrganizationProfile() {
     control,
     reset,
     register,
-    getValues,
     setValue,
     setError,
     clearErrors,
@@ -85,63 +85,20 @@ export function useFormCreateOrganizationProfile() {
     clearErrors('profile.tradeName')
   }
 
-  const handleCancelCreateOrganizationProfile = () => {
-    const dataCreateOrganizationProfile = getValues()
-
-    const isValidFieldsFormCreateOrganizationProfile = Object.values(
-      dataCreateOrganizationProfile,
-    ).every((fields) => {
-      const isObjectValid = Object.values(fields).every(
-        (field) => field === '' || field === undefined,
-      )
-
-      return typeof fields === 'string'
-        ? fields === '' || fields === undefined
-        : isObjectValid
+  const handleActiveOrganization = async (organizationId: string) => {
+    const { error } = await authClient.organization.setActive({
+      organizationId,
     })
 
-    if (isValidFieldsFormCreateOrganizationProfile) {
-      toaster.warning({
-        title: 'Atenção',
-        description:
-          'Ainda existem campos obrigatórios que não foram preenchidos.',
+    if (error) {
+      toaster.error({
+        title: 'Ops! Não foi possível ativar a organização.',
+        description: error.message,
       })
-
-      setError('root', {
-        type: 'manual',
-        message: 'Existem campos obrigatórios não preenchidos',
-      })
-
-      for (const [key, value] of Object.entries(
-        dataCreateOrganizationProfile,
-      )) {
-        if (
-          typeof value === 'string' &&
-          (value === '' || value === undefined)
-        ) {
-          setError(key as keyof CreateOrganizationProfileFormData, {
-            type: 'manual',
-            message: 'Campo obrigatório',
-          })
-        }
-
-        for (const [subKey, subValue] of Object.entries(value)) {
-          if (subValue === '' || subValue === undefined) {
-            setError(
-              `profile.${subKey}` as keyof CreateOrganizationProfileFormData,
-              {
-                type: 'manual',
-                message: 'Campo obrigatório',
-              },
-            )
-          }
-        }
-      }
-
-      return
+      return true
     }
 
-    navigate({ to: '/organization', replace: true })
+    return false
   }
 
   const handleCreateOrganizationProfile = (
@@ -168,11 +125,19 @@ export function useFormCreateOrganizationProfile() {
         idempotencyKey: key,
       },
       {
-        onSuccess: () => {
+        onSuccess: async (organizationProfile) => {
           idempontecy.deleteKey()
           reset(data)
           resetCreateOrganizationProfile()
-          navigate({ to: '/organization', replace: true })
+          const hasActiveOrganization = await handleActiveOrganization(
+            organizationProfile.organization.id,
+          )
+
+          if (hasActiveOrganization) {
+            return
+          }
+
+          await navigate({ to: '/organization', replace: true })
         },
         onError: (error) => {
           setError('root', { type: 'manual', message: error.message })
@@ -188,7 +153,6 @@ export function useFormCreateOrganizationProfile() {
     register,
     handleSubmit,
     handleCreateOrganizationProfile,
-    handleCancelCreateOrganizationProfile,
     syncNameFromTradeName,
   }
 }
