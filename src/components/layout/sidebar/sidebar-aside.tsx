@@ -11,11 +11,10 @@ import {
 } from '@chakra-ui/react'
 import { ChevronLeft } from 'lucide-react'
 
-import ButtonLogout from '@/components/button-logout'
+import CurrentPlan from '@/components/current-plain'
+import { useColorModeValue } from '@/components/ui/color-mode'
 import { Tooltip } from '@/components/ui/tooltip'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
-
-import CardUserInfo from '../card-user-info'
 
 interface SidebarAsideProps extends StackProps {
   loading?: boolean
@@ -23,6 +22,10 @@ interface SidebarAsideProps extends StackProps {
 
 const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
   const { collapsed, setCollapsed } = useMenuCollapse()
+  const logotipo = useColorModeValue(
+    '/logo/app-light.svg',
+    '/logo/app-dark.svg',
+  )
 
   return (
     <Stack
@@ -30,10 +33,10 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
       display={{ base: 'none', md: 'flex' }}
       gap="0"
       align="flex-start"
-      h="full"
+      alignSelf="stretch"
       px="2"
       pb="10"
-      bg={{ base: 'tertiary.800', _dark: 'primary.900' }}
+      bg="sidebar.aside.bg"
       w={collapsed ? '20' : '60'}
       transition="width 0.2s ease"
       pos="relative"
@@ -73,29 +76,25 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
           justify={collapsed ? 'center' : 'flex-start'}
           gap="2"
         >
-          <Image
-            src="/appointly-symbol.svg"
-            alt="Appointly Logo"
-            boxSize="10"
-          />
+          <Image src={logotipo} alt="Logotipo do sistema" boxSize="10" />
 
           {!collapsed && (
             <div>
               <Text
                 fontFamily="heading"
-                fontSize="lg"
                 fontWeight="semibold"
-                color={{ base: 'primary.100', _dark: 'primary.300' }}
+                fontSize="lg"
+                color={{ base: 'navy.800', _dark: 'sea.300' }}
               >
-                Appointly
+                System
               </Text>
               <Text
                 fontFamily="heading"
-                fontSize="xs"
-                color={{ base: 'gray.400', _dark: 'gray.600' }}
                 fontWeight="semibold"
+                fontSize="xs"
+                color={{ base: 'navy.800', _dark: 'sea.300' }}
               >
-                Booking System
+                Appointment
               </Text>
             </div>
           )}
@@ -125,26 +124,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
         align="center"
         justify="flex-end"
       >
-        {!loading && (
-          <Flex
-            flexDir="column"
-            gap="4"
-            w="full"
-            py="4"
-            align={collapsed ? 'center' : 'flex-start'}
-            justify={collapsed ? 'center' : 'flex-start'}
-            px={collapsed ? '8' : '2'}
-            rounded="xl"
-            shadow="xs"
-            bg={{ base: 'tertiary.800', _dark: 'secondary.900' }}
-            borderWidth="1px"
-            borderColor={{ base: 'gray.600', _dark: 'secondary.500/20' }}
-          >
-            <CardUserInfo />
-
-            <ButtonLogout />
-          </Flex>
-        )}
+        {!loading && <CurrentPlan />}
       </Flex>
     </Stack>
   )

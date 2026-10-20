@@ -46,3 +46,20 @@ export class ServerError extends Error {
     this.name = 'ServerError'
   }
 }
+
+export class ConflictError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'ConflictError'
+  }
+}
+
+export class RequestWithoutResponseError extends Error {
+  constructor() {
+    super(
+      'Não foi possível confirmar a operação. Tente novamente com os mesmos dados.',
+    )
+
+    this.name = 'RequestWithoutResponseError'
+  }
+}

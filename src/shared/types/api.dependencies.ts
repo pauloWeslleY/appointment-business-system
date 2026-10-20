@@ -1,5 +1,5 @@
 import type { IValidationErrors } from '@/shared/errors'
-import type { HttpRequest } from '@/shared/http'
+import type { HttpRequest } from '@/shared/protocols'
 
 export interface ApiDependencies<T> {
   api: HttpRequest<T>

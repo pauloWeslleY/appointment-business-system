@@ -6,5 +6,4 @@ export interface AccountModel {
   emailVerified: boolean
   createdAt: string
   updatedAt: string | null
-  accessToken: string
 }

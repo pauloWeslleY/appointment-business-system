@@ -1,18 +1,18 @@
 import { redirect } from '@tanstack/react-router'
 
-import { validateEnsureOwnerExists } from '@/features/authentication/validations/validate-owner-exists'
+import { validateEnsureOrganizationExists } from '@/features/authentication/validations/validate-organization-exists'
 import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod, HttpStatusCode } from '@/shared/http'
+import { HttpMethod, HttpStatusCode } from '@/shared/protocols'
 
 import type { EstablishmentModel } from '../types/establishment.model'
 
 export const validationEstablishmentExistsRouteHome = async () => {
-  const owner = await validateEnsureOwnerExists()
+  const { organization } = await validateEnsureOrganizationExists()
   const { api } = httpDependencies<EstablishmentModel[]>()
 
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/establishment/owner/establishments/${owner.ownerId}`,
+    url: `/admin/establishments/owner/${organization.id}`,
   })
 
   if (response.statusCode === HttpStatusCode.unauthorized) {

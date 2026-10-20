@@ -8,7 +8,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import { useGetOwnerById } from '@/features/owner/hooks/use-get-owner-by-id'
+import { useGetOwnerById } from '@/features/organization-profile/hooks/use-get-owner-by-id'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import { establishmentQueryKeys } from '../queries/establishment-query-key'

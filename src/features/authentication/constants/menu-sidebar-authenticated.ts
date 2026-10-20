@@ -1,4 +1,10 @@
-import { HomeIcon, UserCog, UserSquare2 } from 'lucide-react'
+import {
+  Building2,
+  CreditCard,
+  UserCog,
+  UserSquare2,
+  UsersRound,
+} from 'lucide-react'
 
 import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 
@@ -9,18 +15,33 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
     path: undefined,
   },
   {
-    icon: HomeIcon,
-    label: 'Estabelecimentos',
-    path: '/establishment',
-  },
-  {
-    icon: UserCog,
-    label: 'Perfil',
-    path: '/profile',
+    icon: Building2,
+    label: 'Organizações',
+    path: '/organization',
   },
   {
     icon: UserSquare2,
-    label: 'Proprietário',
-    path: '/owner',
+    label: 'Perfil empresarial',
+    path: '/business-profile',
+  },
+  {
+    icon: UsersRound,
+    label: 'Membros',
+    path: '/members',
+  },
+  {
+    icon: UserCog,
+    label: 'Conta',
+    path: '/profile',
+  },
+  {
+    type: 'header',
+    label: 'Planos',
+    path: undefined,
+  },
+  {
+    icon: CreditCard,
+    label: 'Assinatura',
+    path: '/assinatura',
   },
 ]

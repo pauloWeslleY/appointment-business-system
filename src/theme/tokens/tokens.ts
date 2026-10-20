@@ -45,4 +45,53 @@ export const tokens = defineTokens.colors({
     800: { value: '#113742' },
     900: { value: '#0E2B38' },
   },
+
+  brand: {
+    navy: { value: '#321E48' },
+    slate: { value: '#43637E' },
+    sea: { value: '#65DCD5' },
+    mint: { value: '#D9FFF4' },
+  },
+
+  navy: {
+    50: { value: '#F5F1F8' },
+    100: { value: '#EAE1F0' },
+    200: { value: '#D7C4E1' },
+    300: { value: '#B89CC9' },
+    400: { value: '#9873B0' },
+    500: { value: '#78528F' },
+    600: { value: '#5B376F' },
+    700: { value: '#321E48' },
+    800: { value: '#261637' },
+    900: { value: '#1B1028' },
+    950: { value: '#110A19' },
+  },
+
+  slate: {
+    50: { value: '#F3F7FA' },
+    100: { value: '#E6EDF3' },
+    200: { value: '#CAD9E5' },
+    300: { value: '#A9C1D2' },
+    400: { value: '#88A8BE' },
+    500: { value: '#688AA5' },
+    600: { value: '#52748F' },
+    700: { value: '#43637E' },
+    800: { value: '#344D63' },
+    900: { value: '#25394B' },
+    950: { value: '#172634' },
+  },
+
+  sea: {
+    50: { value: '#F0FDFC' },
+    100: { value: '#D9FAF7' },
+    200: { value: '#B5F2ED' },
+    300: { value: '#8BE8E1' },
+    400: { value: '#65DCD5' },
+    500: { value: '#38C9C0' },
+    600: { value: '#20ADA6' },
+    700: { value: '#168B86' },
+    800: { value: '#126F6B' },
+    900: { value: '#105957' },
+    950: { value: '#0B403F' },
+  },
 })

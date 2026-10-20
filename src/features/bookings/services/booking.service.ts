@@ -1,5 +1,5 @@
 import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod } from '@/shared/http'
+import { HttpMethod } from '@/shared/protocols'
 
 import type { BookingModel } from '../types/booking.model'
 import type { BookingStatusType } from '../types/booking-status.type'
@@ -12,8 +12,7 @@ import type { UpdateBookingRequest } from '../types/update-booking-request'
 export const getBookingByEstablishmentService = async (
   queryParams: GetBookingByEstablishmentQueryParams,
 ) => {
-  const { api, validate } =
-    httpDependencies<GetBookingByEstablishmentModel[]>()
+  const { api, validate } = httpDependencies<GetBookingByEstablishmentModel[]>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: '/booking/establishment',
@@ -42,9 +41,7 @@ export const getListBookingByServicesService = async (
   return validate.errors(response)
 }
 
-export const createBookingService = async (
-  data: CreateBookingRequest,
-) => {
+export const createBookingService = async (data: CreateBookingRequest) => {
   const { api, validate } = httpDependencies<BookingModel>()
   const response = await api.request({
     method: HttpMethod.POST,
@@ -55,9 +52,7 @@ export const createBookingService = async (
   return validate.errors(response)
 }
 
-export const updateBookingService = async (
-  data: UpdateBookingRequest,
-) => {
+export const updateBookingService = async (data: UpdateBookingRequest) => {
   const { api, validate } = httpDependencies<BookingModel>()
   const response = await api.request({
     method: HttpMethod.PUT,

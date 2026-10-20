@@ -1,5 +1,5 @@
 import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod } from '@/shared/http'
+import { HttpMethod } from '@/shared/protocols'
 
 import type { DailyBookingsEstablishmentModel } from '../types/daily-bookings-establishment.model'
 import type { RevenueEstablishmentModel } from '../types/revenue-establishment.model'

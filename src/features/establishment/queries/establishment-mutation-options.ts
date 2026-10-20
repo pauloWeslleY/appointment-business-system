@@ -7,7 +7,7 @@ import {
   updateEstablishmentService,
   uploadImageEstablishmentService,
 } from '../services/establishment.service'
-import type { EstablishmentModel } from '../types/establishment.model'
+import type { EstablishmentAdminModel } from '../types/establishment-admin.model'
 
 export const establishmentMutationOptions = {
   create() {
@@ -26,7 +26,7 @@ export const establishmentMutationOptions = {
 
   uploadImage() {
     return mutationOptions<
-      EstablishmentModel,
+      EstablishmentAdminModel,
       Error,
       { id: string; image: File }
     >({

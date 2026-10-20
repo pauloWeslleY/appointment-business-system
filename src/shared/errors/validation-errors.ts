@@ -1,8 +1,10 @@
-import { type HttpResponse, HttpStatusCode } from '../http'
+import { type HttpResponse, HttpStatusCode } from '../protocols'
 import {
   AccessDeniedError,
   BadRequestError,
+  ConflictError,
   NotFoundError,
+  RequestWithoutResponseError,
   ServerError,
   UnexpectedError,
 } from './errors'
@@ -26,8 +28,12 @@ export class ValidationErrors<T> implements IValidationErrors<T> {
   }
 
   errors(httpResponse: HttpResponse<T>): T {
+    if (httpResponse.kind === 'no-response') {
+      throw new RequestWithoutResponseError()
+    }
+
     if (
-      httpResponse.statusCode &&
+      httpResponse.kind === 'success' &&
       httpResponse.statusCode >= HttpStatusCode.ok &&
       httpResponse.statusCode < 300
     ) {
@@ -45,6 +51,9 @@ export class ValidationErrors<T> implements IValidationErrors<T> {
 
       case HttpStatusCode.badRequest:
         throw new BadRequestError(errorMessage)
+
+      case HttpStatusCode.conflict:
+        throw new ConflictError(errorMessage)
 
       case HttpStatusCode.serverError:
         throw new ServerError(errorMessage)

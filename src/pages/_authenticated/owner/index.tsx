@@ -4,13 +4,10 @@ import { UserSquare2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import NotFoundPage from '@/components/layout/not-found'
-import CardInfoOwner from '@/features/owner/components/card-info-owner'
-import FormUpdateOwner from '@/features/owner/pages/form-update-owner'
-import { ownerByUserIdQueryOptions } from '@/features/owner/queries/owner-query-options'
+import CardInfoOwner from '@/features/organization-profile/components/card-info-owner'
+import FormUpdateOwner from '@/features/organization-profile/pages/form-update-owner'
 
 export const Route = createFileRoute('/_authenticated/owner/')({
-  loader: ({ context }) =>
-    context.queryClient.ensureQueryData(ownerByUserIdQueryOptions(context.id)),
   component: OwnerPage,
   notFoundComponent: NotFoundPage,
 })

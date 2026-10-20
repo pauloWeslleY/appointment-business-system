@@ -1,16 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
+import type { z } from 'zod'
 
 import { toaster } from '@/components/ui/toaster'
-import { useGetOwnerById } from '@/features/owner/hooks/use-get-owner-by-id'
-import { onBlurZipCode } from '@/shared/services/via-cep/onblur-zip-code'
+import { useGetOwnerById } from '@/features/organization-profile/hooks/use-get-owner-by-id'
 
 import { establishmentMutationOptions } from '../queries/establishment-mutation-options'
 import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import { EstablishmentFormSchema } from '../schemas/establishment.schema'
-import type { EstablishmentFormData } from '../types/establishment-form-data.type'
+import { CreateEstablishmentFormSchema } from '../schemas/establishment.schema'
+type CreateEstablishmentFormData = z.infer<typeof CreateEstablishmentFormSchema>
 
 export function useFormCreateEstablishment() {
   const queryClient = useQueryClient()
@@ -21,28 +21,14 @@ export function useFormCreateEstablishment() {
     control,
     reset,
     register,
-    getValues,
-    setValue,
-    clearErrors,
     handleSubmit,
     formState: { errors },
-  } = useForm<EstablishmentFormData>({
-    resolver: zodResolver(EstablishmentFormSchema),
+  } = useForm<CreateEstablishmentFormData>({
+    resolver: zodResolver(CreateEstablishmentFormSchema),
     defaultValues: {
       name: '',
       description: '',
-      weekdays: ['0'],
-      intervals: [{ open: '', close: '' }],
       phones: [{ phone: '' }],
-      address: {
-        street: '',
-        number: '',
-        neighborhood: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        complement: '',
-      },
     },
   })
 
@@ -71,67 +57,35 @@ export function useFormCreateEstablishment() {
     },
   })
 
-  const handleCloseAlertCreatePhone = () => clearErrors('phones')
-  const handleCloseAlertCreateIntervals = () => clearErrors('intervals')
+  const {
+    fields: phoneFields,
+    append: appendPhone,
+    remove: removePhone,
+  } = useFieldArray({ control, name: 'phones' })
 
-  const onBlurZipCodeCreateEstablishment = async (zipCode: string) => {
-    const response = await onBlurZipCode(zipCode)
-    if (!response) return
-
-    const addressFields = Object.entries({
-      zipCode: response.cep,
-      complement: response.complemento,
-      street: response.logradouro,
-      neighborhood: response.bairro,
-      city: response.localidade,
-      state: response.uf,
-      number: getValues().address.number || '',
-    })
-
-    for (const [key, value] of addressFields) {
-      setValue(`address.${key}` as keyof EstablishmentFormData, value)
-    }
-  }
-
-  const handleCreateEstablishment = (params: EstablishmentFormData) => {
+  const handleCreateEstablishment = (params: CreateEstablishmentFormData) => {
     if (!owner) {
       toaster.error({ title: 'Dados do usuário inválidos' })
-      return
-    }
-
-    if (!params.intervals.some(Boolean)) {
-      toaster.error({
-        title: 'Todos os horários devem estar preenchidos',
-        description:
-          'Preencha todos os horários de abertura e fechamento para cada dia selecionado',
-      })
       return
     }
 
     createEstablishment({
       name: params.name,
       description: params.description,
-      ownerId: owner.id,
       phones: params.phones.map((item) => item.phone),
-      openingHours: params.weekdays.map((day, index) => ({
-        day: parseInt(day, 10),
-        intervals: [params.intervals[index]],
-      })),
-      address: params.address,
       imageUrl: null,
     })
   }
 
   return {
     control,
-    getValues,
     register,
     handleSubmit,
     errors,
     isPendingCreateEstablishment,
     handleCreateEstablishment,
-    handleCloseAlertCreatePhone,
-    handleCloseAlertCreateIntervals,
-    onBlurZipCodeCreateEstablishment,
+    phoneFields,
+    appendPhone,
+    removePhone,
   }
 }

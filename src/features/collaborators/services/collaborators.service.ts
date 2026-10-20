@@ -1,5 +1,5 @@
 import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod } from '@/shared/http'
+import { HttpMethod } from '@/shared/protocols'
 
 import type { CollaboratorModel } from '../types/collaborator.model'
 import type { CollaboratorEstablishmentModel } from '../types/collaborator-establishment.type'

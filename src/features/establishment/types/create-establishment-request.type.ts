@@ -1,12 +1,10 @@
-import type { AddressProps } from '@/shared/types/address.type'
-import type { OpeningHoursDayProps } from '@/shared/types/opening-hours.type'
-
 export interface CreateEstablishmentRequest {
   name: string
+  slug?: string
   description: string
+  email?: string
   phones: string[]
-  openingHours: OpeningHoursDayProps[]
-  ownerId: string
+  timezone?: string
   imageUrl?: string | null
-  address: AddressProps
+  legalEntityId?: string | null
 }

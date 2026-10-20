@@ -10,10 +10,11 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
+import { LogIn } from 'lucide-react'
 
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
+import { inputStyles } from '@/theme/styles/global-styles'
 
 import { useRegisterPage } from '../hooks/use-register-page'
 
@@ -29,22 +30,24 @@ const FormRegister = () => {
       display="flex"
       flexDirection="column"
       justifyContent="center"
-      gap={{ base: '4', md: '8', xl: '16' }}
+      gap={{ base: '4', md: '8' }}
+      autoComplete="off"
     >
       <Box>
         <Text
           as="h2"
           fontSize={{ base: '2xl', md: '3xl' }}
-          color={{ base: 'colorPalette.500', _dark: 'colorPalette.300' }}
+          fontWeight="semibold"
+          color={{ base: 'navy.800', _dark: 'sea.200' }}
         >
-          Junte-se a nós!
+          Crie sua conta
         </Text>
         <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
           Insira suas informações para criar sua conta.
         </Text>
       </Box>
 
-      <VStack gap={{ base: '4', md: '6' }}>
+      <VStack gap={{ base: '4' }}>
         <Field
           label="Usuário"
           invalid={!!errors.username}
@@ -53,9 +56,8 @@ const FormRegister = () => {
           <Input
             {...register('username')}
             placeholder="Digite seu usuário"
-            rounded="xl"
             size="sm"
-            borderColor={{ base: 'gray.400', _dark: 'gray.600' }}
+            css={inputStyles}
           />
         </Field>
 
@@ -67,9 +69,8 @@ const FormRegister = () => {
           <Input
             {...register('email')}
             placeholder="Digite seu email"
-            rounded="xl"
             size="sm"
-            borderColor={{ base: 'gray.400', _dark: 'gray.600' }}
+            css={inputStyles}
           />
         </Field>
 
@@ -81,22 +82,22 @@ const FormRegister = () => {
           <PasswordInput
             {...register('password')}
             placeholder="Digite sua senha"
-            rounded="xl"
             size="sm"
-            borderColor={{ base: 'gray.400', _dark: 'gray.600' }}
+            css={inputStyles}
           />
         </Field>
 
         <Button
           type="submit"
-          size="sm"
           w="full"
-          rounded="xl"
+          rounded="lg"
+          variant="surface"
           loading={isSubmitting}
-          loadingText="Criando conta..."
+          loadingText="Processando..."
+          colorPalette="brand"
         >
           Criar conta
-          <Icon as={ArrowRight} boxSize="5" />
+          <Icon as={LogIn} boxSize="5" />
         </Button>
 
         <HStack
@@ -113,7 +114,8 @@ const FormRegister = () => {
             size="sm"
             px="0"
             transition="colors"
-            _hover={{ color: 'colorPalette.500' }}
+            color={{ base: 'sea.600', _dark: 'sea.400' }}
+            _hover={{ color: { base: 'sea.900', _dark: 'sea.700' } }}
           >
             <Link to="/login">Faça login</Link>
           </Button>

@@ -18,6 +18,13 @@ const MenuSettings = () => {
         <Menu.Positioner>
           <Menu.Content css={contentCss}>
             <Menu.Item
+              value="subscription"
+              css={menuItemCss}
+              onClick={() => navigate({ to: '/assinatura' })}
+            >
+              Assinatura
+            </Menu.Item>
+            <Menu.Item
               value="profiel"
               css={menuItemCss}
               onClick={() => navigate({ to: '/profile' })}

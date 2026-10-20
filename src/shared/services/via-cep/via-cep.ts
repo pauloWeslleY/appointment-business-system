@@ -1,6 +1,6 @@
 import axios, { type AxiosError } from 'axios'
 
-import { HttpMethod, type HttpResponse } from '@/shared/http'
+import { HttpMethod, type HttpResponse } from '@/shared/protocols'
 
 export interface ViaCepResponse {
   cep: string

@@ -33,3 +33,8 @@ export const cardSectionCss = defineStyle({
   borderColor: { base: 'gray.200', _dark: 'secondary.500/20' },
   p: { base: '2', md: '4' },
 })
+
+export const inputStyles = defineStyle({
+  rounded: 'lg',
+  borderColor: { base: 'slate.400', _dark: 'slate.600' },
+})

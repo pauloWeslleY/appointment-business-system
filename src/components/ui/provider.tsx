@@ -2,13 +2,13 @@
 
 import { ChakraProvider } from '@chakra-ui/react'
 
-import theme from '@/theme/theme'
+import system from '@/theme/theme'
 
 import { ColorModeProvider, type ColorModeProviderProps } from './color-mode'
 
 export function Provider(props: ColorModeProviderProps) {
   return (
-    <ChakraProvider value={theme}>
+    <ChakraProvider value={system}>
       <ColorModeProvider {...props} />
     </ChakraProvider>
   )

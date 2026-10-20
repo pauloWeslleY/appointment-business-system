@@ -1,19 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import z from 'zod'
 
-import FormStepsRegister from '@/features/authentication/components/form-steps-register'
+import FormRegister from '@/features/authentication/pages/form-register.page'
 
 export const Route = createFileRoute('/_auth/register/')({
-  validateSearch: z.object({
-    step: z.number().optional(),
-  }),
   component: RegisterPage,
 })
 
 function RegisterPage() {
-  return (
-    <div>
-      <FormStepsRegister />
-    </div>
-  )
+  return <FormRegister />
 }

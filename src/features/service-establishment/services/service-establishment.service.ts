@@ -1,5 +1,5 @@
 import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod } from '@/shared/http'
+import { HttpMethod } from '@/shared/protocols'
 
 import type { CreateServiceEstablishmentRequest } from '../types/create-service-establishment-request.type'
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'

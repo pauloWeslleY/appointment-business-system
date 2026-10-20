@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from '@tanstack/react-router'
 import type { SuccessContext } from 'better-auth/react'
 import { useForm } from 'react-hook-form'
 
@@ -9,11 +10,9 @@ import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 import { RegisterFormSchema } from '../schemas/register-form.schema'
 import type { AuthModel } from '../types/authentication.model'
 import type { RegisterFormData } from '../types/register-form-data.type'
-import { useStepRegister } from './use-step-register'
 
 export function useRegisterPage() {
-  const { stepRegister, setStepRegisterWithValidation } = useStepRegister()
-
+  const navigate = useNavigate()
   const {
     reset,
     register,
@@ -29,25 +28,35 @@ export function useRegisterPage() {
     },
   })
 
-  const onSubmitRegister = async (data: RegisterFormData) => {
+  const onSubmitRegister = async (registerData: RegisterFormData) => {
     await authClient.signUp.email(
       {
-        email: data.email,
-        password: data.password,
-        name: data.username,
+        email: registerData.email,
+        password: registerData.password,
+        name: registerData.username,
       },
       {
-        onSuccess: ({ data }: SuccessContext<AuthModel>) => {
+        onSuccess: async ({ data }: SuccessContext<AuthModel>) => {
           toaster.success({
             title: `Usuário ${data.user.name} cadastrado com sucesso`,
+            description: 'Verifique seu e-mail para ativar sua conta.',
           })
 
-          reset()
-          setStepRegisterWithValidation(stepRegister + 1)
+          reset(registerData)
+          await navigate({
+            to: '/login',
+            state: {
+              registrationSuccess: true,
+              email: registerData.email,
+            },
+          })
         },
         onError: ({ error }) => {
           const _error = mapErrorsLabel[error.code] ?? error.message
-          toaster.error({ title: _error || 'Erro ao realizar cadastro' })
+          toaster.error({
+            title: 'Ops! não foi possível realizar o cadastro',
+            description: _error || 'Erro ao realizar cadastro',
+          })
           setError('root', {
             type: 'custom',
             message: _error || 'Erro ao realizar cadastro',

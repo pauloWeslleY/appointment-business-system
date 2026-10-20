@@ -34,3 +34,9 @@ export const EstablishmentFormSchema = z.object({
     complement: z.string().min(1, 'O complemento é obrigatório'),
   }),
 })
+
+export const CreateEstablishmentFormSchema = EstablishmentFormSchema.omit({
+  address: true,
+  weekdays: true,
+  intervals: true,
+})

@@ -7,7 +7,6 @@ import {
   IconButton,
   type IconButtonProps,
 } from '@chakra-ui/react'
-import { useRouter } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 import type { ElementType } from 'react'
 
@@ -37,7 +36,7 @@ const HeaderIcon = (props: { icon: ElementType }) => {
       align="center"
       justify="center"
       boxSize="8"
-      rounded="full"
+      rounded="lg"
       bg={{ base: 'primary.200/60', _dark: 'primary.500/80' }}
     >
       <Icon
@@ -54,7 +53,9 @@ const HeaderRoot = (props: FlexProps) => {
 }
 
 const HeaderButton = (props: IconButtonProps) => {
-  const router = useRouter()
+  const handleNavigateToPreviousPage = () => {
+    window.history.back()
+  }
 
   return (
     <IconButton
@@ -63,7 +64,7 @@ const HeaderButton = (props: IconButtonProps) => {
       rounded="full"
       variant="ghost"
       aria-label="Voltar"
-      onClick={() => router.history.back()}
+      onClick={handleNavigateToPreviousPage}
     >
       <Icon as={ArrowLeft} boxSize="4" />
     </IconButton>

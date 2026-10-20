@@ -1,5 +1,5 @@
 import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod } from '@/shared/http'
+import { HttpMethod } from '@/shared/protocols'
 
 import type { UserInfoModel } from '../types/user-info.model'
 

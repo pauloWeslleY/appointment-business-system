@@ -13,7 +13,7 @@ import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
   {
     type: 'header',
-    label: 'Menu ',
+    label: 'Menu',
     path: undefined,
   },
   {

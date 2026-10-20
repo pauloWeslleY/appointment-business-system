@@ -1,9 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
+import { useLocation } from '@tanstack/react-router'
 import type { SuccessContext } from 'better-auth/react'
+import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { takeSubscriptionLoginReturn } from '@/features/subscriptions/services/subscription-login-return'
 import { authClient } from '@/lib/auth'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 
@@ -11,9 +14,12 @@ import { LoginFormSchema } from '../schemas/login-form.schema'
 import type { AuthModel } from '../types/authentication.model'
 import type { LoginFormData } from '../types/login-form-data.type'
 
-export function useLoginPage() {
-  const navigate = useNavigate()
+const DEFAULT_CALLBACK_URL = '/organization'
 
+export function useLoginPage() {
+  const [isPendingLoginWithGoogle, startTransition] = useTransition()
+  const { state } = useLocation()
+  const navigate = useNavigate()
   const {
     reset,
     register,
@@ -22,8 +28,20 @@ export function useLoginPage() {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginFormSchema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: {
+      email: state?.email ?? '',
+      password: '',
+    },
   })
+
+  const handleSignInWithGoogle = () => {
+    startTransition(async () => {
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: `${import.meta.env.VITE_WEB_URL}${DEFAULT_CALLBACK_URL}`,
+      })
+    })
+  }
 
   const onSubmitLogin = async (data: LoginFormData) => {
     await authClient.signIn.email(
@@ -38,7 +56,8 @@ export function useLoginPage() {
           })
 
           reset()
-          navigate({ to: '/establishment' })
+          const returnTo = takeSubscriptionLoginReturn(sessionStorage)
+          navigate({ to: returnTo ?? DEFAULT_CALLBACK_URL })
         },
         onError: ({ error }) => {
           const _error = mapErrorsLabel[error.code] ?? error.message
@@ -53,10 +72,12 @@ export function useLoginPage() {
   }
 
   return {
-    register,
-    handleSubmit,
     errors,
     isSubmitting,
+    isPendingLoginWithGoogle,
+    register,
+    handleSubmit,
     onSubmitLogin,
+    handleSignInWithGoogle,
   }
 }

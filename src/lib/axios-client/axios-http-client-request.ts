@@ -1,16 +1,17 @@
-import { type AxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 
 import { api } from '@/shared/config/api'
 import type {
   HttpRequest,
   HttpRequestParams,
   HttpResponse,
-} from '@/shared/http'
+  HttpStatusCodeType,
+} from '@/shared/protocols'
 
-export class AxiosHttpClient<T> implements HttpRequest<T> {
-  async request(data: HttpRequestParams): Promise<HttpResponse> {
+export class AxiosHttpClient<T = unknown> implements HttpRequest<T> {
+  async request(data: HttpRequestParams): Promise<HttpResponse<T>> {
     try {
-      const response = await api.request({
+      const response = await api.request<T>({
         url: data.url,
         method: data.method,
         data: data.body,
@@ -19,15 +20,27 @@ export class AxiosHttpClient<T> implements HttpRequest<T> {
         responseType: data.responseType || 'json',
         withCredentials: true,
       })
+
       return {
-        statusCode: response.status as HttpResponse['statusCode'],
-        body: response?.data,
+        kind: 'success',
+        statusCode: response.status as HttpStatusCodeType,
+        body: response.data,
       }
     } catch (error: unknown) {
-      const _error = error as AxiosError<{ message: string }>
+      if (!isAxiosError<{ message: string }>(error)) {
+        throw error
+      }
+
+      if (!error.response) {
+        return {
+          kind: 'no-response',
+        }
+      }
+
       return {
-        statusCode: _error.response?.status as HttpResponse['statusCode'],
-        body: _error.response?.data,
+        kind: 'http-error',
+        statusCode: error.response.status as HttpStatusCodeType,
+        body: error.response.data,
       }
     }
   }

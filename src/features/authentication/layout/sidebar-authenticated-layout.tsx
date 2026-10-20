@@ -28,18 +28,12 @@ const SideBarAuthenticatedLayout = ({
           {(item) => {
             if (item.type === 'header') {
               return (
-                <Text
+                <Sidebar.NavTitle
                   key={item.label}
-                  display={collapsed ? 'none' : 'block'}
-                  fontSize="sm"
-                  fontWeight="medium"
-                  letterSpacing="wider"
-                  color={{ base: 'gray.100', _dark: 'gray.400' }}
-                  my="4"
-                  pl="2"
+                  collapsed={collapsed ? 'closed' : 'open'}
                 >
                   {item.label}
-                </Text>
+                </Sidebar.NavTitle>
               )
             }
 

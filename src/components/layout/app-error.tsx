@@ -8,11 +8,14 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { useRouter } from '@tanstack/react-router'
+import { type ErrorComponentProps } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 
-const AppError = (props: { error: Error; reset: () => void }) => {
-  const router = useRouter()
+const AppError = (props: ErrorComponentProps) => {
+  const message =
+    props.error instanceof Error
+      ? props.error.message
+      : 'Ocorreu um erro desconhecido.'
 
   const handleResetAndReloadPage = () => {
     window.location.reload()
@@ -20,7 +23,7 @@ const AppError = (props: { error: Error; reset: () => void }) => {
   }
 
   const handleNavigateToPreviousPage = () => {
-    router.history.back()
+    window.history.back()
   }
 
   return (
@@ -30,12 +33,13 @@ const AppError = (props: { error: Error; reset: () => void }) => {
         shadow="xs"
         p="8"
         w="full"
-        h="full"
+        h="lg"
         rounded="lg"
-        bg={{ base: 'primary.200s', _dark: 'primary.500/20' }}
+        bg={{ base: 'primary.200', _dark: 'primary.500/20' }}
         borderWidth="1px"
         borderColor="border.secondary"
         gap="1"
+        mt={{ base: '10', xl: '32' }}
       >
         <Flex
           align="center"
@@ -52,7 +56,7 @@ const AppError = (props: { error: Error; reset: () => void }) => {
         <Box spaceY="2" mb="4" textAlign="center">
           <Heading size="3xl">Ops! Algo deu errado.</Heading>
           <Text as="span" fontSize="lg" color="fg.error">
-            {props.error.message}
+            {message}
           </Text>
         </Box>
 

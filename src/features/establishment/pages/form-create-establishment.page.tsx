@@ -1,35 +1,20 @@
-import {
-  Button,
-  Card,
-  chakra,
-  GridItem,
-  HStack,
-  Separator,
-  SimpleGrid,
-  Text,
-} from '@chakra-ui/react'
-import { Controller } from 'react-hook-form'
-import { PatternFormat } from 'react-number-format'
+import { Button, Card, chakra, GridItem, SimpleGrid } from '@chakra-ui/react'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 
-import FormIntervalEstablishment from '../components/form-intervals-establishment'
-import FormTelephoneEstablishment from '../components/form-telephone-establishment'
 import { useFormCreateEstablishment } from '../hooks/use-form-create-establishment'
 
 const FormCreateEstablishmentPage = () => {
   const {
-    control,
-    getValues,
     register,
     handleSubmit,
     errors,
     isPendingCreateEstablishment,
     handleCreateEstablishment,
-    handleCloseAlertCreatePhone,
-    handleCloseAlertCreateIntervals,
-    onBlurZipCodeCreateEstablishment,
+    phoneFields,
+    appendPhone,
+    removePhone,
   } = useFormCreateEstablishment()
 
   return (
@@ -62,119 +47,30 @@ const FormCreateEstablishmentPage = () => {
             />
           </Field>
 
-          <FormIntervalEstablishment
-            values={getValues()}
-            control={control}
-            errors={errors}
-            onCloseAlertInterval={handleCloseAlertCreateIntervals}
-          />
-
-          <FormTelephoneEstablishment
-            control={control}
-            errors={errors}
-            onCloseAlertTelephone={handleCloseAlertCreatePhone}
-          />
-
-          <SimpleGrid
-            aria-label="Form Address"
-            gridColumn={{ base: 'span 1', md: 'span 4' }}
-            columns={{ base: 1, md: 4 }}
-            gap="4"
-            w="full"
-          >
-            <HStack gridColumn="span 4">
-              <Text flexShrink="0">Endereço</Text>
-              <Separator
-                flex="1"
-                borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+          {phoneFields.map((phone, index) => (
+            <Field
+              key={phone.id}
+              invalid={!!errors.phones?.[index]?.phone}
+              errorText={errors.phones?.[index]?.phone?.message}
+            >
+              <InputField
+                {...register(`phones.${index}.phone`)}
+                placeholder="Telefone"
               />
-            </HStack>
-
-            <Controller
-              name="address.zipCode"
-              control={control}
-              render={({ field }) => (
-                <Field
-                  invalid={!!errors.address?.zipCode}
-                  errorText={errors.address?.zipCode?.message}
-                >
-                  <PatternFormat
-                    value={field.value}
-                    onValueChange={(values) => field.onChange(values.value)}
-                    format="#####-###"
-                    placeholder="00000-000"
-                    mask="_"
-                    customInput={InputField}
-                    onBlur={() => onBlurZipCodeCreateEstablishment(field.value)}
-                  />
-                </Field>
+              {phoneFields.length > 1 && (
+                <Button type="button" onClick={() => removePhone(index)}>
+                  Remover telefone
+                </Button>
               )}
-            />
-
-            <Field
-              gridColumn={{ base: 'span 1', md: 'span 2' }}
-              invalid={!!errors.address?.street}
-              errorText={errors.address?.street?.message}
-            >
-              <InputField
-                {...register('address.street')}
-                placeholder="Digite o endereço"
-              />
             </Field>
-            <Field
-              invalid={!!errors.address?.number}
-              errorText={errors.address?.number?.message}
-            >
-              <InputField
-                {...register('address.number')}
-                placeholder="Digite o número"
-              />
-            </Field>
-            <Field
-              gridColumn={{ base: 'span 1', md: 'span 2' }}
-              invalid={!!errors.address?.neighborhood}
-              errorText={errors.address?.neighborhood?.message}
-            >
-              <InputField
-                {...register('address.neighborhood')}
-                placeholder="Digite o bairro"
-              />
-            </Field>
-
-            <HStack
-              gap="4"
-              align="start"
-              gridColumn={{ base: 'span 1', md: 'span 2' }}
-            >
-              <Field
-                invalid={!!errors.address?.city}
-                errorText={errors.address?.city?.message}
-              >
-                <InputField
-                  {...register('address.city')}
-                  placeholder="Digite a cidade"
-                />
-              </Field>
-              <Field
-                invalid={!!errors.address?.state}
-                errorText={errors.address?.state?.message}
-              >
-                <InputField
-                  {...register('address.state')}
-                  placeholder="Digite o estado"
-                />
-              </Field>
-              <Field
-                invalid={!!errors.address?.complement}
-                errorText={errors.address?.complement?.message}
-              >
-                <InputField
-                  {...register('address.complement')}
-                  placeholder="Digite o complemento"
-                />
-              </Field>
-            </HStack>
-          </SimpleGrid>
+          ))}
+          <Button
+            type="button"
+            onClick={() => appendPhone({ phone: '' })}
+            disabled={phoneFields.length >= 5}
+          >
+            Adicionar telefone
+          </Button>
 
           <GridItem
             colSpan={{ base: 1, md: 4 }}

@@ -9,46 +9,62 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
-import { Route as ErrorRouteImport } from './pages/error'
-import { Route as AuthenticatedLayoutRouteImport } from './pages/_authenticated/layout'
-import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as IndexRouteImport } from './pages/index'
+import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
+import { Route as AuthenticatedLayoutRouteImport } from './pages/_authenticated/layout'
+import { Route as SubscriptionLayoutRouteImport } from './pages/_subscription/layout'
+import { Route as ErrorRouteImport } from './pages/error'
 import { Route as DashboardIndexRouteImport } from './pages/dashboard/index'
 import { Route as DashboardSlugLayoutRouteImport } from './pages/dashboard/$slug/layout'
-import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
-import { Route as AuthenticatedOwnerIndexRouteImport } from './pages/_authenticated/owner/index'
-import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
-import { Route as AuthRegisterIndexRouteImport } from './pages/_auth/register/index'
+import { Route as OrganizationProfileIndexRouteImport } from './pages/organization-profile/index'
+import { Route as AuthForgotPasswordIndexRouteImport } from './pages/_auth/forgot-password/index'
 import { Route as AuthLoginIndexRouteImport } from './pages/_auth/login/index'
-import { Route as DashboardSlugServicesIndexRouteImport } from './pages/dashboard/$slug/services/index'
-import { Route as DashboardSlugReviewsIndexRouteImport } from './pages/dashboard/$slug/reviews/index'
-import { Route as DashboardSlugOverviewIndexRouteImport } from './pages/dashboard/$slug/overview/index'
-import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
-import { Route as DashboardSlugCollaboratorsIndexRouteImport } from './pages/dashboard/$slug/collaborators/index'
+import { Route as AuthRegisterIndexRouteImport } from './pages/_auth/register/index'
+import { Route as AuthResetPasswordIndexRouteImport } from './pages/_auth/reset-password/index'
+import { Route as AuthVerifyEmailIndexRouteImport } from './pages/_auth/verify-email/index'
+import { Route as AuthenticatedBusinessProfileIndexRouteImport } from './pages/_authenticated/business-profile/index'
+import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
+import { Route as AuthenticatedMembersIndexRouteImport } from './pages/_authenticated/members/index'
+import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_authenticated/organization/index'
+import { Route as AuthenticatedOwnerIndexRouteImport } from './pages/_authenticated/owner/index'
+import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
+import { Route as SubscriptionAssinaturaIndexRouteImport } from './pages/_subscription/assinatura/index'
+import { Route as SubscriptionAssinaturaCanceladoRouteImport } from './pages/_subscription/assinatura/cancelado'
+import { Route as SubscriptionAssinaturaRetornoRouteImport } from './pages/_subscription/assinatura/retorno'
+import { Route as AuthenticatedOrganizationCreateIndexRouteImport } from './pages/_authenticated/organization/create/index'
 import { Route as DashboardSlugBookingsIndexRouteImport } from './pages/dashboard/$slug/bookings/index'
-import { Route as AuthenticatedEstablishmentRoutesNewIndexRouteImport } from './pages/_authenticated/establishment/_routes/new/index'
+import { Route as DashboardSlugCollaboratorsIndexRouteImport } from './pages/dashboard/$slug/collaborators/index'
+import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
+import { Route as DashboardSlugOverviewIndexRouteImport } from './pages/dashboard/$slug/overview/index'
+import { Route as DashboardSlugReviewsIndexRouteImport } from './pages/dashboard/$slug/reviews/index'
+import { Route as DashboardSlugServicesIndexRouteImport } from './pages/dashboard/$slug/services/index'
 import { Route as AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport } from './pages/_authenticated/establishment/_routes/$establishmentSlug/index'
+import { Route as AuthenticatedEstablishmentRoutesNewIndexRouteImport } from './pages/_authenticated/establishment/_routes/new/index'
 import { Route as DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/layout'
 import { Route as DashboardSlugServicesPagesNewIndexRouteImport } from './pages/dashboard/$slug/services/_pages/new/index'
-import { Route as DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/index'
 import { Route as DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/index'
+import { Route as DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/index'
 
-const ErrorRoute = ErrorRouteImport.update({
-  id: '/error',
-  path: '/error',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedLayoutRoute = AuthenticatedLayoutRouteImport.update({
-  id: '/_authenticated',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthenticatedLayoutRoute = AuthenticatedLayoutRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubscriptionLayoutRoute = SubscriptionLayoutRouteImport.update({
+  id: '/_subscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ErrorRoute = ErrorRouteImport.update({
+  id: '/error',
+  path: '/error',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
@@ -61,26 +77,15 @@ const DashboardSlugLayoutRoute = DashboardSlugLayoutRouteImport.update({
   path: '/dashboard/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedProfileIndexRoute =
-  AuthenticatedProfileIndexRouteImport.update({
-    id: '/profile/',
-    path: '/profile/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+const OrganizationProfileIndexRoute =
+  OrganizationProfileIndexRouteImport.update({
+    id: '/organization-profile/',
+    path: '/organization-profile/',
+    getParentRoute: () => rootRouteImport,
   } as any)
-const AuthenticatedOwnerIndexRoute = AuthenticatedOwnerIndexRouteImport.update({
-  id: '/owner/',
-  path: '/owner/',
-  getParentRoute: () => AuthenticatedLayoutRoute,
-} as any)
-const AuthenticatedEstablishmentIndexRoute =
-  AuthenticatedEstablishmentIndexRouteImport.update({
-    id: '/establishment/',
-    path: '/establishment/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthRegisterIndexRoute = AuthRegisterIndexRouteImport.update({
-  id: '/register/',
-  path: '/register/',
+const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
+  id: '/forgot-password/',
+  path: '/forgot-password/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
 const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
@@ -88,28 +93,84 @@ const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
-const DashboardSlugServicesIndexRoute =
-  DashboardSlugServicesIndexRouteImport.update({
-    id: '/services/',
-    path: '/services/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+const AuthRegisterIndexRoute = AuthRegisterIndexRouteImport.update({
+  id: '/register/',
+  path: '/register/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthResetPasswordIndexRoute = AuthResetPasswordIndexRouteImport.update({
+  id: '/reset-password/',
+  path: '/reset-password/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
+  id: '/verify-email/',
+  path: '/verify-email/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthenticatedBusinessProfileIndexRoute =
+  AuthenticatedBusinessProfileIndexRouteImport.update({
+    id: '/business-profile/',
+    path: '/business-profile/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
-const DashboardSlugReviewsIndexRoute =
-  DashboardSlugReviewsIndexRouteImport.update({
-    id: '/reviews/',
-    path: '/reviews/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+const AuthenticatedEstablishmentIndexRoute =
+  AuthenticatedEstablishmentIndexRouteImport.update({
+    id: '/establishment/',
+    path: '/establishment/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
-const DashboardSlugOverviewIndexRoute =
-  DashboardSlugOverviewIndexRouteImport.update({
-    id: '/overview/',
-    path: '/overview/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+const AuthenticatedMembersIndexRoute =
+  AuthenticatedMembersIndexRouteImport.update({
+    id: '/members/',
+    path: '/members/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
-const DashboardSlugCustomersIndexRoute =
-  DashboardSlugCustomersIndexRouteImport.update({
-    id: '/customers/',
-    path: '/customers/',
+const AuthenticatedOrganizationIndexRoute =
+  AuthenticatedOrganizationIndexRouteImport.update({
+    id: '/organization/',
+    path: '/organization/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+const AuthenticatedOwnerIndexRoute = AuthenticatedOwnerIndexRouteImport.update({
+  id: '/owner/',
+  path: '/owner/',
+  getParentRoute: () => AuthenticatedLayoutRoute,
+} as any)
+const AuthenticatedProfileIndexRoute =
+  AuthenticatedProfileIndexRouteImport.update({
+    id: '/profile/',
+    path: '/profile/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+const SubscriptionAssinaturaIndexRoute =
+  SubscriptionAssinaturaIndexRouteImport.update({
+    id: '/assinatura/',
+    path: '/assinatura/',
+    getParentRoute: () => SubscriptionLayoutRoute,
+  } as any)
+const SubscriptionAssinaturaCanceladoRoute =
+  SubscriptionAssinaturaCanceladoRouteImport.update({
+    id: '/assinatura/cancelado',
+    path: '/assinatura/cancelado',
+    getParentRoute: () => SubscriptionLayoutRoute,
+  } as any)
+const SubscriptionAssinaturaRetornoRoute =
+  SubscriptionAssinaturaRetornoRouteImport.update({
+    id: '/assinatura/retorno',
+    path: '/assinatura/retorno',
+    getParentRoute: () => SubscriptionLayoutRoute,
+  } as any)
+const AuthenticatedOrganizationCreateIndexRoute =
+  AuthenticatedOrganizationCreateIndexRouteImport.update({
+    id: '/organization/create/',
+    path: '/organization/create/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+const DashboardSlugBookingsIndexRoute =
+  DashboardSlugBookingsIndexRouteImport.update({
+    id: '/bookings/',
+    path: '/bookings/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
 const DashboardSlugCollaboratorsIndexRoute =
@@ -118,22 +179,40 @@ const DashboardSlugCollaboratorsIndexRoute =
     path: '/collaborators/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugBookingsIndexRoute =
-  DashboardSlugBookingsIndexRouteImport.update({
-    id: '/bookings/',
-    path: '/bookings/',
+const DashboardSlugCustomersIndexRoute =
+  DashboardSlugCustomersIndexRouteImport.update({
+    id: '/customers/',
+    path: '/customers/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
-const AuthenticatedEstablishmentRoutesNewIndexRoute =
-  AuthenticatedEstablishmentRoutesNewIndexRouteImport.update({
-    id: '/establishment/_routes/new/',
-    path: '/establishment/new/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+const DashboardSlugOverviewIndexRoute =
+  DashboardSlugOverviewIndexRouteImport.update({
+    id: '/overview/',
+    path: '/overview/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
+const DashboardSlugReviewsIndexRoute =
+  DashboardSlugReviewsIndexRouteImport.update({
+    id: '/reviews/',
+    path: '/reviews/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
+const DashboardSlugServicesIndexRoute =
+  DashboardSlugServicesIndexRouteImport.update({
+    id: '/services/',
+    path: '/services/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
 const AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute =
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport.update({
     id: '/establishment/_routes/$establishmentSlug/',
     path: '/establishment/$establishmentSlug/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+const AuthenticatedEstablishmentRoutesNewIndexRoute =
+  AuthenticatedEstablishmentRoutesNewIndexRouteImport.update({
+    id: '/establishment/_routes/new/',
+    path: '/establishment/new/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute =
@@ -148,17 +227,17 @@ const DashboardSlugServicesPagesNewIndexRoute =
     path: '/services/new/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute =
-  DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport.update({
-    id: '/info/',
-    path: '/info/',
-    getParentRoute: () =>
-      DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
-  } as any)
 const DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute =
   DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport.update({
     id: '/edit/',
     path: '/edit/',
+    getParentRoute: () =>
+      DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
+  } as any)
+const DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute =
+  DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport.update({
+    id: '/info/',
+    path: '/info/',
     getParentRoute: () =>
       DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
   } as any)
@@ -168,11 +247,22 @@ export interface FileRoutesByFullPath {
   '/error': typeof ErrorRoute
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/organization-profile/': typeof OrganizationProfileIndexRoute
+  '/assinatura/cancelado': typeof SubscriptionAssinaturaCanceladoRoute
+  '/assinatura/retorno': typeof SubscriptionAssinaturaRetornoRoute
+  '/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/login/': typeof AuthLoginIndexRoute
   '/register/': typeof AuthRegisterIndexRoute
+  '/reset-password/': typeof AuthResetPasswordIndexRoute
+  '/verify-email/': typeof AuthVerifyEmailIndexRoute
+  '/business-profile/': typeof AuthenticatedBusinessProfileIndexRoute
   '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
+  '/members/': typeof AuthenticatedMembersIndexRoute
+  '/organization/': typeof AuthenticatedOrganizationIndexRoute
   '/owner/': typeof AuthenticatedOwnerIndexRoute
   '/profile/': typeof AuthenticatedProfileIndexRoute
+  '/assinatura/': typeof SubscriptionAssinaturaIndexRoute
+  '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
   '/dashboard/$slug/collaborators/': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
@@ -191,11 +281,22 @@ export interface FileRoutesByTo {
   '/error': typeof ErrorRoute
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard': typeof DashboardIndexRoute
+  '/organization-profile': typeof OrganizationProfileIndexRoute
+  '/assinatura/cancelado': typeof SubscriptionAssinaturaCanceladoRoute
+  '/assinatura/retorno': typeof SubscriptionAssinaturaRetornoRoute
+  '/forgot-password': typeof AuthForgotPasswordIndexRoute
   '/login': typeof AuthLoginIndexRoute
   '/register': typeof AuthRegisterIndexRoute
+  '/reset-password': typeof AuthResetPasswordIndexRoute
+  '/verify-email': typeof AuthVerifyEmailIndexRoute
+  '/business-profile': typeof AuthenticatedBusinessProfileIndexRoute
   '/establishment': typeof AuthenticatedEstablishmentIndexRoute
+  '/members': typeof AuthenticatedMembersIndexRoute
+  '/organization': typeof AuthenticatedOrganizationIndexRoute
   '/owner': typeof AuthenticatedOwnerIndexRoute
   '/profile': typeof AuthenticatedProfileIndexRoute
+  '/assinatura': typeof SubscriptionAssinaturaIndexRoute
+  '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
   '/dashboard/$slug/bookings': typeof DashboardSlugBookingsIndexRoute
   '/dashboard/$slug/collaborators': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers': typeof DashboardSlugCustomersIndexRoute
@@ -214,14 +315,26 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthLayoutRouteWithChildren
   '/_authenticated': typeof AuthenticatedLayoutRouteWithChildren
+  '/_subscription': typeof SubscriptionLayoutRouteWithChildren
   '/error': typeof ErrorRoute
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/organization-profile/': typeof OrganizationProfileIndexRoute
+  '/_subscription/assinatura/cancelado': typeof SubscriptionAssinaturaCanceladoRoute
+  '/_subscription/assinatura/retorno': typeof SubscriptionAssinaturaRetornoRoute
+  '/_auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_auth/register/': typeof AuthRegisterIndexRoute
+  '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
+  '/_auth/verify-email/': typeof AuthVerifyEmailIndexRoute
+  '/_authenticated/business-profile/': typeof AuthenticatedBusinessProfileIndexRoute
   '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
+  '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
+  '/_authenticated/organization/': typeof AuthenticatedOrganizationIndexRoute
   '/_authenticated/owner/': typeof AuthenticatedOwnerIndexRoute
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
+  '/_subscription/assinatura/': typeof SubscriptionAssinaturaIndexRoute
+  '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
   '/dashboard/$slug/collaborators/': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
@@ -242,11 +355,22 @@ export interface FileRouteTypes {
     | '/error'
     | '/dashboard/$slug'
     | '/dashboard/'
+    | '/organization-profile/'
+    | '/assinatura/cancelado'
+    | '/assinatura/retorno'
+    | '/forgot-password/'
     | '/login/'
     | '/register/'
+    | '/reset-password/'
+    | '/verify-email/'
+    | '/business-profile/'
     | '/establishment/'
+    | '/members/'
+    | '/organization/'
     | '/owner/'
     | '/profile/'
+    | '/assinatura/'
+    | '/organization/create/'
     | '/dashboard/$slug/bookings/'
     | '/dashboard/$slug/collaborators/'
     | '/dashboard/$slug/customers/'
@@ -265,11 +389,22 @@ export interface FileRouteTypes {
     | '/error'
     | '/dashboard/$slug'
     | '/dashboard'
+    | '/organization-profile'
+    | '/assinatura/cancelado'
+    | '/assinatura/retorno'
+    | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
+    | '/verify-email'
+    | '/business-profile'
     | '/establishment'
+    | '/members'
+    | '/organization'
     | '/owner'
     | '/profile'
+    | '/assinatura'
+    | '/organization/create'
     | '/dashboard/$slug/bookings'
     | '/dashboard/$slug/collaborators'
     | '/dashboard/$slug/customers'
@@ -287,14 +422,26 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_authenticated'
+    | '/_subscription'
     | '/error'
     | '/dashboard/$slug'
     | '/dashboard/'
+    | '/organization-profile/'
+    | '/_subscription/assinatura/cancelado'
+    | '/_subscription/assinatura/retorno'
+    | '/_auth/forgot-password/'
     | '/_auth/login/'
     | '/_auth/register/'
+    | '/_auth/reset-password/'
+    | '/_auth/verify-email/'
+    | '/_authenticated/business-profile/'
     | '/_authenticated/establishment/'
+    | '/_authenticated/members/'
+    | '/_authenticated/organization/'
     | '/_authenticated/owner/'
     | '/_authenticated/profile/'
+    | '/_subscription/assinatura/'
+    | '/_authenticated/organization/create/'
     | '/dashboard/$slug/bookings/'
     | '/dashboard/$slug/collaborators/'
     | '/dashboard/$slug/customers/'
@@ -313,25 +460,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
   AuthenticatedLayoutRoute: typeof AuthenticatedLayoutRouteWithChildren
+  SubscriptionLayoutRoute: typeof SubscriptionLayoutRouteWithChildren
   ErrorRoute: typeof ErrorRoute
   DashboardSlugLayoutRoute: typeof DashboardSlugLayoutRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
+  OrganizationProfileIndexRoute: typeof OrganizationProfileIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/error': {
-      id: '/error'
-      path: '/error'
-      fullPath: '/error'
-      preLoaderRoute: typeof ErrorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
+    '/': {
+      id: '/'
+      path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedLayoutRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -341,11 +483,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_subscription': {
+      id: '/_subscription'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SubscriptionLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/error': {
+      id: '/error'
+      path: '/error'
+      fullPath: '/error'
+      preLoaderRoute: typeof ErrorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -362,32 +518,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSlugLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/profile/': {
-      id: '/_authenticated/profile/'
-      path: '/profile'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof AuthenticatedProfileIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
+    '/organization-profile/': {
+      id: '/organization-profile/'
+      path: '/organization-profile'
+      fullPath: '/organization-profile/'
+      preLoaderRoute: typeof OrganizationProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/owner/': {
-      id: '/_authenticated/owner/'
-      path: '/owner'
-      fullPath: '/owner/'
-      preLoaderRoute: typeof AuthenticatedOwnerIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_authenticated/establishment/': {
-      id: '/_authenticated/establishment/'
-      path: '/establishment'
-      fullPath: '/establishment/'
-      preLoaderRoute: typeof AuthenticatedEstablishmentIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_auth/register/': {
-      id: '/_auth/register/'
-      path: '/register'
-      fullPath: '/register/'
-      preLoaderRoute: typeof AuthRegisterIndexRouteImport
+    '/_auth/forgot-password/': {
+      id: '/_auth/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
     '/_auth/login/': {
@@ -397,32 +539,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
-    '/dashboard/$slug/services/': {
-      id: '/dashboard/$slug/services/'
-      path: '/services'
-      fullPath: '/dashboard/$slug/services/'
-      preLoaderRoute: typeof DashboardSlugServicesIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+    '/_auth/register/': {
+      id: '/_auth/register/'
+      path: '/register'
+      fullPath: '/register/'
+      preLoaderRoute: typeof AuthRegisterIndexRouteImport
+      parentRoute: typeof AuthLayoutRoute
     }
-    '/dashboard/$slug/reviews/': {
-      id: '/dashboard/$slug/reviews/'
-      path: '/reviews'
-      fullPath: '/dashboard/$slug/reviews/'
-      preLoaderRoute: typeof DashboardSlugReviewsIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+    '/_auth/reset-password/': {
+      id: '/_auth/reset-password/'
+      path: '/reset-password'
+      fullPath: '/reset-password/'
+      preLoaderRoute: typeof AuthResetPasswordIndexRouteImport
+      parentRoute: typeof AuthLayoutRoute
     }
-    '/dashboard/$slug/overview/': {
-      id: '/dashboard/$slug/overview/'
-      path: '/overview'
-      fullPath: '/dashboard/$slug/overview/'
-      preLoaderRoute: typeof DashboardSlugOverviewIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+    '/_auth/verify-email/': {
+      id: '/_auth/verify-email/'
+      path: '/verify-email'
+      fullPath: '/verify-email/'
+      preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport
+      parentRoute: typeof AuthLayoutRoute
     }
-    '/dashboard/$slug/customers/': {
-      id: '/dashboard/$slug/customers/'
-      path: '/customers'
-      fullPath: '/dashboard/$slug/customers/'
-      preLoaderRoute: typeof DashboardSlugCustomersIndexRouteImport
+    '/_authenticated/business-profile/': {
+      id: '/_authenticated/business-profile/'
+      path: '/business-profile'
+      fullPath: '/business-profile/'
+      preLoaderRoute: typeof AuthenticatedBusinessProfileIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/establishment/': {
+      id: '/_authenticated/establishment/'
+      path: '/establishment'
+      fullPath: '/establishment/'
+      preLoaderRoute: typeof AuthenticatedEstablishmentIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/members/': {
+      id: '/_authenticated/members/'
+      path: '/members'
+      fullPath: '/members/'
+      preLoaderRoute: typeof AuthenticatedMembersIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/organization/': {
+      id: '/_authenticated/organization/'
+      path: '/organization'
+      fullPath: '/organization/'
+      preLoaderRoute: typeof AuthenticatedOrganizationIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/owner/': {
+      id: '/_authenticated/owner/'
+      path: '/owner'
+      fullPath: '/owner/'
+      preLoaderRoute: typeof AuthenticatedOwnerIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/profile/': {
+      id: '/_authenticated/profile/'
+      path: '/profile'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof AuthenticatedProfileIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_subscription/assinatura/': {
+      id: '/_subscription/assinatura/'
+      path: '/assinatura'
+      fullPath: '/assinatura/'
+      preLoaderRoute: typeof SubscriptionAssinaturaIndexRouteImport
+      parentRoute: typeof SubscriptionLayoutRoute
+    }
+    '/_subscription/assinatura/cancelado': {
+      id: '/_subscription/assinatura/cancelado'
+      path: '/assinatura/cancelado'
+      fullPath: '/assinatura/cancelado'
+      preLoaderRoute: typeof SubscriptionAssinaturaCanceladoRouteImport
+      parentRoute: typeof SubscriptionLayoutRoute
+    }
+    '/_subscription/assinatura/retorno': {
+      id: '/_subscription/assinatura/retorno'
+      path: '/assinatura/retorno'
+      fullPath: '/assinatura/retorno'
+      preLoaderRoute: typeof SubscriptionAssinaturaRetornoRouteImport
+      parentRoute: typeof SubscriptionLayoutRoute
+    }
+    '/_authenticated/organization/create/': {
+      id: '/_authenticated/organization/create/'
+      path: '/organization/create'
+      fullPath: '/organization/create/'
+      preLoaderRoute: typeof AuthenticatedOrganizationCreateIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/dashboard/$slug/bookings/': {
+      id: '/dashboard/$slug/bookings/'
+      path: '/bookings'
+      fullPath: '/dashboard/$slug/bookings/'
+      preLoaderRoute: typeof DashboardSlugBookingsIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
     '/dashboard/$slug/collaborators/': {
@@ -432,25 +644,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSlugCollaboratorsIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/bookings/': {
-      id: '/dashboard/$slug/bookings/'
-      path: '/bookings'
-      fullPath: '/dashboard/$slug/bookings/'
-      preLoaderRoute: typeof DashboardSlugBookingsIndexRouteImport
+    '/dashboard/$slug/customers/': {
+      id: '/dashboard/$slug/customers/'
+      path: '/customers'
+      fullPath: '/dashboard/$slug/customers/'
+      preLoaderRoute: typeof DashboardSlugCustomersIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
-    '/_authenticated/establishment/_routes/new/': {
-      id: '/_authenticated/establishment/_routes/new/'
-      path: '/establishment/new'
-      fullPath: '/establishment/new/'
-      preLoaderRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
+    '/dashboard/$slug/overview/': {
+      id: '/dashboard/$slug/overview/'
+      path: '/overview'
+      fullPath: '/dashboard/$slug/overview/'
+      preLoaderRoute: typeof DashboardSlugOverviewIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
+    '/dashboard/$slug/reviews/': {
+      id: '/dashboard/$slug/reviews/'
+      path: '/reviews'
+      fullPath: '/dashboard/$slug/reviews/'
+      preLoaderRoute: typeof DashboardSlugReviewsIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
+    '/dashboard/$slug/services/': {
+      id: '/dashboard/$slug/services/'
+      path: '/services'
+      fullPath: '/dashboard/$slug/services/'
+      preLoaderRoute: typeof DashboardSlugServicesIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
     }
     '/_authenticated/establishment/_routes/$establishmentSlug/': {
       id: '/_authenticated/establishment/_routes/$establishmentSlug/'
       path: '/establishment/$establishmentSlug'
       fullPath: '/establishment/$establishmentSlug/'
       preLoaderRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/establishment/_routes/new/': {
+      id: '/_authenticated/establishment/_routes/new/'
+      path: '/establishment/new'
+      fullPath: '/establishment/new/'
+      preLoaderRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
     '/dashboard/$slug/services/_pages/$serviceEstablishmentId': {
@@ -467,13 +700,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSlugServicesPagesNewIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': {
-      id: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
-      path: '/info'
-      fullPath: '/dashboard/$slug/services/$serviceEstablishmentId/info/'
-      preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport
-      parentRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
-    }
     '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/': {
       id: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/'
       path: '/edit'
@@ -481,17 +707,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport
       parentRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
     }
+    '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': {
+      id: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
+      path: '/info'
+      fullPath: '/dashboard/$slug/services/$serviceEstablishmentId/info/'
+      preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport
+      parentRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
+    }
   }
 }
 
 interface AuthLayoutRouteChildren {
+  AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
   AuthLoginIndexRoute: typeof AuthLoginIndexRoute
   AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
+  AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute
+  AuthVerifyEmailIndexRoute: typeof AuthVerifyEmailIndexRoute
 }
 
 const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
+  AuthForgotPasswordIndexRoute: AuthForgotPasswordIndexRoute,
   AuthLoginIndexRoute: AuthLoginIndexRoute,
   AuthRegisterIndexRoute: AuthRegisterIndexRoute,
+  AuthResetPasswordIndexRoute: AuthResetPasswordIndexRoute,
+  AuthVerifyEmailIndexRoute: AuthVerifyEmailIndexRoute,
 }
 
 const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
@@ -499,17 +738,27 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 )
 
 interface AuthenticatedLayoutRouteChildren {
+  AuthenticatedBusinessProfileIndexRoute: typeof AuthenticatedBusinessProfileIndexRoute
   AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
+  AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
+  AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
   AuthenticatedOwnerIndexRoute: typeof AuthenticatedOwnerIndexRoute
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
+  AuthenticatedOrganizationCreateIndexRoute: typeof AuthenticatedOrganizationCreateIndexRoute
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
   AuthenticatedEstablishmentRoutesNewIndexRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRoute
 }
 
 const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
+  AuthenticatedBusinessProfileIndexRoute:
+    AuthenticatedBusinessProfileIndexRoute,
   AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
+  AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
+  AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
   AuthenticatedOwnerIndexRoute: AuthenticatedOwnerIndexRoute,
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
+  AuthenticatedOrganizationCreateIndexRoute:
+    AuthenticatedOrganizationCreateIndexRoute,
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute:
     AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute,
   AuthenticatedEstablishmentRoutesNewIndexRoute:
@@ -518,6 +767,21 @@ const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
 
 const AuthenticatedLayoutRouteWithChildren =
   AuthenticatedLayoutRoute._addFileChildren(AuthenticatedLayoutRouteChildren)
+
+interface SubscriptionLayoutRouteChildren {
+  SubscriptionAssinaturaCanceladoRoute: typeof SubscriptionAssinaturaCanceladoRoute
+  SubscriptionAssinaturaRetornoRoute: typeof SubscriptionAssinaturaRetornoRoute
+  SubscriptionAssinaturaIndexRoute: typeof SubscriptionAssinaturaIndexRoute
+}
+
+const SubscriptionLayoutRouteChildren: SubscriptionLayoutRouteChildren = {
+  SubscriptionAssinaturaCanceladoRoute: SubscriptionAssinaturaCanceladoRoute,
+  SubscriptionAssinaturaRetornoRoute: SubscriptionAssinaturaRetornoRoute,
+  SubscriptionAssinaturaIndexRoute: SubscriptionAssinaturaIndexRoute,
+}
+
+const SubscriptionLayoutRouteWithChildren =
+  SubscriptionLayoutRoute._addFileChildren(SubscriptionLayoutRouteChildren)
 
 interface DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren {
   DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
@@ -568,9 +832,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
   AuthenticatedLayoutRoute: AuthenticatedLayoutRouteWithChildren,
+  SubscriptionLayoutRoute: SubscriptionLayoutRouteWithChildren,
   ErrorRoute: ErrorRoute,
   DashboardSlugLayoutRoute: DashboardSlugLayoutRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,
+  OrganizationProfileIndexRoute: OrganizationProfileIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

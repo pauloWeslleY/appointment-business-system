@@ -1,59 +1,84 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react'
 
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-
-import { fonts } from './fonts'
+import { appointmentColors } from './tokens/appointment-colors'
 import { semanticTokens } from './tokens/semantic-tokens'
+import { sidebarColors } from './tokens/sidebar-colors'
 import { tokens } from './tokens/tokens'
+import { typography } from './tokens/typography'
 
 const themeConfig = defineConfig({
   globalCss: {
+    'html, #root': {
+      minHeight: '100%',
+    },
+
     '*::-webkit-scrollbar': {
       width: '2',
+      height: '2',
     },
+
     '*::-webkit-scrollbar-track': {
       background: 'transparent',
     },
+
     '*::-webkit-scrollbar-thumb': {
       background: {
-        base: `${colorDefaultTheme}.600`,
-        _dark: `${colorDefaultTheme}.300`,
+        base: 'slate.300',
+        _dark: 'slate.700',
       },
-      borderRadius: 'xl',
+      borderRadius: 'full',
     },
-    '::-moz-selection': {
-      backgroundColor: { base: 'gray.950', _dark: 'gray.50' },
-      color: { base: 'gray.100', _dark: 'gray.800' },
+
+    '*::-webkit-scrollbar-thumb:hover': {
+      background: {
+        base: 'slate.500',
+        _dark: 'slate.500',
+      },
     },
+
+    '*': {
+      scrollbarWidth: 'thin',
+      scrollbarColor: {
+        base: '{colors.slate.300} transparent',
+        _dark: '{colors.slate.700} transparent',
+      },
+    },
+
     '::selection': {
-      backgroundColor: { base: 'gray.300', _dark: 'gray.700' },
+      backgroundColor: {
+        base: 'brand.mint',
+        _dark: 'navy.600',
+      },
       color: {
-        base: `${colorDefaultTheme}.800`,
-        _dark: `${colorDefaultTheme}.300`,
+        base: 'brand.navy',
+        _dark: 'white',
       },
     },
 
     body: {
-      background: {
-        base: `${colorDefaultTheme}.100/60`,
-        _dark: `${colorDefaultTheme}.400/10`,
-      },
+      bg: 'app.bg',
+      color: 'app.fg',
+      fontFamily: 'body',
       '--webkit-font-smoothing': 'antialiased',
       textRendering: 'optimizeLegibility',
-      height: 'full',
+      minHeight: '100vh',
     },
 
-    'html, #root': {
-      height: 'full',
+    html: {
+      colorPalette: 'brand',
     },
   },
   theme: {
     tokens: {
       colors: tokens,
-      fonts,
+      fonts: typography.fonts,
     },
     semanticTokens: {
-      colors: semanticTokens,
+      colors: {
+        ...sidebarColors,
+        ...semanticTokens,
+        ...appointmentColors,
+      },
       shadows: {
         shape: {
           value: {
@@ -68,6 +93,6 @@ const themeConfig = defineConfig({
   },
 })
 
-const theme = createSystem(defaultConfig, themeConfig)
+const system = createSystem(defaultConfig, themeConfig)
 
-export default theme
+export default system

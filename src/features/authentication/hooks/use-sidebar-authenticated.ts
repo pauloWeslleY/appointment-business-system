@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 
-import { useGetOwnerById } from '@/features/owner/hooks/use-get-owner-by-id'
+import { useGetOwnerById } from '@/features/organization-profile/hooks/use-get-owner-by-id'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
 export function useSidebarAuthenticated() {

@@ -8,15 +8,7 @@ const baseSidebarContentRecipe = defineRecipe({
     transition: '.3s ease',
     shadow: { base: 'lg', _dark: 'md' },
     zIndex: '1',
-    bgGradient: 'to-tl',
-    gradientFrom: {
-      base: 'secondary.200/70',
-      _dark: 'primary.900/70',
-    },
-    gradientTo: {
-      base: 'colorPalette.100',
-      _dark: 'primary.900/80',
-    },
+    bg: 'sidebar.content.bg',
   },
 })
 

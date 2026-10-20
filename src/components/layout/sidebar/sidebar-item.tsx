@@ -15,11 +15,41 @@ const baseSidebarNavItemRecipe = defineRecipe({
     alignItems: 'center',
     gap: '4',
     px: '4',
-    py: '2',
-    rounded: 'xl',
+    py: '2.5',
+    rounded: 'lg',
     cursor: 'pointer',
     fontWeight: 'normal',
     letterSpacing: 'wider',
+    transition: 'backgrounds',
+    bg: 'sidebar.item.bg',
+    color: 'sidebar.item.color',
+    _hover: {
+      bg: 'sidebar.item.hover.bg',
+      color: 'sidebar.item.hover.fg',
+    },
+  },
+  variants: {
+    collapsed: {
+      open: {
+        justifyContent: 'flex-start',
+      },
+      closed: {
+        justifyContent: 'center',
+      },
+    },
+
+    active: {
+      true: {
+        shadow: '2xs',
+        bg: 'sidebar.item.active.bg',
+        color: 'sidebar.item.active.fg',
+      },
+      false: {},
+    },
+  },
+
+  defaultVariants: {
+    active: false,
   },
 })
 
@@ -45,35 +75,13 @@ const SidebarItem = ({ icon, children, active, ...rest }: SidebarItemProps) => {
       {...rest}
       className="group"
       justifyContent={!collapsed ? 'flex-start' : 'center'}
-      shadow={{
-        base: active ? 'sm' : 'none',
-        _dark: active ? 'md' : 'none',
-      }}
-      borderWidth="1px"
-      borderColor={{
-        base: active ? 'colorPalette.200/30' : 'transparent',
-        _dark: active ? 'colorPalette.focusRing/40' : 'transparent',
-      }}
-      transition="backgrounds"
-      bg={{
-        base: active ? 'colorPalette.muted' : 'transparent',
-        _dark: active ? 'colorPalette.focusRing/40' : 'transparent',
-      }}
-      color={{
-        base: active ? 'colorPalette.950' : 'colorPalette.300',
-        _dark: active ? 'colorPalette.300' : 'colorPalette.200',
-      }}
-      _hover={{
-        bg: { base: 'colorPalette.200/30', _dark: 'colorPalette.fg/90' },
-        color: { base: 'colorPalette.500', _dark: 'colorPalette.800' },
-      }}
+      collapsed={!collapsed ? 'open' : 'closed'}
+      active={active}
     >
       {icon && (
         <Icon
-          boxSize="4"
-          _groupHover={{
-            color: { base: 'colorPalette.500', _dark: 'colorPalette.800' },
-          }}
+          boxSize="5"
+          _groupHover={{ color: 'sidebar.item.hover.fg' }}
           as={icon}
         />
       )}
