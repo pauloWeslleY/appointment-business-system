@@ -104,6 +104,7 @@ const ActiveOrganization = () => {
 
         <Button
           type="submit"
+          size="sm"
           rounded="lg"
           alignSelf="flex-end"
           loading={isSubmitting}
