@@ -16,7 +16,7 @@ const baseHeaderTitleRecipe = defineRecipe({
     fontSize: '2xl',
     fontWeight: 'light',
     fontFamily: 'heading',
-    color: { base: 'colorPalette.600', _dark: 'colorPalette.200' },
+    color: { _light: 'colorPalette.600', _dark: 'colorPalette.200' },
   },
 })
 
@@ -26,7 +26,7 @@ const baseHeaderSubTitleRecipe = defineRecipe({
     fontSize: 'md',
     fontWeight: 'medium',
     letterSpacing: 'wider',
-    color: { base: 'gray.400', _dark: 'gray.500' },
+    color: { _light: 'gray.400', _dark: 'gray.500' },
   },
 })
 
@@ -37,12 +37,12 @@ const HeaderIcon = (props: { icon: ElementType }) => {
       justify="center"
       boxSize="8"
       rounded="lg"
-      bg={{ base: 'primary.200/60', _dark: 'primary.500/80' }}
+      bg={{ _light: 'primary.200/60', _dark: 'primary.500/80' }}
     >
       <Icon
         as={props.icon}
         boxSize="5"
-        color={{ base: 'primary.400', _dark: 'primary.200' }}
+        color={{ _light: 'primary.400', _dark: 'primary.200' }}
       />
     </Flex>
   )

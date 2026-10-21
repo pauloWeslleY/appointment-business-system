@@ -1,4 +1,5 @@
 import { Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 import { useNavigate } from '@tanstack/react-router'
 import { Settings } from 'lucide-react'
 
@@ -18,14 +19,15 @@ const MenuSettings = () => {
         <Menu.Positioner>
           <Menu.Content css={contentCss}>
             <Menu.Item
+              asChild
               value="subscription"
               css={menuItemCss}
-              onClick={() => navigate({ to: '/assinatura' })}
+              // onClick={() => navigate({ to: '/assinatura' })}
             >
-              Assinatura
+              <Link to="/assinatura">Assinatura</Link>
             </Menu.Item>
             <Menu.Item
-              value="profiel"
+              value="profile"
               css={menuItemCss}
               onClick={() => navigate({ to: '/profile' })}
             >
@@ -34,7 +36,7 @@ const MenuSettings = () => {
             <Menu.Item
               value="settings"
               css={menuItemCss}
-              onClick={() => navigate({ to: '/' })}
+              onClick={() => navigate({ to: '/settings' })}
             >
               Configurações
             </Menu.Item>

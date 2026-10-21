@@ -1,4 +1,11 @@
-import { Building2, CreditCard, Store, UserCog, UsersRound } from 'lucide-react'
+import {
+  Building2,
+  Cog,
+  CreditCard,
+  Store,
+  UserCog,
+  UsersRound,
+} from 'lucide-react'
 
 import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 
@@ -27,6 +34,11 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
     icon: UserCog,
     label: 'Conta',
     path: '/profile',
+  },
+  {
+    icon: Cog,
+    label: 'Configurações',
+    path: '/settings',
   },
   {
     type: 'header',

@@ -7,7 +7,7 @@ import CardOrganizationProfileSummary from '@/features/organization-profile/comp
 import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
 import { getFullOrganization } from '@/features/organization-profile/services/organization.service'
 
-export const Route = createFileRoute('/_authenticated/business-profile/')({
+export const Route = createFileRoute('/_authenticated/settings/')({
   loader: async ({ context }) => {
     const organizationProfile = await context.queryClient.query(
       organizationProfileSummaryQueryOptions(),

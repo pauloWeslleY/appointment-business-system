@@ -11,8 +11,8 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
       minH="dvh"
       p={{ base: '4', md: '8' }}
       bgGradient="to-tl"
-      gradientFrom={{ base: 'navy.300', _dark: 'brand.navy' }}
-      gradientTo={{ base: 'app.accent', _dark: 'app.primary' }}
+      gradientFrom={{ _light: 'navy.300', _dark: 'brand.navy' }}
+      gradientTo={{ _light: 'app.accent', _dark: 'app.primary' }}
       pos="relative"
     >
       <Box
@@ -31,7 +31,7 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
           colSpan={1}
           p={{ base: '4', md: '8' }}
           rounded="4xl"
-          bg={{ base: 'slate.100/40', _dark: 'slate.900/40' }}
+          bg={{ _light: 'slate.100/40', _dark: 'slate.900/40' }}
           backdropFilter="blur(16px) saturate(160%)"
           asChild
         >

@@ -35,7 +35,7 @@ const FormUpdateOrganizationProfile = () => {
           display="flex"
           alignItems="center"
           gap="2"
-          color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
+          color={{ _light: 'sea.600', _dark: 'sea.100' }}
         >
           <Icon
             as={Settings2}

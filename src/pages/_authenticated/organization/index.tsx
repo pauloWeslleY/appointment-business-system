@@ -8,9 +8,12 @@ import { validateEnsureOrganizationExists } from '@/features/authentication/vali
 import ActiveOrganization from '@/features/organization-profile/components/active-organization'
 import CardOrganizationProfileSummary from '@/features/organization-profile/components/card-organization-profile-stats'
 import SummaryOrganizationProfile from '@/features/organization-profile/components/summary-organization-profile'
+import ErrorOrganizationPage from '@/features/organization-profile/pages/error-page'
 import FormUpdateOrganizationProfile from '@/features/organization-profile/pages/form-update-organization-profile'
-import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
-import { getFullOrganization } from '@/features/organization-profile/services/organization.service'
+import {
+  organizationDetailQueryOptions,
+  organizationProfileSummaryQueryOptions,
+} from '@/features/organization-profile/queries/organization-profile-query-options'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 
@@ -20,23 +23,20 @@ export const Route = createFileRoute('/_authenticated/organization/')({
     const organizationProfile = await context.queryClient.query(
       organizationProfileSummaryQueryOptions(),
     )
-    const { data, error } = await getFullOrganization(
-      organizationProfile.organizationId,
+    const organization = await context.queryClient.query(
+      organizationDetailQueryOptions(organizationProfile.organizationId),
     )
 
-    if (error) {
-      throw new Error(`Failed to fetch organization: ${error.message}`)
-    }
-
     return {
+      organization,
       organizationProfile,
-      organization: data,
     }
   },
-  component: RouteComponent,
+  component: OrganizationPage,
+  errorComponent: ErrorOrganizationPage,
 })
 
-function RouteComponent() {
+function OrganizationPage() {
   const { organizationProfile, organization } = Route.useLoaderData()
   const loadListDataOrganizationProfile = [
     { label: 'Razão Social', value: organizationProfile.legalName },

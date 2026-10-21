@@ -33,7 +33,7 @@ const MenuProfile = () => {
           shadow="xs"
           rounded="full"
           borderWidth="1px"
-          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+          borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
         >
           <HStack align="center">
             <Avatar.Root
@@ -41,8 +41,8 @@ const MenuProfile = () => {
               size="xs"
               borderWidth="1px"
               borderColor="colorPalette.500"
-              bg={{ base: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
-              color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
+              bg={{ _light: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
+              color={{ _light: 'colorPalette.400', _dark: 'colorPalette.500' }}
             >
               <Avatar.Fallback />
               <Avatar.Image src={storageData ?? ''} />
@@ -52,14 +52,14 @@ const MenuProfile = () => {
               <Text
                 lineHeight="1"
                 fontWeight="light"
-                color={{ base: 'secondary.500', _dark: 'secondary.300' }}
+                color={{ _light: 'secondary.500', _dark: 'secondary.300' }}
                 textTransform="capitalize"
               >
                 {data?.user?.name ?? 'Usuário'}
               </Text>
               <Text
                 fontWeight="light"
-                color={{ base: 'gray.500', _dark: 'gray.300' }}
+                color={{ _light: 'gray.500', _dark: 'gray.300' }}
               >
                 Admin
               </Text>
@@ -69,7 +69,7 @@ const MenuProfile = () => {
           <Icon
             as={ChevronDown}
             boxSize="4"
-            color={{ base: 'gray.500', _dark: 'gray.300' }}
+            color={{ _light: 'gray.500', _dark: 'gray.300' }}
           />
         </Flex>
       </Menu.Trigger>

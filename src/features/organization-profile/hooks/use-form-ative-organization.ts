@@ -1,26 +1,38 @@
 import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { meContextMutationOptions } from '@/features/members/queries/me-context.mutation-options'
 import { authClient } from '@/lib/auth'
 
+import {
+  organizationProfileQueryKeys,
+  organizationQueryKeys,
+} from '../queries/organization-profile-query-key'
 import { ActiveOrganizationSchema } from '../schemas/active-organization.schema'
 import type { FormActiveOrganizationType } from '../types/active-organization.type'
 
 export function useFormAtiveOrganization() {
   const { data: userAuth } = authClient.useSession()
   const { data: organizations, isLoading: isLoadingOrganizations } = useQuery({
-    queryKey: ['select-organizations'],
+    queryKey: organizationQueryKeys.select(),
     queryFn: async () => await authClient.organization.list(),
   })
   const {
+    isPending: isPendingUpdateActiveOrganization,
+    mutate: activeOrganization,
+  } = useMutation({ ...meContextMutationOptions.create() })
+  const queryClient = useQueryClient()
+
+  const {
+    reset,
     control,
     setError,
     handleSubmit,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty },
   } = useForm<FormActiveOrganizationType>({
     resolver: zodResolver(ActiveOrganizationSchema),
     defaultValues: {
@@ -44,34 +56,43 @@ export function useFormAtiveOrganization() {
       return
     }
 
-    const { data, error } = await authClient.organization.setActive({
-      organizationId: organizationId[0],
-    })
+    activeOrganization(
+      { organizationId: organizationId[0] },
+      {
+        onSuccess: ({ organization }) => {
+          reset({
+            organizationId: [userAuth?.session.activeOrganizationId ?? ''],
+          })
 
-    if (error) {
-      toaster.error({
-        title: 'Erro ao ativar perfil da organização',
-        description: error.message ?? 'Erro ao ativar perfil da organização',
-      })
-      setError('organizationId', {
-        type: 'manual',
-        message: error.message ?? 'Erro ao ativar perfil da organização',
-      })
-      return
-    }
-
-    toaster.success({
-      title: 'Perfil da organização ativado com sucesso',
-      description: `O perfil da organização ${data?.name} foi ativado com sucesso.`,
-    })
+          toaster.success({
+            title: 'Perfil da organização ativado com sucesso',
+            description: `O perfil da organização ${organization.name} foi ativado com sucesso.`,
+          })
+          queryClient.invalidateQueries({
+            queryKey: organizationProfileQueryKeys.summary(),
+          })
+        },
+        onError: (error) => {
+          toaster.error({
+            title: 'Erro ao ativar perfil da organização',
+            description:
+              error.message ?? 'Erro ao ativar perfil da organização',
+          })
+          setError('organizationId', {
+            type: 'manual',
+            message: error.message ?? 'Erro ao ativar perfil da organização',
+          })
+        },
+      },
+    )
   }
 
   return {
     errors,
     control,
-    isSubmitting,
     loadSelectOrganizations,
     isLoadingOrganizations,
+    isPendingUpdateActiveOrganization,
     handleSubmit,
     handleUpdateOrganizationProfile,
   }

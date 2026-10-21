@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { authClient } from '@/lib/auth'
+import { createMeContextService } from '@/features/members/services/member-context.service'
 import { createSlug } from '@/shared/utils/create-slug'
 import {
   generateIdempontecyKey,
@@ -30,8 +30,8 @@ export function useFormCreateOrganizationProfile() {
   const navigate = useNavigate()
   const {
     mutate: createOrganizationProfile,
-    isPending: isPendingCreateOrganizationProfile,
     reset: resetCreateOrganizationProfile,
+    isPending: isPendingCreateOrganizationProfile,
   } = useMutation({
     ...organizationProfileMutationOptions.create(),
     onSuccess: (organizationProfileData) => {
@@ -85,22 +85,6 @@ export function useFormCreateOrganizationProfile() {
     clearErrors('profile.tradeName')
   }
 
-  const handleActiveOrganization = async (organizationId: string) => {
-    const { error } = await authClient.organization.setActive({
-      organizationId,
-    })
-
-    if (error) {
-      toaster.error({
-        title: 'Ops! Não foi possível ativar a organização.',
-        description: error.message,
-      })
-      return true
-    }
-
-    return false
-  }
-
   const handleCreateOrganizationProfile = (
     data: CreateOrganizationProfileFormData,
   ) => {
@@ -127,16 +111,21 @@ export function useFormCreateOrganizationProfile() {
       {
         onSuccess: async (organizationProfile) => {
           idempontecy.deleteKey()
-          reset(data)
-          resetCreateOrganizationProfile()
-          const hasActiveOrganization = await handleActiveOrganization(
-            organizationProfile.organization.id,
-          )
 
-          if (hasActiveOrganization) {
+          try {
+            await createMeContextService({
+              organizationId: organizationProfile.organization.id,
+            })
+          } catch (error) {
+            toaster.error({
+              title: 'Ops! Não foi possível ativar a organização.',
+              description: (error as Error).message,
+            })
             return
           }
 
+          reset(data)
+          resetCreateOrganizationProfile()
           await navigate({ to: '/organization', replace: true })
         },
         onError: (error) => {

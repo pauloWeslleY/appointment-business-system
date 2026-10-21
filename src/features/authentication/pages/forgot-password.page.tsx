@@ -6,8 +6,10 @@ import {
   Flex,
   Icon,
   Input,
+  Stack,
   Text,
 } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 
 import { Field } from '@/components/ui/field'
@@ -40,11 +42,11 @@ const FormForgotPassword = () => {
           as="h2"
           fontSize={{ base: '2xl', md: '3xl' }}
           fontWeight="semibold"
-          color={{ base: 'navy.800', _dark: 'sea.200' }}
+          color={{ _light: 'navy.800', _dark: 'sea.200' }}
         >
           Esqueceu sua senha?
         </Text>
-        <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
+        <Text color={{ _light: 'gray.500', _dark: 'gray.400' }}>
           Por favor, insira seu e-mail para redefinir sua conta.
         </Text>
       </Box>
@@ -63,18 +65,33 @@ const FormForgotPassword = () => {
           />
         </Field>
 
-        <Button
-          type="submit"
-          w="full"
-          rounded="lg"
-          variant="surface"
-          loading={isSubmitting}
-          loadingText="Processando..."
-          colorPalette="brand"
-        >
-          Enviar
-          <Icon as={ArrowRight} boxSize="5" />
-        </Button>
+        <Stack gap="1">
+          <Button
+            type="submit"
+            w="full"
+            rounded="lg"
+            variant="surface"
+            loading={isSubmitting}
+            loadingText="Processando..."
+            colorPalette="brand"
+          >
+            Enviar
+            <Icon as={ArrowRight} boxSize="5" />
+          </Button>
+
+          <Button
+            asChild
+            type="button"
+            w="full"
+            size="sm"
+            variant="plain"
+            colorPalette="primary"
+            transition="colors"
+            _hover={{ color: { _light: 'sea.800', _dark: 'sea.400' } }}
+          >
+            <Link to="/login">Voltar para o login</Link>
+          </Button>
+        </Stack>
       </Flex>
 
       <Alert.Root status="info" variant="subtle" rounded="lg">

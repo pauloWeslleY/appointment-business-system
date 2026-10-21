@@ -35,7 +35,7 @@ const AppError = (props: ErrorComponentProps) => {
         w="full"
         h="lg"
         rounded="lg"
-        bg={{ base: 'primary.200', _dark: 'primary.500/20' }}
+        bg={{ _light: 'primary.200', _dark: 'primary.500/20' }}
         borderWidth="1px"
         borderColor="border.secondary"
         gap="1"

@@ -19,9 +19,9 @@ const ActiveOrganization = () => {
   const {
     errors,
     control,
-    isSubmitting,
     loadSelectOrganizations,
     isLoadingOrganizations,
+    isPendingUpdateActiveOrganization,
     handleSubmit,
     handleUpdateOrganizationProfile,
   } = useFormAtiveOrganization()
@@ -38,16 +38,15 @@ const ActiveOrganization = () => {
         display="flex"
         alignItems="center"
         gap="2"
-        color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
+        color={{ _light: 'sea.600', _dark: 'sea.100' }}
       >
         <Icon as={Building} color={{ _light: 'teal.700', _dark: 'teal.400' }} />
-        Seleciona a organização ativa
+        Empresa ativa
       </Card.Title>
 
       <chakra.form
         display="flex"
         flexDirection="row"
-        alignItems="center"
         gap="4"
         onSubmit={handleSubmit(handleUpdateOrganizationProfile)}
       >
@@ -106,10 +105,9 @@ const ActiveOrganization = () => {
           type="submit"
           size="sm"
           rounded="lg"
-          alignSelf="flex-end"
-          loading={isSubmitting}
+          loading={isPendingUpdateActiveOrganization}
         >
-          Salvar
+          Ativar
         </Button>
       </chakra.form>
     </Card.Root>

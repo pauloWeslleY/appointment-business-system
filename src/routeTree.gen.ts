@@ -22,11 +22,11 @@ import { Route as AuthLoginIndexRouteImport } from './pages/_auth/login/index'
 import { Route as AuthRegisterIndexRouteImport } from './pages/_auth/register/index'
 import { Route as AuthResetPasswordIndexRouteImport } from './pages/_auth/reset-password/index'
 import { Route as AuthVerifyEmailIndexRouteImport } from './pages/_auth/verify-email/index'
-import { Route as AuthenticatedBusinessProfileIndexRouteImport } from './pages/_authenticated/business-profile/index'
 import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
 import { Route as AuthenticatedMembersIndexRouteImport } from './pages/_authenticated/members/index'
 import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_authenticated/organization/index'
 import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
+import { Route as AuthenticatedSettingsIndexRouteImport } from './pages/_authenticated/settings/index'
 import { Route as SubscriptionAssinaturaIndexRouteImport } from './pages/_subscription/assinatura/index'
 import { Route as SubscriptionAssinaturaCanceladoRouteImport } from './pages/_subscription/assinatura/cancelado'
 import { Route as SubscriptionAssinaturaRetornoRouteImport } from './pages/_subscription/assinatura/retorno'
@@ -107,12 +107,6 @@ const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
   path: '/verify-email/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
-const AuthenticatedBusinessProfileIndexRoute =
-  AuthenticatedBusinessProfileIndexRouteImport.update({
-    id: '/business-profile/',
-    path: '/business-profile/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
 const AuthenticatedEstablishmentIndexRoute =
   AuthenticatedEstablishmentIndexRouteImport.update({
     id: '/establishment/',
@@ -135,6 +129,12 @@ const AuthenticatedProfileIndexRoute =
   AuthenticatedProfileIndexRouteImport.update({
     id: '/profile/',
     path: '/profile/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+const AuthenticatedSettingsIndexRoute =
+  AuthenticatedSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 const SubscriptionAssinaturaIndexRoute =
@@ -249,11 +249,11 @@ export interface FileRoutesByFullPath {
   '/register/': typeof AuthRegisterIndexRoute
   '/reset-password/': typeof AuthResetPasswordIndexRoute
   '/verify-email/': typeof AuthVerifyEmailIndexRoute
-  '/business-profile/': typeof AuthenticatedBusinessProfileIndexRoute
   '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/members/': typeof AuthenticatedMembersIndexRoute
   '/organization/': typeof AuthenticatedOrganizationIndexRoute
   '/profile/': typeof AuthenticatedProfileIndexRoute
+  '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/assinatura/': typeof SubscriptionAssinaturaIndexRoute
   '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
@@ -282,11 +282,11 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterIndexRoute
   '/reset-password': typeof AuthResetPasswordIndexRoute
   '/verify-email': typeof AuthVerifyEmailIndexRoute
-  '/business-profile': typeof AuthenticatedBusinessProfileIndexRoute
   '/establishment': typeof AuthenticatedEstablishmentIndexRoute
   '/members': typeof AuthenticatedMembersIndexRoute
   '/organization': typeof AuthenticatedOrganizationIndexRoute
   '/profile': typeof AuthenticatedProfileIndexRoute
+  '/settings': typeof AuthenticatedSettingsIndexRoute
   '/assinatura': typeof SubscriptionAssinaturaIndexRoute
   '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
   '/dashboard/$slug/bookings': typeof DashboardSlugBookingsIndexRoute
@@ -319,11 +319,11 @@ export interface FileRoutesById {
   '/_auth/register/': typeof AuthRegisterIndexRoute
   '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
   '/_auth/verify-email/': typeof AuthVerifyEmailIndexRoute
-  '/_authenticated/business-profile/': typeof AuthenticatedBusinessProfileIndexRoute
   '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
   '/_authenticated/organization/': typeof AuthenticatedOrganizationIndexRoute
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
+  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_subscription/assinatura/': typeof SubscriptionAssinaturaIndexRoute
   '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
@@ -354,11 +354,11 @@ export interface FileRouteTypes {
     | '/register/'
     | '/reset-password/'
     | '/verify-email/'
-    | '/business-profile/'
     | '/establishment/'
     | '/members/'
     | '/organization/'
     | '/profile/'
+    | '/settings/'
     | '/assinatura/'
     | '/organization/create/'
     | '/dashboard/$slug/bookings/'
@@ -387,11 +387,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-email'
-    | '/business-profile'
     | '/establishment'
     | '/members'
     | '/organization'
     | '/profile'
+    | '/settings'
     | '/assinatura'
     | '/organization/create'
     | '/dashboard/$slug/bookings'
@@ -423,11 +423,11 @@ export interface FileRouteTypes {
     | '/_auth/register/'
     | '/_auth/reset-password/'
     | '/_auth/verify-email/'
-    | '/_authenticated/business-profile/'
     | '/_authenticated/establishment/'
     | '/_authenticated/members/'
     | '/_authenticated/organization/'
     | '/_authenticated/profile/'
+    | '/_authenticated/settings/'
     | '/_subscription/assinatura/'
     | '/_authenticated/organization/create/'
     | '/dashboard/$slug/bookings/'
@@ -548,13 +548,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
-    '/_authenticated/business-profile/': {
-      id: '/_authenticated/business-profile/'
-      path: '/business-profile'
-      fullPath: '/business-profile/'
-      preLoaderRoute: typeof AuthenticatedBusinessProfileIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
     '/_authenticated/establishment/': {
       id: '/_authenticated/establishment/'
       path: '/establishment'
@@ -581,6 +574,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile/'
       preLoaderRoute: typeof AuthenticatedProfileIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/settings/': {
+      id: '/_authenticated/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
     '/_subscription/assinatura/': {
@@ -719,23 +719,22 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 )
 
 interface AuthenticatedLayoutRouteChildren {
-  AuthenticatedBusinessProfileIndexRoute: typeof AuthenticatedBusinessProfileIndexRoute
   AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
   AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
   AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
+  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
   AuthenticatedOrganizationCreateIndexRoute: typeof AuthenticatedOrganizationCreateIndexRoute
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
   AuthenticatedEstablishmentRoutesNewIndexRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRoute
 }
 
 const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
-  AuthenticatedBusinessProfileIndexRoute:
-    AuthenticatedBusinessProfileIndexRoute,
   AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
   AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
   AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
+  AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
   AuthenticatedOrganizationCreateIndexRoute:
     AuthenticatedOrganizationCreateIndexRoute,
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute:

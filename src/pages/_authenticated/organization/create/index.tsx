@@ -7,10 +7,10 @@ import FormCreateOrganizationProfile from '@/features/organization-profile/pages
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_authenticated/organization/create/')({
-  component: RouteComponent,
+  component: CreateOrganizationProfile,
 })
 
-function RouteComponent() {
+function CreateOrganizationProfile() {
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
       <Header.Root align="center">

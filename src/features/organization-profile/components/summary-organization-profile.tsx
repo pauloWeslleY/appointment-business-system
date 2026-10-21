@@ -1,11 +1,15 @@
 import { Card, DataList, Icon } from '@chakra-ui/react'
+import type { ElementType } from 'react'
 
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 interface SummaryOrganizationProfileProps {
-  icon: React.ElementType
+  icon: ElementType
   title: string
-  data: { label: string; value: string }[]
+  data: {
+    label: string
+    value: string
+  }[]
 }
 
 const SummaryOrganizationProfile = ({
@@ -25,7 +29,7 @@ const SummaryOrganizationProfile = ({
         display="flex"
         alignItems="center"
         gap="2"
-        color={{ base: 'colorPalette.solid', _dark: 'colorPalette.fg' }}
+        color={{ _light: 'sea.600', _dark: 'sea.100' }}
       >
         <Icon as={icon} color={{ _light: 'teal.700', _dark: 'teal.400' }} />
         {title}

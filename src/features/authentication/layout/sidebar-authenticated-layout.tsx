@@ -55,7 +55,10 @@ const SideBarAuthenticatedLayout = ({
         <Sidebar.Header>
           <Box>
             <Text fontSize="md">{welcomeMessage}</Text>
-            <Text fontSize="sm" color={{ base: 'gray.400', _dark: 'gray.500' }}>
+            <Text
+              fontSize="sm"
+              color={{ _light: 'gray.400', _dark: 'gray.500' }}
+            >
               {today}
             </Text>
           </Box>
