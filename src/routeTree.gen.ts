@@ -14,6 +14,7 @@ import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as AuthenticatedLayoutRouteImport } from './pages/_authenticated/layout'
 import { Route as SubscriptionLayoutRouteImport } from './pages/_subscription/layout'
 import { Route as ErrorRouteImport } from './pages/error'
+import { Route as AuthenticatedTeamManagementLayoutRouteImport } from './pages/_authenticated/team-management/layout'
 import { Route as DashboardIndexRouteImport } from './pages/dashboard/index'
 import { Route as DashboardSlugLayoutRouteImport } from './pages/dashboard/$slug/layout'
 import { Route as OrganizationProfileIndexRouteImport } from './pages/organization-profile/index'
@@ -23,14 +24,16 @@ import { Route as AuthRegisterIndexRouteImport } from './pages/_auth/register/in
 import { Route as AuthResetPasswordIndexRouteImport } from './pages/_auth/reset-password/index'
 import { Route as AuthVerifyEmailIndexRouteImport } from './pages/_auth/verify-email/index'
 import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
-import { Route as AuthenticatedMembersIndexRouteImport } from './pages/_authenticated/members/index'
 import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_authenticated/organization/index'
 import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './pages/_authenticated/settings/index'
-import { Route as SubscriptionAssinaturaIndexRouteImport } from './pages/_subscription/assinatura/index'
-import { Route as SubscriptionAssinaturaCanceladoRouteImport } from './pages/_subscription/assinatura/cancelado'
-import { Route as SubscriptionAssinaturaRetornoRouteImport } from './pages/_subscription/assinatura/retorno'
+import { Route as AuthenticatedTeamManagementIndexRouteImport } from './pages/_authenticated/team-management/index'
+import { Route as SubscriptionSubscriptionIndexRouteImport } from './pages/_subscription/subscription/index'
+import { Route as SubscriptionSubscriptionCanceledRouteImport } from './pages/_subscription/subscription/canceled'
+import { Route as SubscriptionSubscriptionReturnRouteImport } from './pages/_subscription/subscription/return'
 import { Route as AuthenticatedOrganizationCreateIndexRouteImport } from './pages/_authenticated/organization/create/index'
+import { Route as AuthenticatedTeamManagementInvitationsIndexRouteImport } from './pages/_authenticated/team-management/invitations/index'
+import { Route as AuthenticatedTeamManagementMembersIndexRouteImport } from './pages/_authenticated/team-management/members/index'
 import { Route as DashboardSlugBookingsIndexRouteImport } from './pages/dashboard/$slug/bookings/index'
 import { Route as DashboardSlugCollaboratorsIndexRouteImport } from './pages/dashboard/$slug/collaborators/index'
 import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
@@ -66,6 +69,12 @@ const ErrorRoute = ErrorRouteImport.update({
   path: '/error',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTeamManagementLayoutRoute =
+  AuthenticatedTeamManagementLayoutRouteImport.update({
+    id: '/team-management',
+    path: '/team-management',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -113,12 +122,6 @@ const AuthenticatedEstablishmentIndexRoute =
     path: '/establishment/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
-const AuthenticatedMembersIndexRoute =
-  AuthenticatedMembersIndexRouteImport.update({
-    id: '/members/',
-    path: '/members/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
 const AuthenticatedOrganizationIndexRoute =
   AuthenticatedOrganizationIndexRouteImport.update({
     id: '/organization/',
@@ -137,22 +140,28 @@ const AuthenticatedSettingsIndexRoute =
     path: '/settings/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
-const SubscriptionAssinaturaIndexRoute =
-  SubscriptionAssinaturaIndexRouteImport.update({
-    id: '/assinatura/',
-    path: '/assinatura/',
+const AuthenticatedTeamManagementIndexRoute =
+  AuthenticatedTeamManagementIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
+  } as any)
+const SubscriptionSubscriptionIndexRoute =
+  SubscriptionSubscriptionIndexRouteImport.update({
+    id: '/subscription/',
+    path: '/subscription/',
     getParentRoute: () => SubscriptionLayoutRoute,
   } as any)
-const SubscriptionAssinaturaCanceladoRoute =
-  SubscriptionAssinaturaCanceladoRouteImport.update({
-    id: '/assinatura/cancelado',
-    path: '/assinatura/cancelado',
+const SubscriptionSubscriptionCanceledRoute =
+  SubscriptionSubscriptionCanceledRouteImport.update({
+    id: '/subscription/canceled',
+    path: '/subscription/canceled',
     getParentRoute: () => SubscriptionLayoutRoute,
   } as any)
-const SubscriptionAssinaturaRetornoRoute =
-  SubscriptionAssinaturaRetornoRouteImport.update({
-    id: '/assinatura/retorno',
-    path: '/assinatura/retorno',
+const SubscriptionSubscriptionReturnRoute =
+  SubscriptionSubscriptionReturnRouteImport.update({
+    id: '/subscription/return',
+    path: '/subscription/return',
     getParentRoute: () => SubscriptionLayoutRoute,
   } as any)
 const AuthenticatedOrganizationCreateIndexRoute =
@@ -160,6 +169,18 @@ const AuthenticatedOrganizationCreateIndexRoute =
     id: '/organization/create/',
     path: '/organization/create/',
     getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+const AuthenticatedTeamManagementInvitationsIndexRoute =
+  AuthenticatedTeamManagementInvitationsIndexRouteImport.update({
+    id: '/invitations/',
+    path: '/invitations/',
+    getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
+  } as any)
+const AuthenticatedTeamManagementMembersIndexRoute =
+  AuthenticatedTeamManagementMembersIndexRouteImport.update({
+    id: '/members/',
+    path: '/members/',
+    getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
   } as any)
 const DashboardSlugBookingsIndexRoute =
   DashboardSlugBookingsIndexRouteImport.update({
@@ -239,23 +260,26 @@ const DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/error': typeof ErrorRoute
+  '/team-management': typeof AuthenticatedTeamManagementLayoutRouteWithChildren
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
   '/organization-profile/': typeof OrganizationProfileIndexRoute
-  '/assinatura/cancelado': typeof SubscriptionAssinaturaCanceladoRoute
-  '/assinatura/retorno': typeof SubscriptionAssinaturaRetornoRoute
+  '/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
+  '/subscription/return': typeof SubscriptionSubscriptionReturnRoute
   '/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/login/': typeof AuthLoginIndexRoute
   '/register/': typeof AuthRegisterIndexRoute
   '/reset-password/': typeof AuthResetPasswordIndexRoute
   '/verify-email/': typeof AuthVerifyEmailIndexRoute
   '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
-  '/members/': typeof AuthenticatedMembersIndexRoute
   '/organization/': typeof AuthenticatedOrganizationIndexRoute
   '/profile/': typeof AuthenticatedProfileIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/assinatura/': typeof SubscriptionAssinaturaIndexRoute
+  '/team-management/': typeof AuthenticatedTeamManagementIndexRoute
+  '/subscription/': typeof SubscriptionSubscriptionIndexRoute
   '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
+  '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
+  '/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
   '/dashboard/$slug/collaborators/': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
@@ -275,20 +299,22 @@ export interface FileRoutesByTo {
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard': typeof DashboardIndexRoute
   '/organization-profile': typeof OrganizationProfileIndexRoute
-  '/assinatura/cancelado': typeof SubscriptionAssinaturaCanceladoRoute
-  '/assinatura/retorno': typeof SubscriptionAssinaturaRetornoRoute
+  '/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
+  '/subscription/return': typeof SubscriptionSubscriptionReturnRoute
   '/forgot-password': typeof AuthForgotPasswordIndexRoute
   '/login': typeof AuthLoginIndexRoute
   '/register': typeof AuthRegisterIndexRoute
   '/reset-password': typeof AuthResetPasswordIndexRoute
   '/verify-email': typeof AuthVerifyEmailIndexRoute
   '/establishment': typeof AuthenticatedEstablishmentIndexRoute
-  '/members': typeof AuthenticatedMembersIndexRoute
   '/organization': typeof AuthenticatedOrganizationIndexRoute
   '/profile': typeof AuthenticatedProfileIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
-  '/assinatura': typeof SubscriptionAssinaturaIndexRoute
+  '/team-management': typeof AuthenticatedTeamManagementIndexRoute
+  '/subscription': typeof SubscriptionSubscriptionIndexRoute
   '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
+  '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
+  '/team-management/members': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/bookings': typeof DashboardSlugBookingsIndexRoute
   '/dashboard/$slug/collaborators': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers': typeof DashboardSlugCustomersIndexRoute
@@ -309,23 +335,26 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedLayoutRouteWithChildren
   '/_subscription': typeof SubscriptionLayoutRouteWithChildren
   '/error': typeof ErrorRoute
+  '/_authenticated/team-management': typeof AuthenticatedTeamManagementLayoutRouteWithChildren
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
   '/organization-profile/': typeof OrganizationProfileIndexRoute
-  '/_subscription/assinatura/cancelado': typeof SubscriptionAssinaturaCanceladoRoute
-  '/_subscription/assinatura/retorno': typeof SubscriptionAssinaturaRetornoRoute
+  '/_subscription/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
+  '/_subscription/subscription/return': typeof SubscriptionSubscriptionReturnRoute
   '/_auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_auth/register/': typeof AuthRegisterIndexRoute
   '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
   '/_auth/verify-email/': typeof AuthVerifyEmailIndexRoute
   '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
-  '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
   '/_authenticated/organization/': typeof AuthenticatedOrganizationIndexRoute
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/_subscription/assinatura/': typeof SubscriptionAssinaturaIndexRoute
+  '/_authenticated/team-management/': typeof AuthenticatedTeamManagementIndexRoute
+  '/_subscription/subscription/': typeof SubscriptionSubscriptionIndexRoute
   '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
+  '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
+  '/_authenticated/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
   '/dashboard/$slug/collaborators/': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
@@ -344,23 +373,26 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/error'
+    | '/team-management'
     | '/dashboard/$slug'
     | '/dashboard/'
     | '/organization-profile/'
-    | '/assinatura/cancelado'
-    | '/assinatura/retorno'
+    | '/subscription/canceled'
+    | '/subscription/return'
     | '/forgot-password/'
     | '/login/'
     | '/register/'
     | '/reset-password/'
     | '/verify-email/'
     | '/establishment/'
-    | '/members/'
     | '/organization/'
     | '/profile/'
     | '/settings/'
-    | '/assinatura/'
+    | '/team-management/'
+    | '/subscription/'
     | '/organization/create/'
+    | '/team-management/invitations/'
+    | '/team-management/members/'
     | '/dashboard/$slug/bookings/'
     | '/dashboard/$slug/collaborators/'
     | '/dashboard/$slug/customers/'
@@ -380,20 +412,22 @@ export interface FileRouteTypes {
     | '/dashboard/$slug'
     | '/dashboard'
     | '/organization-profile'
-    | '/assinatura/cancelado'
-    | '/assinatura/retorno'
+    | '/subscription/canceled'
+    | '/subscription/return'
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/reset-password'
     | '/verify-email'
     | '/establishment'
-    | '/members'
     | '/organization'
     | '/profile'
     | '/settings'
-    | '/assinatura'
+    | '/team-management'
+    | '/subscription'
     | '/organization/create'
+    | '/team-management/invitations'
+    | '/team-management/members'
     | '/dashboard/$slug/bookings'
     | '/dashboard/$slug/collaborators'
     | '/dashboard/$slug/customers'
@@ -413,23 +447,26 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_subscription'
     | '/error'
+    | '/_authenticated/team-management'
     | '/dashboard/$slug'
     | '/dashboard/'
     | '/organization-profile/'
-    | '/_subscription/assinatura/cancelado'
-    | '/_subscription/assinatura/retorno'
+    | '/_subscription/subscription/canceled'
+    | '/_subscription/subscription/return'
     | '/_auth/forgot-password/'
     | '/_auth/login/'
     | '/_auth/register/'
     | '/_auth/reset-password/'
     | '/_auth/verify-email/'
     | '/_authenticated/establishment/'
-    | '/_authenticated/members/'
     | '/_authenticated/organization/'
     | '/_authenticated/profile/'
     | '/_authenticated/settings/'
-    | '/_subscription/assinatura/'
+    | '/_authenticated/team-management/'
+    | '/_subscription/subscription/'
     | '/_authenticated/organization/create/'
+    | '/_authenticated/team-management/invitations/'
+    | '/_authenticated/team-management/members/'
     | '/dashboard/$slug/bookings/'
     | '/dashboard/$slug/collaborators/'
     | '/dashboard/$slug/customers/'
@@ -491,6 +528,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/error'
       preLoaderRoute: typeof ErrorRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/team-management': {
+      id: '/_authenticated/team-management'
+      path: '/team-management'
+      fullPath: '/team-management'
+      preLoaderRoute: typeof AuthenticatedTeamManagementLayoutRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
     }
     '/dashboard/': {
       id: '/dashboard/'
@@ -555,13 +599,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEstablishmentIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
-    '/_authenticated/members/': {
-      id: '/_authenticated/members/'
-      path: '/members'
-      fullPath: '/members/'
-      preLoaderRoute: typeof AuthenticatedMembersIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
     '/_authenticated/organization/': {
       id: '/_authenticated/organization/'
       path: '/organization'
@@ -583,25 +620,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
-    '/_subscription/assinatura/': {
-      id: '/_subscription/assinatura/'
-      path: '/assinatura'
-      fullPath: '/assinatura/'
-      preLoaderRoute: typeof SubscriptionAssinaturaIndexRouteImport
+    '/_authenticated/team-management/': {
+      id: '/_authenticated/team-management/'
+      path: '/'
+      fullPath: '/team-management/'
+      preLoaderRoute: typeof AuthenticatedTeamManagementIndexRouteImport
+      parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
+    }
+    '/_subscription/subscription/': {
+      id: '/_subscription/subscription/'
+      path: '/subscription'
+      fullPath: '/subscription/'
+      preLoaderRoute: typeof SubscriptionSubscriptionIndexRouteImport
       parentRoute: typeof SubscriptionLayoutRoute
     }
-    '/_subscription/assinatura/cancelado': {
-      id: '/_subscription/assinatura/cancelado'
-      path: '/assinatura/cancelado'
-      fullPath: '/assinatura/cancelado'
-      preLoaderRoute: typeof SubscriptionAssinaturaCanceladoRouteImport
+    '/_subscription/subscription/canceled': {
+      id: '/_subscription/subscription/canceled'
+      path: '/subscription/canceled'
+      fullPath: '/subscription/canceled'
+      preLoaderRoute: typeof SubscriptionSubscriptionCanceledRouteImport
       parentRoute: typeof SubscriptionLayoutRoute
     }
-    '/_subscription/assinatura/retorno': {
-      id: '/_subscription/assinatura/retorno'
-      path: '/assinatura/retorno'
-      fullPath: '/assinatura/retorno'
-      preLoaderRoute: typeof SubscriptionAssinaturaRetornoRouteImport
+    '/_subscription/subscription/return': {
+      id: '/_subscription/subscription/return'
+      path: '/subscription/return'
+      fullPath: '/subscription/return'
+      preLoaderRoute: typeof SubscriptionSubscriptionReturnRouteImport
       parentRoute: typeof SubscriptionLayoutRoute
     }
     '/_authenticated/organization/create/': {
@@ -610,6 +654,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/organization/create/'
       preLoaderRoute: typeof AuthenticatedOrganizationCreateIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
+    }
+    '/_authenticated/team-management/invitations/': {
+      id: '/_authenticated/team-management/invitations/'
+      path: '/invitations'
+      fullPath: '/team-management/invitations/'
+      preLoaderRoute: typeof AuthenticatedTeamManagementInvitationsIndexRouteImport
+      parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
+    }
+    '/_authenticated/team-management/members/': {
+      id: '/_authenticated/team-management/members/'
+      path: '/members'
+      fullPath: '/team-management/members/'
+      preLoaderRoute: typeof AuthenticatedTeamManagementMembersIndexRouteImport
+      parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
     }
     '/dashboard/$slug/bookings/': {
       id: '/dashboard/$slug/bookings/'
@@ -718,9 +776,30 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
   AuthLayoutRouteChildren,
 )
 
+interface AuthenticatedTeamManagementLayoutRouteChildren {
+  AuthenticatedTeamManagementIndexRoute: typeof AuthenticatedTeamManagementIndexRoute
+  AuthenticatedTeamManagementInvitationsIndexRoute: typeof AuthenticatedTeamManagementInvitationsIndexRoute
+  AuthenticatedTeamManagementMembersIndexRoute: typeof AuthenticatedTeamManagementMembersIndexRoute
+}
+
+const AuthenticatedTeamManagementLayoutRouteChildren: AuthenticatedTeamManagementLayoutRouteChildren =
+  {
+    AuthenticatedTeamManagementIndexRoute:
+      AuthenticatedTeamManagementIndexRoute,
+    AuthenticatedTeamManagementInvitationsIndexRoute:
+      AuthenticatedTeamManagementInvitationsIndexRoute,
+    AuthenticatedTeamManagementMembersIndexRoute:
+      AuthenticatedTeamManagementMembersIndexRoute,
+  }
+
+const AuthenticatedTeamManagementLayoutRouteWithChildren =
+  AuthenticatedTeamManagementLayoutRoute._addFileChildren(
+    AuthenticatedTeamManagementLayoutRouteChildren,
+  )
+
 interface AuthenticatedLayoutRouteChildren {
+  AuthenticatedTeamManagementLayoutRoute: typeof AuthenticatedTeamManagementLayoutRouteWithChildren
   AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
-  AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
   AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
@@ -730,8 +809,9 @@ interface AuthenticatedLayoutRouteChildren {
 }
 
 const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
+  AuthenticatedTeamManagementLayoutRoute:
+    AuthenticatedTeamManagementLayoutRouteWithChildren,
   AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
-  AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
   AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
@@ -747,15 +827,15 @@ const AuthenticatedLayoutRouteWithChildren =
   AuthenticatedLayoutRoute._addFileChildren(AuthenticatedLayoutRouteChildren)
 
 interface SubscriptionLayoutRouteChildren {
-  SubscriptionAssinaturaCanceladoRoute: typeof SubscriptionAssinaturaCanceladoRoute
-  SubscriptionAssinaturaRetornoRoute: typeof SubscriptionAssinaturaRetornoRoute
-  SubscriptionAssinaturaIndexRoute: typeof SubscriptionAssinaturaIndexRoute
+  SubscriptionSubscriptionCanceledRoute: typeof SubscriptionSubscriptionCanceledRoute
+  SubscriptionSubscriptionReturnRoute: typeof SubscriptionSubscriptionReturnRoute
+  SubscriptionSubscriptionIndexRoute: typeof SubscriptionSubscriptionIndexRoute
 }
 
 const SubscriptionLayoutRouteChildren: SubscriptionLayoutRouteChildren = {
-  SubscriptionAssinaturaCanceladoRoute: SubscriptionAssinaturaCanceladoRoute,
-  SubscriptionAssinaturaRetornoRoute: SubscriptionAssinaturaRetornoRoute,
-  SubscriptionAssinaturaIndexRoute: SubscriptionAssinaturaIndexRoute,
+  SubscriptionSubscriptionCanceledRoute: SubscriptionSubscriptionCanceledRoute,
+  SubscriptionSubscriptionReturnRoute: SubscriptionSubscriptionReturnRoute,
+  SubscriptionSubscriptionIndexRoute: SubscriptionSubscriptionIndexRoute,
 }
 
 const SubscriptionLayoutRouteWithChildren =

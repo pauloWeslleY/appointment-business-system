@@ -1,12 +1,14 @@
 import type z from 'zod'
 
-import type { UploadImageEstablishmentSchema } from '../schemas/upload-image-establishment.schema'
+import type {
+  UploadImageEstablishmentRequestSchema,
+  UploadImageEstablishmentSchema,
+} from '../schemas/upload-image-establishment.schema'
 
 export type UploadImageEstablishmentForm = z.infer<
   typeof UploadImageEstablishmentSchema
 >
 
-export interface UploadImageEstablishmentRequestParams {
-  establishmentId: string
-  imageUrl: string
-}
+export type UploadImageEstablishmentRequestParams = z.infer<
+  typeof UploadImageEstablishmentRequestSchema
+>

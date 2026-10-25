@@ -46,6 +46,7 @@ export type HttpRequestParams = {
   headers?: AxiosRequestConfig['headers']
   params?: AxiosRequestConfig['params']
   responseType?: AxiosRequestConfig['responseType']
+  signal?: AbortSignal
 }
 
 export interface HttpRequest<R = unknown> {

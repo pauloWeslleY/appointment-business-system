@@ -70,7 +70,7 @@ const FormTelephoneEstablishment = ({
   return (
     <Flex
       aria-label="Form Telephones"
-      gridColumn={{ base: 'span 1', md: 'span 4' }}
+      gridColumn={{ base: 'span 1', md: '1 / -1' }}
       w="full"
       gap="4"
       pl="2"
@@ -121,27 +121,25 @@ const FormTelephoneEstablishment = ({
             <Controller
               name={`phones.${index}.phone`}
               control={control}
-              render={({ field }) => {
-                return (
-                  <Field
-                    invalid={!!errors.phones?.[index]?.phone}
-                    errorText={errors.phones?.[index]?.phone?.message}
-                  >
-                    <PatternFormat
-                      value={field.value}
-                      onValueChange={(values) => field.onChange(values.value)}
-                      format={mask}
-                      placeholder={
-                        mask === FormatMask.TELEPHONE
-                          ? '(00) 0000-0000'
-                          : '(00) 00000-0000'
-                      }
-                      mask="_"
-                      customInput={InputField}
-                    />
-                  </Field>
-                )
-              }}
+              render={({ field }) => (
+                <Field
+                  invalid={!!errors.phones?.[index]?.phone}
+                  errorText={errors.phones?.[index]?.phone?.message}
+                >
+                  <PatternFormat
+                    value={field.value}
+                    onValueChange={(values) => field.onChange(values.value)}
+                    format={mask}
+                    placeholder={
+                      mask === FormatMask.TELEPHONE
+                        ? '(00) 0000-0000'
+                        : '(00) 00000-0000'
+                    }
+                    mask="_"
+                    customInput={InputField}
+                  />
+                </Field>
+              )}
             />
 
             {telephoneFields.length > 1 && (

@@ -1,33 +1,18 @@
 import { redirect } from '@tanstack/react-router'
 
 import { validateEnsureOrganizationExists } from '@/features/authentication/validations/validate-organization-exists'
-import { httpDependencies } from '@/shared/factory/http-dependencies'
-import { HttpMethod, HttpStatusCode } from '@/shared/protocols'
+import { getOrganizationProfileService } from '@/features/organization-profile/services/organizaton-profile.service'
 
-import type { EstablishmentModel } from '../types/establishment.model'
+import { getEstablishmentsByOrganizationProfileIdService } from '../services/establishment.service'
 
 export const validationEstablishmentExistsRouteHome = async () => {
-  const { organization } = await validateEnsureOrganizationExists()
-  const { api } = httpDependencies<EstablishmentModel[]>()
+  await validateEnsureOrganizationExists()
+  const organizationProfile = await getOrganizationProfileService()
+  const establishments = await getEstablishmentsByOrganizationProfileIdService(
+    organizationProfile.id,
+  )
 
-  const response = await api.request({
-    method: HttpMethod.GET,
-    url: `/admin/establishments/owner/${organization.id}`,
-  })
-
-  if (response.statusCode === HttpStatusCode.unauthorized) {
-    throw redirect({ to: '/login', replace: true })
-  }
-
-  if (response.statusCode === HttpStatusCode.notFound) {
+  if (establishments.length === 0) {
     throw redirect({ to: '/establishment/new', replace: true })
-  }
-
-  if (!response.body || response.body.length === 0) {
-    throw redirect({
-      to: '/error',
-      search: { search: response.statusCode?.toString() },
-      replace: true,
-    })
   }
 }

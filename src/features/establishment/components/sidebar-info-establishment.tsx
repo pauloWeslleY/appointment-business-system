@@ -190,7 +190,7 @@ const SidebarInfoEstablishment = ({
                       {' - '}
 
                       <Text lineHeight="0" fontSize="sm" letterSpacing="wide">
-                        {establishment.totalRatings} avaliações
+                        {establishment.totalReviews} avaliações
                       </Text>
                     </Stat.ValueText>
                   </Stat.Root>
@@ -208,7 +208,7 @@ const SidebarInfoEstablishment = ({
                     <Stat.Root>
                       <Stat.Label>Hoje</Stat.Label>
                       <Stat.ValueText>
-                        {establishment.todayBookingsTotal}
+                        {establishment.todayAppointmentsTotal}
                       </Stat.ValueText>
                     </Stat.Root>
 
@@ -225,7 +225,7 @@ const SidebarInfoEstablishment = ({
                       <Stat.Label>Próximo</Stat.Label>
                       <Stat.ValueText>
                         {formattedDateAndHours(
-                          establishment.nextBookingAt,
+                          establishment.nextAppointmentAt,
                           true,
                         )}
                       </Stat.ValueText>

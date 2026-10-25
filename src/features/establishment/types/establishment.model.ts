@@ -1,32 +1,12 @@
-import type { AddressProps } from '@/shared/types/address.type'
-import type { OpeningHoursDayProps } from '@/shared/types/opening-hours.type'
+import type z from 'zod'
 
-export interface EstablishmentModel {
-  id: string
-  name: string
-  slug: string
-  description: string
-  imageUrl: string | null
-  phones: string[]
-  openingHours: OpeningHoursDayProps[]
-  createdAt: string
-  updatedAt: string
-  ownerId: string
-  address: AddressProps
-  totalServices: number
-  totalCollaborators: number
-  totalRatings: number
-  averageRating: number
-  todayBookingsTotal: number
-  nextBookingAt: string | null
-}
+import type {
+  EstablishmentOrganizationProfileSchema,
+  EstablishmentSlugSchema,
+} from '../schemas/get-establishment-model.schema'
 
-export type EstablishmentSlugModel = Omit<
-  EstablishmentModel,
-  | 'totalServices'
-  | 'totalCollaborators'
-  | 'totalRatings'
-  | 'averageRating'
-  | 'todayBookingsTotal'
-  | 'nextBookingAt'
+export type EstablishmentModel = z.infer<
+  typeof EstablishmentOrganizationProfileSchema
 >
+
+export type EstablishmentSlugModel = z.infer<typeof EstablishmentSlugSchema>

@@ -38,9 +38,9 @@ const ListMembers = () => {
         <Card.Title
           display="flex"
           alignItems="center"
+          flex="1"
           gap="2"
           color={{ _light: 'sea.600', _dark: 'sea.100' }}
-          flex="1"
         >
           Membros da empresa
         </Card.Title>
@@ -53,17 +53,14 @@ const ListMembers = () => {
         </InputGroup>
       </Flex>
 
-      <Separator
-        mx="6"
-        borderColor={{ _light: 'slate.200', _dark: 'slate.900' }}
-      />
+      <Separator borderColor={{ _light: 'slate.200', _dark: 'slate.900' }} />
 
       {isLoadingMembers && <Skeleton height="150px" rounded="lg" />}
 
       {!isLoadingMembers && listAllMembers.length === 0 && (
         <Alert.Root rounded="lg" variant="subtle">
           <Alert.Indicator />
-          <Alert.Title>Membros não encontrados</Alert.Title>
+          <Alert.Title>Não há membros cadastrados.</Alert.Title>
         </Alert.Root>
       )}
 

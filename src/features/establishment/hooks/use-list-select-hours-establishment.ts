@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import { getListOpeningHoursEstablishmentService } from '../services/establishment.service'
+import { establishmentAvailabilityQueryOptions } from '../queries/establishment-query-options'
 
 dayjs.extend(isToday)
 
@@ -18,20 +17,13 @@ export function useListSelectHoursEstablishment({
   serviceId,
   selectedDay,
 }: UseSelectHoursEstablishmentParams) {
-  const { data: availableHours = [], error: errorAvailableHours } = useQuery({
-    queryKey: establishmentQueryKeys.listSelectHours({
+  const { data: availableHours = [], error: errorAvailableHours } = useQuery(
+    establishmentAvailabilityQueryOptions({
       establishmentId,
       serviceId,
-      selectedDay,
+      selectedDate: selectedDay.toISOString(),
     }),
-    queryFn: () => {
-      return getListOpeningHoursEstablishmentService({
-        establishmentId,
-        serviceId,
-        selectedDate: selectedDay.toISOString(),
-      })
-    },
-  })
+  )
 
   return {
     availableHours,

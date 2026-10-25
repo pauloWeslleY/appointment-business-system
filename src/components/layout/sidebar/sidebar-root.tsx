@@ -6,7 +6,7 @@ const baseSidebarRootRecipe = defineRecipe({
     display: 'flex',
     w: 'full',
     h: 'full',
-    bg: { base: 'gray.50', _dark: 'gray.700' },
+    bg: { _light: 'gray.50', _dark: 'gray.700' },
     minH: 'dvh',
   },
 })

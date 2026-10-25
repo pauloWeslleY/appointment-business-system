@@ -6,7 +6,7 @@ const baseSidebarContentRecipe = defineRecipe({
     flex: '1',
     overflowY: 'auto',
     transition: '.3s ease',
-    shadow: { base: 'lg', _dark: 'md' },
+    shadow: { _light: 'lg', _dark: 'md' },
     zIndex: '1',
     bg: 'sidebar.content.bg',
   },

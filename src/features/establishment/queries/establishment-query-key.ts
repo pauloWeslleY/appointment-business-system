@@ -1,39 +1,39 @@
+import type { GetOpeningHoursRequest } from '../types/opening-hours-request.type'
+
 export const establishmentQueryKeys = {
   all: ['establishment'] as const,
 
   lists: () => [...establishmentQueryKeys.all, 'list'] as const,
 
+  details: () => [...establishmentQueryKeys.all, 'detail'] as const,
+
   slug: (slug: string) =>
     [...establishmentQueryKeys.all, 'slug', slug] as const,
 
-  owner: (ownerId?: string) => {
+  organizationProfile: (organizationProfileId?: string) => {
     return [
       ...establishmentQueryKeys.lists(),
-      { ownerId: ownerId ?? null },
+      'organization-profile',
+      { organizationProfileId: organizationProfileId ?? null },
     ] as const
   },
 
   detail: (establishmentId?: string) => {
     return [
-      ...establishmentQueryKeys.all,
+      ...establishmentQueryKeys.details(),
       { establishmentId: establishmentId ?? null },
-      'detail',
     ] as const
   },
 
-  listSelectHours: (params: {
-    establishmentId?: string
-    serviceId?: string
-    selectedDay?: Date
-  }) => {
+  availability: (params: GetOpeningHoursRequest) => {
     return [
       ...establishmentQueryKeys.all,
+      'availability',
       {
-        selectedDay: params.selectedDay ?? null,
-        serviceId: params.serviceId ?? null,
-        establishmentId: params.establishmentId ?? null,
+        establishmentId: params.establishmentId,
+        serviceId: params.serviceId,
+        selectedDate: params.selectedDate,
       },
-      'list-select-hours',
     ] as const
   },
 }

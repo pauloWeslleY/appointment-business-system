@@ -1,34 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import { NotFoundError } from '@/shared/errors'
 
 import { subscriptionRedirectUrl } from '../policies/subscription-view'
-import type {
-  BillingInterval,
-  SubscriptionContext,
-} from '../schemas/subscription.schema'
-import { subscriptionService } from '../services/subscription.service'
-import { SubscriptionApiError } from '../services/subscription-client'
+import { subscriptionMutationOptions } from '../queries/subscription.mutation-options'
+import { subscriptionQueryKey } from '../queries/subscription.query-key'
+import {
+  subscriptionAccessQueryOptions,
+  subscriptionNoticesQueryOptions,
+} from '../queries/subscription.query-options'
 import {
   checkoutConfirmed,
   createSubscriptionOperationStore,
 } from '../services/subscription-operation-store'
-
-export type SubscriptionAction =
-  | { type: 'trial' }
-  | { type: 'cancel' }
-  | { type: 'portal' }
-  | { type: 'checkout'; interval: BillingInterval }
-  | { type: 'interval'; interval: BillingInterval }
+import type { SubscriptionContext } from '../types/subscription.model'
+import type { SubscriptionCommandResult } from '../types/subscription-api.type'
+import type { SubscriptionAction } from '../types/subscription-command.type'
 
 export function useSubscriptionWorkspace(
-  context: SubscriptionContext,
-  returning: boolean,
+  authenticatedSubscriptionContext: SubscriptionContext,
+  isCheckoutReturn: boolean,
 ) {
-  const organizationId = context.organization.id
-  const userId = context.user.id
+  const organizationId = authenticatedSubscriptionContext.organization.id
+  const userId = authenticatedSubscriptionContext.user.id
   const queryClient = useQueryClient()
-  const [pollStartedAt] = useState(() => Date.now())
-  const [store] = useState(() =>
+
+  const [checkoutPollingStartedAt] = useState(() => Date.now())
+  const [subscriptionOperationStore] = useState(() =>
     createSubscriptionOperationStore(
       window.sessionStorage,
       userId,
@@ -36,133 +35,190 @@ export function useSubscriptionWorkspace(
       () => crypto.randomUUID(),
     ),
   )
-  const [pendingCheckout, setPendingCheckout] = useState(() =>
-    store.pendingCheckout(),
+  const [pendingCheckoutOperation, setPendingCheckoutOperation] = useState(() =>
+    subscriptionOperationStore.pendingCheckout(),
   )
-  const queryKey = ['subscription', 'access', userId, organizationId]
-  const access = useQuery({
-    queryKey,
-    queryFn: ({ signal }) => subscriptionService.access(organizationId, signal),
-    retry: false,
-    refetchOnWindowFocus: true,
-    refetchInterval: () =>
-      returning && Date.now() - pollStartedAt < 60_000 ? 5_000 : false,
-  })
-  const confirmed = access.data
-    ? checkoutConfirmed(access.data, pendingCheckout)
-    : false
+  const subscriptionAccessQueryKey = subscriptionQueryKey.access(
+    userId,
+    organizationId,
+  )
+  const isWorkspaceMounted = useRef(true)
   useEffect(() => {
-    if (confirmed && pendingCheckout) {
-      store.complete(pendingCheckout.operationKey)
-      store.clearCheckout()
+    isWorkspaceMounted.current = true
+    return () => {
+      isWorkspaceMounted.current = false
     }
-  }, [confirmed, pendingCheckout, store])
-  const command = useMutation({
-    mutationFn: async (
-      action: SubscriptionAction,
-    ): Promise<{ message: string; redirect?: string }> => {
-      const snapshot = access.data
+  }, [])
 
-      if (!snapshot) {
-        throw new Error('Atualize a assinatura antes de continuar.')
-      }
+  const subscriptionAccessQuery = useQuery({
+    ...subscriptionAccessQueryOptions(userId, organizationId),
+    refetchInterval: () =>
+      isCheckoutReturn && Date.now() - checkoutPollingStartedAt < 60_000
+        ? 5_000
+        : false,
+  })
 
-      if (action.type === 'trial') {
-        await subscriptionService.trial(organizationId)
-        return {
-          message:
-            'Teste gratuito iniciado. Consulte a data de término abaixo.',
-        }
-      }
+  const isCheckoutConfirmed = subscriptionAccessQuery.data
+    ? checkoutConfirmed(subscriptionAccessQuery.data, pendingCheckoutOperation)
+    : false
 
-      const key =
-        'interval' in action ? `${action.type}:${action.interval}` : action.type
-      const requestId = store.requestId(key)
+  useEffect(() => {
+    if (isCheckoutConfirmed && pendingCheckoutOperation) {
+      subscriptionOperationStore.complete(pendingCheckoutOperation.operationKey)
+      subscriptionOperationStore.clearCheckout()
+    }
+  }, [
+    isCheckoutConfirmed,
+    pendingCheckoutOperation,
+    subscriptionOperationStore,
+  ])
 
-      if (action.type === 'checkout') {
-        // Persist before sending so a lost response reuses the same operation.
-        store.startCheckout(snapshot, requestId, key)
-        setPendingCheckout(store.pendingCheckout())
-        const result = await subscriptionService.checkout(
-          organizationId,
-          action.interval,
-          requestId,
-        )
-        return {
-          message: 'Abrindo pagamento seguro.',
-          redirect: subscriptionRedirectUrl(result.checkoutUrl),
-        }
-      }
+  const startTrialMutation = useMutation(subscriptionMutationOptions.trial())
+  const checkoutSessionMutation = useMutation(
+    subscriptionMutationOptions.checkout(),
+  )
+  const billingPortalMutation = useMutation(
+    subscriptionMutationOptions.portal(),
+  )
+  const cancelSubscriptionMutation = useMutation(
+    subscriptionMutationOptions.cancel(),
+  )
+  const billingIntervalMutation = useMutation(
+    subscriptionMutationOptions.changeInterval(),
+  )
 
-      if (action.type === 'portal') {
-        const result = await subscriptionService.portal(
-          organizationId,
-          requestId,
-        )
-        store.complete(key)
-        return {
-          message: 'Abrindo cartão e faturas.',
-          redirect: subscriptionRedirectUrl(result.portalUrl),
-        }
-      }
+  const executeSubscriptionCommand = async (
+    subscriptionAction: SubscriptionAction,
+  ): Promise<SubscriptionCommandResult> => {
+    const subscriptionSnapshot = subscriptionAccessQuery.data
 
-      if (action.type === 'cancel') {
-        await subscriptionService.cancel(organizationId, requestId)
-        store.complete(key)
-        return {
-          message: 'Cancelamento agendado para o término do período pago.',
-        }
-      }
+    if (!subscriptionSnapshot) {
+      throw new Error('Atualize a assinatura antes de continuar.')
+    }
 
-      await subscriptionService.changeInterval(
-        organizationId,
-        action.interval,
-        requestId,
-      )
-      store.complete(key)
+    if (subscriptionAction.type === 'trial') {
+      await startTrialMutation.mutateAsync(organizationId)
       return {
-        message:
-          'Modalidade programada para a próxima renovação, sem cobrança proporcional imediata.',
+        message: 'Teste gratuito iniciado. Consulte a data de término abaixo.',
       }
-    },
-    onSuccess: async (result) => {
-      await queryClient.invalidateQueries({ queryKey })
+    }
 
-      if (result.redirect) {
-        window.location.assign(result.redirect)
+    const operationKey =
+      'interval' in subscriptionAction
+        ? `${subscriptionAction.type}:${subscriptionAction.interval}`
+        : subscriptionAction.type
+    const requestId = subscriptionOperationStore.requestId(operationKey)
+
+    if (subscriptionAction.type === 'checkout') {
+      // Persist before sending so a lost response reuses the same operation.
+      subscriptionOperationStore.startCheckout(
+        subscriptionSnapshot,
+        requestId,
+        operationKey,
+      )
+      setPendingCheckoutOperation(subscriptionOperationStore.pendingCheckout())
+      const commandResponse = await checkoutSessionMutation.mutateAsync({
+        organizationId,
+        interval: subscriptionAction.interval,
+        requestId,
+      })
+      return {
+        message: 'Abrindo pagamento seguro.',
+        redirect: subscriptionRedirectUrl(commandResponse.checkoutUrl),
+      }
+    }
+
+    if (subscriptionAction.type === 'portal') {
+      const commandResponse = await billingPortalMutation.mutateAsync({
+        organizationId,
+        requestId,
+      })
+      subscriptionOperationStore.complete(operationKey)
+      return {
+        message: 'Abrindo cartão e faturas.',
+        redirect: subscriptionRedirectUrl(commandResponse.portalUrl),
+      }
+    }
+
+    if (subscriptionAction.type === 'cancel') {
+      await cancelSubscriptionMutation.mutateAsync({
+        organizationId,
+        requestId,
+      })
+      subscriptionOperationStore.complete(operationKey)
+      return {
+        message: 'Cancelamento agendado para o término do período pago.',
+      }
+    }
+
+    await billingIntervalMutation.mutateAsync({
+      organizationId,
+      interval: subscriptionAction.interval,
+      requestId,
+    })
+    subscriptionOperationStore.complete(operationKey)
+    return {
+      message:
+        'Modalidade programada para a próxima renovação, sem cobrança proporcional imediata.',
+    }
+  }
+
+  const subscriptionCommandMutation = useMutation({
+    ...subscriptionMutationOptions.command(
+      executeSubscriptionCommand,
+      userId,
+      organizationId,
+    ),
+    onSuccess: async (commandResponse) => {
+      if (!isWorkspaceMounted.current) {
+        return
+      }
+      await queryClient.invalidateQueries({
+        queryKey: subscriptionAccessQueryKey,
+      })
+
+      if (isWorkspaceMounted.current && commandResponse.redirect) {
+        window.location.assign(commandResponse.redirect)
       }
     },
   })
-  const notices = useQuery({
-    queryKey: ['subscription', 'notices', userId, organizationId],
-    queryFn: ({ signal }) =>
-      subscriptionService.notices(organizationId, signal),
-    enabled: Boolean(
-      access.data &&
-      (!access.data.subscription ||
-        access.data.subscription.contractorUserId === userId),
-    ),
+
+  const shouldShowSubscriptionNotices = Boolean(
+    subscriptionAccessQuery.data &&
+    (!subscriptionAccessQuery.data.subscription ||
+      subscriptionAccessQuery.data.subscription.contractorUserId === userId),
+  )
+
+  const subscriptionNoticesQuery = useQuery({
+    ...subscriptionNoticesQueryOptions(userId, organizationId),
+    enabled: shouldShowSubscriptionNotices,
     retry: false,
   })
-  const readNotice = useMutation({
-    mutationFn: (deliveryId: string) =>
-      subscriptionService.readNotice(organizationId, deliveryId),
+
+  const markNoticeReadMutation = useMutation({
+    ...subscriptionMutationOptions.readNotice(),
     onSuccess: () =>
       queryClient.invalidateQueries({
-        queryKey: ['subscription', 'notices', userId, organizationId],
+        queryKey: subscriptionQueryKey.notices(userId, organizationId),
       }),
   })
-  const noticesUnavailable =
-    notices.error instanceof SubscriptionApiError &&
-    notices.error.status === 404
+
+  const areSubscriptionNoticesUnavailable =
+    subscriptionNoticesQuery.error instanceof NotFoundError
+
+  const refreshSubscriptionAccess = () => {
+    void subscriptionAccessQuery.refetch()
+  }
 
   return {
-    access,
-    command,
-    notices,
-    readNotice,
-    noticesUnavailable,
-    pendingCheckout,
-    confirmed,
+    subscriptionAccessQuery,
+    shouldShowSubscriptionNotices,
+    refreshSubscriptionAccess,
+    subscriptionCommandMutation,
+    subscriptionNoticesQuery,
+    markNoticeReadMutation,
+    areSubscriptionNoticesUnavailable,
+    pendingCheckoutOperation,
+    isCheckoutConfirmed,
   }
 }

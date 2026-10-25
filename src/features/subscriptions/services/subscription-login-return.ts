@@ -1,16 +1,18 @@
 import type { SubscriptionStorage } from './subscription-operation-store.ts'
 
 const allowedPaths = [
-  '/assinatura',
-  '/assinatura/retorno',
-  '/assinatura/cancelado',
+  '/subscription',
+  '/subscription/return',
+  '/subscription/canceled',
 ] as const
+
+type TakeSubscriptionLoginReturn = (typeof allowedPaths)[number] | null
 
 export function takeSubscriptionLoginReturn(
   storage: SubscriptionStorage,
-): (typeof allowedPaths)[number] | null {
+): TakeSubscriptionLoginReturn {
   const stored = storage.getItem('subscription-login-return')
-  const normalized = stored === '/assinatura/' ? '/assinatura' : stored
+  const normalized = stored === '/subscription/' ? '/subscription' : stored
   const allowed = allowedPaths.find((path) => path === normalized)
   storage.removeItem('subscription-login-return')
 

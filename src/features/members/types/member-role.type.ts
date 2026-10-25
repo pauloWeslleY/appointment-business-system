@@ -9,13 +9,7 @@ export const MemberRoles = {
   COLLABORATOR: 'collaborator',
 } as const
 
-export const MEMBER_ROLES = [
-  MemberRoles.OWNER,
-  MemberRoles.ADMIN,
-  MemberRoles.MEMBER,
-  MemberRoles.PROFESSIONAL,
-  MemberRoles.COLLABORATOR,
-] as const
+export const MEMBER_ROLES = Object.values(MemberRoles)
 
 export const MemberRoleSchema = z.enum(MEMBER_ROLES)
 

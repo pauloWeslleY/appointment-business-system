@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import { httpDependencies } from '@/shared/factory/http-dependencies'
+import { HttpMethod } from '@/shared/protocols'
+
 if (!import.meta.env.VITE_API_URL) {
   throw new Error('VITE_API_URL is not defined in the environment variables.')
 }
@@ -29,29 +32,28 @@ export interface UploadFileData {
 export const uploadFileToR2 = async (
   params: UploadFileData,
 ): Promise<UploadFileResponse> => {
-  const url = `${import.meta.env.VITE_API_URL}/storage/upload`
-
-  const createUrlResponse = await axios.post<UploadFileResponse>(
-    url,
-    {
+  const { api, validate } = httpDependencies<UploadFileResponse>()
+  const createUrlResponse = await api.request({
+    method: HttpMethod.POST,
+    url: '/storage/upload',
+    body: {
       id: params.id,
       filename: params.file.name,
       contentType: params.file.type,
       folder: params.folder,
     },
-    {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+  })
+  const uploadData = validate.errors(createUrlResponse)
 
-  if (!createUrlResponse.status || createUrlResponse.status !== 200) {
+  if (
+    createUrlResponse.kind !== 'success' ||
+    createUrlResponse.statusCode !== 200
+  ) {
     throw new Error('Não foi possível gerar a URL de upload')
   }
-
-  const uploadData = createUrlResponse.data
 
   const uploadResponse = await axios.put(uploadData.uploadUrl, params.file, {
     headers: {

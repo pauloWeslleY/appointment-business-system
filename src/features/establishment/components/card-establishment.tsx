@@ -201,7 +201,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                   letterSpacing="wide"
                   color={{ base: 'gray.600', _dark: 'gray.400' }}
                 >
-                  {establishment.totalRatings} avaliações
+                  {establishment.totalReviews} avaliações
                 </Text>
               </Flex>
             </Flex>
@@ -213,7 +213,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 letterSpacing="wide"
                 color={{ base: 'gray.600', _dark: 'gray.400' }}
               >
-                Hoje: {establishment.todayBookingsTotal} agendamentos
+                Hoje: {establishment.todayAppointmentsTotal} agendamentos
               </Text>
 
               <Separator orientation="vertical" height="4" />
@@ -225,7 +225,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 color={{ base: 'gray.600', _dark: 'gray.400' }}
               >
                 Próximo:{' '}
-                {formattedDateAndHours(establishment.nextBookingAt, true)}
+                {formattedDateAndHours(establishment.nextAppointmentAt, true)}
               </Text>
             </HStack>
 

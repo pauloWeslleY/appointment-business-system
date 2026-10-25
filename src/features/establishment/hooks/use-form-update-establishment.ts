@@ -50,9 +50,9 @@ export function useFormUpdateEstablishment() {
     isPending: isPendingUpdateEstablishment,
   } = useMutation({
     ...establishmentMutationOptions.update(),
-    onSuccess: (updated) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: establishmentQueryKeys.owner(updated.ownerId),
+        queryKey: establishmentQueryKeys.lists(),
       })
       queryClient.invalidateQueries({
         queryKey: establishmentQueryKeys.slug(establishmentSlug),

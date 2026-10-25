@@ -1,5 +1,7 @@
-import type { CreateEstablishmentRequest } from './create-establishment-request.type'
+import type z from 'zod'
 
-export interface UpdateEstablishmentRequest extends CreateEstablishmentRequest {
-  id: string
-}
+import type { UpdateEstablishmentRequestSchema } from '../schemas/update-establishment.schema'
+
+export type UpdateEstablishmentRequest = z.infer<
+  typeof UpdateEstablishmentRequestSchema
+>

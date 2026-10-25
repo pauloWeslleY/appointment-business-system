@@ -15,7 +15,8 @@ import {
 import type { Member } from 'better-auth/client/plugins'
 import { Building2, ShieldCheck, Store, UsersRound } from 'lucide-react'
 
-import { getMemberRoleLabel, MEMBER_ROLES } from '@/shared/types/members.type'
+import { MemberRoles } from '@/features/members/types/member-role.type'
+import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import type { FullOrganization } from '../services/organization.service'
@@ -30,16 +31,16 @@ interface CardOrganizationProfileStatsProps extends CardRootProps {
 const getStatsOrganizationProfile = (
   organization: CardOrganizationProfileStatsProps['organization'],
 ) => {
-  const getMemberOwner = (member: Member) => member.role === MEMBER_ROLES.OWNER
+  const getMemberOwner = (member: Member) => member.role === MemberRoles.OWNER
   const filteredMembers = organization.members.filter(getMemberOwner)
   const memberOwner = organization.members.find(getMemberOwner)
   const totalMembers = filteredMembers.length.toString()
-  const memberRole = getMemberRoleLabel(memberOwner?.role)
+  const memberRole = mapLabelMemberRole(memberOwner?.role)
 
   return [
     { icon: Store, label: 'Estabelecimentos', value: '---' },
     { icon: UsersRound, label: 'Membros', value: totalMembers },
-    { icon: ShieldCheck, label: 'Seu papel', value: memberRole },
+    { icon: ShieldCheck, label: 'Seu papel', value: memberRole.label },
   ]
 }
 

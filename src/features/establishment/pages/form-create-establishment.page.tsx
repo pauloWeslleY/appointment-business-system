@@ -3,18 +3,17 @@ import { Button, Card, chakra, GridItem, SimpleGrid } from '@chakra-ui/react'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 
+import FormTelephoneEstablishment from '../components/form-telephone-establishment'
 import { useFormCreateEstablishment } from '../hooks/use-form-create-establishment'
 
 const FormCreateEstablishmentPage = () => {
   const {
-    register,
-    handleSubmit,
+    control,
     errors,
     isPendingCreateEstablishment,
+    register,
+    handleSubmit,
     handleCreateEstablishment,
-    phoneFields,
-    appendPhone,
-    removePhone,
   } = useFormCreateEstablishment()
 
   return (
@@ -27,53 +26,57 @@ const FormCreateEstablishmentPage = () => {
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
     >
       <chakra.form w="full" onSubmit={handleSubmit(handleCreateEstablishment)}>
-        <SimpleGrid columns={{ base: 1, md: 4 }} gap="4" w="full">
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap="4" w="full">
           <Field
-            gridColumn={{ base: 'span 1', lg: 'span 2' }}
+            label="Nome do estabelecimento"
             invalid={!!errors.name}
             errorText={errors.name?.message}
           >
-            <InputField {...register('name')} placeholder="Digite seu nome" />
+            <InputField
+              {...register('name')}
+              placeholder="Ex: Meu Estabelecimento"
+            />
           </Field>
 
           <Field
-            gridColumn={{ base: 'span 1', md: 'span 2' }}
+            label="E-mail do estabelecimento"
+            invalid={!!errors.email}
+            errorText={errors.email?.message}
+          >
+            <InputField
+              {...register('email')}
+              placeholder="Ex: meu@email.com"
+            />
+          </Field>
+
+          <Field
+            label="Fuso horário"
+            invalid={!!errors.timezone}
+            errorText={errors.timezone?.message}
+          >
+            <InputField {...register('timezone')} placeholder="Ex: GMT-3" />
+          </Field>
+
+          <Field
+            label="Descrição do estabelecimento"
+            gridColumn={{ base: 'span 1', md: '1 / -1' }}
             invalid={!!errors.description}
             errorText={errors.description?.message}
           >
             <InputField
               {...register('description')}
-              placeholder="Digite a descrição"
+              placeholder="Ex: Meu estabelecimento é especializado em..."
             />
           </Field>
 
-          {phoneFields.map((phone, index) => (
-            <Field
-              key={phone.id}
-              invalid={!!errors.phones?.[index]?.phone}
-              errorText={errors.phones?.[index]?.phone?.message}
-            >
-              <InputField
-                {...register(`phones.${index}.phone`)}
-                placeholder="Telefone"
-              />
-              {phoneFields.length > 1 && (
-                <Button type="button" onClick={() => removePhone(index)}>
-                  Remover telefone
-                </Button>
-              )}
-            </Field>
-          ))}
-          <Button
-            type="button"
-            onClick={() => appendPhone({ phone: '' })}
-            disabled={phoneFields.length >= 5}
-          >
-            Adicionar telefone
-          </Button>
+          <FormTelephoneEstablishment
+            control={control}
+            errors={errors}
+            onCloseAlertTelephone={() => {}}
+          />
 
           <GridItem
-            colSpan={{ base: 1, md: 4 }}
+            colSpan={{ base: 1, md: 3 }}
             placeSelf={{ base: 'center', md: 'end' }}
           >
             <Button

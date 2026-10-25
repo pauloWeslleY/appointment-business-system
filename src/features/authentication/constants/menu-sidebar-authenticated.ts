@@ -17,7 +17,7 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
   },
   {
     icon: Store,
-    label: 'Estabelecimento',
+    label: 'Estabelecimentos',
     path: '/establishment',
   },
   {
@@ -27,8 +27,8 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
   },
   {
     icon: UsersRound,
-    label: 'Membros',
-    path: '/members',
+    label: 'Equipe e acessos',
+    path: '/team-management',
   },
   {
     icon: UserCog,
@@ -48,6 +48,6 @@ export const loadMenuSidebarAuthenticated: MenuNavigationItemProps[] = [
   {
     icon: CreditCard,
     label: 'Assinatura',
-    path: '/assinatura',
+    path: '/subscription',
   },
 ]

@@ -5,6 +5,11 @@ import {
   MAX_IMAGE_SIZE,
 } from '@/shared/constants/files-config'
 
+export const UploadImageEstablishmentRequestSchema = z.strictObject({
+  establishmentId: z.uuid(),
+  imageUrl: z.string(),
+})
+
 export const UploadImageEstablishmentSchema = z.object({
   file: z
     .instanceof(File, {

@@ -18,6 +18,7 @@ export class AxiosHttpClient<T = unknown> implements HttpRequest<T> {
         headers: data.headers,
         params: data.params,
         responseType: data.responseType || 'json',
+        signal: data.signal,
         withCredentials: true,
       })
 

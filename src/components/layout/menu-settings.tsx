@@ -22,9 +22,9 @@ const MenuSettings = () => {
               asChild
               value="subscription"
               css={menuItemCss}
-              // onClick={() => navigate({ to: '/assinatura' })}
+              // onClick={() => navigate({ to: '/subscription' })}
             >
-              <Link to="/assinatura">Assinatura</Link>
+              <Link to="/subscription">Assinatura</Link>
             </Menu.Item>
             <Menu.Item
               value="profile"

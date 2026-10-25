@@ -20,11 +20,19 @@ interface SidebarAsideProps extends StackProps {
   loading?: boolean
 }
 
+const LogotipoSystemAppointment = {
+  light: '/logo/app-light.svg',
+  dark: '/logo/app-dark.svg',
+} as const
+
+type LogotipoSystemAppointmentType =
+  (typeof LogotipoSystemAppointment)[keyof typeof LogotipoSystemAppointment]
+
 const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
   const { collapsed, setCollapsed } = useMenuCollapse()
-  const logotipo = useColorModeValue(
-    '/logo/app-light.svg',
-    '/logo/app-dark.svg',
+  const logotipo = useColorModeValue<LogotipoSystemAppointmentType>(
+    LogotipoSystemAppointment.light,
+    LogotipoSystemAppointment.dark,
   )
 
   return (
@@ -33,7 +41,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
       display={{ base: 'none', md: 'flex' }}
       gap="0"
       align="flex-start"
-      alignSelf="stretch"
+      h="dvh"
       px="2"
       pb="10"
       bg="sidebar.aside.bg"

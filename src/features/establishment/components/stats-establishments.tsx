@@ -5,10 +5,10 @@ import {
   Stat,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import { useGetOwnerById } from '@/features/organization-profile/hooks/use-get-owner-by-id'
+import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import { establishmentQueryKeys } from '../queries/establishment-query-key'
@@ -17,10 +17,12 @@ import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hou
 
 const StatsEstablishments = () => {
   const queryClient = useQueryClient()
-  const { data: owner } = useGetOwnerById()
+  const { data: organizationProfile } = useQuery(
+    organizationProfileSummaryQueryOptions(),
+  )
   const getEstablishmentsByOwner = queryClient.getQueryData<
     EstablishmentModel[]
-  >(establishmentQueryKeys.owner(owner?.id))
+  >(establishmentQueryKeys.organizationProfile(organizationProfile?.id))
   const breakPoints = useBreakpointValue({ base: 'horizontal', md: 'vertical' })
 
   const getStatInfoEstablishments = useMemo(() => {

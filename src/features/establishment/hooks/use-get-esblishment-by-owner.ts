@@ -1,10 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import { useGetOwnerById } from '@/features/organization-profile/hooks/use-get-owner-by-id'
+import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
 
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import { getEstablishmentsByOwnerIdService } from '../services/establishment.service'
+import { establishmentByOrganizationProfileQueryOptions } from '../queries/establishment-query-options'
 import type { EstablishmentModel } from '../types/establishment.model'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
@@ -12,16 +11,18 @@ export function useGetEstablishmentsByOwner(
   searchParams?: string,
   opening?: string,
 ) {
-  const { data: owner } = useGetOwnerById()
+  const {
+    data: organizationProfile,
+    error: errorOrganizationProfile,
+    isLoading: isLoadingOrganizationProfile,
+  } = useQuery(organizationProfileSummaryQueryOptions())
   const {
     data: establishments = [],
     error: errorEstablishments,
     isLoading: isLoadingEstablishments,
-  } = useQuery({
-    queryKey: establishmentQueryKeys.owner(owner?.id),
-    queryFn: () => getEstablishmentsByOwnerIdService(owner?.id),
-    enabled: !!owner?.id,
-  })
+  } = useQuery(
+    establishmentByOrganizationProfileQueryOptions(organizationProfile?.id),
+  )
 
   const filteredEstablishments = useMemo<EstablishmentModel[]>(() => {
     const filteredEstablishmentTitleAndDescription = (establishment: string) =>
@@ -52,7 +53,8 @@ export function useGetEstablishmentsByOwner(
   return {
     filteredEstablishments,
     establishments,
-    errorEstablishments,
-    isLoadingEstablishments,
+    errorEstablishments: errorOrganizationProfile ?? errorEstablishments,
+    isLoadingEstablishments:
+      isLoadingOrganizationProfile || isLoadingEstablishments,
   }
 }

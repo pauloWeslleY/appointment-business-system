@@ -1,7 +1,7 @@
 import type {
   SubscriptionContext,
   SubscriptionSnapshot,
-} from '../schemas/subscription.schema.ts'
+} from '../types/subscription.model'
 
 export const subscriptionStatusLabel: Record<
   SubscriptionSnapshot['access']['status'],

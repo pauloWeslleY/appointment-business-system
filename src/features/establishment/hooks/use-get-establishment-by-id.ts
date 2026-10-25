@@ -1,14 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import { getEstablishmentByIdService } from '../services/establishment.service'
+import { establishmentByIdQueryOptions } from '../queries/establishment-query-options'
 
 const useGetEstablishmentById = (establishmentId: string) => {
-  return useQuery({
-    queryKey: establishmentQueryKeys.detail(establishmentId),
-    queryFn: () => getEstablishmentByIdService(establishmentId),
-    enabled: establishmentId.trim() !== '',
-  })
+  return useQuery(establishmentByIdQueryOptions(establishmentId))
 }
 
 export default useGetEstablishmentById
