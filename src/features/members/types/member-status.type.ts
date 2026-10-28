@@ -38,6 +38,6 @@ export const mapLabelMemberStatus = (
 export const loadSelectMemberStatus = Array.from(loadMemberStatus).map(
   (status) => ({
     value: status,
-    label: mapLabelMemberStatus(status),
+    label: mapLabelMemberStatus(status).label,
   }),
 )

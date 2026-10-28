@@ -34,7 +34,7 @@ export function useInvitationNavigation() {
     return [...filteredInvitations].sort((a, b) => expiresAt(b) - expiresAt(a))
   }, [invitations, q])
 
-  const handleOpenDialogCancelInvite = async (invite: InviteProps) => {
+  const handleOpenDialogCancelInvite = (invite: InviteProps) => {
     setSelectedInvitation(invite)
     setOpenDialogCancelInvite(true)
   }

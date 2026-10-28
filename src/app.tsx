@@ -12,7 +12,13 @@ import { Toaster } from './components/ui/toaster'
 import { routeTree } from './routeTree.gen'
 dayjs.locale('pt-br')
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+})
 
 const router = createRouter({
   routeTree,

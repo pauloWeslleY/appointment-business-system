@@ -39,6 +39,13 @@ export const Route = createFileRoute('/_authenticated/team-management')({
     }
   },
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Equipe e acessos',
+      },
+    ],
+  }),
 })
 
 function RouteComponent() {

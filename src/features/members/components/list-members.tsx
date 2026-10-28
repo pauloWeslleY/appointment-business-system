@@ -13,10 +13,18 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import { useListMembers } from '../hooks/use-list-members'
 import ItemListMember from './item-list-member'
+import SidebarUpdateMember from './sidebar-update-member'
 
 const ListMembers = () => {
-  const { isLoadingMembers, listFilteredMembers, hasExistingMembers } =
-    useListMembers()
+  const {
+    selectedMember,
+    isSidebarOpen,
+    isLoadingMembers,
+    hasExistingMembers,
+    listFilteredMembers,
+    setIsSidebarOpen,
+    handleSelectMemberAndSidebarOpen,
+  } = useListMembers()
 
   return (
     <Card.Root
@@ -55,11 +63,23 @@ const ListMembers = () => {
         <SimpleGrid columns={{ base: 1, md: 4 }} gap="2">
           <For each={listFilteredMembers}>
             {(member) => (
-              <ItemListMember key={member?.user.id} member={member} />
+              <ItemListMember
+                key={member.user.id}
+                member={member}
+                onSidebarOpen={() =>
+                  handleSelectMemberAndSidebarOpen(member.id)
+                }
+              />
             )}
           </For>
         </SimpleGrid>
       )}
+
+      <SidebarUpdateMember
+        isOpen={isSidebarOpen}
+        member={selectedMember}
+        onOpen={setIsSidebarOpen}
+      />
     </Card.Root>
   )
 }

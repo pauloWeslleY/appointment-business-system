@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { meContextMutationOptions } from '@/features/members/queries/me-context.mutation-options'
+import { memberMutationOptions } from '@/features/members/queries/member.mutation-options'
 import { authClient } from '@/lib/auth'
 
 import {
@@ -24,7 +24,7 @@ export function useFormAtiveOrganization() {
   const {
     isPending: isPendingUpdateActiveOrganization,
     mutate: activeOrganization,
-  } = useMutation(meContextMutationOptions.create())
+  } = useMutation(memberMutationOptions.create())
   const queryClient = useQueryClient()
 
   const {
