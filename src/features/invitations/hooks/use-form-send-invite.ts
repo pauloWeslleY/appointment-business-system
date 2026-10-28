@@ -15,6 +15,7 @@ import {
 import { authClient } from '@/lib/auth'
 
 import { invitationsMutationOptions } from '../queries/invitations.mutation-options'
+import { invitationQueryKey } from '../queries/invitations.query-key'
 import {
   invitationEstablishmentsQueryOptions,
   invitationOrganizationProfileQueryOptions,
@@ -25,7 +26,6 @@ import type { SendInvitationApiRequest } from '../types/send-invitation.api.type
 
 export function useFormSendInvite() {
   const { data: session } = authClient.useSession()
-
   const userId = session?.user.id
   const organizationId = session?.session.activeOrganizationId ?? undefined
   const [isOpenDialogSendInvite, setIsOpenDialogSendInvite] = useQueryState(
@@ -86,11 +86,12 @@ export function useFormSendInvite() {
     ),
   )
 
-  const establishmentItems =
-    establishmentsByOrganizationProfile?.map((establishment) => ({
+  const establishmentItems = (establishmentsByOrganizationProfile ?? []).map(
+    (establishment) => ({
       label: establishment.name,
       value: establishment.id,
-    })) ?? []
+    }),
+  )
 
   const selectedAccessScope = useWatch({ control, name: 'accessScope' })
   const isRestrictedScope = selectedAccessScope === MemberAccessScope.RESTRICTED
@@ -101,13 +102,7 @@ export function useFormSendInvite() {
     errors.establishmentIds?.[0]?.message
 
   const loadSelectEstablishmentsFormSendInvite = createListCollection({
-    items: [
-      ...establishmentItems,
-      {
-        label: 'Selecionar todos',
-        value: 'all',
-      },
-    ],
+    items: establishmentItems,
   })
 
   const loadSelectRoleFormSendInvite = createListCollection({
@@ -125,28 +120,48 @@ export function useFormSendInvite() {
     setIsOpenDialogSendInvite(isOpen)
   }
 
+  const organizationProfileError =
+    errorOrganizationProfile ?? establishmentsError
+
+  const changeEstablishments = (values: string[]) => {
+    return values.includes('all')
+      ? establishmentItems.map((item) => item.value)
+      : values
+  }
+
+  const disabledButtonSendInvite = isRestrictedScope
+
   const handleSendInvite = handleSubmit((data) => {
-    if (isPendingSendInvite || !organizationId) {
+    if (!organizationId) {
+      toaster.error({
+        title: 'Erro ao enviar convite',
+        description: 'A organização ativa não está definida',
+      })
       return
     }
+
+    const establishments =
+      data.accessScope !== MemberAccessScope.ALL_ESTABLISHMENTS
+        ? data.establishmentIds
+        : []
+
     sendInvite(
+      { ...data, establishmentIds: establishments },
       {
-        ...data,
-        establishmentIds:
-          data.accessScope === MemberAccessScope.ALL_ESTABLISHMENTS
-            ? []
-            : data.establishmentIds,
-      },
-      {
-        onSuccess: async () => {
+        onSuccess: async (_data, _variables, _result, context) => {
           const { data: currentSession } = await authClient.getSession()
           if (currentSession?.session.activeOrganizationId !== organizationId) {
             return
           }
+
           reset()
           handleDialogSendInvite(false)
           toaster.success({
             title: 'Convite enviado com sucesso',
+          })
+
+          await context.client.invalidateQueries({
+            queryKey: invitationQueryKey.list(userId, organizationId),
           })
         },
         onError: (error) => {
@@ -158,15 +173,6 @@ export function useFormSendInvite() {
       },
     )
   })
-
-  const organizationProfileError =
-    errorOrganizationProfile ?? establishmentsError
-
-  const changeEstablishments = (values: string[]) => {
-    return values.includes('all')
-      ? establishmentItems.map((item) => item.value)
-      : values
-  }
 
   return {
     organizationProfileError,
@@ -185,5 +191,6 @@ export function useFormSendInvite() {
     isPendingSendInvite,
     isOpenDialogSendInvite,
     isLoadingEstablishmentsByOrganizationProfile,
+    disabledButtonSendInvite,
   }
 }

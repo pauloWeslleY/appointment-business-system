@@ -6,10 +6,14 @@ import {
   Icon,
   Menu,
   Portal,
+  Skeleton,
   Text,
 } from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
 import { ChevronDown, LogOut } from 'lucide-react'
 
+import { memberContextQueryOptions } from '@/features/members/queries/member.query-options'
+import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { authClient } from '@/lib/auth'
 import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
 import { useLogout } from '@/shared/hooks/use-logout'
@@ -18,7 +22,17 @@ import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 const MenuProfile = () => {
   const { data } = authClient.useSession()
   const { data: storageData } = useStorageImage(data?.user?.image)
+  const { data: member, isLoading: isLoadingMember } = useQuery(
+    memberContextQueryOptions(
+      data?.user?.id,
+      data?.session?.activeOrganizationId ?? undefined,
+    ),
+  )
   const { handleLogout } = useLogout()
+
+  if (isLoadingMember || !member) {
+    return <Skeleton h="40px" w="28" rounded="2xl" />
+  }
 
   return (
     <Menu.Root positioning={{ placement: 'bottom-start' }}>
@@ -30,10 +44,6 @@ const MenuProfile = () => {
           gap="4"
           py="1"
           px="2"
-          shadow="xs"
-          rounded="full"
-          borderWidth="1px"
-          borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
         >
           <HStack align="center">
             <Avatar.Root
@@ -61,7 +71,7 @@ const MenuProfile = () => {
                 fontWeight="light"
                 color={{ _light: 'gray.500', _dark: 'gray.300' }}
               >
-                Admin
+                {mapLabelMemberRole(member.role).label}
               </Text>
             </Box>
           </HStack>

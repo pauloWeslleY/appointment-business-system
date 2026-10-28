@@ -1,11 +1,12 @@
-import { Box, Button, HStack, Icon } from '@chakra-ui/react'
+import { Box, For, HStack } from '@chakra-ui/react'
 import {
   createFileRoute,
   Link,
+  type LinkProps,
   Outlet,
   useLocation,
 } from '@tanstack/react-router'
-import { UserRoundPlus, Users2 } from 'lucide-react'
+import { Users2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import { MenuNavigation } from '@/components/menu-nav-links'
@@ -30,8 +31,9 @@ export const Route = createFileRoute('/_authenticated/team-management')({
         ),
       ),
     ])
+
     return {
-      totalMembers: membersResult?.data?.total.toString() ?? '0',
+      totalMembers: membersResult?.total.toString() ?? '0',
       totalInvitations:
         invitationsResult?.invitations?.length.toString() ?? '0',
     }
@@ -43,35 +45,45 @@ function RouteComponent() {
   const { totalMembers, totalInvitations } = Route.useLoaderData()
   const { pathname } = useLocation()
 
+  const menuNavigationTeamManagement = (input: {
+    label: string
+    to: LinkProps['to']
+    active: boolean
+  }) => ({ label: input.label, to: input.to, active: input.active })
+
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
-      <Header.Root align="center" justify="space-between">
+      <Header.Root>
         <HStack align="center">
           <Header.Icon icon={Users2} />
           <Header.Title>Equipe e acessos</Header.Title>
         </HStack>
-
-        <Button rounded="lg" size="xs">
-          <Icon as={UserRoundPlus} boxSize="5" />
-          Convidar Membro
-        </Button>
       </Header.Root>
 
       <Box spaceY="4">
         <StatsSummaryMembers />
 
         <MenuNavigation.Root>
-          <MenuNavigation.Link active={pathname.includes('members')} asChild>
-            <Link to="/team-management/members">Membros ({totalMembers})</Link>
-          </MenuNavigation.Link>
-          <MenuNavigation.Link
-            active={pathname.includes('invitations')}
-            asChild
+          <For
+            each={[
+              menuNavigationTeamManagement({
+                label: `Membros (${totalMembers})`,
+                to: '/team-management/members',
+                active: pathname.includes('members'),
+              }),
+              menuNavigationTeamManagement({
+                label: `Convites (${totalInvitations})`,
+                to: '/team-management/invitations',
+                active: pathname.includes('invitations'),
+              }),
+            ]}
           >
-            <Link to="/team-management/invitations">
-              Convites ({totalInvitations})
-            </Link>
-          </MenuNavigation.Link>
+            {({ label, to, active }) => (
+              <MenuNavigation.Link active={active} asChild>
+                <Link to={to}>{label}</Link>
+              </MenuNavigation.Link>
+            )}
+          </For>
         </MenuNavigation.Root>
 
         <Outlet />

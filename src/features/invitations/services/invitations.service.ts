@@ -5,11 +5,13 @@ import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
 
 import { AcceptInvitationApiResponseSchema } from '../schemas/accept-invitation.api.schema'
+import { GetInvitationPreviewApiSchema } from '../schemas/get-invitation-preview.schema'
 import { InvitationApiResponseSchema } from '../schemas/invitation-api.schema'
 import { ListInvitationsApiSchema } from '../schemas/list-invitations-api.schema'
 import { SendInvitationsSchema } from '../schemas/send-invitation.schema'
 import type { AcceptInvitationApiResponse } from '../types/accept-invitation.api.type'
 import type {
+  GetInvitationApiResponsePreview,
   InvitationApiResponse,
   ListInvitationsApiResponse,
 } from '../types/invitation.model.api'
@@ -40,6 +42,7 @@ export const sendInvitationService = async (data: SendInvitationApiRequest) => {
     url: '/admin/invitations',
     body: SendInvitationsSchema.parse(data),
   })
+
   const parsedResponse = InvitationApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -97,6 +100,23 @@ export const getInvitationService = async (
     url: `/account/invitations/${encodeURIComponent(z.string().min(1).parse(invitationId))}`,
   })
   const parsedResponse = InvitationApiResponseSchema.safeParse(
+    validate.errors(response),
+  )
+
+  if (!parsedResponse.success) {
+    throw new BadRequestError(z.prettifyError(parsedResponse.error))
+  }
+
+  return parsedResponse.data
+}
+
+export const getInvitationPreviewService = async (invitationId: string) => {
+  const { api, validate } = httpDependencies<GetInvitationApiResponsePreview>()
+  const response = await api.request({
+    method: HttpMethod.GET,
+    url: `/account/invitations/${encodeURIComponent(z.string().min(1).parse(invitationId))}/preview`,
+  })
+  const parsedResponse = GetInvitationPreviewApiSchema.safeParse(
     validate.errors(response),
   )
 

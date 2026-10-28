@@ -20,7 +20,7 @@ const baseMenuNavLinkRecipe = defineRecipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    p: '2',
+    py: '1',
     transition: 'backgrounds',
     rounded: 'xl',
     flex: '1',

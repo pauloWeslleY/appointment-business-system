@@ -1,5 +1,6 @@
 import z from 'zod'
 
+import { authClient } from '@/lib/auth'
 import { BadRequestError } from '@/shared/errors'
 import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
@@ -46,4 +47,21 @@ export const getMemberDetailsService = async () => {
   }
 
   return parsedResponse.data
+}
+
+export async function listMembersService(organizationId: string) {
+  const result = await authClient.organization.listMembers({
+    query: { organizationId },
+  })
+
+  if (result.error) {
+    throw new Response(
+      result.error.message || 'Erro ao consultar a organização.',
+      {
+        status: result.error.status,
+      },
+    )
+  }
+
+  return result.data
 }

@@ -1,6 +1,5 @@
 import {
   Alert,
-  Box,
   Button,
   chakra,
   HStack,
@@ -19,8 +18,14 @@ import { inputStyles } from '@/theme/styles/global-styles'
 import { useRegisterPage } from '../hooks/use-register-page'
 
 const FormRegister = () => {
-  const { register, handleSubmit, errors, isSubmitting, onSubmitRegister } =
-    useRegisterPage()
+  const {
+    register,
+    handleSubmit,
+    onSubmitRegister,
+    errors,
+    isSubmitting,
+    hasRedirectTo,
+  } = useRegisterPage()
 
   return (
     <chakra.form
@@ -33,7 +38,7 @@ const FormRegister = () => {
       gap={{ base: '4', md: '8' }}
       autoComplete="off"
     >
-      <Box>
+      <div>
         <Text
           as="h2"
           fontSize={{ base: '2xl', md: '3xl' }}
@@ -45,7 +50,14 @@ const FormRegister = () => {
         <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
           Insira suas informações para criar sua conta.
         </Text>
-      </Box>
+      </div>
+
+      {hasRedirectTo && (
+        <Alert.Root status="info" variant="surface" rounded="xl">
+          <Alert.Indicator />
+          <Alert.Title>Utilize o e-mail que recebeu o convite</Alert.Title>
+        </Alert.Root>
+      )}
 
       <VStack gap={{ base: '4' }}>
         <Field

@@ -8,15 +8,61 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { type ErrorComponentProps } from '@tanstack/react-router'
+import { type ErrorComponentProps, Navigate } from '@tanstack/react-router'
 import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+import { AccessDeniedError } from '@/shared/errors'
+
+const ResponseErrorMessage = ({ response }: { response: Response }) => {
+  const [result, setResult] = useState<{
+    response: Response
+    message: string
+  } | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function fetchMessage() {
+      try {
+        const text = await response.clone().text()
+
+        if (isMounted) {
+          setResult({ response, message: text })
+        }
+      } catch {
+        if (isMounted) {
+          setResult({ response, message: 'Erro ao processar a resposta.' })
+        }
+      }
+    }
+
+    void fetchMessage()
+
+    return () => {
+      isMounted = false
+    }
+  }, [response])
+
+  const message =
+    result?.response === response ? result.message : 'Carregando mensagem...'
+
+  return (
+    <>
+      {response.status} — {message || 'Ops! Algo deu errado.'}
+    </>
+  )
+}
+
+const validateErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message
+  }
+
+  return 'Ocorreu um erro desconhecido.'
+}
 
 const AppError = (props: ErrorComponentProps) => {
-  const message =
-    props.error instanceof Error
-      ? props.error.message
-      : 'Ocorreu um erro desconhecido.'
-
   const handleResetAndReloadPage = () => {
     window.location.reload()
     props.reset()
@@ -26,14 +72,17 @@ const AppError = (props: ErrorComponentProps) => {
     window.history.back()
   }
 
+  if (props.error instanceof AccessDeniedError) {
+    return <Navigate to="/access-denied" replace />
+  }
+
   return (
-    <Container maxW="container.lg" centerContent py="8">
+    <Container maxW="container.lg" centerContent>
       <VStack
         justify="center"
         shadow="xs"
         p="8"
         w="full"
-        h="lg"
         rounded="lg"
         bg={{ _light: 'primary.200', _dark: 'primary.500/20' }}
         borderWidth="1px"
@@ -56,7 +105,11 @@ const AppError = (props: ErrorComponentProps) => {
         <Box spaceY="2" mb="4" textAlign="center">
           <Heading size="3xl">Ops! Algo deu errado.</Heading>
           <Text as="span" fontSize="lg" color="fg.error">
-            {message}
+            {props.error instanceof Response ? (
+              <ResponseErrorMessage response={props.error} />
+            ) : (
+              validateErrorMessage(props.error)
+            )}
           </Text>
         </Box>
 

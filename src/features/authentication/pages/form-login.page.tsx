@@ -1,6 +1,5 @@
 import {
   Alert,
-  Box,
   Button,
   chakra,
   HStack,
@@ -26,6 +25,7 @@ const FormLoginPage = () => {
     errors,
     isSubmitting,
     isPendingLoginWithGoogle,
+    hasRedirectToLogin,
     register,
     handleSubmit,
     onSubmitLogin,
@@ -44,7 +44,7 @@ const FormLoginPage = () => {
       gap={{ base: '4', md: '8' }}
       autoComplete="off"
     >
-      <Box>
+      <div>
         <Text
           as="h2"
           fontSize={{ base: '2xl', md: '3xl' }}
@@ -56,7 +56,18 @@ const FormLoginPage = () => {
         <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
           Insira suas informações para continuar.
         </Text>
-      </Box>
+      </div>
+
+      {hasRedirectToLogin && (
+        <Alert.Root status="info" rounded="lg">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>
+              Você será redirecionado para aceitar o convite.
+            </Alert.Title>
+          </Alert.Content>
+        </Alert.Root>
+      )}
 
       <VStack gap={{ base: '4' }}>
         <Field

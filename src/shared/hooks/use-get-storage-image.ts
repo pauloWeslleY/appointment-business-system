@@ -1,11 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
+import { skipToken, useQuery } from '@tanstack/react-query'
 
 import { getStorage } from '../services/storage/get-storage'
 
-export function useStorageImage(imagePath?: string | null) {
+export function useStorageImage(image?: string | null) {
   return useQuery({
-    queryKey: ['storage', imagePath],
-    queryFn: () => getStorage(imagePath ?? ''),
-    enabled: !!imagePath,
+    queryKey: ['storage', image],
+    queryFn: image ? () => getStorage(image) : skipToken,
   })
 }

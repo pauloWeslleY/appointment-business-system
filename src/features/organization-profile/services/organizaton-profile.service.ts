@@ -88,13 +88,13 @@ export const getOrganizationProfileService = async () => {
     url: '/admin/organization-profile',
     method: HttpMethod.GET,
   })
-
-  const responseBody = validate.errors(response)
-  const validatedResponse = GetOrganizationProfileModel.safeParse(responseBody)
+  const validatedResponse = GetOrganizationProfileModel.safeParse(
+    validate.errors(response),
+  )
 
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
 
-  return responseBody
+  return validatedResponse.data
 }

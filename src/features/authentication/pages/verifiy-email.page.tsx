@@ -25,15 +25,17 @@ const VerifyEmail = ({ search }: { search: { token: string } }) => {
         })
       }
 
-      if (data) {
-        await navigate({
-          to: '/login',
-          replace: true,
-          search: {
-            emailVerified: data.status,
-          },
-        })
+      if (!data) {
+        return
       }
+
+      await navigate({
+        to: '/login',
+        replace: true,
+        search: {
+          emailVerified: data.status,
+        },
+      })
     })
   }
 

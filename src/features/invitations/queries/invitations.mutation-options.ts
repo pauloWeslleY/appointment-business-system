@@ -14,12 +14,18 @@ export const invitationsMutationOptions = {
     return mutationOptions({
       mutationKey: ['accept-invitation'],
       mutationFn: acceptInvitationService,
-      onSuccess: async (_data, _variables, _result, { client }) => {
-        await Promise.all([
-          client.invalidateQueries({ queryKey: invitationQueryKey.all }),
-          client.invalidateQueries({ queryKey: memberQueryKey.all }),
-          client.invalidateQueries({ queryKey: memberQueryKey.meContext }),
-        ])
+      onSuccess: async (_data, _variables, _result, context) => {
+        const queryKeysMembers = [
+          invitationQueryKey.all,
+          memberQueryKey.all,
+          memberQueryKey.context(),
+        ] as const
+
+        await Promise.all(
+          queryKeysMembers.map((queryKey) =>
+            context.client.invalidateQueries({ queryKey }),
+          ),
+        )
       },
     })
   },

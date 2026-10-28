@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import type { SuccessContext } from 'better-auth/react'
+import { type SuccessContext } from 'better-auth/react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 import { authClient } from '@/lib/auth'
+import { getCookie } from '@/shared/cache/cookie'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 
 import { RegisterFormSchema } from '../schemas/register-form.schema'
@@ -27,6 +28,8 @@ export function useRegisterPage() {
       password: '',
     },
   })
+  const redirectTo = getCookie('redirectTo')
+  const hasRedirectTo = Boolean(redirectTo)
 
   const onSubmitRegister = async (registerData: RegisterFormData) => {
     await authClient.signUp.email(
@@ -43,6 +46,7 @@ export function useRegisterPage() {
           })
 
           reset(registerData)
+
           await navigate({
             to: '/login',
             state: {
@@ -67,10 +71,11 @@ export function useRegisterPage() {
   }
 
   return {
-    register,
-    handleSubmit,
     errors,
     isSubmitting,
+    hasRedirectTo,
+    register,
+    handleSubmit,
     onSubmitRegister,
   }
 }

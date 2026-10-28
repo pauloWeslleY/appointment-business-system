@@ -14,12 +14,14 @@ import { Building2, LogOut } from 'lucide-react'
 import Header from '@/components/layout/header'
 import { ColorModeButton } from '@/components/ui/color-mode'
 import { toaster } from '@/components/ui/toaster'
+import { validateEnsureAuthRoute } from '@/features/authentication/validations/validate-auth-route'
 import FormCreateOrganizationProfile from '@/features/organization-profile/pages/form-create-organization-profile'
 import { authClient } from '@/lib/auth'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/organization-profile/')({
+  beforeLoad: async () => await validateEnsureAuthRoute(),
   loader: async () => await authClient.organization.list(),
   component: OrganzationProfilePage,
 })
@@ -47,7 +49,7 @@ function OrganzationProfilePage() {
       return
     }
 
-    navigate({ to: '/organization' })
+    navigate({ to: '/establishment' })
   }
 
   return (

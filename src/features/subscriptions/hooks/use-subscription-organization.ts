@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { memberQueryKey } from '@/features/members/queries/member.query-key'
 import { organizationProfileQueryKeys } from '@/features/organization-profile/queries/organization-profile-query-key'
@@ -16,7 +16,6 @@ export function useSubscriptionOrganization() {
   const userId = authenticationSession.data?.user.id
   const organizationId =
     authenticationSession.data?.session.activeOrganizationId ?? ''
-  const queryClient = useQueryClient()
   const organizationsQuery = useQuery(
     subscriptionOrganizationsQueryOptions(userId),
   )
@@ -25,18 +24,23 @@ export function useSubscriptionOrganization() {
 
   const organizationSelectionMutation = useMutation({
     ...organizationSelectionOptions,
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: subscriptionQueryKey.all })
+    onMutate: async (_variables, context) => {
+      await context.client.cancelQueries({ queryKey: subscriptionQueryKey.all })
     },
-    onSuccess: async () => {
-      queryClient.removeQueries({ queryKey: subscriptionQueryKey.all })
+    onSuccess: async (_data, _variables, _result, context) => {
+      context.client.removeQueries({ queryKey: subscriptionQueryKey.all })
+      const keysMember = [
+        memberQueryKey.all,
+        memberQueryKey.context(),
+        organizationProfileQueryKeys.all,
+      ] as const
+
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: memberQueryKey.all }),
-        queryClient.invalidateQueries({ queryKey: memberQueryKey.meContext }),
-        queryClient.invalidateQueries({
-          queryKey: organizationProfileQueryKeys.all,
-        }),
+        ...keysMember.map((key) =>
+          context.client.invalidateQueries({ queryKey: key }),
+        ),
       ])
+
       await authenticationSession.refetch()
     },
   })

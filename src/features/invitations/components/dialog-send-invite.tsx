@@ -7,9 +7,10 @@ import {
   Portal,
   Select,
   SimpleGrid,
+  Spinner,
   Text,
 } from '@chakra-ui/react'
-import { UserRoundPlus } from 'lucide-react'
+import { SendIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
@@ -21,7 +22,6 @@ import { useFormSendInvite } from '../hooks/use-form-send-invite'
 const DialogSendInvite = () => {
   const {
     organizationProfileError,
-    isLoadingOrganizationProfile,
     isRestrictedScope,
     changeEstablishments,
     isLoadingEstablishmentsByOrganizationProfile,
@@ -36,6 +36,7 @@ const DialogSendInvite = () => {
     loadSelectEstablishmentsFormSendInvite,
     isPendingSendInvite,
     isOpenDialogSendInvite,
+    disabledButtonSendInvite,
   } = useFormSendInvite()
 
   return (
@@ -48,8 +49,8 @@ const DialogSendInvite = () => {
     >
       <Dialog.Trigger asChild>
         <Button rounded="2xl" size="xs">
-          <Icon as={UserRoundPlus} boxSize="5" />
-          Convidar Membro
+          <Icon as={SendIcon} boxSize="5" />
+          Enviar convite
         </Button>
       </Dialog.Trigger>
       <Portal>
@@ -57,12 +58,13 @@ const DialogSendInvite = () => {
         <Dialog.Positioner>
           <Dialog.Content css={contentCss}>
             <Dialog.Header>
-              <Dialog.Title>Convidar Membro</Dialog.Title>
+              <Dialog.Title>Enviar convite para Membro</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body spaceY="4">
               {organizationProfileError && (
                 <Text role="alert">{organizationProfileError.message}</Text>
               )}
+
               <Field
                 label="E-mail do membro"
                 invalid={Boolean(errors.email)}
@@ -202,12 +204,7 @@ const DialogSendInvite = () => {
                         collection={loadSelectEstablishmentsFormSendInvite}
                         value={field.value}
                         multiple
-                        disabled={
-                          !isRestrictedScope ||
-                          isLoadingOrganizationProfile ||
-                          isLoadingEstablishmentsByOrganizationProfile ||
-                          Boolean(organizationProfileError)
-                        }
+                        disabled={!isRestrictedScope}
                         onValueChange={({ value }) =>
                           field.onChange(changeEstablishments(value))
                         }
@@ -224,6 +221,9 @@ const DialogSendInvite = () => {
                             <Select.ValueText placeholder="Selecione os estabelecimentos" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>
+                            {isLoadingEstablishmentsByOrganizationProfile && (
+                              <Spinner size="sm" />
+                            )}
                             <Select.Indicator />
                           </Select.IndicatorGroup>
                         </Select.Control>
@@ -279,19 +279,15 @@ const DialogSendInvite = () => {
                   Cancelar
                 </Button>
               </Dialog.ActionTrigger>
+
               <Button
                 rounded="lg"
                 size="sm"
                 loading={isPendingSendInvite}
-                disabled={
-                  isRestrictedScope &&
-                  (isLoadingOrganizationProfile ||
-                    isLoadingEstablishmentsByOrganizationProfile ||
-                    Boolean(organizationProfileError))
-                }
+                disabled={disabledButtonSendInvite}
                 onClick={handleSendInvite}
               >
-                Enviar
+                Convidar
               </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>

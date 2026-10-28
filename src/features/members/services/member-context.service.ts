@@ -37,9 +37,7 @@ export const getMeContextService = async (establishmentId?: string) => {
       establishmentId,
     },
   })
-
-  const validatedResponse = validate.errors(response)
-  const parsedResponse = GetMeContextSchema.safeParse(validatedResponse)
+  const parsedResponse = GetMeContextSchema.safeParse(validate.errors(response))
   if (!parsedResponse.success) {
     throw new BadRequestError(z.prettifyError(parsedResponse.error))
   }

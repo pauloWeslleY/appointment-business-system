@@ -1,20 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from '@tanstack/react-router'
+import { type LinkProps, useNavigate } from '@tanstack/react-router'
 import { useLocation } from '@tanstack/react-router'
-import type { SuccessContext } from 'better-auth/react'
+import { type SuccessContext } from 'better-auth/react'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 import { takeSubscriptionLoginReturn } from '@/features/subscriptions/services/subscription-login-return'
 import { authClient } from '@/lib/auth'
+import { cookie } from '@/shared/cache/cookie'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 
 import { LoginFormSchema } from '../schemas/login-form.schema'
 import type { AuthModel } from '../types/authentication.model'
 import type { LoginFormData } from '../types/login-form-data.type'
 
-const DEFAULT_CALLBACK_URL = '/organization'
+const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/'
 
 export function useLoginPage() {
   const [isPendingLoginWithGoogle, startTransition] = useTransition()
@@ -33,6 +34,8 @@ export function useLoginPage() {
       password: '',
     },
   })
+  const redirectToLogin = cookie.get('redirectTo')
+  const hasRedirectToLogin = Boolean(redirectToLogin)
 
   const handleSignInWithGoogle = () => {
     startTransition(async () => {
@@ -52,16 +55,26 @@ export function useLoginPage() {
       {
         onSuccess: ({ data }: SuccessContext<AuthModel>) => {
           toaster.success({
-            title: `Usuário ${data.user.name} logado com sucesso`,
+            title: `Usuário ${data.user.name}`,
+            description: 'Entrou no sistema',
           })
 
           reset()
+
+          if (redirectToLogin) {
+            navigate({ to: redirectToLogin, replace: true })
+            return
+          }
+
           const returnTo = takeSubscriptionLoginReturn(sessionStorage)
           navigate({ to: returnTo ?? DEFAULT_CALLBACK_URL })
         },
         onError: ({ error }) => {
-          const _error = mapErrorsLabel[error.code] ?? error.message
-          toaster.error({ title: _error || 'Erro ao realizar login' })
+          const _error = mapErrorsLabel[error.code] || error.message
+          toaster.error({
+            title: _error || 'Erro ao realizar login',
+            description: 'Tente novamente mais tarde',
+          })
           setError('root', {
             type: 'custom',
             message: _error || 'Erro ao realizar login',
@@ -73,11 +86,12 @@ export function useLoginPage() {
 
   return {
     errors,
+    register,
     isSubmitting,
     isPendingLoginWithGoogle,
-    register,
-    handleSubmit,
     onSubmitLogin,
+    hasRedirectToLogin,
+    handleSubmit,
     handleSignInWithGoogle,
   }
 }

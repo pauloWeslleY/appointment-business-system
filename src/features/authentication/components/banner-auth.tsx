@@ -1,32 +1,12 @@
-import { Box, Flex, For, Image, Stack, Text } from '@chakra-ui/react'
+import { Box, Flex, For, Stack, Text } from '@chakra-ui/react'
 
-import { ColorModeButton, useColorModeValue } from '@/components/ui/color-mode'
+import Logotipo from '@/components/logotipo'
+import { ColorModeButton } from '@/components/ui/color-mode'
 
 import { GeometricBackground } from './geometric-background'
 import ItemContentAuthLayout from './item-content-auth-layout'
 
-const loadContentAuthLayout = [
-  {
-    title: 'Agende seus clientes com facilidade',
-    description: 'Interface simples e intuitiva para o dia a dia.',
-  },
-  {
-    title: 'Acompanhe o desempenho do seu negócio',
-    description: 'Monitore o crescimento e o desempenho do seu negócio.',
-  },
-  {
-    title: 'Gerencie seus serviços de forma eficiente',
-    description:
-      'Organize e administre seus serviços de maneira prática e eficaz.',
-  },
-] as const
-
 const BannerAuth = () => {
-  const logo = useColorModeValue(
-    '/logo/icon-gradient.svg',
-    '/logo/icon-navy.svg',
-  )
-
   return (
     <Stack
       gridColumn="span 2"
@@ -54,7 +34,7 @@ const BannerAuth = () => {
 
       {/* Logo and system name */}
       <Flex align="center" gap="2">
-        <Image src={logo} alt="Logo" boxSize="14" />
+        <Logotipo variant="icon" boxSize="14" />
 
         <Box>
           <Text
@@ -116,7 +96,24 @@ const BannerAuth = () => {
           gridTemplateColumns="repeat(auto-fill, minmax(800px, 1fr))"
           gap={{ base: '2', lg: '6' }}
         >
-          <For each={loadContentAuthLayout}>
+          <For
+            each={[
+              {
+                title: 'Agende seus clientes com facilidade',
+                description: 'Interface simples e intuitiva para o dia a dia.',
+              },
+              {
+                title: 'Acompanhe o desempenho do seu negócio',
+                description:
+                  'Monitore o crescimento e o desempenho do seu negócio.',
+              },
+              {
+                title: 'Gerencie seus serviços de forma eficiente',
+                description:
+                  'Organize e administre seus serviços de maneira prática e eficaz.',
+              },
+            ]}
+          >
             {(item, index) => (
               <ItemContentAuthLayout key={index} index={index} item={item} />
             )}

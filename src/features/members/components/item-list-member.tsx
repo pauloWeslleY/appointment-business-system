@@ -1,7 +1,10 @@
-import { Avatar, Box, HStack, Stack, Text } from '@chakra-ui/react'
+import { Avatar, Badge, HStack, Text } from '@chakra-ui/react'
 import type { Member } from 'better-auth/client/plugins'
 
-import { MemberRoles } from '../types/member-role.type'
+import {
+  mapLabelMemberRole,
+  type MemberRoleType,
+} from '../types/member-role.type'
 
 interface ItemListMemberProps {
   member: Member & {
@@ -15,29 +18,31 @@ interface ItemListMemberProps {
 }
 
 const ItemListMember = ({ member }: ItemListMemberProps) => {
+  const role = mapLabelMemberRole(member.role as MemberRoleType)
+
   return (
     <HStack>
-      <Stack>
-        <Avatar.Root size="sm">
-          <Avatar.Image src={member.user.image} alt={member.user.name} />
-        </Avatar.Root>
+      <Avatar.Root size="sm">
+        <Avatar.Image src={member.user.image} alt={member.user.name} />
+        <Avatar.Fallback />
+      </Avatar.Root>
 
-        <Box>
-          <Text
-            fontSize="md"
-            fontWeight="bold"
-            letterSpacing="wide"
-            color={{ _light: 'slate.500', _dark: 'slate.300' }}
-          >
-            {member.user.name}
-          </Text>
-          <Text fontSize="xs">
-            {member.role === MemberRoles.OWNER
-              ? 'Proprietário da empresa'
-              : 'Member'}
-          </Text>
-        </Box>
-      </Stack>
+      <div>
+        <Text
+          truncate
+          fontSize="md"
+          fontWeight="medium"
+          letterSpacing="wide"
+          lineHeight="shorter"
+          color={{ _light: 'slate.500', _dark: 'slate.300' }}
+        >
+          {member.user.name}
+        </Text>
+
+        <Badge size="sm" variant="subtle" colorPalette={role.color}>
+          {role.label}
+        </Badge>
+      </div>
     </HStack>
   )
 }

@@ -1,18 +1,32 @@
 import { redirect } from '@tanstack/react-router'
 
-import { validateEnsureOrganizationExists } from '@/features/authentication/validations/validate-organization-exists'
-import { getOrganizationProfileService } from '@/features/organization-profile/services/organizaton-profile.service'
+import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 
-import { getEstablishmentsByOrganizationProfileIdService } from '../services/establishment.service'
-
-export const validationEstablishmentExistsRouteHome = async () => {
-  await validateEnsureOrganizationExists()
-  const organizationProfile = await getOrganizationProfileService()
-  const establishments = await getEstablishmentsByOrganizationProfileIdService(
-    organizationProfile.id,
+export const validateEstablishmentExistsRoute = (
+  memberContext: GetMeContextResponse,
+) => {
+  const canRead = memberContext.permissions.some(
+    (permission) =>
+      permission.resource === 'establishment' && permission.action === 'read',
   )
 
-  if (establishments.length === 0) {
+  if (!canRead) {
+    throw new Response(
+      'Você não tem permissão para consultar estabelecimentos',
+      {
+        status: 403,
+      },
+    )
+  }
+
+  const canCreate = memberContext.permissions.some(
+    (permission) =>
+      permission.resource === 'establishment' && permission.action === 'create',
+  )
+
+  const hasNoAvailableEstablishments = memberContext.establishments.length === 0
+
+  if (hasNoAvailableEstablishments && canCreate) {
     throw redirect({ to: '/establishment/new', replace: true })
   }
 }

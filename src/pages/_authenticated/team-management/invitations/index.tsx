@@ -6,15 +6,14 @@ import z from 'zod'
 
 import EmptyStateTeamManagement from '@/components/empty-state-team-management'
 import DialogSendInvite from '@/features/invitations/components/dialog-send-invite'
-import { MenuNavInvitation } from '@/features/invitations/constants/menu-nav-invitatons'
-import Invitation from '@/features/invitations/pages/invitation.page'
+import ListInvitesSendPage from '@/features/invitations/pages/list-invites-send'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_authenticated/team-management/invitations/',
 )({
   validateSearch: z.object({
-    tab: z.enum(Object.values(MenuNavInvitation)).optional().default('send'),
+    q: z.string().optional(),
   }),
   component: InvitationPage,
 })
@@ -22,7 +21,6 @@ export const Route = createFileRoute(
 const routeTeamManagement = getRouteApi('/_authenticated/team-management')
 
 function InvitationPage() {
-  const searchParams = Route.useSearch()
   const teamManagementRoute = routeTeamManagement.useLoaderData()
 
   if (teamManagementRoute.totalInvitations === '0') {
@@ -38,14 +36,8 @@ function InvitationPage() {
   }
 
   return (
-    <Card.Root
-      css={cardSectionCss}
-      variant="outline"
-      display="flex"
-      flexDir="column"
-      gap="3"
-    >
-      <Invitation searchParams={searchParams} />
+    <Card.Root css={cardSectionCss} variant="outline">
+      <ListInvitesSendPage />
     </Card.Root>
   )
 }

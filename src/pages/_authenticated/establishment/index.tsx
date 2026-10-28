@@ -21,7 +21,7 @@ import FilterEstablishmentOpening from '@/features/establishment/components/filt
 import StatsEstablishments from '@/features/establishment/components/stats-establishments'
 import { useGetEstablishmentsByOwner } from '@/features/establishment/hooks/use-get-esblishment-by-owner'
 import ListEstablishmentPage from '@/features/establishment/pages/list-establishment.page'
-import { validationEstablishmentExistsRouteHome } from '@/features/establishment/validations/validation-establishment-exists.route'
+import { validateEstablishmentExistsRoute } from '@/features/establishment/validations/validation-establishment-exists.route'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_authenticated/establishment/')({
@@ -31,7 +31,8 @@ export const Route = createFileRoute('/_authenticated/establishment/')({
     q: z.string().optional(),
     opening: z.coerce.string().optional(),
   }),
-  beforeLoad: async () => await validationEstablishmentExistsRouteHome(),
+  beforeLoad: ({ context }) =>
+    validateEstablishmentExistsRoute(context.memberContext),
   component: EstablishmentPage,
 })
 

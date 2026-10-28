@@ -25,8 +25,8 @@ export const mapLabelInvitationStatus = (
   const map: Record<StatusInvitationsType, InvitationStatusLabel> = {
     [StatusInvitations.PENDING]: { label: 'Pendente', color: 'yellow' },
     [StatusInvitations.ACCEPTED]: { label: 'Aceito', color: 'green' },
-    [StatusInvitations.REJECTED]: { label: 'Rejeitado', color: 'red' },
-    [StatusInvitations.CANCELED]: { label: 'Cancelado', color: 'gray' },
+    [StatusInvitations.REJECTED]: { label: 'Rejeitado', color: 'orange' },
+    [StatusInvitations.CANCELED]: { label: 'Cancelado', color: 'red' },
   }
 
   return map[status]

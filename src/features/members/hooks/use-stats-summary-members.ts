@@ -1,24 +1,23 @@
-import { useQueries, useQueryClient } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
+import { getRouteApi } from '@tanstack/react-router'
 import { StickyNoteCheck, Users2Icon } from 'lucide-react'
 import { type ElementType, useMemo } from 'react'
 
 import { listInvitationsQueryOptions } from '@/features/invitations/queries/invitations.query-options'
+import { StatusInvitations } from '@/features/invitations/types/status-invitations.type'
 
-import { memberQueryKey } from '../queries/member.query-key'
 import { listMembersQueryOptions } from '../queries/member.query-options'
-import type { GetMemberDetailsResponse } from '../types/member-response.type'
+
+const authenticatedRoute = getRouteApi('/_authenticated')
 
 export function useStatsSummaryMembers() {
-  const queryClient = useQueryClient()
-  const memberDetail = queryClient.getQueryData<GetMemberDetailsResponse>(
-    memberQueryKey.context(),
-  )
-  const [listMembers, listInvites] = useQueries({
+  const { memberContext } = authenticatedRoute.useRouteContext()
+  const [{ data: listMembers }, { data: listInvites }] = useQueries({
     queries: [
-      listMembersQueryOptions(memberDetail?.member.organizationId),
+      listMembersQueryOptions(memberContext?.member.organizationId),
       listInvitationsQueryOptions(
-        memberDetail?.member.userId,
-        memberDetail?.member.organizationId,
+        memberContext?.member.userId,
+        memberContext?.member.organizationId,
       ),
     ],
   })
@@ -30,10 +29,10 @@ export function useStatsSummaryMembers() {
       title: string
     }[]
   >(() => {
-    const filteredInvitesPending = listInvites?.data?.invitations.filter(
-      (invite) => invite.status === 'pending',
+    const filteredInvitesPending = listInvites?.invitations.filter(
+      (invite) => invite.status === StatusInvitations.PENDING,
     )
-    const totalMembers = listMembers?.data?.data?.total?.toString() ?? '0'
+    const totalMembers = listMembers?.total?.toString() ?? '0'
     const totalInvites = filteredInvitesPending?.length.toString() ?? '0'
 
     return [
@@ -48,7 +47,7 @@ export function useStatsSummaryMembers() {
         title: 'Convites pendentes',
       },
     ]
-  }, [listMembers?.data?.data?.total, listInvites?.data?.invitations])
+  }, [listMembers?.total, listInvites?.invitations])
 
   return {
     getMembers,

@@ -1,10 +1,27 @@
-import { queryOptions } from '@tanstack/react-query'
+import { queryOptions, skipToken } from '@tanstack/react-query'
 
-import { authClient } from '@/lib/auth'
-
-import { getMemberDetailsService } from '../services/member.service'
+import {
+  getMemberDetailsService,
+  listMembersService,
+} from '../services/member.service'
 import { getMeContextService } from '../services/member-context.service'
 import { memberQueryKey } from './member.query-key'
+
+export const memberContextQueryOptions = (
+  userId?: string,
+  organizationId?: string,
+  establishmentId?: string,
+) => {
+  return queryOptions({
+    queryKey: memberQueryKey.meContextByOrganization(
+      organizationId,
+      userId,
+      establishmentId,
+    ),
+    queryFn: () => getMeContextService(establishmentId),
+    staleTime: 0,
+  })
+}
 
 export const getMeContextQueryOptions = (establishmentId?: string) => {
   return queryOptions({
@@ -24,11 +41,9 @@ export const getMemberContextQueryOptions = () => {
 export const listMembersQueryOptions = (organizationId?: string) => {
   return queryOptions({
     queryKey: memberQueryKey.members(organizationId),
-    queryFn: () => {
-      return authClient.organization.listMembers({
-        query: { organizationId },
-      })
-    },
-    enabled: !!organizationId,
+    queryFn:
+      organizationId !== undefined && organizationId !== ''
+        ? () => listMembersService(organizationId)
+        : skipToken,
   })
 }

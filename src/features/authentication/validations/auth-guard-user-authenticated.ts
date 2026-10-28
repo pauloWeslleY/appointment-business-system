@@ -8,6 +8,6 @@ export const authGuardUserAuthenticated = async () => {
 
   if (data) {
     const returnTo = takeSubscriptionLoginReturn(sessionStorage)
-    throw redirect({ to: returnTo ?? '/organization', replace: true })
+    throw redirect({ to: returnTo ?? '/establishment', replace: true })
   }
 }

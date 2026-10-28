@@ -3,28 +3,20 @@ import {
   Card,
   Flex,
   For,
-  Icon,
-  Input,
-  InputGroup,
   Separator,
+  SimpleGrid,
   Skeleton,
-  VStack,
 } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
-import { SearchIcon } from 'lucide-react'
 
-import { authClient } from '@/lib/auth'
+import SearchPage from '@/components/search-page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import { listMembersQueryOptions } from '../queries/member.query-options'
+import { useListMembers } from '../hooks/use-list-members'
 import ItemListMember from './item-list-member'
 
 const ListMembers = () => {
-  const { data: session } = authClient.useSession()
-  const { data: members, isLoading: isLoadingMembers } = useQuery(
-    listMembersQueryOptions(session?.session.activeOrganizationId ?? undefined),
-  )
-  const listAllMembers = members?.data?.members ?? []
+  const { isLoadingMembers, listFilteredMembers, hasExistingMembers } =
+    useListMembers()
 
   return (
     <Card.Root
@@ -45,33 +37,28 @@ const ListMembers = () => {
           Membros da empresa
         </Card.Title>
 
-        <InputGroup
-          maxW="200px"
-          startElement={<Icon as={SearchIcon} boxSize="5" />}
-        >
-          <Input placeholder="Buscar" rounded="lg" variant="subtle" />
-        </InputGroup>
+        <SearchPage />
       </Flex>
 
       <Separator borderColor={{ _light: 'slate.200', _dark: 'slate.900' }} />
 
-      {isLoadingMembers && <Skeleton height="150px" rounded="lg" />}
+      {isLoadingMembers && <Skeleton height="40px" rounded="xl" />}
 
-      {!isLoadingMembers && listAllMembers.length === 0 && (
+      {!hasExistingMembers && (
         <Alert.Root rounded="lg" variant="subtle">
           <Alert.Indicator />
           <Alert.Title>Não há membros cadastrados.</Alert.Title>
         </Alert.Root>
       )}
 
-      {!isLoadingMembers && listAllMembers.length !== 0 && (
-        <VStack gap="2">
-          <For each={listAllMembers}>
+      {hasExistingMembers && (
+        <SimpleGrid columns={{ base: 1, md: 4 }} gap="2">
+          <For each={listFilteredMembers}>
             {(member) => (
               <ItemListMember key={member?.user.id} member={member} />
             )}
           </For>
-        </VStack>
+        </SimpleGrid>
       )}
     </Card.Root>
   )

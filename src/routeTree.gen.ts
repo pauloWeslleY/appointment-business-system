@@ -17,6 +17,7 @@ import { Route as ErrorRouteImport } from './pages/error'
 import { Route as AuthenticatedTeamManagementLayoutRouteImport } from './pages/_authenticated/team-management/layout'
 import { Route as DashboardIndexRouteImport } from './pages/dashboard/index'
 import { Route as DashboardSlugLayoutRouteImport } from './pages/dashboard/$slug/layout'
+import { Route as InvitationIndexRouteImport } from './pages/invitation/index'
 import { Route as OrganizationProfileIndexRouteImport } from './pages/organization-profile/index'
 import { Route as AuthForgotPasswordIndexRouteImport } from './pages/_auth/forgot-password/index'
 import { Route as AuthLoginIndexRouteImport } from './pages/_auth/login/index'
@@ -28,6 +29,7 @@ import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_aut
 import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './pages/_authenticated/settings/index'
 import { Route as AuthenticatedTeamManagementIndexRouteImport } from './pages/_authenticated/team-management/index'
+import { Route as Error_pageAccessDeniedIndexRouteImport } from './pages/_error_page/access-denied/index'
 import { Route as SubscriptionSubscriptionIndexRouteImport } from './pages/_subscription/subscription/index'
 import { Route as SubscriptionSubscriptionCanceledRouteImport } from './pages/_subscription/subscription/canceled'
 import { Route as SubscriptionSubscriptionReturnRouteImport } from './pages/_subscription/subscription/return'
@@ -83,6 +85,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 const DashboardSlugLayoutRoute = DashboardSlugLayoutRouteImport.update({
   id: '/dashboard/$slug',
   path: '/dashboard/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvitationIndexRoute = InvitationIndexRouteImport.update({
+  id: '/invitation/',
+  path: '/invitation/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrganizationProfileIndexRoute =
@@ -145,6 +152,12 @@ const AuthenticatedTeamManagementIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
+  } as any)
+const Error_pageAccessDeniedIndexRoute =
+  Error_pageAccessDeniedIndexRouteImport.update({
+    id: '/_error_page/access-denied/',
+    path: '/access-denied/',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const SubscriptionSubscriptionIndexRoute =
   SubscriptionSubscriptionIndexRouteImport.update({
@@ -263,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/team-management': typeof AuthenticatedTeamManagementLayoutRouteWithChildren
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/invitation/': typeof InvitationIndexRoute
   '/organization-profile/': typeof OrganizationProfileIndexRoute
   '/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
   '/subscription/return': typeof SubscriptionSubscriptionReturnRoute
@@ -276,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof AuthenticatedProfileIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/team-management/': typeof AuthenticatedTeamManagementIndexRoute
+  '/access-denied/': typeof Error_pageAccessDeniedIndexRoute
   '/subscription/': typeof SubscriptionSubscriptionIndexRoute
   '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
@@ -298,6 +313,7 @@ export interface FileRoutesByTo {
   '/error': typeof ErrorRoute
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard': typeof DashboardIndexRoute
+  '/invitation': typeof InvitationIndexRoute
   '/organization-profile': typeof OrganizationProfileIndexRoute
   '/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
   '/subscription/return': typeof SubscriptionSubscriptionReturnRoute
@@ -311,6 +327,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/team-management': typeof AuthenticatedTeamManagementIndexRoute
+  '/access-denied': typeof Error_pageAccessDeniedIndexRoute
   '/subscription': typeof SubscriptionSubscriptionIndexRoute
   '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
   '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
@@ -338,6 +355,7 @@ export interface FileRoutesById {
   '/_authenticated/team-management': typeof AuthenticatedTeamManagementLayoutRouteWithChildren
   '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/invitation/': typeof InvitationIndexRoute
   '/organization-profile/': typeof OrganizationProfileIndexRoute
   '/_subscription/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
   '/_subscription/subscription/return': typeof SubscriptionSubscriptionReturnRoute
@@ -351,6 +369,7 @@ export interface FileRoutesById {
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/team-management/': typeof AuthenticatedTeamManagementIndexRoute
+  '/_error_page/access-denied/': typeof Error_pageAccessDeniedIndexRoute
   '/_subscription/subscription/': typeof SubscriptionSubscriptionIndexRoute
   '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
@@ -376,6 +395,7 @@ export interface FileRouteTypes {
     | '/team-management'
     | '/dashboard/$slug'
     | '/dashboard/'
+    | '/invitation/'
     | '/organization-profile/'
     | '/subscription/canceled'
     | '/subscription/return'
@@ -389,6 +409,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/settings/'
     | '/team-management/'
+    | '/access-denied/'
     | '/subscription/'
     | '/organization/create/'
     | '/team-management/invitations/'
@@ -411,6 +432,7 @@ export interface FileRouteTypes {
     | '/error'
     | '/dashboard/$slug'
     | '/dashboard'
+    | '/invitation'
     | '/organization-profile'
     | '/subscription/canceled'
     | '/subscription/return'
@@ -424,6 +446,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/team-management'
+    | '/access-denied'
     | '/subscription'
     | '/organization/create'
     | '/team-management/invitations'
@@ -450,6 +473,7 @@ export interface FileRouteTypes {
     | '/_authenticated/team-management'
     | '/dashboard/$slug'
     | '/dashboard/'
+    | '/invitation/'
     | '/organization-profile/'
     | '/_subscription/subscription/canceled'
     | '/_subscription/subscription/return'
@@ -463,6 +487,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile/'
     | '/_authenticated/settings/'
     | '/_authenticated/team-management/'
+    | '/_error_page/access-denied/'
     | '/_subscription/subscription/'
     | '/_authenticated/organization/create/'
     | '/_authenticated/team-management/invitations/'
@@ -489,7 +514,9 @@ export interface RootRouteChildren {
   ErrorRoute: typeof ErrorRoute
   DashboardSlugLayoutRoute: typeof DashboardSlugLayoutRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
+  InvitationIndexRoute: typeof InvitationIndexRoute
   OrganizationProfileIndexRoute: typeof OrganizationProfileIndexRoute
+  Error_pageAccessDeniedIndexRoute: typeof Error_pageAccessDeniedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -548,6 +575,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/$slug'
       fullPath: '/dashboard/$slug'
       preLoaderRoute: typeof DashboardSlugLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invitation/': {
+      id: '/invitation/'
+      path: '/invitation'
+      fullPath: '/invitation/'
+      preLoaderRoute: typeof InvitationIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/organization-profile/': {
@@ -626,6 +660,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/team-management/'
       preLoaderRoute: typeof AuthenticatedTeamManagementIndexRouteImport
       parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
+    }
+    '/_error_page/access-denied/': {
+      id: '/_error_page/access-denied/'
+      path: '/access-denied'
+      fullPath: '/access-denied/'
+      preLoaderRoute: typeof Error_pageAccessDeniedIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_subscription/subscription/': {
       id: '/_subscription/subscription/'
@@ -894,7 +935,9 @@ const rootRouteChildren: RootRouteChildren = {
   ErrorRoute: ErrorRoute,
   DashboardSlugLayoutRoute: DashboardSlugLayoutRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,
+  InvitationIndexRoute: InvitationIndexRoute,
   OrganizationProfileIndexRoute: OrganizationProfileIndexRoute,
+  Error_pageAccessDeniedIndexRoute: Error_pageAccessDeniedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

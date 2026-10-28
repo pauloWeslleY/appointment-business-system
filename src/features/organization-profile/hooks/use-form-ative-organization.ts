@@ -24,7 +24,7 @@ export function useFormAtiveOrganization() {
   const {
     isPending: isPendingUpdateActiveOrganization,
     mutate: activeOrganization,
-  } = useMutation({ ...meContextMutationOptions.create() })
+  } = useMutation(meContextMutationOptions.create())
   const queryClient = useQueryClient()
 
   const {

@@ -25,7 +25,7 @@ export const organizationDetailQueryOptions = (organizationId?: string) => {
       const { data, error } = await getFullOrganization(organizationId)
 
       if (error) {
-        throw new Error(`Failed to fetch organization: ${error.message}`)
+        throw new Error(error.message)
       }
 
       return data
