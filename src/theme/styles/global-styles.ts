@@ -27,8 +27,8 @@ export const cardCss = defineStyle({
 })
 
 export const cardSectionCss = defineStyle({
-  rounded: 'xl',
   shadow: 'xs',
+  rounded: 'xl',
   bg: { _light: 'white', _dark: 'gray.950/40' },
   borderColor: { _light: 'gray.200', _dark: 'secondary.500/20' },
   p: { base: '2', md: '4' },

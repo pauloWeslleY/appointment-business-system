@@ -101,7 +101,7 @@ export function useFormUpadteScopeMember(memberId?: string) {
         },
         onError: (error) => {
           toaster.error({
-            title: 'Ops!Erro ao atualizar escopo do membro',
+            title: 'Ops! Erro ao atualizar escopo do membro',
             description:
               error.message ?? 'não foi possível atualizar o escopo do membro',
           })

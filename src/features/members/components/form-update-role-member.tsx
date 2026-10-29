@@ -1,4 +1,4 @@
-import { Button, chakra, Portal, Select } from '@chakra-ui/react'
+import { Button, chakra, Portal, Select, Skeleton } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
@@ -18,11 +18,16 @@ const FormUpadteRoleMember = ({ memberId }: FormUpadteRoleMemberProps) => {
   const {
     loadSelectRoleUpdateMember,
     isPendingUpdateRoleMember,
+    isLoadingActiveMember,
     errors,
     control,
     handleSubmit,
     handleFormSubmitUpdateRoleMember,
   } = useFormUpadteRoleMember(memberId)
+
+  if (isLoadingActiveMember) {
+    return <Skeleton height="80px" rounded="xl" />
+  }
 
   return (
     <chakra.form
@@ -33,6 +38,7 @@ const FormUpadteRoleMember = ({ memberId }: FormUpadteRoleMemberProps) => {
       border="1px solid"
       {...cardSectionCss}
       p="2"
+      shadow="none"
     >
       <Controller
         control={control}

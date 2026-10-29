@@ -19,6 +19,7 @@ import {
   UpdateStatusMemberResponseApiSchema,
 } from '../schemas/update-status-member.api.schema'
 import type { CreateMeContextRequestType } from '../types/create-me-context-request.type'
+import type { ListMemberApiResponse } from '../types/list-member.api.type'
 import type {
   GetMeContextResponse,
   GetMemberDetailsResponse,
@@ -102,7 +103,7 @@ export const updateRoleMemberService = async (
     method: HttpMethod.PATCH,
     url: `/admin/members/${request.memberId}/role`,
     body: {
-      role: request.role,
+      role: request.role[0],
     },
   })
   const parsedResponse = UpdateRoleMemberResponseApiSchema.safeParse(
@@ -124,7 +125,7 @@ export const updateStatusMemberService = async (
     method: HttpMethod.PATCH,
     url: `/admin/members/${request.memberId}/status`,
     body: {
-      status: request.status,
+      status: request.status[0],
     },
   })
   const parsedResponse = UpdateStatusMemberResponseApiSchema.safeParse(
@@ -137,7 +138,9 @@ export const updateStatusMemberService = async (
   return parsedResponse.data
 }
 
-export async function listMembersService(organizationId: string) {
+export async function listMembersService(
+  organizationId: string,
+): Promise<ListMemberApiResponse> {
   const result = await authClient.organization.listMembers({
     query: { organizationId },
   })
@@ -152,4 +155,31 @@ export async function listMembersService(organizationId: string) {
   }
 
   return result.data
+}
+
+export async function getActiveMemberService(
+  organizationId: string,
+  memberId: string,
+): Promise<ListMemberApiResponse['members'][number]> {
+  const result = await authClient.organization.listMembers({
+    query: {
+      organizationId,
+      filterField: 'id',
+      filterOperator: 'eq',
+      filterValue: memberId,
+      limit: 1,
+    },
+  })
+
+  if (result.error) {
+    throw new Response(
+      result.error.message ||
+        'Erro ao consultar o membro ativo da organização.',
+      {
+        status: result.error.status,
+      },
+    )
+  }
+
+  return result.data.members[0]
 }

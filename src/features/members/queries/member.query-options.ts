@@ -1,6 +1,7 @@
 import { queryOptions, skipToken } from '@tanstack/react-query'
 
 import {
+  getActiveMemberService,
   getMemberDetailsService,
   listMembersService,
 } from '../services/member.service'
@@ -44,6 +45,22 @@ export const listMembersQueryOptions = (organizationId?: string) => {
     queryFn:
       organizationId !== undefined && organizationId !== ''
         ? () => listMembersService(organizationId)
+        : skipToken,
+  })
+}
+
+export const getActiveMemberQueryOptions = (
+  organizationId?: string,
+  memberId?: string,
+) => {
+  return queryOptions({
+    queryKey: memberQueryKey.activeMember(organizationId, memberId),
+    queryFn:
+      organizationId !== undefined &&
+      organizationId !== '' &&
+      memberId !== undefined &&
+      memberId !== ''
+        ? () => getActiveMemberService(organizationId, memberId)
         : skipToken,
   })
 }

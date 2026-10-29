@@ -24,4 +24,7 @@ export const memberQueryKey = {
 
   members: (organizationId?: string) =>
     [...memberQueryKey.list(), organizationId] as const,
+
+  activeMember: (organizationId?: string, memberId?: string) =>
+    [...memberQueryKey.list(), organizationId, memberId] as const,
 }

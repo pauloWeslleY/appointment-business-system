@@ -32,6 +32,7 @@ const FormUpadteStatusMember = ({ memberId }: FormUpadteStatusMemberProps) => {
       border="1px solid"
       {...cardSectionCss}
       p="2"
+      shadow="none"
     >
       <Controller
         control={control}

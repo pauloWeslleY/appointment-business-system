@@ -35,9 +35,19 @@ const ItemListMember = ({
   ...rest
 }: ItemListMemberProps) => {
   const role = mapLabelMemberRole(member.role as MemberRoleType)
+  const mapColor = member.role === MemberRoles.OWNER ? 'blue' : 'gray'
 
   return (
-    <HStack {...rest}>
+    <HStack
+      {...rest}
+      pl="2"
+      pr="1"
+      py="2.5"
+      rounded="md"
+      bg={{ _light: 'slate.200/10', _dark: 'slate.800/20' }}
+      borderLeft="5px solid"
+      borderColor={{ _light: `${mapColor}.500`, _dark: `${mapColor}.400` }}
+    >
       <Flex align="center" gap="2" flex="1">
         <Avatar.Root size="sm">
           <Avatar.Image src={member.user.image} alt={member.user.name} />
@@ -51,25 +61,21 @@ const ItemListMember = ({
             fontWeight="medium"
             letterSpacing="wide"
             lineHeight="shorter"
-            color={{ _light: 'slate.500', _dark: 'slate.300' }}
+            color={{ _light: 'slate.800', _dark: 'slate.300' }}
           >
             {member.user.name}
           </Text>
 
-          <Badge
-            size="sm"
-            variant="surface"
-            colorPalette={member.role === MemberRoles.OWNER ? 'blue' : 'gray'}
-          >
+          <Badge size="sm" variant="surface" colorPalette={mapColor}>
             {role.label}
           </Badge>
         </div>
       </Flex>
 
       <IconButton
-        colorPalette="gray"
+        colorPalette="brand"
         rounded="xl"
-        variant="outline"
+        variant="ghost"
         size="xs"
         onClick={onSidebarOpen}
       >

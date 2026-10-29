@@ -45,6 +45,7 @@ const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
       border="1px solid"
       {...cardSectionCss}
       p="2"
+      shadow="none"
     >
       <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
         <Controller
