@@ -1,12 +1,46 @@
-import { Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
-import { Link } from '@tanstack/react-router'
-import { useNavigate } from '@tanstack/react-router'
+import { For, Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
+import { Link, type ToOptions } from '@tanstack/react-router'
 import { Settings } from 'lucide-react'
+import { useMemo } from 'react'
 
+import { RESOURCES } from '@/shared/constants/permission'
+import { usePermissions } from '@/shared/hooks/use-permissions'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
+interface MenuSettingsItemProps {
+  label: string
+  value: string
+  permission: boolean
+}
+
 const MenuSettings = () => {
-  const navigate = useNavigate()
+  const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
+
+  const menuSettings = useMemo<MenuSettingsItemProps[]>(() => {
+    const menuItems = new Set<MenuSettingsItemProps>([
+      { label: 'Perfil', value: 'account', permission: true },
+      { label: 'Configurações', value: 'settings', permission: true },
+    ])
+
+    const permission: MenuSettingsItemProps[] = [
+      {
+        label: 'Assinatura',
+        value: 'subscription',
+        permission: subscriptions.canRead,
+      },
+    ]
+
+    return permission.reduce(
+      (menu, item) => {
+        if (item.permission) {
+          menu.push(item)
+        }
+
+        return menu
+      },
+      [...Array.from(menuItems)],
+    )
+  }, [subscriptions.canRead])
 
   return (
     <Menu.Root positioning={{ placement: 'bottom-end' }}>
@@ -18,28 +52,15 @@ const MenuSettings = () => {
       <Portal>
         <Menu.Positioner>
           <Menu.Content css={contentCss}>
-            <Menu.Item
-              asChild
-              value="subscription"
-              css={menuItemCss}
-              // onClick={() => navigate({ to: '/subscription' })}
-            >
-              <Link to="/subscription">Assinatura</Link>
-            </Menu.Item>
-            <Menu.Item
-              value="profile"
-              css={menuItemCss}
-              onClick={() => navigate({ to: '/profile' })}
-            >
-              Perfil
-            </Menu.Item>
-            <Menu.Item
-              value="settings"
-              css={menuItemCss}
-              onClick={() => navigate({ to: '/settings' })}
-            >
-              Configurações
-            </Menu.Item>
+            <For each={menuSettings} fallback={null}>
+              {(item) => (
+                <Menu.Item asChild value={item.value} css={menuItemCss}>
+                  <Link to={`/${item.value}` as ToOptions['to']}>
+                    {item.label}
+                  </Link>
+                </Menu.Item>
+              )}
+            </For>
           </Menu.Content>
         </Menu.Positioner>
       </Portal>

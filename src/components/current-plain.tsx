@@ -1,18 +1,16 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Icon, Text } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 import { Crown } from 'lucide-react'
 
+import { RESOURCES } from '@/shared/constants/permission'
+import { usePermissions } from '@/shared/hooks/use-permissions'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
+
+import { Tooltip } from './ui/tooltip'
 
 const CurrentPlan = () => {
   const { collapsed } = useMenuCollapse()
+  const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
 
   return (
     <Flex
@@ -29,51 +27,58 @@ const CurrentPlan = () => {
       borderWidth="1px"
       borderColor={{ base: 'gray.300', _dark: 'secondary.500/20' }}
     >
-      <HStack gap="4" display={collapsed ? 'none' : 'flex'}>
-        <Flex
-          p="2"
-          rounded="lg"
-          bg={{ _light: 'yellow.300', _dark: 'yellow.800' }}
+      <HStack gap={!collapsed ? '4' : '0'}>
+        <Tooltip
+          content="Você está no plano Básico."
+          showArrow
+          positioning={{ placement: 'top-start' }}
         >
-          <Icon
-            as={Crown}
-            boxSize="4"
-            color={{ _light: 'yellow.800', _dark: 'yellow.300' }}
-          />
-        </Flex>
-
-        <Box>
-          <Text
-            as="span"
-            fontSize="md"
-            color={{ _light: 'gray.800', _dark: 'gray.200' }}
+          <Flex
+            p="2"
+            rounded="lg"
+            bg={{ _light: 'yellow.300', _dark: 'yellow.800' }}
           >
-            Plano atual
-          </Text>
-          <Text fontSize="sm" color={{ _light: 'gray.800', _dark: 'gray.400' }}>
-            Você está no plano Básico.
-          </Text>
-        </Box>
+            <Icon
+              as={Crown}
+              boxSize="4"
+              color={{ _light: 'yellow.800', _dark: 'yellow.300' }}
+            />
+          </Flex>
+        </Tooltip>
+
+        {!collapsed && (
+          <Box>
+            <Text
+              as="span"
+              fontSize="md"
+              color={{ _light: 'gray.800', _dark: 'gray.200' }}
+            >
+              Plano atual
+            </Text>
+            <Text
+              fontSize="sm"
+              color={{ _light: 'gray.800', _dark: 'gray.400' }}
+            >
+              Você está no plano Básico.
+            </Text>
+          </Box>
+        )}
       </HStack>
 
-      {collapsed ? (
-        <IconButton
-          aria-label="Plano atual"
-          variant="surface"
-          colorPalette="yellow"
-          rounded="lg"
-          size="sm"
-        >
-          <Icon
-            as={Crown}
-            boxSize="4"
-            color={{ _light: 'yellow.800', _dark: 'yellow.300' }}
-          />
-        </IconButton>
-      ) : (
-        <Button w="full" rounded="lg" colorPalette="grey" variant="surface">
-          Gerenciar plano
-        </Button>
+      {subscriptions.canRead && (
+        <>
+          {!collapsed && (
+            <Button
+              asChild
+              w="full"
+              rounded="lg"
+              colorPalette="grey"
+              variant="surface"
+            >
+              <Link to="/subscription">Gerenciar plano</Link>
+            </Button>
+          )}
+        </>
       )}
     </Flex>
   )

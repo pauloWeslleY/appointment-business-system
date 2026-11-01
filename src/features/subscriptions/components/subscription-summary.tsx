@@ -8,6 +8,9 @@ import {
   Text,
 } from '@chakra-ui/react'
 
+import { RESOURCES } from '@/shared/constants/permission'
+import { usePermissions } from '@/shared/hooks/use-permissions'
+
 import { useSubscriptionSummary } from '../hooks/use-subscription-summary'
 import {
   formatSubscriptionDate,
@@ -33,6 +36,7 @@ export function SubscriptionSummary() {
     handleStartTrial,
     handleOpenBillingPortal,
   } = useSubscriptionSummary()
+  const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
 
   return (
     <SubscriptionSection>
@@ -156,37 +160,39 @@ export function SubscriptionSummary() {
         </Text>
       )}
 
-      <HStack mt="6" flexWrap="wrap" gap="3">
-        {canStartTrial && (
+      {subscriptions.canUpdate && (
+        <HStack mt="6" flexWrap="wrap" gap="3">
+          {canStartTrial && (
+            <Button
+              rounded="lg"
+              loading={isSubscriptionActionPending}
+              onClick={handleStartTrial}
+            >
+              Iniciar teste gratuito
+            </Button>
+          )}
+
+          {subscription && canReadSubscription && (
+            <Button
+              rounded="lg"
+              variant="outline"
+              loading={isSubscriptionActionPending}
+              onClick={handleOpenBillingPortal}
+            >
+              Cartão, faturas e regularização
+            </Button>
+          )}
+
           <Button
             rounded="lg"
-            loading={isSubscriptionActionPending}
-            onClick={handleStartTrial}
+            variant="ghost"
+            loading={subscriptionAccessQuery.isFetching}
+            onClick={refreshSubscriptionAccess}
           >
-            Iniciar teste gratuito
+            Atualizar estado
           </Button>
-        )}
-
-        {subscription && canReadSubscription && (
-          <Button
-            rounded="lg"
-            variant="outline"
-            loading={isSubscriptionActionPending}
-            onClick={handleOpenBillingPortal}
-          >
-            Cartão, faturas e regularização
-          </Button>
-        )}
-
-        <Button
-          rounded="lg"
-          variant="ghost"
-          loading={subscriptionAccessQuery.isFetching}
-          onClick={refreshSubscriptionAccess}
-        >
-          Atualizar estado
-        </Button>
-      </HStack>
+        </HStack>
+      )}
     </SubscriptionSection>
   )
 }

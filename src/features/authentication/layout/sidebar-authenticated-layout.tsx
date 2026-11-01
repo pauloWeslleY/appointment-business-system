@@ -2,16 +2,18 @@ import { Box, For, Text } from '@chakra-ui/react'
 import React from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
+import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 
-import { loadMenuSidebarAuthenticated } from '../constants/menu-sidebar-authenticated'
 import { useSidebarAuthenticated } from '../hooks/use-sidebar-authenticated'
 
 interface SideBarAuthenticatedLayoutProps {
   children: React.ReactNode
+  menu: MenuNavigationItemProps[]
 }
 
 const SideBarAuthenticatedLayout = ({
   children,
+  menu,
 }: SideBarAuthenticatedLayoutProps) => {
   const {
     today,
@@ -24,7 +26,7 @@ const SideBarAuthenticatedLayout = ({
   return (
     <Sidebar.Root>
       <Sidebar.Aside>
-        <For each={loadMenuSidebarAuthenticated}>
+        <For each={menu}>
           {(item) => {
             if (item.type === 'header') {
               return (

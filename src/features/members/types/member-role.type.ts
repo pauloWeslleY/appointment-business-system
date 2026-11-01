@@ -10,9 +10,7 @@ export const MemberRoles = {
 } as const
 
 export const MEMBER_ROLES = Object.values(MemberRoles)
-
 export const MemberRoleSchema = z.enum(MEMBER_ROLES)
-
 export type MemberRoleType = (typeof MEMBER_ROLES)[number]
 
 interface MemberRoleLabel {

@@ -8,17 +8,17 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { type ErrorComponentProps, Navigate } from '@tanstack/react-router'
+import { type ErrorComponentProps } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import { AccessDeniedError } from '@/shared/errors'
+interface ResultProps {
+  response: Response
+  message: string
+}
 
 const ResponseErrorMessage = ({ response }: { response: Response }) => {
-  const [result, setResult] = useState<{
-    response: Response
-    message: string
-  } | null>(null)
+  const [result, setResult] = useState<ResultProps | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -70,10 +70,6 @@ const AppError = (props: ErrorComponentProps) => {
 
   const handleNavigateToPreviousPage = () => {
     window.history.back()
-  }
-
-  if (props.error instanceof AccessDeniedError) {
-    return <Navigate to="/access-denied" replace />
   }
 
   return (

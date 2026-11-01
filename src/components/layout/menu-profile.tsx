@@ -55,7 +55,7 @@ const MenuProfile = () => {
               color={{ _light: 'colorPalette.400', _dark: 'colorPalette.500' }}
             >
               <Avatar.Fallback />
-              <Avatar.Image src={storageData ?? ''} />
+              {storageData && <Avatar.Image src={storageData} />}
             </Avatar.Root>
 
             <Box textAlign="left" fontSize="sm">

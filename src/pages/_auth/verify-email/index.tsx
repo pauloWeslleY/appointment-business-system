@@ -8,6 +8,9 @@ export const Route = createFileRoute('/_auth/verify-email/')({
     token: z.string(),
   }),
   component: VerifyEmailPage,
+  head: () => ({
+    meta: [{ title: 'Verificar email' }],
+  }),
 })
 
 function VerifyEmailPage() {

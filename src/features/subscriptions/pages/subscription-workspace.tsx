@@ -1,5 +1,8 @@
 import { Alert, Button, Heading, Spinner, Stack, Text } from '@chakra-ui/react'
 
+import { RESOURCES } from '@/shared/constants/permission'
+import { usePermissions } from '@/shared/hooks/use-permissions'
+
 import { SubscriptionBilling } from '../components/subscription-billing'
 import { SubscriptionCancellation } from '../components/subscription-cancellation'
 import { SubscriptionCheckoutStatus } from '../components/subscription-checkout-status'
@@ -9,6 +12,7 @@ import { SubscriptionSummary } from '../components/subscription-summary'
 import { useSubscriptionWorkspaceContext } from '../hooks/use-subscription-workspace-context'
 
 export function SubscriptionWorkspace() {
+  const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
   const { subscriptionWorkspace } = useSubscriptionWorkspaceContext()
   const subscriptionAccessQuery = subscriptionWorkspace.subscriptionAccessQuery
   const subscriptionSnapshot = subscriptionAccessQuery.data
@@ -53,8 +57,8 @@ export function SubscriptionWorkspace() {
       <SubscriptionCheckoutStatus />
       <SubscriptionSummary />
       <SubscriptionBilling />
-      <SubscriptionCancellation />
 
+      {subscriptions.canUpdate && <SubscriptionCancellation />}
       {subscriptionWorkspace.shouldShowSubscriptionNotices && (
         <SubscriptionNotices />
       )}

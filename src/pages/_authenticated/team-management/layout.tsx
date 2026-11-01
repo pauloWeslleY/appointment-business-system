@@ -2,7 +2,6 @@ import { Box, For, HStack } from '@chakra-ui/react'
 import {
   createFileRoute,
   Link,
-  type LinkProps,
   Outlet,
   useLocation,
 } from '@tanstack/react-router'
@@ -13,23 +12,16 @@ import { MenuNavigation } from '@/components/menu-nav-links'
 import { listInvitationsQueryOptions } from '@/features/invitations/queries/invitations.query-options'
 import StatsSummaryMembers from '@/features/members/pages/stats-summary-members'
 import { listMembersQueryOptions } from '@/features/members/queries/member.query-options'
-import { authClient } from '@/lib/auth'
 
 export const Route = createFileRoute('/_authenticated/team-management')({
   loader: async ({ context }) => {
-    const { data: session } = await authClient.getSession()
+    const organizationId =
+      context.session?.session.activeOrganizationId ?? undefined
     const [invitationsResult, membersResult] = await Promise.all([
       context.queryClient.query(
-        listInvitationsQueryOptions(
-          session?.user.id,
-          session?.session.activeOrganizationId ?? undefined,
-        ),
+        listInvitationsQueryOptions(context.session?.user.id, organizationId),
       ),
-      context.queryClient.query(
-        listMembersQueryOptions(
-          session?.session?.activeOrganizationId ?? undefined,
-        ),
-      ),
+      context.queryClient.query(listMembersQueryOptions(organizationId)),
     ])
 
     return {
@@ -40,23 +32,13 @@ export const Route = createFileRoute('/_authenticated/team-management')({
   },
   component: RouteComponent,
   head: () => ({
-    meta: [
-      {
-        title: 'Equipe e acessos',
-      },
-    ],
+    meta: [{ title: 'Equipe e acessos' }],
   }),
 })
 
 function RouteComponent() {
   const { totalMembers, totalInvitations } = Route.useLoaderData()
   const { pathname } = useLocation()
-
-  const menuNavigationTeamManagement = (input: {
-    label: string
-    to: LinkProps['to']
-    active: boolean
-  }) => ({ label: input.label, to: input.to, active: input.active })
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
@@ -73,20 +55,20 @@ function RouteComponent() {
         <MenuNavigation.Root>
           <For
             each={[
-              menuNavigationTeamManagement({
+              {
                 label: `Membros (${totalMembers})`,
                 to: '/team-management/members',
                 active: pathname.includes('members'),
-              }),
-              menuNavigationTeamManagement({
+              },
+              {
                 label: `Convites (${totalInvitations})`,
                 to: '/team-management/invitations',
                 active: pathname.includes('invitations'),
-              }),
+              },
             ]}
           >
-            {({ label, to, active }) => (
-              <MenuNavigation.Link active={active} asChild>
+            {({ label, to, active }, index) => (
+              <MenuNavigation.Link key={index} active={active} asChild>
                 <Link to={to}>{label}</Link>
               </MenuNavigation.Link>
             )}

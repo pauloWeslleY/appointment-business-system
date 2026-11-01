@@ -3,7 +3,6 @@ import {
   Flex,
   Icon,
   IconButton,
-  Image,
   Separator,
   Stack,
   type StackProps,
@@ -12,7 +11,7 @@ import {
 import { ChevronLeft } from 'lucide-react'
 
 import CurrentPlan from '@/components/current-plain'
-import { useColorModeValue } from '@/components/ui/color-mode'
+import Logotipo from '@/components/logotipo'
 import { Tooltip } from '@/components/ui/tooltip'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
@@ -20,20 +19,8 @@ interface SidebarAsideProps extends StackProps {
   loading?: boolean
 }
 
-const LogotipoSystemAppointment = {
-  light: '/logo/app-light.svg',
-  dark: '/logo/app-dark.svg',
-} as const
-
-type LogotipoSystemAppointmentType =
-  (typeof LogotipoSystemAppointment)[keyof typeof LogotipoSystemAppointment]
-
 const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
   const { collapsed, setCollapsed } = useMenuCollapse()
-  const logotipo = useColorModeValue<LogotipoSystemAppointmentType>(
-    LogotipoSystemAppointment.light,
-    LogotipoSystemAppointment.dark,
-  )
 
   return (
     <Stack
@@ -84,7 +71,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
           justify={collapsed ? 'center' : 'flex-start'}
           gap="2"
         >
-          <Image src={logotipo} alt="Logotipo do sistema" boxSize="10" />
+          <Logotipo variant="app" boxSize="10" />
 
           {!collapsed && (
             <div>

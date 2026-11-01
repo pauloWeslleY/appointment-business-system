@@ -50,7 +50,9 @@ const ItemListMember = ({
     >
       <Flex align="center" gap="2" flex="1">
         <Avatar.Root size="sm">
-          <Avatar.Image src={member.user.image} alt={member.user.name} />
+          {member.user.image && (
+            <Avatar.Image src={member.user.image} alt={member.user.name} />
+          )}
           <Avatar.Fallback />
         </Avatar.Root>
 

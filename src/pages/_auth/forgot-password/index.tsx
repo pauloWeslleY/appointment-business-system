@@ -4,6 +4,9 @@ import FormForgotPassword from '@/features/authentication/pages/forgot-password.
 
 export const Route = createFileRoute('/_auth/forgot-password/')({
   component: ForgotPasswordPage,
+  head: () => ({
+    meta: [{ title: 'Esqueci minha senha' }],
+  }),
 })
 
 function ForgotPasswordPage() {

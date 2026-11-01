@@ -14,30 +14,39 @@ import {
   organizationDetailQueryOptions,
   organizationProfileSummaryQueryOptions,
 } from '@/features/organization-profile/queries/organization-profile-query-options'
+import { RESOURCES } from '@/shared/constants/permission'
+import { usePermissions } from '@/shared/hooks/use-permissions'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 
 export const Route = createFileRoute('/_authenticated/organization/')({
-  beforeLoad: async () => validateEnsureOrganizationExists(),
+  beforeLoad: () => validateEnsureOrganizationExists(),
   loader: async ({ context }) => {
-    const organizationProfile = await context.queryClient.query(
-      organizationProfileSummaryQueryOptions(),
-    )
-    const organization = await context.queryClient.query(
-      organizationDetailQueryOptions(organizationProfile.organizationId),
-    )
+    const [organizationProfile, organization] = await Promise.all([
+      context.queryClient.query(organizationProfileSummaryQueryOptions()),
+      context.queryClient.query(
+        organizationDetailQueryOptions(context.memberContext.organization.id),
+      ),
+    ])
 
-    return {
-      organization,
-      organizationProfile,
-    }
+    return { organization, organizationProfile }
   },
   component: OrganizationPage,
   errorComponent: ErrorOrganizationPage,
+  head: () => ({
+    meta: [
+      {
+        title: 'Perfil Empresarial',
+      },
+    ],
+  }),
 })
 
 function OrganizationPage() {
   const { organizationProfile, organization } = Route.useLoaderData()
+  const { organizationProfile: organizationProfilePermission } = usePermissions(
+    [RESOURCES.ORGANIZATION_PROFILE],
+  )
   const loadListDataOrganizationProfile = [
     { label: 'Razão Social', value: organizationProfile.legalName },
     { label: 'Nome Fantasia', value: organizationProfile.tradeName },
@@ -57,12 +66,14 @@ function OrganizationPage() {
           <Header.Title>Perfil Empresarial</Header.Title>
         </HStack>
 
-        <Button rounded="lg" size="xs" asChild>
-          <Link to="/organization/create">
-            <Icon as={PlusIcon} boxSize="5" />
-            Novo perfil empresarial
-          </Link>
-        </Button>
+        {organizationProfilePermission.canCreate && (
+          <Button rounded="lg" size="xs" asChild>
+            <Link to="/organization/create">
+              <Icon as={PlusIcon} boxSize="5" />
+              Novo perfil empresarial
+            </Link>
+          </Button>
+        )}
       </Header.Root>
 
       <CardOrganizationProfileSummary
@@ -70,17 +81,25 @@ function OrganizationPage() {
         organization={organization}
       />
 
-      <SimpleGrid columns={{ base: 1, lg: 2 }} gap="4">
+      <SimpleGrid
+        columns={{
+          base: 1,
+          lg: organizationProfilePermission.canUpdate ? 2 : 1,
+        }}
+        gap="4"
+      >
         <SummaryOrganizationProfile
-          icon={UserSquare2}
           title="Dados empresariais"
+          icon={UserSquare2}
           data={loadListDataOrganizationProfile}
         />
 
-        <FormUpdateOrganizationProfile />
+        {organizationProfilePermission.canUpdate && (
+          <FormUpdateOrganizationProfile />
+        )}
       </SimpleGrid>
 
-      <ActiveOrganization />
+      {organizationProfilePermission.canUpdate && <ActiveOrganization />}
     </Box>
   )
 }

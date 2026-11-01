@@ -31,6 +31,7 @@ const SidebarUpdateMember = ({
             </Drawer.Header>
             <Drawer.Body spaceY="4">
               <CardMemberSummary member={member} />
+
               <FormUpadteScopeMember memberId={member?.id} />
               <FormUpadteStatusMember memberId={member?.id} />
 

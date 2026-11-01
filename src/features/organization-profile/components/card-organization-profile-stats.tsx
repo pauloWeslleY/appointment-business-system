@@ -12,11 +12,10 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import type { Member } from 'better-auth/client/plugins'
+import { useRouteContext } from '@tanstack/react-router'
 import { Building2, ShieldCheck, Store, UsersRound } from 'lucide-react'
 
-import { MemberRoles } from '@/features/members/types/member-role.type'
-import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
+import { hasMemberOwner } from '@/shared/hooks/use-permissions'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import type { FullOrganization } from '../services/organization.service'
@@ -28,27 +27,16 @@ interface CardOrganizationProfileStatsProps extends CardRootProps {
   organization: FullOrganization
 }
 
-const getStatsOrganizationProfile = (
-  organization: CardOrganizationProfileStatsProps['organization'],
-) => {
-  const getMemberOwner = (member: Member) => member.role === MemberRoles.OWNER
-  const filteredMembers = organization.members.filter(getMemberOwner)
-  const memberOwner = organization.members.find(getMemberOwner)
-  const totalMembers = filteredMembers.length.toString()
-  const memberRole = mapLabelMemberRole(memberOwner?.role)
-
-  return [
-    { icon: Store, label: 'Estabelecimentos', value: '---' },
-    { icon: UsersRound, label: 'Membros', value: totalMembers },
-    { icon: ShieldCheck, label: 'Seu papel', value: memberRole.label },
-  ]
-}
-
 const CardOrganizationProfileStats = ({
   organizationProfile,
   organization,
 }: CardOrganizationProfileStatsProps) => {
-  const statsOrganizationProfile = getStatsOrganizationProfile(organization)
+  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const totalEstablishments = memberContext.establishments.length.toString()
+  const totalMembers = organization.members.length.toString()
+  const memberOwner = organization.members.find((member) =>
+    hasMemberOwner(member.role),
+  )
   const statusOrganizationProfile = mapStatusOrganizationProfile(
     organizationProfile.status,
   )
@@ -99,7 +87,25 @@ const CardOrganizationProfileStats = ({
       />
 
       <SimpleGrid columns={{ base: 1, md: 3 }} gap="4">
-        <For each={statsOrganizationProfile}>
+        <For
+          each={[
+            {
+              icon: Store,
+              label: 'Estabelecimentos',
+              value: totalEstablishments.toString(),
+            },
+            {
+              icon: UsersRound,
+              label: 'Membros',
+              value: totalMembers,
+            },
+            {
+              icon: ShieldCheck,
+              label: 'Proprietário',
+              value: memberOwner?.user.name,
+            },
+          ]}
+        >
           {(item) => (
             <VStack key={item.label} gap="2">
               <Icon

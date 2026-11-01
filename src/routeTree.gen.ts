@@ -24,9 +24,9 @@ import { Route as AuthLoginIndexRouteImport } from './pages/_auth/login/index'
 import { Route as AuthRegisterIndexRouteImport } from './pages/_auth/register/index'
 import { Route as AuthResetPasswordIndexRouteImport } from './pages/_auth/reset-password/index'
 import { Route as AuthVerifyEmailIndexRouteImport } from './pages/_auth/verify-email/index'
+import { Route as AuthenticatedAccountIndexRouteImport } from './pages/_authenticated/account/index'
 import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
 import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_authenticated/organization/index'
-import { Route as AuthenticatedProfileIndexRouteImport } from './pages/_authenticated/profile/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './pages/_authenticated/settings/index'
 import { Route as AuthenticatedTeamManagementIndexRouteImport } from './pages/_authenticated/team-management/index'
 import { Route as Error_pageAccessDeniedIndexRouteImport } from './pages/_error_page/access-denied/index'
@@ -123,6 +123,12 @@ const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
   path: '/verify-email/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const AuthenticatedAccountIndexRoute =
+  AuthenticatedAccountIndexRouteImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
 const AuthenticatedEstablishmentIndexRoute =
   AuthenticatedEstablishmentIndexRouteImport.update({
     id: '/establishment/',
@@ -133,12 +139,6 @@ const AuthenticatedOrganizationIndexRoute =
   AuthenticatedOrganizationIndexRouteImport.update({
     id: '/organization/',
     path: '/organization/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthenticatedProfileIndexRoute =
-  AuthenticatedProfileIndexRouteImport.update({
-    id: '/profile/',
-    path: '/profile/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 const AuthenticatedSettingsIndexRoute =
@@ -285,9 +285,9 @@ export interface FileRoutesByFullPath {
   '/register/': typeof AuthRegisterIndexRoute
   '/reset-password/': typeof AuthResetPasswordIndexRoute
   '/verify-email/': typeof AuthVerifyEmailIndexRoute
+  '/account/': typeof AuthenticatedAccountIndexRoute
   '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/organization/': typeof AuthenticatedOrganizationIndexRoute
-  '/profile/': typeof AuthenticatedProfileIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/team-management/': typeof AuthenticatedTeamManagementIndexRoute
   '/access-denied/': typeof Error_pageAccessDeniedIndexRoute
@@ -322,9 +322,9 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterIndexRoute
   '/reset-password': typeof AuthResetPasswordIndexRoute
   '/verify-email': typeof AuthVerifyEmailIndexRoute
+  '/account': typeof AuthenticatedAccountIndexRoute
   '/establishment': typeof AuthenticatedEstablishmentIndexRoute
   '/organization': typeof AuthenticatedOrganizationIndexRoute
-  '/profile': typeof AuthenticatedProfileIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/team-management': typeof AuthenticatedTeamManagementIndexRoute
   '/access-denied': typeof Error_pageAccessDeniedIndexRoute
@@ -364,9 +364,9 @@ export interface FileRoutesById {
   '/_auth/register/': typeof AuthRegisterIndexRoute
   '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
   '/_auth/verify-email/': typeof AuthVerifyEmailIndexRoute
+  '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
   '/_authenticated/organization/': typeof AuthenticatedOrganizationIndexRoute
-  '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/team-management/': typeof AuthenticatedTeamManagementIndexRoute
   '/_error_page/access-denied/': typeof Error_pageAccessDeniedIndexRoute
@@ -404,9 +404,9 @@ export interface FileRouteTypes {
     | '/register/'
     | '/reset-password/'
     | '/verify-email/'
+    | '/account/'
     | '/establishment/'
     | '/organization/'
-    | '/profile/'
     | '/settings/'
     | '/team-management/'
     | '/access-denied/'
@@ -441,9 +441,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-email'
+    | '/account'
     | '/establishment'
     | '/organization'
-    | '/profile'
     | '/settings'
     | '/team-management'
     | '/access-denied'
@@ -482,9 +482,9 @@ export interface FileRouteTypes {
     | '/_auth/register/'
     | '/_auth/reset-password/'
     | '/_auth/verify-email/'
+    | '/_authenticated/account/'
     | '/_authenticated/establishment/'
     | '/_authenticated/organization/'
-    | '/_authenticated/profile/'
     | '/_authenticated/settings/'
     | '/_authenticated/team-management/'
     | '/_error_page/access-denied/'
@@ -626,6 +626,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_authenticated/account/': {
+      id: '/_authenticated/account/'
+      path: '/account'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
+      parentRoute: typeof AuthenticatedLayoutRoute
+    }
     '/_authenticated/establishment/': {
       id: '/_authenticated/establishment/'
       path: '/establishment'
@@ -638,13 +645,6 @@ declare module '@tanstack/react-router' {
       path: '/organization'
       fullPath: '/organization/'
       preLoaderRoute: typeof AuthenticatedOrganizationIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_authenticated/profile/': {
-      id: '/_authenticated/profile/'
-      path: '/profile'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof AuthenticatedProfileIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
     '/_authenticated/settings/': {
@@ -840,9 +840,9 @@ const AuthenticatedTeamManagementLayoutRouteWithChildren =
 
 interface AuthenticatedLayoutRouteChildren {
   AuthenticatedTeamManagementLayoutRoute: typeof AuthenticatedTeamManagementLayoutRouteWithChildren
+  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
   AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
   AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
-  AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
   AuthenticatedOrganizationCreateIndexRoute: typeof AuthenticatedOrganizationCreateIndexRoute
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
@@ -852,9 +852,9 @@ interface AuthenticatedLayoutRouteChildren {
 const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
   AuthenticatedTeamManagementLayoutRoute:
     AuthenticatedTeamManagementLayoutRouteWithChildren,
+  AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
   AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
   AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
-  AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
   AuthenticatedOrganizationCreateIndexRoute:
     AuthenticatedOrganizationCreateIndexRoute,

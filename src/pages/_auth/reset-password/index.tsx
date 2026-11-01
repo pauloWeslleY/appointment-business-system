@@ -8,6 +8,9 @@ export const Route = createFileRoute('/_auth/reset-password/')({
     token: z.string().optional(),
   }),
   component: ResetPasswordPage,
+  head: () => ({
+    meta: [{ title: 'Redefinir senha' }],
+  }),
 })
 
 function ResetPasswordPage() {

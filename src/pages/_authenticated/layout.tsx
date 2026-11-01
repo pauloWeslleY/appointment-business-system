@@ -1,19 +1,22 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 import NotFoundPage from '@/components/layout/not-found'
+import { useMenuSidebarAuthenticated } from '@/features/authentication/hooks/use-menu-authenticationd'
 import SideBarAuthenticatedLayout from '@/features/authentication/layout/sidebar-authenticated-layout'
 import { validateAuthenticatedContext } from '@/features/authentication/validations/validade-authenticated-context'
 
 export const Route = createFileRoute('/_authenticated')({
-  beforeLoad: async ({ context }) =>
-    await validateAuthenticatedContext(context.queryClient),
+  beforeLoad: ({ context }) =>
+    validateAuthenticatedContext(context.queryClient),
   component: AuthenticatedLayout,
   notFoundComponent: NotFoundPage,
 })
 
 function AuthenticatedLayout() {
+  const { menuSidebarAuthenticated } = useMenuSidebarAuthenticated()
+
   return (
-    <SideBarAuthenticatedLayout>
+    <SideBarAuthenticatedLayout menu={menuSidebarAuthenticated}>
       <Outlet />
     </SideBarAuthenticatedLayout>
   )

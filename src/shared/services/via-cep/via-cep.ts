@@ -1,6 +1,6 @@
 import axios, { type AxiosError } from 'axios'
 
-import { HttpMethod, type HttpResponse } from '@/shared/protocols'
+import { HttpMethod, type HttpStatusCodeType } from '@/shared/protocols'
 
 export interface ViaCepResponse {
   cep: string
@@ -25,14 +25,14 @@ export const getViaCep = async (cep: string) => {
       url: `https://viacep.com.br/ws/${cep}/json/`,
     })
     return {
-      statusCode: response.status as HttpResponse['statusCode'],
+      statusCode: response.status as HttpStatusCodeType,
       body: response?.data,
     }
   } catch (error: unknown) {
     const _error = error as AxiosError<{ message: string }>
 
     return {
-      statusCode: _error.response?.status as HttpResponse['statusCode'],
+      statusCode: _error.response?.status as HttpStatusCodeType,
       body: _error.response?.data.message,
     }
   }

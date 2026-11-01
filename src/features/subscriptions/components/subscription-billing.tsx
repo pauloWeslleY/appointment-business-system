@@ -1,5 +1,8 @@
 import { Box, Button, Heading, HStack, Text } from '@chakra-ui/react'
 
+import { RESOURCES } from '@/shared/constants/permission'
+import { usePermissions } from '@/shared/hooks/use-permissions'
+
 import { useSubscriptionBilling } from '../hooks/use-subscription-billing'
 import { SubscriptionSection } from './subscription-section'
 import { SubscriptionSelect } from './subscription-select'
@@ -13,6 +16,7 @@ export function SubscriptionBilling() {
     isBillingActionDisabled,
     handleSubmitBillingChange,
   } = useSubscriptionBilling()
+  const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
 
   return (
     <>
@@ -30,36 +34,38 @@ export function SubscriptionBilling() {
               : 'A modalidade atual permanece até a próxima renovação, sem cobrança proporcional agora.'}
           </Text>
 
-          <HStack gap="4" align="end" flexWrap="wrap">
-            <Box minW="280px">
-              <SubscriptionSelect
-                id="billing-interval"
-                label="Modalidade"
-                value={selectedBillingInterval}
-                items={[
-                  {
-                    value: 'monthly',
-                    label: 'Mensal · R$ 35,00/mês',
-                  },
-                  {
-                    value: 'annual',
-                    label: 'Anual · R$ 350,00/ano antecipado',
-                  },
-                ]}
-                onChange={handleSelectBillingInterval}
-              />
-            </Box>
+          {subscriptions.canRead && (
+            <HStack gap="4" align="end" flexWrap="wrap">
+              <Box minW="280px">
+                <SubscriptionSelect
+                  id="billing-interval"
+                  label="Modalidade"
+                  value={selectedBillingInterval}
+                  items={[
+                    {
+                      value: 'monthly',
+                      label: 'Mensal · R$ 35,00/mês',
+                    },
+                    {
+                      value: 'annual',
+                      label: 'Anual · R$ 350,00/ano antecipado',
+                    },
+                  ]}
+                  onChange={handleSelectBillingInterval}
+                />
+              </Box>
 
-            <Button
-              rounded="lg"
-              disabled={isBillingActionDisabled}
-              onClick={handleSubmitBillingChange}
-            >
-              {canStartCheckout
-                ? 'Continuar para pagamento'
-                : 'Programar troca'}
-            </Button>
-          </HStack>
+              <Button
+                rounded="lg"
+                disabled={isBillingActionDisabled}
+                onClick={handleSubmitBillingChange}
+              >
+                {canStartCheckout
+                  ? 'Continuar para pagamento'
+                  : 'Programar troca'}
+              </Button>
+            </HStack>
+          )}
         </SubscriptionSection>
       )}
     </>

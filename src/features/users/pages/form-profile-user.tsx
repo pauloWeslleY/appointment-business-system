@@ -21,7 +21,11 @@ const FormProfileUser = () => {
   return (
     <chakra.form onSubmit={handleSubmit(onSubmitUpdateProfile)}>
       <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
-        <Field invalid={!!errors.name} errorText={errors.name?.message}>
+        <Field
+          label="Nome"
+          invalid={!!errors.name}
+          errorText={errors.name?.message}
+        >
           <InputField placeholder="Usuário" {...register('name')} />
         </Field>
 
@@ -29,7 +33,7 @@ const FormProfileUser = () => {
           control={control}
           name="image"
           render={({ field }) => (
-            <FileUpload.Root>
+            <FileUpload.Root placeContent="flex-end">
               <FileUpload.HiddenInput
                 onChange={(event) => field.onChange(event.target?.files?.[0])}
               />
@@ -57,8 +61,7 @@ const FormProfileUser = () => {
             type="submit"
             size="sm"
             rounded="xl"
-            variant="subtle"
-            colorPalette="emerald"
+            colorPalette="brand"
             loading={isSubmitting}
           >
             Salvar
