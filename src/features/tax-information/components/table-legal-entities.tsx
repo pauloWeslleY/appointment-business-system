@@ -2,6 +2,7 @@ import {
   Alert,
   Badge,
   Box,
+  Button,
   ButtonGroup,
   For,
   Icon,
@@ -24,19 +25,19 @@ import { useTableLegalEntities } from '../hooks/use-table-legal-entities'
 import { mapStatusLegalEntity } from '../types/tax-information-status.type'
 import DialogDocumentTaxInformation from './dialog-document-tax-information'
 import DialogFormUpdateTaxInformation from './dialog-update-tax-information'
+import FilterTableTaxInformation from './filter-table-tax-information'
 
 const LegalEntitiesTable = () => {
   const {
     anchorElement,
-    listLegalEntities,
+    disabledNextCursor,
     legalEntitiesTable,
     isLoadingListLegalEntities,
-    isOpenDialogTaxInformation,
-    isOpenDialogUpdateTaxInformation,
+    searchParamsTaxInformation,
     errorListLegalEntities,
     menuOpenTableActionsLegalEntities,
-    setIsOpenDialogTaxInformation,
-    setIsOpenDialogUpdateTaxInformation,
+    handleNextCursorTaxInformation,
+    handleOpenDialogTaxInformation,
     handleMenuTableActionsLegalEntities,
     handleMenuOpenTableActionsLegalEntities,
   } = useTableLegalEntities()
@@ -64,7 +65,18 @@ const LegalEntitiesTable = () => {
   }
 
   return (
-    <Box mt="4">
+    <Box mt="4" spaceY="4">
+      <FilterTableTaxInformation>
+        <Button
+          size="xs"
+          rounded="lg"
+          disabled={disabledNextCursor}
+          onClick={handleNextCursorTaxInformation}
+        >
+          Proxima pagina
+        </Button>
+      </FilterTableTaxInformation>
+
       {legalEntitiesTable.length === 0 ? (
         <Alert.Root status="info" variant="subtle" rounded="lg">
           <Alert.Indicator />
@@ -98,7 +110,7 @@ const LegalEntitiesTable = () => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {listLegalEntities?.legalEntities.map((taxInformation) => {
+              {legalEntitiesTable.map((taxInformation) => {
                 const statusLegalEntity = mapStatusLegalEntity(
                   taxInformation.status,
                 )
@@ -126,7 +138,7 @@ const LegalEntitiesTable = () => {
                     <Table.Cell textAlign="right">
                       <ButtonGroup>
                         <IconButton
-                          size="sm"
+                          size="xs"
                           variant="ghost"
                           rounded="lg"
                           onClick={(event) =>
@@ -165,13 +177,21 @@ const LegalEntitiesTable = () => {
                     value: 'update',
                     label: 'Editar',
                     icon: Pencil,
-                    onClick: () => setIsOpenDialogUpdateTaxInformation(true),
+                    onClick: () =>
+                      handleOpenDialogTaxInformation(
+                        true,
+                        'open_dialog_update',
+                      ),
                   },
                   {
                     value: 'view',
                     label: 'Ver detalhes',
                     icon: Eye,
-                    onClick: () => setIsOpenDialogTaxInformation(true),
+                    onClick: () =>
+                      handleOpenDialogTaxInformation(
+                        true,
+                        'open_dialog_summary',
+                      ),
                   },
                 ]}
               >
@@ -192,13 +212,17 @@ const LegalEntitiesTable = () => {
       </Menu.Root>
 
       <DialogFormUpdateTaxInformation
-        open={isOpenDialogUpdateTaxInformation}
-        onOpen={setIsOpenDialogUpdateTaxInformation}
+        open={searchParamsTaxInformation.open_dialog_update}
+        onOpen={(open) =>
+          handleOpenDialogTaxInformation(open, 'open_dialog_update')
+        }
       />
 
       <DialogDocumentTaxInformation
-        open={isOpenDialogTaxInformation}
-        onOpen={setIsOpenDialogTaxInformation}
+        open={searchParamsTaxInformation.open_dialog_summary}
+        onOpen={(open) =>
+          handleOpenDialogTaxInformation(open, 'open_dialog_summary')
+        }
       />
     </Box>
   )

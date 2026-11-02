@@ -7,6 +7,9 @@ export const LEGAL_ENTITY_STATUSES = {
   INACTIVE: 'inactive',
 } as const
 
+export const TAX_INFORMATION_STATUSES = Object.values(LEGAL_ENTITY_STATUSES)
+export type TaxInformationStatus = typeof TAX_INFORMATION_STATUSES
+
 export type LegalEntityStatus =
   (typeof LEGAL_ENTITY_STATUSES)[keyof typeof LEGAL_ENTITY_STATUSES]
 
@@ -44,5 +47,5 @@ export const mapStatusLegalEntity = (status?: LegalEntityStatus) => {
     },
   }
 
-  return map[status as LegalEntityStatus] || map.UNKNOWN
+  return status ? map[status] : map.UNKNOWN
 }

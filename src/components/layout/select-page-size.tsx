@@ -13,7 +13,7 @@ interface SelectPageSizeProps {
 }
 
 const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
-  const loadCollectionStatusBooking = createListCollection({
+  const loadCollectionPage = createListCollection({
     items: pages.map((page) => ({
       value: page.toString(),
       label: page.toString(),
@@ -46,7 +46,7 @@ const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
       colorPalette={colorDefaultTheme}
       variant="outline"
       size="sm"
-      collection={loadCollectionStatusBooking}
+      collection={loadCollectionPage}
       w="250px"
       value={[pagination.page_size.toString()]}
       onValueChange={(e) => onChangePagination(e.value)}
@@ -64,17 +64,17 @@ const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
       <Portal>
         <Select.Positioner>
           <Select.Content css={contentCss}>
-            {loadCollectionStatusBooking.items.map((bookingStatus) => (
+            {loadCollectionPage.items.map((page) => (
               <Select.Item
-                key={bookingStatus.value}
-                item={bookingStatus}
+                key={page.value}
+                item={page}
                 rounded="xl"
                 cursor="pointer"
                 _hover={{
                   bg: { base: 'gray.100', _dark: 'secondary.600' },
                 }}
               >
-                <Select.ItemText>{bookingStatus.label}</Select.ItemText>
+                <Select.ItemText>{page.label}</Select.ItemText>
                 <Select.ItemIndicator />
               </Select.Item>
             ))}

@@ -21,6 +21,13 @@ import { CreateTaxInformationFormSchema } from '../schemas/create-tax-informatio
 import type { CreateTaxInformationFormType } from '../types/create-tax-information-api.type'
 import { TAX_ID_TYPES, type TaxIdType } from '../types/tax-id.type'
 
+export const loadSelectTaxtInformationFormSendInvite = createListCollection({
+  items: Object.values(TAX_ID_TYPES).map((tax) => ({
+    label: tax,
+    value: tax,
+  })),
+})
+
 export function useFormCreateTaxInformation() {
   const [
     isOpenDialogCreateTaxInformation,
@@ -51,8 +58,11 @@ export function useFormCreateTaxInformation() {
     isPending: isPendingCreateTaxInformation,
     mutate: createTaxInformation,
   } = useMutation(taxInformationMutationOptions.create())
-  const inputTaxIdType = useWatch({ control, name: 'taxIdType' })
-  const inputTaxId = useWatch({ control, name: 'taxId' })
+  const [inputTaxIdType, inputTaxId] = useWatch({
+    control,
+    name: ['taxIdType', 'taxId'],
+  })
+
   const cnpjInformation = queryClient.getQueryData<CompanyLookupResponse>([
     'cnpj',
     inputTaxId,
@@ -83,13 +93,6 @@ export function useFormCreateTaxInformation() {
     placeHolder: 'Informe o CPF/CNPJ',
     mask: '',
   }
-
-  const loadSelectTaxtInformationFormSendInvite = createListCollection({
-    items: Object.values(TAX_ID_TYPES).map((tax) => ({
-      label: tax,
-      value: tax,
-    })),
-  })
 
   const taxInformationVerify = {
     title: 'Verificação do CNPJ',
@@ -147,6 +150,24 @@ export function useFormCreateTaxInformation() {
     }
   }
 
+  const updateInputsTradeNameAndLegalName = (inputs: [string, string][]) => {
+    for (const [key, value] of inputs) {
+      setValue(key as keyof CreateTaxInformationFormType, value, {
+        shouldValidate: true,
+        shouldDirty: true,
+      })
+    }
+  }
+
+  const handleUpdateInputsTradeNameAndLegalNameWithTaxInformation = () => {
+    const inputs = Object.entries({
+      legalName: cnpjInformation?.nome || '',
+      tradeName: cnpjInformation?.fantasia || '',
+    })
+
+    updateInputsTradeNameAndLegalName(inputs)
+  }
+
   const handleUpdateInputsTradeNameAndLegalName = async () => {
     const organizationProfile = await queryClient.query(
       organizationProfileSummaryQueryOptions(),
@@ -157,12 +178,7 @@ export function useFormCreateTaxInformation() {
       tradeName: organizationProfile.tradeName || '',
     })
 
-    for (const [key, value] of inputs) {
-      setValue(key as keyof CreateTaxInformationFormType, value, {
-        shouldValidate: true,
-        shouldDirty: true,
-      })
-    }
+    updateInputsTradeNameAndLegalName(inputs)
   }
 
   const handleCreateTaxInformation = handleSubmit((data) => {
@@ -210,6 +226,7 @@ export function useFormCreateTaxInformation() {
     handleUpdateInputsTradeNameAndLegalName,
     handleDialogCreateTaxInformation,
     handleCreateTaxInformation,
+    handleUpdateInputsTradeNameAndLegalNameWithTaxInformation,
     register,
     errors,
     control,
@@ -220,6 +237,5 @@ export function useFormCreateTaxInformation() {
     isLoadingOrganizationProfile,
     isPendingCreateTaxInformation,
     isOpenDialogCreateTaxInformation,
-    loadSelectTaxtInformationFormSendInvite,
   }
 }

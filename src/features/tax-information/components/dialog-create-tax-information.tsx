@@ -19,7 +19,10 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
-import { useFormCreateTaxInformation } from '../hooks/use-form-create-tax-information'
+import {
+  loadSelectTaxtInformationFormSendInvite,
+  useFormCreateTaxInformation,
+} from '../hooks/use-form-create-tax-information'
 
 const DialogFormCreateTaxInformation = () => {
   const {
@@ -28,6 +31,7 @@ const DialogFormCreateTaxInformation = () => {
     handleVerifyCnpjCreateTaxInformation,
     handleDialogCreateTaxInformation,
     handleCreateTaxInformation,
+    handleUpdateInputsTradeNameAndLegalNameWithTaxInformation,
     register,
     errors,
     control,
@@ -38,7 +42,6 @@ const DialogFormCreateTaxInformation = () => {
     isLoadingOrganizationProfile,
     isPendingCreateTaxInformation,
     isOpenDialogCreateTaxInformation,
-    loadSelectTaxtInformationFormSendInvite,
   } = useFormCreateTaxInformation()
 
   return (
@@ -201,6 +204,19 @@ const DialogFormCreateTaxInformation = () => {
                       loading={isFetchingVerificationCnpj > 0}
                     >
                       Verificar CNPJ
+                    </Button>
+                  )}
+
+                  {taxInformationVerify.status === 'success' && (
+                    <Button
+                      rounded="lg"
+                      size="xs"
+                      variant="surface"
+                      onClick={
+                        handleUpdateInputsTradeNameAndLegalNameWithTaxInformation
+                      }
+                    >
+                      Utilizar dados do CNPJ
                     </Button>
                   )}
                 </Alert.Root>

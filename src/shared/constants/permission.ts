@@ -51,6 +51,7 @@ export const mapLabelActions = (actions: string[]) => {
     update: 'Atualizar',
     delete: 'Excluir',
     cancel: 'Cancelar',
+    conclude: 'Concluir',
   }
   const labeledActions = actions.map(
     (action) => mapLabelAction[action] ?? action,

@@ -1,6 +1,8 @@
 import { Input, type InputProps } from '@chakra-ui/react'
 import type { ComponentProps } from 'react'
 
+import { inputFieldStyles } from '@/theme/styles/global-styles'
+
 type InputFieldProps = InputProps & ComponentProps<'input'>
 
 const InputField = ({ ref, ...props }: InputFieldProps) => {
@@ -10,8 +12,7 @@ const InputField = ({ ref, ...props }: InputFieldProps) => {
       {...props}
       variant="subtle"
       size="sm"
-      rounded="xl"
-      bg={{ _light: 'blackAlpha.100', _dark: 'gray.800/40' }}
+      {...inputFieldStyles}
     />
   )
 }

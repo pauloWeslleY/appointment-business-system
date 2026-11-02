@@ -39,6 +39,11 @@ export const inputStyles = defineStyle({
   borderColor: { _light: 'slate.400', _dark: 'slate.600' },
 })
 
+export const inputFieldStyles = defineStyle({
+  rounded: 'xl',
+  bg: { _light: 'blackAlpha.100', _dark: 'gray.800/40' },
+})
+
 export const cssTableColumns = defineStyle({
   color: { _light: 'sea.600', _dark: 'sea.500' },
 })

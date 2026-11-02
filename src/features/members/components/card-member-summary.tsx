@@ -9,8 +9,6 @@ interface CardMemberSummaryProps {
   member?: ListMemberApiResponse['members'][number]
 }
 
-const cardItemList = (label: string, value: string) => ({ label, value })
-
 const CardMemberSummary = ({ member }: CardMemberSummaryProps) => {
   const roleMember = mapLabelMemberRole(member?.role)
 
@@ -23,13 +21,22 @@ const CardMemberSummary = ({ member }: CardMemberSummaryProps) => {
       <DataList.Root orientation="horizontal">
         <For
           each={[
-            cardItemList('Nome', member?.user.name ?? '--'),
-            cardItemList('Email', member?.user.email ?? '--'),
-            cardItemList('Papel', roleMember.label),
-            cardItemList(
-              'Criado Em',
-              member?.createdAt.toLocaleDateString() ?? '--',
-            ),
+            {
+              label: 'Nome',
+              value: member?.user.name ?? '--',
+            },
+            {
+              label: 'Email',
+              value: member?.user.email ?? '--',
+            },
+            {
+              label: 'Papel',
+              value: roleMember.label,
+            },
+            {
+              label: 'Criado Em',
+              value: member?.createdAt.toLocaleDateString() ?? '--',
+            },
           ]}
         >
           {(item) => (

@@ -1,6 +1,7 @@
-import { createListCollection } from '@chakra-ui/react'
+import { createListCollection, type ListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -33,6 +34,8 @@ export function useFormUpadteScopeMember(memberId?: string) {
       establishmentIds: [],
     },
   })
+  const selectedAccessScope = useWatch({ control, name: 'accessScope' })
+
   const { isPending: isPendingUpdateScopeMember, mutate: updateScopeMember } =
     useMutation(memberMutationOptions.updateScope())
 
@@ -50,22 +53,37 @@ export function useFormUpadteScopeMember(memberId?: string) {
     ),
   )
 
-  const establishmentItems = (establishmentsByOrganizationProfile ?? []).map(
-    (establishment) => ({
+  const {
+    listEstablishmentsByOrganizationProfile,
+    loadSelectEstablishmentsFormSendInvite,
+  } = useMemo<{
+    listEstablishmentsByOrganizationProfile: { label: string; value: string }[]
+    loadSelectEstablishmentsFormSendInvite: ListCollection<{
+      label: string
+      value: string
+    }>
+  }>(() => {
+    const listEstablishmentsByOrganizationProfile = (
+      establishmentsByOrganizationProfile ?? []
+    ).map((establishment) => ({
       label: establishment.name,
       value: establishment.id,
-    }),
-  )
+    }))
 
-  const loadSelectEstablishmentsFormSendInvite = createListCollection({
-    items: establishmentItems,
-  })
+    const loadSelectEstablishmentsFormSendInvite = createListCollection({
+      items: listEstablishmentsByOrganizationProfile,
+    })
+
+    return {
+      listEstablishmentsByOrganizationProfile,
+      loadSelectEstablishmentsFormSendInvite,
+    }
+  }, [establishmentsByOrganizationProfile])
 
   const loadSelectAccessScopeFormSendInvite = createListCollection({
     items: loadSelectMemberAccessScope,
   })
 
-  const selectedAccessScope = useWatch({ control, name: 'accessScope' })
   const isRestrictedScope =
     selectedAccessScope[0] === MemberAccessScope.RESTRICTED
   const establishmentErrors = errors.establishmentIds
@@ -76,7 +94,7 @@ export function useFormUpadteScopeMember(memberId?: string) {
 
   const onChangeSelectEstablishments = (values: string[]) => {
     return values.includes('all')
-      ? establishmentItems.map((item) => item.value)
+      ? listEstablishmentsByOrganizationProfile.map((item) => item.value)
       : values
   }
 

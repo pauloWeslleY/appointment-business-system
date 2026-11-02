@@ -16,8 +16,13 @@ export const taxInformationMutationOptions = {
       mutationKey: ['create-tax-information'],
       mutationFn: createTaxInformationService,
       onSuccess: (data, _variables, _result, context) => {
+        const query = new URLSearchParams(window.location.search)
+
         context.client.setQueryData<LegalEntityListApiResponseType>(
-          taxInformationQueryKeys.list({}),
+          taxInformationQueryKeys.list({
+            limit: Number(query.get('limit') ?? 5),
+            cursor: query.get('next_cursor'),
+          }),
           (oldList) => {
             if (!oldList) {
               return
