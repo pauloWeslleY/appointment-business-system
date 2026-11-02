@@ -1,4 +1,3 @@
-import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
@@ -7,7 +6,6 @@ import { toaster } from '@/components/ui/toaster'
 
 import { memberMutationOptions } from '../queries/member.mutation-options'
 import { UpdateStatusMemberFormSchema } from '../schemas/update-status-member.api.schema'
-import { loadSelectMemberStatus } from '../types/member-status.type'
 import type { UpdateStatusMemberFormType } from '../types/update-status-member.type'
 
 export function useFormUpadteStatusMember(memberId?: string) {
@@ -24,10 +22,6 @@ export function useFormUpadteStatusMember(memberId?: string) {
 
   const { isPending: isPendingUpdateStatusMember, mutate: updateStatusMember } =
     useMutation(memberMutationOptions.updateStatus())
-
-  const loadSelectStatusUpdateMember = createListCollection({
-    items: loadSelectMemberStatus,
-  })
 
   const handleFormSubmitUpdateStatusMember = (
     data: UpdateStatusMemberFormType,
@@ -59,7 +53,6 @@ export function useFormUpadteStatusMember(memberId?: string) {
   }
 
   return {
-    loadSelectStatusUpdateMember,
     isPendingUpdateStatusMember,
     errors,
     control,

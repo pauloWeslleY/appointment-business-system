@@ -19,12 +19,19 @@ import {
 } from '../types/member-access-scope.type'
 import type { UpdateScopeMemberFormType } from '../types/update-scope-member.type'
 
+export const loadSelectAccessScopeFormSendInvite = createListCollection({
+  items: loadSelectMemberAccessScope,
+})
+
 export function useFormUpadteScopeMember(memberId?: string) {
+  const query = new URLSearchParams(window.location.search)
+  const isOpen = !!query.get('is_open')
   const { data: session } = authClient.useSession()
   const userId = session?.user.id
   const organizationId = session?.session.activeOrganizationId ?? undefined
   const {
     control,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<UpdateScopeMemberFormType>({
@@ -39,19 +46,21 @@ export function useFormUpadteScopeMember(memberId?: string) {
   const { isPending: isPendingUpdateScopeMember, mutate: updateScopeMember } =
     useMutation(memberMutationOptions.updateScope())
 
-  const { data: organizationProfile } = useQuery(
-    invitationOrganizationProfileQueryOptions(userId, organizationId),
-  )
+  const { data: organizationProfile } = useQuery({
+    ...invitationOrganizationProfileQueryOptions(userId, organizationId),
+    enabled: isOpen,
+  })
   const {
     data: establishmentsByOrganizationProfile,
     isLoading: isLoadingEstablishmentsByOrganizationProfile,
-  } = useQuery(
-    invitationEstablishmentsQueryOptions(
+  } = useQuery({
+    ...invitationEstablishmentsQueryOptions(
       userId,
       organizationId,
       organizationProfile?.id,
     ),
-  )
+    enabled: isOpen,
+  })
 
   const {
     listEstablishmentsByOrganizationProfile,
@@ -80,22 +89,27 @@ export function useFormUpadteScopeMember(memberId?: string) {
     }
   }, [establishmentsByOrganizationProfile])
 
-  const loadSelectAccessScopeFormSendInvite = createListCollection({
-    items: loadSelectMemberAccessScope,
-  })
-
   const isRestrictedScope =
     selectedAccessScope[0] === MemberAccessScope.RESTRICTED
   const establishmentErrors = errors.establishmentIds
   const establishmentErrorMessage =
     establishmentErrors?.message ??
     establishmentErrors?.root?.message ??
-    errors.establishmentIds?.[0]?.message
+    establishmentErrors?.[0]?.message
 
   const onChangeSelectEstablishments = (values: string[]) => {
     return values.includes('all')
       ? listEstablishmentsByOrganizationProfile.map((item) => item.value)
       : values
+  }
+
+  const onChangeSelectAccessScope = (values: string[]) => {
+    const accessScopeSelected = values.includes(
+      MemberAccessScope.ALL_ESTABLISHMENTS,
+    )
+    if (accessScopeSelected) {
+      setValue('establishmentIds', [])
+    }
   }
 
   const handleFormSubmitUpdateScopeMember = (
@@ -130,7 +144,6 @@ export function useFormUpadteScopeMember(memberId?: string) {
 
   return {
     loadSelectEstablishmentsFormSendInvite,
-    loadSelectAccessScopeFormSendInvite,
     isLoadingEstablishmentsByOrganizationProfile,
     isRestrictedScope,
     isPendingUpdateScopeMember,
@@ -140,5 +153,6 @@ export function useFormUpadteScopeMember(memberId?: string) {
     handleSubmit,
     handleFormSubmitUpdateScopeMember,
     onChangeSelectEstablishments,
+    onChangeSelectAccessScope,
   }
 }

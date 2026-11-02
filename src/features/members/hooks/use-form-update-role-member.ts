@@ -17,15 +17,23 @@ import type { UpdateRoleMemberFormType } from '../types/update-role-member.type'
 
 const authenticatedLayoutRoute = getRouteApi('/_authenticated')
 
+const loadSelectRoleUpdateMember = createListCollection({
+  items: MEMBER_ROLES.map((role) => ({
+    label: mapLabelMemberRole(role).label,
+    value: role,
+  })),
+})
+
 export function useFormUpadteRoleMember(memberId?: string) {
+  const query = new URLSearchParams(window.location.search)
   const { memberContext } = authenticatedLayoutRoute.useRouteContext()
-  const { data: activeMember, isLoading: isLoadingActiveMember } = useQuery(
-    getActiveMemberQueryOptions(memberContext?.organization.id, memberId),
-  )
+  const { data: activeMember, isLoading: isLoadingActiveMember } = useQuery({
+    ...getActiveMemberQueryOptions(memberContext?.organization.id, memberId),
+    enabled: !!query.get('is_open'),
+  })
   const formDefaultValuesRoleMember = useMemo(
     () => ({ role: activeMember ? [activeMember.role] : [] }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activeMember, memberId],
+    [activeMember],
   )
 
   const {
@@ -53,13 +61,6 @@ export function useFormUpadteRoleMember(memberId?: string) {
         })
       },
     })
-
-  const loadSelectRoleUpdateMember = createListCollection({
-    items: MEMBER_ROLES.map((role) => ({
-      label: mapLabelMemberRole(role).label,
-      value: role,
-    })),
-  })
 
   const handleFormSubmitUpdateRoleMember = (data: UpdateRoleMemberFormType) => {
     if (!memberId) {

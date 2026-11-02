@@ -1,4 +1,10 @@
-import { Button, chakra, Portal, Select } from '@chakra-ui/react'
+import {
+  Button,
+  chakra,
+  createListCollection,
+  Portal,
+  Select,
+} from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
@@ -9,19 +15,19 @@ import {
 } from '@/theme/styles/global-styles'
 
 import { useFormUpadteStatusMember } from '../hooks/use-form-update-status-member'
+import { loadSelectMemberStatus } from '../types/member-status.type'
 
 interface FormUpadteStatusMemberProps {
   memberId?: string
 }
 
+const loadSelectStatusUpdateMember = createListCollection({
+  items: loadSelectMemberStatus,
+})
+
 const FormUpadteStatusMember = ({ memberId }: FormUpadteStatusMemberProps) => {
-  const {
-    loadSelectStatusUpdateMember,
-    errors,
-    control,
-    handleSubmit,
-    handleFormSubmitUpdateStatusMember,
-  } = useFormUpadteStatusMember(memberId)
+  const { errors, control, handleSubmit, handleFormSubmitUpdateStatusMember } =
+    useFormUpadteStatusMember(memberId)
 
   return (
     <chakra.form

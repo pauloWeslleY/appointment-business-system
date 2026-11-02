@@ -15,7 +15,10 @@ import {
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
-import { useFormUpadteScopeMember } from '../hooks/use-form-update-scope-member'
+import {
+  loadSelectAccessScopeFormSendInvite,
+  useFormUpadteScopeMember,
+} from '../hooks/use-form-update-scope-member'
 
 interface FormUpadteScopeMemberProps {
   memberId?: string
@@ -24,7 +27,6 @@ interface FormUpadteScopeMemberProps {
 const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
   const {
     loadSelectEstablishmentsFormSendInvite,
-    loadSelectAccessScopeFormSendInvite,
     isLoadingEstablishmentsByOrganizationProfile,
     isRestrictedScope,
     isPendingUpdateScopeMember,
@@ -34,6 +36,7 @@ const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
     handleSubmit,
     handleFormSubmitUpdateScopeMember,
     onChangeSelectEstablishments,
+    onChangeSelectAccessScope,
   } = useFormUpadteScopeMember(memberId)
 
   return (
@@ -63,7 +66,10 @@ const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
                 variant="subtle"
                 collection={loadSelectAccessScopeFormSendInvite}
                 value={[...field.value]}
-                onValueChange={({ value }) => field.onChange(value)}
+                onValueChange={({ value }) => {
+                  field.onChange(value)
+                  onChangeSelectAccessScope(value)
+                }}
               >
                 <Select.HiddenSelect />
                 <Select.Control>

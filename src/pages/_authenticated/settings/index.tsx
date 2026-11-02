@@ -39,60 +39,62 @@ function SettingsPage() {
         </Flex>
       </Header.Root>
 
-      <Card.Root variant="outline" {...cardSectionCss}>
-        <Card.Header
-          display="flex"
-          flexDir="row"
-          justifyContent="space-between"
-          alignItems="center"
-          px="0"
-          pt="0"
-        >
-          <div>
-            <Card.Title>Cadastro Fiscal</Card.Title>
-            <Card.Description>
-              Dados fiscais vinculados à empresa.
-            </Card.Description>
-          </div>
-
-          <DialogFormCreateTaxInformation />
-        </Card.Header>
-
-        <LegalEntitiesTable />
-      </Card.Root>
-
-      <Grid templateColumns={{ base: '1fr', lg: '600px 1fr' }} gap="4">
-        <GridItem asChild>
-          <MeAccess access={memberContext} />
-        </GridItem>
-
+      <Box spaceY="4">
         <Card.Root variant="outline" {...cardSectionCss}>
           <Card.Header
             display="flex"
             flexDir="row"
+            justifyContent="space-between"
             alignItems="center"
             px="0"
             pt="0"
-            mb="2"
           >
-            <Image
-              src="/google-calendar.png"
-              alt="Logo Google Calendar"
-              boxSize="8"
-              mr="2"
-            />
-
             <div>
-              <Card.Title>Integrações</Card.Title>
+              <Card.Title>Cadastro Fiscal</Card.Title>
               <Card.Description>
-                Conexões de calendário por estabelecimento.
+                Dados fiscais vinculados à empresa.
               </Card.Description>
             </div>
+
+            <DialogFormCreateTaxInformation />
           </Card.Header>
 
-          <EstablishmentsListGoogleCalendar />
+          <LegalEntitiesTable />
         </Card.Root>
-      </Grid>
+
+        <Grid templateColumns={{ base: '1fr', lg: '600px 1fr' }} gap="4">
+          <GridItem asChild>
+            <MeAccess access={memberContext} />
+          </GridItem>
+
+          <Card.Root variant="outline" {...cardSectionCss}>
+            <Card.Header
+              display="flex"
+              flexDir="row"
+              alignItems="center"
+              px="0"
+              pt="0"
+              mb="2"
+            >
+              <Image
+                src="/google-calendar.png"
+                alt="Logo Google Calendar"
+                boxSize="8"
+                mr="2"
+              />
+
+              <div>
+                <Card.Title>Integrações</Card.Title>
+                <Card.Description>
+                  Conexões de calendário por estabelecimento.
+                </Card.Description>
+              </div>
+            </Card.Header>
+
+            <EstablishmentsListGoogleCalendar />
+          </Card.Root>
+        </Grid>
+      </Box>
     </Box>
   )
 }
