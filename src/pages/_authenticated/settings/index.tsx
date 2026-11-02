@@ -1,47 +1,54 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Card, Flex } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
-import { UserSquare2 } from 'lucide-react'
+import { Settings2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
-import CardOrganizationProfileSummary from '@/features/organization-profile/components/card-organization-profile-stats'
-import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
-import { getFullOrganization } from '@/features/organization-profile/services/organization.service'
+import DialogFormCreateTaxInformation from '@/features/tax-information/components/dialog-create-tax-information'
+import LegalEntitiesTable from '@/features/tax-information/components/table-legal-entities'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_authenticated/settings/')({
-  loader: async ({ context }) => {
-    const organizationProfile = await context.queryClient.query(
-      organizationProfileSummaryQueryOptions(),
-    )
-    const { data, error } = await getFullOrganization(
-      organizationProfile.organizationId,
-    )
-
-    if (error) {
-      throw new Error(`Failed to fetch organization: ${error.message}`)
-    }
-
-    return {
-      organizationProfile,
-      organization: data,
-    }
-  },
   component: BusinessProfilePage,
+  head: () => ({
+    meta: [{ title: 'Configurações' }],
+  }),
 })
 
 function BusinessProfilePage() {
-  const { organizationProfile, organization } = Route.useLoaderData()
-
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
       <Header.Root>
-        <Header.Icon icon={UserSquare2} />
-        <Header.Title>Perfil Empresarial</Header.Title>
+        <Header.Icon icon={Settings2} />
+        <Flex flexDir="column">
+          <Header.Title>Configurações</Header.Title>
+          <Header.SubTitle>
+            Consulte os dados fiscais, seu acesso e as integrações da
+            organização.
+          </Header.SubTitle>
+        </Flex>
       </Header.Root>
 
-      <CardOrganizationProfileSummary
-        organizationProfile={organizationProfile}
-        organization={organization}
-      />
+      <Card.Root variant="outline" {...cardSectionCss}>
+        <Card.Header
+          display="flex"
+          flexDir="row"
+          justifyContent="space-between"
+          alignItems="center"
+          px="0"
+          pt="0"
+        >
+          <div>
+            <Card.Title>Cadastro Fiscal</Card.Title>
+            <Card.Description>
+              Dados fiscais vinculados à empresa.
+            </Card.Description>
+          </div>
+
+          <DialogFormCreateTaxInformation />
+        </Card.Header>
+
+        <LegalEntitiesTable />
+      </Card.Root>
     </Box>
   )
 }

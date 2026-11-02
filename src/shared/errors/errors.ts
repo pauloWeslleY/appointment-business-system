@@ -40,6 +40,13 @@ export class BadRequestError extends Error {
   }
 }
 
+export class BadGatewayError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'BadGatewayError'
+  }
+}
+
 export class ServerError extends Error {
   constructor(message: string = 'Erro interno do servidor') {
     super(message)

@@ -19,6 +19,7 @@ export const HttpStatusCode = {
   notFound: 404,
   conflict: 409,
   serverError: 500,
+  badGateway: 502,
 } as const
 
 export type HttpStatusCodeType =

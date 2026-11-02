@@ -1,6 +1,7 @@
 import { type HttpResponse, HttpStatusCode } from '../protocols'
 import {
   AccessDeniedError,
+  BadGatewayError,
   BadRequestError,
   ConflictError,
   NotFoundError,
@@ -57,6 +58,9 @@ export class ValidationErrors<T> implements IValidationErrors<T> {
 
       case HttpStatusCode.serverError:
         throw new ServerError(errorMessage)
+
+      case HttpStatusCode.badGateway:
+        throw new BadGatewayError(errorMessage)
 
       case HttpStatusCode.forbidden:
         throw new AccessDeniedError(errorMessage)

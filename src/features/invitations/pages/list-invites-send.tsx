@@ -2,7 +2,6 @@ import {
   Badge,
   Box,
   Button,
-  defineStyle,
   Flex,
   For,
   Skeleton,
@@ -13,6 +12,7 @@ import {
 import SearchPage from '@/components/search-page'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
+import { cssTableColumns } from '@/theme/styles/global-styles'
 
 import DialogCancelInvite from '../components/dialog-cancel-invite'
 import DialogSendInvite from '../components/dialog-send-invite'
@@ -21,10 +21,6 @@ import {
   mapLabelInvitationStatus,
   StatusInvitations,
 } from '../types/status-invitations.type'
-
-const cssTableColumns = defineStyle({
-  color: { _light: 'sea.600', _dark: 'sea.500' },
-})
 
 const ListInvitesSendPage = () => {
   const {

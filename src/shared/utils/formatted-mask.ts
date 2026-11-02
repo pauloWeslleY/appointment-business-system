@@ -16,6 +16,14 @@ export const formatterMask = (value: string, mask: FormatMaskType): string => {
   return mask.replace(/#/g, () => v[i++]).replace(/undefined/g, '')
 }
 
+export const formattedPersonalTaxId = (value: string): string => {
+  return formatterMask(value, FormatMask.PERSONAL_TAX_ID)
+}
+
+export const formattedCompanyTaxId = (value: string): string => {
+  return formatterMask(value, FormatMask.COMPANY_TAX_ID)
+}
+
 export const formattedCellphone = (value: string): string => {
   return formatterMask(value, FormatMask.CELLPHONE)
 }
