@@ -26,12 +26,13 @@ import { formattedPhone } from '@/shared/utils/formatted-mask'
 import { cardCss } from '@/theme/styles/global-styles'
 
 import { formattedDateAndHours } from '../../../shared/utils/formatted-date'
-import type { EstablishmentModel } from '../types/establishment.model'
+import { mapStatusEstablishment } from '../types/establishment-status.type'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 import SidebarInfoEstablishment from './sidebar-info-establishment'
 
 interface CardEstablishmentProps {
-  establishment: EstablishmentModel
+  establishment: EstablishmentOrganizationProfileApiResponse
 }
 
 const validateImageUrlEstablishment = (imageUrl?: string | null) => {
@@ -44,13 +45,27 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
     validateImageUrlEstablishment(establishment.imageUrl),
   )
   const navigate = useNavigate()
-
   const bannerEstablishment = imageUrl ?? establishment.imageUrl
-  const formatPhone = establishment.phones.map(formattedPhone).join(' - ')
-  const loadEstablishmentDetails = useMemo(
-    () => validateOpeningHoursEstablishment(establishment),
-    [establishment],
-  )
+
+  const loadEstablishmentDetails = useMemo(() => {
+    const formatPhone = establishment.phones.map(formattedPhone).join(' - ')
+    const listDaysOpeningHours = () => {
+      if (establishment.openingHours.length === 0) {
+        return 'N/A'
+      }
+      const listDaysOpeningHours = establishment.openingHours.map(
+        (hour) => `${weekDaysLabels[hour.day].slice(0, 3)}`,
+      )
+      return listDaysOpeningHours.join(' - ')
+    }
+
+    return {
+      ...validateOpeningHoursEstablishment(establishment),
+      listDaysOpeningHours: listDaysOpeningHours(),
+      status: mapStatusEstablishment(establishment.status),
+      formatPhone,
+    }
+  }, [establishment])
 
   return (
     <Card.Root
@@ -69,7 +84,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         flexDir={{ base: 'column', md: 'row' }}
         gap="2"
         borderBottomWidth="1px"
-        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+        borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
       >
         <Box alignSelf="center">
           {bannerEstablishment && (
@@ -85,9 +100,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           {!bannerEstablishment && (
             <Box
               p="2"
-              bg={{ base: 'gray.200', _dark: 'gray.800' }}
+              bg={{ _light: 'gray.200', _dark: 'gray.800' }}
               rounded="full"
-              w="fit-content"
+              w="fit"
             >
               <Icon as={FileImage} boxSize="6" />
             </Box>
@@ -96,13 +111,28 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
 
         <VStack align="start" gap="2" w="full">
           <Flex align="center" justify="space-between" w="full">
-            <Text
-              color={{ base: 'primary.500', _dark: 'primary.200' }}
-              letterSpacing="wider"
-              fontWeight="medium"
-            >
-              {establishment.name}
-            </Text>
+            <HStack>
+              <Text
+                color={{ _light: 'primary.500', _dark: 'primary.200' }}
+                letterSpacing="wider"
+                fontWeight="medium"
+              >
+                {establishment.name}
+              </Text>
+              <Separator
+                orientation="vertical"
+                height="4"
+                display={{ base: 'none', md: 'block' }}
+              />
+              <Badge
+                size="sm"
+                rounded="sm"
+                variant="solid"
+                colorPalette={loadEstablishmentDetails.status.color}
+              >
+                {loadEstablishmentDetails.status.label}
+              </Badge>
+            </HStack>
 
             <SidebarInfoEstablishment
               establishment={establishment}
@@ -114,7 +144,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             <Text
               fontSize="sm"
               letterSpacing="wide"
-              color={{ base: 'gray.600', _dark: 'gray.400' }}
+              color={{ _light: 'gray.600', _dark: 'gray.400' }}
             >
               {loadEstablishmentDetails.openingHours}
             </Text>
@@ -122,7 +152,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             <Separator
               h="4"
               orientation="vertical"
-              borderColor={{ base: 'gray.200', _dark: 'gray.500' }}
+              borderColor={{ _light: 'gray.200', _dark: 'gray.500' }}
             />
 
             <Badge
@@ -140,9 +170,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           <Text
             fontSize="sm"
             letterSpacing="wide"
-            color={{ base: 'gray.600', _dark: 'gray.400' }}
+            color={{ _light: 'gray.600', _dark: 'gray.400' }}
           >
-            {formatPhone}
+            {loadEstablishmentDetails.formatPhone}
           </Text>
 
           <Box spaceY="2" w="full">
@@ -154,7 +184,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               <Text
                 fontSize="sm"
                 letterSpacing="wide"
-                color={{ base: 'gray.600', _dark: 'gray.400' }}
+                color={{ _light: 'gray.600', _dark: 'gray.400' }}
               >
                 {establishment.totalServices} serviços
               </Text>
@@ -168,7 +198,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               <Text
                 fontSize="sm"
                 letterSpacing="wide"
-                color={{ base: 'gray.600', _dark: 'gray.400' }}
+                color={{ _light: 'gray.600', _dark: 'gray.400' }}
               >
                 {establishment.totalCollaborators} colaboradores
               </Text>
@@ -185,7 +215,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                     lineHeight="0"
                     fontSize="sm"
                     letterSpacing="wide"
-                    color={{ base: 'gray.600', _dark: 'gray.400' }}
+                    color={{ _light: 'gray.600', _dark: 'gray.400' }}
                   >
                     {establishment.averageRating.toFixed(1)}
                   </Text>
@@ -199,7 +229,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                   lineHeight="0"
                   fontSize="sm"
                   letterSpacing="wide"
-                  color={{ base: 'gray.600', _dark: 'gray.400' }}
+                  color={{ _light: 'gray.600', _dark: 'gray.400' }}
                 >
                   {establishment.totalReviews} avaliações
                 </Text>
@@ -211,7 +241,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 lineHeight="0"
                 fontSize="sm"
                 letterSpacing="wide"
-                color={{ base: 'gray.600', _dark: 'gray.400' }}
+                color={{ _light: 'gray.600', _dark: 'gray.400' }}
               >
                 Hoje: {establishment.todayAppointmentsTotal} agendamentos
               </Text>
@@ -222,7 +252,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 lineHeight="0"
                 fontSize="sm"
                 letterSpacing="wide"
-                color={{ base: 'gray.600', _dark: 'gray.400' }}
+                color={{ _light: 'gray.600', _dark: 'gray.400' }}
               >
                 Próximo:{' '}
                 {formattedDateAndHours(establishment.nextAppointmentAt, true)}
@@ -231,12 +261,10 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
 
             <Text
               letterSpacing="wide"
-              color={{ base: 'gray.600', _dark: 'gray.500' }}
+              color={{ _light: 'gray.600', _dark: 'gray.500' }}
               fontSize="sm"
             >
-              {establishment.openingHours
-                .map((hour) => `${weekDaysLabels[hour.day].slice(0, 3)}`)
-                .join(' - ')}
+              {loadEstablishmentDetails.listDaysOpeningHours}
             </Text>
           </Box>
         </VStack>

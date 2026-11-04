@@ -28,3 +28,8 @@ export const UploadImageEstablishmentSchema = z.object({
       'Utilize uma imagem JPG, PNG ou WebP',
     ),
 })
+
+export const UploadImageEstablishmentInputSchema = z.object({
+  id: z.uuid(),
+  image: UploadImageEstablishmentSchema.shape.file,
+})

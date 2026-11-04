@@ -15,10 +15,10 @@ import {
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
 import { useRevenueEstablishmentCharts } from '../hooks/use-revenue-establishment-charts'
-import type { RevenueEstablishmentModel } from '../types/revenue-establishment.model'
+import type { RevenueDashboardApiResponse } from '../types/get-revenue-dashboard.api.type'
 
 interface RevenueEstablishmentChartsProps {
-  revenue: RevenueEstablishmentModel[]
+  revenue: RevenueDashboardApiResponse
 }
 
 const RevenueEstablishmentCharts = ({

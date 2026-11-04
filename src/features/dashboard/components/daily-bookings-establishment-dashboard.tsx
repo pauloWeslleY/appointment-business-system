@@ -1,19 +1,11 @@
-import {
-  Alert,
-  Card,
-  Flex,
-  Icon,
-  Skeleton,
-  Stack,
-  Text,
-} from '@chakra-ui/react'
+import { Alert, Card, Flex, Icon, Skeleton, Text } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
 import { CalendarIcon } from 'lucide-react'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import { useGetDailyBookingsEstablishmentDashboard } from '../hooks/use-get-daily-bookings-establishment-dashboard'
+import { useGetDailyAppointmentsEstablishmentDashboard } from '../hooks/use-get-daily-appointments-establishment-dashboard'
 import TableDailyBookingsEstablishmentDashboard from './table-daily-bookings-establishment-dashboard'
 
 interface DailyBookingsEstablishmentDashboardProps {
@@ -26,12 +18,12 @@ const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 const DailyBookingsEstablishmentDashboard = (
   props: DailyBookingsEstablishmentDashboardProps,
 ) => {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const { establishment } = dashboardSlugRoute.useLoaderData()
   const {
     data: dailyBookingsEstablishmentDashboard = [],
     error: errorDailyBookingsEstablishmentDashboard,
     isLoading: isLoadingDailyBookingsEstablishmentDashboard,
-  } = useGetDailyBookingsEstablishmentDashboard({
+  } = useGetDailyAppointmentsEstablishmentDashboard({
     establishmentId: establishment.id,
     from: props.from,
     to: props.to,
@@ -39,13 +31,12 @@ const DailyBookingsEstablishmentDashboard = (
 
   if (isLoadingDailyBookingsEstablishmentDashboard) {
     return (
-      <Stack gap="2" w="full">
-        <Skeleton
-          height="300px"
-          rounded="xl"
-          bg={{ base: 'gray.300', _dark: 'gray.700/50' }}
-        />
-      </Stack>
+      <Skeleton
+        w="full"
+        height="300px"
+        rounded="xl"
+        bg={{ _light: 'gray.300', _dark: 'gray.700/50' }}
+      />
     )
   }
 
@@ -73,7 +64,7 @@ const DailyBookingsEstablishmentDashboard = (
           >
             <Flex
               bg={{
-                base: `${colorDefaultTheme}.600/20`,
+                _light: `${colorDefaultTheme}.600/20`,
                 _dark: `${colorDefaultTheme}.400/20`,
               }}
               boxSize="8"
@@ -85,7 +76,7 @@ const DailyBookingsEstablishmentDashboard = (
                 as={CalendarIcon}
                 boxSize="4"
                 color={{
-                  base: `${colorDefaultTheme}.600`,
+                  _light: `${colorDefaultTheme}.600`,
                   _dark: `${colorDefaultTheme}.400`,
                 }}
               />
@@ -95,7 +86,7 @@ const DailyBookingsEstablishmentDashboard = (
 
           <Card.Body>
             {dailyBookingsEstablishmentDashboard.length === 0 && (
-              <Text color={{ base: 'gray.600', _dark: 'gray.400' }}>
+              <Text color={{ _light: 'gray.600', _dark: 'gray.400' }}>
                 Nenhum agendamento encontrado para o período selecionado.
               </Text>
             )}

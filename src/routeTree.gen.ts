@@ -37,9 +37,9 @@ import { Route as AuthenticatedOrganizationCreateIndexRouteImport } from './page
 import { Route as AuthenticatedTeamManagementInvitationsIndexRouteImport } from './pages/_authenticated/team-management/invitations/index'
 import { Route as AuthenticatedTeamManagementMembersIndexRouteImport } from './pages/_authenticated/team-management/members/index'
 import { Route as DashboardSlugBookingsIndexRouteImport } from './pages/dashboard/$slug/bookings/index'
-import { Route as DashboardSlugCollaboratorsIndexRouteImport } from './pages/dashboard/$slug/collaborators/index'
 import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
 import { Route as DashboardSlugOverviewIndexRouteImport } from './pages/dashboard/$slug/overview/index'
+import { Route as DashboardSlugProfessionalsIndexRouteImport } from './pages/dashboard/$slug/professionals/index'
 import { Route as DashboardSlugReviewsIndexRouteImport } from './pages/dashboard/$slug/reviews/index'
 import { Route as DashboardSlugServicesIndexRouteImport } from './pages/dashboard/$slug/services/index'
 import { Route as AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport } from './pages/_authenticated/establishment/_routes/$establishmentSlug/index'
@@ -201,12 +201,6 @@ const DashboardSlugBookingsIndexRoute =
     path: '/bookings/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugCollaboratorsIndexRoute =
-  DashboardSlugCollaboratorsIndexRouteImport.update({
-    id: '/collaborators/',
-    path: '/collaborators/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
-  } as any)
 const DashboardSlugCustomersIndexRoute =
   DashboardSlugCustomersIndexRouteImport.update({
     id: '/customers/',
@@ -217,6 +211,12 @@ const DashboardSlugOverviewIndexRoute =
   DashboardSlugOverviewIndexRouteImport.update({
     id: '/overview/',
     path: '/overview/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
+const DashboardSlugProfessionalsIndexRoute =
+  DashboardSlugProfessionalsIndexRouteImport.update({
+    id: '/professionals/',
+    path: '/professionals/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
 const DashboardSlugReviewsIndexRoute =
@@ -296,9 +296,9 @@ export interface FileRoutesByFullPath {
   '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
-  '/dashboard/$slug/collaborators/': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
   '/dashboard/$slug/overview/': typeof DashboardSlugOverviewIndexRoute
+  '/dashboard/$slug/professionals/': typeof DashboardSlugProfessionalsIndexRoute
   '/dashboard/$slug/reviews/': typeof DashboardSlugReviewsIndexRoute
   '/dashboard/$slug/services/': typeof DashboardSlugServicesIndexRoute
   '/dashboard/$slug/services/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
@@ -333,9 +333,9 @@ export interface FileRoutesByTo {
   '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/bookings': typeof DashboardSlugBookingsIndexRoute
-  '/dashboard/$slug/collaborators': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers': typeof DashboardSlugCustomersIndexRoute
   '/dashboard/$slug/overview': typeof DashboardSlugOverviewIndexRoute
+  '/dashboard/$slug/professionals': typeof DashboardSlugProfessionalsIndexRoute
   '/dashboard/$slug/reviews': typeof DashboardSlugReviewsIndexRoute
   '/dashboard/$slug/services': typeof DashboardSlugServicesIndexRoute
   '/dashboard/$slug/services/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
@@ -375,9 +375,9 @@ export interface FileRoutesById {
   '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/_authenticated/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
-  '/dashboard/$slug/collaborators/': typeof DashboardSlugCollaboratorsIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
   '/dashboard/$slug/overview/': typeof DashboardSlugOverviewIndexRoute
+  '/dashboard/$slug/professionals/': typeof DashboardSlugProfessionalsIndexRoute
   '/dashboard/$slug/reviews/': typeof DashboardSlugReviewsIndexRoute
   '/dashboard/$slug/services/': typeof DashboardSlugServicesIndexRoute
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
@@ -415,9 +415,9 @@ export interface FileRouteTypes {
     | '/team-management/invitations/'
     | '/team-management/members/'
     | '/dashboard/$slug/bookings/'
-    | '/dashboard/$slug/collaborators/'
     | '/dashboard/$slug/customers/'
     | '/dashboard/$slug/overview/'
+    | '/dashboard/$slug/professionals/'
     | '/dashboard/$slug/reviews/'
     | '/dashboard/$slug/services/'
     | '/dashboard/$slug/services/$serviceEstablishmentId'
@@ -452,9 +452,9 @@ export interface FileRouteTypes {
     | '/team-management/invitations'
     | '/team-management/members'
     | '/dashboard/$slug/bookings'
-    | '/dashboard/$slug/collaborators'
     | '/dashboard/$slug/customers'
     | '/dashboard/$slug/overview'
+    | '/dashboard/$slug/professionals'
     | '/dashboard/$slug/reviews'
     | '/dashboard/$slug/services'
     | '/dashboard/$slug/services/$serviceEstablishmentId'
@@ -493,9 +493,9 @@ export interface FileRouteTypes {
     | '/_authenticated/team-management/invitations/'
     | '/_authenticated/team-management/members/'
     | '/dashboard/$slug/bookings/'
-    | '/dashboard/$slug/collaborators/'
     | '/dashboard/$slug/customers/'
     | '/dashboard/$slug/overview/'
+    | '/dashboard/$slug/professionals/'
     | '/dashboard/$slug/reviews/'
     | '/dashboard/$slug/services/'
     | '/dashboard/$slug/services/_pages/$serviceEstablishmentId'
@@ -717,13 +717,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSlugBookingsIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/collaborators/': {
-      id: '/dashboard/$slug/collaborators/'
-      path: '/collaborators'
-      fullPath: '/dashboard/$slug/collaborators/'
-      preLoaderRoute: typeof DashboardSlugCollaboratorsIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
-    }
     '/dashboard/$slug/customers/': {
       id: '/dashboard/$slug/customers/'
       path: '/customers'
@@ -736,6 +729,13 @@ declare module '@tanstack/react-router' {
       path: '/overview'
       fullPath: '/dashboard/$slug/overview/'
       preLoaderRoute: typeof DashboardSlugOverviewIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
+    '/dashboard/$slug/professionals/': {
+      id: '/dashboard/$slug/professionals/'
+      path: '/professionals'
+      fullPath: '/dashboard/$slug/professionals/'
+      preLoaderRoute: typeof DashboardSlugProfessionalsIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
     '/dashboard/$slug/reviews/': {
@@ -902,9 +902,9 @@ const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren =
 
 interface DashboardSlugLayoutRouteChildren {
   DashboardSlugBookingsIndexRoute: typeof DashboardSlugBookingsIndexRoute
-  DashboardSlugCollaboratorsIndexRoute: typeof DashboardSlugCollaboratorsIndexRoute
   DashboardSlugCustomersIndexRoute: typeof DashboardSlugCustomersIndexRoute
   DashboardSlugOverviewIndexRoute: typeof DashboardSlugOverviewIndexRoute
+  DashboardSlugProfessionalsIndexRoute: typeof DashboardSlugProfessionalsIndexRoute
   DashboardSlugReviewsIndexRoute: typeof DashboardSlugReviewsIndexRoute
   DashboardSlugServicesIndexRoute: typeof DashboardSlugServicesIndexRoute
   DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
@@ -913,9 +913,9 @@ interface DashboardSlugLayoutRouteChildren {
 
 const DashboardSlugLayoutRouteChildren: DashboardSlugLayoutRouteChildren = {
   DashboardSlugBookingsIndexRoute: DashboardSlugBookingsIndexRoute,
-  DashboardSlugCollaboratorsIndexRoute: DashboardSlugCollaboratorsIndexRoute,
   DashboardSlugCustomersIndexRoute: DashboardSlugCustomersIndexRoute,
   DashboardSlugOverviewIndexRoute: DashboardSlugOverviewIndexRoute,
+  DashboardSlugProfessionalsIndexRoute: DashboardSlugProfessionalsIndexRoute,
   DashboardSlugReviewsIndexRoute: DashboardSlugReviewsIndexRoute,
   DashboardSlugServicesIndexRoute: DashboardSlugServicesIndexRoute,
   DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute:

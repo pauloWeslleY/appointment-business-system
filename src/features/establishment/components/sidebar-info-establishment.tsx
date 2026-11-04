@@ -6,6 +6,7 @@ import {
   defineStyle,
   Drawer,
   Flex,
+  For,
   HStack,
   Icon,
   IconButton,
@@ -18,16 +19,21 @@ import {
 import { Info, StarIcon } from 'lucide-react'
 import { useState } from 'react'
 
+import { Status } from '@/components/ui/status'
 import { Tooltip } from '@/components/ui/tooltip'
 import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 import { contentCss } from '@/theme/styles/global-styles'
 
-import type { EstablishmentModel } from '../types/establishment.model'
+import {
+  type EstablishmentStatusType,
+  mapStatusEstablishment,
+} from '../types/establishment-status.type'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 
 interface SidebarInfoEstablishmentProps {
-  establishment: EstablishmentModel
+  establishment: EstablishmentOrganizationProfileApiResponse
   establishmentOpen: boolean
 }
 
@@ -47,36 +53,10 @@ const SidebarInfoEstablishment = ({
   const [sidebarEstablishmentOpen, setSidebarEstablishmentOpen] =
     useState(false)
 
-  const addressEstablishment = `
-    ${establishment.address.street}, 
-    ${establishment.address.number} - 
-    ${establishment.address.neighborhood}, 
-    ${establishment.address.city} - 
-    ${establishment.address.state}
-  `
-
-  const establishmentDataList = [
-    {
-      label: 'Nome',
-      value: establishment.name,
-    },
-    {
-      label: 'Descrição',
-      value: establishment.description,
-    },
-    {
-      label: 'Status',
-      value: establishmentOpen ? 'Aberto' : 'Fechado',
-    },
-    {
-      label: 'Telefone',
-      value: establishment.phones.map(formattedPhone).join(' - '),
-    },
-    {
-      label: 'Endereço',
-      value: addressEstablishment,
-    },
-  ]
+  const nextAppointmentAt = formattedDateAndHours(
+    establishment.nextAppointmentAt,
+    true,
+  )
 
   const getEstablishmentOpeningHours = establishment.openingHours.map(
     (item) => ({
@@ -86,6 +66,11 @@ const SidebarInfoEstablishment = ({
         .join(', '),
     }),
   )
+
+  function validateLabels(label: string) {
+    const labels = new Set(['Horário de funcionamento', 'Status'])
+    return labels.has(label)
+  }
 
   return (
     <>
@@ -114,28 +99,94 @@ const SidebarInfoEstablishment = ({
               </Drawer.Header>
               <Drawer.Body spaceY="4">
                 <DataList.Root orientation="vertical" css={styleSidebarInfoCss}>
-                  {establishmentDataList.map((item) => (
-                    <DataList.Item key={item.label}>
-                      <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
-                      {item.label === 'Status' ? (
-                        <DataList.ItemValue>
-                          <Badge
-                            size="sm"
-                            colorPalette={establishmentOpen ? 'green' : 'red'}
-                          >
-                            {item.value}
-                          </Badge>
-                        </DataList.ItemValue>
-                      ) : (
-                        <DataList.ItemValue>{item.value}</DataList.ItemValue>
-                      )}
-                    </DataList.Item>
-                  ))}
+                  <For
+                    each={[
+                      {
+                        label: 'Nome',
+                        value: establishment.name,
+                      },
+                      {
+                        label: 'Descrição',
+                        value: establishment.description,
+                      },
+                      {
+                        label: 'Horário de funcionamento',
+                        value: establishmentOpen ? 'Aberto' : 'Fechado',
+                      },
+                      {
+                        label: 'Status',
+                        value: establishment.status,
+                      },
+                      {
+                        label: 'Telefone',
+                        value: establishment.phones
+                          .map(formattedPhone)
+                          .join(' - '),
+                      },
+                      {
+                        label: 'Endereço',
+                        value: `
+                          ${establishment.address.street}, 
+                          ${establishment.address.number} - 
+                          ${establishment.address.neighborhood}, 
+                          ${establishment.address.city} - 
+                          ${establishment.address.state}
+                        `,
+                      },
+                    ]}
+                  >
+                    {(item) => {
+                      const validateLabel = validateLabels(item.label)
+
+                      return (
+                        <DataList.Item key={item.label}>
+                          <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
+                          {item.label === 'Horário de funcionamento' && (
+                            <Status
+                              value={establishmentOpen ? 'success' : 'error'}
+                            >
+                              {item.value}
+                            </Status>
+                          )}
+
+                          {item.label === 'Status' && (
+                            <DataList.ItemValue>
+                              <Badge
+                                size="sm"
+                                rounded="lg"
+                                variant="surface"
+                                colorPalette={
+                                  mapStatusEstablishment(
+                                    item.value as EstablishmentStatusType,
+                                  ).color
+                                }
+                              >
+                                {
+                                  mapStatusEstablishment(
+                                    item.value as EstablishmentStatusType,
+                                  ).label
+                                }
+                              </Badge>
+                            </DataList.ItemValue>
+                          )}
+
+                          {!validateLabel && (
+                            <DataList.ItemValue>
+                              {item.value}
+                            </DataList.ItemValue>
+                          )}
+                        </DataList.Item>
+                      )
+                    }}
+                  </For>
                 </DataList.Root>
 
                 <Separator
                   orientation="horizontal"
-                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+                  borderColor={{
+                    _light: 'gray.200',
+                    _dark: 'secondary.500/20',
+                  }}
                 />
 
                 <HStack
@@ -155,7 +206,7 @@ const SidebarInfoEstablishment = ({
                     orientation="vertical"
                     height="14"
                     borderColor={{
-                      base: 'gray.200',
+                      _light: 'gray.200',
                       _dark: 'secondary.500/20',
                     }}
                   />
@@ -171,7 +222,7 @@ const SidebarInfoEstablishment = ({
                     orientation="vertical"
                     height="14"
                     borderColor={{
-                      base: 'gray.200',
+                      _light: 'gray.200',
                       _dark: 'secondary.500/20',
                     }}
                   />
@@ -198,7 +249,10 @@ const SidebarInfoEstablishment = ({
 
                 <Separator
                   orientation="horizontal"
-                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+                  borderColor={{
+                    _light: 'gray.200',
+                    _dark: 'secondary.500/20',
+                  }}
                 />
 
                 <Flex flexDir="column" gap="4" css={styleSidebarInfoCss}>
@@ -216,52 +270,54 @@ const SidebarInfoEstablishment = ({
                       orientation="vertical"
                       height="14"
                       borderColor={{
-                        base: 'gray.200',
+                        _light: 'gray.200',
                         _dark: 'secondary.500/20',
                       }}
                     />
 
                     <Stat.Root>
                       <Stat.Label>Próximo</Stat.Label>
-                      <Stat.ValueText>
-                        {formattedDateAndHours(
-                          establishment.nextAppointmentAt,
-                          true,
-                        )}
-                      </Stat.ValueText>
+                      <Stat.ValueText>{nextAppointmentAt}</Stat.ValueText>
                     </Stat.Root>
                   </HStack>
                 </Flex>
 
                 <Separator
                   orientation="horizontal"
-                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+                  borderColor={{
+                    _light: 'gray.200',
+                    _dark: 'secondary.500/20',
+                  }}
                 />
 
                 <Stack css={styleSidebarInfoCss} gap="4">
                   <Text>Horário de Funcionamento</Text>
 
                   <DataList.Root orientation="horizontal">
-                    {getEstablishmentOpeningHours.map((item) => (
-                      <DataList.Item key={item.day}>
-                        <DataList.ItemLabel>{item.day}</DataList.ItemLabel>
-                        <DataList.ItemValue>
-                          {item.intervals}
-                        </DataList.ItemValue>
-                      </DataList.Item>
-                    ))}
+                    <For each={getEstablishmentOpeningHours}>
+                      {(item) => (
+                        <DataList.Item key={item.day}>
+                          <DataList.ItemLabel>{item.day}</DataList.ItemLabel>
+                          <DataList.ItemValue>
+                            {item.intervals}
+                          </DataList.ItemValue>
+                        </DataList.Item>
+                      )}
+                    </For>
                   </DataList.Root>
                 </Stack>
               </Drawer.Body>
               <Drawer.Footer>
-                <Button
-                  variant="surface"
-                  rounded="xl"
-                  size="sm"
-                  colorPalette="red"
-                >
-                  Fechar
-                </Button>
+                <Drawer.ActionTrigger asChild>
+                  <Button
+                    variant="surface"
+                    rounded="lg"
+                    size="sm"
+                    colorPalette="red"
+                  >
+                    Fechar
+                  </Button>
+                </Drawer.ActionTrigger>
               </Drawer.Footer>
               <Drawer.CloseTrigger asChild>
                 <CloseButton size="sm" rounded="full" />

@@ -1,31 +1,23 @@
 import { Box, Card, HStack } from '@chakra-ui/react'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { PencilLine } from 'lucide-react'
 import { z } from 'zod'
 
 import Header from '@/components/layout/header'
+import { MENU_UPDATE_ESTABLISHMENT } from '@/features/establishment/constants/menu-tab-establishment-update'
 import UpdateEstablishmentPage from '@/features/establishment/pages/update-establishment.page'
-import { establishmentSlugQueryOptions } from '@/features/establishment/queries/establishment-query-options'
+import { establishmentAdminSlugQueryOptions } from '@/features/establishment/queries/establishment.query-options'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/$establishmentSlug/',
 )({
   validateSearch: z.object({
-    tab: z.enum(['edit', 'upload']),
+    tab: z.enum(MENU_UPDATE_ESTABLISHMENT).optional(),
   }),
-  beforeLoad: ({ search, params }) => {
-    if (!search.tab) {
-      throw redirect({
-        to: '/establishment/$establishmentSlug',
-        params: { establishmentSlug: params.establishmentSlug },
-        search: { tab: 'edit' },
-      })
-    }
-  },
   loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(
-      establishmentSlugQueryOptions(params.establishmentSlug),
+    context.queryClient.query(
+      establishmentAdminSlugQueryOptions(params.establishmentSlug),
     ),
   component: EditEstablishmentPage,
 })

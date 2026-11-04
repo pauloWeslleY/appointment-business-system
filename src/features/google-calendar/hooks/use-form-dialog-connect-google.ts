@@ -47,10 +47,6 @@ export function useFormDialogConnectGoogle(
       },
       {
         onSuccess: (data) => {
-          toaster.success({
-            title: 'Conexão bem-sucedida!',
-            description: 'O Google Calendar foi conectado com sucesso.',
-          })
           onOpenDialogConnectGoogle(false)
           sessionStorage.removeItem('selected_establishment_id')
           window.location.assign(data.authorizationUrl)

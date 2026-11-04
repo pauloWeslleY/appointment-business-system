@@ -35,10 +35,12 @@ export function useResetPasswordPage(token?: string) {
       setError('root', { message: error.message })
     }
 
-    if (data) {
-      reset({ newPassword: '' })
-      await navigate({ to: '/login', replace: true })
+    if (!data) {
+      return
     }
+
+    reset({ newPassword: '' })
+    await navigate({ to: '/login', replace: data.status })
   }
 
   return {

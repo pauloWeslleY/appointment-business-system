@@ -1,70 +1,20 @@
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  chakra,
-  Flex,
-  Icon,
-  IconButton,
-  Stack,
-} from '@chakra-ui/react'
-import { Trash2 } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import {
-  type Control,
-  Controller,
-  type FieldErrors,
-  useFieldArray,
-} from 'react-hook-form'
-import { PatternFormat } from 'react-number-format'
+import { Alert, Button, chakra, Flex, Stack } from '@chakra-ui/react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import InputField from '@/components/input-field'
-import { Field } from '@/components/ui/field'
-import { Tooltip } from '@/components/ui/tooltip'
-import { FormatMask } from '@/shared/utils/formatted-mask'
+import type { FormTelephoneEstablishmentType } from '../types/establishment-form-data.type'
+import TelephoneContactField from './telephone-contact-field'
 
-import type { EstablishmentFormData } from '../types/establishment-form-data.type'
-
-interface FormTelephoneEstablishmentProps {
-  control: Control<EstablishmentFormData>
-  errors: FieldErrors<EstablishmentFormData>
-  onCloseAlertTelephone: () => void
-}
-
-const FormTelephoneEstablishment = ({
-  control,
-  errors,
-  onCloseAlertTelephone,
-}: FormTelephoneEstablishmentProps) => {
-  const [mask, setMask] = useState<string>(FormatMask.TELEPHONE)
+const FormTelephoneEstablishment = () => {
+  const form = useFormContext<FormTelephoneEstablishmentType>()
   const {
     fields: telephoneFields,
     append: appendTelephone,
     remove: removeTelephone,
-  } = useFieldArray({ control, name: 'phones' })
+  } = useFieldArray({ control: form.control, name: 'phones' })
 
-  const labelFormTelephoneMask = useMemo(() => {
-    const labelFormTelephoneMask: Record<
-      string,
-      { title: string; label: string }
-    > = {
-      [FormatMask.TELEPHONE]: {
-        title: 'Telefone fixo',
-        label: 'Telefone',
-      },
-      [FormatMask.CELLPHONE]: {
-        title: 'Celular',
-        label: 'Celular',
-      },
-    } as const
+  const addNewTelephone = () =>
+    appendTelephone({ phone: '', type: 'telephone' })
 
-    return (
-      labelFormTelephoneMask[mask] ||
-      labelFormTelephoneMask[FormatMask.TELEPHONE]
-    )
-  }, [mask])
-
-  const addNewTelephone = () => appendTelephone({ phone: '' })
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
 
   return (
@@ -80,29 +30,8 @@ const FormTelephoneEstablishment = ({
       shadow={{ base: 'shape', md: '2xs' }}
       p="4"
     >
-      <ButtonGroup gap="2" flexDir={{ base: 'column', md: 'row' }}>
-        <Button
-          id="telephone-button"
-          onClick={() => setMask(FormatMask.TELEPHONE)}
-          size="xs"
-          rounded="lg"
-          variant={mask === FormatMask.TELEPHONE ? 'solid' : 'outline'}
-        >
-          Telefone fixo
-        </Button>
-        <Button
-          id="cellphone-button"
-          onClick={() => setMask(FormatMask.CELLPHONE)}
-          size="xs"
-          rounded="lg"
-          variant={mask === FormatMask.CELLPHONE ? 'solid' : 'outline'}
-        >
-          Celular
-        </Button>
-      </ButtonGroup>
-
       <chakra.div display="flex" flexDir="column" alignItems="center" gap="4">
-        {labelFormTelephoneMask.title}
+        Contato
         <Button
           type="button"
           size="xs"
@@ -111,57 +40,22 @@ const FormTelephoneEstablishment = ({
           colorPalette="green"
           onClick={addNewTelephone}
         >
-          Adicionar {labelFormTelephoneMask.label}
+          Adicionar Contato
         </Button>
       </chakra.div>
 
       <Stack direction="row" wrap="wrap" flex="1">
         {telephoneFields.map((input, index) => (
-          <Flex key={input.id} gap="2" flexDir={{ base: 'column', md: 'row' }}>
-            <Controller
-              name={`phones.${index}.phone`}
-              control={control}
-              render={({ field }) => (
-                <Field
-                  invalid={!!errors.phones?.[index]?.phone}
-                  errorText={errors.phones?.[index]?.phone?.message}
-                >
-                  <PatternFormat
-                    value={field.value}
-                    onValueChange={(values) => field.onChange(values.value)}
-                    format={mask}
-                    placeholder={
-                      mask === FormatMask.TELEPHONE
-                        ? '(00) 0000-0000'
-                        : '(00) 00000-0000'
-                    }
-                    mask="_"
-                    customInput={InputField}
-                  />
-                </Field>
-              )}
-            />
-
-            {telephoneFields.length > 1 && (
-              <Tooltip content="Remover telefone" showArrow>
-                <IconButton
-                  alignSelf={{ base: 'center', xl: 'flex-start' }}
-                  size="xs"
-                  rounded="full"
-                  variant="ghost"
-                  colorPalette="red"
-                  onClick={() => removeTelephoneByIndex(index)}
-                  mt="0.5"
-                >
-                  <Icon as={Trash2} boxSize="4" />
-                </IconButton>
-              </Tooltip>
-            )}
-          </Flex>
+          <TelephoneContactField
+            key={input.id}
+            index={index}
+            canRemove={telephoneFields.length > 1}
+            onRemove={() => removeTelephoneByIndex(index)}
+          />
         ))}
       </Stack>
 
-      {errors.phones?.message && (
+      {form.formState.errors.phones?.message && (
         <Alert.Root
           status="error"
           variant="surface"
@@ -174,17 +68,10 @@ const FormTelephoneEstablishment = ({
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title>Não foi possível cadastrar</Alert.Title>
-            <Alert.Description>{errors.phones?.message}</Alert.Description>
+            <Alert.Description>
+              {form.formState.errors.phones?.message}
+            </Alert.Description>
           </Alert.Content>
-
-          <Button
-            size="xs"
-            variant="surface"
-            rounded="lg"
-            onClick={onCloseAlertTelephone}
-          >
-            Fechar
-          </Button>
         </Alert.Root>
       )}
     </Flex>

@@ -8,62 +8,28 @@ import {
   Portal,
   Text,
 } from '@chakra-ui/react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { getRouteApi } from '@tanstack/react-router'
 import { Save } from 'lucide-react'
 
-import { toaster } from '@/components/ui/toaster'
 import { contentCss } from '@/theme/styles/global-styles'
 
-import { customersMutationOptions } from '../queries/customers-mutation-key'
-import { customersQueryKeys } from '../queries/customers-query-key'
-import type { CustomerModel } from '../types/customer.model'
+import { useStatusCustomer } from '../hooks/use-status-customer'
+import type { CustomerApiResponse } from '../types/customer-response.api.type'
 
 interface DialogStatusCustomerProps {
-  customer: CustomerModel
+  customer: CustomerApiResponse
   open: boolean
   onOpen: (open: boolean) => void
 }
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 const DialogStatusCustomer = ({
   customer,
   open,
   onOpen,
 }: DialogStatusCustomerProps) => {
-  const queryClient = useQueryClient()
-  const establishment = dashboardSlugRoute.useLoaderData()
-
-  const { mutate: mutateStatusCustomer, isPending: isPendingStatusCustomer } =
-    useMutation({
-      ...customersMutationOptions.status(),
-      onSuccess: (updateStatusCustomer) => {
-        queryClient.setQueryData<CustomerModel[]>(
-          customersQueryKeys.establishment(establishment.id),
-          (listCustomersCache) => {
-            if (!listCustomersCache) return []
-
-            return listCustomersCache.map((customer) =>
-              customer.id === updateStatusCustomer.id
-                ? { ...updateStatusCustomer }
-                : customer,
-            )
-          },
-        )
-        toaster.success({ title: 'Status do cliente atualizado com sucesso!' })
-        onOpen(false)
-      },
-      onError: (error) => {
-        toaster.error({
-          title: 'Erro ao atualizar status do cliente',
-          description: error.message,
-        })
-      },
-    })
-
-  const handleStatusCustomer = () => {
-    mutateStatusCustomer({ id: customer.id, active: !customer.active })
-  }
+  const { handleStatusCustomer, isPendingStatusCustomer } = useStatusCustomer(
+    customer,
+    () => onOpen(false),
+  )
 
   return (
     <Dialog.Root
@@ -83,8 +49,8 @@ const DialogStatusCustomer = ({
             <Dialog.Body>
               <Flex mb="2" align="center" gap="2">
                 <Text>Status atual:</Text>
-                <Badge colorPalette={customer.active ? 'green' : 'red'}>
-                  {customer.active ? 'Ativo' : 'Inativo'}
+                <Badge colorPalette={customer.status ? 'green' : 'red'}>
+                  {customer.status ? 'Ativo' : 'Inativo'}
                 </Badge>
               </Flex>
               <p>
@@ -102,12 +68,12 @@ const DialogStatusCustomer = ({
                 size="sm"
                 variant="surface"
                 rounded="xl"
-                colorPalette={customer.active ? 'red' : 'green'}
+                colorPalette={customer.status ? 'red' : 'green'}
                 loading={isPendingStatusCustomer}
                 onClick={handleStatusCustomer}
               >
                 <Icon as={Save} boxSize="4" />
-                {customer.active ? 'Inativar' : 'Ativar'} status
+                {customer.status ? 'Inativar' : 'Ativar'} status
               </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>

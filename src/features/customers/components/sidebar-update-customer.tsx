@@ -3,11 +3,11 @@ import { Button, CloseButton, Drawer, Portal } from '@chakra-ui/react'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { useFormUpdateCustomer } from '../hooks/use-form-update-customer'
-import type { CustomerModel } from '../types/customer.model'
+import type { CustomerApiResponse } from '../types/customer-response.api.type'
 import FieldsCustomer from './fields-customer'
 
 interface SidebarUpdateCustomerProps {
-  customer: CustomerModel
+  customer: CustomerApiResponse
   open: boolean
   onOpen: (open: boolean) => void
 }

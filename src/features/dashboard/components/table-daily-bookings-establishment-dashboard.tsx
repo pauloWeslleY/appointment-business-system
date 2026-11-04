@@ -3,14 +3,13 @@ import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
-import { getBadgeBookingColor } from '@/features/bookings/constants/get-badge-booking-color'
-import { bookingStatusLabel } from '@/features/bookings/types/booking-status.type'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
-import type { DailyBookingsEstablishmentModel } from '../types/daily-bookings-establishment.model'
+import { dashboardAppointmentStatusLabels } from '../types/dashboard-appointment-status.type'
+import type { DailyAppointmentsDashboardApiResponse } from '../types/get-daily-appointments-dashboard.api.type'
 
 interface TableDailyBookingsEstablishmentDashboardProps {
-  bookings: DailyBookingsEstablishmentModel[]
+  bookings: DailyAppointmentsDashboardApiResponse
 }
 
 const TableDailyBookingsEstablishmentDashboard = ({
@@ -48,15 +47,15 @@ const TableDailyBookingsEstablishmentDashboard = ({
             <Table.Row key={booking.id} bg="transparent">
               <Table.Cell>{booking.user}</Table.Cell>
               <Table.Cell>
-                {formattedDateAndHours(booking.dateBooking, true)}
+                {formattedDateAndHours(booking.dateAppointment, true)}
               </Table.Cell>
               <Table.Cell>{booking.service}</Table.Cell>
               <Table.Cell>
                 <Badge
-                  colorPalette={getBadgeBookingColor[booking.status]}
+                  colorPalette={dashboardAppointmentStatusLabels[booking.status].color}
                   w="fit-content"
                 >
-                  {bookingStatusLabel[booking.status]}
+                  {dashboardAppointmentStatusLabels[booking.status].label}
                 </Badge>
               </Table.Cell>
             </Table.Row>

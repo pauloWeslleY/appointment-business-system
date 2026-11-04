@@ -1,9 +1,12 @@
 import dayjs from 'dayjs'
 
-import type { EstablishmentModel } from '../types/establishment.model'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 
 export const validateOpeningHoursEstablishment = (
-  establishment?: Pick<EstablishmentModel, 'openingHours'>,
+  establishment?: Pick<
+    EstablishmentOrganizationProfileApiResponse,
+    'openingHours'
+  >,
 ) => {
   const erroMessage = 'Sem horário de funcionamento'
 

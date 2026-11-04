@@ -13,7 +13,7 @@ const BannerAuth = () => {
       display={{ base: 'none', md: 'flex' }}
       gap={{ base: '4', lg: '12' }}
       backdropFilter="blur(16px) saturate(160%)"
-      bg={{ base: 'slate.200/40', _dark: 'navy.600/20' }}
+      bg={{ _light: 'slate.200/40', _dark: 'navy.600/20' }}
       rounded="4xl"
       p="10"
       h="full"
@@ -43,7 +43,7 @@ const BannerAuth = () => {
             lineHeight="shorter"
             letterSpacing="wider"
             fontFamily="heading"
-            color={{ base: 'slate.900', _dark: 'navy.900' }}
+            color={{ _light: 'slate.900', _dark: 'navy.900' }}
           >
             System
           </Text>
@@ -53,7 +53,7 @@ const BannerAuth = () => {
             lineHeight="shorter"
             letterSpacing="wider"
             fontFamily="heading"
-            color={{ base: 'slate.900', _dark: 'navy.900' }}
+            color={{ _light: 'slate.900', _dark: 'navy.900' }}
           >
             Appointment
           </Text>
@@ -73,7 +73,7 @@ const BannerAuth = () => {
             color="navy.700"
           >
             Sua agenda, seus clientes e seu negócio{' '}
-            <Text as="span" color={{ base: 'sea.800', _dark: 'sea.100' }}>
+            <Text as="span" color={{ _light: 'sea.800', _dark: 'sea.100' }}>
               em um só lugar.
             </Text>
           </Text>

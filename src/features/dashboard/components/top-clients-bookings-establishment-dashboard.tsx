@@ -21,7 +21,7 @@ import { User2Icon, UsersRound } from 'lucide-react'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import { useGetTopClientsBookingsEstablishmentDashboard } from '../hooks/use-get-top-clients-bookings-establishment-dashboard'
+import { useGetTopClientsAppointmentsEstablishmentDashboard } from '../hooks/use-get-top-clients-appointments-establishment-dashboard'
 
 interface TopClientsBookingsEstablishmentDashboardProps {
   from: string
@@ -34,33 +34,32 @@ const TopClientsBookingsEstablishmentDashboard = ({
   from,
   to,
 }: TopClientsBookingsEstablishmentDashboardProps) => {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const { establishment } = dashboardSlugRoute.useLoaderData()
   const establishmentId = establishment.id
 
   const {
     data: topClientsBookingsEstablishmentDashboard,
     error: errorTopClientsBookingsEstablishmentDashboard,
     isLoading: isLoadingTopClientsBookingsEstablishmentDashboard,
-  } = useGetTopClientsBookingsEstablishmentDashboard({
+  } = useGetTopClientsAppointmentsEstablishmentDashboard({
     establishmentId,
     from,
     to,
   })
   const maxBookings = Math.max(
     ...(topClientsBookingsEstablishmentDashboard ?? []).map(
-      (i) => i.totalBookings,
+      (i) => i.totalAppointments,
     ),
   )
 
   if (isLoadingTopClientsBookingsEstablishmentDashboard) {
     return (
-      <Stack gap="2" w="full">
-        <Skeleton
-          height="400px"
-          rounded="xl"
-          bg={{ base: 'gray.300', _dark: 'gray.700/50' }}
-        />
-      </Stack>
+      <Skeleton
+        height="200px"
+        rounded="xl"
+        w="full"
+        bg={{ _light: 'gray.300', _dark: 'gray.700/50' }}
+      />
     )
   }
 
@@ -90,7 +89,7 @@ const TopClientsBookingsEstablishmentDashboard = ({
         <Flex align="center" gap="3">
           <Flex
             bg={{
-              base: `${colorDefaultTheme}.600/20`,
+              _light: `${colorDefaultTheme}.600/20`,
               _dark: `${colorDefaultTheme}.400/20`,
             }}
             boxSize="8"
@@ -102,7 +101,7 @@ const TopClientsBookingsEstablishmentDashboard = ({
               as={UsersRound}
               boxSize="4"
               color={{
-                base: `${colorDefaultTheme}.600`,
+                _light: `${colorDefaultTheme}.600`,
                 _dark: `${colorDefaultTheme}.400`,
               }}
             />
@@ -136,7 +135,7 @@ const TopClientsBookingsEstablishmentDashboard = ({
           <For each={topClientsBookingsEstablishmentDashboard ?? []}>
             {(topClients, index) => {
               const progressValue =
-                (topClients.totalBookings / maxBookings) * 100
+                (topClients.totalAppointments / maxBookings) * 100
 
               return (
                 <Stack
@@ -166,7 +165,7 @@ const TopClientsBookingsEstablishmentDashboard = ({
                           fontWeight="medium"
                           color="gray.focusRing"
                         >
-                          {topClients.totalBookings} agend.
+                          {topClients.totalAppointments} agend.
                         </Text>
                       </Box>
                     </Flex>

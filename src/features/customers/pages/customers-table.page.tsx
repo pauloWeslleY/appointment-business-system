@@ -21,8 +21,8 @@ import { usePagination } from '@/shared/hooks/use-pagination'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 
-import MenuActionsTableCustomers from '../components/menu-actions-table-collaborator'
-import type { CustomerModel } from '../types/customer.model'
+import MenuActionsTableCustomers from '../components/menu-actions-table-customer'
+import type { CustomerApiResponse } from '../types/customer-response.api.type'
 
 const customersTableHeaders = [
   'Nome',
@@ -34,23 +34,16 @@ const customersTableHeaders = [
 ]
 
 interface CustomerTableProps {
-  customers: CustomerModel[]
+  customers: CustomerApiResponse[]
 }
 
 const CustomersTable = ({ customers }: CustomerTableProps) => {
   const search = useSearch({ from: '/dashboard/$slug/customers/' })
 
   const loadCustomers = useMemo(() => {
-    const data = customers.map((customer) => ({
-      ...customer,
-      name: customer.name,
-      email: customer.email,
-      birthDate: formattedDateAndHours(customer.birthDate),
-    }))
-
     const query = search.q?.toLowerCase()
 
-    const rows = data.filter((customer) => {
+    const rows = customers.filter((customer) => {
       const queryStringName = query
         ? customer.name.toLowerCase().includes(query)
         : true
@@ -62,7 +55,7 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
       const queryString = queryStringName || queryStringEmail
       const querySex = search.sex ? search.sex === customer.gender : true
       const queryStatus = search.status
-        ? search.status === (customer.active ? 'active' : 'inactive')
+        ? search.status === (customer.status ? 'active' : 'inactive')
         : true
 
       return queryString && querySex && queryStatus
@@ -152,16 +145,20 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
                 <Text as="span" gridColumn={{ md: 'span 2' }}>
                   {row.email}
                 </Text>
-                <span>{mapGenderLabel[row.gender] ?? row.gender}</span>
+                <span>
+                  {row.gender
+                    ? (mapGenderLabel[row.gender] ?? row.gender)
+                    : 'Não informado'}
+                </span>
                 <Text as="span" truncate>
                   {formattedPhoneCustomer(row.phones)}
                 </Text>
                 <span>
-                  <Status value={row.active ? 'success' : 'error'}>
-                    {row.active ? 'Ativo' : 'Inativo'}
+                  <Status value={row.status ? 'success' : 'error'}>
+                    {row.status ? 'Ativo' : 'Inativo'}
                   </Status>
                 </span>
-                <span>{row.birthDate}</span>
+                <span>{formattedDateAndHours(row.birthDate)}</span>
 
                 <Flex justify={{ md: 'end' }}>
                   <MenuActionsTableCustomers customer={row} />

@@ -38,8 +38,8 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
   },
   {
     icon: UserCog,
-    label: 'Colaboradores',
-    path: '/dashboard/$slug/collaborators',
+    label: 'Profissionais',
+    path: '/dashboard/$slug/professionals',
   },
   {
     icon: UsersRound,

@@ -1,12 +1,16 @@
 import { Box } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
+import { z } from 'zod'
 
 import Header from '@/components/layout/header'
-import FormCreateEstablishmentPage from '@/features/establishment/pages/form-create-establishment.page'
+import StepCreateEstablishmentPage from '@/features/establishment/pages/step-create-establishment.page'
 
 export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/new/',
 )({
+  validateSearch: z.object({
+    step: z.coerce.number().optional().default(0),
+  }),
   component: CreateEstablishmentPage,
 })
 
@@ -18,7 +22,7 @@ function CreateEstablishmentPage() {
         <Header.Title>Cadastrar estabelecimento</Header.Title>
       </Header.Root>
 
-      <FormCreateEstablishmentPage />
+      <StepCreateEstablishmentPage />
     </Box>
   )
 }

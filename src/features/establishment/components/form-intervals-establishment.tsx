@@ -31,12 +31,12 @@ import {
   weekDaysLabels,
 } from '@/shared/utils/create-list-weekdays'
 
-import type { EstablishmentFormData } from '../types/establishment-form-data.type'
+import type { EstablishmentOpeningHoursForm } from '../types/establishment-opening-hours-form.type'
 
 interface FormIntervalEstablishmentProps {
-  values: EstablishmentFormData
-  control: Control<EstablishmentFormData>
-  errors: FieldErrors<EstablishmentFormData>
+  values: EstablishmentOpeningHoursForm
+  control: Control<EstablishmentOpeningHoursForm>
+  errors: FieldErrors<EstablishmentOpeningHoursForm>
   onCloseAlertInterval: () => void
 }
 

@@ -8,6 +8,196 @@
     "schemas": {}
   },
   "paths": {
+    "/admin/establishments/by-slug/{slug}": {
+      "get": {
+        "summary": "Consultar unidade administrativa por slug",
+        "tags": [
+          "Establishments / Admin"
+        ],
+        "description": "Consulta autenticada por slug e organização, com escopo do membro; permite unidades inativas ou excluídas e não exige entidade jurídica vinculada.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$"
+                    },
+                    "ownerId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "phones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "timezone": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "draft",
+                        "active",
+                        "inactive",
+                        "suspended"
+                      ]
+                    },
+                    "imageUrl": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "street": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "string"
+                        },
+                        "neighborhood": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "zipCode": {
+                          "type": "string"
+                        },
+                        "complement": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "street",
+                        "number",
+                        "neighborhood",
+                        "city",
+                        "state",
+                        "zipCode"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "openingHours": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "day": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 6
+                          },
+                          "intervals": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "open": {
+                                  "type": "string",
+                                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                                },
+                                "close": {
+                                  "type": "string",
+                                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                                }
+                              },
+                              "required": [
+                                "open",
+                                "close"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "day",
+                          "intervals"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "ownerId",
+                    "name",
+                    "slug",
+                    "description",
+                    "email",
+                    "phones",
+                    "timezone",
+                    "status",
+                    "imageUrl",
+                    "address",
+                    "openingHours",
+                    "createdAt",
+                    "updatedAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/auth/{*}": {
       "get": {
         "summary": "Better-auth",

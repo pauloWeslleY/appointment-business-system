@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 
-import { establishmentAvailabilityQueryOptions } from '../queries/establishment-query-options'
+import { establishmentAvailabilityQueryOptions } from '../queries/establishment.query-options'
 
 dayjs.extend(isToday)
 

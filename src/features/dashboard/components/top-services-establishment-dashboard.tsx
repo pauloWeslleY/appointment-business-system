@@ -11,7 +11,6 @@ import {
   HStack,
   Icon,
   Skeleton,
-  Stack,
   Text,
 } from '@chakra-ui/react'
 import { getRouteApi, Link } from '@tanstack/react-router'
@@ -39,7 +38,7 @@ const TopServicesEstablishmentDashboard = ({
   from,
   to,
 }: TopServicesEstablishmentDashboardProps) => {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const { establishment } = dashboardSlugRoute.useLoaderData()
   const establishmentId = establishment.id
 
   const {
@@ -50,13 +49,12 @@ const TopServicesEstablishmentDashboard = ({
 
   if (isLoadingTopServicesEstablishmentDashboard) {
     return (
-      <Stack gap="2" w="full">
-        <Skeleton
-          height="400px"
-          rounded="xl"
-          bg={{ base: 'gray.300', _dark: 'gray.700/50' }}
-        />
-      </Stack>
+      <Skeleton
+        w="full"
+        height="200px"
+        rounded="xl"
+        bg={{ _light: 'gray.300', _dark: 'gray.700/50' }}
+      />
     )
   }
 
@@ -86,7 +84,7 @@ const TopServicesEstablishmentDashboard = ({
         <Flex align="center" gap="3">
           <Flex
             bg={{
-              base: `${colorDefaultTheme}.600/20`,
+              _light: `${colorDefaultTheme}.600/20`,
               _dark: `${colorDefaultTheme}.400/20`,
             }}
             boxSize="8"
@@ -98,7 +96,7 @@ const TopServicesEstablishmentDashboard = ({
               as={BriefcaseBusiness}
               boxSize="4"
               color={{
-                base: `${colorDefaultTheme}.600`,
+                _light: `${colorDefaultTheme}.600`,
                 _dark: `${colorDefaultTheme}.400`,
               }}
             />
@@ -155,7 +153,7 @@ const TopServicesEstablishmentDashboard = ({
                 </HStack>
                 <Box textAlign="right">
                   <Text fontSize="sm" fontWeight="medium" color="gray.600">
-                    {service.bookings} agend.
+                    {service.appointments} agend.
                   </Text>
                 </Box>
               </Flex>

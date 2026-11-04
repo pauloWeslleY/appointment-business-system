@@ -1,27 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
 
-import type { DashboardQueryParams } from '@/shared/types/dashboard-query-params.type'
-
-import { dashboardQueryKeys } from '../queries/dashboard-query-key'
-import { getTopServicesEstablishmentService } from '../services/dashboard.services'
+import { getTopServicesDashboardQueryOptions } from '../queries/dashboard.query-options'
+import type { DashboardQueryApiRequest } from '../types/dashboard-query.api.type'
+import { normalizeDashboardQuery } from '../utils/normalize-dashboard-query'
 
 export function useGetTopServicesEstablishmentDashboard(
-  params: DashboardQueryParams,
+  params: DashboardQueryApiRequest,
 ) {
-  const queryString: DashboardQueryParams = {
-    establishmentId: params.establishmentId,
-    from: dayjs(params.from).toISOString(),
-    to: dayjs(params.to).toISOString(),
-  }
-
-  const validateQueryString = Object.values(queryString).every(
-    (value) => value !== undefined,
+  return useQuery(
+    getTopServicesDashboardQueryOptions(normalizeDashboardQuery(params)),
   )
-
-  return useQuery({
-    queryKey: dashboardQueryKeys.topServices(queryString),
-    queryFn: () => getTopServicesEstablishmentService(queryString),
-    enabled: validateQueryString,
-  })
 }

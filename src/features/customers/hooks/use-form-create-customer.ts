@@ -1,96 +1,51 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 
-import { customersMutationOptions } from '../queries/customers-mutation-key'
-import { customersQueryKeys } from '../queries/customers-query-key'
-import { CustomerSchema } from '../schemas/customer.schema'
-import type { CustomerModel } from '../types/customer.model'
+import { customersMutationOptions } from '../queries/customers.mutation-options'
+import { CustomerFormSchema } from '../schemas/customer-form.schema'
 import type { CustomerFormData } from '../types/customer-form-data.type'
-
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+import { toCustomerRequestValues } from '../utils/customer-form-values'
+const dashboardRoute = getRouteApi('/dashboard/$slug')
 export function useFormCreateCustomer() {
-  const queryClient = useQueryClient()
-  const establishment = dashboardSlugRoute.useLoaderData()
-
+  const establishment = dashboardRoute.useLoaderData()
   const formCreateCustomer = useForm<CustomerFormData>({
-    resolver: zodResolver(CustomerSchema),
+    resolver: zodResolver(CustomerFormSchema),
     defaultValues: {
       name: '',
       email: '',
       phones: [{ phone: '' }],
       notes: '',
       birthDate: '',
-      gender: undefined,
+      gender: [],
     },
   })
-
-  const { mutate: createCustomer, isPending: isPendingCreateCustomer } =
-    useMutation({
-      ...customersMutationOptions.create(),
-      onSuccess: (newCustomer, variables) => {
-        queryClient.setQueryData<CustomerModel[]>(
-          customersQueryKeys.establishment(variables.establishmentId),
-          (oldData) => {
-            const newCustomerData: CustomerModel = {
-              id: newCustomer.id,
-              name: newCustomer.name,
-              email: newCustomer.email,
-              phones: newCustomer.phones,
-              notes: newCustomer.notes,
-              birthDate: newCustomer.birthDate,
-              gender: newCustomer.gender,
-              active: newCustomer.active,
-              userId: newCustomer.userId,
-              createdAt: newCustomer.createdAt,
-              updatedAt: newCustomer.updatedAt,
-            }
-
-            return oldData ? [...oldData, newCustomerData] : [newCustomerData]
-          },
-        )
-
+  const { mutateAsync: createCustomer, isPending: isPendingCreateCustomer } =
+    useMutation(customersMutationOptions.create())
+  const onSubmitCreateCustomer = formCreateCustomer.handleSubmit(
+    async (data) => {
+      if (isPendingCreateCustomer) {
+        return
+      }
+      try {
+        await createCustomer({
+          ...toCustomerRequestValues(data),
+          establishmentId: establishment.id,
+          userId: null,
+        })
+        formCreateCustomer.reset()
         toaster.success({ title: 'Cliente cadastrado com sucesso' })
-      },
-      onError: (error) => {
+      } catch (error) {
         toaster.error({
           title: 'Erro ao cadastrar cliente',
-          description: error.message,
+          description:
+            error instanceof Error ? error.message : 'Tente novamente',
         })
-      },
-    })
-
-  const onSubmitCreateCustomer = formCreateCustomer.handleSubmit((data) => {
-    if (!establishment.id) {
-      toaster.error({
-        title: 'Erro ao cadastrar cliente',
-        description: 'ID do estabelecimento não encontrado',
-      })
-      return
-    }
-
-    createCustomer(
-      {
-        ...data,
-        userId: null,
-        notes: data.notes || null,
-        gender: data.gender ? data.gender[0] : null,
-        birthDate: data.birthDate || null,
-        phones: data.phones.map((phone) => phone.phone),
-        establishmentId: establishment.id,
-      },
-      {
-        onSuccess: () => formCreateCustomer.reset(),
-      },
-    )
-  })
-
-  return {
-    formCreateCustomer,
-    onSubmitCreateCustomer,
-    isPendingCreateCustomer,
-  }
+      }
+    },
+  )
+  return { formCreateCustomer, onSubmitCreateCustomer, isPendingCreateCustomer }
 }

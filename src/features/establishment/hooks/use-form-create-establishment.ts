@@ -1,37 +1,29 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import type { z } from 'zod'
 
 import { toaster } from '@/components/ui/toaster'
 import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
 
-import { establishmentMutationOptions } from '../queries/establishment-mutation-options'
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import { CreateEstablishmentFormSchema } from '../schemas/establishment.schema'
-type CreateEstablishmentFormData = z.infer<typeof CreateEstablishmentFormSchema>
+import { storageEstablishment } from '../helpers/storage-establishment'
+import { establishmentMutationOptions } from '../queries/establishment.mutation-options'
+import { CreateEstablishmentFormDataSchema } from '../schemas/establishment-form.schema'
+import type { CreateEstablishmentFormData as CreateEstablishmentFormData } from '../types/establishment-form-data.type'
+import { useStepCreateEstablishment } from './use-step-create-establishment'
 
 export function useFormCreateEstablishment() {
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
+  const { nextStepCreateEstablishment } = useStepCreateEstablishment()
   const { data: organizationProfile } = useQuery(
     organizationProfileSummaryQueryOptions(),
   )
-  const {
-    control,
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateEstablishmentFormData>({
-    resolver: zodResolver(CreateEstablishmentFormSchema),
+  const formCreateEstablishment = useForm<CreateEstablishmentFormData>({
+    resolver: zodResolver(CreateEstablishmentFormDataSchema),
     defaultValues: {
       name: '',
       description: '',
       email: '',
-      timezone: '',
-      phones: [{ phone: '' }],
+      timezone: 'America/Sao_Paulo',
+      phones: [{ phone: '', type: 'telephone' }],
     },
   })
   const {
@@ -39,7 +31,7 @@ export function useFormCreateEstablishment() {
     isPending: isPendingCreateEstablishment,
   } = useMutation(establishmentMutationOptions.create())
 
-  const handleCreateEstablishment = (params: CreateEstablishmentFormData) => {
+  const handleCreateEstablishment = (data: CreateEstablishmentFormData) => {
     if (!organizationProfile) {
       toaster.error({ title: 'Dados do usuário inválidos' })
       return
@@ -47,28 +39,23 @@ export function useFormCreateEstablishment() {
 
     createEstablishment(
       {
-        name: params.name,
-        description: params.description,
-        phones: params.phones.map((item) => item.phone),
+        name: data.name,
+        description: data.description,
+        phones: data.phones.map((item) => item.phone),
         imageUrl: null,
-        email: params.email,
-        timezone: params.timezone,
+        email: data.email,
+        timezone: data.timezone,
       },
       {
         onSuccess: (establishment) => {
-          queryClient.invalidateQueries({
-            queryKey: establishmentQueryKeys.organizationProfile(
-              organizationProfile?.id,
-            ),
-          })
-
+          formCreateEstablishment.reset()
           toaster.success({ title: 'Estabelecimento cadastrado' })
-          reset()
-          navigate({
-            to: '/establishment/$establishmentSlug',
-            params: { establishmentSlug: establishment.slug },
-            search: { tab: 'edit' },
+          storageEstablishment.set({
+            id: establishment.id,
+            slug: establishment.slug,
+            created: true,
           })
+          nextStepCreateEstablishment()
         },
         onError: (error) => {
           toaster.error({
@@ -80,11 +67,8 @@ export function useFormCreateEstablishment() {
   }
 
   return {
-    control,
-    errors,
+    formCreateEstablishment,
     isPendingCreateEstablishment,
-    register,
-    handleSubmit,
     handleCreateEstablishment,
   }
 }

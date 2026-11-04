@@ -37,25 +37,22 @@ const EstablishmentItemGoogleCalendar = ({
       <Table.Cell>{establishment.name}</Table.Cell>
 
       <Table.Cell>
-        <Status
-          value={
-            statusEstablishment.color as
-              'success' | 'error' | 'warning' | 'info'
-          }
+        <Badge
+          size="sm"
+          rounded="md"
+          variant="outline"
+          colorPalette={statusEstablishment.color}
         >
           {statusEstablishment.label}
-        </Status>
+        </Badge>
       </Table.Cell>
 
       <Table.Cell>
-        <Badge
-          size="sm"
-          rounded="lg"
-          variant="solid"
-          colorPalette={connectionGoogleCalendar?.connected ? 'green' : 'red'}
+        <Status
+          value={connectionGoogleCalendar?.connected ? 'success' : 'error'}
         >
           {connectionGoogleCalendar?.connected ? 'Conectado' : 'Desconectado'}
-        </Badge>
+        </Status>
       </Table.Cell>
 
       <Table.Cell>

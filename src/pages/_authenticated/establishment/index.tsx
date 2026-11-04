@@ -19,7 +19,7 @@ import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterEstablishmentOpening from '@/features/establishment/components/filter-establishment-opening'
 import StatsEstablishments from '@/features/establishment/components/stats-establishments'
-import { useGetEstablishmentsByOwner } from '@/features/establishment/hooks/use-get-esblishment-by-owner'
+import { useGetEstablishmentsByOrganization } from '@/features/establishment/hooks/use-get-esblishment-by-owner'
 import ListEstablishmentPage from '@/features/establishment/pages/list-establishment.page'
 import { validateEstablishmentExistsRoute } from '@/features/establishment/validations/validation-establishment-exists.route'
 import { cardSectionCss } from '@/theme/styles/global-styles'
@@ -41,9 +41,9 @@ function EstablishmentPage() {
   const search = Route.useSearch()
   const {
     filteredEstablishments,
-    errorEstablishments,
-    isLoadingEstablishments,
-  } = useGetEstablishmentsByOwner(search.q, search.opening)
+    errorGetEstablishments,
+    isLoadingGetEstablishments,
+  } = useGetEstablishmentsByOrganization(search.q, search.opening)
 
   return (
     <Box spaceY={{ base: '4', lg: '8' }} pb="4">
@@ -57,10 +57,9 @@ function EstablishmentPage() {
         </HStack>
 
         <Button
-          rounded="xl"
+          rounded="lg"
           size="xs"
-          variant="surface"
-          colorPalette="emerald"
+          colorPalette="brand"
           onClick={() => navigate({ to: '/establishment/new' })}
         >
           <Icon as={PlusIcon} boxSize="5" />
@@ -68,14 +67,14 @@ function EstablishmentPage() {
         </Button>
       </Header.Root>
 
-      {errorEstablishments && (
+      {errorGetEstablishments && (
         <Alert.Root status="error" rounded="xl">
           <Alert.Indicator />
-          <Alert.Title>Erro: {errorEstablishments.message}</Alert.Title>
+          <Alert.Title>Erro: {errorGetEstablishments.message}</Alert.Title>
         </Alert.Root>
       )}
 
-      {isLoadingEstablishments && (
+      {isLoadingGetEstablishments && (
         <Stack gap="2" w="full" p="2">
           <HStack width="full">
             <SkeletonCircle size="10" />
@@ -87,14 +86,14 @@ function EstablishmentPage() {
         </Stack>
       )}
 
-      {!isLoadingEstablishments && filteredEstablishments.length === 0 && (
+      {!isLoadingGetEstablishments && filteredEstablishments.length === 0 && (
         <Alert.Root status="warning" rounded="xl">
           <Alert.Indicator />
           <Alert.Title>Nenhum estabelecimento encontrado</Alert.Title>
         </Alert.Root>
       )}
 
-      {!isLoadingEstablishments && !errorEstablishments && (
+      {!isLoadingGetEstablishments && !errorGetEstablishments && (
         <Box spaceY="4">
           <StatsEstablishments />
 

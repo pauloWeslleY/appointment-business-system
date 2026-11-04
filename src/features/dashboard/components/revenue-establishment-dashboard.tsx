@@ -1,4 +1,4 @@
-import { Alert, Card, Flex, Icon, Skeleton, Stack } from '@chakra-ui/react'
+import { Alert, Card, Flex, Icon, Skeleton } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
 import { DollarSignIcon } from 'lucide-react'
 
@@ -18,8 +18,7 @@ const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 const RevenueEstablishmentDashboard = (
   props: RevenueEstablishmentDashboardProps,
 ) => {
-  const establishment = dashboardSlugRoute.useLoaderData()
-
+  const { establishment } = dashboardSlugRoute.useLoaderData()
   const {
     data: revenueEstablishmentDashboard,
     error: errorRevenueEstablishmentDashboard,
@@ -32,13 +31,12 @@ const RevenueEstablishmentDashboard = (
 
   if (isLoadingRevenueEstablishmentDashboard) {
     return (
-      <Stack gap="2" w="full">
-        <Skeleton
-          height="200px"
-          rounded="xl"
-          bg={{ base: 'gray.300', _dark: 'gray.700/50' }}
-        />
-      </Stack>
+      <Skeleton
+        w="full"
+        h="200px"
+        rounded="xl"
+        bg={{ _light: 'gray.300', _dark: 'gray.700/50' }}
+      />
     )
   }
 
@@ -66,7 +64,7 @@ const RevenueEstablishmentDashboard = (
           >
             <Flex
               bg={{
-                base: `${colorDefaultTheme}.600/20`,
+                _light: `${colorDefaultTheme}.600/20`,
                 _dark: `${colorDefaultTheme}.400/20`,
               }}
               boxSize="8"
@@ -78,7 +76,7 @@ const RevenueEstablishmentDashboard = (
                 as={DollarSignIcon}
                 boxSize="4"
                 color={{
-                  base: `${colorDefaultTheme}.600`,
+                  _light: `${colorDefaultTheme}.600`,
                   _dark: `${colorDefaultTheme}.400`,
                 }}
               />

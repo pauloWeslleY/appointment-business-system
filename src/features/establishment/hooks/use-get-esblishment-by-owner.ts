@@ -3,11 +3,11 @@ import { useMemo } from 'react'
 
 import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
 
-import { establishmentByOrganizationProfileQueryOptions } from '../queries/establishment-query-options'
-import type { EstablishmentModel } from '../types/establishment.model'
+import { establishmentByOrganizationProfileQueryOptions } from '../queries/establishment.query-options'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
-export function useGetEstablishmentsByOwner(
+export function useGetEstablishmentsByOrganization(
   searchParams?: string,
   opening?: string,
 ) {
@@ -23,13 +23,18 @@ export function useGetEstablishmentsByOwner(
   } = useQuery(
     establishmentByOrganizationProfileQueryOptions(organizationProfile?.id),
   )
+  const errorGetEstablishments = errorOrganizationProfile ?? errorEstablishments
+  const isLoadingGetEstablishments =
+    isLoadingOrganizationProfile || isLoadingEstablishments
 
-  const filteredEstablishments = useMemo<EstablishmentModel[]>(() => {
+  const filteredEstablishments = useMemo<
+    EstablishmentOrganizationProfileApiResponse[]
+  >(() => {
     const filteredEstablishmentTitleAndDescription = (establishment: string) =>
       establishment.toLowerCase().includes(searchParams?.toLowerCase() ?? '')
 
     const filteredEstablishmentOpening = (
-      establishment: EstablishmentModel,
+      establishment: EstablishmentOrganizationProfileApiResponse,
     ) => {
       const getEstablishment = validateOpeningHoursEstablishment(establishment)
       const isEstablishmentOpen = getEstablishment.establishmentOpen
@@ -51,10 +56,9 @@ export function useGetEstablishmentsByOwner(
   }, [establishments, searchParams, opening])
 
   return {
-    filteredEstablishments,
     establishments,
-    errorEstablishments: errorOrganizationProfile ?? errorEstablishments,
-    isLoadingEstablishments:
-      isLoadingOrganizationProfile || isLoadingEstablishments,
+    filteredEstablishments,
+    errorGetEstablishments,
+    isLoadingGetEstablishments,
   }
 }

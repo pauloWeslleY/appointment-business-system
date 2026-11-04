@@ -1,15 +1,24 @@
-import { Badge, Box, For, HStack, Separator, Text } from '@chakra-ui/react'
+import {
+  Badge,
+  Box,
+  Flex,
+  For,
+  HStack,
+  Separator,
+  Text,
+} from '@chakra-ui/react'
 import { Navigate } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
 
+import SelectEstablishmentsByOrganization from '../components/select-establishments-by-organization'
 import { loadMenuDashboardEstablishment } from '../constants/menu-dashboard-establishment'
 import { useEstablishmentLayout } from '../hooks/use-establishment-layout'
-import type { EstablishmentSlugModel } from '../types/establishment.model'
+import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
 
 interface EstablishmentLayoutProps {
-  establishment: EstablishmentSlugModel
+  establishment: EstablishmentSlugApiResponse
   children: ReactNode
 }
 
@@ -72,38 +81,46 @@ const EstablishmentLayout = ({
 
       <Sidebar.Content>
         <Sidebar.Header>
-          <Box spaceY="1" mt="1">
-            <Text as="h2" lineHeight="1">
-              {establishment?.name ?? 'Carregando...'}
-            </Text>
-
-            <HStack align="center">
-              <Text
-                lineHeight="1"
-                fontSize="sm"
-                letterSpacing="wide"
-                fontWeight="light"
-                color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
-              >
-                {loadEstablishmentInfo.openingHours}
+          <Flex align="center" gap="4">
+            <Box spaceY="1" mt="1">
+              <Text as="h2" lineHeight="1">
+                {establishment?.name ?? 'Carregando...'}
               </Text>
 
-              <Separator
-                h="4"
-                orientation="vertical"
-                borderColor={{ base: 'gray.200', _dark: 'gray.500' }}
-              />
+              <HStack align="center">
+                <Text
+                  lineHeight="1"
+                  fontSize="sm"
+                  letterSpacing="wide"
+                  fontWeight="light"
+                  color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
+                >
+                  {loadEstablishmentInfo.openingHours}
+                </Text>
 
-              <Badge
-                size="sm"
-                colorPalette={
-                  loadEstablishmentInfo.establishmentOpen ? 'green' : 'red'
-                }
-              >
-                {loadEstablishmentInfo.establishmentOpen ? 'Aberto' : 'Fechado'}
-              </Badge>
-            </HStack>
-          </Box>
+                <Separator
+                  h="4"
+                  orientation="vertical"
+                  borderColor={{ base: 'gray.200', _dark: 'gray.500' }}
+                />
+
+                <Badge
+                  size="sm"
+                  colorPalette={
+                    loadEstablishmentInfo.establishmentOpen ? 'green' : 'red'
+                  }
+                >
+                  {loadEstablishmentInfo.establishmentOpen
+                    ? 'Aberto'
+                    : 'Fechado'}
+                </Badge>
+              </HStack>
+            </Box>
+
+            <SelectEstablishmentsByOrganization
+              organizationProfileId={establishment.ownerId}
+            />
+          </Flex>
         </Sidebar.Header>
 
         <Sidebar.Body>

@@ -6,10 +6,10 @@ import { mapGenderLabel } from '@/shared/constants/map-label-gender-customer'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
 import { cardSectionCss, contentCss } from '@/theme/styles/global-styles'
 
-import type { CustomerModel } from '../types/customer.model'
+import type { CustomerApiResponse } from '../types/customer-response.api.type'
 
 interface SidebarInfoCustomerProps {
-  customer: CustomerModel
+  customer: CustomerApiResponse
   open: boolean
   onOpen: (open: boolean) => void
 }
@@ -22,8 +22,13 @@ const SidebarInfoCustomer = ({
   const loadInfoCustomer = [
     { label: 'Nome', value: customer.name },
     { label: 'E-mail', value: customer.email },
-    { label: 'Sexo', value: mapGenderLabel[customer.gender] },
-    { label: 'Status', value: customer.active },
+    {
+      label: 'Sexo',
+      value: customer.gender
+        ? (mapGenderLabel[customer.gender] ?? customer.gender)
+        : 'Não informado',
+    },
+    { label: 'Status', value: customer.status },
     { label: 'Data de Nascimento', value: customer.birthDate },
     {
       label: 'Data de Cadastro',

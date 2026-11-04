@@ -17,10 +17,10 @@ import SelectPageSize from '@/components/layout/select-page-size'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 import CardEstablishment from '../components/card-establishment'
-import type { EstablishmentModel } from '../types/establishment.model'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 
 interface ListEstablishmentPageProps {
-  establishments: EstablishmentModel[]
+  establishments: EstablishmentOrganizationProfileApiResponse[]
 }
 
 const ListEstablishmentPage = ({
@@ -40,7 +40,9 @@ const ListEstablishmentPage = ({
   )
   const search = useSearch({ from: '/_authenticated/establishment/' })
 
-  const visibleEstablishments = useMemo<EstablishmentModel[]>(() => {
+  const visibleEstablishments = useMemo<
+    EstablishmentOrganizationProfileApiResponse[]
+  >(() => {
     const start = (pagination.page - 1) * pagination.page_size
     const end = start + pagination.page_size
     return establishments.slice(start, end)

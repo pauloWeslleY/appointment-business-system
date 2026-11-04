@@ -34,7 +34,7 @@ const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 const StatsEstablishmentDashboard = (
   props: StatsEstablishmentDashboardProps,
 ) => {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const { establishment } = dashboardSlugRoute.useLoaderData()
 
   const {
     data: statsEstablishmentDashboard,
@@ -57,7 +57,7 @@ const StatsEstablishmentDashboard = (
       },
       {
         title: 'Agendamentos',
-        value: (statsEstablishmentDashboard?.totalBookings ?? 0).toString(),
+        value: (statsEstablishmentDashboard?.totalAppointments ?? 0).toString(),
         icon: CalendarIcon,
       },
       {

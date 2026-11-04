@@ -5,21 +5,19 @@ import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 
-import { establishmentMutationOptions } from '../queries/establishment-mutation-options'
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
+import { establishmentMutationOptions } from '../queries/establishment.mutation-options'
+import { establishmentQueryKeys } from '../queries/establishment.query-key'
 import { UploadImageEstablishmentSchema } from '../schemas/upload-image-establishment.schema'
-import type { EstablishmentSlugModel } from '../types/establishment.model'
+import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
 import type { UploadImageEstablishmentForm } from '../types/upload-image-establishment.type'
 
 export function useUploadImageEstablishment() {
   const { establishmentSlug } = useParams({
     from: '/_authenticated/establishment/_routes/$establishmentSlug/',
   })
-
   const queryClient = useQueryClient()
-
-  const getEstablishment = queryClient.getQueryData<EstablishmentSlugModel>(
-    establishmentQueryKeys.slug(establishmentSlug),
+  const establishment = queryClient.getQueryData<EstablishmentSlugApiResponse>(
+    establishmentQueryKeys.adminSlug(establishmentSlug),
   )
 
   const {
@@ -39,7 +37,8 @@ export function useUploadImageEstablishment() {
     isPending: isPendingUploadImageEstablishment,
   } = useMutation({
     ...establishmentMutationOptions.uploadImage(),
-    onSuccess: () => {
+    onSuccess: async (...args) => {
+      await establishmentMutationOptions.uploadImage().onSuccess?.(...args)
       reset()
       toaster.success({ title: 'Imagem enviada com sucesso!' })
     },
@@ -54,7 +53,7 @@ export function useUploadImageEstablishment() {
   const onSubmitUploadImageEstablishment = (
     data: UploadImageEstablishmentForm,
   ) => {
-    if (!getEstablishment) {
+    if (!establishment) {
       toaster.error({
         title: 'Estabelecimento não encontrado!',
         description: 'Ocorreu um erro ao enviar a imagem.',
@@ -63,7 +62,7 @@ export function useUploadImageEstablishment() {
     }
 
     uploadImageEstablishment({
-      id: getEstablishment?.id,
+      id: establishment.id,
       image: data.file,
     })
   }
@@ -71,7 +70,7 @@ export function useUploadImageEstablishment() {
   return {
     errors,
     control,
-    getEstablishment,
+    establishment,
     handleSubmit,
     onSubmitUploadImageEstablishment,
     isPendingUploadImageEstablishment,

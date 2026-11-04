@@ -1,6 +1,6 @@
 import axios, { type AxiosError } from 'axios'
 
-import { HttpMethod, type HttpStatusCodeType } from '@/shared/protocols'
+import { type HttpStatusCodeType } from '@/shared/protocols'
 
 export interface ViaCepResponse {
   cep: string
@@ -18,12 +18,12 @@ export interface ViaCepResponse {
   siafi: string
 }
 
+const viaCepBaseUrl = (cep: string) =>
+  `https://viacep.com.br/ws/${cep}/json/` as const
+
 export const getViaCep = async (cep: string) => {
   try {
-    const response = await axios.request<ViaCepResponse>({
-      method: HttpMethod.GET,
-      url: `https://viacep.com.br/ws/${cep}/json/`,
-    })
+    const response = await axios.get<ViaCepResponse>(viaCepBaseUrl(cep))
     return {
       statusCode: response.status as HttpStatusCodeType,
       body: response?.data,

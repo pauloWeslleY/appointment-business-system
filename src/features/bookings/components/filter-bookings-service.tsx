@@ -8,7 +8,7 @@ import { contentCss } from '@/theme/styles/global-styles'
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
 const FilterBookingsService = () => {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const { establishment } = dashboardSlugRoute.useLoaderData()
   const [serviceId, setServiceId] = useQueryState(
     'service_id',
     parseAsString.withDefault(''),

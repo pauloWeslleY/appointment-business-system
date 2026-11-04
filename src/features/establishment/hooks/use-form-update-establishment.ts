@@ -1,62 +1,75 @@
+import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from '@tanstack/react-router'
-import { useEffect } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import type { z } from 'zod'
+import { useEffect, useMemo } from 'react'
+import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 
-import { establishmentMutationOptions } from '../queries/establishment-mutation-options'
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import { establishmentSlugQueryOptions } from '../queries/establishment-query-options'
-import { CreateEstablishmentFormSchema } from '../schemas/establishment.schema'
+import { establishmentMutationOptions } from '../queries/establishment.mutation-options'
+import { establishmentAdminSlugQueryOptions } from '../queries/establishment.query-options'
+import { UpdateEstablishmentFormDataSchema } from '../schemas/establishment-form.schema'
+import type { UpdateEstablishmentFormData } from '../types/establishment-form-data.type'
+import {
+  EstablishmentStatus,
+  mapStatusEstablishment,
+} from '../types/establishment-status.type'
 
-type FormData = z.infer<typeof CreateEstablishmentFormSchema>
+const loadSelectStatusUpdateEstablishment = createListCollection({
+  items: Object.values(EstablishmentStatus).map((status) => ({
+    label: mapStatusEstablishment(status).label,
+    value: status,
+  })),
+})
 
 export function useFormUpdateEstablishment() {
   const { establishmentSlug } = useParams({
     from: '/_authenticated/establishment/_routes/$establishmentSlug/',
   })
-  const queryClient = useQueryClient()
   const {
     data: establishment,
-    isLoading: isLoadingEstablishment,
     error: errorEstablishment,
-  } = useQuery(establishmentSlugQueryOptions(establishmentSlug))
-  const {
-    control,
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors, isDirty },
-  } = useForm<FormData>({
-    resolver: zodResolver(CreateEstablishmentFormSchema),
-    defaultValues: { name: '', description: '', phones: [{ phone: '' }] },
+    isLoading: isLoadingEstablishment,
+  } = useQuery(establishmentAdminSlugQueryOptions(establishmentSlug))
+
+  const formDefaultValues = useMemo<DefaultValues<UpdateEstablishmentFormData>>(
+    () => ({
+      name: establishment?.name ?? '',
+      email: establishment?.email ?? '',
+      description: establishment?.description ?? '',
+      timezone: establishment?.timezone ?? '',
+      status: establishment?.status ? [establishment?.status] : [],
+      phones:
+        establishment?.phones?.map((phone) => ({
+          phone: phone,
+          type: phone.length === 10 ? 'telephone' : 'cellphone',
+        })) ?? [],
+    }),
+    [establishment],
+  )
+
+  const formUpdateEstablishment = useForm<UpdateEstablishmentFormData>({
+    resolver: zodResolver(UpdateEstablishmentFormDataSchema),
+    defaultValues: formDefaultValues,
   })
 
   useEffect(() => {
-    if (establishment) {
-      reset({
-        name: establishment.name,
-        description: establishment.description,
-        phones: establishment.phones.map((phone) => ({ phone })),
-      })
-    }
-  }, [establishment, reset])
+    formUpdateEstablishment.reset(formDefaultValues)
+  }, [
+    formDefaultValues,
+    formUpdateEstablishment,
+    formUpdateEstablishment.reset,
+  ])
+  const { isDirty, dirtyFields } = formUpdateEstablishment.formState
 
   const {
     mutate: updateEstablishment,
     isPending: isPendingUpdateEstablishment,
   } = useMutation({
     ...establishmentMutationOptions.update(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: establishmentQueryKeys.lists(),
-      })
-      queryClient.invalidateQueries({
-        queryKey: establishmentQueryKeys.slug(establishmentSlug),
-      })
+    onSuccess: async (...args) => {
+      await establishmentMutationOptions.update().onSuccess?.(...args)
       toaster.success({ title: 'Estabelecimento atualizado com sucesso' })
     },
     onError: (error) =>
@@ -65,41 +78,42 @@ export function useFormUpdateEstablishment() {
       }),
   })
 
-  const {
-    fields: phoneFields,
-    append: appendPhone,
-    remove: removePhone,
-  } = useFieldArray({ control, name: 'phones' })
-
-  const handleUpdateEstablishment = (params: FormData) => {
-    if (!isDirty) {
-      toaster.warning({ title: 'Nenhuma alteração foi feita' })
-      return
-    }
-
+  const handleUpdateEstablishment = () => {
     if (!establishment) {
       toaster.error({ title: 'Estabelecimento indisponível' })
       return
     }
 
+    const hasAddressChanges = isDirty && Object.keys(dirtyFields).length > 0
+    if (!hasAddressChanges) {
+      toaster.warning({ title: 'Você não alterou o formulário' })
+      return
+    }
+
+    const changesUpdateEstablishment = formUpdateEstablishment.getValues(
+      undefined,
+      {
+        dirtyFields: true,
+      },
+    )
+
+    const { phones, status, ...otherChanges } = changesUpdateEstablishment
+    const statusValue = status[0] ?? null
+
     updateEstablishment({
       id: establishment.id,
-      name: params.name,
-      description: params.description,
-      phones: params.phones.map((item) => item.phone),
+      ...otherChanges,
+      ...(statusValue ? { status: statusValue } : {}),
+      ...(phones?.length ? { phones: phones.map((item) => item.phone) } : {}),
     })
   }
 
   return {
-    register,
-    handleSubmit,
-    errors,
-    isPendingUpdateEstablishment,
-    isLoadingEstablishment,
     errorEstablishment,
+    isLoadingEstablishment,
+    isPendingUpdateEstablishment,
+    formUpdateEstablishment,
     handleUpdateEstablishment,
-    phoneFields,
-    appendPhone,
-    removePhone,
+    loadSelectStatusUpdateEstablishment,
   }
 }

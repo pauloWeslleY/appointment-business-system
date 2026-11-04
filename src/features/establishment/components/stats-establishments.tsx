@@ -11,8 +11,8 @@ import { useMemo } from 'react'
 import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import type { EstablishmentModel } from '../types/establishment.model'
+import { establishmentQueryKeys } from '../queries/establishment.query-key'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 const StatsEstablishments = () => {
@@ -21,7 +21,7 @@ const StatsEstablishments = () => {
     organizationProfileSummaryQueryOptions(),
   )
   const getEstablishmentsByOwner = queryClient.getQueryData<
-    EstablishmentModel[]
+    EstablishmentOrganizationProfileApiResponse[]
   >(establishmentQueryKeys.organizationProfile(organizationProfile?.id))
   const breakPoints = useBreakpointValue({ base: 'horizontal', md: 'vertical' })
 

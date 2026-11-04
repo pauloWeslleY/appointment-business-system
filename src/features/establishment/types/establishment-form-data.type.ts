@@ -1,5 +1,20 @@
-import { type z } from 'zod'
+import type z from 'zod'
 
-import { type EstablishmentFormSchema } from '../schemas/establishment.schema'
+import type {
+  CreateEstablishmentFormDataSchema,
+  EstablishmentFormDataSchema,
+  UpdateEstablishmentFormDataSchema,
+} from '../schemas/establishment-form.schema'
 
-export type EstablishmentFormData = z.infer<typeof EstablishmentFormSchema>
+export type CreateEstablishmentFormData = z.infer<
+  typeof CreateEstablishmentFormDataSchema
+>
+
+export type UpdateEstablishmentFormData = z.infer<
+  typeof UpdateEstablishmentFormDataSchema
+>
+
+export type FormTelephoneEstablishmentType = Pick<
+  z.infer<typeof EstablishmentFormDataSchema>,
+  'phones'
+>

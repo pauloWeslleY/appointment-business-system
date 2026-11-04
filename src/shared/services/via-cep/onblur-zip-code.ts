@@ -22,10 +22,11 @@ export const onBlurZipCode = async (zipCode: string) => {
     }
 
     return response.body
-  } catch (error) {
+  } catch (error: unknown) {
     toaster.error({
       title: 'Erro ao buscar endereço pelo CEP',
       description: (error as Error).message || 'Erro desconhecido',
     })
+    throw error
   }
 }

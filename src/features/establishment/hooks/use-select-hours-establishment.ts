@@ -7,8 +7,8 @@ import { useGetBookingByService } from '@/features/bookings/hooks/use-get-list-b
 import type { OpeningHoursDayProps } from '@/shared/types/opening-hours.type'
 import { generateDayTimeList } from '@/shared/utils/generate-time-list'
 
-import { establishmentQueryKeys } from '../queries/establishment-query-key'
-import type { EstablishmentModel } from '../types/establishment.model'
+import { establishmentQueryKeys } from '../queries/establishment.query-key'
+import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 
 dayjs.extend(isToday)
 
@@ -25,9 +25,10 @@ export function useSelectHoursEstablishment({
 }: UseSelectHoursEstablishmentParams) {
   const queryClient = useQueryClient()
 
-  const loadEstablishment = queryClient.getQueryData<EstablishmentModel>(
-    establishmentQueryKeys.detail(establishmentId),
-  )
+  const loadEstablishment =
+    queryClient.getQueryData<EstablishmentOrganizationProfileApiResponse>(
+      establishmentQueryKeys.detail(establishmentId),
+    )
 
   const { data: bookingsByService } = useGetBookingByService({
     serviceId,

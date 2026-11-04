@@ -3,10 +3,12 @@ import { useMemo } from 'react'
 
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
-import type { EstablishmentSlugModel } from '../types/establishment.model'
+import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
-export function useEstablishmentLayout(establishment: EstablishmentSlugModel) {
+export function useEstablishmentLayout(
+  establishment: EstablishmentSlugApiResponse,
+) {
   const { pathname } = useLocation()
   const { collapsed } = useMenuCollapse()
   const navigate = useNavigate()

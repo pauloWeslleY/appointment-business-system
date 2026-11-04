@@ -1,32 +1,29 @@
 import { type ColorPalette, For, SimpleGrid, Stat } from '@chakra-ui/react'
-import { useQueryClient } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
-import { customersQueryKeys } from '../queries/customers-query-key'
-import type { CustomerModel } from '../types/customer.model'
+import { useGetAllCustomersByEstablishment } from '../hooks/use-get-all-customers-by-establishment'
 
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
 const StatInfoCustomers = () => {
-  const queryClient = useQueryClient()
   const establishment = dashboardSlugRoute.useLoaderData()
 
-  const getCustomersList = queryClient.getQueryData<CustomerModel[]>(
-    customersQueryKeys.establishment(establishment.id),
+  const { data: getCustomersList } = useGetAllCustomersByEstablishment(
+    establishment.id,
   )
 
   const getStatCustomers = useMemo<
     { title: string; value: string; color: ColorPalette }[]
   >(() => {
     const filteredCustomersActive = getCustomersList?.filter(
-      (service) => service.active,
+      (service) => service.status,
     )
     const filteredCustomersInactive = getCustomersList?.filter(
-      (service) => !service.active,
+      (service) => !service.status,
     )
 
-    const getTotalCollaborators: Record<string, number> = {
+    const customerTotals: Record<string, number> = {
       ativo: filteredCustomersActive?.length ?? 0,
       inativo: filteredCustomersInactive?.length ?? 0,
     }
@@ -39,12 +36,12 @@ const StatInfoCustomers = () => {
       },
       {
         title: 'Total de clientes ativos',
-        value: String(getTotalCollaborators.ativo ?? 0),
+        value: String(customerTotals.ativo ?? 0),
         color: 'green',
       },
       {
         title: 'Total de clientes inativos',
-        value: String(getTotalCollaborators.inativo ?? 0),
+        value: String(customerTotals.inativo ?? 0),
         color: 'red',
       },
     ]
