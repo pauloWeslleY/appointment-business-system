@@ -1,10 +1,13 @@
 import z from 'zod'
 
 import { EstablishmentStatusSchema } from '../types/establishment-status.type'
+import { EstablishmentSettingsSchema } from './establishment-settings.schema'
 
 export const EstablishmentSchema = z.object({
+  ...EstablishmentSettingsSchema.partial().shape,
   id: z.uuid(),
-  ownerId: z.uuid(),
+  ownerId: z.uuid().optional(),
+  organizationId: z.string().optional(),
   name: z.string(),
   slug: z.string(),
   description: z.string(),

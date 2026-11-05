@@ -6,6 +6,8 @@ export const BillingIntervals = {
 } as const
 
 export const BillingIntervalsArray = Object.values(BillingIntervals)
+
 export const BillingIntervalSchema = z.enum(BillingIntervalsArray)
+
 export type BillingIntervalType =
   (typeof BillingIntervals)[keyof typeof BillingIntervals]

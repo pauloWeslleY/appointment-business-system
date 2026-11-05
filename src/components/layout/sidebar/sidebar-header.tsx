@@ -5,9 +5,12 @@ import { ColorModeButton } from '@/components/ui/color-mode'
 
 import MenuProfile from '../menu-profile'
 import MenuSettings from '../menu-settings'
-import SidebarMobile from './sidebar-mobile'
+import SidebarMobile, { type SidebarMobileProps } from './sidebar-mobile'
 
-const SidebarHeader = ({ children }: PropsWithChildren) => {
+const SidebarHeader = ({
+  children,
+  navigation,
+}: PropsWithChildren<{ navigation?: SidebarMobileProps }>) => {
   return (
     <Flex
       as="header"
@@ -15,15 +18,18 @@ const SidebarHeader = ({ children }: PropsWithChildren) => {
       justify="space-between"
       px={{ base: '2', lg: '4' }}
       w="full"
-      h="20"
+      minH="20"
+      py="3"
+      gap="2"
+      flexWrap="wrap"
     >
-      <HStack pl={{ base: '0', md: '4' }}>
-        <SidebarMobile />
+      <HStack minW="0" flex="1" pl={{ base: '0', lg: '4' }}>
+        {navigation && <SidebarMobile {...navigation} />}
 
         {children}
       </HStack>
 
-      <Flex align="center" gap={{ base: '2', md: '4' }}>
+      <Flex align="center" flexShrink="0" gap={{ base: '1', md: '4' }}>
         <ColorModeButton rounded="full" variant="ghost" size="sm" />
 
         <MenuSettings />

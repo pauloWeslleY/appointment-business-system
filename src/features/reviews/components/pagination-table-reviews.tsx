@@ -22,12 +22,13 @@ const PaginationTableReviews = ({
 }: PaginationTableReviewsProps) => {
   return (
     <Pagination.Root
+      siblingCount={0}
       count={reviewsLength}
       pageSize={pagination.page_size}
       page={pagination.page}
       onPageChange={onPageChange}
     >
-      <ButtonGroup alignSelf="end" size="sm" variant="subtle">
+      <ButtonGroup alignSelf="end" size="sm" variant="subtle" flexWrap="wrap">
         <Pagination.PrevTrigger asChild>
           <IconButton aria-label="Página anterior" rounded="xl">
             <ChevronLeft />

@@ -28,6 +28,7 @@ export async function getStatsDashboard(
     url: '/dashboard/establishment/stats',
     params: DashboardQueryApiRequestSchema.parse(input),
   })
+
   const validatedResponse = StatsDashboardApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -48,6 +49,7 @@ export async function getRevenueDashboard(
     url: '/dashboard/establishment/revenue',
     params: DashboardQueryApiRequestSchema.parse(input),
   })
+
   const validatedResponse = RevenueDashboardApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -69,6 +71,7 @@ export async function getDailyAppointmentsDashboard(
     url: '/dashboard/establishment/daily/appointments',
     params: DashboardQueryApiRequestSchema.parse(input),
   })
+
   const validatedResponse =
     DailyAppointmentsDashboardApiResponseSchema.safeParse(
       validate.errors(response),
@@ -90,6 +93,7 @@ export async function getTopServicesDashboard(
     url: '/dashboard/establishment/top/services',
     params: DashboardQueryApiRequestSchema.parse(input),
   })
+
   const validatedResponse = TopServicesDashboardApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -111,6 +115,7 @@ export async function getTopClientsAppointmentsDashboard(
     url: '/dashboard/establishment/top/clients/appointments',
     params: DashboardQueryApiRequestSchema.parse(input),
   })
+
   const validatedResponse =
     TopClientsAppointmentsDashboardApiResponseSchema.safeParse(
       validate.errors(response),
@@ -133,6 +138,7 @@ export async function getReconciliationDashboard(
     url: '/dashboard/establishment/reconciliation',
     params: DashboardQueryApiRequestSchema.parse(input),
   })
+
   const validatedResponse = ReconciliationDashboardApiResponseSchema.safeParse(
     validate.errors(response),
   )

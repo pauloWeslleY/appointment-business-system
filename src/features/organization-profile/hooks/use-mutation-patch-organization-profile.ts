@@ -14,6 +14,7 @@ export function useMutationPatchOrganizationProfile() {
       queryClient.invalidateQueries({
         queryKey: organizationProfileQueryKeys.summary(),
       })
+
       toaster.success({ title: 'Proprietário atualizado com sucesso' })
     },
     onError: (error) => {

@@ -1,27 +1,28 @@
+import { useIsFetching } from '@tanstack/react-query'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
+import { useColorMode } from '@/components/ui/color-mode'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
+import { establishmentQueryKeys } from '../queries/establishment.query-key'
 import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
-import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 export function useEstablishmentLayout(
   establishment: EstablishmentSlugApiResponse,
 ) {
+  const { colorMode } = useColorMode()
   const { pathname } = useLocation()
   const { collapsed } = useMenuCollapse()
   const navigate = useNavigate()
+  const isFetching = useIsFetching({
+    queryKey: establishmentQueryKeys.adminSlug(establishment.slug),
+  })
+  const isLoadingEstablishmentLayout = isFetching > 0
 
-  const validateUrlEstablishmentLayout =
+  const isEstablishmentRootPath =
     pathname === `/dashboard/${establishment.slug}`
 
-  const loadEstablishmentInfo = useMemo<{
-    establishmentOpen: boolean
-    openingHours: string
-  }>(() => validateOpeningHoursEstablishment(establishment), [establishment])
-
-  const handleNavigation = (path?: string) => {
+  const handleNavigationEstablishmentLayout = (path?: string) => {
     if (!path?.includes('$slug')) {
       navigate({ to: path })
       return
@@ -30,7 +31,7 @@ export function useEstablishmentLayout(
     navigate({ to: path, params: { slug: establishment.slug } })
   }
 
-  const activePath = (path?: string) => {
+  const activePathEstablishmentLayout = (path?: string) => {
     if (path?.includes('$slug')) {
       const resolvedPath = path.replace('/dashboard/$slug', '')
       return pathname.includes(resolvedPath)
@@ -40,10 +41,11 @@ export function useEstablishmentLayout(
   }
 
   return {
+    colorMode,
     collapsed,
-    loadEstablishmentInfo,
-    validateUrlEstablishmentLayout,
-    activePath,
-    handleNavigation,
+    isEstablishmentRootPath,
+    isLoadingEstablishmentLayout,
+    activePathEstablishmentLayout,
+    handleNavigationEstablishmentLayout,
   }
 }

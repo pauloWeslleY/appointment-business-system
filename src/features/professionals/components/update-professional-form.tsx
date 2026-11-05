@@ -3,6 +3,7 @@ import { Button, chakra, Stack } from '@chakra-ui/react'
 import { useFormUpdateProfessional } from '../hooks/use-form-update-professional'
 import type { ProfessionalDetailsApiResponse } from '../types/professional-api.type'
 import ProfessionalFormFields from './professional-form-fields'
+
 const UpdateProfessionalForm = ({
   details,
   onSaved,
@@ -29,4 +30,5 @@ const UpdateProfessionalForm = ({
     </chakra.form>
   )
 }
+
 export default UpdateProfessionalForm

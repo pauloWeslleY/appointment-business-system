@@ -8,6 +8,28 @@ import { typography } from './tokens/typography'
 
 const themeConfig = defineConfig({
   globalCss: {
+    fieldset: {
+      minWidth: '0',
+    },
+    '[data-scope="card"][data-part="root"], [data-scope="fieldset"][data-part="root"]':
+      {
+        minWidth: '0',
+      },
+    '[data-scope="data-list"][data-part="item-value"]': {
+      minWidth: '0',
+      overflowWrap: 'anywhere',
+    },
+    'button, a[role="button"], [data-scope="menu"][data-part="item"], [data-scope="select"][data-part="item"], [data-scope="radio-group"][data-part="item"], [data-scope="checkbox"][data-part="root"]':
+      {
+        '@media (pointer: coarse)': {
+          minHeight: '11',
+        },
+      },
+    'button[aria-label]': {
+      '@media (pointer: coarse)': {
+        minWidth: '11',
+      },
+    },
     'html, #root': {
       minHeight: '100%',
     },

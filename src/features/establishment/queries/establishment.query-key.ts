@@ -13,11 +13,11 @@ export const establishmentQueryKeys = {
   slug: (slug: string) =>
     [...establishmentQueryKeys.all, 'slug', slug] as const,
 
-  organizationProfile: (organizationProfileId?: string) => {
+  organization: (organizationId?: string) => {
     return [
       ...establishmentQueryKeys.lists(),
-      'organization-profile',
-      { organizationProfileId: organizationProfileId ?? null },
+      'organization',
+      { organizationId: organizationId ?? null },
     ] as const
   },
 

@@ -31,6 +31,7 @@ export function useFormUpadteRoleMember(memberId?: string) {
     ...getActiveMemberQueryOptions(memberContext?.organization.id, memberId),
     enabled: !!query.get('is_open'),
   })
+
   const formDefaultValuesRoleMember = useMemo(
     () => ({ role: activeMember ? [activeMember.role] : [] }),
     [activeMember],
@@ -68,8 +69,10 @@ export function useFormUpadteRoleMember(memberId?: string) {
         title: 'Ops! Erro ao atualizar função do membro',
         description: 'ID do membro não fornecido',
       })
+
       return
     }
+
     updateRoleMember(
       { ...data, memberId },
       {

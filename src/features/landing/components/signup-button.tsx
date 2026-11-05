@@ -24,4 +24,5 @@ const SignupButton = ({
     </Button>
   )
 }
+
 export default SignupButton

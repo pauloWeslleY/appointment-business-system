@@ -104,7 +104,7 @@ const StatsEstablishmentDashboard = (
       )}
 
       {!errorStatsEstablishmentDashboard && (
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap="4" w="full">
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">
           <For each={getStatsEstablishmentDashboard}>
             {(stat, index) => (
               <Card.Root

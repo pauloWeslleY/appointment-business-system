@@ -32,6 +32,7 @@ export function useFormSendInvite() {
     'is_open',
     parseAsBoolean.withDefault(false),
   )
+
   const {
     control,
     handleSubmit,
@@ -48,12 +49,14 @@ export function useFormSendInvite() {
       establishmentIds: [],
     },
   })
+
   const { isPending: isPendingSendInvite, mutate: sendInvite } = useMutation({
     ...invitationsMutationOptions.send(),
     mutationFn: async (data: SendInvitationApiRequest) => {
       const { data: currentSession, error } = await authClient.getSession({
         query: { disableCookieCache: true },
       })
+
       if (
         error ||
         currentSession?.user.id !== userId ||
@@ -66,8 +69,8 @@ export function useFormSendInvite() {
       return sendInvitationService(data)
     },
   })
+
   const {
-    data: organizationProfile,
     error: errorOrganizationProfile,
     isLoading: isLoadingOrganizationProfile,
   } = useQuery(
@@ -79,11 +82,7 @@ export function useFormSendInvite() {
     isLoading: isLoadingEstablishmentsByOrganizationProfile,
     error: establishmentsError,
   } = useQuery(
-    invitationEstablishmentsQueryOptions(
-      userId,
-      organizationId,
-      organizationProfile?.id,
-    ),
+    invitationEstablishmentsQueryOptions(userId, organizationId),
   )
 
   const establishmentItems = (establishmentsByOrganizationProfile ?? []).map(
@@ -137,6 +136,7 @@ export function useFormSendInvite() {
         title: 'Erro ao enviar convite',
         description: 'A organização ativa não está definida',
       })
+
       return
     }
 

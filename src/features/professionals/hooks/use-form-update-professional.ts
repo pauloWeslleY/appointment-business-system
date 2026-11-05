@@ -12,6 +12,7 @@ import type {
   ProfessionalFormInput,
 } from '../types/professional-form.type'
 import { toProfessionalFormValues } from '../utils/professional-form-values'
+
 export function useFormUpdateProfessional(
   details: ProfessionalDetailsApiResponse,
   onSaved: () => void,
@@ -20,6 +21,7 @@ export function useFormUpdateProfessional(
     resolver: zodResolver(ProfessionalFormSchema),
     defaultValues: toProfessionalFormValues(details),
   })
+
   const { isDirty, dirtyFields } = form.formState
   const { mutateAsync: updateProfessional, isPending: isUpdatingProfessional } =
     useMutation(professionalsMutationOptions.update())
@@ -27,10 +29,12 @@ export function useFormUpdateProfessional(
     if (isUpdatingProfessional) {
       return
     }
+
     if (!isDirty) {
       toaster.warning({ title: 'Nenhuma alteração foi feita' })
       return
     }
+
     const updateProfile = !!(
       dirtyFields.displayName ||
       dirtyFields.email ||
@@ -39,11 +43,13 @@ export function useFormUpdateProfessional(
       dirtyFields.bio ||
       dirtyFields.image
     )
+
     const updateEmployment = !!(
       dirtyFields.specialty ||
       dirtyFields.status ||
       dirtyFields.workSchedule
     )
+
     try {
       const updated = await updateProfessional({
         values,
@@ -51,6 +57,7 @@ export function useFormUpdateProfessional(
         updateProfile,
         updateEmployment,
       })
+
       form.reset(toProfessionalFormValues(updated))
       toaster.success({ title: 'Profissional atualizado com sucesso' })
       onSaved()
@@ -61,5 +68,6 @@ export function useFormUpdateProfessional(
       })
     }
   })
+
   return { form, handleUpdateProfessional, isUpdatingProfessional }
 }

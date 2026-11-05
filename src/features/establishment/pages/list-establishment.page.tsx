@@ -38,6 +38,7 @@ const ListEstablishmentPage = ({
       shallow: false,
     },
   )
+
   const search = useSearch({ from: '/_authenticated/establishment/' })
 
   const visibleEstablishments = useMemo<
@@ -89,6 +90,8 @@ const ListEstablishmentPage = ({
           <Flex
             flexDir={{ base: 'column', md: 'row' }}
             justify="space-between"
+            flexWrap="wrap"
+            gap="3"
             w="full"
           >
             <Flex

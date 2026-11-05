@@ -1,10 +1,19 @@
 import { Button, Flex, Spinner, Stack, Text } from '@chakra-ui/react'
 
 import FormUpdateAddressPage from '@/features/address/pages/form-update-address.page'
+import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 
 import { useEstablishmentAddress } from '../hooks/use-establishment-address'
 
-const FormUpdateEstablishmentAddressPage = () => {
+interface FormUpdateEstablishmentAddressPageProps {
+  establishmentSlug: string
+  member: Pick<GetMeContextResponse, 'user' | 'organization'>
+}
+
+const FormUpdateEstablishmentAddressPage = ({
+  establishmentSlug,
+  member,
+}: FormUpdateEstablishmentAddressPageProps) => {
   const {
     establishment,
     errorEstablishment,
@@ -13,11 +22,11 @@ const FormUpdateEstablishmentAddressPage = () => {
     isLoading,
     retryAddress,
     retryEstablishment,
-  } = useEstablishmentAddress()
+  } = useEstablishmentAddress(establishmentSlug, member)
 
   if (isLoading || !establishment || !address) {
     return (
-      <Flex gap="2">
+      <Flex gap="2" flexWrap="wrap">
         <Spinner aria-label="Carregando estabelecimento" />
         <Text>Carregando endereço...</Text>
       </Flex>

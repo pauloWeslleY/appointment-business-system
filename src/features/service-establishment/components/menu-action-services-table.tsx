@@ -8,7 +8,7 @@ import { toaster } from '@/components/ui/toaster'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { contentCss } from '@/theme/styles/global-styles'
 
-import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 import DialogStatusServiceEstablishment from './dialog-status-service-establishment'
 
 interface MenuActionServicesTableProps {
@@ -67,8 +67,10 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
                       description:
                         'Não é possível editar um serviço que está inativo.',
                     })
+
                     return
                   }
+
                   handleNavigateToService('edit')
                 }}
               >

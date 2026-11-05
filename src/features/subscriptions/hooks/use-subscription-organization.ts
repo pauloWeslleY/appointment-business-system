@@ -19,6 +19,7 @@ export function useSubscriptionOrganization() {
   const organizationsQuery = useQuery(
     subscriptionOrganizationsQueryOptions(userId),
   )
+
   const organizationSelectionOptions =
     subscriptionMutationOptions.selectOrganization()
 

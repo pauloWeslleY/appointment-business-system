@@ -3,6 +3,8 @@ import { defineStyle } from '@chakra-ui/react'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 export const contentCss = defineStyle({
+  minW: '0',
+  overflowWrap: 'anywhere',
   colorPalette: colorDefaultTheme,
   bg: { _light: 'white', _dark: 'secondary.700' },
   borderWidth: '1px',
@@ -19,6 +21,8 @@ export const menuItemCss = defineStyle({
 })
 
 export const cardCss = defineStyle({
+  minW: '0',
+  overflowWrap: 'anywhere',
   rounded: 'xl',
   shadow: 'xs',
   bg: { _light: 'primary.100/40', _dark: 'primary.800/40' },
@@ -27,6 +31,8 @@ export const cardCss = defineStyle({
 })
 
 export const cardSectionCss = defineStyle({
+  minW: '0',
+  overflowWrap: 'anywhere',
   shadow: 'xs',
   rounded: 'xl',
   bg: { _light: 'white', _dark: 'gray.950/40' },
@@ -40,6 +46,8 @@ export const inputStyles = defineStyle({
 })
 
 export const inputFieldStyles = defineStyle({
+  minW: '0',
+  maxW: 'full',
   rounded: 'xl',
   bg: { _light: 'blackAlpha.100', _dark: 'gray.800/40' },
 })

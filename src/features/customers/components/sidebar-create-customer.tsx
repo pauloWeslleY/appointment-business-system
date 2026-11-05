@@ -16,9 +16,9 @@ const SidebarCreateCustomer = () => {
   } = useFormCreateCustomer()
 
   return (
-    <Drawer.Root size="lg">
+    <Drawer.Root size="md">
       <Drawer.Trigger asChild>
-        <Button rounded="xl" size="xs" variant="surface" colorPalette="emerald">
+        <Button rounded="xl" size="xs" colorPalette="brand">
           <Icon as={PlusIcon} boxSize="5" />
           Novo Cliente
         </Button>
@@ -33,7 +33,7 @@ const SidebarCreateCustomer = () => {
             <Drawer.Body>
               <FieldsCustomer form={formCreateCustomer} />
             </Drawer.Body>
-            <Drawer.Footer>
+            <Drawer.Footer flexWrap="wrap" gap="2">
               <Drawer.ActionTrigger asChild>
                 <Button
                   size="sm"

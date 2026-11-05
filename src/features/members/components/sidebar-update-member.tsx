@@ -25,7 +25,7 @@ const SidebarUpdateMember = ({
       <Portal>
         <Drawer.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Drawer.Positioner>
-          <Drawer.Content {...contentCss}>
+          <Drawer.Content {...contentCss} minW="0">
             <Drawer.Header>
               <Drawer.Title>Membro - {member?.user.name ?? '--'}</Drawer.Title>
             </Drawer.Header>
@@ -39,7 +39,7 @@ const SidebarUpdateMember = ({
                 <FormUpadteRoleMember memberId={member?.id} />
               )}
             </Drawer.Body>
-            <Drawer.Footer>
+            <Drawer.Footer flexWrap="wrap" gap="2">
               <Button
                 colorPalette="red"
                 variant="surface"

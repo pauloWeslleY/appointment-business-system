@@ -38,6 +38,7 @@ function OrganzationProfilePage() {
         description:
           'Não foi possível carregar as informações do perfil empresarial.',
       })
+
       return
     }
 
@@ -46,6 +47,7 @@ function OrganzationProfilePage() {
         title: 'Atenção',
         description: 'Sua conta ainda não possui um perfil empresarial.',
       })
+
       return
     }
 
@@ -53,12 +55,12 @@ function OrganzationProfilePage() {
   }
 
   return (
-    <Container maxW="breakpoint.md" py={{ base: '4', md: '10' }} pos="relative">
-      <Box pos="absolute" top="2" right="-219px">
+    <Container maxW="breakpoint-md" py={{ base: '4', md: '10' }} pos="relative">
+      <Box pos="absolute" top="2" right="2">
         <ColorModeButton rounded="full" variant="ghost" />
       </Box>
 
-      <Header.Root align="center">
+      <Header.Root align="center" pt="10">
         <Header.Icon icon={Building2} />
         <Stack gap="0">
           <Header.Title>Configure seu perfil empresarial</Header.Title>
@@ -69,7 +71,12 @@ function OrganzationProfilePage() {
       </Header.Root>
 
       <Stack mt="8">
-        <Alert.Root status="info" variant="surface" rounded="xl">
+        <Alert.Root
+          status="info"
+          variant="surface"
+          rounded="xl"
+          flexWrap="wrap"
+        >
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title>Cadastro necessário</Alert.Title>
@@ -80,7 +87,7 @@ function OrganzationProfilePage() {
             </Alert.Description>
           </Alert.Content>
 
-          <Flex align="center" gap="2">
+          <Flex align="center" gap="2" flexWrap="wrap">
             <Button
               variant="outline"
               rounded="md"

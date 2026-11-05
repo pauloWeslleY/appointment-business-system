@@ -24,7 +24,7 @@ const FilterTableTaxInformation = ({ children }: { children?: ReactNode }) => {
   } = useFilterTableTaxInformation()
 
   return (
-    <Flex align="center" gap="2">
+    <Flex align="center" gap="2" flexWrap="wrap">
       <SearchPage />
 
       <Select.Root
@@ -32,7 +32,9 @@ const FilterTableTaxInformation = ({ children }: { children?: ReactNode }) => {
         variant="subtle"
         size="sm"
         collection={loadCollectionPageSizesTaxInformation}
-        w="250px"
+        w={{ base: 'full', md: '250px' }}
+        minW="0"
+        maxW="full"
         value={[filterTaxInformation.limit.toString()]}
         onValueChange={(e) => onChangeLimitTaxInformation(e.value)}
       >
@@ -71,7 +73,9 @@ const FilterTableTaxInformation = ({ children }: { children?: ReactNode }) => {
         variant="subtle"
         size="sm"
         collection={loadCollectionStatusTaxInformation}
-        w="250px"
+        w={{ base: 'full', md: '250px' }}
+        minW="0"
+        maxW="full"
         value={filterTaxInformation.status.map(String)}
         onValueChange={(e) => onChangeStatusTaxInformation(e.value)}
       >

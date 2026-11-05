@@ -13,15 +13,18 @@ export function useListMembers() {
     'member_id',
     parseAsString,
   )
+
   const [isSidebarOpen, setIsSidebarOpen] = useQueryState(
     'is_open',
     parseAsBoolean.withDefault(false),
   )
+
   const { search } = useLocation()
   const { data: session } = authClient.useSession()
   const { data: members, isLoading: isLoadingMembers } = useQuery(
     listMembersQueryOptions(session?.session.activeOrganizationId ?? undefined),
   )
+
   const listAllMembers = members?.members ?? []
   const hasExistingMembers = listAllMembers.length > 0 && !isLoadingMembers
 

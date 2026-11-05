@@ -25,6 +25,7 @@ export function useFormDialogConnectGoogle(
       inviteCustomers: false,
     },
   })
+
   const selectedEstablishmentId = sessionStorage.getItem(
     'selected_establishment_id',
   )
@@ -36,6 +37,7 @@ export function useFormDialogConnectGoogle(
         description:
           'Por favor, selecione um estabelecimento antes de conectar ao Google Calendar.',
       })
+
       return
     }
 

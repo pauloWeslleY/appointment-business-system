@@ -36,7 +36,7 @@ export function SubscriptionBilling() {
 
           {subscriptions.canRead && (
             <HStack gap="4" align="end" flexWrap="wrap">
-              <Box minW="280px">
+              <Box minW="0" w={{ base: 'full', sm: '280px' }}>
                 <SubscriptionSelect
                   id="billing-interval"
                   label="Modalidade"
@@ -56,6 +56,11 @@ export function SubscriptionBilling() {
               </Box>
 
               <Button
+                maxW="full"
+                whiteSpace="normal"
+                h="auto"
+                minH="10"
+                py="2"
                 rounded="lg"
                 disabled={isBillingActionDisabled}
                 onClick={handleSubmitBillingChange}

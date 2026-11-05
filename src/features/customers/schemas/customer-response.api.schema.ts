@@ -1,4 +1,5 @@
 import z from 'zod'
+
 export const CustomerApiResponseSchema = z.object({
   id: z.uuid(),
   organizationId: z.string(),
@@ -15,4 +16,5 @@ export const CustomerApiResponseSchema = z.object({
   updatedAt: z.iso.datetime({ offset: true }),
   deletedAt: z.iso.datetime({ offset: true }).nullable(),
 })
+
 export const CustomersApiResponseSchema = z.array(CustomerApiResponseSchema)

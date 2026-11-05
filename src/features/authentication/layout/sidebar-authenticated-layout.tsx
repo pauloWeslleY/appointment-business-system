@@ -54,8 +54,14 @@ const SideBarAuthenticatedLayout = ({
       </Sidebar.Aside>
 
       <Sidebar.Content>
-        <Sidebar.Header>
-          <Box>
+        <Sidebar.Header
+          navigation={{
+            menu,
+            activePath: activePathSidebarAuthenticated,
+            onNavigate: handleNavigationSidebarAuthenticated,
+          }}
+        >
+          <Box minW="0" overflowWrap="anywhere">
             <Text fontSize="md">{welcomeMessage}</Text>
             <Text
               fontSize="sm"

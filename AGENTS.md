@@ -45,6 +45,7 @@ Não crie diretórios vazios nem uma arquitetura paralela para uma funcionalidad
 - Respeite as regras dos hooks. Não faça efeitos colaterais durante a renderização nem use effects para duplicar estado que pode ser derivado dos dados existentes.
 - Não duplique em estado global os dados já gerenciados pelo TanStack Query. Invalide as queries afetadas após mutations e trate respostas atrasadas ao trocar contexto.
 - Reutilize componentes e tokens do tema. Preserve responsividade, modo claro/escuro, labels, navegação por teclado e feedback acessível.
+- Em `Dialog` e `Drawer`, defina as dimensões pela prop `size` do `Root`. Não sobrescreva `maxW`, `maxH` ou `overflowY` no `Content`.
 - Toda operação assíncrona deve apresentar estados de carregamento, erro, vazio e sucesso quando aplicáveis. Evite cliques duplicados durante mutations.
 
 ## Rotas, sessão e contratos

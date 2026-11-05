@@ -1,6 +1,7 @@
 import z from 'zod'
 
 import { WorkScheduleApiSchema } from './professional-response.api.schema'
+
 const profileFields = {
   displayName: z.string().trim().min(1).max(160),
   email: z.email().nullable(),
@@ -9,6 +10,7 @@ const profileFields = {
   bio: z.string().max(2000).nullable(),
   imageUrl: z.string().max(2000).nullable(),
 }
+
 export const UpdateProfessionalApiRequestSchema = z
   .object(profileFields)
   .strict()
@@ -34,3 +36,13 @@ export const CreateProfessionalApiRequestSchema = z
   })
   .strict()
 export const ProfessionalIdApiRequestSchema = z.uuid()
+
+export const ProfessionalAvailabilityApiRequestSchema = z
+  .object({
+    professionalId: z.uuid(),
+    establishmentId: z.uuid(),
+    organizationId: z.string().min(1),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+  })
+  .strict()

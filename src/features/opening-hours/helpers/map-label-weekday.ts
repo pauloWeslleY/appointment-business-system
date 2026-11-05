@@ -18,6 +18,7 @@ export const mapLabelOpeningHoursIntervals = (
   const formattedIntervals = intervals.map(
     (interval) => `${interval.open} - ${interval.close}`,
   )
+
   return formattedIntervals.join(', ')
 }
 

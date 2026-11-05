@@ -4,6 +4,7 @@ const baseMenuNavLinkRoot = defineRecipe({
   className: 'menu-nav-link-root',
   base: {
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
     rounded: 'xl',
     shadow: 'xs',
@@ -20,7 +21,9 @@ const baseMenuNavLinkRecipe = defineRecipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    py: '1',
+    py: '2',
+    px: '2',
+    minH: '10',
     transition: 'backgrounds',
     rounded: 'xl',
     flex: '1',

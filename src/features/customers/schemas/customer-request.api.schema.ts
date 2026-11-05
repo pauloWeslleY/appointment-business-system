@@ -1,4 +1,5 @@
 import z from 'zod'
+
 const customerFields = {
   name: z.string().trim().min(1).max(200),
   email: z.email(),
@@ -11,13 +12,17 @@ const customerFields = {
     .optional(),
   userId: z.string().trim().min(1).nullable().optional(),
 }
+
 export const CreateCustomerApiRequestSchema = z.object({
   ...customerFields,
   establishmentId: z.uuid(),
 })
+
 export const UpdateCustomerApiRequestSchema = z.object({
   ...customerFields,
   id: z.uuid(),
 })
+
 export const CustomerIdApiRequestSchema = z.uuid()
+
 export const CustomersEstablishmentApiRequestSchema = z.uuid()

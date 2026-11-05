@@ -5,6 +5,7 @@ import {
   getCustomersService,
 } from '../services/customer.service'
 import { customersQueryKeys } from './customers.query-key'
+
 export function customersByEstablishmentQueryOptions(
   establishmentId?: string,
   userId?: string,
@@ -22,6 +23,7 @@ export function customersByEstablishmentQueryOptions(
       : skipToken,
   })
 }
+
 export function customerByIdQueryOptions(
   customerId?: string,
   userId?: string,

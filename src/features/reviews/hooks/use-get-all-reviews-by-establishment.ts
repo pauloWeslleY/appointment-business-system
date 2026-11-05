@@ -1,12 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { reviewsQueryKeys } from '../queries/reviews-query-key'
-import { getReviewsEstablishmentService } from '../services/reviews.service'
+import { reviewsEstablishmentQueryOptions } from '../queries/reviews.query-options'
 
 export function useGetAllReviewsByEstablishment(establishmentId?: string) {
-  return useQuery({
-    queryKey: reviewsQueryKeys.establishments(establishmentId),
-    queryFn: () => getReviewsEstablishmentService(establishmentId),
-    enabled: !!establishmentId,
-  })
+  return useQuery(reviewsEstablishmentQueryOptions(establishmentId))
 }

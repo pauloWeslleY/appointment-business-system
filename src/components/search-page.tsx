@@ -28,12 +28,15 @@ const SearchPage = (props: Omit<InputGroupProps, 'children'>) => {
 
   return (
     <InputGroup
-      w="450px"
+      w={{ base: 'full', md: '450px' }}
+      minW="0"
+      maxW="full"
       {...props}
       startElement={<Icon as={SearchIcon} boxSize="5" />}
       endElement={
         <IconButton
           size="2xs"
+          aria-label="Limpar busca"
           variant="ghost"
           rounded="full"
           disabled={search.length === 0}
@@ -45,6 +48,7 @@ const SearchPage = (props: Omit<InputGroupProps, 'children'>) => {
     >
       <InputField
         placeholder="Buscar..."
+        aria-label="Buscar"
         value={search}
         onChange={handleSearchPage}
       />

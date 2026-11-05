@@ -26,6 +26,7 @@ export const CreateTaxInformationFormSchema = z
       if (data.taxIdType.includes('CNPJ')) {
         return validateCNPJ(data.taxId)
       }
+
       return true
     },
     {
@@ -38,6 +39,7 @@ export const CreateTaxInformationFormSchema = z
       if (data.taxIdType.includes('CPF')) {
         return validateCPF(data.taxId)
       }
+
       return true
     },
     {

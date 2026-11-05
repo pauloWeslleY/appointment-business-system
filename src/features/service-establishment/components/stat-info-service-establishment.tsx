@@ -1,22 +1,18 @@
 import { For, SimpleGrid, Stat } from '@chakra-ui/react'
-import { useQueryClient } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
-import { serviceEstablishmentQueryKeys } from '../queries/service-establishment-query-key'
-import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import { useGetServiceByEstablishment } from '../hooks/use-get-service-by-establishment'
 
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
 const StatInfoServiceEstablishment = () => {
-  const queryClient = useQueryClient()
-  const establishment = dashboardSlugRoute.useLoaderData()
-
-  const serviceEstablishment = queryClient.getQueryData<
-    ListServicesEstablishmentModel[]
-  >(serviceEstablishmentQueryKeys.detail(establishment.id))
+  const { establishment } = dashboardSlugRoute.useLoaderData()
+  const { data: serviceEstablishment } = useGetServiceByEstablishment(
+    establishment.id,
+  )
 
   const getStatServiceEstablishment = useMemo(() => {
     const getTotalServicesActive = serviceEstablishment?.filter(
@@ -33,7 +29,7 @@ const StatInfoServiceEstablishment = () => {
     )
 
     const getTotalBookingsServices = serviceEstablishment?.reduce(
-      (total, service) => total + service.totalBookings,
+      (total, service) => total + service.totalAppointments,
       0,
     )
 
@@ -69,7 +65,7 @@ const StatInfoServiceEstablishment = () => {
   }, [serviceEstablishment])
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap="4" w="full">
+    <SimpleGrid columns={{ base: 1, md: 2, xl: 3, '2xl': 5 }} gap="4" w="full">
       <For each={getStatServiceEstablishment}>
         {(statService) => (
           <Stat.Root

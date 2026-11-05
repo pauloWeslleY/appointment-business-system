@@ -1,17 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
-import { useRouteContext } from '@tanstack/react-router'
 
 import { getAddressByEstablishmentQueryOptions } from '@/features/address/queries/address.query-options'
+import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 
 import { establishmentAdminSlugQueryOptions } from '../queries/establishment.query-options'
 
-export function useEstablishmentAddress() {
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
-  const { establishmentSlug } = useParams({
-    from: '/_authenticated/establishment/_routes/$establishmentSlug/',
-  })
-
+export function useEstablishmentAddress(
+  establishmentSlug: string,
+  member: Pick<GetMeContextResponse, 'user' | 'organization'>,
+) {
   const {
     data: establishment,
     error: errorEstablishment,
@@ -27,8 +24,8 @@ export function useEstablishmentAddress() {
   } = useQuery(
     getAddressByEstablishmentQueryOptions(
       {
-        userId: memberContext.user.id,
-        organizationId: memberContext.organization.id,
+        userId: member.user.id,
+        organizationId: member.organization.id,
       },
       { establishmentId: establishment?.id || '' },
     ),
@@ -37,7 +34,6 @@ export function useEstablishmentAddress() {
   const isLoading = isLoadingEstablishment || isLoadingAddress
 
   const retryEstablishment = () => refetch()
-
   const retryAddress = () => refetchAddress()
 
   return {

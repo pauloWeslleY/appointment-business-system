@@ -22,6 +22,7 @@ export function useDialogDisconnectGoogle(
         description:
           'Por favor, selecione um estabelecimento antes de desconectar do Google Calendar.',
       })
+
       return
     }
 
@@ -31,6 +32,7 @@ export function useDialogDisconnectGoogle(
           title: 'Desconexão bem-sucedida!',
           description: 'O Google Calendar foi desconectado com sucesso.',
         })
+
         onOpenDialogDisconnectGoogle(false)
         sessionStorage.removeItem('selected_establishment_id')
       },

@@ -9,15 +9,14 @@ import {
 } from '@chakra-ui/react'
 
 import { useProfessional } from '../hooks/use-professionals'
-import CreateProfessionalForm from './create-professional-form'
 import UpdateProfessionalForm from './update-professional-form'
+
 interface ProfessionalEditorProps {
-  establishmentId: string
-  professionalId?: string
+  professionalId: string
   onClose: () => void
 }
+
 const ProfessionalEditor = ({
-  establishmentId,
   professionalId,
   onClose,
 }: ProfessionalEditorProps) => {
@@ -41,31 +40,20 @@ const ProfessionalEditor = ({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content
+          >
             <Dialog.Header>
-              <Dialog.Title>
-                {professionalId
-                  ? 'Editar profissional'
-                  : 'Cadastrar profissional'}
-              </Dialog.Title>
+              <Dialog.Title>Editar profissional</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              {!professionalId && (
-                <CreateProfessionalForm
-                  establishmentId={establishmentId}
-                  onSaved={onClose}
-                />
-              )}
-              {professionalId && isPending && (
-                <Spinner aria-label="Carregando profissional" />
-              )}
-              {professionalId && error && (
+              {isPending && <Spinner aria-label="Carregando profissional" />}
+              {error && (
                 <Stack>
                   <Text role="alert">{error.message}</Text>
                   <Button onClick={() => refetch()}>Tentar novamente</Button>
                 </Stack>
               )}
-              {professionalId && details && !error && (
+              {details && !error && (
                 <UpdateProfessionalForm
                   key={details.professional.id}
                   details={details}
@@ -82,4 +70,5 @@ const ProfessionalEditor = ({
     </Dialog.Root>
   )
 }
+
 export default ProfessionalEditor

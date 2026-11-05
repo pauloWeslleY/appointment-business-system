@@ -52,7 +52,9 @@ const SidebarInfoCustomer = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content css={contentCss}>
+          <Dialog.Content
+            css={contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Informações do Cliente</Dialog.Title>
             </Dialog.Header>
@@ -87,7 +89,7 @@ const SidebarInfoCustomer = ({
                 ))}
               </DataList.Root>
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   size="sm"

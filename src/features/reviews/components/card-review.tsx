@@ -27,7 +27,7 @@ const CardReview = ({ review }: CardReviewProps) => {
       gap="4"
       css={cardCss}
     >
-      <Flex flex="1">
+      <Flex flex="1" minW="0" overflowWrap="anywhere">
         <DataList.Root orientation="vertical" gap="4">
           <DataList.Item>
             <DataList.ItemLabel>Nome</DataList.ItemLabel>

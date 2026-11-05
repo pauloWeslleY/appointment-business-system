@@ -57,6 +57,7 @@ export const listSubscriptionOrganizationsService = async (
     url: '/api/auth/organization/list',
     signal,
   })
+
   const parsedResponse = subscriptionOrganizationsResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -80,6 +81,7 @@ export const getSubscriptionContextService = async (
     signal,
     ...(query ? { params: subscriptionContextQuerySchema.parse(query) } : {}),
   })
+
   const parsedResponse = subscriptionContextSchema.safeParse(
     validate.errors(response),
   )
@@ -87,6 +89,7 @@ export const getSubscriptionContextService = async (
   if (!parsedResponse.success) {
     throw new BadRequestError(z.prettifyError(parsedResponse.error))
   }
+
   if (parsedResponse.data.organization.id !== organizationId) {
     throw new ConflictError(
       'A organização ativa mudou. Atualize a página antes de continuar.',
@@ -104,12 +107,14 @@ export const selectSubscriptionOrganizationService = async (
     organizationId,
     ...(establishmentId === undefined ? {} : { establishmentId }),
   })
+
   const { api, validate } = httpDependencies<SubscriptionContextResponse>()
   const response = await api.request({
     method: HttpMethod.POST,
     url: '/me/context',
     body,
   })
+
   const parsedResponse = subscriptionContextSchema.safeParse(
     validate.errors(response),
   )
@@ -134,6 +139,7 @@ export const getSubscriptionAccessService = async (
     }),
     signal,
   })
+
   const parsedResponse = subscriptionSchema.safeParse(validate.errors(response))
 
   if (!parsedResponse.success) {
@@ -152,6 +158,7 @@ export const startSubscriptionTrialService = async (organizationId: string) => {
       'x-organization-id': organizationId,
     }),
   })
+
   const parsedResponse = subscriptionTrialResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -180,6 +187,7 @@ export const createSubscriptionCheckoutService = async (
       billingInterval: interval,
     }),
   })
+
   const parsedResponse = subscriptionCheckoutResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -204,6 +212,7 @@ export const cancelSubscriptionService = async (
       'idempotency-key': requestId,
     }),
   })
+
   const parsedResponse = subscriptionCancellationResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -232,6 +241,7 @@ export const updateSubscriptionBillingIntervalService = async (
       billingInterval: interval,
     }),
   })
+
   const parsedResponse = subscriptionIntervalResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -256,6 +266,7 @@ export const createSubscriptionPortalService = async (
       'idempotency-key': requestId,
     }),
   })
+
   const parsedResponse = subscriptionPortalResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -280,6 +291,7 @@ export const listSubscriptionNoticesService = async (
     }),
     signal,
   })
+
   const parsedResponse = noticesSchema.safeParse(validate.errors(response))
 
   if (!parsedResponse.success) {
@@ -296,6 +308,7 @@ export const markSubscriptionNoticeReadService = async (
   const params: SubscriptionNoticePath = subscriptionNoticePathSchema.parse({
     deliveryId,
   })
+
   const { api, validate } = httpDependencies<SubscriptionReadNoticeResponse>()
   const response = await api.request({
     method: HttpMethod.PATCH,
@@ -304,6 +317,7 @@ export const markSubscriptionNoticeReadService = async (
       'x-organization-id': organizationId,
     }),
   })
+
   const parsedResponse = subscriptionReadNoticeResponseSchema.safeParse(
     validate.errors(response),
   )

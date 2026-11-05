@@ -164,6 +164,11 @@ export function SubscriptionSummary() {
         <HStack mt="6" flexWrap="wrap" gap="3">
           {canStartTrial && (
             <Button
+              maxW="full"
+              whiteSpace="normal"
+              h="auto"
+              minH="10"
+              py="2"
               rounded="lg"
               loading={isSubscriptionActionPending}
               onClick={handleStartTrial}
@@ -174,6 +179,11 @@ export function SubscriptionSummary() {
 
           {subscription && canReadSubscription && (
             <Button
+              maxW="full"
+              whiteSpace="normal"
+              h="auto"
+              minH="10"
+              py="2"
               rounded="lg"
               variant="outline"
               loading={isSubscriptionActionPending}
@@ -184,6 +194,11 @@ export function SubscriptionSummary() {
           )}
 
           <Button
+            maxW="full"
+            whiteSpace="normal"
+            h="auto"
+            minH="10"
+            py="2"
             rounded="lg"
             variant="ghost"
             loading={subscriptionAccessQuery.isFetching}

@@ -47,7 +47,9 @@ const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
       variant="outline"
       size="sm"
       collection={loadCollectionPage}
-      w="250px"
+      w={{ base: 'full', md: '250px' }}
+      minW="0"
+      maxW="full"
       value={[pagination.page_size.toString()]}
       onValueChange={(e) => onChangePagination(e.value)}
     >

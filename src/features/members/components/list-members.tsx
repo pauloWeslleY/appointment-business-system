@@ -34,7 +34,7 @@ const ListMembers = () => {
       flexDir="column"
       gap="3"
     >
-      <Flex align="center" justify="space-between">
+      <Flex align="center" justify="space-between" flexWrap="wrap" gap="3">
         <Card.Title
           display="flex"
           alignItems="center"
@@ -60,7 +60,7 @@ const ListMembers = () => {
       )}
 
       {hasExistingMembers && (
-        <SimpleGrid columns={{ base: 1, md: 4 }} gap="2">
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 3, '2xl': 4 }} gap="2">
           <For each={listFilteredMembers}>
             {(member) => (
               <ItemListMember

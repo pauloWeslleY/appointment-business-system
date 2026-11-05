@@ -1,4 +1,5 @@
 import { For, Icon, Tabs } from '@chakra-ui/react'
+import { useParams, useRouteContext } from '@tanstack/react-router'
 import { MapPin, PencilIcon, UploadCloud } from 'lucide-react'
 import { parseAsStringLiteral, useQueryState } from 'nuqs'
 
@@ -9,7 +10,7 @@ import {
   MenuUpdateEstablishment,
   type MenuUpdateEstablishmentType,
 } from '../constants/menu-tab-establishment-update'
-import FormUpdateEstablishment from './form-update-establishment.page'
+import FormUpdateEstablishmentPage from './form-update-establishment.page'
 import FormUpdateEstablishmentAddressPage from './form-update-establishment-address.page'
 import UploadImageEstablishment from './upload-image-establishment.page'
 
@@ -21,6 +22,12 @@ const UpdateEstablishmentPage = () => {
     ),
   )
 
+  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const slug = useParams({
+    from: '/_authenticated/establishment/_routes/$establishmentSlug/',
+    select: (params) => params.establishmentSlug,
+  })
+
   return (
     <Tabs.Root
       size="sm"
@@ -31,7 +38,8 @@ const UpdateEstablishmentPage = () => {
     >
       <Tabs.List
         aria-label="Establishment updated menu"
-        w={{ base: 'full', lg: 'md' }}
+        w="full"
+        flexWrap="wrap"
       >
         <For
           each={[
@@ -56,7 +64,7 @@ const UpdateEstablishmentPage = () => {
             <Tabs.Trigger
               key={item.value}
               value={item.value}
-              flex="1"
+              flex={{ base: '1 1 100%', sm: '1 1 auto' }}
               justifyContent="center"
               rounded="lg"
             >
@@ -68,15 +76,18 @@ const UpdateEstablishmentPage = () => {
       </Tabs.List>
 
       <Tabs.Content value={MenuUpdateEstablishment.EDIT}>
-        <FormUpdateEstablishment />
+        <FormUpdateEstablishmentPage establishmentSlug={slug} />
       </Tabs.Content>
 
       <Tabs.Content value={MenuUpdateEstablishment.UPLOAD}>
-        <UploadImageEstablishment />
+        <UploadImageEstablishment establishmentSlug={slug} />
       </Tabs.Content>
 
       <Tabs.Content value={MenuUpdateEstablishment.ADDRESS}>
-        <FormUpdateEstablishmentAddressPage />
+        <FormUpdateEstablishmentAddressPage
+          establishmentSlug={slug}
+          member={memberContext}
+        />
       </Tabs.Content>
     </Tabs.Root>
   )

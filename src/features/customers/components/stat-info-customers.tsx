@@ -7,7 +7,7 @@ import { useGetAllCustomersByEstablishment } from '../hooks/use-get-all-customer
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
 const StatInfoCustomers = () => {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const { establishment } = dashboardSlugRoute.useLoaderData()
 
   const { data: getCustomersList } = useGetAllCustomersByEstablishment(
     establishment.id,
@@ -19,6 +19,7 @@ const StatInfoCustomers = () => {
     const filteredCustomersActive = getCustomersList?.filter(
       (service) => service.status,
     )
+
     const filteredCustomersInactive = getCustomersList?.filter(
       (service) => !service.status,
     )

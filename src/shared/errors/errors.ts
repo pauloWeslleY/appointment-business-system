@@ -7,7 +7,7 @@ export class InvalidCredentialsError extends Error {
 
 export class NotFoundError extends Error {
   constructor(message?: string) {
-    super(message || 'Dados não encontrando')
+    super(message || 'Dados não encontrados')
     this.name = 'NotFoundError'
   }
 }

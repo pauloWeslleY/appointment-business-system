@@ -46,6 +46,7 @@ const TopClientsBookingsEstablishmentDashboard = ({
     from,
     to,
   })
+
   const maxBookings = Math.max(
     ...(topClientsBookingsEstablishmentDashboard ?? []).map(
       (i) => i.totalAppointments,
@@ -154,9 +155,16 @@ const TopClientsBookingsEstablishmentDashboard = ({
                     <Icon as={User2Icon} boxSize="5" />
                   </Flex>
 
-                  <VStack align="center" w="full">
-                    <Flex w="full" justify="space-between">
-                      <Text fontSize="sm">{topClients.name}</Text>
+                  <VStack align="center" w="full" minW="0">
+                    <Flex
+                      w="full"
+                      justify="space-between"
+                      flexWrap="wrap"
+                      gap="2"
+                    >
+                      <Text fontSize="sm" overflowWrap="anywhere">
+                        {topClients.name}
+                      </Text>
 
                       <Box textAlign="right">
                         <Text

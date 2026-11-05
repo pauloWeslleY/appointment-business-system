@@ -4,7 +4,7 @@ import {
   getEstablishmentAdminBySlugService,
   getEstablishmentByIdService,
   getEstablishmentBySlugService,
-  getEstablishmentsByOrganizationProfileIdService,
+  getEstablishmentsByOrganizationService,
   getListOpeningHoursEstablishmentService,
 } from '../services/establishment.service'
 import type { GetOpeningHoursRequest } from '../types/opening-hours-request.type'
@@ -54,14 +54,13 @@ export const establishmentAvailabilityQueryOptions = (
   })
 }
 
-export const establishmentByOrganizationProfileQueryOptions = (
-  organizationProfileId?: string,
+export const establishmentByOrganizationQueryOptions = (
+  organizationId?: string,
 ) => {
   return queryOptions({
-    queryKey: establishmentQueryKeys.organizationProfile(organizationProfileId),
-    queryFn: organizationProfileId
-      ? () =>
-          getEstablishmentsByOrganizationProfileIdService(organizationProfileId)
+    queryKey: establishmentQueryKeys.organization(organizationId),
+    queryFn: organizationId
+      ? () => getEstablishmentsByOrganizationService(organizationId)
       : skipToken,
   })
 }

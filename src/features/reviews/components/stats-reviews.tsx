@@ -1,20 +1,16 @@
 import { Flex, Icon, Stat } from '@chakra-ui/react'
-import { useQueryClient } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 import { useMemo } from 'react'
 
-import { reviewsQueryKeys } from '../queries/reviews-query-key'
-import type { ReviewEstablishmentModel } from '../types/reviews-establishment.model'
+import { useGetAllReviewsByEstablishment } from '../hooks/use-get-all-reviews-by-establishment'
 
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
 const StatsReviews = () => {
-  const queryClient = useQueryClient()
-  const establishment = dashboardSlugRoute.useLoaderData()
-
-  const getReviewsList = queryClient.getQueryData<ReviewEstablishmentModel[]>(
-    reviewsQueryKeys.establishments(establishment.id),
+  const { establishment } = dashboardSlugRoute.useLoaderData()
+  const { data: getReviewsList } = useGetAllReviewsByEstablishment(
+    establishment.id,
   )
 
   const getAverageRating = useMemo(() => {
@@ -29,7 +25,7 @@ const StatsReviews = () => {
   }, [getReviewsList])
 
   return (
-    <Flex align="center" gap="4">
+    <Flex align="stretch" gap="4" flexDir={{ base: 'column', sm: 'row' }}>
       <Stat.Root
         p="4"
         shadow="xs"

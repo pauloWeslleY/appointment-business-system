@@ -9,6 +9,7 @@ export const StatusInvitations = {
 } as const
 
 export const StatusInvitationsArray = Object.values(StatusInvitations)
+
 export const StatusInvitationsSchema = z.enum(StatusInvitationsArray)
 
 export type StatusInvitationsType =

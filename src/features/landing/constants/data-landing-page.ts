@@ -30,6 +30,7 @@ export const benefits = [
     text: 'Seus dados protegidos com tecnologia de ponta.',
   },
 ]
+
 export const steps = [
   {
     icon: UserRound,

@@ -48,7 +48,7 @@ const ItemListMember = ({
       borderLeft="5px solid"
       borderColor={{ _light: `${mapColor}.500`, _dark: `${mapColor}.400` }}
     >
-      <Flex align="center" gap="2" flex="1">
+      <Flex align="center" gap="2" flex="1" minW="0">
         <Avatar.Root size="sm">
           {member.user.image && (
             <Avatar.Image src={member.user.image} alt={member.user.name} />
@@ -56,7 +56,7 @@ const ItemListMember = ({
           <Avatar.Fallback />
         </Avatar.Root>
 
-        <div>
+        <div style={{ minWidth: 0 }}>
           <Text
             truncate
             fontSize="md"
@@ -75,6 +75,8 @@ const ItemListMember = ({
       </Flex>
 
       <IconButton
+        aria-label={`Editar membro ${member.user.name}`}
+        flexShrink="0"
         colorPalette="brand"
         rounded="xl"
         variant="ghost"

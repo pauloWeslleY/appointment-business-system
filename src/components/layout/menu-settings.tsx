@@ -45,7 +45,12 @@ const MenuSettings = () => {
   return (
     <Menu.Root positioning={{ placement: 'bottom-end' }}>
       <Menu.Trigger asChild>
-        <IconButton variant="ghost" size="sm" rounded="full">
+        <IconButton
+          aria-label="Opções da conta"
+          variant="ghost"
+          size="sm"
+          rounded="full"
+        >
           <Icon as={Settings} boxSize="5" />
         </IconButton>
       </Menu.Trigger>

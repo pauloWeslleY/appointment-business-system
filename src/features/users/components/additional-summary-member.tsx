@@ -13,6 +13,7 @@ const AdditionalSummaryMember = () => {
   const memberCurrentAccessScope = mapLabelMemberAccessScope(
     memberContext.member.profile.accessScope,
   )
+
   const memberCurrentStatus = mapLabelMemberStatus(
     memberContext.member.profile.status,
   )

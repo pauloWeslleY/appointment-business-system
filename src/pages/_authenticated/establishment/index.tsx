@@ -19,7 +19,7 @@ import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterEstablishmentOpening from '@/features/establishment/components/filter-establishment-opening'
 import StatsEstablishments from '@/features/establishment/components/stats-establishments'
-import { useGetEstablishmentsByOrganization } from '@/features/establishment/hooks/use-get-esblishment-by-owner'
+import { useGetEstablishmentsByOrganization } from '@/features/establishment/hooks/use-get-establishments-by-organization'
 import ListEstablishmentPage from '@/features/establishment/pages/list-establishment.page'
 import { validateEstablishmentExistsRoute } from '@/features/establishment/validations/validation-establishment-exists.route'
 import { cardSectionCss } from '@/theme/styles/global-styles'
@@ -97,8 +97,8 @@ function EstablishmentPage() {
         <Box spaceY="4">
           <StatsEstablishments />
 
-          <Flex gap="2" align="center">
-            <SearchPage w="350px" />
+          <Flex gap="2" align="center" flexWrap="wrap">
+            <SearchPage w={{ base: 'full', md: '350px' }} />
             <FilterEstablishmentOpening />
           </Flex>
 

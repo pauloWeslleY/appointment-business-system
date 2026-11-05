@@ -16,7 +16,7 @@ import { Field } from '@/components/ui/field'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { useFormUpdateStatusServiceEstablishment } from '../hooks/use-form-update-status-service-establishment'
-import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 
 interface DialogStatusServiceEstablishmentProps {
   service: ListServicesEstablishmentModel
@@ -39,6 +39,7 @@ const DialogStatusServiceEstablishment = ({
 
   return (
     <Dialog.Root
+      size="sm"
       role="alertdialog"
       motionPreset="slide-in-bottom"
       placement="center"
@@ -48,7 +49,9 @@ const DialogStatusServiceEstablishment = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content css={contentCss}>
+          <Dialog.Content
+            css={contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Atualizar status do serviço</Dialog.Title>
             </Dialog.Header>
@@ -81,7 +84,7 @@ const DialogStatusServiceEstablishment = ({
                 )}
               />
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   colorPalette="red"

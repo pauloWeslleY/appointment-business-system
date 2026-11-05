@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -11,10 +10,7 @@ import { UploadImageEstablishmentSchema } from '../schemas/upload-image-establis
 import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
 import type { UploadImageEstablishmentForm } from '../types/upload-image-establishment.type'
 
-export function useUploadImageEstablishment() {
-  const { establishmentSlug } = useParams({
-    from: '/_authenticated/establishment/_routes/$establishmentSlug/',
-  })
+export function useUploadImageEstablishment(establishmentSlug: string) {
   const queryClient = useQueryClient()
   const establishment = queryClient.getQueryData<EstablishmentSlugApiResponse>(
     establishmentQueryKeys.adminSlug(establishmentSlug),
@@ -58,6 +54,7 @@ export function useUploadImageEstablishment() {
         title: 'Estabelecimento não encontrado!',
         description: 'Ocorreu um erro ao enviar a imagem.',
       })
+
       return
     }
 

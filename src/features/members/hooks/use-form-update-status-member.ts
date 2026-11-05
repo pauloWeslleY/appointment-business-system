@@ -31,6 +31,7 @@ export function useFormUpadteStatusMember(memberId?: string) {
         title: 'Ops! Erro ao atualizar escopo do membro',
         description: 'ID do membro não fornecido',
       })
+
       return
     }
 

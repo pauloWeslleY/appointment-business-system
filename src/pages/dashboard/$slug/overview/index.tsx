@@ -33,9 +33,9 @@ function OverviewPage() {
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
       <Header.Root justify="space-between">
-        <HStack>
+        <HStack minW="0">
           <Header.Icon icon={HomeIcon} />
-          <VStack align="start" gap="0">
+          <VStack align="start" gap="0" minW="0">
             <Header.Title>Dashboard</Header.Title>
             <Header.SubTitle>
               Tenha uma visão geral e gerencie seu estabelecimento
@@ -49,8 +49,14 @@ function OverviewPage() {
       <Box spaceY="4">
         <StatsEstablishmentDashboard from={search.from} to={search.to} />
 
-        <Grid templateColumns={{ base: '1fr', xl: '2.25fr 1fr' }} gap="4">
-          <Stack gap="4">
+        <Grid
+          templateColumns={{
+            base: 'minmax(0, 1fr)',
+            xl: 'minmax(0, 2.25fr) minmax(0, 1fr)',
+          }}
+          gap="4"
+        >
+          <Stack gap="4" minW="0">
             <RevenueEstablishmentDashboard from={search.from} to={search.to} />
 
             <DailyBookingsEstablishmentDashboard
@@ -59,7 +65,7 @@ function OverviewPage() {
             />
           </Stack>
 
-          <Stack gap="4">
+          <Stack gap="4" minW="0">
             <TopServicesEstablishmentDashboard
               from={search.from}
               to={search.to}

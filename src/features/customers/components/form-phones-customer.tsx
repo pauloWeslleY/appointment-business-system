@@ -60,7 +60,7 @@ const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
       shadow={{ base: 'shape', md: '2xs' }}
       p="2"
     >
-      <HStack>
+      <HStack flexWrap="wrap">
         <ButtonGroup gap="2" flexDir={{ base: 'column', md: 'row' }}>
           <Button
             id="telephone-button"
@@ -88,7 +88,13 @@ const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
           borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
         />
 
-        <chakra.div display="flex" flexDir="row" alignItems="center" gap="4">
+        <chakra.div
+          display="flex"
+          flexDir="row"
+          flexWrap="wrap"
+          alignItems="center"
+          gap="4"
+        >
           {labelFormPhonesMask.title}
           <Button
             type="button"

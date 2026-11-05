@@ -35,35 +35,42 @@ interface CardEstablishmentProps {
   establishment: EstablishmentOrganizationProfileApiResponse
 }
 
-const validateImageUrlEstablishment = (imageUrl?: string | null) => {
-  if (!imageUrl) return null
+const getEstablishmentStorageImageKey = (imageUrl?: string | null) => {
+  if (!imageUrl) {
+    return null
+  }
+
   return imageUrl.startsWith('establishment/') ? imageUrl : null
 }
 
 const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
-  const { data: imageUrl } = useStorageImage(
-    validateImageUrlEstablishment(establishment.imageUrl),
+  const { data: storageImageUrl } = useStorageImage(
+    getEstablishmentStorageImageKey(establishment.imageUrl),
   )
-  const navigate = useNavigate()
-  const bannerEstablishment = imageUrl ?? establishment.imageUrl
 
-  const loadEstablishmentDetails = useMemo(() => {
-    const formatPhone = establishment.phones.map(formattedPhone).join(' - ')
-    const listDaysOpeningHours = () => {
+  const navigate = useNavigate()
+  const establishmentBannerUrl = storageImageUrl ?? establishment.imageUrl
+
+  const establishmentDetails = useMemo(() => {
+    const formattedPhones = establishment.phones.map(formattedPhone).join(' - ')
+
+    const formatOpeningDays = () => {
       if (establishment.openingHours.length === 0) {
         return 'N/A'
       }
-      const listDaysOpeningHours = establishment.openingHours.map(
+
+      const openingDays = establishment.openingHours.map(
         (hour) => `${weekDaysLabels[hour.day].slice(0, 3)}`,
       )
-      return listDaysOpeningHours.join(' - ')
+
+      return openingDays.join(' - ')
     }
 
     return {
       ...validateOpeningHoursEstablishment(establishment),
-      listDaysOpeningHours: listDaysOpeningHours(),
+      openingDays: formatOpeningDays(),
       status: mapStatusEstablishment(establishment.status),
-      formatPhone,
+      formattedPhones,
     }
   }, [establishment])
 
@@ -81,15 +88,15 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         pb="2"
         w="full"
         display="flex"
-        flexDir={{ base: 'column', md: 'row' }}
+        flexDir={{ base: 'column', xl: 'row' }}
         gap="2"
         borderBottomWidth="1px"
         borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
       >
         <Box alignSelf="center">
-          {bannerEstablishment && (
+          {establishmentBannerUrl && (
             <Image
-              src={bannerEstablishment}
+              src={establishmentBannerUrl}
               alt={establishment.name}
               h="20"
               w="28"
@@ -97,7 +104,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             />
           )}
 
-          {!bannerEstablishment && (
+          {!establishmentBannerUrl && (
             <Box
               p="2"
               bg={{ _light: 'gray.200', _dark: 'gray.800' }}
@@ -109,9 +116,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           )}
         </Box>
 
-        <VStack align="start" gap="2" w="full">
+        <VStack align="start" gap="2" w="full" minW="0">
           <Flex align="center" justify="space-between" w="full">
-            <HStack>
+            <HStack flexWrap="wrap" minW="0">
               <Text
                 color={{ _light: 'primary.500', _dark: 'primary.200' }}
                 letterSpacing="wider"
@@ -128,25 +135,25 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 size="sm"
                 rounded="sm"
                 variant="solid"
-                colorPalette={loadEstablishmentDetails.status.color}
+                colorPalette={establishmentDetails.status.color}
               >
-                {loadEstablishmentDetails.status.label}
+                {establishmentDetails.status.label}
               </Badge>
             </HStack>
 
             <SidebarInfoEstablishment
               establishment={establishment}
-              establishmentOpen={loadEstablishmentDetails.establishmentOpen}
+              establishmentOpen={establishmentDetails.establishmentOpen}
             />
           </Flex>
 
-          <HStack align="center">
+          <HStack align="center" flexWrap="wrap">
             <Text
               fontSize="sm"
               letterSpacing="wide"
               color={{ _light: 'gray.600', _dark: 'gray.400' }}
             >
-              {loadEstablishmentDetails.openingHours}
+              {establishmentDetails.openingHours}
             </Text>
 
             <Separator
@@ -158,12 +165,10 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             <Badge
               size="sm"
               colorPalette={
-                loadEstablishmentDetails.establishmentOpen ? 'green' : 'red'
+                establishmentDetails.establishmentOpen ? 'green' : 'red'
               }
             >
-              {loadEstablishmentDetails.establishmentOpen
-                ? 'Aberto'
-                : 'Fechado'}
+              {establishmentDetails.establishmentOpen ? 'Aberto' : 'Fechado'}
             </Badge>
           </HStack>
 
@@ -172,14 +177,14 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
             letterSpacing="wide"
             color={{ _light: 'gray.600', _dark: 'gray.400' }}
           >
-            {loadEstablishmentDetails.formatPhone}
+            {establishmentDetails.formattedPhones}
           </Text>
 
           <Box spaceY="2" w="full">
             <Flex
               gap={{ base: '2', md: '4' }}
               align={{ base: 'flex-start', md: 'center' }}
-              flexDir={{ base: 'column', md: 'row' }}
+              flexDir={{ base: 'column', xl: 'row' }}
             >
               <Text
                 fontSize="sm"
@@ -210,9 +215,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               />
 
               <Flex gap="2" align="center">
-                <HStack align="center" gap="1">
+                <HStack align="center" gap="1" flexWrap="wrap">
                   <Text
-                    lineHeight="0"
+                    lineHeight="short"
                     fontSize="sm"
                     letterSpacing="wide"
                     color={{ _light: 'gray.600', _dark: 'gray.400' }}
@@ -226,7 +231,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 {' - '}
 
                 <Text
-                  lineHeight="0"
+                  lineHeight="short"
                   fontSize="sm"
                   letterSpacing="wide"
                   color={{ _light: 'gray.600', _dark: 'gray.400' }}
@@ -236,9 +241,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               </Flex>
             </Flex>
 
-            <HStack align="center" gap="1">
+            <HStack align="center" gap="1" flexWrap="wrap">
               <Text
-                lineHeight="0"
+                lineHeight="short"
                 fontSize="sm"
                 letterSpacing="wide"
                 color={{ _light: 'gray.600', _dark: 'gray.400' }}
@@ -249,7 +254,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               <Separator orientation="vertical" height="4" />
 
               <Text
-                lineHeight="0"
+                lineHeight="short"
                 fontSize="sm"
                 letterSpacing="wide"
                 color={{ _light: 'gray.600', _dark: 'gray.400' }}
@@ -264,7 +269,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               color={{ _light: 'gray.600', _dark: 'gray.500' }}
               fontSize="sm"
             >
-              {loadEstablishmentDetails.listDaysOpeningHours}
+              {establishmentDetails.openingDays}
             </Text>
           </Box>
         </VStack>

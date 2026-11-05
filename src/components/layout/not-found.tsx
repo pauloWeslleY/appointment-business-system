@@ -18,7 +18,7 @@ const NotFoundPage = () => {
 
   return (
     <Flex as="section" minH="lg" align="center" justify="center">
-      <Container maxW="container.lg" pt="20">
+      <Container maxW="breakpoint-lg" pt="20">
         <Box w="full" textAlign="center" py="10" px="6" css={cardSectionCss}>
           <Image src="/not-found.svg" alt="Logo não encontrado" mx="auto" />
 

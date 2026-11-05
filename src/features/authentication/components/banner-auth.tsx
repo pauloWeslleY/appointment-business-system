@@ -10,7 +10,7 @@ const BannerAuth = () => {
   return (
     <Stack
       gridColumn="span 2"
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: 'none', xl: 'flex' }}
       gap={{ base: '4', lg: '12' }}
       backdropFilter="blur(16px) saturate(160%)"
       bg={{ _light: 'slate.200/40', _dark: 'navy.600/20' }}
@@ -25,7 +25,7 @@ const BannerAuth = () => {
         pos="absolute"
         top="2"
         right="2"
-        display={{ base: 'none', md: 'block' }}
+        display={{ base: 'none', xl: 'block' }}
       >
         <ColorModeButton rounded="full" variant="ghost" />
       </Box>
@@ -93,7 +93,7 @@ const BannerAuth = () => {
         <Box
           w="full"
           display="grid"
-          gridTemplateColumns="repeat(auto-fill, minmax(800px, 1fr))"
+          gridTemplateColumns="minmax(0, 1fr)"
           gap={{ base: '2', lg: '6' }}
         >
           <For

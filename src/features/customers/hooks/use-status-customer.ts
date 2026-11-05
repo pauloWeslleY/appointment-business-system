@@ -4,6 +4,7 @@ import { toaster } from '@/components/ui/toaster'
 
 import { customersMutationOptions } from '../queries/customers.mutation-options'
 import type { CustomerApiResponse } from '../types/customer-response.api.type'
+
 export function useStatusCustomer(
   customer: CustomerApiResponse,
   onClose: () => void,
@@ -14,6 +15,7 @@ export function useStatusCustomer(
     if (isPendingStatusCustomer) {
       return
     }
+
     try {
       await updateStatus({ id: customer.id, status: !customer.status })
       toaster.success({ title: 'Status do cliente atualizado com sucesso' })
@@ -25,5 +27,6 @@ export function useStatusCustomer(
       })
     }
   }
+
   return { handleStatusCustomer, isPendingStatusCustomer }
 }

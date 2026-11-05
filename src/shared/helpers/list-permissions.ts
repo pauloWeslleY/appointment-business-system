@@ -20,6 +20,7 @@ export const listGroupedPermissions = (
         actions: [permission.action],
       })
     }
+
     return grouped
   }, [])
 }

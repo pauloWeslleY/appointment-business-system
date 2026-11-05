@@ -25,6 +25,7 @@ const EstablishmentItemGoogleCalendar = ({
   const { data: connectionGoogleCalendar } = useQuery(
     getConnectionGoogleCalendarQueryOptions(establishment.id),
   )
+
   const statusEstablishment = mapStatusEstablishment(
     establishment.status as EstablishmentStatusType,
   )

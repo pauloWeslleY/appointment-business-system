@@ -32,6 +32,8 @@ import {
 } from '../types/establishment-status.type'
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 
+const CUSTOM_RENDERED_LABELS = new Set(['Horário de funcionamento', 'Status'])
+
 interface SidebarInfoEstablishmentProps {
   establishment: EstablishmentOrganizationProfileApiResponse
   establishmentOpen: boolean
@@ -58,18 +60,15 @@ const SidebarInfoEstablishment = ({
     true,
   )
 
-  const getEstablishmentOpeningHours = establishment.openingHours.map(
-    (item) => ({
-      day: weekDaysLabels[item.day],
-      intervals: item.intervals
-        .map((interval) => `${interval.open} - ${interval.close}`)
-        .join(', '),
-    }),
-  )
+  const openingHoursByDay = establishment.openingHours.map((item) => ({
+    day: weekDaysLabels[item.day],
+    intervals: item.intervals
+      .map((interval) => `${interval.open} - ${interval.close}`)
+      .join(', '),
+  }))
 
-  function validateLabels(label: string) {
-    const labels = new Set(['Horário de funcionamento', 'Status'])
-    return labels.has(label)
+  function hasCustomRendering(label: string) {
+    return CUSTOM_RENDERED_LABELS.has(label)
   }
 
   return (
@@ -93,7 +92,7 @@ const SidebarInfoEstablishment = ({
         <Portal>
           <Drawer.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
           <Drawer.Positioner>
-            <Drawer.Content css={contentCss}>
+            <Drawer.Content css={contentCss} minW="0">
               <Drawer.Header>
                 <Drawer.Title>Informações do estabelecimento</Drawer.Title>
               </Drawer.Header>
@@ -136,7 +135,9 @@ const SidebarInfoEstablishment = ({
                     ]}
                   >
                     {(item) => {
-                      const validateLabel = validateLabels(item.label)
+                      const isCustomRenderedLabel = hasCustomRendering(
+                        item.label,
+                      )
 
                       return (
                         <DataList.Item key={item.label}>
@@ -170,7 +171,7 @@ const SidebarInfoEstablishment = ({
                             </DataList.ItemValue>
                           )}
 
-                          {!validateLabel && (
+                          {!isCustomRenderedLabel && (
                             <DataList.ItemValue>
                               {item.value}
                             </DataList.ItemValue>
@@ -294,7 +295,7 @@ const SidebarInfoEstablishment = ({
                   <Text>Horário de Funcionamento</Text>
 
                   <DataList.Root orientation="horizontal">
-                    <For each={getEstablishmentOpeningHours}>
+                    <For each={openingHoursByDay}>
                       {(item) => (
                         <DataList.Item key={item.day}>
                           <DataList.ItemLabel>{item.day}</DataList.ItemLabel>
@@ -307,7 +308,7 @@ const SidebarInfoEstablishment = ({
                   </DataList.Root>
                 </Stack>
               </Drawer.Body>
-              <Drawer.Footer>
+              <Drawer.Footer flexWrap="wrap" gap="2">
                 <Drawer.ActionTrigger asChild>
                   <Button
                     variant="surface"

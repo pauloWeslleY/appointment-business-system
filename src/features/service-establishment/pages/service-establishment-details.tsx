@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 
 import Header from '@/components/layout/header'
 import { Status } from '@/components/ui/status'
-import { BookingStatus } from '@/features/bookings/types/booking-status.type'
+import { AppointmentStatus } from '@/features/appointment/types/appointment-status.type'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
@@ -30,32 +30,26 @@ const serviceEstablishmentRoute = getRouteApi(
 
 const ServiceEstablishmentDetails = () => {
   const serviceEstablishment = serviceEstablishmentRoute.useLoaderData()
-  const hasHistoryBookings = serviceEstablishment.bookings.length > 0
+  const hasHistoryBookings = serviceEstablishment.appointments.length > 0
 
   const totalHistoryBookingsSummaryList = useMemo(() => {
     const now = new Date()
-    const totalBookingsConcluded = serviceEstablishment.bookings.filter(
-      (booking) => booking.status === BookingStatus.CONCLUDED,
-    )
-    const totalAmountBookings =
-      serviceEstablishment.servicePriceInCents * totalBookingsConcluded.length
-
     const getDetailHistoryBookingsSummary =
-      serviceEstablishment.bookings.reduce<DetailHistoryBookingsSummary>(
-        (summary, booking) => {
+      serviceEstablishment.appointments.reduce<DetailHistoryBookingsSummary>(
+        (summary, appointment) => {
           summary.all += 1
 
-          if (booking.status === BookingStatus.CONCLUDED) {
+          if (appointment.status === AppointmentStatus.CONCLUDED) {
             summary.concluded += 1
           }
 
-          if (booking.status === BookingStatus.CANCELLED) {
+          if (appointment.status === AppointmentStatus.CANCELLED) {
             summary.cancelled += 1
           }
 
           if (
-            booking.status === BookingStatus.CONFIRMED &&
-            new Date(booking.date) >= now
+            appointment.status === AppointmentStatus.CONFIRMED &&
+            new Date(appointment.date) >= now
           ) {
             summary.upcoming += 1
           }
@@ -71,10 +65,6 @@ const ServiceEstablishmentDetails = () => {
       )
 
     const totalHistoryBookingsSummaryList: HistoryBookingSummaryList[] = [
-      {
-        label: 'Total faturado em agendamentos concluídos',
-        value: totalAmountBookings,
-      },
       {
         label: 'Total de agendamentos',
         value: getDetailHistoryBookingsSummary.all,
@@ -97,7 +87,7 @@ const ServiceEstablishmentDetails = () => {
     ]
 
     return totalHistoryBookingsSummaryList
-  }, [serviceEstablishment.bookings, serviceEstablishment.servicePriceInCents])
+  }, [serviceEstablishment.appointments])
 
   return (
     <Box spaceY="4" w="full">
@@ -139,6 +129,7 @@ const ServiceEstablishmentDetails = () => {
             orientation="vertical"
             display="flex"
             flexDirection="row"
+            flexWrap="wrap"
             gap="10"
             mt="4"
           >
@@ -164,7 +155,7 @@ const ServiceEstablishmentDetails = () => {
 
           {hasHistoryBookings && (
             <HistoryBookingServiceTable
-              servicesBookings={serviceEstablishment.bookings}
+              servicesBookings={serviceEstablishment.appointments}
             />
           )}
         </Card.Root>

@@ -24,5 +24,6 @@ export const mapStatusEstablishment = (status?: EstablishmentStatusType) => {
     [EstablishmentStatus.INACTIVE]: { label: 'Inativo', color: 'red' },
     [EstablishmentStatus.SUSPENDED]: { label: 'Suspenso', color: 'yellow' },
   }
+
   return status ? statusMap[status] : { label: 'Desconhecido', color: 'gray' }
 }

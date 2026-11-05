@@ -19,7 +19,13 @@ import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 import FormTelephoneEstablishment from '../components/form-telephone-establishment'
 import { useFormUpdateEstablishment } from '../hooks/use-form-update-establishment'
 
-const FormUpdateEstablishmentPage = () => {
+interface FormUpdateEstablishmentPageProps {
+  establishmentSlug: string
+}
+
+const FormUpdateEstablishmentPage = ({
+  establishmentSlug,
+}: FormUpdateEstablishmentPageProps) => {
   const {
     errorEstablishment,
     isLoadingEstablishment,
@@ -27,7 +33,7 @@ const FormUpdateEstablishmentPage = () => {
     formUpdateEstablishment,
     loadSelectStatusUpdateEstablishment,
     handleUpdateEstablishment,
-  } = useFormUpdateEstablishment()
+  } = useFormUpdateEstablishment(establishmentSlug)
 
   if (isLoadingEstablishment) {
     return <Skeleton h="40px" w="full" rounded="lg" />
@@ -50,16 +56,16 @@ const FormUpdateEstablishmentPage = () => {
   return (
     <FormProvider {...formUpdateEstablishment}>
       <chakra.form
+        mt="4"
         w="full"
         onSubmit={formUpdateEstablishment.handleSubmit(
           handleUpdateEstablishment,
         )}
-        mt="4"
       >
-        <SimpleGrid columns={{ base: 1, md: 4 }} gap="4" w="full">
+        <SimpleGrid columns={{ base: 1, xl: 4 }} gap="4" w="full">
           <Field
             label="Nome"
-            gridColumn={{ base: 'span 1', lg: 'span 2' }}
+            gridColumn={{ base: 'span 1', xl: 'span 2' }}
             invalid={!!formUpdateEstablishment.formState.errors.name}
             errorText={formUpdateEstablishment.formState.errors.name?.message}
           >
@@ -70,9 +76,9 @@ const FormUpdateEstablishmentPage = () => {
           </Field>
 
           <GridItem
-            colSpan={{ base: 1, lg: 2 }}
+            colSpan={{ base: 1, xl: 2 }}
             display="flex"
-            flexDirection="row"
+            flexDirection={{ base: 'column', md: 'row' }}
             gap="4"
           >
             <Field
@@ -166,7 +172,7 @@ const FormUpdateEstablishmentPage = () => {
 
           <Field
             label="Descrição"
-            gridColumn={{ base: 'span 1', md: 'span 4' }}
+            gridColumn="1 / -1"
             invalid={!!formUpdateEstablishment.formState.errors.description}
             errorText={
               formUpdateEstablishment.formState.errors.description?.message
@@ -178,10 +184,30 @@ const FormUpdateEstablishmentPage = () => {
             />
           </Field>
 
+          <Field
+            label="URL da página do estabelecimento"
+            gridColumn="1 / -1"
+            invalid={Boolean(
+              formUpdateEstablishment.formState.errors.websiteUrl,
+            )}
+            errorText={
+              formUpdateEstablishment.formState.errors.websiteUrl?.message
+            }
+            helperText="Opcional. Deixe em branco para remover o endereço cadastrado."
+          >
+            <InputField
+              {...formUpdateEstablishment.register('websiteUrl')}
+              type="url"
+              placeholder="https://seu-estabelecimento.com.br"
+              autoComplete="url"
+              maxLength={2048}
+            />
+          </Field>
+
           <FormTelephoneEstablishment />
 
           <GridItem
-            colSpan={{ base: 1, md: 4 }}
+            gridColumn="1 / -1"
             placeSelf={{ base: 'center', md: 'end' }}
           >
             <Button

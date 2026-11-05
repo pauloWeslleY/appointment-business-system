@@ -1,17 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { authClient } from '@/lib/auth'
 
-import { serviceEstablishmentMutationOptions } from '../queries/service-establishment-mutation-options'
-import { serviceEstablishmentQueryKeys } from '../queries/service-establishment-query-key'
+import { serviceEstablishmentMutationOptions } from '../queries/service-establishment.mutation-options'
 import { StatusServiceEstablishmentSchema } from '../schemas/status-service-establishment.schema'
 import type { UpdateStatusServiceEstablishmentFormData } from '../types/form-service-establishment.type'
-import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
-import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
@@ -19,9 +18,8 @@ export function useFormUpdateStatusServiceEstablishment(
   serviceEstablishment: ListServicesEstablishmentModel,
   onOpen: (open: boolean) => void,
 ) {
-  const establishment = dashboardSlugRoute.useLoaderData()
-  const queryClient = useQueryClient()
-
+  const { organizationProfile } = dashboardSlugRoute.useLoaderData()
+  const { data: session } = authClient.useSession()
   const formDefaultValues = useMemo<
     DefaultValues<UpdateStatusServiceEstablishmentFormData>
   >(
@@ -42,29 +40,14 @@ export function useFormUpdateStatusServiceEstablishment(
     defaultValues: formDefaultValues,
   })
 
+  const mutationOptions = serviceEstablishmentMutationOptions.status()
   const {
     mutate: updateStatusServiceEstablishment,
     isPending: isPendingUpdateStatusServiceEstablishment,
   } = useMutation({
-    ...serviceEstablishmentMutationOptions.status(),
-    onSuccess: (serviceEstablishmentUpdated) => {
-      queryClient.setQueryData(
-        serviceEstablishmentQueryKeys.getById(serviceEstablishment.id),
-        () => serviceEstablishmentUpdated,
-      )
-
-      queryClient.setQueryData<ServiceEstablishmentModel[]>(
-        serviceEstablishmentQueryKeys.detail(establishment.id),
-        (oldData) =>
-          oldData
-            ? oldData.map((item) =>
-                item.id === serviceEstablishmentUpdated.id
-                  ? serviceEstablishmentUpdated
-                  : item,
-              )
-            : [],
-      )
-
+    ...mutationOptions,
+    onSuccess: async (...args) => {
+      await mutationOptions.onSuccess?.(...args)
       toaster.success({ title: 'Status do serviço atualizado com sucesso' })
       onOpen(false)
     },
@@ -81,11 +64,26 @@ export function useFormUpdateStatusServiceEstablishment(
   const onSubmitUpdateServiceEstablishment = (
     data: UpdateStatusServiceEstablishmentFormData,
   ) => {
+    if (isPendingUpdateStatusServiceEstablishment) {
+      return
+    }
+
+    if (
+      session?.session.activeOrganizationId !==
+      organizationProfile.organizationId
+    ) {
+      toaster.error({
+        title: 'A organização foi alterada. Reabra o formulário.',
+      })
+
+      return
+    }
     if (!isDirty) {
       toaster.error({
         title: 'Nenhum dado foi alterado',
         description: 'Altere algum dado para atualizar o status do serviço',
       })
+
       return
     }
 

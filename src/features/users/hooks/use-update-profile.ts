@@ -37,6 +37,7 @@ export function useUpdateProfile() {
       toaster.error({
         title: 'Usuário não autenticado. Por favor, faça login novamente.',
       })
+
       return
     }
 
@@ -55,6 +56,7 @@ export function useUpdateProfile() {
         name: data.name,
         image: urlImage?.key ?? null,
       })
+
       reset(data)
     } catch (error: unknown) {
       toaster.error({

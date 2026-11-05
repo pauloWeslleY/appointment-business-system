@@ -34,6 +34,7 @@ export function useLoginPage() {
       password: '',
     },
   })
+
   const redirectToLogin = cookie.get('redirectTo')
   const hasRedirectToLogin = Boolean(redirectToLogin)
 
@@ -75,6 +76,7 @@ export function useLoginPage() {
             title: _error || 'Erro ao realizar login',
             description: 'Tente novamente mais tarde',
           })
+
           setError('root', {
             type: 'custom',
             message: _error || 'Erro ao realizar login',

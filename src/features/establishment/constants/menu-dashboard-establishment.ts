@@ -2,7 +2,9 @@ import {
   BriefcaseBusiness,
   CalendarIcon,
   ChevronLeftIcon,
+  Clock2Icon,
   HomeIcon,
+  Settings2,
   StarIcon,
   UserCog,
   UsersRound,
@@ -29,7 +31,7 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
   {
     icon: CalendarIcon,
     label: 'Agendamentos',
-    path: '/dashboard/$slug/bookings',
+    path: '/dashboard/$slug/appointment',
   },
   {
     icon: StarIcon,
@@ -45,6 +47,16 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
     icon: UsersRound,
     label: 'Clientes',
     path: '/dashboard/$slug/customers',
+  },
+  {
+    icon: Clock2Icon,
+    label: 'Horários',
+    path: '/dashboard/$slug/opening-hours',
+  },
+  {
+    icon: Settings2,
+    label: 'Configurações',
+    path: '/dashboard/$slug/config',
   },
   {
     icon: ChevronLeftIcon,

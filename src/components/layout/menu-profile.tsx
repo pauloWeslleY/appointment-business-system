@@ -28,6 +28,7 @@ const MenuProfile = () => {
       data?.session?.activeOrganizationId ?? undefined,
     ),
   )
+
   const { handleLogout } = useLogout()
 
   if (isLoadingMember || !member) {
@@ -38,8 +39,10 @@ const MenuProfile = () => {
     <Menu.Root positioning={{ placement: 'bottom-start' }}>
       <Menu.Trigger asChild>
         <Flex
+          as="button"
+          aria-label="Menu do perfil"
           cursor="pointer"
-          display={{ base: 'none', md: 'flex' }}
+          display="flex"
           align="center"
           gap="4"
           py="1"
@@ -58,7 +61,13 @@ const MenuProfile = () => {
               {storageData && <Avatar.Image src={storageData} />}
             </Avatar.Root>
 
-            <Box textAlign="left" fontSize="sm">
+            <Box
+              display={{ base: 'none', xl: 'block' }}
+              maxW="40"
+              textAlign="left"
+              fontSize="sm"
+              overflowWrap="anywhere"
+            >
               <Text
                 lineHeight="1"
                 fontWeight="light"

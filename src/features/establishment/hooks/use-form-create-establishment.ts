@@ -16,9 +16,11 @@ export function useFormCreateEstablishment() {
   const { data: organizationProfile } = useQuery(
     organizationProfileSummaryQueryOptions(),
   )
+
   const formCreateEstablishment = useForm<CreateEstablishmentFormData>({
     resolver: zodResolver(CreateEstablishmentFormDataSchema),
     defaultValues: {
+      websiteUrl: '',
       name: '',
       description: '',
       email: '',
@@ -26,6 +28,7 @@ export function useFormCreateEstablishment() {
       phones: [{ phone: '', type: 'telephone' }],
     },
   })
+
   const {
     mutate: createEstablishment,
     isPending: isPendingCreateEstablishment,
@@ -40,6 +43,7 @@ export function useFormCreateEstablishment() {
     createEstablishment(
       {
         name: data.name,
+        websiteUrl: data.websiteUrl || null,
         description: data.description,
         phones: data.phones.map((item) => item.phone),
         imageUrl: null,
@@ -55,6 +59,7 @@ export function useFormCreateEstablishment() {
             slug: establishment.slug,
             created: true,
           })
+
           nextStepCreateEstablishment()
         },
         onError: (error) => {

@@ -46,6 +46,7 @@ export const createMeContextService = async (
     url: '/me/context',
     body: data,
   })
+
   const parsedResponse = GetMeContextSchema.safeParse(validate.errors(response))
 
   if (!parsedResponse.success) {
@@ -61,9 +62,11 @@ export const getMemberDetailsService = async () => {
     method: HttpMethod.GET,
     url: '/admin/member-context',
   })
+
   const parsedResponse = MemberDetailsSchema.safeParse(
     validate.errors(response),
   )
+
   if (!parsedResponse.success) {
     throw new Response(z.prettifyError(parsedResponse.error), { status: 400 })
   }
@@ -84,9 +87,11 @@ export const updateScopeMemberService = async (
       establishmentIds: request.establishmentIds,
     },
   })
+
   const parsedResponse = UpdateScopeMemberResponseApiSchema.safeParse(
     validate.errors(response),
   )
+
   if (!parsedResponse.success) {
     throw new Response(z.prettifyError(parsedResponse.error), { status: 400 })
   }
@@ -106,9 +111,11 @@ export const updateRoleMemberService = async (
       role: request.role[0],
     },
   })
+
   const parsedResponse = UpdateRoleMemberResponseApiSchema.safeParse(
     validate.errors(response),
   )
+
   if (!parsedResponse.success) {
     throw new Response(z.prettifyError(parsedResponse.error), { status: 400 })
   }
@@ -128,9 +135,11 @@ export const updateStatusMemberService = async (
       status: request.status[0],
     },
   })
+
   const parsedResponse = UpdateStatusMemberResponseApiSchema.safeParse(
     validate.errors(response),
   )
+
   if (!parsedResponse.success) {
     throw new Response(z.prettifyError(parsedResponse.error), { status: 400 })
   }

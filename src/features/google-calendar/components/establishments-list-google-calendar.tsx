@@ -18,10 +18,13 @@ const EstablishmentsListGoogleCalendar = () => {
   return (
     <>
       <Table.ScrollArea
+        tabIndex={0}
+        maxW="full"
+        aria-label="Integrações de calendário: role para ver todas as colunas"
         rounded="lg"
         borderColor={{ _light: 'slate.200', _dark: 'slate.900/60' }}
       >
-        <Table.Root variant="outline">
+        <Table.Root variant="outline" minW="36rem">
           <Table.Header>
             <Table.Row bg={{ _light: 'slate.200', _dark: 'slate.900/60' }}>
               <For

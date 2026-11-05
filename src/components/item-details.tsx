@@ -4,6 +4,8 @@ const baseItemDetailsRoot = defineRecipe({
   className: 'item-details-root',
   base: {
     display: 'flex',
+    minW: '0',
+    flexWrap: 'wrap',
     gap: '1',
   },
   variants: {
@@ -35,6 +37,7 @@ const baseItemDetailsValue = defineRecipe({
   base: {
     display: 'flex',
     minWidth: '0',
+    overflowWrap: 'anywhere',
     flex: '1',
   },
 })

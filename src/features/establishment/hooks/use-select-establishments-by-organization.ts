@@ -3,22 +3,23 @@ import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
-import { establishmentByOrganizationProfileQueryOptions } from '../queries/establishment.query-options'
+import { establishmentByOrganizationQueryOptions } from '../queries/establishment.query-options'
 
 export function useSelectEstablishmentsByOrganization(
-  organizationProfileId?: string,
+  organizationId?: string,
 ) {
   const slug = useParams({
-    from: '/dashboard/$slug/overview/',
+    from: '/dashboard/$slug',
     select: (params) => params.slug,
   })
+
   const navigate = useNavigate()
   const {
     data: establishments = [],
     error: errorEstablishments,
     isLoading: isLoadingEstablishments,
   } = useQuery({
-    ...establishmentByOrganizationProfileQueryOptions(organizationProfileId),
+    ...establishmentByOrganizationQueryOptions(organizationId),
     select: (data) =>
       (data ?? []).map((establishment) => ({
         id: establishment.id,

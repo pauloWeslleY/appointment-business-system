@@ -152,6 +152,7 @@ const FormLoginPage = () => {
 
         <HStack
           align="baseline"
+          flexWrap="wrap"
           justify="flex-start"
           alignSelf="flex-start"
           gap="1"

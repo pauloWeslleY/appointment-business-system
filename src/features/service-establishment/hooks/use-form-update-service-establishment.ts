@@ -1,39 +1,39 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { getRouteApi } from '@tanstack/react-router'
+import { getRouteApi, useRouter } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { authClient } from '@/lib/auth'
 
-import { serviceEstablishmentMutationOptions } from '../queries/service-establishment-mutation-options'
+import { serviceEstablishmentMutationOptions } from '../queries/service-establishment.mutation-options'
 import { ServiceEstablishmentFormSchema } from '../schemas/service-establishment-form.schema'
 import type {
   ServiceEstablishmentFormData,
   ServiceEstablishmentFormInput,
 } from '../types/form-service-establishment.type'
-import type { ServiceEstablishmentModel } from '../types/service-establishment.model'
 import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
+import { createServiceEstablishmentSlug } from '../utils/slug-service-establishment'
 
 const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
 
 export function useFormUpdateServiceEstablishment(
   serviceEstablishment: ServiceEstablishmentDetailsModel,
 ) {
-  const establishment = dashboardSlugRoute.useLoaderData()
+  const router = useRouter()
+  const { establishment, organizationProfile } =
+    dashboardSlugRoute.useLoaderData()
+  const { data: session } = authClient.useSession()
+  const mutationOptions = serviceEstablishmentMutationOptions.update()
   const {
     mutate: updateServiceEstablishment,
     isPending: isUpdatingServiceEstablishment,
-  } = useMutation<
-    ServiceEstablishmentModel,
-    Error,
-    ServiceEstablishmentFormData & {
-      establishmentId: string
-      serviceEstablishmentId: string
-    }
-  >({
-    ...serviceEstablishmentMutationOptions.update(),
-    onSuccess: () => {
+  } = useMutation({
+    ...mutationOptions,
+    onSuccess: async (...args) => {
+      await mutationOptions.onSuccess?.(...args)
+      await router.invalidate()
       toaster.success({ title: 'Serviço atualizado com sucesso' })
     },
     onError: (error) => {
@@ -50,7 +50,9 @@ export function useFormUpdateServiceEstablishment(
     () => ({
       name: serviceEstablishment?.name ?? '',
       description: serviceEstablishment?.description ?? '',
-      servicePriceInCents: serviceEstablishment?.servicePriceInCents ?? 0,
+      servicePriceInCents:
+        (serviceEstablishment.servicePriceInCents ?? 0) / 100,
+      durationInMinutes: serviceEstablishment.durationInMinutes ?? undefined,
       image: null,
     }),
     [serviceEstablishment],
@@ -62,18 +64,34 @@ export function useFormUpdateServiceEstablishment(
     register,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<ServiceEstablishmentFormInput, any, ServiceEstablishmentFormData>(
-    {
-      resolver: zodResolver(ServiceEstablishmentFormSchema),
-      defaultValues: formDefaultValues,
-    },
-  )
+  } = useForm<
+    ServiceEstablishmentFormInput,
+    unknown,
+    ServiceEstablishmentFormData
+  >({
+    resolver: zodResolver(ServiceEstablishmentFormSchema),
+    defaultValues: formDefaultValues,
+  })
 
   useEffect(() => reset(formDefaultValues), [formDefaultValues, reset])
 
   const onSubmitUpdateServiceEstablishment = (
     data: ServiceEstablishmentFormData,
   ) => {
+    if (isUpdatingServiceEstablishment) {
+      return
+    }
+
+    if (
+      session?.session.activeOrganizationId !==
+      organizationProfile.organizationId
+    ) {
+      toaster.error({
+        title: 'A organização foi alterada. Reabra o formulário.',
+      })
+
+      return
+    }
     if (!isDirty) {
       toaster.error({ title: 'Nenhuma alteração detectada' })
       return
@@ -84,10 +102,14 @@ export function useFormUpdateServiceEstablishment(
         ...data,
         establishmentId: establishment.id,
         serviceEstablishmentId: serviceEstablishment.id,
-        servicePriceInCents: data.servicePriceInCents * 100,
+        imageUrl: serviceEstablishment.imageUrl,
+        slug:
+          serviceEstablishment.slug ??
+          createServiceEstablishmentSlug(data.name),
+        servicePriceInCents: Math.round(data.servicePriceInCents * 100),
       },
       {
-        onSuccess: () => reset(),
+        onSuccess: () => reset({ ...data, image: null }),
       },
     )
   }

@@ -29,12 +29,15 @@ export async function connectGoogleCalendar(
       calendarId: data.calendarId,
     }),
   })
+
   const validatedResponse = ConnectGoogleCalendarApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }
 
@@ -45,6 +48,7 @@ export async function disconnectGoogleCalendar(id: string): Promise<void> {
     method: HttpMethod.DELETE,
     url: `/admin/establishments/${establishmentId}/google-calendar`,
   })
+
   return validate.errors(response)
 }
 
@@ -58,11 +62,14 @@ export async function getConnectionGoogleCalendar(
     method: HttpMethod.GET,
     url: `/admin/establishments/${establishmentId}/google-calendar`,
   })
+
   const validatedResponse = ConnectionGoogleCalendarApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }

@@ -21,6 +21,12 @@ export const formattedDataServiceEstablishmentDetails = (
     content: formatCurrencyInCents(service?.servicePriceInCents ?? 0),
   },
   {
+    label: 'Duração',
+    content: service?.durationInMinutes
+      ? `${service.durationInMinutes} minutos`
+      : 'Não definida',
+  },
+  {
     label: 'Criado em',
     content: formattedDateAndHours(service?.createdAt ?? null, true),
   },

@@ -16,6 +16,7 @@ export function useFormCreateOpeningHours(
     resolver: zodResolver(OpeningHoursFormDataSchema),
     defaultValues: { day: 0, open: '', close: '' },
   })
+
   const {
     mutate: createOpeningHours,
     error: createOpeningHoursError,
@@ -28,6 +29,7 @@ export function useFormCreateOpeningHours(
         title: 'Erro ao criar horário de funcionamento',
         description: 'ID do estabelecimento não fornecido',
       })
+
       return
     }
 
@@ -39,6 +41,7 @@ export function useFormCreateOpeningHours(
           toaster.success({
             title: 'Horário de funcionamento criado com sucesso',
           })
+
           if (onSaved) {
             onSaved()
           }

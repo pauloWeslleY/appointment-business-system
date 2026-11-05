@@ -18,6 +18,7 @@ const DialogDisconnectGoogleCalendar = ({
 
   return (
     <Dialog.Root
+      size="sm"
       open={isOpen}
       onOpenChange={(e) => onOpen(e.open)}
       placement="center"
@@ -26,7 +27,9 @@ const DialogDisconnectGoogleCalendar = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content {...contentCss}>
+          <Dialog.Content
+            {...contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Desconectar do Google Calendário</Dialog.Title>
             </Dialog.Header>
@@ -36,7 +39,7 @@ const DialogDisconnectGoogleCalendar = ({
                 estabelecimento?{' '}
               </p>
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   size="sm"
@@ -66,4 +69,5 @@ const DialogDisconnectGoogleCalendar = ({
     </Dialog.Root>
   )
 }
+
 export default DialogDisconnectGoogleCalendar

@@ -20,3 +20,12 @@ export const ListOpeningHoursSummaryApiResponseSchema = z.object({
     }),
   ),
 })
+
+export const EstablishmentOpeningHoursItemApiResponseSchema =
+  ListOpeningHoursSummaryApiResponseSchema.extend({
+    id: z.uuid(),
+  })
+
+export const EstablishmentOpeningHoursListApiResponseSchema = z.array(
+  EstablishmentOpeningHoursItemApiResponseSchema,
+)

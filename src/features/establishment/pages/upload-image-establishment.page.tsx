@@ -15,7 +15,13 @@ import { Field } from '@/components/ui/field'
 
 import { useUploadImageEstablishment } from '../hooks/use-upload-image-establishment'
 
-const UploadImageEstablishment = () => {
+interface UploadImageEstablishmentProps {
+  establishmentSlug: string
+}
+
+const UploadImageEstablishment = ({
+  establishmentSlug,
+}: UploadImageEstablishmentProps) => {
   const {
     errors,
     control,
@@ -23,10 +29,17 @@ const UploadImageEstablishment = () => {
     isPendingUploadImageEstablishment,
     handleSubmit,
     onSubmitUploadImageEstablishment,
-  } = useUploadImageEstablishment()
+  } = useUploadImageEstablishment(establishmentSlug)
 
   return (
-    <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="4" mt="4">
+    <Grid
+      templateColumns={{
+        base: 'minmax(0, 1fr)',
+        md: 'repeat(2, minmax(0, 1fr))',
+      }}
+      gap="4"
+      mt="4"
+    >
       <Box display="flex" flexDirection="column" gap="2" h="fit">
         <Controller
           name="file"

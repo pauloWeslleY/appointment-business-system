@@ -1,5 +1,6 @@
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import type { CustomerApiResponse } from '../types/customer-response.api.type'
+
 export function toCustomerFormValues(
   customer: CustomerApiResponse,
 ): CustomerFormData {
@@ -20,6 +21,7 @@ export function toCustomerFormValues(
     gender,
   }
 }
+
 export function toCustomerRequestValues(data: CustomerFormData) {
   return {
     ...data,

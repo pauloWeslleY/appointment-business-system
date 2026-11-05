@@ -22,5 +22,6 @@ export const createListWeekDays = (): WeekDay[] => {
       value: day.toString(),
     })
   }
+
   return weekDays
 }

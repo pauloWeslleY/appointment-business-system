@@ -8,8 +8,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const PaginationTable = (props: PaginationRootProps) => {
   return (
-    <Pagination.Root {...props}>
-      <ButtonGroup alignSelf="end" size="sm" variant="subtle">
+    <Pagination.Root siblingCount={0} {...props} maxW="full">
+      <ButtonGroup alignSelf="end" size="sm" variant="subtle" flexWrap="wrap">
         <Pagination.PrevTrigger asChild>
           <IconButton aria-label="Página anterior" rounded="xl">
             <ChevronLeft />

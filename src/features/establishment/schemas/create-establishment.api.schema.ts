@@ -1,6 +1,9 @@
 import z from 'zod'
 
+import { EstablishmentWebsiteUrlSchema } from './establishment-website-url.schema'
+
 export const CreateEstablishmentRequestSchema = z.strictObject({
+  websiteUrl: EstablishmentWebsiteUrlSchema.nullable().optional(),
   name: z.string(),
   slug: z.string().optional(),
   description: z.string(),

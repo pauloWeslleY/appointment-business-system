@@ -44,17 +44,20 @@ const ListInvitesSendPage = () => {
 
   return (
     <Box spaceY="4">
-      <Flex justify="space-between">
+      <Flex justify="space-between" gap="3" flexWrap="wrap">
         <SearchPage />
 
         <DialogSendInvite />
       </Flex>
 
       <Table.ScrollArea
+        tabIndex={0}
+        maxW="full"
+        aria-label="Convites enviados: role para ver todas as colunas"
         rounded="lg"
         borderColor={{ _light: 'slate.200', _dark: 'slate.900/60' }}
       >
-        <Table.Root variant="outline">
+        <Table.Root variant="outline" minW="36rem">
           <Table.Header>
             <Table.Row bg={{ _light: 'slate.200', _dark: 'slate.900/60' }}>
               <For each={['E-mail', 'Papel', 'Status', 'Data de expiração']}>

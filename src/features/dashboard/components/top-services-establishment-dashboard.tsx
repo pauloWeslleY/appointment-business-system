@@ -130,8 +130,14 @@ const TopServicesEstablishmentDashboard = ({
 
           <For each={topServicesEstablishmentDashboard ?? []}>
             {(service) => (
-              <Flex key={service.id} align="center" justify="space-between">
-                <HStack align="center" gap="4">
+              <Flex
+                key={service.id}
+                align="center"
+                justify="space-between"
+                gap="3"
+                flexWrap="wrap"
+              >
+                <HStack align="center" gap="4" minW="0" flex="1">
                   <Avatar.Root size="md">
                     <Avatar.Image
                       src={service.imageUrl || undefined}
@@ -142,11 +148,15 @@ const TopServicesEstablishmentDashboard = ({
                     />
                   </Avatar.Root>
 
-                  <Box>
+                  <Box minW="0">
                     <Text fontSize="sm" fontWeight="medium">
                       {service.name}
                     </Text>
-                    <Text fontSize="sm" color="gray.500" truncate w="2xs">
+                    <Text
+                      fontSize="sm"
+                      color="gray.500"
+                      overflowWrap="anywhere"
+                    >
                       {service.description}
                     </Text>
                   </Box>

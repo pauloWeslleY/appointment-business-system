@@ -63,12 +63,20 @@ type SidebarItemProps = SidebarNavItemProps & {
   icon?: React.ElementType
   children: React.ReactNode
   active?: boolean
+  expanded?: boolean
 }
 
 const SideBarNav = chakra('button', baseSidebarNavItemRecipe)
 
-const SidebarItem = ({ icon, children, active, ...rest }: SidebarItemProps) => {
-  const { collapsed } = useMenuCollapse()
+const SidebarItem = ({
+  icon,
+  children,
+  active,
+  expanded,
+  ...rest
+}: SidebarItemProps) => {
+  const menu = useMenuCollapse()
+  const collapsed = expanded ? false : menu.collapsed
 
   return (
     <SideBarNav

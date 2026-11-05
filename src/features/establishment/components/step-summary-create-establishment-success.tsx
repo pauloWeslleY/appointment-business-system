@@ -49,7 +49,10 @@ const StepSummaryCreateEstablishmentSuccess = ({
 
   return (
     <Box spaceY="2">
-      <Grid templateColumns={{ base: '1fr', lg: '1fr 300px' }} gap="2">
+      <Grid
+        templateColumns={{ base: 'minmax(0, 1fr)', xl: 'minmax(0, 1fr) 300px' }}
+        gap="2"
+      >
         <Card.Root variant="outline" {...cardSectionCss}>
           <Text {...titleSummaryEstablishmentCss}>
             Resumo do estabelecimento

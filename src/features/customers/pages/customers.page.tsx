@@ -71,7 +71,7 @@ function CustomersPage() {
         <Box spaceY="4">
           <StatInfoCustomers />
 
-          <Flex align="center" gap="2">
+          <Flex align="center" gap="2" flexWrap="wrap">
             <SearchPage />
             <FilterCustomerStatus />
             <FilterCustomerSex />

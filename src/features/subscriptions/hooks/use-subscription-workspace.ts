@@ -35,13 +35,16 @@ export function useSubscriptionWorkspace(
       () => crypto.randomUUID(),
     ),
   )
+
   const [pendingCheckoutOperation, setPendingCheckoutOperation] = useState(() =>
     subscriptionOperationStore.pendingCheckout(),
   )
+
   const subscriptionAccessQueryKey = subscriptionQueryKey.access(
     userId,
     organizationId,
   )
+
   const isWorkspaceMounted = useRef(true)
   useEffect(() => {
     isWorkspaceMounted.current = true
@@ -77,12 +80,15 @@ export function useSubscriptionWorkspace(
   const checkoutSessionMutation = useMutation(
     subscriptionMutationOptions.checkout(),
   )
+
   const billingPortalMutation = useMutation(
     subscriptionMutationOptions.portal(),
   )
+
   const cancelSubscriptionMutation = useMutation(
     subscriptionMutationOptions.cancel(),
   )
+
   const billingIntervalMutation = useMutation(
     subscriptionMutationOptions.changeInterval(),
   )
@@ -116,12 +122,14 @@ export function useSubscriptionWorkspace(
         requestId,
         operationKey,
       )
+
       setPendingCheckoutOperation(subscriptionOperationStore.pendingCheckout())
       const commandResponse = await checkoutSessionMutation.mutateAsync({
         organizationId,
         interval: subscriptionAction.interval,
         requestId,
       })
+
       return {
         message: 'Abrindo pagamento seguro.',
         redirect: subscriptionRedirectUrl(commandResponse.checkoutUrl),
@@ -133,6 +141,7 @@ export function useSubscriptionWorkspace(
         organizationId,
         requestId,
       })
+
       subscriptionOperationStore.complete(operationKey)
       return {
         message: 'Abrindo cartão e faturas.',
@@ -145,6 +154,7 @@ export function useSubscriptionWorkspace(
         organizationId,
         requestId,
       })
+
       subscriptionOperationStore.complete(operationKey)
       return {
         message: 'Cancelamento agendado para o término do período pago.',
@@ -156,6 +166,7 @@ export function useSubscriptionWorkspace(
       interval: subscriptionAction.interval,
       requestId,
     })
+
     subscriptionOperationStore.complete(operationKey)
     return {
       message:
@@ -173,6 +184,7 @@ export function useSubscriptionWorkspace(
       if (!isWorkspaceMounted.current) {
         return
       }
+
       await queryClient.invalidateQueries({
         queryKey: subscriptionAccessQueryKey,
       })

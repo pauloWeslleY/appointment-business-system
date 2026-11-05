@@ -11,8 +11,9 @@ export const UploadFolder = {
   SERVICES: 'services',
   ESTABLISHMENT: 'establishment',
   USERS: 'users',
-  OWNERS: 'owners',
+  CUSTOMERS: 'customers',
   COLLABORATORS: 'collaborators',
+  UPLOADS: 'uploads',
 } as const
 
 export interface UploadFileResponse {
@@ -46,6 +47,7 @@ export const uploadFileToR2 = async (
       'Content-Type': 'application/json',
     },
   })
+
   const uploadData = validate.errors(createUrlResponse)
 
   if (

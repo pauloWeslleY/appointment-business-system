@@ -18,8 +18,8 @@ import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
-import CardServiceEsblishment from '../components/card-service-establishment'
-import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import CardServiceEstablishment from '../components/card-service-establishment'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 
 interface ServicesListPageProps {
   services: ListServicesEstablishmentModel[]
@@ -38,6 +38,7 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
       shallow: false,
     },
   )
+
   const search = useSearch({ from: '/dashboard/$slug/services/' })
 
   const filteredServices = useMemo(() => {
@@ -98,18 +99,22 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
       )}
 
       {!isPendingPagination && (
-        <SimpleGrid columns={{ base: 1, lg: 4 }} gap="2" w="full">
+        <SimpleGrid
+          columns={{ base: 1, md: 2, xl: 3, '2xl': 4 }}
+          gap="2"
+          w="full"
+        >
           <For each={visibleServices}>
             {(service) => (
-              <CardServiceEsblishment key={service.id} service={service} />
+              <CardServiceEstablishment key={service.id} service={service} />
             )}
           </For>
         </SimpleGrid>
       )}
 
       {filteredServices.length > 0 && (
-        <HStack justify="space-between" w="full">
-          <Flex align="center" gap="2">
+        <HStack justify="space-between" w="full" flexWrap="wrap" gap="3">
+          <Flex align="center" gap="2" flexWrap="wrap" maxW="full">
             <PaginationTable
               count={filteredServices.length}
               pageSize={pagination.page_size}

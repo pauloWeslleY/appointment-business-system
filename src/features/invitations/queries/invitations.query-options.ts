@@ -1,7 +1,7 @@
 import { queryOptions, skipToken } from '@tanstack/react-query'
 
-import { getEstablishmentsByOrganizationProfileIdService } from '@/features/establishment/services/establishment.service'
-import { getOrganizationProfileService } from '@/features/organization-profile/services/organizaton-profile.service'
+import { getEstablishmentsByOrganizationService } from '@/features/establishment/services/establishment.service'
+import { getOrganizationProfileService } from '@/features/organization-profile/services/organization-profile.service'
 
 import {
   getInvitationPreviewService,
@@ -24,17 +24,12 @@ export const invitationOrganizationProfileQueryOptions = (
 export const invitationEstablishmentsQueryOptions = (
   userId?: string,
   organizationId?: string,
-  profileId?: string,
 ) => {
   return queryOptions({
-    queryKey: invitationQueryKey.establishments(
-      userId,
-      organizationId,
-      profileId,
-    ),
+    queryKey: invitationQueryKey.establishments(userId, organizationId),
     queryFn:
-      userId && organizationId && profileId
-        ? () => getEstablishmentsByOrganizationProfileIdService(profileId)
+      userId && organizationId
+        ? () => getEstablishmentsByOrganizationService(organizationId)
         : skipToken,
   })
 }

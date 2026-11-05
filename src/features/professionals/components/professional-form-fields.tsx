@@ -15,10 +15,12 @@ import type {
   ProfessionalFormData,
   ProfessionalFormInput,
 } from '../types/professional-form.type'
+
 interface ProfessionalFormFieldsProps {
   form: UseFormReturn<ProfessionalFormInput, unknown, ProfessionalFormData>
   imageUrl?: string | null
 }
+
 const textFields = [
   { name: 'displayName', label: 'Nome', maxLength: 160 },
   { name: 'email', label: 'E-mail (opcional)', maxLength: 254 },
@@ -27,6 +29,7 @@ const textFields = [
   { name: 'bio', label: 'Sobre o profissional (opcional)', maxLength: 2000 },
   { name: 'specialty', label: 'Especialidade', maxLength: 160 },
 ] as const
+
 const weekdays = [
   'Domingo',
   'Segunda-feira',
@@ -36,6 +39,7 @@ const weekdays = [
   'Sexta-feira',
   'Sábado',
 ]
+
 const ProfessionalFormFields = ({
   form,
   imageUrl,
@@ -44,6 +48,7 @@ const ProfessionalFormFields = ({
     control: form.control,
     name: 'workSchedule',
   })
+
   const { errors } = form.formState
   return (
     <Stack gap="4">
@@ -173,4 +178,5 @@ const ProfessionalFormFields = ({
     </Stack>
   )
 }
+
 export default ProfessionalFormFields

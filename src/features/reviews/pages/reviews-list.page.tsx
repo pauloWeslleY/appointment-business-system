@@ -31,6 +31,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
     },
     { shallow: true },
   )
+
   const search = useSearch({ from: '/dashboard/$slug/reviews/' })
 
   const visibleReviews = useMemo<ReviewEstablishmentModel[]>(() => {
@@ -40,7 +41,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
     }
 
     const filteredReviews = reviews.filter((review) => {
-      const commentQueryParams = searchReviewsTable(review.comment)
+      const commentQueryParams = searchReviewsTable(review.comment ?? '')
       const nameQueryParams = searchReviewsTable(review.user.name)
       const notesQueryParams = search.notes
         ? parseInt(review.rating.toString(), 10) === search.notes

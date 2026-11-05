@@ -24,6 +24,7 @@ const DialogConnectGoogleCalendar = ({
 
   return (
     <Dialog.Root
+      size="md"
       open={isOpen}
       onOpenChange={(e) => onOpen(e.open)}
       placement="center"
@@ -32,7 +33,9 @@ const DialogConnectGoogleCalendar = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content {...contentCss}>
+          <Dialog.Content
+            {...contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Conectar ao Google Calendar</Dialog.Title>
             </Dialog.Header>
@@ -57,7 +60,7 @@ const DialogConnectGoogleCalendar = ({
                 )}
               />
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   size="sm"
@@ -87,4 +90,5 @@ const DialogConnectGoogleCalendar = ({
     </Dialog.Root>
   )
 }
+
 export default DialogConnectGoogleCalendar

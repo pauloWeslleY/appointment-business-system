@@ -47,6 +47,7 @@ function OrganizationPage() {
   const { organizationProfile: organizationProfilePermission } = usePermissions(
     [RESOURCES.ORGANIZATION_PROFILE],
   )
+
   const loadListDataOrganizationProfile = [
     { label: 'Razão Social', value: organizationProfile.legalName },
     { label: 'Nome Fantasia', value: organizationProfile.tradeName },

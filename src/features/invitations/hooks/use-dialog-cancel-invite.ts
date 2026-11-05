@@ -15,6 +15,7 @@ export function useDialogCancelInvite(onOpen: (open: boolean) => void) {
         title: 'Ops! ID do convite não encontrado',
         description: 'Por favor, tente novamente mais tarde.',
       })
+
       return
     }
 
@@ -24,6 +25,7 @@ export function useDialogCancelInvite(onOpen: (open: boolean) => void) {
           title: 'Convite cancelado',
           description: `O convite de ${invite?.invitation.email ?? 'usuário'} foi cancelado com sucesso.`,
         })
+
         onOpen(false)
       },
       onError: (error) => {

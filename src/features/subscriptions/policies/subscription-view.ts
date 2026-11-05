@@ -26,6 +26,7 @@ export function canManageSubscription(
     (permission) =>
       permission.resource === 'subscription' && permission.action === action,
   )
+
   const contractor = snapshot.subscription?.contractorUserId
 
   return (

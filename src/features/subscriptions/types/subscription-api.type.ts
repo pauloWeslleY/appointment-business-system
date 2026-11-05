@@ -31,51 +31,69 @@ import type { subscriptionPortalResponseSchema } from '../schemas/subscription-p
 import type { subscriptionTrialResponseSchema } from '../schemas/subscription-trial.schema'
 
 export type SubscriptionAccount = z.infer<typeof subscriptionAccountSchema>
+
 export type SubscriptionAccess = z.infer<typeof subscriptionAccessSchema>
+
 export type SubscriptionNotice = z.infer<typeof subscriptionNoticeSchema>
 
 export type SubscriptionContextResponse = GetMeContextResponse
+
 export type SubscriptionSelectionRequest = CreateMeContextRequestType
+
 export type SubscriptionContextQuery = z.infer<
   typeof subscriptionContextQuerySchema
 >
+
 export type SubscriptionOrganizationHeaders = z.infer<
   typeof subscriptionOrganizationHeadersSchema
 >
+
 export type SubscriptionScopeHeaders = z.infer<
   typeof subscriptionScopeHeadersSchema
 >
+
 export type SubscriptionCommandHeaders = z.infer<
   typeof subscriptionCommandHeadersSchema
 >
+
 export type SubscriptionBillingRequest = z.infer<
   typeof subscriptionBillingRequestSchema
 >
+
 export type SubscriptionTrialResponse = z.infer<
   typeof subscriptionTrialResponseSchema
 >
+
 export type SubscriptionCheckoutResponse = z.infer<
   typeof subscriptionCheckoutResponseSchema
 >
+
 export type SubscriptionCancellationResponse = z.infer<
   typeof subscriptionCancellationResponseSchema
 >
+
 export type SubscriptionIntervalResponse = z.infer<
   typeof subscriptionIntervalResponseSchema
 >
+
 export type SubscriptionPortalResponse = z.infer<
   typeof subscriptionPortalResponseSchema
 >
+
 export type SubscriptionErrorResponse = z.infer<
   typeof subscriptionErrorResponseSchema
 >
+
 export type SubscriptionNoticePath = z.infer<
   typeof subscriptionNoticePathSchema
 >
+
 export type SubscriptionReadNoticeResponse = z.infer<
   typeof subscriptionReadNoticeResponseSchema
 >
+
 export type SubscriptionNoticesResponse = z.infer<typeof noticesSchema>
+
 export type SubscriptionOrganizationsResponse = z.infer<
   typeof subscriptionOrganizationsResponseSchema
 >

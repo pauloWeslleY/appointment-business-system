@@ -6,9 +6,11 @@ import {
   updateCustomerStatusService,
 } from '../services/customer.service'
 import { customersQueryKeys } from './customers.query-key'
+
 const invalidateCustomers = async (client: QueryClient): Promise<void> => {
   await client.invalidateQueries({ queryKey: customersQueryKeys.all() })
 }
+
 export const customersMutationOptions = {
   create: () =>
     mutationOptions({

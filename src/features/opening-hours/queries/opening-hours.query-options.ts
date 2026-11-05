@@ -1,6 +1,9 @@
 import { queryOptions, skipToken } from '@tanstack/react-query'
 
-import { getOpeningHoursByIdService } from '../services/opening-hours.service'
+import {
+  getOpeningHoursByIdService,
+  listEstablishmentOpeningHoursService,
+} from '../services/opening-hours.service'
 import {
   openingHoursQueryKeys,
   type OpeningHoursQueryScope,
@@ -20,6 +23,24 @@ export function getOpeningHoursByIdQueryOptions(
     queryKey: openingHoursQueryKeys.detail(scope, openingHoursId),
     queryFn: hasRequiredParams
       ? () => getOpeningHoursByIdService(openingHoursId)
+      : skipToken,
+  })
+}
+
+export function establishmentOpeningHoursQueryOptions(
+  scope: OpeningHoursQueryScope,
+  establishmentId?: string,
+) {
+  const hasRequiredParams =
+    scope.userId.trim() !== '' &&
+    scope.organizationId.trim() !== '' &&
+    establishmentId !== undefined &&
+    establishmentId.trim() !== ''
+
+  return queryOptions({
+    queryKey: openingHoursQueryKeys.establishment(scope, establishmentId),
+    queryFn: hasRequiredParams
+      ? () => listEstablishmentOpeningHoursService(establishmentId)
       : skipToken,
   })
 }

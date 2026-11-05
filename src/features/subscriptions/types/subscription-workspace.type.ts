@@ -6,6 +6,7 @@ import type { SubscriptionPageEntry } from './subscription-entry.type'
 export type SubscriptionWorkspaceState = ReturnType<
   typeof useSubscriptionWorkspace
 >
+
 export type SubscriptionOrganizationState = ReturnType<
   typeof useSubscriptionOrganization
 >

@@ -27,6 +27,7 @@ export function useFormCreateAddress(
       longitude: null,
     },
   })
+
   const {
     mutate: createAddress,
     error: createAddressError,
@@ -39,6 +40,7 @@ export function useFormCreateAddress(
         title: 'Erro ao criar endereço',
         description: 'ID do estabelecimento não fornecido',
       })
+
       return
     }
 

@@ -113,6 +113,7 @@ const FormRegister = () => {
         </Button>
 
         <HStack
+          flexWrap="wrap"
           align="baseline"
           justify="flex-start"
           alignSelf="flex-start"

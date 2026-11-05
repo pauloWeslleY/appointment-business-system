@@ -30,6 +30,7 @@ export function useSubscriptionCancellation() {
   const hasPaidAccess = STATUS_PAID_ACCESS.has(
     subscriptionSnapshot.access.status,
   )
+
   const subscriptionCommandMutation =
     subscriptionWorkspace.subscriptionCommandMutation
 

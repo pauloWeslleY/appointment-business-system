@@ -5,11 +5,11 @@ import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 import { useSelectEstablishmentsByOrganization } from '../hooks/use-select-establishments-by-organization'
 
 interface SelectEstablishmentsByOrganizationProps {
-  organizationProfileId?: string
+  organizationId?: string
 }
 
 const SelectEstablishmentsByOrganization = ({
-  organizationProfileId,
+  organizationId,
 }: SelectEstablishmentsByOrganizationProps) => {
   const {
     isLoadingEstablishments,
@@ -17,7 +17,7 @@ const SelectEstablishmentsByOrganization = ({
     establishmentsByOrganizationSelected,
     loadSelectEstablishmentsByOrganization,
     onChangeSelectEstablishmentByOrganization,
-  } = useSelectEstablishmentsByOrganization(organizationProfileId)
+  } = useSelectEstablishmentsByOrganization(organizationId)
 
   if (errorEstablishments) {
     return <div>Ocorreu um erro ao carregar os estabelecimentos.</div>
@@ -28,7 +28,9 @@ const SelectEstablishmentsByOrganization = ({
       variant="subtle"
       size="sm"
       collection={loadSelectEstablishmentsByOrganization}
-      w="250px"
+      w={{ base: 'full', md: '250px' }}
+      minW="0"
+      maxW="full"
       value={[establishmentsByOrganizationSelected ?? '']}
       onValueChange={(e) => onChangeSelectEstablishmentByOrganization(e.value)}
     >

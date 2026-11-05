@@ -84,10 +84,13 @@ const LegalEntitiesTable = () => {
         </Alert.Root>
       ) : (
         <Table.ScrollArea
+          tabIndex={0}
+          maxW="full"
+          aria-label="Cadastros fiscais: role para ver todas as colunas"
           rounded="lg"
           borderColor={{ _light: 'slate.200', _dark: 'slate.900/60' }}
         >
-          <Table.Root variant="outline">
+          <Table.Root variant="outline" minW="36rem">
             <Table.Header>
               <Table.Row bg={{ _light: 'slate.200', _dark: 'slate.900/60' }}>
                 <For
@@ -114,6 +117,7 @@ const LegalEntitiesTable = () => {
                 const statusLegalEntity = mapStatusLegalEntity(
                   taxInformation.status,
                 )
+
                 return (
                   <Table.Row
                     key={taxInformation.id}

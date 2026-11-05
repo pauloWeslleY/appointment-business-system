@@ -8,6 +8,7 @@ export const LEGAL_ENTITY_STATUSES = {
 } as const
 
 export const TAX_INFORMATION_STATUSES = Object.values(LEGAL_ENTITY_STATUSES)
+
 export type TaxInformationStatus = typeof TAX_INFORMATION_STATUSES
 
 export type LegalEntityStatus =

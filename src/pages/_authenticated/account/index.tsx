@@ -40,6 +40,7 @@ function AccountPage() {
         onValueChange={(e) => setMenuProfile(e.value)}
       >
         <Tabs.List
+          flexWrap="wrap"
           {...cardSectionCss}
           bg={{ _light: 'slate.100', _dark: 'slate.950/40' }}
           border="1px solid"
@@ -54,7 +55,7 @@ function AccountPage() {
             ]}
           >
             {({ value, label }) => (
-              <Tabs.Trigger key={value} value={value}>
+              <Tabs.Trigger key={value} value={value} minH="10">
                 {label}
               </Tabs.Trigger>
             )}

@@ -4,6 +4,8 @@ const baseSidebarContentRecipe = defineRecipe({
   className: 'sidebar-content',
   base: {
     flex: '1',
+    minW: '0',
+    h: 'dvh',
     overflowY: 'auto',
     transition: '.3s ease',
     shadow: { _light: 'lg', _dark: 'md' },

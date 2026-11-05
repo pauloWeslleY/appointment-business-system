@@ -26,12 +26,14 @@ export function useAcceptInvitation(invitationId?: string) {
       getInvitationPreviewQueryOptions(invitationId),
     ],
   })
+
   const { mutate: acceptInvitation, isPending: isPendingAcceptInvitation } =
     useMutation(invitationsMutationOptions.accept())
   const navigate = useNavigate()
   const mapInvitationStatus = mapLabelInvitationStatus(
     invite?.invitation?.status,
   )
+
   const showButtonAcceptInvitation =
     invite?.invitation?.status === StatusInvitations.ACCEPTED
 

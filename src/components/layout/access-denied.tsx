@@ -10,7 +10,8 @@ const AccessDenied = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      w="xl"
+      w="full"
+      maxW="xl"
       mx="auto"
     >
       <Flex

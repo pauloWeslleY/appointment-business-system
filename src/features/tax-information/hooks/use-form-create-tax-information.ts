@@ -37,6 +37,7 @@ export function useFormCreateTaxInformation() {
   const isFetchingOrganizationProfile = useIsFetching({
     queryKey: organizationProfileQueryKeys.summary(),
   })
+
   const {
     control,
     handleSubmit,
@@ -54,6 +55,7 @@ export function useFormCreateTaxInformation() {
       taxId: '',
     },
   })
+
   const {
     isPending: isPendingCreateTaxInformation,
     mutate: createTaxInformation,
@@ -67,6 +69,7 @@ export function useFormCreateTaxInformation() {
     'cnpj',
     inputTaxId,
   ])
+
   const isFetchingVerificationCnpj = useIsFetching({
     queryKey: ['cnpj', inputTaxId],
   })
@@ -125,6 +128,7 @@ export function useFormCreateTaxInformation() {
         title: 'Ops! CNPJ não informado',
         description: 'Por favor, informe o CNPJ para verificação',
       })
+
       return
     }
 
@@ -139,6 +143,7 @@ export function useFormCreateTaxInformation() {
           title: 'CNPJ válido',
           description: 'Informações da CNPJ encontradas com sucesso',
         })
+
         return
       }
     } catch (error: unknown) {
@@ -187,6 +192,7 @@ export function useFormCreateTaxInformation() {
         title: 'Ops! CNPJ não foi valido',
         description: 'Informações da CNPJ não encontradas',
       })
+
       return
     }
 
@@ -205,6 +211,7 @@ export function useFormCreateTaxInformation() {
           await context.client.invalidateQueries({
             queryKey: taxInformationQueryKeys.list({}),
           })
+
           toaster.success({
             title: 'Informações fiscais criadas com sucesso',
           })

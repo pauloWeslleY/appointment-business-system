@@ -58,13 +58,14 @@ const ErrorPageOrganizationAlert = ({
         justify="center"
         align="center"
         w={12}
+        flexShrink="0"
         bg={`${mapStatusAlert.color}.500`}
       >
         <Icon as={mapStatusAlert.icon} color="white" boxSize={6} />
       </Flex>
 
-      <Box mx={-3} py={2} px={4}>
-        <Box mx={3}>
+      <Box minW="0" overflowWrap="anywhere" py={2} px={4}>
+        <Box>
           <chakra.span
             color={{
               _light: `${mapStatusAlert.color}.500`,

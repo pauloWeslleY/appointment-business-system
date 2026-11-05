@@ -7,9 +7,9 @@ import { toaster } from '@/components/ui/toaster'
 import { createMeContextService } from '@/features/members/services/member-context.service'
 import { createSlug } from '@/shared/utils/create-slug'
 import {
-  generateIdempontecyKey,
-  idempontecy,
-} from '@/shared/utils/idempontecy-key'
+  generateIdempotencyKey,
+  idempotencyKeyStorage,
+} from '@/shared/utils/idempotency-key'
 
 import { organizationProfileMutationOptions } from '../queries/organization-profile-mutation-options'
 import { CreateOrganizationProfileFormSchema } from '../schemas/create-organization-profile.schema'
@@ -78,6 +78,7 @@ export function useFormCreateOrganizationProfile() {
         type: 'manual',
         message: 'O nome fantasia precisa ser preenchido',
       })
+
       return
     }
 
@@ -88,7 +89,7 @@ export function useFormCreateOrganizationProfile() {
   const handleCreateOrganizationProfile = (
     data: CreateOrganizationProfileFormData,
   ) => {
-    const key = idempontecy.getKey() || generateIdempontecyKey()
+    const key = idempotencyKeyStorage.getKey() || generateIdempotencyKey()
     const slug = createSlug(data.name)
 
     if (!slug.success) {
@@ -101,7 +102,7 @@ export function useFormCreateOrganizationProfile() {
       return
     }
 
-    idempontecy.setKey(key)
+    idempotencyKeyStorage.setKey(key)
     createOrganizationProfile(
       {
         ...data,
@@ -110,7 +111,7 @@ export function useFormCreateOrganizationProfile() {
       },
       {
         onSuccess: async (organizationProfile) => {
-          idempontecy.deleteKey()
+          idempotencyKeyStorage.deleteKey()
 
           try {
             await createMeContextService({
@@ -121,6 +122,7 @@ export function useFormCreateOrganizationProfile() {
               title: 'Ops! Não foi possível ativar a organização.',
               description: (error as Error).message,
             })
+
             return
           }
 

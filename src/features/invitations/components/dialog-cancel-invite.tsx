@@ -21,6 +21,7 @@ const DialogCancelInvite = ({
 
   return (
     <Dialog.Root
+      size="sm"
       open={open}
       onOpenChange={(e) => onOpen(e.open)}
       role="alertdialog"
@@ -29,7 +30,9 @@ const DialogCancelInvite = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content css={contentCss}>
+          <Dialog.Content
+            css={contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Cancelar convite</Dialog.Title>
             </Dialog.Header>
@@ -49,7 +52,7 @@ const DialogCancelInvite = ({
                 ser desfeita.
               </p>
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   colorPalette="brand"

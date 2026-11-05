@@ -1,40 +1,37 @@
-import {
-  Badge,
-  Box,
-  Flex,
-  For,
-  HStack,
-  Separator,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Flex, For, Separator, Skeleton } from '@chakra-ui/react'
 import { Navigate } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
 
+import CardHeaderEstablishmentDetail from '../components/card-header-establishment-detail'
 import SelectEstablishmentsByOrganization from '../components/select-establishments-by-organization'
 import { loadMenuDashboardEstablishment } from '../constants/menu-dashboard-establishment'
 import { useEstablishmentLayout } from '../hooks/use-establishment-layout'
 import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
+import { establishmentThemeStyle } from '../utils/establishment-theme'
 
 interface EstablishmentLayoutProps {
   establishment: EstablishmentSlugApiResponse
+  organizationId: string
   children: ReactNode
 }
 
 const EstablishmentLayout = ({
   children,
   establishment,
+  organizationId,
 }: EstablishmentLayoutProps) => {
   const {
+    colorMode,
     collapsed,
-    loadEstablishmentInfo,
-    validateUrlEstablishmentLayout,
-    activePath,
-    handleNavigation,
+    isEstablishmentRootPath,
+    isLoadingEstablishmentLayout,
+    activePathEstablishmentLayout,
+    handleNavigationEstablishmentLayout,
   } = useEstablishmentLayout(establishment)
 
-  if (validateUrlEstablishmentLayout) {
+  if (isEstablishmentRootPath) {
     return (
       <Navigate
         to="/dashboard/$slug/overview"
@@ -44,24 +41,18 @@ const EstablishmentLayout = ({
   }
 
   return (
-    <Sidebar.Root>
+    <Sidebar.Root style={establishmentThemeStyle(establishment, colorMode)}>
       <Sidebar.Aside>
         <For each={loadMenuDashboardEstablishment}>
           {(item) => {
             if (item.type === 'header') {
               return (
-                <Text
+                <Sidebar.NavTitle
                   key={item.label}
-                  display={collapsed ? 'none' : 'block'}
-                  fontSize="sm"
-                  fontWeight="medium"
-                  letterSpacing="wider"
-                  color={{ base: 'gray.200', _dark: 'gray.400' }}
-                  my="4"
-                  pl="2"
+                  collapsed={collapsed ? 'closed' : 'open'}
                 >
                   {item.label}
-                </Text>
+                </Sidebar.NavTitle>
               )
             }
 
@@ -69,8 +60,8 @@ const EstablishmentLayout = ({
               <Sidebar.Nav
                 key={item.path}
                 icon={item.icon}
-                active={activePath(item.path)}
-                onClick={() => handleNavigation(item.path)}
+                active={activePathEstablishmentLayout(item.path)}
+                onClick={() => handleNavigationEstablishmentLayout(item.path)}
               >
                 {item.label}
               </Sidebar.Nav>
@@ -80,52 +71,39 @@ const EstablishmentLayout = ({
       </Sidebar.Aside>
 
       <Sidebar.Content>
-        <Sidebar.Header>
-          <Flex align="center" gap="4">
-            <Box spaceY="1" mt="1">
-              <Text as="h2" lineHeight="1">
-                {establishment?.name ?? 'Carregando...'}
-              </Text>
+        <Sidebar.Header
+          navigation={{
+            menu: loadMenuDashboardEstablishment,
+            activePath: activePathEstablishmentLayout,
+            onNavigate: handleNavigationEstablishmentLayout,
+          }}
+        >
+          {isLoadingEstablishmentLayout && (
+            <Skeleton h="40px" w="500px" rounded="lg" />
+          )}
 
-              <HStack align="center">
-                <Text
-                  lineHeight="1"
-                  fontSize="sm"
-                  letterSpacing="wide"
-                  fontWeight="light"
-                  color={{ base: 'primary.500', _dark: 'emerald.300/50' }}
-                >
-                  {loadEstablishmentInfo.openingHours}
-                </Text>
+          {!isLoadingEstablishmentLayout && (
+            <Flex align="center" gap="4" minW="0" flexWrap="wrap">
+              <CardHeaderEstablishmentDetail establishment={establishment} />
 
-                <Separator
-                  h="4"
-                  orientation="vertical"
-                  borderColor={{ base: 'gray.200', _dark: 'gray.500' }}
-                />
+              <Separator
+                h="8"
+                orientation="vertical"
+                borderColor={{ _light: 'gray.200', _dark: 'gray.500' }}
+              />
 
-                <Badge
-                  size="sm"
-                  colorPalette={
-                    loadEstablishmentInfo.establishmentOpen ? 'green' : 'red'
-                  }
-                >
-                  {loadEstablishmentInfo.establishmentOpen
-                    ? 'Aberto'
-                    : 'Fechado'}
-                </Badge>
-              </HStack>
-            </Box>
-
-            <SelectEstablishmentsByOrganization
-              organizationProfileId={establishment.ownerId}
-            />
-          </Flex>
+              <SelectEstablishmentsByOrganization
+                organizationId={organizationId}
+              />
+            </Flex>
+          )}
         </Sidebar.Header>
 
         <Sidebar.Body>
           <Box
-            maxW={{ base: 'lg', lg: 'breakpoint-2xl' }}
+            w="full"
+            minW="0"
+            maxW="breakpoint-2xl"
             mx={{ base: 0, xl: 'auto' }}
           >
             {children}

@@ -33,35 +33,43 @@ const TableDailyBookingsEstablishmentDashboard = ({
 
   return (
     <Box spaceY="2">
-      <Table.Root size="sm" variant="line" borderRadius="lg" overflow="hidden">
-        <Table.Header>
-          <Table.Row bg="transparent">
-            <Table.ColumnHeader>Cliente</Table.ColumnHeader>
-            <Table.ColumnHeader>Data</Table.ColumnHeader>
-            <Table.ColumnHeader>Serviço</Table.ColumnHeader>
-            <Table.ColumnHeader>Status</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {getTableDailyBookingsEstablishmentDashboard.map((booking) => (
-            <Table.Row key={booking.id} bg="transparent">
-              <Table.Cell>{booking.user}</Table.Cell>
-              <Table.Cell>
-                {formattedDateAndHours(booking.dateAppointment, true)}
-              </Table.Cell>
-              <Table.Cell>{booking.service}</Table.Cell>
-              <Table.Cell>
-                <Badge
-                  colorPalette={dashboardAppointmentStatusLabels[booking.status].color}
-                  w="fit-content"
-                >
-                  {dashboardAppointmentStatusLabels[booking.status].label}
-                </Badge>
-              </Table.Cell>
+      <Table.ScrollArea
+        maxW="full"
+        tabIndex={0}
+        aria-label="Agendamentos do dia: role para ver todas as colunas"
+      >
+        <Table.Root size="sm" variant="line" minW="32rem">
+          <Table.Header>
+            <Table.Row bg="transparent">
+              <Table.ColumnHeader>Cliente</Table.ColumnHeader>
+              <Table.ColumnHeader>Data</Table.ColumnHeader>
+              <Table.ColumnHeader>Serviço</Table.ColumnHeader>
+              <Table.ColumnHeader>Status</Table.ColumnHeader>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+          </Table.Header>
+          <Table.Body>
+            {getTableDailyBookingsEstablishmentDashboard.map((booking) => (
+              <Table.Row key={booking.id} bg="transparent">
+                <Table.Cell>{booking.user}</Table.Cell>
+                <Table.Cell>
+                  {formattedDateAndHours(booking.dateAppointment, true)}
+                </Table.Cell>
+                <Table.Cell>{booking.service}</Table.Cell>
+                <Table.Cell>
+                  <Badge
+                    colorPalette={
+                      dashboardAppointmentStatusLabels[booking.status].color
+                    }
+                    w="fit-content"
+                  >
+                    {dashboardAppointmentStatusLabels[booking.status].label}
+                  </Badge>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
 
       <PaginationTable
         count={bookings.length}

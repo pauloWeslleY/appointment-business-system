@@ -84,10 +84,15 @@ const FilterDatePicker = ({
   }
 
   return (
-    <Popover.Root positioning={{ placement: 'left-start' }}>
+    <Popover.Root positioning={{ placement: 'bottom-start' }}>
       <Popover.Trigger asChild>
         <Button
           size="sm"
+          maxW="full"
+          h="auto"
+          minH="10"
+          py="2"
+          whiteSpace="normal"
           rounded="xl"
           bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
           color={{ base: 'gray.700', _dark: 'gray.100' }}
@@ -103,6 +108,9 @@ const FilterDatePicker = ({
       <Popover.Positioner>
         <Popover.Content
           w="auto"
+          maxW="calc(100vw - 2rem)"
+          maxH="calc(100dvh - 2rem)"
+          overflow="auto"
           css={{
             ...contentCss,
             '& [data-part="arrow-tip"]': {

@@ -12,6 +12,8 @@ export const SubscriptionStatuses = {
 } as const
 
 export const SubscriptionStatusesArray = Object.values(SubscriptionStatuses)
+
 export const SubscriptionStatusSchema = z.enum(SubscriptionStatusesArray)
+
 export type SubscriptionStatusType =
   (typeof SubscriptionStatuses)[keyof typeof SubscriptionStatuses]

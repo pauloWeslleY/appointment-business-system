@@ -1,7 +1,6 @@
 import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useParams } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
@@ -23,10 +22,7 @@ const loadSelectStatusUpdateEstablishment = createListCollection({
   })),
 })
 
-export function useFormUpdateEstablishment() {
-  const { establishmentSlug } = useParams({
-    from: '/_authenticated/establishment/_routes/$establishmentSlug/',
-  })
+export function useFormUpdateEstablishment(establishmentSlug: string) {
   const {
     data: establishment,
     error: errorEstablishment,
@@ -35,6 +31,7 @@ export function useFormUpdateEstablishment() {
 
   const formDefaultValues = useMemo<DefaultValues<UpdateEstablishmentFormData>>(
     () => ({
+      websiteUrl: establishment?.websiteUrl ?? '',
       name: establishment?.name ?? '',
       email: establishment?.email ?? '',
       description: establishment?.description ?? '',
@@ -61,6 +58,7 @@ export function useFormUpdateEstablishment() {
     formUpdateEstablishment,
     formUpdateEstablishment.reset,
   ])
+
   const { isDirty, dirtyFields } = formUpdateEstablishment.formState
 
   const {
@@ -97,12 +95,14 @@ export function useFormUpdateEstablishment() {
       },
     )
 
-    const { phones, status, ...otherChanges } = changesUpdateEstablishment
-    const statusValue = status[0] ?? null
+    const { phones, status, websiteUrl, ...otherChanges } =
+      changesUpdateEstablishment
+    const statusValue = status?.[0] ?? null
 
     updateEstablishment({
       id: establishment.id,
       ...otherChanges,
+      ...(websiteUrl === undefined ? {} : { websiteUrl: websiteUrl || null }),
       ...(statusValue ? { status: statusValue } : {}),
       ...(phones?.length ? { phones: phones.map((item) => item.phone) } : {}),
     })

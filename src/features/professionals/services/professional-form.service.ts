@@ -12,6 +12,7 @@ import {
   updateEmploymentService,
   updateProfessionalService,
 } from './professional.service'
+
 export async function createProfessionalFromForm({
   values,
   establishmentId,
@@ -20,6 +21,7 @@ export async function createProfessionalFromForm({
     id: establishmentId,
     folder: UploadFolder.COLLABORATORS,
   })
+
   return createProfessionalService({
     ...toProfessionalProfile(values, imageUrl),
     specialty: values.specialty,
@@ -28,6 +30,7 @@ export async function createProfessionalFromForm({
     establishmentIds: [establishmentId],
   })
 }
+
 export async function updateProfessionalFromForm({
   values,
   details,
@@ -49,9 +52,11 @@ export async function updateProfessionalFromForm({
         details.professional.id,
         toProfessionalProfile(values, imageUrl),
       )
+
       professional = profileResult.professional
       profileSaved = true
     }
+
     if (updateEmployment) {
       const employmentResult = await updateEmploymentService(
         details.employment.id,
@@ -62,6 +67,7 @@ export async function updateProfessionalFromForm({
           establishmentIds: details.employment.establishmentIds,
         },
       )
+
       employment = employmentResult.employment
     }
   } catch (error) {
@@ -72,6 +78,7 @@ export async function updateProfessionalFromForm({
         { cause: error },
       )
     }
+
     throw error
   }
   return { professional, employment }

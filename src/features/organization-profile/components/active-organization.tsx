@@ -13,7 +13,7 @@ import { Controller } from 'react-hook-form'
 import { Field } from '@/components/ui/field'
 import { cardSectionCss, contentCss } from '@/theme/styles/global-styles'
 
-import { useFormAtiveOrganization } from '../hooks/use-form-ative-organization'
+import { useFormActiveOrganization } from '../hooks/use-form-active-organization'
 
 const ActiveOrganization = () => {
   const {
@@ -24,7 +24,7 @@ const ActiveOrganization = () => {
     isPendingUpdateActiveOrganization,
     handleSubmit,
     handleUpdateOrganizationProfile,
-  } = useFormAtiveOrganization()
+  } = useFormActiveOrganization()
 
   return (
     <Card.Root

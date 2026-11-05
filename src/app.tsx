@@ -10,6 +10,7 @@ import PageLoader from './components/page-loader'
 import { Provider as ThemeProvider } from './components/ui/provider'
 import { Toaster } from './components/ui/toaster'
 import { routeTree } from './routeTree.gen'
+
 dayjs.locale('pt-br')
 
 const queryClient = new QueryClient({

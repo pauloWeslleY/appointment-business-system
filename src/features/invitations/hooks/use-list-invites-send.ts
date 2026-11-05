@@ -15,6 +15,7 @@ export function useInvitationNavigation() {
   const { q } = useSearch({
     from: '/_authenticated/team-management/invitations/',
   })
+
   const { data: session } = authClient.useSession()
   const { data: invitations, isLoading: isLoadingInvitations } = useQuery(
     listInvitationsQueryOptions(

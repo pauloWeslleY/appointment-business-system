@@ -33,6 +33,7 @@ const DialogStatusCustomer = ({
 
   return (
     <Dialog.Root
+      size="sm"
       role="alertdialog"
       motionPreset="slide-in-bottom"
       placement="center"
@@ -42,7 +43,9 @@ const DialogStatusCustomer = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content css={contentCss}>
+          <Dialog.Content
+            css={contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Atualizar status do cliente</Dialog.Title>
             </Dialog.Header>
@@ -58,7 +61,7 @@ const DialogStatusCustomer = ({
                 <strong>{customer.name}</strong>"?
               </p>
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button size="sm" variant="surface" rounded="xl">
                   Cancelar

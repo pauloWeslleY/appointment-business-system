@@ -24,48 +24,52 @@ export function usePermissions(resources?: ResourceType[]) {
     ),
   )
 
-  const { invitations, subscriptions, organizationProfile } = useMemo(() => {
-    const groupedPermissions = listGroupedPermissions(
-      memberContext?.permissions ?? [],
-    )
+  const { invitations, subscriptions, organizationProfile, appointments } =
+    useMemo(() => {
+      const groupedPermissions = listGroupedPermissions(
+        memberContext?.permissions ?? [],
+      )
 
-    const groupedByResource = groupedPermissions.map(
-      (permission) => permission.resource,
-    )
-    const resourcesList = resources ?? groupedByResource
+      const groupedByResource = groupedPermissions.map(
+        (permission) => permission.resource,
+      )
 
-    const permissions = resourcesList.reduce<PermissionsByResource>(
-      (flags, resource) => {
-        const actions = groupedPermissions.find(
-          (permission) => permission.resource === resource,
-        )
+      const resourcesList = resources ?? groupedByResource
 
-        const actionList = actions?.actions ?? []
+      const permissions = resourcesList.reduce<PermissionsByResource>(
+        (flags, resource) => {
+          const actions = groupedPermissions.find(
+            (permission) => permission.resource === resource,
+          )
 
-        flags[resource] = {
-          canCreate: actionList.includes('create'),
-          canRead: actionList.includes('read'),
-          canUpdate: actionList.includes('update'),
-          canDelete: actionList.includes('delete'),
-          canCancel: actionList.includes('cancel'),
-          canConclude: actionList.includes('conclude'),
-        }
+          const actionList = actions?.actions ?? []
 
-        return flags
-      },
-      {} as PermissionsByResource,
-    )
+          flags[resource] = {
+            canCreate: actionList.includes('create'),
+            canRead: actionList.includes('read'),
+            canUpdate: actionList.includes('update'),
+            canDelete: actionList.includes('delete'),
+            canCancel: actionList.includes('cancel'),
+            canConclude: actionList.includes('conclude'),
+          }
 
-    return {
-      invitations: permissions[RESOURCES.INVITATION],
-      subscriptions: permissions[RESOURCES.SUBSCRIPTION],
-      organizationProfile: permissions[RESOURCES.ORGANIZATION_PROFILE],
-    }
-  }, [memberContext?.permissions, resources])
+          return flags
+        },
+        {} as PermissionsByResource,
+      )
+
+      return {
+        invitations: permissions[RESOURCES.INVITATION],
+        subscriptions: permissions[RESOURCES.SUBSCRIPTION],
+        organizationProfile: permissions[RESOURCES.ORGANIZATION_PROFILE],
+        appointments: permissions[RESOURCES.APPOINTMENT],
+      }
+    }, [memberContext?.permissions, resources])
 
   return {
     invitations,
     subscriptions,
     organizationProfile,
+    appointments,
   }
 }

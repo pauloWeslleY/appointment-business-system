@@ -1,8 +1,10 @@
 import { z } from 'zod'
 
 import { EstablishmentStatus } from '../types/establishment-status.type'
+import { EstablishmentWebsiteUrlFormSchema } from './establishment-website-url.schema'
 
 export const EstablishmentFormDataSchema = z.object({
+  websiteUrl: EstablishmentWebsiteUrlFormSchema,
   name: z.string().trim().min(1, 'O nome do estabelecimento é obrigatório'),
   description: z
     .string()

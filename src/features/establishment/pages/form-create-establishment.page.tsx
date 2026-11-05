@@ -82,6 +82,22 @@ const FormCreateEstablishmentPage = () => {
               />
             </Field>
 
+            <Field
+              label="URL da página do estabelecimento"
+              gridColumn={{ base: 'span 1', md: '1 / -1' }}
+              invalid={Boolean(formCreateEstablishment.formState.errors.websiteUrl)}
+              errorText={formCreateEstablishment.formState.errors.websiteUrl?.message}
+              helperText="Opcional. Informe o endereço HTTPS da página do estabelecimento."
+            >
+              <InputField
+                {...formCreateEstablishment.register('websiteUrl')}
+                type="url"
+                placeholder="https://seu-estabelecimento.com.br"
+                autoComplete="url"
+                maxLength={2048}
+              />
+            </Field>
+
             <FormTelephoneEstablishment />
 
             <GridItem

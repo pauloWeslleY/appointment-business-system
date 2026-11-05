@@ -4,7 +4,7 @@ import { parseAsString, useQueryState } from 'nuqs'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
-const loadCollectionStatusBooking = createListCollection({
+const loadSelectOpeningStatus = createListCollection({
   items: [
     { label: 'Aberto', value: 'true' },
     { label: 'Fechado', value: 'false' },
@@ -18,14 +18,16 @@ const FilterEstablishmentOpening = () => {
     parseAsString.withDefault(search.opening?.toString() ?? ''),
   )
 
-  const onChangeOpening = (opening: string[]) => setOpening(opening[0])
+  const onChangeOpening = (values: string[]) => setOpening(values[0])
 
   return (
     <Select.Root
       variant="subtle"
       size="sm"
-      collection={loadCollectionStatusBooking}
-      w="250px"
+      collection={loadSelectOpeningStatus}
+      w={{ base: 'full', md: '250px' }}
+      minW="0"
+      maxW="full"
       value={[opening]}
       onValueChange={(e) => onChangeOpening(e.value)}
     >
@@ -45,17 +47,17 @@ const FilterEstablishmentOpening = () => {
       <Portal>
         <Select.Positioner>
           <Select.Content css={contentCss}>
-            {loadCollectionStatusBooking.items.map((bookingStatus) => (
+            {loadSelectOpeningStatus.items.map((openingStatus) => (
               <Select.Item
-                key={bookingStatus.value}
-                item={bookingStatus}
+                key={openingStatus.value}
+                item={openingStatus}
                 rounded="xl"
                 cursor="pointer"
                 _hover={{
                   bg: { base: 'gray.100', _dark: 'secondary.600' },
                 }}
               >
-                <Select.ItemText>{bookingStatus.label}</Select.ItemText>
+                <Select.ItemText>{openingStatus.label}</Select.ItemText>
                 <Select.ItemIndicator />
               </Select.Item>
             ))}

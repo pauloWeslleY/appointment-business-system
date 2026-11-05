@@ -9,18 +9,13 @@ export const invitationQueryKey = {
       organizationId,
     ] as const,
 
-  establishments: (
-    userId?: string,
-    organizationId?: string,
-    profileId?: string,
-  ) =>
+  establishments: (userId?: string, organizationId?: string) =>
     [
       ...invitationQueryKey.all,
       'establishments',
       {
         userId: userId ?? null,
         organizationId: organizationId ?? null,
-        profileId: profileId ?? null,
       },
     ] as const,
 

@@ -20,6 +20,7 @@ const reviewsNotes = () => {
       rating: i,
     })
   }
+
   return notes
 }
 
@@ -49,7 +50,9 @@ const FilterReviewsNotes = () => {
       variant="subtle"
       size="sm"
       collection={loadSelectRatings}
-      w="250px"
+      w={{ base: 'full', md: '250px' }}
+      minW="0"
+      maxW="full"
       value={[notes.toString()]}
       onValueChange={(e) => onChangeNotes(e.value)}
     >

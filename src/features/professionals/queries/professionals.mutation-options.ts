@@ -5,6 +5,7 @@ import {
   updateProfessionalFromForm,
 } from '../services/professional-form.service'
 import { professionalsQueryKeys } from './professionals.query-key'
+
 export const professionalsMutationOptions = {
   create: () =>
     mutationOptions({

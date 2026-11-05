@@ -35,10 +35,15 @@ const StepCreateEstablishmentPage = () => {
       count={steps.length}
       variant="subtle"
     >
-      <Steps.List>
+      <Steps.List flexWrap="wrap" gap="3">
         <For each={steps}>
           {(step, index) => (
-            <Steps.Item key={index} index={index} title={step.title}>
+            <Steps.Item
+              key={index}
+              index={index}
+              title={step.title}
+              flex={{ base: '1 1 100%', md: '1' }}
+            >
               <Steps.Indicator />
               <Steps.Title>{step.title}</Steps.Title>
               <Steps.Separator />
@@ -83,7 +88,7 @@ const StepCreateEstablishmentPage = () => {
           </Alert.Content>
         </Alert.Root>
 
-        <Flex mt="2" gap="4" justify="flex-end">
+        <Flex mt="2" gap="4" justify="flex-end" flexWrap="wrap">
           <Button
             asChild
             rounded="lg"

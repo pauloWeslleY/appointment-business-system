@@ -44,7 +44,7 @@ const FormCreateOrganizationProfile = () => {
         <Box
           w="full"
           display="grid"
-          gridTemplateColumns="repeat(auto-fit, minmax(200px, 1fr))"
+          gridTemplateColumns="repeat(auto-fit, minmax(min(100%, 200px), 1fr))"
           gap={{ base: '4' }}
         >
           <Field
@@ -121,7 +121,11 @@ const FormCreateOrganizationProfile = () => {
           errorText={errors.name?.message}
           helperText="Nome utilizado para identificar sua empresa no sistema."
         >
-          <Group attached w="full">
+          <Group
+            w="full"
+            flexDirection={{ base: 'column', md: 'row' }}
+            alignItems="stretch"
+          >
             <Input
               {...register('name')}
               placeholder="Ex: Minha Empresa"

@@ -49,6 +49,7 @@ export const getAddressByIdService = async (
     url: `/admin/addresses/${params.addressId}`,
     params: { establishmentId: params.establishmentId },
   })
+
   const validatedResponse = GetAddressByIdApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -70,6 +71,7 @@ export const getAddressByEstablishmentService = async (
     method: HttpMethod.GET,
     url: `/admin/addresses/establishment/${params.establishmentId}`,
   })
+
   const validatedResponse =
     GetAddressByEstablishmentApiResponseSchema.safeParse(
       validate.errors(response),
@@ -91,12 +93,15 @@ export const createAddressService = async (
     url: '/admin/addresses',
     body: CreateAddressApiRequestSchema.parse(data),
   })
+
   const validatedResponse = CreateAddressApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }
 
@@ -111,12 +116,15 @@ export const updateAddressService = async (
     params: { establishmentId: params.establishmentId },
     body: params.address,
   })
+
   const validatedResponse = UpdateAddressApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }
 
@@ -132,5 +140,6 @@ export const deleteAddressService = async (
       establishmentId: params.establishmentId,
     },
   })
+
   return validate.errors(response)
 }

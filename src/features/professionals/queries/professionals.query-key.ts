@@ -1,3 +1,5 @@
+import type { ProfessionalAvailabilityApiRequest } from '../types/professional-api.type'
+
 export const professionalsQueryKeys = {
   all: ['professionals'] as const,
   list: (establishmentId?: string, userId?: string, organizationId?: string) =>
@@ -16,4 +18,6 @@ export const professionalsQueryKeys = {
       organizationId ?? null,
       professionalId ?? null,
     ] as const,
+  availability: (params: ProfessionalAvailabilityApiRequest, userId?: string) =>
+    ['professionals', 'availability', userId ?? null, params] as const,
 }

@@ -37,7 +37,12 @@ const RevenueEstablishmentCharts = ({
   }
 
   return (
-    <Chart.Root maxH={{ base: '300px', xl: '360px' }} chart={chartRevenue}>
+    <Chart.Root
+      minW="0"
+      w="full"
+      maxH={{ base: '300px', xl: '360px' }}
+      chart={chartRevenue}
+    >
       <BarChart data={chartRevenue.data} responsive>
         <CartesianGrid
           stroke={chartRevenue.color('border.muted')}

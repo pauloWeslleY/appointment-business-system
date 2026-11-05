@@ -28,14 +28,14 @@ const SidebarUpdateCustomer = ({
       <Portal>
         <Drawer.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Drawer.Positioner>
-          <Drawer.Content css={contentCss}>
+          <Drawer.Content css={contentCss} minW="0">
             <Drawer.Header>
               <Drawer.Title>Atualizar Cliente</Drawer.Title>
             </Drawer.Header>
             <Drawer.Body>
               <FieldsCustomer form={formUpdateCustomer} />
             </Drawer.Body>
-            <Drawer.Footer>
+            <Drawer.Footer flexWrap="wrap" gap="2">
               <Drawer.ActionTrigger asChild>
                 <Button
                   size="sm"

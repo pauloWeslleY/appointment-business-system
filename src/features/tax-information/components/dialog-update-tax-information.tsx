@@ -46,7 +46,9 @@ const DialogFormUpdateTaxInformation = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content css={contentCss}>
+          <Dialog.Content
+            css={contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Atualizar Dados Fiscais</Dialog.Title>
             </Dialog.Header>
@@ -56,9 +58,9 @@ const DialogFormUpdateTaxInformation = ({
               )}
 
               {!isLoadingTaxInformationSummary && (
-                <SimpleGrid columns={{ base: 1, md: 4 }} gap="4">
+                <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
                   <Field
-                    gridColumn={{ base: 'span 1', lg: '1 / -1' }}
+                    gridColumn="1 / -1"
                     label="Razão Social"
                     invalid={Boolean(errors.legalName)}
                     errorText={errors.legalName?.message}
@@ -70,7 +72,7 @@ const DialogFormUpdateTaxInformation = ({
                   </Field>
 
                   <Field
-                    gridColumn={{ base: 'span 1', lg: 'span 2' }}
+                    gridColumn="span 1"
                     label="Nome Fantasia"
                     invalid={Boolean(errors.tradeName)}
                     errorText={errors.tradeName?.message}
@@ -86,7 +88,7 @@ const DialogFormUpdateTaxInformation = ({
                     name="status"
                     render={({ field }) => (
                       <Field
-                        gridColumn={{ base: 'span 1', lg: 'span 2' }}
+                        gridColumn="span 1"
                         label="Status"
                         invalid={Boolean(errors.status)}
                         errorText={errors.status?.message}
@@ -140,7 +142,7 @@ const DialogFormUpdateTaxInformation = ({
                 </SimpleGrid>
               )}
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   rounded="lg"

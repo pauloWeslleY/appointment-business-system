@@ -21,11 +21,13 @@ export function useSubscriptionSummary() {
     subscriptionSnapshot,
     'create',
   )
+
   const canReadSubscription = canManageSubscription(
     authenticatedSubscriptionContext,
     subscriptionSnapshot,
     'read',
   )
+
   const isContractorOrUnassigned =
     !subscription ||
     subscription.contractorUserId === authenticatedSubscriptionContext.user.id

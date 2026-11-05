@@ -12,7 +12,10 @@ import {
   DeleteOpeningHoursApiRequestSchema,
   DeleteOpeningHoursApiResponseSchema,
 } from '../schemas/delete-opening-hours.api.schema'
-import { OpeningHoursSummaryApiResponseSchema } from '../schemas/opening-hours-response.api.schema'
+import {
+  EstablishmentOpeningHoursListApiResponseSchema,
+  OpeningHoursSummaryApiResponseSchema,
+} from '../schemas/opening-hours-response.api.schema'
 import {
   UpdateOpeningHoursApiRequestSchema,
   UpdateOpeningHoursApiResponseSchema,
@@ -25,11 +28,37 @@ import type {
   DeleteOpeningHoursApiRequest,
   DeleteOpeningHoursApiResponse,
 } from '../types/delete-opening-hours.api.type'
-import type { OpeningHoursSummaryApiResponse } from '../types/opening-hours-response.api.type'
+import type {
+  EstablishmentOpeningHoursItemApiResponse,
+  OpeningHoursSummaryApiResponse,
+} from '../types/opening-hours-response.api.type'
 import type {
   UpdateOpeningHoursApiRequest,
   UpdateOpeningHoursApiResponse,
 } from '../types/update-opening-hours.api.type'
+
+export const listEstablishmentOpeningHoursService = async (
+  establishmentId: string,
+): Promise<EstablishmentOpeningHoursItemApiResponse[]> => {
+  const { api, validate } =
+    httpDependencies<EstablishmentOpeningHoursItemApiResponse[]>()
+
+  const response = await api.request({
+    method: HttpMethod.GET,
+    url: `/admin/opening-hours/establishment/${z.uuid().parse(establishmentId)}`,
+  })
+
+  const validatedResponse =
+    EstablishmentOpeningHoursListApiResponseSchema.safeParse(
+      validate.errors(response),
+    )
+
+  if (!validatedResponse.success) {
+    throw new BadRequestError(z.prettifyError(validatedResponse.error))
+  }
+
+  return validatedResponse.data
+}
 
 export const getOpeningHoursByIdService = async (
   data: string,
@@ -40,10 +69,12 @@ export const getOpeningHoursByIdService = async (
     .trim()
     .min(1, 'ID do horário de funcionamento é obrigatório')
     .parse(data)
+
   const response = await api.request({
     method: HttpMethod.GET,
     url: `/admin/opening-hours/${openingHoursId}`,
   })
+
   const validatedResponse = OpeningHoursSummaryApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -64,12 +95,15 @@ export const createOpeningHoursService = async (
     url: '/admin/opening-hours',
     body: CreateOpeningHoursApiRequestSchema.parse(data),
   })
+
   const validatedResponse = CreateOpeningHoursApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }
 
@@ -78,16 +112,19 @@ export const updateOpeningHoursService = async (
 ): Promise<UpdateOpeningHoursApiResponse> => {
   const { api, validate } = httpDependencies<UpdateOpeningHoursApiResponse>()
   const response = await api.request({
-    method: HttpMethod.PATCH,
+    method: HttpMethod.PUT,
     url: '/admin/opening-hours',
     body: UpdateOpeningHoursApiRequestSchema.parse(data),
   })
+
   const validatedResponse = UpdateOpeningHoursApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }
 
@@ -100,11 +137,14 @@ export const deleteOpeningHoursService = async (
     url: '/admin/opening-hours',
     body: DeleteOpeningHoursApiRequestSchema.parse(data),
   })
+
   const validatedResponse = DeleteOpeningHoursApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
+
   return validatedResponse.data
 }

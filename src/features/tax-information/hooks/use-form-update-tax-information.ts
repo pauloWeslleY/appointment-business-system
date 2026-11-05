@@ -47,6 +47,7 @@ export function useFormUpdateTaxInformation(
     resolver: zodResolver(UpdateTaxInformationFormSchema),
     defaultValues: formDefaultValueUpdateTaxInformation,
   })
+
   const {
     mutate: updateTaxInformation,
     isPending: isPendingUpdateTaxInformation,
@@ -76,6 +77,7 @@ export function useFormUpdateTaxInformation(
         title: 'Ops! não há alterações',
         description: 'Faça alguma alteração antes de atualizar',
       })
+
       return
     }
 
@@ -84,6 +86,7 @@ export function useFormUpdateTaxInformation(
         title: 'Ops! ID da entidade legal não selecionado',
         description: 'Selecione uma entidade legal antes de atualizar',
       })
+
       return
     }
 

@@ -73,11 +73,11 @@ const AppError = (props: ErrorComponentProps) => {
   }
 
   return (
-    <Container maxW="container.lg" centerContent>
+    <Container maxW="breakpoint-lg" centerContent>
       <VStack
         justify="center"
         shadow="xs"
-        p="8"
+        p={{ base: '4', md: '8' }}
         w="full"
         rounded="lg"
         bg={{ _light: 'primary.200', _dark: 'primary.500/20' }}
@@ -98,7 +98,13 @@ const AppError = (props: ErrorComponentProps) => {
           <Icon as={X} boxSize="20" />
         </Flex>
 
-        <Box spaceY="2" mb="4" textAlign="center">
+        <Box
+          spaceY="2"
+          mb="4"
+          textAlign="center"
+          minW="0"
+          overflowWrap="anywhere"
+        >
           <Heading size="3xl">Ops! Algo deu errado.</Heading>
           <Text as="span" fontSize="lg" color="fg.error">
             {props.error instanceof Response ? (
@@ -109,7 +115,7 @@ const AppError = (props: ErrorComponentProps) => {
           </Text>
         </Box>
 
-        <Flex gap="4">
+        <Flex gap="4" flexWrap="wrap" justify="center">
           <Button
             variant="surface"
             rounded="xl"

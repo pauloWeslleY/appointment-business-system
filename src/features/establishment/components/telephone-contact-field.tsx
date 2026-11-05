@@ -44,15 +44,17 @@ const TelephoneContactField = ({
     name: `phones.${index}.phone`,
     defaultValue: '',
   })
+
   const { field: phoneType } = useController({
     control: form.control,
     name: `phones.${index}.type`,
     defaultValue: 'telephone',
   })
+
   const format = phoneFormats[phoneType.value]
 
   return (
-    <Flex gap="2" flexDir={{ base: 'column', md: 'row' }}>
+    <Flex gap="2" minW="0" maxW="full" flexDir={{ base: 'column', md: 'row' }}>
       <Field invalid={!!phoneState.error} errorText={phoneState.error?.message}>
         <PatternFormat
           name={phone.name}
@@ -73,6 +75,7 @@ const TelephoneContactField = ({
           <Tooltip content="Remover telefone" showArrow>
             <IconButton
               type="button"
+              aria-label="Remover telefone"
               alignSelf={{ base: 'center', xl: 'flex-start' }}
               size="xs"
               rounded="full"
@@ -86,6 +89,7 @@ const TelephoneContactField = ({
         )}
         <Tooltip content="Telefone fixo" showArrow>
           <IconButton
+            aria-label="Telefone fixo"
             type="button"
             alignSelf={{ base: 'center', xl: 'flex-start' }}
             size="xs"
@@ -98,6 +102,7 @@ const TelephoneContactField = ({
         </Tooltip>
         <Tooltip content="Telefone celular" showArrow>
           <IconButton
+            aria-label="Telefone celular"
             type="button"
             alignSelf={{ base: 'center', xl: 'flex-start' }}
             size="xs"

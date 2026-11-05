@@ -164,10 +164,10 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
         )}
       />
 
-      <FormPhonesCustomer form={form} gridColumn={{ base: 'span 2' }} />
+      <FormPhonesCustomer form={form} gridColumn="1 / -1" />
 
       <Field
-        gridColumn={{ base: 'span 2' }}
+        gridColumn="1 / -1"
         invalid={!!form.formState.errors.notes}
         errorText={form.formState.errors.notes?.message}
       >

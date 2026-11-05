@@ -27,7 +27,9 @@ const FilterServicesEstablishmentStatus = () => {
       variant="subtle"
       size="sm"
       collection={loadCollectionStatusActives}
-      w="250px"
+      w={{ base: 'full', md: '250px' }}
+      minW="0"
+      maxW="full"
       value={[status]}
       onValueChange={(e) => onChangeStatus(e.value)}
     >

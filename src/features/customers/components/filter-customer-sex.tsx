@@ -25,7 +25,9 @@ const FilterCustomerSex = () => {
       variant="subtle"
       size="sm"
       collection={selectMaxCustomers}
-      w="250px"
+      w={{ base: 'full', md: '250px' }}
+      minW="0"
+      maxW="full"
       value={[customerSex ?? search.sex ?? '']}
       onValueChange={(e) => onChangeCustomerSex(e.value[0])}
     >

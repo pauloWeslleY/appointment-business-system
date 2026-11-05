@@ -56,5 +56,6 @@ export const mapLabelActions = (actions: string[]) => {
   const labeledActions = actions.map(
     (action) => mapLabelAction[action] ?? action,
   )
+
   return labeledActions
 }

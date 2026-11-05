@@ -43,8 +43,10 @@ const DialogDocumentTaxInformation = ({
         title: 'Erro ao carregar informações fiscais',
         description: errorTaxInformationDocument.message,
       })
+
       return
     }
+
     onOpen(open)
   }
 
@@ -59,7 +61,9 @@ const DialogDocumentTaxInformation = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content css={contentCss}>
+          <Dialog.Content
+            css={contentCss}
+          >
             <Dialog.Header>
               <Dialog.Title>Informações dos Dados Fiscais</Dialog.Title>
             </Dialog.Header>
@@ -138,7 +142,7 @@ const DialogDocumentTaxInformation = ({
                 </DataList.Root>
               )}
             </Dialog.Body>
-            <Dialog.Footer>
+            <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   rounded="lg"

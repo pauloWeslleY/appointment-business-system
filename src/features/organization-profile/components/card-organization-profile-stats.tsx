@@ -37,6 +37,7 @@ const CardOrganizationProfileStats = ({
   const memberOwner = organization.members.find((member) =>
     hasMemberOwner(member.role),
   )
+
   const statusOrganizationProfile = mapStatusOrganizationProfile(
     organizationProfile.status,
   )

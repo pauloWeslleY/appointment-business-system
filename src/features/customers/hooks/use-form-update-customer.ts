@@ -12,11 +12,13 @@ import {
   toCustomerFormValues,
   toCustomerRequestValues,
 } from '../utils/customer-form-values'
+
 export function useFormUpdateCustomer(customer: CustomerApiResponse) {
   const formUpdateCustomer = useForm<CustomerFormData>({
     resolver: zodResolver(CustomerFormSchema),
     defaultValues: toCustomerFormValues(customer),
   })
+
   const { mutateAsync: updateCustomer, isPending: isPendingUpdateCustomer } =
     useMutation(customersMutationOptions.update())
   const onSubmitUpdateCustomer = formUpdateCustomer.handleSubmit(
@@ -24,10 +26,12 @@ export function useFormUpdateCustomer(customer: CustomerApiResponse) {
       if (isPendingUpdateCustomer) {
         return
       }
+
       if (!formUpdateCustomer.formState.isDirty) {
         toaster.warning({ title: 'Nenhuma alteração foi feita' })
         return
       }
+
       try {
         const updatedCustomer = await updateCustomer({
           ...toCustomerRequestValues(data),
@@ -37,6 +41,7 @@ export function useFormUpdateCustomer(customer: CustomerApiResponse) {
           id: customer.id,
           userId: customer.userId,
         })
+
         formUpdateCustomer.reset(toCustomerFormValues(updatedCustomer))
         toaster.success({ title: 'Cliente atualizado com sucesso' })
       } catch (error) {
@@ -48,5 +53,6 @@ export function useFormUpdateCustomer(customer: CustomerApiResponse) {
       }
     },
   )
+
   return { formUpdateCustomer, onSubmitUpdateCustomer, isPendingUpdateCustomer }
 }

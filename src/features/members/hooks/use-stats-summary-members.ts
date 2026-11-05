@@ -32,6 +32,7 @@ export function useStatsSummaryMembers() {
     const filteredInvitesPending = listInvites?.invitations.filter(
       (invite) => invite.status === StatusInvitations.PENDING,
     )
+
     const totalMembers = listMembers?.total?.toString() ?? '0'
     const totalInvites = filteredInvitesPending?.length.toString() ?? '0'
 

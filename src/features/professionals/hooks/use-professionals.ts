@@ -6,6 +6,7 @@ import {
   professionalDetailsQueryOptions,
   professionalsListQueryOptions,
 } from '../queries/professionals.query-options'
+
 export function useProfessionals(establishmentId: string) {
   const { data: session } = authClient.useSession()
   return useQuery(
@@ -16,6 +17,7 @@ export function useProfessionals(establishmentId: string) {
     ),
   )
 }
+
 export function useProfessional(professionalId?: string) {
   const { data: session } = authClient.useSession()
   return useQuery(

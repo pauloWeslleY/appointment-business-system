@@ -89,7 +89,7 @@ const Footer = () => {
             © {new Date().getFullYear()} System Appointment. Todos os direitos
             reservados.
           </Text>
-          <Text whiteSpace="nowrap">🇧🇷 Português (BR)</Text>
+          <Text>🇧🇷 Português (BR)</Text>
         </Flex>
       </Container>
     </Box>

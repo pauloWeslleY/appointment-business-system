@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import { useMemo } from 'react'
 
-import { useGetBookingByService } from '@/features/bookings/hooks/use-get-list-booking-by-services'
+import { useGetAppointmentByService } from '@/features/appointment/hooks/use-get-list-appointment-by-services'
 import type { OpeningHoursDayProps } from '@/shared/types/opening-hours.type'
 import { generateDayTimeList } from '@/shared/utils/generate-time-list'
 
@@ -30,7 +30,8 @@ export function useSelectHoursEstablishment({
       establishmentQueryKeys.detail(establishmentId),
     )
 
-  const { data: bookingsByService } = useGetBookingByService({
+  const { data: bookingsByService } = useGetAppointmentByService({
+    establishmentId,
     serviceId,
     date: selectedDay.toISOString(),
   })
@@ -51,7 +52,9 @@ export function useSelectHoursEstablishment({
   }, [loadEstablishment?.openingHours])
 
   const getTimeList = useMemo(() => {
-    if (!selectedDay) return []
+    if (!selectedDay) {
+      return []
+    }
 
     const time = generateDayTimeList({
       date: selectedDay,
@@ -79,21 +82,28 @@ export function useSelectHoursEstablishment({
       const hasTimePast = dayjs(hasTimeIsPast).isBefore()
       const hasCurrentDate = dayjs(selectedDay).isToday()
 
-      if (hasDateIsPast) return false
-      if (hasTimePast && hasCurrentDate) return false
+      if (hasDateIsPast) {
+        return false
+      }
 
-      const listBookings = (bookingsByService ?? []).map((booking) => ({
-        ...booking,
-        date: new Date(booking.date),
+      if (hasTimePast && hasCurrentDate) {
+        return false
+      }
+
+      const listBookings = (bookingsByService ?? []).map((appointment) => ({
+        ...appointment,
+        date: new Date(appointment.startsAt),
       }))
 
       const hasHourAvailable = listBookings.some(
-        (booking) =>
-          booking.date.getHours() === hour &&
-          booking.date.getMinutes() === minutes,
+        (appointment) =>
+          appointment.date.getHours() === hour &&
+          appointment.date.getMinutes() === minutes,
       )
 
-      if (hasHourAvailable) return false
+      if (hasHourAvailable) {
+        return false
+      }
 
       return true
     })

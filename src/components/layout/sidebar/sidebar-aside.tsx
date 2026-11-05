@@ -25,12 +25,11 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
   return (
     <Stack
       as="aside"
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: 'none', lg: 'flex' }}
+      flexShrink="0"
       gap="0"
       align="flex-start"
       h="dvh"
-      px="2"
-      pb="10"
       bg="sidebar.aside.bg"
       w={collapsed ? '20' : '60'}
       transition="width 0.2s ease"
@@ -50,7 +49,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
           shadow="2xs"
           pos="absolute"
           top="4"
-          right="-3"
+          right="-2"
           zIndex="2"
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
@@ -63,64 +62,75 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
         </IconButton>
       </Tooltip>
 
-      <Box w="full">
-        <Flex
-          px="4"
-          py="5"
-          align="center"
-          justify={collapsed ? 'center' : 'flex-start'}
-          gap="2"
-        >
-          <Logotipo variant="app" boxSize="10" />
-
-          {!collapsed && (
-            <div>
-              <Text
-                fontFamily="heading"
-                fontWeight="semibold"
-                fontSize="lg"
-                color={{ base: 'navy.800', _dark: 'sea.300' }}
-              >
-                System
-              </Text>
-              <Text
-                fontFamily="heading"
-                fontWeight="semibold"
-                fontSize="xs"
-                color={{ base: 'navy.800', _dark: 'sea.300' }}
-              >
-                Appointment
-              </Text>
-            </div>
-          )}
-        </Flex>
-
-        <Separator
-          borderColor={{ base: 'gray.700', _dark: 'colorPalette.800/60' }}
-        />
-
-        <Flex
-          as="nav"
-          direction="column"
-          fontSize="sm"
-          aria-label="Main Navigation"
-          mt="2"
-          gap="1"
-        >
-          {props.children}
-        </Flex>
-      </Box>
-
-      <Flex
-        flexDir="column"
-        flex="1"
+      <Stack
         w="full"
-        gap="4"
-        align="center"
-        justify="flex-end"
+        h="full"
+        minH="0"
+        overflowY="auto"
+        gap="0"
+        align="flex-start"
+        px="2"
+        pb="10"
       >
-        {!loading && <CurrentPlan />}
-      </Flex>
+        <Box w="full">
+          <Flex
+            px="4"
+            py="5"
+            align="center"
+            justify={collapsed ? 'center' : 'flex-start'}
+            gap="2"
+          >
+            <Logotipo variant="app" boxSize="10" />
+
+            {!collapsed && (
+              <div>
+                <Text
+                  fontFamily="heading"
+                  fontWeight="semibold"
+                  fontSize="lg"
+                  color={{ base: 'navy.800', _dark: 'sea.300' }}
+                >
+                  System
+                </Text>
+                <Text
+                  fontFamily="heading"
+                  fontWeight="semibold"
+                  fontSize="xs"
+                  color={{ base: 'navy.800', _dark: 'sea.300' }}
+                >
+                  Appointment
+                </Text>
+              </div>
+            )}
+          </Flex>
+
+          <Separator
+            borderColor={{ base: 'gray.700', _dark: 'colorPalette.800/60' }}
+          />
+
+          <Flex
+            as="nav"
+            direction="column"
+            fontSize="sm"
+            aria-label="Main Navigation"
+            mt="2"
+            gap="1"
+          >
+            {props.children}
+          </Flex>
+        </Box>
+
+        <Flex
+          flexDir="column"
+          flex="1"
+          w="full"
+          gap="4"
+          align="center"
+          justify="flex-end"
+        >
+          {!loading && <CurrentPlan />}
+        </Flex>
+      </Stack>
     </Stack>
   )
 }

@@ -25,11 +25,13 @@ export function useSubscriptionBilling() {
     subscriptionSnapshot,
     'create',
   )
+
   const canUpdateSubscription = canManageSubscription(
     authenticatedSubscriptionContext,
     subscriptionSnapshot,
     'update',
   )
+
   const subscriptionCommandMutation =
     subscriptionWorkspace.subscriptionCommandMutation
   const subscription = subscriptionSnapshot.subscription
@@ -44,6 +46,7 @@ export function useSubscriptionBilling() {
   const isCheckoutEligibleStatus = checkoutEligibleStatuses.has(
     subscriptionSnapshot.access.status,
   )
+
   const canStartCheckout = canCreateSubscription && isCheckoutEligibleStatus
   const canScheduleBillingInterval =
     canUpdateSubscription &&

@@ -14,15 +14,15 @@ import { useMemo, useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
-import { getBadgeBookingColor } from '@/features/bookings/constants/get-badge-booking-color'
-import { bookingStatusLabel } from '@/features/bookings/types/booking-status.type'
+import { getBadgeAppointmentColor } from '@/features/appointment/constants/get-badge-appointment-color'
+import { appointmentStatusLabel } from '@/features/appointment/types/appointment-status.type'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
 import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
 
 interface HistoryBookingServiceTableProps {
-  servicesBookings: ServiceEstablishmentDetailsModel['bookings']
+  servicesBookings: ServiceEstablishmentDetailsModel['appointments']
 }
 
 const HistoryBookingServiceTable = ({
@@ -40,23 +40,24 @@ const HistoryBookingServiceTable = ({
       shallow: false,
     },
   )
+
   const search = useSearch({
     from: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/',
   })
 
   const historyBookingServices = useMemo(
     () =>
-      servicesBookings.map((booking) => ({
-        id: booking.id,
-        date: formattedDateAndHours(booking.date, true),
-        status: booking.status,
-        client: booking.user.name,
-        observations: booking.notes ?? '-',
+      servicesBookings.map((appointment) => ({
+        id: appointment.id,
+        date: formattedDateAndHours(appointment.date, true),
+        status: appointment.status,
+        client: appointment.user.name,
+        observations: appointment.notes ?? '-',
       })),
     [servicesBookings],
   )
 
-  const visibleBookings = useMemo(() => {
+  const visibleAppointments = useMemo(() => {
     const start = (pagination.page - 1) * pagination.page_size
     const end = start + pagination.page_size
     return historyBookingServices.slice(start, end)
@@ -86,42 +87,57 @@ const HistoryBookingServiceTable = ({
       )}
 
       {!isPendingPagination && (
-        <Table.Root size="sm">
-          <Table.Header>
-            <Table.Row bg="transparent">
-              <Table.ColumnHeader>Data e Horário</Table.ColumnHeader>
-              <Table.ColumnHeader>Status</Table.ColumnHeader>
-              <Table.ColumnHeader>Cliente</Table.ColumnHeader>
-              <Table.ColumnHeader>Observações</Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
-            {visibleBookings.map((booking) => (
-              <Table.Row key={booking.id} bg="transparent">
-                <Table.Cell>{booking.date}</Table.Cell>
-                <Table.Cell>
-                  <Badge
-                    colorPalette={getBadgeBookingColor[booking.status]}
-                    w="fit-content"
-                  >
-                    {bookingStatusLabel[booking.status]}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell>{booking.client}</Table.Cell>
-                <Table.Cell>{booking.observations}</Table.Cell>
+        <Table.ScrollArea
+          maxW="full"
+          tabIndex={0}
+          aria-label="Histórico de agendamentos: role para ver todas as colunas"
+        >
+          <Table.Root size="sm" minW="36rem">
+            <Table.Header>
+              <Table.Row bg="transparent">
+                <Table.ColumnHeader>Data e Horário</Table.ColumnHeader>
+                <Table.ColumnHeader>Status</Table.ColumnHeader>
+                <Table.ColumnHeader>Cliente</Table.ColumnHeader>
+                <Table.ColumnHeader>Observações</Table.ColumnHeader>
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
+            </Table.Header>
+
+            <Table.Body>
+              {visibleAppointments.map((appointment) => (
+                <Table.Row key={appointment.id} bg="transparent">
+                  <Table.Cell>{appointment.date}</Table.Cell>
+                  <Table.Cell>
+                    <Badge
+                      colorPalette={
+                        getBadgeAppointmentColor[appointment.status]
+                      }
+                      w="fit-content"
+                    >
+                      {appointmentStatusLabel[appointment.status]}
+                    </Badge>
+                  </Table.Cell>
+                  <Table.Cell>{appointment.client}</Table.Cell>
+                  <Table.Cell>{appointment.observations}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.ScrollArea>
       )}
 
       <Flex
         flexDir={{ base: 'column', md: 'row' }}
         justify="space-between"
+        flexWrap="wrap"
+        gap="3"
         w="full"
       >
-        <Flex flexDir={{ base: 'column', md: 'row' }} align="center" gap="2">
+        <Flex
+          flexDir={{ base: 'column', md: 'row' }}
+          align="center"
+          gap="2"
+          flexWrap="wrap"
+        >
           <PaginationTable
             count={historyBookingServices.length}
             pageSize={pagination.page_size}
@@ -143,7 +159,7 @@ const HistoryBookingServiceTable = ({
           mt={{ base: '2', md: '0' }}
         >
           <Text fontSize="sm" color="gray.400">
-            {`Exibindo ${visibleBookings.length} de ${historyBookingServices.length} agendamentos`}
+            {`Exibindo ${visibleAppointments.length} de ${historyBookingServices.length} agendamentos`}
           </Text>
         </Box>
       </Flex>

@@ -43,9 +43,11 @@ export const createTaxInformationService = async (
     method: HttpMethod.POST,
     body: CreateTaxInformationApiRequestSchema.parse(data),
   })
+
   const validatedResponse = CreateTaxInformationApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
@@ -69,9 +71,11 @@ export const updateTaxInformationService = async (
       status: data.status,
     }),
   })
+
   const validatedResponse = UpdateTaxInformationApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
@@ -88,9 +92,11 @@ export const getLegalEntityListService = async (
     method: HttpMethod.GET,
     params: QueryParamsListTaxInformationApiSchema.parse(queryString),
   })
+
   const validatedResponse = LegalEntityListApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
@@ -111,9 +117,11 @@ export const getLegalEntityItemService = async (
     url: `/admin/legal-entities/${legalEntityId}`,
     method: HttpMethod.GET,
   })
+
   const validatedResponse = z
     .object({ legalEntity: LegalEntityListItemApiResponseSchema })
     .safeParse(validate.errors(response))
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }
@@ -131,9 +139,11 @@ export const getLegalEntityDocumentService = async (
     url: `/admin/legal-entities/${legalEntityId}/document`,
     method: HttpMethod.GET,
   })
+
   const validatedResponse = TaxInformationDocumentApiResponseSchema.safeParse(
     validate.errors(response),
   )
+
   if (!validatedResponse.success) {
     throw new BadRequestError(z.prettifyError(validatedResponse.error))
   }

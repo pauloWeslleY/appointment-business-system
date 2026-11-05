@@ -22,6 +22,8 @@ const FormTelephoneEstablishment = () => {
       aria-label="Form Telephones"
       gridColumn={{ base: 'span 1', md: '1 / -1' }}
       w="full"
+      minW="0"
+      flexDir={{ base: 'column', xl: 'row' }}
       gap="4"
       pl="2"
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
@@ -44,7 +46,7 @@ const FormTelephoneEstablishment = () => {
         </Button>
       </chakra.div>
 
-      <Stack direction="row" wrap="wrap" flex="1">
+      <Stack direction="row" wrap="wrap" flex="1" minW="0">
         {telephoneFields.map((input, index) => (
           <TelephoneContactField
             key={input.id}

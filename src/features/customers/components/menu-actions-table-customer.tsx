@@ -81,8 +81,10 @@ const MenuActionsTableCustomers = ({
             title: 'Cliente inativo',
             description: 'Não é possível editar um cliente inativo.',
           })
+
           return
         }
+
         handleOpenSidebarUpdateCustomers(true)
       },
       disabled: !customer.active,

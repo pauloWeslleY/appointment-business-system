@@ -43,9 +43,9 @@ function SettingsPage() {
         <Card.Root variant="outline" {...cardSectionCss}>
           <Card.Header
             display="flex"
-            flexDir="row"
+            flexDir={{ base: 'column', md: 'row' }}
             justifyContent="space-between"
-            alignItems="center"
+            alignItems={{ base: 'flex-start', md: 'center' }}
             px="0"
             pt="0"
           >
@@ -62,7 +62,13 @@ function SettingsPage() {
           <LegalEntitiesTable />
         </Card.Root>
 
-        <Grid templateColumns={{ base: '1fr', lg: '600px 1fr' }} gap="4">
+        <Grid
+          templateColumns={{
+            base: 'minmax(0, 1fr)',
+            xl: 'repeat(2, minmax(0, 1fr))',
+          }}
+          gap="4"
+        >
           <GridItem asChild>
             <MeAccess access={memberContext} />
           </GridItem>
@@ -70,8 +76,8 @@ function SettingsPage() {
           <Card.Root variant="outline" {...cardSectionCss}>
             <Card.Header
               display="flex"
-              flexDir="row"
-              alignItems="center"
+              flexDir={{ base: 'column', md: 'row' }}
+              alignItems={{ base: 'flex-start', md: 'center' }}
               px="0"
               pt="0"
               mb="2"

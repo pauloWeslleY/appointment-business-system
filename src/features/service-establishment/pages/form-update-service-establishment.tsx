@@ -3,11 +3,9 @@ import {
   Box,
   Button,
   chakra,
-  FileUpload,
   Flex,
   GridItem,
   HStack,
-  Icon,
   Image,
   Separator,
   SimpleGrid,
@@ -15,13 +13,9 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
-import { Upload } from 'lucide-react'
-import { Controller } from 'react-hook-form'
-import { NumericFormat } from 'react-number-format'
 
-import InputField from '@/components/input-field'
-import { Field } from '@/components/ui/field'
-
+import FieldsServiceEstablishment from '../components/fields-service-establishment'
+import UploadImageServiceEstablishment from '../components/upload-image-service-establishment'
 import { useFormUpdateServiceEstablishment } from '../hooks/use-form-update-service-establishment'
 
 const serviceEstablishmentPageRoute = getRouteApi(
@@ -48,54 +42,14 @@ const FormUpdateServiceEstablishment = () => {
       gap="4"
       onSubmit={handleSubmit(onSubmitUpdateServiceEstablishment)}
     >
-      <SimpleGrid columns={{ base: 1, md: 4 }} gap="4" w="full">
-        <Field
-          gridColumn={{ base: 'span 1' }}
-          invalid={!!errors.name}
-          errorText={errors.name?.message}
-        >
-          <InputField
-            {...register('name')}
-            placeholder="Digite o nome do serviço"
-          />
-        </Field>
-
-        <Controller
+      <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
+        <FieldsServiceEstablishment
           control={control}
-          name="servicePriceInCents"
-          render={({ field }) => (
-            <Field
-              invalid={Boolean(errors.servicePriceInCents)}
-              errorText={errors.servicePriceInCents?.message}
-            >
-              <NumericFormat
-                value={field.value / 100}
-                onValueChange={(value) => field.onChange(value.floatValue)}
-                decimalScale={2}
-                fixedDecimalScale
-                decimalSeparator=","
-                allowNegative={false}
-                allowLeadingZeros={false}
-                thousandSeparator="."
-                customInput={InputField}
-                prefix="R$"
-              />
-            </Field>
-          )}
+          register={register}
+          errors={errors}
         />
 
-        <Field
-          gridColumn={{ base: 'span 1', md: 'span 2' }}
-          invalid={!!errors.description}
-          errorText={errors.description?.message}
-        >
-          <InputField
-            {...register('description')}
-            placeholder="Digite a descrição do serviço"
-          />
-        </Field>
-
-        <GridItem colSpan={{ base: 1, md: 4 }} asChild>
+        <GridItem gridColumn="1 / -1" asChild>
           <HStack>
             <Text flexShrink="0">Imagem do serviço</Text>
             <Separator
@@ -105,10 +59,10 @@ const FormUpdateServiceEstablishment = () => {
           </HStack>
         </GridItem>
 
-        <GridItem colSpan={{ base: 1, md: 4 }}>
-          <Flex gap="2">
-            {serviceEstablishment?.imageUrl && (
-              <Box flex="1">
+        <GridItem gridColumn="1 / -1">
+          <Flex gap="2" flexWrap="wrap">
+            {serviceEstablishment.imageUrl && (
+              <Box flex="1" minW={{ base: 'full', md: '0' }}>
                 <Image
                   border="1px solid"
                   borderColor={{
@@ -120,42 +74,14 @@ const FormUpdateServiceEstablishment = () => {
                   h="48"
                   fit="contain"
                   src={serviceEstablishment.imageUrl}
+                  alt={`Imagem atual do serviço ${serviceEstablishment.name}`}
                 />
               </Box>
             )}
 
-            <Controller
-              name="image"
+            <UploadImageServiceEstablishment
               control={control}
-              render={({ field }) => (
-                <FileUpload.Root
-                  flex={serviceEstablishment?.imageUrl ? '1' : 'inherit'}
-                  alignItems="stretch"
-                  maxFiles={10}
-                  rounded="xl"
-                >
-                  <FileUpload.HiddenInput
-                    onChange={(e) => field.onChange(e.target.files)}
-                  />
-                  <FileUpload.Dropzone
-                    rounded="xl"
-                    bg="gray.700/10"
-                    borderColor={{
-                      base: 'gray.200',
-                      _dark: 'secondary.500/20',
-                    }}
-                  >
-                    <Icon size="md" color="fg.muted">
-                      <Upload />
-                    </Icon>
-                    <FileUpload.DropzoneContent>
-                      <Box>Drag and drop files here</Box>
-                      <Box color="fg.muted">.png, .jpg up to 5MB</Box>
-                    </FileUpload.DropzoneContent>
-                  </FileUpload.Dropzone>
-                  <FileUpload.List />
-                </FileUpload.Root>
-              )}
+              errors={errors}
             />
           </Flex>
         </GridItem>
@@ -170,8 +96,9 @@ const FormUpdateServiceEstablishment = () => {
         colorPalette="emerald"
         variant="subtle"
         loading={isUpdatingServiceEstablishment}
+        loadingText="Salvando..."
       >
-        Editar
+        Salvar alterações
       </Button>
 
       {isUpdatingServiceEstablishment && (
@@ -179,6 +106,7 @@ const FormUpdateServiceEstablishment = () => {
           borderStartWidth="3px"
           borderStartColor="colorPalette.600"
           mt="2"
+          role="status"
         >
           <Alert.Indicator>
             <Spinner size="sm" />

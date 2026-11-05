@@ -2,6 +2,7 @@ import { Button, chakra, Stack } from '@chakra-ui/react'
 
 import { useFormCreateProfessional } from '../hooks/use-form-create-professional'
 import ProfessionalFormFields from './professional-form-fields'
+
 const CreateProfessionalForm = ({
   establishmentId,
   onSaved,
@@ -18,11 +19,22 @@ const CreateProfessionalForm = ({
         <chakra.fieldset disabled={isSubmitting} border="0" minW="0">
           <ProfessionalFormFields form={form} />
         </chakra.fieldset>
-        <Button type="submit" loading={isSubmitting} disabled={isSubmitting}>
+        <Button
+          type="submit"
+          size="sm"
+          rounded="xl"
+          w="fit"
+          alignSelf="flex-end"
+          colorPalette="emerald"
+          variant="subtle"
+          loading={isSubmitting}
+          disabled={isSubmitting}
+        >
           Cadastrar profissional
         </Button>
       </Stack>
     </chakra.form>
   )
 }
+
 export default CreateProfessionalForm

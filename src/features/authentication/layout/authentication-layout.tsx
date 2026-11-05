@@ -19,16 +19,17 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
         pos="absolute"
         top="2"
         right="2"
-        display={{ base: 'block', md: 'none' }}
+        display={{ base: 'block', xl: 'none' }}
       >
         <ColorModeButton rounded="full" variant="ghost" />
       </Box>
 
-      <SimpleGrid columns={{ base: 1, md: 3 }} w="full" h="full" flex="1">
+      <SimpleGrid columns={{ base: 1, xl: 3 }} w="full" h="full" flex="1">
         <BannerAuth />
 
         <GridItem
           colSpan={1}
+          minW="0"
           p={{ base: '4', md: '8' }}
           rounded="4xl"
           bg={{ _light: 'slate.100/40', _dark: 'slate.900/40' }}

@@ -116,7 +116,7 @@ const FormUpdateOrganizationProfile = () => {
             label="Status"
             invalid={!!errors.status}
             errorText={errors.status?.message}
-            gridColumn="span 2"
+            gridColumn="1 / -1"
           >
             <Controller
               name="status"
@@ -127,7 +127,7 @@ const FormUpdateOrganizationProfile = () => {
                   value={field.value}
                   onValueChange={({ value }) => field.onChange(value)}
                 >
-                  <HStack gap="6">
+                  <HStack gap="4" flexWrap="wrap">
                     {filteredStatusOptions.map((item) => (
                       <RadioGroup.Item key={item.value} value={item.value}>
                         <RadioGroup.ItemHiddenInput onBlur={field.onBlur} />

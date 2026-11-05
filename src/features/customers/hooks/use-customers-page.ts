@@ -7,7 +7,7 @@ import { useGetAllCustomersByEstablishment } from './use-get-all-customers-by-es
 const dashboardRoute = getRouteApi('/dashboard/$slug')
 
 export function useCustomersPage() {
-  const establishment = dashboardRoute.useLoaderData()
+  const { establishment } = dashboardRoute.useLoaderData()
   const { data: session } = authClient.useSession()
   const { data, error, isLoading, refetch } = useGetAllCustomersByEstablishment(
     establishment.id,

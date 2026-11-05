@@ -20,25 +20,28 @@ const StatsEstablishments = () => {
   const { data: organizationProfile } = useQuery(
     organizationProfileSummaryQueryOptions(),
   )
-  const getEstablishmentsByOwner = queryClient.getQueryData<
-    EstablishmentOrganizationProfileApiResponse[]
-  >(establishmentQueryKeys.organizationProfile(organizationProfile?.id))
-  const breakPoints = useBreakpointValue({ base: 'horizontal', md: 'vertical' })
 
-  const getStatInfoEstablishments = useMemo(() => {
-    const totalEstablishments = getEstablishmentsByOwner?.length ?? 0
-    const totalEstablishmentsOpening = getEstablishmentsByOwner?.filter(
+  const establishmentsByOrganization = queryClient.getQueryData<
+    EstablishmentOrganizationProfileApiResponse[]
+  >(establishmentQueryKeys.organization(organizationProfile?.organizationId))
+  const separatorOrientation = useBreakpointValue({
+    base: 'horizontal',
+    md: 'vertical',
+  })
+
+  const establishmentStats = useMemo(() => {
+    const totalEstablishments = establishmentsByOrganization?.length ?? 0
+    const openEstablishments = establishmentsByOrganization?.filter(
       (establishment) =>
         validateOpeningHoursEstablishment(establishment).establishmentOpen,
     )
 
     return {
       total: totalEstablishments,
-      totalOpening: totalEstablishmentsOpening?.length ?? 0,
-      totalClosed:
-        totalEstablishments - (totalEstablishmentsOpening?.length ?? 0),
+      totalOpening: openEstablishments?.length ?? 0,
+      totalClosed: totalEstablishments - (openEstablishments?.length ?? 0),
     }
-  }, [getEstablishmentsByOwner])
+  }, [establishmentsByOrganization])
 
   return (
     <Card.Root
@@ -55,13 +58,13 @@ const StatsEstablishments = () => {
         flexDir={{ base: 'row', md: 'column' }}
       >
         <Stat.Label>Total de Estabelecimentos</Stat.Label>
-        <Stat.ValueText>{getStatInfoEstablishments.total}</Stat.ValueText>
+        <Stat.ValueText>{establishmentStats.total}</Stat.ValueText>
       </Stat.Root>
 
       <Separator
-        orientation={breakPoints as SeparatorProps['orientation']}
-        height={{ base: 'auto', lg: '14' }}
-        width={{ base: 'full', lg: 'auto' }}
+        orientation={separatorOrientation as SeparatorProps['orientation']}
+        height={{ base: 'auto', md: '14' }}
+        width={{ base: 'full', md: 'auto' }}
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       />
 
@@ -71,15 +74,13 @@ const StatsEstablishments = () => {
         flexDir={{ base: 'row', md: 'column' }}
       >
         <Stat.Label>Total de Estabelecimentos Abertos</Stat.Label>
-        <Stat.ValueText>
-          {getStatInfoEstablishments.totalOpening}
-        </Stat.ValueText>
+        <Stat.ValueText>{establishmentStats.totalOpening}</Stat.ValueText>
       </Stat.Root>
 
       <Separator
-        orientation={breakPoints as SeparatorProps['orientation']}
-        height={{ base: 'auto', lg: '14' }}
-        width={{ base: 'full', lg: 'auto' }}
+        orientation={separatorOrientation as SeparatorProps['orientation']}
+        height={{ base: 'auto', md: '14' }}
+        width={{ base: 'full', md: 'auto' }}
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       />
 
@@ -89,7 +90,7 @@ const StatsEstablishments = () => {
         flexDir={{ base: 'row', md: 'column' }}
       >
         <Stat.Label>Total de Estabelecimentos Fechados</Stat.Label>
-        <Stat.ValueText>{getStatInfoEstablishments.totalClosed}</Stat.ValueText>
+        <Stat.ValueText>{establishmentStats.totalClosed}</Stat.ValueText>
       </Stat.Root>
     </Card.Root>
   )

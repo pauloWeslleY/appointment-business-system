@@ -11,6 +11,7 @@ import type {
   ProfessionalFormData,
   ProfessionalFormInput,
 } from '../types/professional-form.type'
+
 export function useFormCreateProfessional(
   establishmentId: string,
   onSaved: () => void,
@@ -19,12 +20,14 @@ export function useFormCreateProfessional(
     resolver: zodResolver(ProfessionalFormSchema),
     defaultValues: professionalFormDefaultValues,
   })
+
   const { mutateAsync: createProfessional, isPending: isCreatingProfessional } =
     useMutation(professionalsMutationOptions.create())
   const handleCreateProfessional = form.handleSubmit(async (values) => {
     if (isCreatingProfessional) {
       return
     }
+
     try {
       await createProfessional({ values, establishmentId })
       form.reset()
@@ -37,5 +40,6 @@ export function useFormCreateProfessional(
       })
     }
   })
+
   return { form, handleCreateProfessional, isCreatingProfessional }
 }

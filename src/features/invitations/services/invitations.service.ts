@@ -24,6 +24,7 @@ export const listInvitationsService = async (signal?: AbortSignal) => {
     url: '/admin/invitations',
     signal,
   })
+
   const parsedResponse = ListInvitationsApiSchema.safeParse(
     validate.errors(response),
   )
@@ -60,6 +61,7 @@ export const cancelInvitationService = async (invitationId: string) => {
     method: HttpMethod.POST,
     url: `/admin/invitations/${encodeURIComponent(z.string().min(1).parse(invitationId))}/cancel`,
   })
+
   const parsedResponse = InvitationApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -78,6 +80,7 @@ export const acceptInvitationService = async (invitationId: string) => {
     method: HttpMethod.POST,
     url: `/account/invitations/${encodeURIComponent(z.string().min(1).parse(invitationId))}/accept`,
   })
+
   const parsedResponse = AcceptInvitationApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -99,6 +102,7 @@ export const getInvitationService = async (
     signal,
     url: `/account/invitations/${encodeURIComponent(z.string().min(1).parse(invitationId))}`,
   })
+
   const parsedResponse = InvitationApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -116,6 +120,7 @@ export const getInvitationPreviewService = async (invitationId: string) => {
     method: HttpMethod.GET,
     url: `/account/invitations/${encodeURIComponent(z.string().min(1).parse(invitationId))}/preview`,
   })
+
   const parsedResponse = GetInvitationPreviewApiSchema.safeParse(
     validate.errors(response),
   )

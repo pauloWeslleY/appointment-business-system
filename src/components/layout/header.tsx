@@ -13,7 +13,8 @@ import type { ElementType } from 'react'
 const baseHeaderTitleRecipe = defineRecipe({
   className: 'base-header-title',
   base: {
-    fontSize: '2xl',
+    fontSize: { base: 'xl', md: '2xl' },
+    overflowWrap: 'anywhere',
     fontWeight: 'light',
     fontFamily: 'heading',
     color: { _light: 'colorPalette.600', _dark: 'colorPalette.200' },
@@ -36,6 +37,7 @@ const HeaderIcon = (props: { icon: ElementType }) => {
       align="center"
       justify="center"
       boxSize="8"
+      flexShrink="0"
       rounded="lg"
       bg={{ _light: 'primary.200/60', _dark: 'primary.500/80' }}
     >
@@ -49,7 +51,9 @@ const HeaderIcon = (props: { icon: ElementType }) => {
 }
 
 const HeaderRoot = (props: FlexProps) => {
-  return <Flex {...props} align="center" gap="2" w="full" />
+  return (
+    <Flex align="center" gap="2" w="full" minW="0" flexWrap="wrap" {...props} />
+  )
 }
 
 const HeaderButton = (props: IconButtonProps) => {
@@ -60,7 +64,7 @@ const HeaderButton = (props: IconButtonProps) => {
   return (
     <IconButton
       {...props}
-      size="2xs"
+      size="sm"
       rounded="full"
       variant="ghost"
       aria-label="Voltar"

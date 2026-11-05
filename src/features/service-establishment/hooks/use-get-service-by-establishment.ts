@@ -1,12 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { serviceEstablishmentQueryKeys } from '../queries/service-establishment-query-key'
-import { getServicesByEstablishmentService } from '../services/service-establishment.service'
+import { authClient } from '@/lib/auth'
 
-export const useGetServiceByEstablishment = (establishmentId: string) => {
-  return useQuery({
-    queryKey: serviceEstablishmentQueryKeys.detail(establishmentId),
-    queryFn: () => getServicesByEstablishmentService(establishmentId),
-    enabled: establishmentId.trim() !== '',
-  })
+import { serviceEstablishmentListQueryOptions } from '../queries/service-establishment.query-options'
+
+export function useGetServiceByEstablishment(establishmentId: string) {
+  const { data: session } = authClient.useSession()
+  return useQuery(
+    serviceEstablishmentListQueryOptions(
+      establishmentId,
+      session?.session.activeOrganizationId ?? undefined,
+      session?.user.id,
+    ),
+  )
 }

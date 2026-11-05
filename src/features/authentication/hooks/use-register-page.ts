@@ -28,6 +28,7 @@ export function useRegisterPage() {
       password: '',
     },
   })
+
   const redirectTo = getCookie('redirectTo')
   const hasRedirectTo = Boolean(redirectTo)
 
@@ -61,6 +62,7 @@ export function useRegisterPage() {
             title: 'Ops! não foi possível realizar o cadastro',
             description: _error || 'Erro ao realizar cadastro',
           })
+
           setError('root', {
             type: 'custom',
             message: _error || 'Erro ao realizar cadastro',

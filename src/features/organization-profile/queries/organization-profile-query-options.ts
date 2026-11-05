@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { getFullOrganization } from '../services/organization.service'
-import { getOrganizationProfileService } from '../services/organizaton-profile.service'
+import { getOrganizationProfileService } from '../services/organization-profile.service'
 import {
   organizationProfileQueryKeys,
   organizationQueryKeys,

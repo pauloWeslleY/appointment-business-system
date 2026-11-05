@@ -35,7 +35,7 @@ const NavBarLandingPage = () => {
         </Link>
         <HStack
           gap="7"
-          display={{ base: 'none', md: 'flex' }}
+          display={{ base: 'none', lg: 'flex' }}
           fontSize="md"
           color="brand.slate"
         >
@@ -52,7 +52,7 @@ const NavBarLandingPage = () => {
           ))}
         </HStack>
 
-        <HStack gap="3" display={{ base: 'none', md: 'flex' }}>
+        <HStack gap="3" display={{ base: 'none', lg: 'flex' }}>
           <Button
             asChild
             variant="outline"
@@ -71,7 +71,7 @@ const NavBarLandingPage = () => {
         </HStack>
 
         <Button
-          display={{ md: 'none' }}
+          display={{ lg: 'none' }}
           variant="ghost"
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuOpen}

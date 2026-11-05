@@ -1,6 +1,5 @@
 import {
   Box,
-  chakra,
   Flex,
   For,
   HStack,
@@ -23,15 +22,6 @@ import { formattedPhone } from '@/shared/utils/formatted-mask'
 
 import MenuActionsTableCustomers from '../components/menu-actions-table-customer'
 import type { CustomerApiResponse } from '../types/customer-response.api.type'
-
-const customersTableHeaders = [
-  'Nome',
-  'E-mail',
-  'Sexo',
-  'Celulares',
-  'Ativos',
-  'Data de Nasc.',
-]
 
 interface CustomerTableProps {
   customers: CustomerApiResponse[]
@@ -60,6 +50,7 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
 
       return queryString && querySex && queryStatus
     })
+
     return rows
   }, [customers, search.q, search.sex, search.status])
 
@@ -97,79 +88,64 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
 
       {!isPendingPagination && (
         <For each={loadTablePagination}>
-          {(row, index) => (
-            <Flex key={index} direction={{ base: 'row', md: 'column' }}>
-              <SimpleGrid
-                columns={{ base: 1, md: customersTableHeaders.length + 2 }}
-                gap="3"
-                w={{ base: 120, md: 'full' }}
-                bg={{ base: 'gray.100', _dark: 'gray.950/40' }}
-                color="gray.500"
-                py={{ base: 1, md: 2 }}
-                px={{ base: 2, md: 6, xl: 2 }}
-                textTransform="uppercase"
-                fontSize="md"
-                fontWeight="hairline"
-                roundedTop={index === 0 ? 'xl' : undefined}
-              >
-                <For each={customersTableHeaders}>
-                  {(header) => (
-                    <Text
-                      key={header}
-                      as="span"
-                      gridColumn={{
-                        md: header === 'E-mail' ? 'span 2' : undefined,
-                      }}
-                    >
-                      {header}
-                    </Text>
-                  )}
-                </For>
-                <chakra.span textAlign={{ md: 'right' }}>Ações</chakra.span>
-              </SimpleGrid>
-
-              <SimpleGrid
-                columns={{ base: 1, md: customersTableHeaders.length + 2 }}
-                gap="3"
-                w="full"
-                py="2"
-                alignItems="center"
-                px={{ base: '2', md: '4', xl: '2' }}
-                fontWeight="hairline"
-                bg={{ base: 'white', _dark: 'transparent' }}
-                roundedBottom={
-                  index === loadTablePagination.length - 1 ? 'xl' : undefined
-                }
-              >
-                <span>{row.name}</span>
-                <Text as="span" gridColumn={{ md: 'span 2' }}>
-                  {row.email}
-                </Text>
-                <span>
-                  {row.gender
+          {(row) => (
+            <SimpleGrid
+              key={row.id}
+              columns={{ base: 1, md: 2, xl: 8 }}
+              gap="3"
+              w="full"
+              p="3"
+              alignItems="start"
+              bg={{ base: 'white', _dark: 'transparent' }}
+              borderBottomWidth="1px"
+              borderColor="border.muted"
+            >
+              {[
+                { label: 'Nome', value: row.name },
+                { label: 'E-mail', value: row.email },
+                {
+                  label: 'Sexo',
+                  value: row.gender
                     ? (mapGenderLabel[row.gender] ?? row.gender)
-                    : 'Não informado'}
-                </span>
-                <Text as="span" truncate>
-                  {formattedPhoneCustomer(row.phones)}
-                </Text>
-                <span>
-                  <Status value={row.status ? 'success' : 'error'}>
-                    {row.status ? 'Ativo' : 'Inativo'}
-                  </Status>
-                </span>
-                <span>{formattedDateAndHours(row.birthDate)}</span>
-
-                <Flex justify={{ md: 'end' }}>
-                  <MenuActionsTableCustomers customer={row} />
-                </Flex>
-              </SimpleGrid>
-            </Flex>
+                    : 'Não informado',
+                },
+                {
+                  label: 'Celulares',
+                  value: formattedPhoneCustomer(row.phones),
+                },
+                {
+                  label: 'Ativos',
+                  value: (
+                    <Status value={row.status ? 'success' : 'error'}>
+                      {row.status ? 'Ativo' : 'Inativo'}
+                    </Status>
+                  ),
+                },
+                {
+                  label: 'Data de Nasc.',
+                  value: formattedDateAndHours(row.birthDate),
+                },
+              ].map(({ label, value }) => (
+                <Box
+                  key={label}
+                  minW="0"
+                  gridColumn={{ xl: label === 'E-mail' ? 'span 2' : undefined }}
+                >
+                  <Text fontSize="xs" color="fg.muted" mb="1">
+                    {label}
+                  </Text>
+                  <Box overflowWrap="anywhere">{value}</Box>
+                </Box>
+              ))}
+              <Flex justify={{ xl: 'end' }}>
+                <MenuActionsTableCustomers customer={row} />
+              </Flex>
+            </SimpleGrid>
           )}
         </For>
       )}
 
-      <HStack justify="space-between" w="full">
+      <HStack justify="space-between" w="full" flexWrap="wrap">
         <PaginationTable
           count={customers.length}
           pageSize={pagination.page_size}

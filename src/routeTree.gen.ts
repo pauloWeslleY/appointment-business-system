@@ -36,8 +36,10 @@ import { Route as SubscriptionSubscriptionReturnRouteImport } from './pages/_sub
 import { Route as AuthenticatedOrganizationCreateIndexRouteImport } from './pages/_authenticated/organization/create/index'
 import { Route as AuthenticatedTeamManagementInvitationsIndexRouteImport } from './pages/_authenticated/team-management/invitations/index'
 import { Route as AuthenticatedTeamManagementMembersIndexRouteImport } from './pages/_authenticated/team-management/members/index'
-import { Route as DashboardSlugBookingsIndexRouteImport } from './pages/dashboard/$slug/bookings/index'
+import { Route as DashboardSlugAppointmentIndexRouteImport } from './pages/dashboard/$slug/appointment/index'
+import { Route as DashboardSlugConfigIndexRouteImport } from './pages/dashboard/$slug/config/index'
 import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
+import { Route as DashboardSlugOpeningHoursIndexRouteImport } from './pages/dashboard/$slug/opening-hours/index'
 import { Route as DashboardSlugOverviewIndexRouteImport } from './pages/dashboard/$slug/overview/index'
 import { Route as DashboardSlugProfessionalsIndexRouteImport } from './pages/dashboard/$slug/professionals/index'
 import { Route as DashboardSlugReviewsIndexRouteImport } from './pages/dashboard/$slug/reviews/index'
@@ -45,6 +47,7 @@ import { Route as DashboardSlugServicesIndexRouteImport } from './pages/dashboar
 import { Route as AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport } from './pages/_authenticated/establishment/_routes/$establishmentSlug/index'
 import { Route as AuthenticatedEstablishmentRoutesNewIndexRouteImport } from './pages/_authenticated/establishment/_routes/new/index'
 import { Route as DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/layout'
+import { Route as DashboardSlugProfessionalsPagesNewIndexRouteImport } from './pages/dashboard/$slug/professionals/_pages/new/index'
 import { Route as DashboardSlugServicesPagesNewIndexRouteImport } from './pages/dashboard/$slug/services/_pages/new/index'
 import { Route as DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/index'
 import { Route as DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/index'
@@ -195,16 +198,28 @@ const AuthenticatedTeamManagementMembersIndexRoute =
     path: '/members/',
     getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
   } as any)
-const DashboardSlugBookingsIndexRoute =
-  DashboardSlugBookingsIndexRouteImport.update({
-    id: '/bookings/',
-    path: '/bookings/',
+const DashboardSlugAppointmentIndexRoute =
+  DashboardSlugAppointmentIndexRouteImport.update({
+    id: '/appointment/',
+    path: '/appointment/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
+const DashboardSlugConfigIndexRoute =
+  DashboardSlugConfigIndexRouteImport.update({
+    id: '/config/',
+    path: '/config/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
 const DashboardSlugCustomersIndexRoute =
   DashboardSlugCustomersIndexRouteImport.update({
     id: '/customers/',
     path: '/customers/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
+const DashboardSlugOpeningHoursIndexRoute =
+  DashboardSlugOpeningHoursIndexRouteImport.update({
+    id: '/opening-hours/',
+    path: '/opening-hours/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
 const DashboardSlugOverviewIndexRoute =
@@ -247,6 +262,12 @@ const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute =
   DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport.update({
     id: '/services/_pages/$serviceEstablishmentId',
     path: '/services/$serviceEstablishmentId',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
+const DashboardSlugProfessionalsPagesNewIndexRoute =
+  DashboardSlugProfessionalsPagesNewIndexRouteImport.update({
+    id: '/professionals/_pages/new/',
+    path: '/professionals/new/',
     getParentRoute: () => DashboardSlugLayoutRoute,
   } as any)
 const DashboardSlugServicesPagesNewIndexRoute =
@@ -295,8 +316,10 @@ export interface FileRoutesByFullPath {
   '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
-  '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
+  '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
+  '/dashboard/$slug/config/': typeof DashboardSlugConfigIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
+  '/dashboard/$slug/opening-hours/': typeof DashboardSlugOpeningHoursIndexRoute
   '/dashboard/$slug/overview/': typeof DashboardSlugOverviewIndexRoute
   '/dashboard/$slug/professionals/': typeof DashboardSlugProfessionalsIndexRoute
   '/dashboard/$slug/reviews/': typeof DashboardSlugReviewsIndexRoute
@@ -304,6 +327,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/$slug/services/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   '/establishment/$establishmentSlug/': typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
   '/establishment/new/': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
+  '/dashboard/$slug/professionals/new/': typeof DashboardSlugProfessionalsPagesNewIndexRoute
   '/dashboard/$slug/services/new/': typeof DashboardSlugServicesPagesNewIndexRoute
   '/dashboard/$slug/services/$serviceEstablishmentId/edit/': typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
   '/dashboard/$slug/services/$serviceEstablishmentId/info/': typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
@@ -332,8 +356,10 @@ export interface FileRoutesByTo {
   '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
   '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members': typeof AuthenticatedTeamManagementMembersIndexRoute
-  '/dashboard/$slug/bookings': typeof DashboardSlugBookingsIndexRoute
+  '/dashboard/$slug/appointment': typeof DashboardSlugAppointmentIndexRoute
+  '/dashboard/$slug/config': typeof DashboardSlugConfigIndexRoute
   '/dashboard/$slug/customers': typeof DashboardSlugCustomersIndexRoute
+  '/dashboard/$slug/opening-hours': typeof DashboardSlugOpeningHoursIndexRoute
   '/dashboard/$slug/overview': typeof DashboardSlugOverviewIndexRoute
   '/dashboard/$slug/professionals': typeof DashboardSlugProfessionalsIndexRoute
   '/dashboard/$slug/reviews': typeof DashboardSlugReviewsIndexRoute
@@ -341,6 +367,7 @@ export interface FileRoutesByTo {
   '/dashboard/$slug/services/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   '/establishment/$establishmentSlug': typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
   '/establishment/new': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
+  '/dashboard/$slug/professionals/new': typeof DashboardSlugProfessionalsPagesNewIndexRoute
   '/dashboard/$slug/services/new': typeof DashboardSlugServicesPagesNewIndexRoute
   '/dashboard/$slug/services/$serviceEstablishmentId/edit': typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
   '/dashboard/$slug/services/$serviceEstablishmentId/info': typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
@@ -374,8 +401,10 @@ export interface FileRoutesById {
   '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
   '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/_authenticated/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
-  '/dashboard/$slug/bookings/': typeof DashboardSlugBookingsIndexRoute
+  '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
+  '/dashboard/$slug/config/': typeof DashboardSlugConfigIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
+  '/dashboard/$slug/opening-hours/': typeof DashboardSlugOpeningHoursIndexRoute
   '/dashboard/$slug/overview/': typeof DashboardSlugOverviewIndexRoute
   '/dashboard/$slug/professionals/': typeof DashboardSlugProfessionalsIndexRoute
   '/dashboard/$slug/reviews/': typeof DashboardSlugReviewsIndexRoute
@@ -383,6 +412,7 @@ export interface FileRoutesById {
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
   '/_authenticated/establishment/_routes/$establishmentSlug/': typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
   '/_authenticated/establishment/_routes/new/': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
+  '/dashboard/$slug/professionals/_pages/new/': typeof DashboardSlugProfessionalsPagesNewIndexRoute
   '/dashboard/$slug/services/_pages/new/': typeof DashboardSlugServicesPagesNewIndexRoute
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/': typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
@@ -414,8 +444,10 @@ export interface FileRouteTypes {
     | '/organization/create/'
     | '/team-management/invitations/'
     | '/team-management/members/'
-    | '/dashboard/$slug/bookings/'
+    | '/dashboard/$slug/appointment/'
+    | '/dashboard/$slug/config/'
     | '/dashboard/$slug/customers/'
+    | '/dashboard/$slug/opening-hours/'
     | '/dashboard/$slug/overview/'
     | '/dashboard/$slug/professionals/'
     | '/dashboard/$slug/reviews/'
@@ -423,6 +455,7 @@ export interface FileRouteTypes {
     | '/dashboard/$slug/services/$serviceEstablishmentId'
     | '/establishment/$establishmentSlug/'
     | '/establishment/new/'
+    | '/dashboard/$slug/professionals/new/'
     | '/dashboard/$slug/services/new/'
     | '/dashboard/$slug/services/$serviceEstablishmentId/edit/'
     | '/dashboard/$slug/services/$serviceEstablishmentId/info/'
@@ -451,8 +484,10 @@ export interface FileRouteTypes {
     | '/organization/create'
     | '/team-management/invitations'
     | '/team-management/members'
-    | '/dashboard/$slug/bookings'
+    | '/dashboard/$slug/appointment'
+    | '/dashboard/$slug/config'
     | '/dashboard/$slug/customers'
+    | '/dashboard/$slug/opening-hours'
     | '/dashboard/$slug/overview'
     | '/dashboard/$slug/professionals'
     | '/dashboard/$slug/reviews'
@@ -460,6 +495,7 @@ export interface FileRouteTypes {
     | '/dashboard/$slug/services/$serviceEstablishmentId'
     | '/establishment/$establishmentSlug'
     | '/establishment/new'
+    | '/dashboard/$slug/professionals/new'
     | '/dashboard/$slug/services/new'
     | '/dashboard/$slug/services/$serviceEstablishmentId/edit'
     | '/dashboard/$slug/services/$serviceEstablishmentId/info'
@@ -492,8 +528,10 @@ export interface FileRouteTypes {
     | '/_authenticated/organization/create/'
     | '/_authenticated/team-management/invitations/'
     | '/_authenticated/team-management/members/'
-    | '/dashboard/$slug/bookings/'
+    | '/dashboard/$slug/appointment/'
+    | '/dashboard/$slug/config/'
     | '/dashboard/$slug/customers/'
+    | '/dashboard/$slug/opening-hours/'
     | '/dashboard/$slug/overview/'
     | '/dashboard/$slug/professionals/'
     | '/dashboard/$slug/reviews/'
@@ -501,6 +539,7 @@ export interface FileRouteTypes {
     | '/dashboard/$slug/services/_pages/$serviceEstablishmentId'
     | '/_authenticated/establishment/_routes/$establishmentSlug/'
     | '/_authenticated/establishment/_routes/new/'
+    | '/dashboard/$slug/professionals/_pages/new/'
     | '/dashboard/$slug/services/_pages/new/'
     | '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/'
     | '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
@@ -710,11 +749,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTeamManagementMembersIndexRouteImport
       parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
     }
-    '/dashboard/$slug/bookings/': {
-      id: '/dashboard/$slug/bookings/'
-      path: '/bookings'
-      fullPath: '/dashboard/$slug/bookings/'
-      preLoaderRoute: typeof DashboardSlugBookingsIndexRouteImport
+    '/dashboard/$slug/appointment/': {
+      id: '/dashboard/$slug/appointment/'
+      path: '/appointment'
+      fullPath: '/dashboard/$slug/appointment/'
+      preLoaderRoute: typeof DashboardSlugAppointmentIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
+    '/dashboard/$slug/config/': {
+      id: '/dashboard/$slug/config/'
+      path: '/config'
+      fullPath: '/dashboard/$slug/config/'
+      preLoaderRoute: typeof DashboardSlugConfigIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
     '/dashboard/$slug/customers/': {
@@ -722,6 +768,13 @@ declare module '@tanstack/react-router' {
       path: '/customers'
       fullPath: '/dashboard/$slug/customers/'
       preLoaderRoute: typeof DashboardSlugCustomersIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
+    '/dashboard/$slug/opening-hours/': {
+      id: '/dashboard/$slug/opening-hours/'
+      path: '/opening-hours'
+      fullPath: '/dashboard/$slug/opening-hours/'
+      preLoaderRoute: typeof DashboardSlugOpeningHoursIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
     '/dashboard/$slug/overview/': {
@@ -771,6 +824,13 @@ declare module '@tanstack/react-router' {
       path: '/services/$serviceEstablishmentId'
       fullPath: '/dashboard/$slug/services/$serviceEstablishmentId'
       preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
+    '/dashboard/$slug/professionals/_pages/new/': {
+      id: '/dashboard/$slug/professionals/_pages/new/'
+      path: '/professionals/new'
+      fullPath: '/dashboard/$slug/professionals/new/'
+      preLoaderRoute: typeof DashboardSlugProfessionalsPagesNewIndexRouteImport
       parentRoute: typeof DashboardSlugLayoutRoute
     }
     '/dashboard/$slug/services/_pages/new/': {
@@ -901,25 +961,32 @@ const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren =
   )
 
 interface DashboardSlugLayoutRouteChildren {
-  DashboardSlugBookingsIndexRoute: typeof DashboardSlugBookingsIndexRoute
+  DashboardSlugAppointmentIndexRoute: typeof DashboardSlugAppointmentIndexRoute
+  DashboardSlugConfigIndexRoute: typeof DashboardSlugConfigIndexRoute
   DashboardSlugCustomersIndexRoute: typeof DashboardSlugCustomersIndexRoute
+  DashboardSlugOpeningHoursIndexRoute: typeof DashboardSlugOpeningHoursIndexRoute
   DashboardSlugOverviewIndexRoute: typeof DashboardSlugOverviewIndexRoute
   DashboardSlugProfessionalsIndexRoute: typeof DashboardSlugProfessionalsIndexRoute
   DashboardSlugReviewsIndexRoute: typeof DashboardSlugReviewsIndexRoute
   DashboardSlugServicesIndexRoute: typeof DashboardSlugServicesIndexRoute
   DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
+  DashboardSlugProfessionalsPagesNewIndexRoute: typeof DashboardSlugProfessionalsPagesNewIndexRoute
   DashboardSlugServicesPagesNewIndexRoute: typeof DashboardSlugServicesPagesNewIndexRoute
 }
 
 const DashboardSlugLayoutRouteChildren: DashboardSlugLayoutRouteChildren = {
-  DashboardSlugBookingsIndexRoute: DashboardSlugBookingsIndexRoute,
+  DashboardSlugAppointmentIndexRoute: DashboardSlugAppointmentIndexRoute,
+  DashboardSlugConfigIndexRoute: DashboardSlugConfigIndexRoute,
   DashboardSlugCustomersIndexRoute: DashboardSlugCustomersIndexRoute,
+  DashboardSlugOpeningHoursIndexRoute: DashboardSlugOpeningHoursIndexRoute,
   DashboardSlugOverviewIndexRoute: DashboardSlugOverviewIndexRoute,
   DashboardSlugProfessionalsIndexRoute: DashboardSlugProfessionalsIndexRoute,
   DashboardSlugReviewsIndexRoute: DashboardSlugReviewsIndexRoute,
   DashboardSlugServicesIndexRoute: DashboardSlugServicesIndexRoute,
   DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute:
     DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren,
+  DashboardSlugProfessionalsPagesNewIndexRoute:
+    DashboardSlugProfessionalsPagesNewIndexRoute,
   DashboardSlugServicesPagesNewIndexRoute:
     DashboardSlugServicesPagesNewIndexRoute,
 }

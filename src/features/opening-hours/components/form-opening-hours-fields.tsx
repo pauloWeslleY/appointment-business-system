@@ -12,9 +12,6 @@ export interface FormOpeningHoursFieldsProps {
 }
 
 const FormOpeningHoursFields = ({ form }: FormOpeningHoursFieldsProps) => {
-  console.log(form.watch('open'))
-  console.log(form.watch('close'))
-
   return (
     <Box spaceY="4">
       <Controller
@@ -33,7 +30,7 @@ const FormOpeningHoursFields = ({ form }: FormOpeningHoursFieldsProps) => {
                 field.onChange(value)
               }}
             >
-              <HStack gap="6">
+              <HStack gap="4" flexWrap="wrap">
                 <For
                   each={[
                     { value: '0', label: 'Domingo' },
@@ -59,7 +56,7 @@ const FormOpeningHoursFields = ({ form }: FormOpeningHoursFieldsProps) => {
         )}
       />
 
-      <Flex gap="4" w="fit">
+      <Flex gap="4" w="full" flexDir={{ base: 'column', sm: 'row' }}>
         <Controller
           control={form.control}
           name="open"

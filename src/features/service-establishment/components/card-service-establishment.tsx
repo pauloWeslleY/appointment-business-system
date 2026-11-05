@@ -14,14 +14,16 @@ import { FileImage } from 'lucide-react'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 import { cardCss } from '@/theme/styles/global-styles'
 
-import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model copy'
+import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 import MenuActionServicesTable from './menu-action-services-table'
 
-interface CardServiceEsblishmentProps {
+interface CardServiceEstablishmentProps {
   service: ListServicesEstablishmentModel
 }
 
-const CardServiceEsblishment = ({ service }: CardServiceEsblishmentProps) => {
+const CardServiceEstablishment = ({
+  service,
+}: CardServiceEstablishmentProps) => {
   const colorMapStatus = service.status ? 'green' : 'red'
 
   return (
@@ -39,8 +41,8 @@ const CardServiceEsblishment = ({ service }: CardServiceEsblishmentProps) => {
           _dark: `${colorMapStatus}.300`,
         }}
       >
-        <HStack gap="2" align="center">
-          <Text>{service.name}</Text>
+        <HStack gap="2" align="center" minW="0" flexWrap="wrap">
+          <Text overflowWrap="anywhere">{service.name}</Text>
 
           <Separator
             orientation="vertical"
@@ -89,7 +91,7 @@ const CardServiceEsblishment = ({ service }: CardServiceEsblishmentProps) => {
           )}
         </Box>
 
-        <VStack align="start" gap="1">
+        <VStack align="start" gap="1" minW="0" overflowWrap="anywhere">
           <Text
             fontSize="sm"
             color={{ base: 'gray.700', _dark: 'gray.400' }}
@@ -106,4 +108,4 @@ const CardServiceEsblishment = ({ service }: CardServiceEsblishmentProps) => {
   )
 }
 
-export default CardServiceEsblishment
+export default CardServiceEstablishment

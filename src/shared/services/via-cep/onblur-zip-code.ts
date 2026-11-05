@@ -27,6 +27,7 @@ export const onBlurZipCode = async (zipCode: string) => {
       title: 'Erro ao buscar endereço pelo CEP',
       description: (error as Error).message || 'Erro desconhecido',
     })
+
     throw error
   }
 }

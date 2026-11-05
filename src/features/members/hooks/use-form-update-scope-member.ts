@@ -41,6 +41,7 @@ export function useFormUpadteScopeMember(memberId?: string) {
       establishmentIds: [],
     },
   })
+
   const selectedAccessScope = useWatch({ control, name: 'accessScope' })
 
   const { isPending: isPendingUpdateScopeMember, mutate: updateScopeMember } =
@@ -50,6 +51,7 @@ export function useFormUpadteScopeMember(memberId?: string) {
     ...invitationOrganizationProfileQueryOptions(userId, organizationId),
     enabled: isOpen,
   })
+
   const {
     data: establishmentsByOrganizationProfile,
     isLoading: isLoadingEstablishmentsByOrganizationProfile,
@@ -107,6 +109,7 @@ export function useFormUpadteScopeMember(memberId?: string) {
     const accessScopeSelected = values.includes(
       MemberAccessScope.ALL_ESTABLISHMENTS,
     )
+
     if (accessScopeSelected) {
       setValue('establishmentIds', [])
     }
@@ -120,6 +123,7 @@ export function useFormUpadteScopeMember(memberId?: string) {
         title: 'Ops! Erro ao atualizar escopo do membro',
         description: 'ID do membro não fornecido',
       })
+
       return
     }
 

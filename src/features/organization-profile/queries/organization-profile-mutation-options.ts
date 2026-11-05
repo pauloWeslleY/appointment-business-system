@@ -4,7 +4,7 @@ import {
   createOrganizationProfileService,
   deleteOrganizationProfileService,
   updateOrganizationProfileService,
-} from '../services/organizaton-profile.service'
+} from '../services/organization-profile.service'
 
 export const organizationProfileMutationOptions = {
   create() {

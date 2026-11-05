@@ -57,7 +57,7 @@ const AuthAcceptInvitation = ({ invitationId }: AuthAcceptInvitationProps) => {
 
   return (
     <Box spaceY="4">
-      <HStack justify="space-between">
+      <HStack justify="space-between" flexWrap="wrap">
         <Flex align="center" gap="2">
           <Logotipo variant="app" boxSize="10" />
           <Text fontWeight="bold" letterSpacing="wider">

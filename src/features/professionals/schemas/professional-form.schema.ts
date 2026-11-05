@@ -6,6 +6,7 @@ import {
 } from '@/shared/constants/files-config'
 
 import { EmploymentApiRequestSchema } from './professional-request.api.schema'
+
 export const ProfessionalFormSchema = z.object({
   displayName: z.string().trim().min(1, 'Nome é obrigatório').max(160),
   email: z.union([z.literal(''), z.email('E-mail inválido')]),

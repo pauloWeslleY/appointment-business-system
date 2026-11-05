@@ -85,14 +85,8 @@ const FormIntervalEstablishment = ({
   }
 
   return (
-    <Stack
-      aria-label="Form Opening Hours"
-      gridColumn={{ base: 'span 1', md: 'span 4' }}
-    >
-      <Fieldset.Root
-        invalid={!!errors.weekdays}
-        gridColumn={{ base: 'span 1', md: 'span 4' }}
-      >
+    <Stack aria-label="Form Opening Hours" gridColumn="1 / -1">
+      <Fieldset.Root invalid={!!errors.weekdays} gridColumn="1 / -1">
         <Fieldset.Legend fontSize="sm">
           Selecione os dias de funcionamento do estabelecimento
         </Fieldset.Legend>
@@ -103,7 +97,12 @@ const FormIntervalEstablishment = ({
           value={loadWeekdaysEstablishment.field.value}
           onValueChange={onChangeSelectedWeekdays}
         >
-          <Fieldset.Content display="flex" flexDir="row" gap="2">
+          <Fieldset.Content
+            display="flex"
+            flexDir="row"
+            flexWrap="wrap"
+            gap="3"
+          >
             <For each={createListWeekDays()}>
               {(day) => (
                 <Checkbox.Root key={day.value} value={day.value}>
@@ -119,6 +118,8 @@ const FormIntervalEstablishment = ({
 
       <Flex
         w="full"
+        flexDir={{ base: 'column', xl: 'row' }}
+        minW="0"
         gap="4"
         pl="2"
         borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
@@ -127,12 +128,7 @@ const FormIntervalEstablishment = ({
         shadow={{ base: 'shape', md: '2xs' }}
         p="4"
       >
-        <chakra.div
-          display="flex"
-          flexDir="column"
-          alignItems="center"
-          gap="4"
-        >
+        <chakra.div display="flex" flexDir="column" alignItems="center" gap="4">
           Horário de funcionamento
           <Button
             type="button"
@@ -148,7 +144,15 @@ const FormIntervalEstablishment = ({
 
         <Stack direction="row" wrap="wrap" flex="1">
           {intervalFields.map((field, index) => (
-            <Flex key={field.id} gap="2" flexDir="row" align="center">
+            <Flex
+              key={field.id}
+              gap="2"
+              flexDir="row"
+              flexWrap="wrap"
+              align="center"
+              minW="0"
+              maxW="full"
+            >
               <Text
                 fontSize="sm"
                 color={{ base: 'secondary.600', _dark: 'secondary.400' }}
@@ -156,7 +160,7 @@ const FormIntervalEstablishment = ({
               >
                 {weekDaysLabels[index + 1] ?? weekDaysLabels[0]}
               </Text>
-              <HStack gap="2" align="center">
+              <HStack gap="2" align="center" minW="0" maxW="full">
                 <Controller
                   name={`intervals.${index}.open`}
                   control={control}

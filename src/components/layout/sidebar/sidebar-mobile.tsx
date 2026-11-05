@@ -11,40 +11,44 @@ import {
   Separator,
   Text,
 } from '@chakra-ui/react'
-import { useLocation, useNavigate } from '@tanstack/react-router'
 import { Menu } from 'lucide-react'
-import { useMemo } from 'react'
+import { useState } from 'react'
 
 import ButtonLogout from '@/components/button-logout'
-import { loadMenuSidebarAuthenticated } from '@/features/authentication/constants/menu-sidebar-authenticated'
-import { loadMenuDashboardEstablishment } from '@/features/establishment/constants/menu-dashboard-establishment'
 import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import CardUserInfo from '../card-user-info'
 import SidebarItem from './sidebar-item'
 
-const SidebarMobile = () => {
-  const { pathname } = useLocation()
-  const navigate = useNavigate()
+export interface SidebarMobileProps {
+  menu: MenuNavigationItemProps[]
+  activePath: (path?: string) => boolean
+  onNavigate: (path?: string) => void
+}
 
-  const loadMenu = useMemo<MenuNavigationItemProps[]>(() => {
-    const pathAuthenticated = new Set(['/establishment', '/owner', '/profile'])
-    const validatePath = pathAuthenticated.has(pathname)
-    return validatePath
-      ? loadMenuSidebarAuthenticated
-      : loadMenuDashboardEstablishment
-  }, [pathname])
+const SidebarMobile = ({
+  menu,
+  activePath,
+  onNavigate,
+}: SidebarMobileProps) => {
+  const [open, setOpen] = useState(false)
 
   return (
-    <Drawer.Root placement="start" size="lg">
+    <Drawer.Root
+      placement="start"
+      size="xs"
+      open={open}
+      onOpenChange={(details) => setOpen(details.open)}
+    >
       <Drawer.Trigger asChild>
         <IconButton
           rounded="xl"
           variant="ghost"
           size="sm"
           aria-label="Menu"
-          display={{ base: 'inline-flex', md: 'none' }}
+          display={{ base: 'inline-flex', lg: 'none' }}
+          flexShrink="0"
         >
           <Icon as={Menu} boxSize="5" />
         </IconButton>
@@ -53,6 +57,7 @@ const SidebarMobile = () => {
         <Drawer.Backdrop />
         <Drawer.Positioner>
           <Drawer.Content css={contentCss}>
+            <Drawer.Title srOnly>Menu de navegação</Drawer.Title>
             <Drawer.Body
               spaceY="2"
               h="full"
@@ -105,7 +110,7 @@ const SidebarMobile = () => {
                   mt="2"
                   gap="1"
                 >
-                  <For each={loadMenu}>
+                  <For each={menu}>
                     {(item) => {
                       if (item.type === 'header') {
                         return (
@@ -127,9 +132,13 @@ const SidebarMobile = () => {
                       return (
                         <SidebarItem
                           key={item.path}
+                          expanded
                           icon={item.icon}
-                          active={pathname.includes(item.path ?? '')}
-                          onClick={() => navigate({ to: item.path })}
+                          active={activePath(item.path)}
+                          onClick={() => {
+                            onNavigate(item.path)
+                            setOpen(false)
+                          }}
                         >
                           {item.label}
                         </SidebarItem>

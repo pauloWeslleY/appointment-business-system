@@ -23,11 +23,11 @@ const CardInfoServiceEstablishement = ({
       css={cardSectionCss}
       display="flex"
       alignItems="center"
-      flexDir="row"
+      flexDir={{ base: 'column', xl: 'row' }}
       gap="8"
       h="full"
     >
-      <Box w="52">
+      <Box w="52" maxW="full" flexShrink="0">
         {serviceEstablishment?.imageUrl && (
           <Image
             border="1px solid"
@@ -55,7 +55,7 @@ const CardInfoServiceEstablishement = ({
       </Box>
 
       <SimpleGrid
-        columns={{ base: 1, md: 3 }}
+        columns={{ base: 1, md: 2, xl: 3 }}
         flex="1"
         w="full"
         gap="4"

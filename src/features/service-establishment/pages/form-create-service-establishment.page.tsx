@@ -1,25 +1,17 @@
 import {
   Alert,
-  Box,
   Button,
   chakra,
-  FileUpload,
   GridItem,
   HStack,
-  Icon,
   Separator,
   SimpleGrid,
   Spinner,
   Text,
 } from '@chakra-ui/react'
-import { Upload } from 'lucide-react'
-import { Controller } from 'react-hook-form'
-import { NumericFormat } from 'react-number-format'
 
-import FileUploadCardItem from '@/components/file-upload-item'
-import InputField from '@/components/input-field'
-import { Field } from '@/components/ui/field'
-
+import FieldsServiceEstablishment from '../components/fields-service-establishment'
+import UploadImageServiceEstablishment from '../components/upload-image-service-establishment'
 import { useFormCreateServiceEstablishment } from '../hooks/use-form-create-service-establishment'
 
 const FormCreateServiceEstablishment = () => {
@@ -38,51 +30,11 @@ const FormCreateServiceEstablishment = () => {
       onSubmit={handleSubmit(onSubmitCreateServiceEstablishment)}
     >
       <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
-        <Field
-          gridColumn={{ base: 'span 1' }}
-          invalid={!!errors.name}
-          errorText={errors.name?.message}
-        >
-          <InputField
-            {...register('name')}
-            placeholder="Digite o nome do serviço"
-          />
-        </Field>
-
-        <Controller
+        <FieldsServiceEstablishment
           control={control}
-          name="servicePriceInCents"
-          render={({ field }) => (
-            <Field
-              invalid={Boolean(errors.servicePriceInCents)}
-              errorText={errors.servicePriceInCents?.message}
-            >
-              <NumericFormat
-                value={field.value}
-                onValueChange={(value) => field.onChange(value.floatValue)}
-                decimalScale={2}
-                fixedDecimalScale
-                decimalSeparator=","
-                allowNegative={false}
-                allowLeadingZeros={false}
-                thousandSeparator="."
-                customInput={InputField}
-                prefix="R$"
-              />
-            </Field>
-          )}
+          register={register}
+          errors={errors}
         />
-
-        <Field
-          gridColumn={{ base: 'span 1', md: 'span 2' }}
-          invalid={!!errors.description}
-          errorText={errors.description?.message}
-        >
-          <InputField
-            {...register('description')}
-            placeholder="Digite a descrição do serviço"
-          />
-        </Field>
 
         <GridItem colSpan={{ base: 1, md: 2 }} asChild>
           <HStack>
@@ -90,7 +42,7 @@ const FormCreateServiceEstablishment = () => {
               flex="1"
               borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
             />
-            <Text flexShrink="0">Upload</Text>
+            <Text flexShrink="0">Imagem do serviço</Text>
             <Separator
               flex="1"
               borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
@@ -99,45 +51,7 @@ const FormCreateServiceEstablishment = () => {
         </GridItem>
 
         <GridItem colSpan={{ base: 1, md: 2 }}>
-          <Text pb="4">Imagem do serviço</Text>
-
-          <Controller
-            name="image"
-            control={control}
-            render={({ field }) => (
-              <FileUpload.Root alignItems="stretch" maxFiles={10} rounded="xl">
-                <FileUpload.HiddenInput
-                  onChange={(e) => field.onChange(e.target.files)}
-                />
-                <FileUpload.Dropzone
-                  rounded="xl"
-                  bg="gray.700/10"
-                  borderColor={{
-                    base: 'gray.200',
-                    _dark: 'secondary.500/20',
-                  }}
-                >
-                  <Icon size="md" color="fg.muted">
-                    <Upload />
-                  </Icon>
-                  <FileUpload.DropzoneContent>
-                    <Box>Drag and drop files here</Box>
-                    <Box color="fg.muted">.png, .jpg up to 5MB</Box>
-                  </FileUpload.DropzoneContent>
-                </FileUpload.Dropzone>
-
-                <FileUpload.ItemGroup mt="1" gap="2">
-                  <FileUpload.Context>
-                    {({ acceptedFiles }) =>
-                      acceptedFiles.map((file) => (
-                        <FileUploadCardItem key={file.name} file={file} />
-                      ))
-                    }
-                  </FileUpload.Context>
-                </FileUpload.ItemGroup>
-              </FileUpload.Root>
-            )}
-          />
+          <UploadImageServiceEstablishment control={control} errors={errors} />
         </GridItem>
 
         <GridItem
@@ -149,9 +63,9 @@ const FormCreateServiceEstablishment = () => {
             size="sm"
             rounded="xl"
             w="fit"
-            colorPalette="emerald"
-            variant="subtle"
+            colorPalette="brand"
             loading={isCreatingServiceEstablishment}
+            loadingText="Cadastrando..."
           >
             Cadastrar serviço
           </Button>
@@ -163,6 +77,7 @@ const FormCreateServiceEstablishment = () => {
           borderStartWidth="3px"
           borderStartColor="colorPalette.600"
           mt="2"
+          role="status"
         >
           <Alert.Indicator>
             <Spinner size="sm" />

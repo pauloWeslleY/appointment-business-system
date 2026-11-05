@@ -43,6 +43,7 @@ export const getEstablishmentBySlugService = async (
     method: HttpMethod.GET,
     url: `/establishments/by-slug/${encodeURIComponent(validatedSlug)}`,
   })
+
   const parsedResponse = EstablishmentSlugSchema.safeParse(
     validate.errors(response),
   )
@@ -63,6 +64,7 @@ export const getEstablishmentAdminBySlugService = async (
     method: HttpMethod.GET,
     url: `/admin/establishments/by-slug/${encodeURIComponent(validatedSlug)}`,
   })
+
   const parsedResponse = EstablishmentSlugSchema.safeParse(
     validate.errors(response),
   )
@@ -83,6 +85,7 @@ export const getEstablishmentByIdService = async (
     method: HttpMethod.GET,
     url: `/admin/establishments/${validatedId}`,
   })
+
   const parsedResponse = EstablishmentDetailsSchema.safeParse(
     validate.errors(response),
   )
@@ -94,15 +97,16 @@ export const getEstablishmentByIdService = async (
   return parsedResponse.data
 }
 
-export const getEstablishmentsByOrganizationProfileIdService = async (
-  organizationProfileId: string,
+export const getEstablishmentsByOrganizationService = async (
+  organizationId: string,
 ): Promise<EstablishmentListApiResponse> => {
-  const validatedOrganizationProfileId = z.uuid().parse(organizationProfileId)
+  const validatedOrganizationId = z.string().trim().min(1).parse(organizationId)
   const { api, validate } = httpDependencies<EstablishmentListApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/admin/establishments/organization-profile/${validatedOrganizationProfileId}`,
+    url: `/admin/establishments/organization/${encodeURIComponent(validatedOrganizationId)}`,
   })
+
   const parsedResponse = EstablishmentListApiResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -123,6 +127,7 @@ export const createEstablishmentService = async (
     url: '/admin/establishments',
     body: CreateEstablishmentRequestSchema.parse(data),
   })
+
   const parsedResponse = EstablishmentAdminSchema.safeParse(
     validate.errors(response),
   )
@@ -144,6 +149,7 @@ export const updateEstablishmentService = async (
     url: `/admin/establishments/${id}`,
     body: changes,
   })
+
   const parsedResponse = EstablishmentAdminSchema.safeParse(
     validate.errors(response),
   )
@@ -168,6 +174,7 @@ export const uploadImageEstablishmentService = async (
       imageUrl,
     },
   })
+
   const parsedResponse = EstablishmentAdminSchema.safeParse(
     validate.errors(response),
   )
@@ -190,6 +197,7 @@ export const getListOpeningHoursEstablishmentService = async (
     url: `/establishments/${establishmentId}/availability`,
     params: query,
   })
+
   const parsedResponse = GetOpeningHoursResponseSchema.safeParse(
     validate.errors(response),
   )
@@ -210,6 +218,7 @@ export async function uploadEstablishmentImage(
     file: input.image,
     folder: 'establishment',
   })
+
   return uploadImageEstablishmentService({
     establishmentId: input.id,
     imageUrl: uploaded.key,

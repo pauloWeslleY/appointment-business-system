@@ -6,6 +6,7 @@ import type {
   ProfessionalFormData,
   ProfessionalFormInput,
 } from '../types/professional-form.type'
+
 export function toProfessionalFormValues({
   professional,
   employment,
@@ -22,6 +23,7 @@ export function toProfessionalFormValues({
     image: null,
   }
 }
+
 export function toProfessionalProfile(
   values: ProfessionalFormData,
   imageUrl: string | null,

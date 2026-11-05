@@ -9,9 +9,11 @@ import { customersMutationOptions } from '../queries/customers.mutation-options'
 import { CustomerFormSchema } from '../schemas/customer-form.schema'
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import { toCustomerRequestValues } from '../utils/customer-form-values'
+
 const dashboardRoute = getRouteApi('/dashboard/$slug')
+
 export function useFormCreateCustomer() {
-  const establishment = dashboardRoute.useLoaderData()
+  const { establishment } = dashboardRoute.useLoaderData()
   const formCreateCustomer = useForm<CustomerFormData>({
     resolver: zodResolver(CustomerFormSchema),
     defaultValues: {
@@ -23,6 +25,7 @@ export function useFormCreateCustomer() {
       gender: [],
     },
   })
+
   const { mutateAsync: createCustomer, isPending: isPendingCreateCustomer } =
     useMutation(customersMutationOptions.create())
   const onSubmitCreateCustomer = formCreateCustomer.handleSubmit(
@@ -30,12 +33,14 @@ export function useFormCreateCustomer() {
       if (isPendingCreateCustomer) {
         return
       }
+
       try {
         await createCustomer({
           ...toCustomerRequestValues(data),
           establishmentId: establishment.id,
           userId: null,
         })
+
         formCreateCustomer.reset()
         toaster.success({ title: 'Cliente cadastrado com sucesso' })
       } catch (error) {
@@ -47,5 +52,6 @@ export function useFormCreateCustomer() {
       }
     },
   )
+
   return { formCreateCustomer, onSubmitCreateCustomer, isPendingCreateCustomer }
 }
