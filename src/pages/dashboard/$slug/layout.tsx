@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 import { validateEnsureAuthRoute } from '@/features/authentication/validations/validate-auth-route'
@@ -30,11 +31,15 @@ export const Route = createFileRoute('/dashboard/$slug')({
 })
 
 function DashboardLayout() {
-  const { establishment, organizationProfile } = Route.useLoaderData()
+  const { organizationProfile } = Route.useLoaderData()
+  const slug = Route.useParams({ select: (params) => params.slug })
+  const establishment = useSuspenseQuery(
+    establishmentAdminSlugQueryOptions(slug),
+  )
 
   return (
     <EstablishmentLayout
-      establishment={establishment}
+      establishment={establishment.data}
       organizationId={organizationProfile.organizationId}
     >
       <Outlet />

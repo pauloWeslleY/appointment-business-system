@@ -23,10 +23,7 @@ export const establishmentSlugQueryOptions = (slug: string) => {
 export const establishmentAdminSlugQueryOptions = (slug: string) => {
   return queryOptions({
     queryKey: establishmentQueryKeys.adminSlug(slug),
-    queryFn:
-      slug.trim() !== ''
-        ? () => getEstablishmentAdminBySlugService(slug)
-        : skipToken,
+    queryFn: () => getEstablishmentAdminBySlugService(slug),
   })
 }
 
