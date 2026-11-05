@@ -13,6 +13,7 @@ const CreateProfessionalForm = ({
   const { form, handleCreateProfessional, isCreatingProfessional } =
     useFormCreateProfessional(establishmentId, onSaved)
   const isSubmitting = isCreatingProfessional || form.formState.isSubmitting
+
   return (
     <chakra.form onSubmit={handleCreateProfessional}>
       <Stack gap="4">
@@ -22,11 +23,10 @@ const CreateProfessionalForm = ({
         <Button
           type="submit"
           size="sm"
-          rounded="xl"
+          rounded="lg"
           w="fit"
           alignSelf="flex-end"
-          colorPalette="emerald"
-          variant="subtle"
+          colorPalette="brand"
           loading={isSubmitting}
           disabled={isSubmitting}
         >

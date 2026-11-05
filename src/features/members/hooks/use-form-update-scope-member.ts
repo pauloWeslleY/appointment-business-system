@@ -5,10 +5,7 @@ import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import {
-  invitationEstablishmentsQueryOptions,
-  invitationOrganizationProfileQueryOptions,
-} from '@/features/invitations/queries/invitations.query-options'
+import { invitationEstablishmentsQueryOptions } from '@/features/invitations/queries/invitations.query-options'
 import { authClient } from '@/lib/auth'
 
 import { memberMutationOptions } from '../queries/member.mutation-options'
@@ -47,20 +44,11 @@ export function useFormUpadteScopeMember(memberId?: string) {
   const { isPending: isPendingUpdateScopeMember, mutate: updateScopeMember } =
     useMutation(memberMutationOptions.updateScope())
 
-  const { data: organizationProfile } = useQuery({
-    ...invitationOrganizationProfileQueryOptions(userId, organizationId),
-    enabled: isOpen,
-  })
-
   const {
     data: establishmentsByOrganizationProfile,
     isLoading: isLoadingEstablishmentsByOrganizationProfile,
   } = useQuery({
-    ...invitationEstablishmentsQueryOptions(
-      userId,
-      organizationId,
-      organizationProfile?.id,
-    ),
+    ...invitationEstablishmentsQueryOptions(userId, organizationId),
     enabled: isOpen,
   })
 

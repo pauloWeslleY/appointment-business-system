@@ -1,90 +1,194 @@
 import {
   Button,
-  chakra,
+  createListCollection,
+  FileUpload,
   Image,
+  Portal,
+  Select,
   SimpleGrid,
   Stack,
-  Text,
 } from '@chakra-ui/react'
-import { useFieldArray, type UseFormReturn } from 'react-hook-form'
+import { Upload } from 'lucide-react'
+import { Controller, type UseFormReturn } from 'react-hook-form'
+import { PatternFormat } from 'react-number-format'
 
+import FileUploadCardItem from '@/components/file-upload-item'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
+import { contentCss } from '@/theme/styles/global-styles'
 
 import type {
   ProfessionalFormData,
   ProfessionalFormInput,
 } from '../types/professional-form.type'
+import ProfessionalWorkScheduleFields from './professional-work-schedule-fields'
 
 interface ProfessionalFormFieldsProps {
   form: UseFormReturn<ProfessionalFormInput, unknown, ProfessionalFormData>
   imageUrl?: string | null
 }
 
-const textFields = [
-  { name: 'displayName', label: 'Nome', maxLength: 160 },
-  { name: 'email', label: 'E-mail (opcional)', maxLength: 254 },
-  { name: 'phone', label: 'Telefone (opcional)', maxLength: 40 },
-  { name: 'document', label: 'Documento (opcional)', maxLength: 2000 },
-  { name: 'bio', label: 'Sobre o profissional (opcional)', maxLength: 2000 },
-  { name: 'specialty', label: 'Especialidade', maxLength: 160 },
-] as const
-
-const weekdays = [
-  'Domingo',
-  'Segunda-feira',
-  'Terça-feira',
-  'Quarta-feira',
-  'Quinta-feira',
-  'Sexta-feira',
-  'Sábado',
-]
+const loadSelectEmploymentStatus = createListCollection({
+  items: [
+    { label: 'Ativo', value: 'active' },
+    { label: 'Inativo', value: 'inactive' },
+    { label: 'Suspenso', value: 'suspended' },
+  ],
+})
 
 const ProfessionalFormFields = ({
   form,
   imageUrl,
 }: ProfessionalFormFieldsProps) => {
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: 'workSchedule',
-  })
-
   const { errors } = form.formState
+
   return (
     <Stack gap="4">
       <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
-        {textFields.map(({ name, label, maxLength }) => (
-          <Field
-            key={name}
-            label={label}
-            invalid={!!errors[name]}
-            errorText={errors[name]?.message}
-          >
-            <InputField
-              {...form.register(name)}
-              type={name === 'email' ? 'email' : 'text'}
-              maxLength={maxLength}
-            />
-          </Field>
-        ))}
         <Field
-          label="Status do vínculo"
-          invalid={!!errors.status}
-          errorText={errors.status?.message}
+          label="Nome"
+          invalid={!!errors.displayName}
+          errorText={errors.displayName?.message}
         >
-          <chakra.select
-            {...form.register('status')}
-            p="2"
-            borderWidth="1px"
-            rounded="lg"
-            bg="bg"
-          >
-            <option value="active">Ativo</option>
-            <option value="inactive">Inativo</option>
-            <option value="suspended">Suspenso</option>
-          </chakra.select>
+          <InputField
+            {...form.register('displayName')}
+            placeholder="Digite o nome do profissional"
+            maxLength={160}
+          />
         </Field>
+
         <Field
+          label="Especialidade"
+          invalid={!!errors.specialty}
+          errorText={errors.specialty?.message}
+        >
+          <InputField
+            {...form.register('specialty')}
+            placeholder="Ex.: Barbeiro, Manicure, Esteticista"
+            maxLength={160}
+          />
+        </Field>
+
+        <Field
+          label="E-mail (opcional)"
+          invalid={!!errors.email}
+          errorText={errors.email?.message}
+        >
+          <InputField
+            {...form.register('email')}
+            type="email"
+            placeholder="profissional@email.com"
+            maxLength={254}
+          />
+        </Field>
+
+        <Controller
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <Field
+              label="Telefone (opcional)"
+              invalid={!!errors.phone}
+              errorText={errors.phone?.message}
+            >
+              <PatternFormat
+                name={field.name}
+                value={field.value}
+                onBlur={field.onBlur}
+                getInputRef={field.ref}
+                onValueChange={(values) => field.onChange(values.value)}
+                format="(##) #####-####"
+                placeholder="(00) 00000-0000"
+                mask="_"
+                type="tel"
+                customInput={InputField}
+              />
+            </Field>
+          )}
+        />
+
+        <Field
+          label="Documento (opcional)"
+          invalid={!!errors.document}
+          errorText={errors.document?.message}
+        >
+          <InputField
+            {...form.register('document')}
+            placeholder="CPF ou outro documento"
+            maxLength={2000}
+          />
+        </Field>
+
+        <Controller
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <Field
+              label="Status do vínculo"
+              invalid={!!errors.status}
+              errorText={errors.status?.message}
+            >
+              <Select.Root
+                w="full"
+                size="sm"
+                variant="subtle"
+                collection={loadSelectEmploymentStatus}
+                value={field.value ? [field.value] : []}
+                onValueChange={(e) => field.onChange(e.value[0])}
+                onInteractOutside={() => field.onBlur()}
+              >
+                <Select.HiddenSelect name={field.name} />
+                <Select.Control>
+                  <Select.Trigger
+                    rounded="xl"
+                    bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
+                  >
+                    <Select.ValueText placeholder="Selecione o status" />
+                  </Select.Trigger>
+                  <Select.IndicatorGroup>
+                    <Select.Indicator />
+                  </Select.IndicatorGroup>
+                </Select.Control>
+                <Portal>
+                  <Select.Positioner>
+                    <Select.Content css={contentCss}>
+                      {loadSelectEmploymentStatus.items.map((status) => (
+                        <Select.Item
+                          key={status.value}
+                          item={status}
+                          rounded="xl"
+                          cursor="pointer"
+                          _hover={{
+                            bg: { base: 'gray.100', _dark: 'secondary.600' },
+                          }}
+                        >
+                          {status.label}
+                          <Select.ItemIndicator />
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Positioner>
+                </Portal>
+              </Select.Root>
+            </Field>
+          )}
+        />
+
+        <Field
+          gridColumn={{ base: 'span 1', md: 'span 2' }}
+          label="Sobre o profissional (opcional)"
+          invalid={!!errors.bio}
+          errorText={errors.bio?.message}
+        >
+          <InputField
+            {...form.register('bio')}
+            placeholder="Conte um pouco sobre a experiência do profissional"
+            maxLength={2000}
+          />
+        </Field>
+
+        <Field
+          gridColumn={{ base: 'span 1', md: 'span 2' }}
           label="Foto (opcional)"
           invalid={!!errors.image}
           errorText={errors.image?.message}
@@ -98,83 +202,37 @@ const ProfessionalFormFields = ({
               objectFit="cover"
             />
           )}
-          <InputField
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            {...form.register('image')}
+
+          <Controller
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FileUpload.Root placeContent="flex-end">
+                <FileUpload.HiddenInput
+                  onChange={(event) => field.onChange(event.target?.files)}
+                />
+                <FileUpload.Trigger asChild>
+                  <Button variant="outline" size="sm" rounded="xl">
+                    <Upload /> Selecionar arquivo
+                  </Button>
+                </FileUpload.Trigger>
+
+                <FileUpload.ItemGroup mt="1" gap="2">
+                  <FileUpload.Context>
+                    {({ acceptedFiles }) =>
+                      acceptedFiles.map((file) => (
+                        <FileUploadCardItem key={file.name} file={file} />
+                      ))
+                    }
+                  </FileUpload.Context>
+                </FileUpload.ItemGroup>
+              </FileUpload.Root>
+            )}
           />
         </Field>
       </SimpleGrid>
-      <Text fontWeight="medium">Horários de trabalho</Text>
-      {fields.length === 0 && <Text>Nenhum período definido.</Text>}
-      {fields.map((field, index) => (
-        <Stack
-          key={field.id}
-          direction={{ base: 'column', md: 'row' }}
-          align="end"
-        >
-          <Field label="Dia">
-            <chakra.select
-              {...form.register(`workSchedule.${index}.dayOfWeek`, {
-                valueAsNumber: true,
-              })}
-              p="2"
-              bg="bg"
-              borderWidth="1px"
-              rounded="lg"
-            >
-              {weekdays.map((day, value) => (
-                <option key={day} value={value}>
-                  {day}
-                </option>
-              ))}
-            </chakra.select>
-          </Field>
-          <Field
-            label="Início"
-            invalid={!!errors.workSchedule?.[index]?.startsAt}
-            errorText={errors.workSchedule?.[index]?.startsAt?.message}
-          >
-            <InputField
-              type="time"
-              {...form.register(`workSchedule.${index}.startsAt`)}
-            />
-          </Field>
-          <Field
-            label="Fim"
-            invalid={!!errors.workSchedule?.[index]?.endsAt}
-            errorText={errors.workSchedule?.[index]?.endsAt?.message}
-          >
-            <InputField
-              type="time"
-              {...form.register(`workSchedule.${index}.endsAt`)}
-            />
-          </Field>
-          <Button
-            type="button"
-            variant="ghost"
-            colorPalette="red"
-            onClick={() => remove(index)}
-            aria-label={'Remover período ' + (index + 1)}
-          >
-            Remover
-          </Button>
-        </Stack>
-      ))}
-      {errors.workSchedule?.message && (
-        <Text role="alert">{errors.workSchedule.message}</Text>
-      )}
-      <Button
-        type="button"
-        variant="outline"
-        alignSelf="start"
-        disabled={fields.length >= 84}
-        onClick={() =>
-          append({ dayOfWeek: 1, startsAt: '09:00', endsAt: '18:00' })
-        }
-      >
-        Adicionar período
-      </Button>
+
+      <ProfessionalWorkScheduleFields form={form} />
     </Stack>
   )
 }

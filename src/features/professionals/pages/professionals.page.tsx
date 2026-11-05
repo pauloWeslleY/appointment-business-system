@@ -4,8 +4,10 @@ import {
   Button,
   Card,
   Flex,
+  For,
   HStack,
   Icon,
+  IconButton,
   Skeleton,
   Stack,
   Table,
@@ -16,7 +18,8 @@ import { Plus, UserRoundCog, UsersRound } from 'lucide-react'
 import Header from '@/components/layout/header'
 import PaginationTable from '@/components/layout/pagination-table'
 import SearchPage from '@/components/search-page'
-import { cardSectionCss } from '@/theme/styles/global-styles'
+import { Tooltip } from '@/components/ui/tooltip'
+import { cardSectionCss, cssTableColumns } from '@/theme/styles/global-styles'
 
 import ProfessionalEditor from '../components/professional-editor'
 import StatInfoProfessionals from '../components/stat-info-professionals'
@@ -96,16 +99,9 @@ const ProfessionalsPage = () => {
             <SearchPage />
           </Flex>
 
-          <Card.Root
-            variant="outline"
-            css={cardSectionCss}
-            overflowX="auto"
-            maxW="full"
-            tabIndex={0}
-            aria-label="Profissionais: role para ver todas as colunas"
-          >
+          <Card.Root variant="outline" css={cardSectionCss}>
             {visibleProfessionals.length === 0 ? (
-              <Alert.Root status="info" rounded="xl">
+              <Alert.Root status="info" variant="subtle" rounded="lg">
                 <Alert.Indicator />
                 <Alert.Title>
                   {professionals.length === 0
@@ -114,37 +110,63 @@ const ProfessionalsPage = () => {
                 </Alert.Title>
               </Alert.Root>
             ) : (
-              <Table.Root minW="36rem">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeader>Nome</Table.ColumnHeader>
-                    <Table.ColumnHeader>Especialidade</Table.ColumnHeader>
-                    <Table.ColumnHeader>Sobre</Table.ColumnHeader>
-                    <Table.ColumnHeader>Ações</Table.ColumnHeader>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {visibleProfessionals.map((professional) => (
-                    <Table.Row key={professional.id}>
-                      <Table.Cell>{professional.displayName}</Table.Cell>
-                      <Table.Cell>{professional.specialty}</Table.Cell>
-                      <Table.Cell>{professional.bio ?? '—'}</Table.Cell>
-                      <Table.Cell>
-                        <Button
-                          size="xs"
-                          variant="outline"
-                          onClick={() =>
-                            openUpdateProfessional(professional.id)
-                          }
-                        >
-                          <Icon as={UserRoundCog} />
-                          Detalhes e edição
-                        </Button>
-                      </Table.Cell>
+              <Table.ScrollArea
+                tabIndex={0}
+                maxW="full"
+                aria-label="Profissionais: role para ver todas as colunas"
+                rounded="lg"
+                borderColor={{ _light: 'slate.200', _dark: 'slate.900/60' }}
+              >
+                <Table.Root variant="outline" minW="36rem">
+                  <Table.Header>
+                    <Table.Row
+                      bg={{ _light: 'slate.200', _dark: 'slate.900/60' }}
+                    >
+                      <For each={['Nome', 'Especialidade', 'Sobre']}>
+                        {(column) => (
+                          <Table.ColumnHeader key={column} {...cssTableColumns}>
+                            {column}
+                          </Table.ColumnHeader>
+                        )}
+                      </For>
+                      <Table.ColumnHeader
+                        textAlign="right"
+                        {...cssTableColumns}
+                      >
+                        Ações
+                      </Table.ColumnHeader>
                     </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Root>
+                  </Table.Header>
+
+                  <Table.Body>
+                    {visibleProfessionals.map((professional) => (
+                      <Table.Row
+                        key={professional.id}
+                        bg={{ _light: 'slate.50', _dark: 'slate.950/60' }}
+                      >
+                        <Table.Cell>{professional.displayName}</Table.Cell>
+                        <Table.Cell>{professional.specialty}</Table.Cell>
+                        <Table.Cell>{professional.bio ?? '—'}</Table.Cell>
+                        <Table.Cell textAlign="right">
+                          <Tooltip content="Detalhes e edição" showArrow>
+                            <IconButton
+                              size="xs"
+                              variant="ghost"
+                              rounded="lg"
+                              aria-label={`Detalhes e edição de ${professional.displayName}`}
+                              onClick={() =>
+                                openUpdateProfessional(professional.id)
+                              }
+                            >
+                              <Icon as={UserRoundCog} />
+                            </IconButton>
+                          </Tooltip>
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table.Root>
+              </Table.ScrollArea>
             )}
           </Card.Root>
         </Box>
