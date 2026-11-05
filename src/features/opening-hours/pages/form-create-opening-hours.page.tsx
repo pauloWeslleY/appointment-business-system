@@ -58,7 +58,7 @@ const FormCreateOpeningHoursPage = ({
       </chakra.form>
 
       {createOpeningHoursError && (
-        <Alert.Root status="error" variant="subtle" rounded="xl">
+        <Alert.Root status="error" variant="subtle" rounded="xl" mt="4">
           <Alert.Indicator />
           <Alert.Title>{createOpeningHoursError.message}</Alert.Title>
         </Alert.Root>
