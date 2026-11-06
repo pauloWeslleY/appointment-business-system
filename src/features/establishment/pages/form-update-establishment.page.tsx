@@ -18,6 +18,10 @@ import { Field } from '@/components/ui/field'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 import FormTelephoneEstablishment from '../components/form-telephone-establishment'
+import {
+  ESTABLISHMENT_WEBSITE_BASE,
+  ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH,
+} from '../constants/establishment-website'
 import { useFormUpdateEstablishment } from '../hooks/use-form-update-establishment'
 
 interface FormUpdateEstablishmentPageProps {
@@ -194,10 +198,10 @@ const FormUpdateEstablishmentPage = ({
             errorText={
               formUpdateEstablishment.formState.errors.websiteUrl?.message
             }
-            helperText="Opcional. Deixe em branco para remover o endereço cadastrado."
+            helperText="Digite apenas o caminho; o domínio será incluído ao salvar. Deixe em branco para remover."
           >
             <InputGroup
-              startAddon="https://agendros.com.br"
+              startAddon={ESTABLISHMENT_WEBSITE_BASE}
               startAddonProps={{
                 variant: 'subtle',
                 size: 'sm',
@@ -207,10 +211,10 @@ const FormUpdateEstablishmentPage = ({
             >
               <InputField
                 {...formUpdateEstablishment.register('websiteUrl')}
-                type="url"
+                type="text"
                 placeholder="/seu-estabelecimento"
-                autoComplete="url"
-                maxLength={2048}
+                autoComplete="off"
+                maxLength={ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH}
               />
             </InputGroup>
           </Field>

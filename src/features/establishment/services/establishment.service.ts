@@ -33,6 +33,7 @@ import type { GetOpeningHoursResponse } from '../types/opening-hours-response.ty
 import type { UpdateEstablishmentRequest } from '../types/update-establishment-request.type'
 import type { UploadImageEstablishmentInput } from '../types/upload-image-establishment.type'
 import type { UploadImageEstablishmentRequestParams } from '../types/upload-image-establishment.type'
+import { buildEstablishmentWebsite } from '../utils/establishment-website'
 
 export const getEstablishmentBySlugService = async (
   slug: string,
@@ -125,7 +126,10 @@ export const createEstablishmentService = async (
   const response = await api.request({
     method: HttpMethod.POST,
     url: '/admin/establishments',
-    body: CreateEstablishmentRequestSchema.parse(data),
+    body: CreateEstablishmentRequestSchema.parse({
+      ...data,
+      websiteUrl: buildEstablishmentWebsite(data.websiteUrl),
+    }),
   })
 
   const parsedResponse = EstablishmentAdminSchema.safeParse(
@@ -142,7 +146,12 @@ export const createEstablishmentService = async (
 export const updateEstablishmentService = async (
   data: UpdateEstablishmentRequest,
 ): Promise<EstablishmentAdminApiResponse> => {
-  const { id, ...changes } = UpdateEstablishmentRequestSchema.parse(data)
+  const { id, ...changes } = UpdateEstablishmentRequestSchema.parse({
+    ...data,
+    ...(data.websiteUrl === undefined
+      ? {}
+      : { websiteUrl: buildEstablishmentWebsite(data.websiteUrl) }),
+  })
   const { api, validate } = httpDependencies<EstablishmentAdminApiResponse>()
   const response = await api.request({
     method: HttpMethod.PATCH,

@@ -1,14 +1,21 @@
 import { z } from 'zod'
 
+import {
+  ESTABLISHMENT_WEBSITE_MAX_LENGTH,
+  ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH,
+} from '../constants/establishment-website'
+
 export const EstablishmentWebsiteUrlSchema = z
   .string()
-  .max(2048, 'Use no máximo 2048 caracteres.')
+  .max(ESTABLISHMENT_WEBSITE_MAX_LENGTH, 'Use no máximo 2048 caracteres.')
 
 export const EstablishmentWebsiteUrlFormSchema = z
   .string()
   .trim()
-  .refine(
-    (value) =>
-      value === '' || EstablishmentWebsiteUrlSchema.safeParse(value).success,
-    'Informe uma URL HTTPS válida com até 2048 caracteres.',
+  .max(ESTABLISHMENT_WEBSITE_MAX_LENGTH, 'Use no máximo 2048 caracteres.')
+
+export const EstablishmentWebsitePathFormSchema =
+  EstablishmentWebsiteUrlFormSchema.max(
+    ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH,
+    `Use no máximo ${ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH} caracteres.`,
   )

@@ -12,6 +12,10 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 
 import FormTelephoneEstablishment from '../components/form-telephone-establishment'
+import {
+  ESTABLISHMENT_WEBSITE_BASE,
+  ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH,
+} from '../constants/establishment-website'
 import { useFormCreateEstablishment } from '../hooks/use-form-create-establishment'
 
 const FormCreateEstablishmentPage = () => {
@@ -98,10 +102,10 @@ const FormCreateEstablishmentPage = () => {
               errorText={
                 formCreateEstablishment.formState.errors.websiteUrl?.message
               }
-              helperText="Opcional. Informe o endereço HTTPS da página do estabelecimento."
+              helperText="Opcional. Digite apenas o caminho da página; o domínio ao lado será incluído ao salvar."
             >
               <InputGroup
-                startAddon="https://agendros.com.br"
+                startAddon={ESTABLISHMENT_WEBSITE_BASE}
                 startAddonProps={{
                   variant: 'subtle',
                   size: 'sm',
@@ -111,9 +115,10 @@ const FormCreateEstablishmentPage = () => {
               >
                 <InputField
                   {...formCreateEstablishment.register('websiteUrl')}
+                  type="text"
                   placeholder="/seu-estabelecimento"
-                  autoComplete="url"
-                  maxLength={2048}
+                  autoComplete="off"
+                  maxLength={ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH}
                 />
               </InputGroup>
             </Field>

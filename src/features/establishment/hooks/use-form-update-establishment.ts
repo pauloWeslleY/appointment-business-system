@@ -14,6 +14,7 @@ import {
   EstablishmentStatus,
   mapStatusEstablishment,
 } from '../types/establishment-status.type'
+import { getEstablishmentWebsitePath } from '../utils/establishment-website'
 
 const loadSelectStatusUpdateEstablishment = createListCollection({
   items: Object.values(EstablishmentStatus).map((status) => ({
@@ -31,7 +32,7 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
 
   const formDefaultValues = useMemo<DefaultValues<UpdateEstablishmentFormData>>(
     () => ({
-      websiteUrl: establishment?.websiteUrl ?? '',
+      websiteUrl: getEstablishmentWebsitePath(establishment?.websiteUrl),
       name: establishment?.name ?? '',
       email: establishment?.email ?? '',
       description: establishment?.description ?? '',
