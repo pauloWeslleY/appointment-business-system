@@ -1,4 +1,5 @@
-import { Box, Flex, For, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, For, Stack, Text } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 
 import Logotipo from '@/components/logotipo'
 import { ColorModeButton } from '@/components/ui/color-mode'
@@ -33,32 +34,34 @@ const BannerAuth = () => {
       <GeometricBackground zIndex="-1" />
 
       {/* Logo and system name */}
-      <Flex align="center" gap="2">
-        <Logotipo variant="icon" boxSize="14" />
+      <Link to="/">
+        <Flex align="center" gap="2">
+          <Logotipo variant="icon" boxSize="14" />
 
-        <Box>
-          <Text
-            fontWeight="extrabold"
-            fontSize="lg"
-            lineHeight="shorter"
-            letterSpacing="wider"
-            fontFamily="heading"
-            color={{ _light: 'slate.900', _dark: 'navy.900' }}
-          >
-            System
-          </Text>
-          <Text
-            fontWeight="extrabold"
-            fontSize="lg"
-            lineHeight="shorter"
-            letterSpacing="wider"
-            fontFamily="heading"
-            color={{ _light: 'slate.900', _dark: 'navy.900' }}
-          >
-            Appointment
-          </Text>
-        </Box>
-      </Flex>
+          <Box>
+            <Text
+              fontWeight="extrabold"
+              fontSize="lg"
+              lineHeight="shorter"
+              letterSpacing="wider"
+              fontFamily="heading"
+              color={{ _light: 'slate.900', _dark: 'navy.900' }}
+            >
+              System
+            </Text>
+            <Text
+              fontWeight="extrabold"
+              fontSize="lg"
+              lineHeight="shorter"
+              letterSpacing="wider"
+              fontFamily="heading"
+              color={{ _light: 'slate.900', _dark: 'navy.900' }}
+            >
+              Appointment
+            </Text>
+          </Box>
+        </Flex>
+      </Link>
 
       {/* Main content: heading, description, and features list */}
       <Flex flexDir="column" gap={{ base: '2', lg: '20' }}>
@@ -78,16 +81,22 @@ const BannerAuth = () => {
             </Text>
           </Text>
 
-          <Text
-            fontWeight="medium"
-            fontSize="lg"
-            lineHeight="short"
-            letterSpacing="wider"
-            color="navy.700"
-          >
-            Organize horários, clientes e serviços com facilidade e faça o seu
-            negócio crescer.
-          </Text>
+          <div>
+            <Text
+              fontWeight="medium"
+              fontSize="lg"
+              lineHeight="short"
+              letterSpacing="wider"
+              color="navy.700"
+            >
+              Organize horários, clientes e serviços com facilidade e faça o seu
+              negócio crescer.
+            </Text>
+
+            <Button asChild variant="plain" size="xs">
+              <Link to="/">Voltar para o site</Link>
+            </Button>
+          </div>
         </Box>
 
         <Box
