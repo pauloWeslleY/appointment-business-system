@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react'
 
 import Banner from '../components/banner'
-import Depoiments from '../components/depoiments'
 import Eyebrow from '../components/evebrow'
 import Footer from '../components/footer'
 import NavBarLandingPage from '../components/navbar-landing-page'
@@ -81,7 +80,7 @@ export function LandingPage() {
 
         <SessionDetails />
         <SessionInfo />
-        <Depoiments />
+        {/* <Depoiments /> */}
         <Planns />
 
         <Container

@@ -32,6 +32,7 @@ import { Route as AppSubscriptionSubscriptionCanceledRouteImport } from './pages
 import { Route as AppSubscriptionSubscriptionReturnRouteImport } from './pages/_app/_subscription/subscription/return'
 import { Route as AppAuthenticatedAdminAccountIndexRouteImport } from './pages/_app/_authenticated/_admin/account/index'
 import { Route as AppAuthenticatedAdminEstablishmentIndexRouteImport } from './pages/_app/_authenticated/_admin/establishment/index'
+import { Route as AppAuthenticatedAdminHelpIndexRouteImport } from './pages/_app/_authenticated/_admin/help/index'
 import { Route as AppAuthenticatedAdminOrganizationIndexRouteImport } from './pages/_app/_authenticated/_admin/organization/index'
 import { Route as AppAuthenticatedAdminSettingsIndexRouteImport } from './pages/_app/_authenticated/_admin/settings/index'
 import { Route as AppAuthenticatedAdminTeamManagementIndexRouteImport } from './pages/_app/_authenticated/_admin/team-management/index'
@@ -174,6 +175,12 @@ const AppAuthenticatedAdminEstablishmentIndexRoute =
   AppAuthenticatedAdminEstablishmentIndexRouteImport.update({
     id: '/establishment/',
     path: '/establishment/',
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+  } as any)
+const AppAuthenticatedAdminHelpIndexRoute =
+  AppAuthenticatedAdminHelpIndexRouteImport.update({
+    id: '/help/',
+    path: '/help/',
     getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
   } as any)
 const AppAuthenticatedAdminOrganizationIndexRoute =
@@ -338,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/subscription/': typeof AppSubscriptionSubscriptionIndexRoute
   '/account/': typeof AppAuthenticatedAdminAccountIndexRoute
   '/establishment/': typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  '/help/': typeof AppAuthenticatedAdminHelpIndexRoute
   '/organization/': typeof AppAuthenticatedAdminOrganizationIndexRoute
   '/settings/': typeof AppAuthenticatedAdminSettingsIndexRoute
   '/team-management/': typeof AppAuthenticatedAdminTeamManagementIndexRoute
@@ -379,6 +387,7 @@ export interface FileRoutesByTo {
   '/subscription': typeof AppSubscriptionSubscriptionIndexRoute
   '/account': typeof AppAuthenticatedAdminAccountIndexRoute
   '/establishment': typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  '/help': typeof AppAuthenticatedAdminHelpIndexRoute
   '/organization': typeof AppAuthenticatedAdminOrganizationIndexRoute
   '/settings': typeof AppAuthenticatedAdminSettingsIndexRoute
   '/team-management': typeof AppAuthenticatedAdminTeamManagementIndexRoute
@@ -427,6 +436,7 @@ export interface FileRoutesById {
   '/_app/_subscription/subscription/': typeof AppSubscriptionSubscriptionIndexRoute
   '/_app/_authenticated/_admin/account/': typeof AppAuthenticatedAdminAccountIndexRoute
   '/_app/_authenticated/_admin/establishment/': typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  '/_app/_authenticated/_admin/help/': typeof AppAuthenticatedAdminHelpIndexRoute
   '/_app/_authenticated/_admin/organization/': typeof AppAuthenticatedAdminOrganizationIndexRoute
   '/_app/_authenticated/_admin/settings/': typeof AppAuthenticatedAdminSettingsIndexRoute
   '/_app/_authenticated/_admin/team-management/': typeof AppAuthenticatedAdminTeamManagementIndexRoute
@@ -471,6 +481,7 @@ export interface FileRouteTypes {
     | '/subscription/'
     | '/account/'
     | '/establishment/'
+    | '/help/'
     | '/organization/'
     | '/settings/'
     | '/team-management/'
@@ -512,6 +523,7 @@ export interface FileRouteTypes {
     | '/subscription'
     | '/account'
     | '/establishment'
+    | '/help'
     | '/organization'
     | '/settings'
     | '/team-management'
@@ -559,6 +571,7 @@ export interface FileRouteTypes {
     | '/_app/_subscription/subscription/'
     | '/_app/_authenticated/_admin/account/'
     | '/_app/_authenticated/_admin/establishment/'
+    | '/_app/_authenticated/_admin/help/'
     | '/_app/_authenticated/_admin/organization/'
     | '/_app/_authenticated/_admin/settings/'
     | '/_app/_authenticated/_admin/team-management/'
@@ -755,6 +768,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthenticatedAdminEstablishmentIndexRouteImport
       parentRoute: typeof AppAuthenticatedAdminLayoutRoute
     }
+    '/_app/_authenticated/_admin/help/': {
+      id: '/_app/_authenticated/_admin/help/'
+      path: '/help'
+      fullPath: '/help/'
+      preLoaderRoute: typeof AppAuthenticatedAdminHelpIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
+    }
     '/_app/_authenticated/_admin/organization/': {
       id: '/_app/_authenticated/_admin/organization/'
       path: '/organization'
@@ -937,6 +957,7 @@ interface AppAuthenticatedAdminLayoutRouteChildren {
   AppAuthenticatedAdminTeamManagementLayoutRoute: typeof AppAuthenticatedAdminTeamManagementLayoutRouteWithChildren
   AppAuthenticatedAdminAccountIndexRoute: typeof AppAuthenticatedAdminAccountIndexRoute
   AppAuthenticatedAdminEstablishmentIndexRoute: typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  AppAuthenticatedAdminHelpIndexRoute: typeof AppAuthenticatedAdminHelpIndexRoute
   AppAuthenticatedAdminOrganizationIndexRoute: typeof AppAuthenticatedAdminOrganizationIndexRoute
   AppAuthenticatedAdminSettingsIndexRoute: typeof AppAuthenticatedAdminSettingsIndexRoute
   AppAuthenticatedAdminOrganizationNewIndexRoute: typeof AppAuthenticatedAdminOrganizationNewIndexRoute
@@ -952,6 +973,7 @@ const AppAuthenticatedAdminLayoutRouteChildren: AppAuthenticatedAdminLayoutRoute
       AppAuthenticatedAdminAccountIndexRoute,
     AppAuthenticatedAdminEstablishmentIndexRoute:
       AppAuthenticatedAdminEstablishmentIndexRoute,
+    AppAuthenticatedAdminHelpIndexRoute: AppAuthenticatedAdminHelpIndexRoute,
     AppAuthenticatedAdminOrganizationIndexRoute:
       AppAuthenticatedAdminOrganizationIndexRoute,
     AppAuthenticatedAdminSettingsIndexRoute:

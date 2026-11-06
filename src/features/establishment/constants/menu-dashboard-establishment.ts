@@ -2,6 +2,7 @@ import {
   BriefcaseBusiness,
   CalendarIcon,
   ChevronLeftIcon,
+  CircleHelp,
   Clock2Icon,
   HomeIcon,
   MapPinHouseIcon,
@@ -63,6 +64,11 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
     icon: Settings2,
     label: 'Configurações',
     path: '/dashboard/$slug/config',
+  },
+  {
+    icon: CircleHelp,
+    label: 'Dúvidas frequentes',
+    path: '/help',
   },
   {
     icon: ChevronLeftIcon,

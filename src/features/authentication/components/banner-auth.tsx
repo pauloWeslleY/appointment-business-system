@@ -35,31 +35,14 @@ const BannerAuth = () => {
 
       {/* Logo and system name */}
       <Link to="/">
-        <Flex align="center" gap="2">
-          <Logotipo variant="icon" boxSize="14" />
-
-          <Box>
-            <Text
-              fontWeight="extrabold"
-              fontSize="lg"
-              lineHeight="shorter"
-              letterSpacing="wider"
-              fontFamily="heading"
-              color={{ _light: 'slate.900', _dark: 'navy.900' }}
-            >
-              System
-            </Text>
-            <Text
-              fontWeight="extrabold"
-              fontSize="lg"
-              lineHeight="shorter"
-              letterSpacing="wider"
-              fontFamily="heading"
-              color={{ _light: 'slate.900', _dark: 'navy.900' }}
-            >
-              Appointment
-            </Text>
-          </Box>
+        <Flex px="4" py="5" justify="flex-start">
+          <Logotipo
+            variant="horizontal"
+            w="38"
+            h="14"
+            objectFit="contain"
+            flexShrink="0"
+          />
         </Flex>
       </Link>
 
