@@ -6,7 +6,7 @@ const PageLoader = () => {
       align="center"
       justify="center"
       colorPalette="primary"
-      h={{ base: 'auto', md: 'xl', xl: 'dvh' }}
+      h={{ base: 'sm', md: 'xl', xl: 'dvh' }}
     >
       <Spinner
         color={{ _light: 'colorPalette.600', _dark: 'colorPalette.300' }}
