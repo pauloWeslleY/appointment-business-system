@@ -2,11 +2,11 @@ import { parseAsInteger, useQueryState } from 'nuqs'
 
 import { toaster } from '@/components/ui/toaster'
 
-import type { StorageCreateEstablishmentProps } from '../helpers/storage-establishment'
+import { storageEstablishment } from '../helpers/storage-establishment'
 
-export function useStepCreateEstablishment(
-  establishment: Pick<StorageCreateEstablishmentProps, 'created'> | null,
-) {
+const establishment = storageEstablishment.get()
+
+export function useStepCreateEstablishment() {
   const [stepCreateEstablishment, setStepCreateEstablishment] = useQueryState(
     'step',
     parseAsInteger.withDefault(0),

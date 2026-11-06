@@ -127,12 +127,12 @@ const FormLoginPage = () => {
           <HStack w="full">
             <Separator
               flex="1"
-              borderColor={{ base: 'slate.300', _dark: 'slate.600' }}
+              borderColor={{ _light: 'slate.300', _dark: 'slate.600' }}
             />
             <Text flexShrink="0">Ou continue</Text>
             <Separator
               flex="1"
-              borderColor={{ base: 'slate.300', _dark: 'slate.600' }}
+              borderColor={{ _light: 'slate.300', _dark: 'slate.600' }}
             />
           </HStack>
 
@@ -167,8 +167,8 @@ const FormLoginPage = () => {
             size="sm"
             px="0"
             transition="colors"
-            color={{ base: 'sea.600', _dark: 'sea.400' }}
-            _hover={{ color: { base: 'sea.900', _dark: 'sea.700' } }}
+            color={{ _light: 'sea.600', _dark: 'sea.400' }}
+            _hover={{ color: { _light: 'sea.900', _dark: 'sea.700' } }}
           >
             <Link to="/register" params={{ step: '0' }}>
               Cadastre-se agora
