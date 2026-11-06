@@ -49,11 +49,11 @@ const FormLoginPage = () => {
           as="h2"
           fontSize={{ base: '2xl', md: '3xl' }}
           fontWeight="semibold"
-          color={{ base: 'navy.800', _dark: 'sea.200' }}
+          color={{ _light: 'navy.800', _dark: 'sea.200' }}
         >
           Bem-vindo de volta
         </Text>
-        <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
+        <Text color={{ _light: 'gray.500', _dark: 'gray.400' }}>
           Insira suas informações para continuar.
         </Text>
       </div>
