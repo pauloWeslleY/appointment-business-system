@@ -1,5 +1,6 @@
 import {
   emailOTPClient,
+  inferAdditionalFields,
   magicLinkClient,
   organizationClient,
 } from 'better-auth/client/plugins'
@@ -11,5 +12,23 @@ if (!import.meta.env.VITE_API_URL) {
 
 export const authClient = createAuthClient({
   baseURL: import.meta.env.VITE_API_URL,
-  plugins: [magicLinkClient(), emailOTPClient(), organizationClient()],
+  plugins: [
+    magicLinkClient(),
+    emailOTPClient(),
+    organizationClient(),
+    inferAdditionalFields({
+      user: {
+        status: {
+          type: ['pending', 'active', 'inactive', 'blocked'],
+          required: false,
+          input: false,
+        },
+        lastLoginAt: {
+          type: 'date',
+          required: false,
+          input: false,
+        },
+      },
+    }),
+  ],
 })

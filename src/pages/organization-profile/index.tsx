@@ -55,7 +55,7 @@ function OrganzationProfilePage() {
   }
 
   return (
-    <Container maxW="breakpoint-md" py={{ base: '4', md: '10' }} pos="relative">
+    <Container maxW="breakpoint-lg" py={{ base: '4', md: '10' }} pos="relative">
       <Box pos="absolute" top="2" right="2">
         <ColorModeButton rounded="full" variant="ghost" />
       </Box>

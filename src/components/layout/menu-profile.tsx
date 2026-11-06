@@ -15,19 +15,19 @@ import { ChevronDown, LogOut } from 'lucide-react'
 import { memberContextQueryOptions } from '@/features/members/queries/member.query-options'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { authClient } from '@/lib/auth'
-import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
+import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 const MenuProfile = () => {
   const { data } = authClient.useSession()
-  const { data: storageData } = useStorageImage(data?.user?.image)
   const { data: member, isLoading: isLoadingMember } = useQuery(
     memberContextQueryOptions(
       data?.user?.id,
       data?.session?.activeOrganizationId ?? undefined,
     ),
   )
+  const userImage = useAccountImage()
 
   const { handleLogout } = useLogout()
 
@@ -57,8 +57,8 @@ const MenuProfile = () => {
               bg={{ _light: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
               color={{ _light: 'colorPalette.400', _dark: 'colorPalette.500' }}
             >
+              {userImage && <Avatar.Image src={userImage} />}
               <Avatar.Fallback />
-              {storageData && <Avatar.Image src={storageData} />}
             </Avatar.Root>
 
             <Box
