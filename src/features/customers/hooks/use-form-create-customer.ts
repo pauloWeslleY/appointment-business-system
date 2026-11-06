@@ -19,7 +19,7 @@ export function useFormCreateCustomer() {
     defaultValues: {
       name: '',
       email: '',
-      phones: [{ phone: '' }],
+      phones: [{ phone: '', type: 'telephone' }],
       notes: '',
       birthDate: '',
       gender: [],

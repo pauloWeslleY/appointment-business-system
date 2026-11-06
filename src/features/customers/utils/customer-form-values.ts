@@ -1,6 +1,21 @@
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import type { CustomerApiResponse } from '../types/customer-response.api.type'
 
+// Telefone fixo tem DDD + 8 dígitos; os demais números são tratados como celular.
+const TELEPHONE_DIGITS_LENGTH = 10
+
+type CustomerPhoneType = CustomerFormData['phones'][number]['type']
+
+function toCustomerPhoneType(phone: string): CustomerPhoneType {
+  const isTelephone = phone.length === TELEPHONE_DIGITS_LENGTH
+
+  if (isTelephone) {
+    return 'telephone'
+  }
+
+  return 'cellphone'
+}
+
 export function toCustomerFormValues(
   customer: CustomerApiResponse,
 ): CustomerFormData {
@@ -15,7 +30,10 @@ export function toCustomerFormValues(
   return {
     name: customer.name,
     email: customer.email,
-    phones: customer.phones.map((phone) => ({ phone })),
+    phones: customer.phones.map((phone) => ({
+      phone,
+      type: toCustomerPhoneType(phone),
+    })),
     notes: customer.notes ?? '',
     birthDate: customer.birthDate?.slice(0, 10) ?? '',
     gender,

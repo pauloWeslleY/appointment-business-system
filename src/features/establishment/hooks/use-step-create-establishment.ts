@@ -4,16 +4,18 @@ import { toaster } from '@/components/ui/toaster'
 
 import { storageEstablishment } from '../helpers/storage-establishment'
 
-const establishment = storageEstablishment.get()
-
 export function useStepCreateEstablishment() {
   const [stepCreateEstablishment, setStepCreateEstablishment] = useQueryState(
     'step',
     parseAsInteger.withDefault(0),
   )
 
+  // Lido a cada renderização: o estabelecimento é gravado no storage durante o
+  // primeiro passo, depois que este módulo já foi carregado.
+  const createdEstablishment = storageEstablishment.get()
+
   const onChangeStepCreateEstablishment = (step: number) => {
-    if (!establishment?.created) {
+    if (!createdEstablishment?.created) {
       toaster.warning({
         title: 'Para prosseguir',
         description: 'Você precisa concluir o cadastro do estabelecimento.',
@@ -33,6 +35,7 @@ export function useStepCreateEstablishment() {
   }
 
   return {
+    createdEstablishment,
     stepCreateEstablishment,
     nextStepCreateEstablishment,
     prevStepCreateEstablishment,

@@ -4,8 +4,11 @@ import {
   type BoxProps,
   Button,
   chakra,
+  HStack,
+  Icon,
   Stack,
 } from '@chakra-ui/react'
+import { SaveIcon } from 'lucide-react'
 
 import FormAddressFields from '../components/form-address-fields'
 import { useFormUpdateAddress } from '../hooks/use-form-update-address'
@@ -13,10 +16,14 @@ import type { GetAddressByIdApiResponse } from '../types/address-response.api.ty
 
 interface FormUpdateAddressPageProps extends BoxProps {
   address: GetAddressByIdApiResponse
+  onCancel?: () => void
+  onSaved?: () => void
 }
 
 const FormUpdateAddressPage = ({
   address,
+  onCancel,
+  onSaved,
   ...props
 }: FormUpdateAddressPageProps) => {
   const {
@@ -24,7 +31,7 @@ const FormUpdateAddressPage = ({
     updateAddressError,
     isPendingUpdateAddress,
     handleUpdateAddress,
-  } = useFormUpdateAddress(address)
+  } = useFormUpdateAddress(address, onSaved)
 
   return (
     <Box spaceY="2" {...props}>
@@ -42,16 +49,32 @@ const FormUpdateAddressPage = ({
             <FormAddressFields form={formUpdateAddress} />
           </chakra.fieldset>
 
-          <Button
-            type="submit"
-            size="sm"
-            rounded="lg"
-            alignSelf="end"
-            colorPalette="brand"
-            loading={isPendingUpdateAddress}
-          >
-            Atualizar endereço
-          </Button>
+          <HStack justify="end" flexWrap="wrap" gap="2">
+            {onCancel && (
+              <Button
+                type="button"
+                size="sm"
+                rounded="lg"
+                variant="ghost"
+                colorPalette="red"
+                disabled={isPendingUpdateAddress}
+                onClick={onCancel}
+              >
+                Cancelar
+              </Button>
+            )}
+
+            <Button
+              type="submit"
+              size="sm"
+              rounded="lg"
+              colorPalette="brand"
+              loading={isPendingUpdateAddress}
+            >
+              <Icon as={SaveIcon} boxSize="5" />
+              Atualizar endereço
+            </Button>
+          </HStack>
         </Stack>
       </chakra.form>
 

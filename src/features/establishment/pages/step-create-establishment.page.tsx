@@ -1,15 +1,13 @@
 import { Alert, Button, ButtonGroup, Flex, For, Steps } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 
-import FormCreateAddressPage from '@/features/address/pages/form-create-address.page'
+import EstablishmentAddressStepPage from '@/features/address/pages/establishment-address-step.page'
 import FormCreateOpeningHoursPage from '@/features/opening-hours/pages/form-create-opening-hours.page'
 
 import StepSummaryCreateEstablishmentSuccess from '../components/step-summary-create-establishment-success'
 import { storageEstablishment } from '../helpers/storage-establishment'
 import { useStepCreateEstablishment } from '../hooks/use-step-create-establishment'
 import FormCreateEstablishmentPage from './form-create-establishment.page'
-
-const establishment = storageEstablishment.get()
 
 const steps = [
   { title: 'Cadastrar Estabelecimento' },
@@ -19,6 +17,7 @@ const steps = [
 
 const StepCreateEstablishmentPage = () => {
   const {
+    createdEstablishment: establishment,
     stepCreateEstablishment,
     onChangeStepCreateEstablishment,
     nextStepCreateEstablishment,
@@ -52,9 +51,9 @@ const StepCreateEstablishmentPage = () => {
       </Steps.Content>
 
       <Steps.Content index={1}>
-        <FormCreateAddressPage
+        <EstablishmentAddressStepPage
           establishmentId={establishment?.id}
-          onSaved={nextStepCreateEstablishment}
+          onContinue={nextStepCreateEstablishment}
         />
       </Steps.Content>
 

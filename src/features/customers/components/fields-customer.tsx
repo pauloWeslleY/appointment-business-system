@@ -8,13 +8,14 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 import { Calendar } from 'lucide-react'
-import { Controller, type UseFormReturn } from 'react-hook-form'
+import { Controller, FormProvider, type UseFormReturn } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import type { CustomerFormData } from '../types/customer-form-data.type'
+import { getTodayIsoDate } from '../utils/customer-birth-date'
 import FormPhonesCustomer from './form-phones-customer'
 
 interface FieldsCustomerProps {
@@ -68,6 +69,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
               variant="subtle"
               locale="pt-BR"
               invalid={Boolean(form.formState.errors.birthDate)}
+              max={parseDate(getTodayIsoDate())}
               value={field.value ? [parseDate(field.value)] : []}
               onValueChange={(e) =>
                 field.onChange(e.value[0]?.toString() ?? '')
@@ -164,7 +166,9 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
         )}
       />
 
-      <FormPhonesCustomer form={form} gridColumn="1 / -1" />
+      <FormProvider {...form}>
+        <FormPhonesCustomer />
+      </FormProvider>
 
       <Field
         gridColumn="1 / -1"

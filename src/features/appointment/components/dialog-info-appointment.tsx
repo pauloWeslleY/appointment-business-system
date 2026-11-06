@@ -37,7 +37,7 @@ const DialogInfoAppointment = ({
     { label: 'Nome do cliente', value: appointment.customerNameSnapshot },
     { label: 'Status', value: appointment.status },
     { label: 'Data', value: formatAppointmentDate.format('DD/MM/YYYY') },
-    { label: 'Horário', value: formatAppointmentDate.format('HH:mm [UTC]Z') },
+    { label: 'Horário', value: formatAppointmentDate.format('HH:mm') },
     { label: 'Observações', value: appointment.notes ?? 'Nenhuma observação' },
   ]
 
@@ -52,9 +52,7 @@ const DialogInfoAppointment = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Informações do agendamento</Dialog.Title>
             </Dialog.Header>

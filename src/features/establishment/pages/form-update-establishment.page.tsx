@@ -4,6 +4,7 @@ import {
   chakra,
   GridItem,
   Icon,
+  InputGroup,
   Portal,
   Select,
   SimpleGrid,
@@ -195,13 +196,23 @@ const FormUpdateEstablishmentPage = ({
             }
             helperText="Opcional. Deixe em branco para remover o endereço cadastrado."
           >
-            <InputField
-              {...formUpdateEstablishment.register('websiteUrl')}
-              type="url"
-              placeholder="https://seu-estabelecimento.com.br"
-              autoComplete="url"
-              maxLength={2048}
-            />
+            <InputGroup
+              startAddon="https://agendros.com.br"
+              startAddonProps={{
+                variant: 'subtle',
+                size: 'sm',
+                roundedTopLeft: 'xl',
+                roundedBottomLeft: 'xl',
+              }}
+            >
+              <InputField
+                {...formUpdateEstablishment.register('websiteUrl')}
+                type="url"
+                placeholder="/seu-estabelecimento"
+                autoComplete="url"
+                maxLength={2048}
+              />
+            </InputGroup>
           </Field>
 
           <FormTelephoneEstablishment />

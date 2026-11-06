@@ -13,8 +13,6 @@ import {
 import { Save } from 'lucide-react'
 import { FormProvider } from 'react-hook-form'
 
-import InputField from '@/components/input-field'
-import { Field } from '@/components/ui/field'
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 
 import EstablishmentPaymentFields from '../components/establishment-payment-fields'
@@ -95,23 +93,6 @@ export default function EstablishmentLinksSettingsPage({
 
         <Fieldset.Root disabled={!canUpdate || isSaving}>
           <Fieldset.Content gap="6">
-            <Field
-              label="URL da página do estabelecimento"
-              invalid={Boolean(form.formState.errors.websiteUrl)}
-              errorText={form.formState.errors.websiteUrl?.message}
-              helperText="Opcional. Deixe em branco para remover o endereço cadastrado."
-            >
-              <InputField
-                {...form.register('websiteUrl')}
-                type="url"
-                placeholder="https://seu-estabelecimento.com.br"
-                autoComplete="url"
-                maxLength={2048}
-              />
-            </Field>
-
-            <Separator />
-
             <EstablishmentSocialLinksFields />
 
             <Separator />
@@ -127,6 +108,19 @@ export default function EstablishmentLinksSettingsPage({
 
             <HStack justify="end" flexWrap="wrap" gap="3">
               <Button
+                type="button"
+                variant="ghost"
+                colorPalette="red"
+                size="sm"
+                rounded="lg"
+                alignSelf="start"
+                disabled={!form.formState.isDirty}
+                onClick={discardChanges}
+              >
+                Descartar alterações
+              </Button>
+
+              <Button
                 type="submit"
                 size="sm"
                 rounded="lg"
@@ -138,18 +132,6 @@ export default function EstablishmentLinksSettingsPage({
               >
                 <Icon as={Save} boxSize="5" />
                 Salvar links
-              </Button>
-
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                rounded="lg"
-                alignSelf="start"
-                disabled={!form.formState.isDirty}
-                onClick={discardChanges}
-              >
-                Descartar alterações
               </Button>
             </HStack>
           </Fieldset.Content>

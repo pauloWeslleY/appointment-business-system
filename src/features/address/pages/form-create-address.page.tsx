@@ -9,11 +9,13 @@ import { useFormCreateAddress } from '../hooks/use-form-create-address'
 interface FormCreateAddressPageProps {
   establishmentId?: string
   onSaved?: () => void
+  allowSkip?: boolean
 }
 
 const FormCreateAddressPage = ({
   establishmentId,
   onSaved,
+  allowSkip = false,
 }: FormCreateAddressPageProps) => {
   const {
     formCreateAddress,
@@ -46,20 +48,21 @@ const FormCreateAddressPage = ({
           </chakra.fieldset>
 
           <HStack justify="flex-end" gap="2">
-            <Button
-              asChild
-              size="sm"
-              rounded="lg"
-              colorPalette="red"
-              variant="ghost"
-            >
-              <Link to="/establishment">Pular</Link>
-            </Button>
+            {allowSkip && (
+              <Button
+                asChild
+                size="sm"
+                rounded="lg"
+                colorPalette="red"
+                variant="ghost"
+              >
+                <Link to="/establishment">Pular</Link>
+              </Button>
+            )}
             <Button
               type="submit"
               size="sm"
               rounded="lg"
-
               colorPalette="brand"
               loading={isPendingCreateAddress}
             >
@@ -70,7 +73,7 @@ const FormCreateAddressPage = ({
       </chakra.form>
 
       {createAddressError && (
-        <Alert.Root status="error" variant="subtle" rounded="xl">
+        <Alert.Root status="error" variant="subtle" rounded="xl" mt="4">
           <Alert.Indicator />
           <Alert.Title>{createAddressError.message}</Alert.Title>
         </Alert.Root>

@@ -1,5 +1,7 @@
 import z from 'zod'
 
+import { isFutureBirthDate } from '../utils/customer-birth-date'
+
 export const CustomerFormSchema = z.object({
   name: z.string().trim().max(200).min(1, {
     error: 'Nome é obrigatório',
@@ -11,6 +13,7 @@ export const CustomerFormSchema = z.object({
     .array(
       z.object({
         phone: z.string().trim().min(1, 'Telefone é obrigatório'),
+        type: z.enum(['telephone', 'cellphone']),
       }),
     )
     .min(1, {
@@ -27,5 +30,9 @@ export const CustomerFormSchema = z.object({
   notes: z.string().trim().optional(),
   birthDate: z
     .union([z.literal(''), z.iso.date('Data de nascimento inválida')])
+    .refine(
+      (birthDate) => !birthDate || !isFutureBirthDate(birthDate),
+      'A data de nascimento não pode estar no futuro',
+    )
     .optional(),
 })

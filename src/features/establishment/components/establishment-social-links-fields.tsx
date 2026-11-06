@@ -20,7 +20,11 @@ const EstablishmentSocialLinksFields = () => {
         Opcional. Deixe um campo em branco para remover o contato cadastrado.
       </Fieldset.HelperText>
 
-      <Fieldset.Content gap="5">
+      <Fieldset.Content
+        display="grid"
+        gridTemplateColumns="repeat(auto-fit, minmax(min(250px, 100%), 1fr))"
+        gap="5"
+      >
         <Field
           label="Instagram"
           invalid={Boolean(errors.instagram)}

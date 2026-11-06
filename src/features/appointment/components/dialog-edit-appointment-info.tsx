@@ -1,4 +1,4 @@
-import { Badge, Box, For, HStack, Text } from '@chakra-ui/react'
+import { Badge, DataList, For } from '@chakra-ui/react'
 import React from 'react'
 
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
@@ -17,53 +17,47 @@ const DialogEditAppointmentInfo = ({
     appointment.startsAt,
     appointment.timezone,
   )
-
-  const AppointmentInfo: { title: string; content: React.ReactNode }[] = [
-    {
-      title: 'Status:',
-      content: (
-        <Badge
-          colorPalette={getBadgeAppointmentColor[appointment.status]}
-          w="fit"
-        >
-          {appointmentStatusLabel[appointment.status]}
-        </Badge>
-      ),
-    },
-    { title: 'Data:', content: appointmentDateCurrent.format('DD/MM/YYYY') },
-    {
-      title: 'Horário:',
-      content: appointmentDateCurrent.format('HH:mm [UTC]Z'),
-    },
-  ]
+  const appointmentStatusColor = getBadgeAppointmentColor[appointment.status]
+  const appointmentStatusLabelText = appointmentStatusLabel[appointment.status]
 
   return (
-    <Box spaceY="1" mb="4">
-      <For each={AppointmentInfo}>
-        {(info) => (
-          <React.Fragment key={info.title}>
-            {info.title === 'Status:' ? (
-              <HStack align="center">
-                <Text
-                  fontSize="sm"
-                  color={{ base: 'gray.600', _dark: 'gray.400' }}
+    <DataList.Root mb="4" orientation="horizontal">
+      <For
+        each={[
+          {
+            title: 'Status:',
+            content: appointmentStatusLabelText,
+          },
+          {
+            title: 'Data:',
+            content: appointmentDateCurrent.format('DD/MM/YYYY'),
+          },
+          {
+            title: 'Horário:',
+            content: appointmentDateCurrent.format('HH:mm'),
+          },
+        ]}
+      >
+        {(data) => (
+          <DataList.Item key={data.title}>
+            <DataList.ItemLabel>{data.title}</DataList.ItemLabel>
+            {data.title === 'Status:' ? (
+              <DataList.ItemLabel>
+                <Badge
+                  colorPalette={appointmentStatusColor}
+                  w="fit"
+                  variant="surface"
                 >
-                  {info.title}:
-                </Text>
-                {info.content}
-              </HStack>
+                  {data.content}
+                </Badge>
+              </DataList.ItemLabel>
             ) : (
-              <Text
-                fontSize="sm"
-                color={{ base: 'gray.600', _dark: 'gray.400' }}
-              >
-                {info.title} {info.content}
-              </Text>
+              <DataList.ItemLabel>{data.content}</DataList.ItemLabel>
             )}
-          </React.Fragment>
+          </DataList.Item>
         )}
       </For>
-    </Box>
+    </DataList.Root>
   )
 }
 

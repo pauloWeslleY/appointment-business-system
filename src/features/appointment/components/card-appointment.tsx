@@ -11,6 +11,7 @@ import {
 import { getRouteApi } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import { UserCircle2 } from 'lucide-react'
+import { useMemo } from 'react'
 
 import { cardCss } from '@/theme/styles/global-styles'
 
@@ -26,15 +27,19 @@ interface CardAppointmentProps {
   appointment: GetAppointmentByEstablishmentModel
 }
 
+const establishmentPage = getRouteApi('/dashboard/$slug')
+
 const CardAppointment = ({ appointment }: CardAppointmentProps) => {
-  const { establishment } = getRouteApi('/dashboard/$slug').useLoaderData()
-  const formatAppointmentDate = (date: string) => {
+  const { establishment } = establishmentPage.useLoaderData()
+
+  const formatAppointmentDate = useMemo(() => {
     const formattedDate = appointmentLocalDate(
-      date,
+      appointment.startsAt,
       establishment.timezone,
-    ).format('ddd, DD [de] MMMM [de] YYYY [às] HH:mm [UTC]Z')
+    ).format('ddd, DD [de] MMMM [de] YYYY [às] HH:mm')
+
     return formattedDate.at(0)?.toUpperCase() + formattedDate.slice(1)
-  }
+  }, [appointment.startsAt, establishment.timezone])
 
   return (
     <Card.Root
@@ -46,12 +51,12 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
       css={cardCss}
       borderLeftWidth="4px"
       borderLeftColor={{
-        base: `${getBadgeAppointmentColor[appointment.status]}.500`,
+        _light: `${getBadgeAppointmentColor[appointment.status]}.500`,
         _dark: `${getBadgeAppointmentColor[appointment.status]}.600`,
       }}
       outlineWidth="1px"
       outlineStyle="solid"
-      outlineColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+      outlineColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
     >
       <Card.Header
         w="full"
@@ -81,16 +86,16 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
           <Text
             fontSize="sm"
             letterSpacing="wide"
-            color={{ base: 'gray.600', _dark: 'gray.400' }}
+            color={{ _light: 'gray.600', _dark: 'gray.400' }}
           >
-            {formatAppointmentDate(appointment.startsAt)}
+            {formatAppointmentDate}
           </Text>
 
           <HStack align="center" w="full" flexWrap="wrap">
             <Text
               fontSize="sm"
               letterSpacing="wide"
-              color={{ base: 'gray.600', _dark: 'gray.400' }}
+              color={{ _light: 'gray.600', _dark: 'gray.400' }}
             >
               Status:
             </Text>
@@ -107,13 +112,13 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
         <Separator
           my="2"
           orientation="horizontal"
-          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+          borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
         />
 
         <Flex
           align="center"
           gap="2"
-          color={{ base: 'tertiary.700', _dark: 'tertiary.500/80' }}
+          color={{ _light: 'tertiary.700', _dark: 'tertiary.500/80' }}
         >
           <Icon boxSize="4">
             <UserCircle2 />

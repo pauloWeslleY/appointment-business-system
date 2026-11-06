@@ -3,6 +3,7 @@ import {
   Button,
   Fieldset,
   FileUpload,
+  Grid,
   Image,
   QrCode,
   Stack,
@@ -90,38 +91,43 @@ const EstablishmentPaymentFields = ({
           )}
         />
 
-        <Field
-          label="Link de pagamento"
-          required={values.requiresBookingDeposit}
-          invalid={Boolean(errors.paymentLink)}
-          errorText={errors.paymentLink?.message}
-          helperText="Cole o link HTTPS fornecido pelo seu meio de pagamento."
+        <Grid
+          templateColumns="repeat(auto-fit, minmax(min(250px, 100%), 1fr))"
+          gap="5"
         >
-          <InputField
-            {...form.register('paymentLink')}
-            onChange={(event) => onPaymentLinkChange(event.target.value)}
-            type="url"
-            placeholder="https://..."
-            autoComplete="off"
-            maxLength={2048}
-          />
-        </Field>
+          <Field
+            label="Link de pagamento"
+            required={values.requiresBookingDeposit}
+            invalid={Boolean(errors.paymentLink)}
+            errorText={errors.paymentLink?.message}
+            helperText="Cole o link HTTPS fornecido pelo seu meio de pagamento."
+          >
+            <InputField
+              {...form.register('paymentLink')}
+              onChange={(event) => onPaymentLinkChange(event.target.value)}
+              type="url"
+              placeholder="https://..."
+              autoComplete="off"
+              maxLength={2048}
+            />
+          </Field>
 
-        <Field
-          label="URL da imagem do QR Code"
-          required={values.requiresBookingDeposit && !values.qrCodeFile}
-          invalid={Boolean(errors.paymentQrCodeUrl)}
-          errorText={errors.paymentQrCodeUrl?.message}
-          helperText="Use uma URL HTTPS da imagem, envie um arquivo ou gere o QR Code do link abaixo."
-        >
-          <InputField
-            {...form.register('paymentQrCodeUrl')}
-            type="url"
-            placeholder="https://.../qr-code.png"
-            autoComplete="off"
-            maxLength={2048}
-          />
-        </Field>
+          <Field
+            label="URL da imagem do QR Code"
+            required={values.requiresBookingDeposit && !values.qrCodeFile}
+            invalid={Boolean(errors.paymentQrCodeUrl)}
+            errorText={errors.paymentQrCodeUrl?.message}
+            helperText="Use uma URL HTTPS da imagem, envie um arquivo ou gere o QR Code do link abaixo."
+          >
+            <InputField
+              {...form.register('paymentQrCodeUrl')}
+              type="url"
+              placeholder="https://.../qr-code.png"
+              autoComplete="off"
+              maxLength={2048}
+            />
+          </Field>
+        </Grid>
 
         <Field
           label="Enviar imagem do QR Code"

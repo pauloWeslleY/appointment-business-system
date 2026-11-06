@@ -10,7 +10,10 @@ import type { AddressFormData } from '../types/address-form.type'
 import type { GetAddressByIdApiResponse } from '../types/address-response.api.type'
 import { toAddressFormValues } from '../utils/address-form-values'
 
-export function useFormUpdateAddress(address: GetAddressByIdApiResponse) {
+export function useFormUpdateAddress(
+  address: GetAddressByIdApiResponse,
+  onSaved?: () => void,
+) {
   const formUpdateAddress = useForm<AddressFormData>({
     resolver: zodResolver(AddressFormDataSchema),
     defaultValues: toAddressFormValues(address),
@@ -24,7 +27,12 @@ export function useFormUpdateAddress(address: GetAddressByIdApiResponse) {
   const { isDirty, dirtyFields } = formUpdateAddress.formState
 
   const handleUpdateAddress = () => {
+    if (isPendingUpdateAddress) {
+      return
+    }
+
     const hasAddressChanges = isDirty && Object.keys(dirtyFields).length > 0
+
     if (!hasAddressChanges) {
       toaster.warning({ title: 'Você não alterou o formulário' })
       return
@@ -44,6 +52,10 @@ export function useFormUpdateAddress(address: GetAddressByIdApiResponse) {
         onSuccess: (result) => {
           formUpdateAddress.reset(toAddressFormValues(result.address))
           toaster.success({ title: 'Endereço atualizado com sucesso' })
+
+          if (onSaved) {
+            onSaved()
+          }
         },
         onError: (error) => {
           toaster.error({

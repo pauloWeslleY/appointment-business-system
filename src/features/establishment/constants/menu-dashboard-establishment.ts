@@ -4,6 +4,7 @@ import {
   ChevronLeftIcon,
   Clock2Icon,
   HomeIcon,
+  MapPinHouseIcon,
   Settings2,
   StarIcon,
   UserCog,
@@ -42,6 +43,11 @@ export const loadMenuDashboardEstablishment: MenuNavigationItemProps[] = [
     icon: UserCog,
     label: 'Profissionais',
     path: '/dashboard/$slug/professionals',
+  },
+  {
+    icon: MapPinHouseIcon,
+    label: 'Endereço',
+    path: '/dashboard/$slug/address',
   },
   {
     icon: UsersRound,

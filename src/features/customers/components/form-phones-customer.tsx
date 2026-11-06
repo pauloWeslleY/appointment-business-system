@@ -1,163 +1,61 @@
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  chakra,
-  Flex,
-  type FlexProps,
-  HStack,
-  Icon,
-  IconButton,
-  Separator,
-  SimpleGrid,
-} from '@chakra-ui/react'
-import { Trash2 } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import { Controller, useFieldArray, type UseFormReturn } from 'react-hook-form'
-import { PatternFormat } from 'react-number-format'
-
-import InputField from '@/components/input-field'
-import { Field } from '@/components/ui/field'
-import { Tooltip } from '@/components/ui/tooltip'
-import { maplabelFormPhonesMask } from '@/shared/constants/form-phones-mask'
-import { FormatMask } from '@/shared/utils/formatted-mask'
+import { Alert, Button, chakra, Flex, Stack } from '@chakra-ui/react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import type { CustomerFormData } from '../types/customer-form-data.type'
+import TelephoneContactCustomerField from './telephone-contact-customer-field'
 
-interface FormPhonesCustomerProps extends FlexProps {
-  form: UseFormReturn<CustomerFormData>
-}
-
-const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
-  const [mask, setMask] = useState<string>(FormatMask.TELEPHONE)
+const FormPhonesCustomer = () => {
+  const form = useFormContext<CustomerFormData>()
   const {
-    fields: phonesFields,
-    append: appendPhones,
-    remove: removePhones,
+    fields: telephoneFields,
+    append: appendTelephone,
+    remove: removeTelephone,
   } = useFieldArray({ control: form.control, name: 'phones' })
 
-  const labelFormPhonesMask = useMemo(
-    () => maplabelFormPhonesMask(mask),
-    [mask],
-  )
+  const addNewTelephone = () =>
+    appendTelephone({ phone: '', type: 'telephone' })
 
-  const addNewPhones = () => appendPhones({ phone: '' })
-
-  const removePhonesByIndex = (index: number) => removePhones(index)
-
-  const onCloseAlertPhones = () => form.clearErrors('phones')
+  const removeTelephoneByIndex = (index: number) => removeTelephone(index)
 
   return (
     <Flex
-      {...props}
-      aria-label="Form Phones"
-      flexDir="column"
+      aria-label="Telefones do cliente"
+      gridColumn={{ base: 'span 1', md: '1 / -1' }}
       w="full"
+      minW="0"
+      flexDir={{ base: 'column', xl: 'row' }}
       gap="4"
+      pl="2"
       borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       borderWidth="1px"
       rounded="lg"
       shadow={{ base: 'shape', md: '2xs' }}
-      p="2"
+      p="4"
     >
-      <HStack flexWrap="wrap">
-        <ButtonGroup gap="2" flexDir={{ base: 'column', md: 'row' }}>
-          <Button
-            id="telephone-button"
-            onClick={() => setMask(FormatMask.TELEPHONE)}
-            size="xs"
-            rounded="lg"
-            variant={mask === FormatMask.TELEPHONE ? 'solid' : 'outline'}
-          >
-            Telefone fixo
-          </Button>
-          <Button
-            id="cellphone-button"
-            onClick={() => setMask(FormatMask.CELLPHONE)}
-            size="xs"
-            rounded="lg"
-            variant={mask === FormatMask.CELLPHONE ? 'solid' : 'outline'}
-          >
-            Celular
-          </Button>
-        </ButtonGroup>
-
-        <Separator
-          orientation="vertical"
-          height="8"
-          borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-        />
-
-        <chakra.div
-          display="flex"
-          flexDir="row"
-          flexWrap="wrap"
-          alignItems="center"
-          gap="4"
+      <chakra.div display="flex" flexDir="column" alignItems="center" gap="4">
+        Contato
+        <Button
+          type="button"
+          size="xs"
+          rounded="lg"
+          variant="ghost"
+          colorPalette="green"
+          onClick={addNewTelephone}
         >
-          {labelFormPhonesMask.title}
-          <Button
-            type="button"
-            size="xs"
-            rounded="lg"
-            variant="ghost"
-            colorPalette="green"
-            onClick={addNewPhones}
-          >
-            Adicionar {labelFormPhonesMask.label}
-          </Button>
-        </chakra.div>
-      </HStack>
+          Adicionar Contato
+        </Button>
+      </chakra.div>
 
-      <SimpleGrid
-        w="full"
-        columns={{ base: 1, md: phonesFields.length > 1 ? 2 : 1 }}
-        gap="4"
-      >
-        {phonesFields.map((input, index) => (
-          <Flex key={input.id} gap="2" flexDir={{ base: 'column', md: 'row' }}>
-            <Controller
-              name={`phones.${index}.phone`}
-              control={form.control}
-              render={({ field }) => {
-                return (
-                  <Field
-                    invalid={!!form.formState.errors.phones?.[index]?.phone}
-                    errorText={
-                      form.formState.errors.phones?.[index]?.phone?.message
-                    }
-                  >
-                    <PatternFormat
-                      value={field.value}
-                      onValueChange={(values) => field.onChange(values.value)}
-                      mask="_"
-                      format={mask}
-                      placeholder={labelFormPhonesMask.placeholder}
-                      customInput={InputField}
-                    />
-                  </Field>
-                )
-              }}
-            />
-
-            {phonesFields.length > 1 && (
-              <Tooltip content="Remover telefone" showArrow>
-                <IconButton
-                  alignSelf={{ base: 'center', xl: 'flex-start' }}
-                  size="xs"
-                  rounded="full"
-                  variant="ghost"
-                  colorPalette="red"
-                  onClick={() => removePhonesByIndex(index)}
-                  mt="0.5"
-                >
-                  <Icon as={Trash2} boxSize="4" />
-                </IconButton>
-              </Tooltip>
-            )}
-          </Flex>
+      <Stack direction="row" wrap="wrap" flex="1" minW="0">
+        {telephoneFields.map((input, index) => (
+          <TelephoneContactCustomerField
+            key={input.id}
+            index={index}
+            canRemove={telephoneFields.length > 1}
+            onRemove={() => removeTelephoneByIndex(index)}
+          />
         ))}
-      </SimpleGrid>
+      </Stack>
 
       {form.formState.errors.phones?.message && (
         <Alert.Root
@@ -176,15 +74,6 @@ const FormPhonesCustomer = ({ form, ...props }: FormPhonesCustomerProps) => {
               {form.formState.errors.phones?.message}
             </Alert.Description>
           </Alert.Content>
-
-          <Button
-            size="xs"
-            variant="surface"
-            rounded="lg"
-            onClick={onCloseAlertPhones}
-          >
-            Fechar
-          </Button>
         </Alert.Root>
       )}
     </Flex>

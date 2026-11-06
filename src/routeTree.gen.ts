@@ -36,6 +36,7 @@ import { Route as SubscriptionSubscriptionReturnRouteImport } from './pages/_sub
 import { Route as AuthenticatedOrganizationNewIndexRouteImport } from './pages/_authenticated/organization/new/index'
 import { Route as AuthenticatedTeamManagementInvitationsIndexRouteImport } from './pages/_authenticated/team-management/invitations/index'
 import { Route as AuthenticatedTeamManagementMembersIndexRouteImport } from './pages/_authenticated/team-management/members/index'
+import { Route as DashboardSlugAddressIndexRouteImport } from './pages/dashboard/$slug/address/index'
 import { Route as DashboardSlugAppointmentIndexRouteImport } from './pages/dashboard/$slug/appointment/index'
 import { Route as DashboardSlugConfigIndexRouteImport } from './pages/dashboard/$slug/config/index'
 import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
@@ -198,6 +199,12 @@ const AuthenticatedTeamManagementMembersIndexRoute =
     path: '/members/',
     getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
   } as any)
+const DashboardSlugAddressIndexRoute =
+  DashboardSlugAddressIndexRouteImport.update({
+    id: '/address/',
+    path: '/address/',
+    getParentRoute: () => DashboardSlugLayoutRoute,
+  } as any)
 const DashboardSlugAppointmentIndexRoute =
   DashboardSlugAppointmentIndexRouteImport.update({
     id: '/appointment/',
@@ -316,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/organization/new/': typeof AuthenticatedOrganizationNewIndexRoute
   '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
+  '/dashboard/$slug/address/': typeof DashboardSlugAddressIndexRoute
   '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
   '/dashboard/$slug/config/': typeof DashboardSlugConfigIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
@@ -356,6 +364,7 @@ export interface FileRoutesByTo {
   '/organization/new': typeof AuthenticatedOrganizationNewIndexRoute
   '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members': typeof AuthenticatedTeamManagementMembersIndexRoute
+  '/dashboard/$slug/address': typeof DashboardSlugAddressIndexRoute
   '/dashboard/$slug/appointment': typeof DashboardSlugAppointmentIndexRoute
   '/dashboard/$slug/config': typeof DashboardSlugConfigIndexRoute
   '/dashboard/$slug/customers': typeof DashboardSlugCustomersIndexRoute
@@ -401,6 +410,7 @@ export interface FileRoutesById {
   '/_authenticated/organization/new/': typeof AuthenticatedOrganizationNewIndexRoute
   '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/_authenticated/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
+  '/dashboard/$slug/address/': typeof DashboardSlugAddressIndexRoute
   '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
   '/dashboard/$slug/config/': typeof DashboardSlugConfigIndexRoute
   '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
@@ -444,6 +454,7 @@ export interface FileRouteTypes {
     | '/organization/new/'
     | '/team-management/invitations/'
     | '/team-management/members/'
+    | '/dashboard/$slug/address/'
     | '/dashboard/$slug/appointment/'
     | '/dashboard/$slug/config/'
     | '/dashboard/$slug/customers/'
@@ -484,6 +495,7 @@ export interface FileRouteTypes {
     | '/organization/new'
     | '/team-management/invitations'
     | '/team-management/members'
+    | '/dashboard/$slug/address'
     | '/dashboard/$slug/appointment'
     | '/dashboard/$slug/config'
     | '/dashboard/$slug/customers'
@@ -528,6 +540,7 @@ export interface FileRouteTypes {
     | '/_authenticated/organization/new/'
     | '/_authenticated/team-management/invitations/'
     | '/_authenticated/team-management/members/'
+    | '/dashboard/$slug/address/'
     | '/dashboard/$slug/appointment/'
     | '/dashboard/$slug/config/'
     | '/dashboard/$slug/customers/'
@@ -749,6 +762,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTeamManagementMembersIndexRouteImport
       parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
     }
+    '/dashboard/$slug/address/': {
+      id: '/dashboard/$slug/address/'
+      path: '/address'
+      fullPath: '/dashboard/$slug/address/'
+      preLoaderRoute: typeof DashboardSlugAddressIndexRouteImport
+      parentRoute: typeof DashboardSlugLayoutRoute
+    }
     '/dashboard/$slug/appointment/': {
       id: '/dashboard/$slug/appointment/'
       path: '/appointment'
@@ -961,6 +981,7 @@ const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren =
   )
 
 interface DashboardSlugLayoutRouteChildren {
+  DashboardSlugAddressIndexRoute: typeof DashboardSlugAddressIndexRoute
   DashboardSlugAppointmentIndexRoute: typeof DashboardSlugAppointmentIndexRoute
   DashboardSlugConfigIndexRoute: typeof DashboardSlugConfigIndexRoute
   DashboardSlugCustomersIndexRoute: typeof DashboardSlugCustomersIndexRoute
@@ -975,6 +996,7 @@ interface DashboardSlugLayoutRouteChildren {
 }
 
 const DashboardSlugLayoutRouteChildren: DashboardSlugLayoutRouteChildren = {
+  DashboardSlugAddressIndexRoute: DashboardSlugAddressIndexRoute,
   DashboardSlugAppointmentIndexRoute: DashboardSlugAppointmentIndexRoute,
   DashboardSlugConfigIndexRoute: DashboardSlugConfigIndexRoute,
   DashboardSlugCustomersIndexRoute: DashboardSlugCustomersIndexRoute,
