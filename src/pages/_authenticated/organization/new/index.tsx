@@ -6,7 +6,7 @@ import Header from '@/components/layout/header'
 import FormCreateOrganizationProfile from '@/features/organization-profile/pages/form-create-organization-profile'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-export const Route = createFileRoute('/_authenticated/organization/create/')({
+export const Route = createFileRoute('/_authenticated/organization/new/')({
   component: CreateOrganizationProfile,
 })
 

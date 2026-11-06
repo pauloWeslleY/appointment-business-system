@@ -33,7 +33,7 @@ import { Route as Error_pageAccessDeniedIndexRouteImport } from './pages/_error_
 import { Route as SubscriptionSubscriptionIndexRouteImport } from './pages/_subscription/subscription/index'
 import { Route as SubscriptionSubscriptionCanceledRouteImport } from './pages/_subscription/subscription/canceled'
 import { Route as SubscriptionSubscriptionReturnRouteImport } from './pages/_subscription/subscription/return'
-import { Route as AuthenticatedOrganizationCreateIndexRouteImport } from './pages/_authenticated/organization/create/index'
+import { Route as AuthenticatedOrganizationNewIndexRouteImport } from './pages/_authenticated/organization/new/index'
 import { Route as AuthenticatedTeamManagementInvitationsIndexRouteImport } from './pages/_authenticated/team-management/invitations/index'
 import { Route as AuthenticatedTeamManagementMembersIndexRouteImport } from './pages/_authenticated/team-management/members/index'
 import { Route as DashboardSlugAppointmentIndexRouteImport } from './pages/dashboard/$slug/appointment/index'
@@ -180,10 +180,10 @@ const SubscriptionSubscriptionReturnRoute =
     path: '/subscription/return',
     getParentRoute: () => SubscriptionLayoutRoute,
   } as any)
-const AuthenticatedOrganizationCreateIndexRoute =
-  AuthenticatedOrganizationCreateIndexRouteImport.update({
-    id: '/organization/create/',
-    path: '/organization/create/',
+const AuthenticatedOrganizationNewIndexRoute =
+  AuthenticatedOrganizationNewIndexRouteImport.update({
+    id: '/organization/new/',
+    path: '/organization/new/',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 const AuthenticatedTeamManagementInvitationsIndexRoute =
@@ -313,7 +313,7 @@ export interface FileRoutesByFullPath {
   '/team-management/': typeof AuthenticatedTeamManagementIndexRoute
   '/access-denied/': typeof Error_pageAccessDeniedIndexRoute
   '/subscription/': typeof SubscriptionSubscriptionIndexRoute
-  '/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
+  '/organization/new/': typeof AuthenticatedOrganizationNewIndexRoute
   '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
@@ -353,7 +353,7 @@ export interface FileRoutesByTo {
   '/team-management': typeof AuthenticatedTeamManagementIndexRoute
   '/access-denied': typeof Error_pageAccessDeniedIndexRoute
   '/subscription': typeof SubscriptionSubscriptionIndexRoute
-  '/organization/create': typeof AuthenticatedOrganizationCreateIndexRoute
+  '/organization/new': typeof AuthenticatedOrganizationNewIndexRoute
   '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/team-management/members': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/appointment': typeof DashboardSlugAppointmentIndexRoute
@@ -398,7 +398,7 @@ export interface FileRoutesById {
   '/_authenticated/team-management/': typeof AuthenticatedTeamManagementIndexRoute
   '/_error_page/access-denied/': typeof Error_pageAccessDeniedIndexRoute
   '/_subscription/subscription/': typeof SubscriptionSubscriptionIndexRoute
-  '/_authenticated/organization/create/': typeof AuthenticatedOrganizationCreateIndexRoute
+  '/_authenticated/organization/new/': typeof AuthenticatedOrganizationNewIndexRoute
   '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
   '/_authenticated/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
   '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
@@ -441,7 +441,7 @@ export interface FileRouteTypes {
     | '/team-management/'
     | '/access-denied/'
     | '/subscription/'
-    | '/organization/create/'
+    | '/organization/new/'
     | '/team-management/invitations/'
     | '/team-management/members/'
     | '/dashboard/$slug/appointment/'
@@ -481,7 +481,7 @@ export interface FileRouteTypes {
     | '/team-management'
     | '/access-denied'
     | '/subscription'
-    | '/organization/create'
+    | '/organization/new'
     | '/team-management/invitations'
     | '/team-management/members'
     | '/dashboard/$slug/appointment'
@@ -525,7 +525,7 @@ export interface FileRouteTypes {
     | '/_authenticated/team-management/'
     | '/_error_page/access-denied/'
     | '/_subscription/subscription/'
-    | '/_authenticated/organization/create/'
+    | '/_authenticated/organization/new/'
     | '/_authenticated/team-management/invitations/'
     | '/_authenticated/team-management/members/'
     | '/dashboard/$slug/appointment/'
@@ -728,11 +728,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubscriptionSubscriptionReturnRouteImport
       parentRoute: typeof SubscriptionLayoutRoute
     }
-    '/_authenticated/organization/create/': {
-      id: '/_authenticated/organization/create/'
-      path: '/organization/create'
-      fullPath: '/organization/create/'
-      preLoaderRoute: typeof AuthenticatedOrganizationCreateIndexRouteImport
+    '/_authenticated/organization/new/': {
+      id: '/_authenticated/organization/new/'
+      path: '/organization/new'
+      fullPath: '/organization/new/'
+      preLoaderRoute: typeof AuthenticatedOrganizationNewIndexRouteImport
       parentRoute: typeof AuthenticatedLayoutRoute
     }
     '/_authenticated/team-management/invitations/': {
@@ -904,7 +904,7 @@ interface AuthenticatedLayoutRouteChildren {
   AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
   AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
-  AuthenticatedOrganizationCreateIndexRoute: typeof AuthenticatedOrganizationCreateIndexRoute
+  AuthenticatedOrganizationNewIndexRoute: typeof AuthenticatedOrganizationNewIndexRoute
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
   AuthenticatedEstablishmentRoutesNewIndexRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRoute
 }
@@ -916,8 +916,8 @@ const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
   AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
   AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
-  AuthenticatedOrganizationCreateIndexRoute:
-    AuthenticatedOrganizationCreateIndexRoute,
+  AuthenticatedOrganizationNewIndexRoute:
+    AuthenticatedOrganizationNewIndexRoute,
   AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute:
     AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute,
   AuthenticatedEstablishmentRoutesNewIndexRoute:

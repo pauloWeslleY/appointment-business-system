@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import {
+  type LinkProps,
+  useLocation,
+  useNavigate,
+} from '@tanstack/react-router'
 import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -27,10 +31,10 @@ const formDefaultValues =
   })
 
 export function useFormCreateOrganizationProfile() {
+  const { pathname } = useLocation()
   const navigate = useNavigate()
   const {
     mutate: createOrganizationProfile,
-    reset: resetCreateOrganizationProfile,
     isPending: isPendingCreateOrganizationProfile,
   } = useMutation({
     ...organizationProfileMutationOptions.create(),
@@ -70,6 +74,7 @@ export function useFormCreateOrganizationProfile() {
     defaultValues: formDefaultValues(),
   })
 
+  const pathCreateOrganization: LinkProps['to'] = '/organization/new'
   const fieldTradeName = useWatch({ control, name: 'profile.tradeName' })
 
   const syncNameFromTradeName = () => {
@@ -112,11 +117,18 @@ export function useFormCreateOrganizationProfile() {
       {
         onSuccess: async (organizationProfile) => {
           idempotencyKeyStorage.deleteKey()
+          reset(data)
+
+          if (pathname === pathCreateOrganization) {
+            await navigate({ to: '/organization', replace: true })
+            return
+          }
 
           try {
             await createMeContextService({
               organizationId: organizationProfile.organization.id,
             })
+            await navigate({ to: '/organization', replace: true })
           } catch (error) {
             toaster.error({
               title: 'Ops! Não foi possível ativar a organização.',
@@ -125,10 +137,6 @@ export function useFormCreateOrganizationProfile() {
 
             return
           }
-
-          reset(data)
-          resetCreateOrganizationProfile()
-          await navigate({ to: '/organization', replace: true })
         },
         onError: (error) => {
           setError('root', { type: 'manual', message: error.message })
