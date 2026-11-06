@@ -55,7 +55,7 @@ function OrganizationPage() {
     { label: 'Telefone', value: formattedPhone(organizationProfile.phone) },
     {
       label: 'Criada em',
-      value: formattedDateAndHours(organization.createdAt),
+      value: formattedDateAndHours(organization.createdAt, true),
     },
   ]
 
@@ -69,7 +69,7 @@ function OrganizationPage() {
 
         {organizationProfilePermission.canCreate && (
           <Button rounded="lg" size="xs" asChild>
-            <Link to="/organization/create">
+            <Link to="/organization/new">
               <Icon as={PlusIcon} boxSize="5" />
               Novo perfil empresarial
             </Link>
