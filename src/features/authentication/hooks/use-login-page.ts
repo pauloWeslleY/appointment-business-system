@@ -15,7 +15,7 @@ import { LoginFormSchema } from '../schemas/login-form.schema'
 import type { AuthModel } from '../types/authentication.model'
 import type { LoginFormData } from '../types/login-form-data.type'
 
-const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/'
+const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/establishment'
 
 export function useLoginPage() {
   const [isPendingLoginWithGoogle, startTransition] = useTransition()

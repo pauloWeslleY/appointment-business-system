@@ -57,6 +57,7 @@ export default function EstablishmentLinksSettingsPage({
           <Alert.Title>Não foi possível carregar os links.</Alert.Title>
           <Alert.Description>{query.error.message}</Alert.Description>
           <Button
+            rounded="lg"
             type="button"
             size="sm"
             variant="outline"

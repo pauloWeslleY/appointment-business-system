@@ -48,7 +48,7 @@ const DialogSendInvite = () => {
       size="lg"
     >
       <Dialog.Trigger asChild>
-        <Button rounded="2xl" size="xs">
+        <Button rounded="lg" size="xs">
           <Icon as={SendIcon} boxSize="5" />
           Enviar convite
         </Button>
@@ -56,9 +56,7 @@ const DialogSendInvite = () => {
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Enviar convite para Membro</Dialog.Title>
             </Dialog.Header>

@@ -46,9 +46,13 @@ const FormUpdateEstablishmentAddressPage = ({
             </>
           )}
         </Text>
-        <Button onClick={retryEstablishment}>Tentar novamente</Button>
+        <Button rounded="lg" onClick={retryEstablishment}>
+          Tentar novamente
+        </Button>
         {errorAddress && (
-          <Button onClick={retryAddress}>Tentar novamente</Button>
+          <Button rounded="lg" onClick={retryAddress}>
+            Tentar novamente
+          </Button>
         )}
       </Stack>
     )

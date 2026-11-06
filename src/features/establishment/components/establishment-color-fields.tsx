@@ -105,6 +105,7 @@ const EstablishmentColorFields = ({
         </SimpleGrid>
 
         <Button
+          rounded="lg"
           type="button"
           variant="outline"
           size="sm"

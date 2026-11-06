@@ -68,14 +68,14 @@ function RouteComponent() {
             </Alert.Content>
 
             <Flex flexDir="column" align="center" gap="4" mt="4" w="full">
-              <Button asChild variant="solid" rounded="xl" w="full">
+              <Button asChild variant="solid" rounded="lg" w="full">
                 <Link to="/login">Faça login</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 colorPalette="brand"
-                rounded="xl"
+                rounded="lg"
                 w="full"
               >
                 <Link to="/register">Registre-se</Link>

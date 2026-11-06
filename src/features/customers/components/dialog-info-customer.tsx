@@ -52,9 +52,7 @@ const SidebarInfoCustomer = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Informações do Cliente</Dialog.Title>
             </Dialog.Header>
@@ -95,7 +93,7 @@ const SidebarInfoCustomer = ({
                   size="sm"
                   variant="surface"
                   colorPalette="red"
-                  rounded="xl"
+                  rounded="lg"
                 >
                   Fechar
                 </Button>

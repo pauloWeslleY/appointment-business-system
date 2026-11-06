@@ -26,7 +26,7 @@ const SelectEstablishmentsByOrganization = ({
   return (
     <Select.Root
       variant="subtle"
-      size="sm"
+      size="xs"
       collection={loadSelectEstablishmentsByOrganization}
       w={{ base: 'full', md: '250px' }}
       minW="0"

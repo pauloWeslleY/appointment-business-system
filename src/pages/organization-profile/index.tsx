@@ -90,7 +90,7 @@ function OrganzationProfilePage() {
           <Flex align="center" gap="2" flexWrap="wrap">
             <Button
               variant="outline"
-              rounded="md"
+              rounded="lg"
               size="2xs"
               onClick={handleBackToDashboard}
             >
@@ -99,7 +99,7 @@ function OrganzationProfilePage() {
             <Button
               colorPalette="gray"
               variant="surface"
-              rounded="md"
+              rounded="lg"
               size="2xs"
               onClick={handleLogout}
             >

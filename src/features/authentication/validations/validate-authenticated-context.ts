@@ -10,7 +10,9 @@ export async function validateAuthenticatedContext(queryClient: QueryClient) {
   const activeOrganization = session.session.activeOrganizationId
 
   if (!activeOrganization) {
-    throw new Error('Selecione uma organização ativa')
+    throw new Response('Selecione uma organização ativa', {
+      status: 400,
+    })
   }
 
   const memberContext = await queryClient.query(
@@ -22,7 +24,9 @@ export async function validateAuthenticatedContext(queryClient: QueryClient) {
     memberContext.organization.id === activeOrganization
 
   if (!matchedMemberContext) {
-    throw new Error('Contexto de membro não corresponde à sessão!')
+    throw new Response('Contexto de membro não corresponde à sessão!', {
+      status: 400,
+    })
   }
 
   return {

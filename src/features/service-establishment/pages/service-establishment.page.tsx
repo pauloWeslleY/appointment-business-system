@@ -44,7 +44,7 @@ export default function ServicesPage() {
 
         <Button
           colorPalette="brand"
-          rounded="xl"
+          rounded="lg"
           size="xs"
           onClick={() =>
             navigate({

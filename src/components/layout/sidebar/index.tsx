@@ -8,12 +8,12 @@ import SidebarRoot from './sidebar-root'
 
 const Sidebar = {
   Root: SidebarRoot,
+  Body: SidebarBody,
+  Content: SidebarContent,
+  NavTitle: SideBarNavTitle,
   Aside: SidebarAside,
   Header: SidebarHeader,
   Nav: SidebarItem,
-  NavTitle: SideBarNavTitle,
-  Body: SidebarBody,
-  Content: SidebarContent,
 }
 
 export default Sidebar

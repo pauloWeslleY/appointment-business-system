@@ -118,7 +118,7 @@ const AppError = (props: ErrorComponentProps) => {
         <Flex gap="4" flexWrap="wrap" justify="center">
           <Button
             variant="surface"
-            rounded="xl"
+            rounded="lg"
             size="sm"
             onClick={handleResetAndReloadPage}
           >
@@ -126,7 +126,7 @@ const AppError = (props: ErrorComponentProps) => {
           </Button>
           <Button
             variant="surface"
-            rounded="xl"
+            rounded="lg"
             size="sm"
             colorPalette="primary"
             onClick={handleNavigateToPreviousPage}

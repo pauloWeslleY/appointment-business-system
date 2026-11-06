@@ -83,7 +83,7 @@ const FormUpdateStatusAppointment = ({
       <Box mt="6">
         <Button
           size="xs"
-          rounded="xl"
+          rounded="lg"
           colorPalette="cyan"
           variant="outline"
           loading={isPendingUpdateStatusAppointment}

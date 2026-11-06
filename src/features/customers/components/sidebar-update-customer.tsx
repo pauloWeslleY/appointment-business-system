@@ -41,7 +41,7 @@ const SidebarUpdateCustomer = ({
                   size="sm"
                   variant="surface"
                   colorPalette="red"
-                  rounded="xl"
+                  rounded="lg"
                 >
                   Cancelar
                 </Button>
@@ -51,7 +51,7 @@ const SidebarUpdateCustomer = ({
                 size="sm"
                 variant="surface"
                 colorPalette="primary"
-                rounded="xl"
+                rounded="lg"
                 onClick={onSubmitUpdateCustomer}
                 loading={isPendingUpdateCustomer}
               >

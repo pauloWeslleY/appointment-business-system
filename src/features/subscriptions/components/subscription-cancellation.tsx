@@ -42,13 +42,18 @@ export function SubscriptionCancellation() {
           ) : (
             <HStack flexWrap="wrap">
               <Button
+                rounded="lg"
                 colorPalette="red"
                 disabled={subscriptionCommandMutation.isPending}
                 onClick={handleConfirmCancellation}
               >
                 Confirmar cancelamento da renovação
               </Button>
-              <Button variant="ghost" onClick={handleDismissCancellation}>
+              <Button
+                rounded="lg"
+                variant="ghost"
+                onClick={handleDismissCancellation}
+              >
                 Voltar
               </Button>
             </HStack>

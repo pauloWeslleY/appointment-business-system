@@ -42,6 +42,7 @@ const Depoiments = () => {
           <HStack>
             {[-1, 1].map((direction) => (
               <Button
+                rounded="lg"
                 key={direction}
                 size="sm"
                 bg="white"

@@ -78,7 +78,7 @@ const SidebarCreateAppointment = () => {
       size="md"
     >
       <Drawer.Trigger asChild>
-        <Button rounded="xl" size="xs" colorPalette="brand">
+        <Button rounded="lg" size="xs" colorPalette="brand">
           <Icon as={PlusIcon} boxSize="5" />
           Novo Agendamento
         </Button>
@@ -307,7 +307,7 @@ const SidebarCreateAppointment = () => {
                   size="sm"
                   variant="surface"
                   colorPalette="red"
-                  rounded="xl"
+                  rounded="lg"
                   disabled={isPendingCreateAppointment}
                 >
                   Cancelar
@@ -318,7 +318,7 @@ const SidebarCreateAppointment = () => {
                 size="sm"
                 variant="surface"
                 colorPalette="primary"
-                rounded="xl"
+                rounded="lg"
                 loading={isPendingCreateAppointment}
                 loadingText="Salvando..."
                 disabled={

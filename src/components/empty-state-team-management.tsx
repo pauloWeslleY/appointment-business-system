@@ -57,7 +57,7 @@ const EmptyStateTeamManagement = ({
           {children ? (
             children
           ) : (
-            <Button rounded="2xl" size="xs">
+            <Button rounded="lg" size="xs">
               <Icon as={UserRoundPlus} boxSize="5" />
               Convidar Membro
             </Button>

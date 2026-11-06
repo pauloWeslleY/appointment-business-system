@@ -80,6 +80,7 @@ const FormForgotPassword = () => {
           </Button>
 
           <Button
+            rounded="lg"
             asChild
             type="button"
             w="full"

@@ -45,6 +45,7 @@ export default function EstablishmentColorsSettingsPage({
           <Alert.Title>Não foi possível carregar as cores.</Alert.Title>
           <Alert.Description>{query.error.message}</Alert.Description>
           <Button
+            rounded="lg"
             type="button"
             size="sm"
             variant="outline"

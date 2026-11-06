@@ -13,6 +13,8 @@ import { ArrowRight } from 'lucide-react'
 
 import { navigation } from '../constants/data-landing-page'
 
+const yearFooter = new Date().getFullYear()
+
 const Footer = () => {
   return (
     <Box as="footer" bg="brand.navy" color="white" pt="7" pb="4">
@@ -40,9 +42,9 @@ const Footer = () => {
             <Text fontSize="12px" fontWeight="600" mb="3">
               Produto
             </Text>
-            <Stack gap="1" fontSize="11px" color="navy.200">
+            <Stack gap="1" fontSize="xs">
               {navigation.map(([label, href]) => (
-                <Link key={href} href={href}>
+                <Link key={href} href={href} color="navy.200">
                   {label}
                 </Link>
               ))}
@@ -53,10 +55,16 @@ const Footer = () => {
             <Text fontSize="12px" fontWeight="600" mb="3">
               Institucional
             </Text>
-            <Stack gap="1" fontSize="11px" color="navy.200">
-              <Link href="#recursos">Sobre nós</Link>
-              <Link href="/register">Criar sua conta</Link>
-              <Link href="/login">Acessar plataforma</Link>
+            <Stack gap="1" fontSize="xs">
+              <Link href="#recursos" color="navy.200">
+                Sobre nós
+              </Link>
+              <Link href="/register" color="navy.200">
+                Criar sua conta
+              </Link>
+              <Link href="/login" color="navy.200">
+                Acessar plataforma
+              </Link>
             </Stack>
           </Box>
 
@@ -67,7 +75,13 @@ const Footer = () => {
             <Text fontSize="11px" color="navy.200" mb="3">
               Comece a transformar sua rotina.
             </Text>
-            <Button asChild size="sm" bg="brand.mint" color="brand.navy">
+            <Button
+              rounded="lg"
+              asChild
+              size="sm"
+              bg="brand.mint"
+              color="brand.navy"
+            >
               <Link href="/register">
                 Experimente grátis
                 <ArrowRight size={14} />
@@ -86,8 +100,7 @@ const Footer = () => {
           color="navy.200"
         >
           <Text>
-            © {new Date().getFullYear()} System Appointment. Todos os direitos
-            reservados.
+            © {yearFooter} System Appointment. Todos os direitos reservados.
           </Text>
           <Text>🇧🇷 Português (BR)</Text>
         </Flex>

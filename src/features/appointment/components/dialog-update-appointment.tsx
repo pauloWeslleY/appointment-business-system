@@ -55,9 +55,7 @@ const DialogEditAppointment = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Editar Agendamento</Dialog.Title>
             </Dialog.Header>
@@ -216,7 +214,7 @@ const DialogEditAppointment = ({
                 <Button
                   size="sm"
                   variant="subtle"
-                  rounded="xl"
+                  rounded="lg"
                   colorPalette="primary"
                   alignSelf="flex-end"
                   loading={isPendingAppointment}
@@ -242,7 +240,7 @@ const DialogEditAppointment = ({
                 <Button
                   size="sm"
                   variant="subtle"
-                  rounded="xl"
+                  rounded="lg"
                   colorPalette="red"
                 >
                   Fechar

@@ -61,7 +61,7 @@ const FormCreateServiceEstablishment = () => {
           <Button
             type="submit"
             size="sm"
-            rounded="xl"
+            rounded="lg"
             w="fit"
             colorPalette="brand"
             loading={isCreatingServiceEstablishment}

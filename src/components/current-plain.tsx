@@ -23,9 +23,9 @@ const CurrentPlan = () => {
       gap="4"
       rounded="xl"
       shadow="xs"
-      bg={{ base: 'navy.100', _dark: 'secondary.900' }}
+      bg={{ _light: 'navy.100', _dark: 'secondary.900' }}
       borderWidth="1px"
-      borderColor={{ base: 'gray.300', _dark: 'secondary.500/20' }}
+      borderColor={{ _light: 'gray.300', _dark: 'secondary.500/20' }}
     >
       <HStack gap={!collapsed ? '4' : '0'}>
         <Tooltip

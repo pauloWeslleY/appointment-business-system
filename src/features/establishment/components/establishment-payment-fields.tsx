@@ -140,7 +140,7 @@ const EstablishmentPaymentFields = ({
                   }
                 />
                 <FileUpload.Trigger asChild>
-                  <Button variant="outline" size="sm" rounded="xl">
+                  <Button variant="outline" size="sm" rounded="lg">
                     <Upload /> Selecionar arquivo
                   </Button>
                 </FileUpload.Trigger>
@@ -194,6 +194,7 @@ const EstablishmentPaymentFields = ({
                 </QrCode.Frame>
               </QrCode.Root>
               <Button
+                rounded="lg"
                 type="button"
                 size="sm"
                 variant="outline"

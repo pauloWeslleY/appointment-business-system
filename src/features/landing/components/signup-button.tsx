@@ -12,7 +12,7 @@ const SignupButton = ({
       asChild
       bg="brand.navy"
       color="white"
-      rounded="md"
+      rounded="lg"
       px="6"
       h="11"
       _hover={{ bg: 'navy.800', transform: 'translateY(-1px)' }}

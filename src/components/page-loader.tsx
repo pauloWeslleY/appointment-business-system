@@ -9,9 +9,9 @@ const PageLoader = () => {
       h={{ base: 'auto', md: 'xl', xl: 'dvh' }}
     >
       <Spinner
-        color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}
+        color={{ _light: 'colorPalette.600', _dark: 'colorPalette.300' }}
       />
-      <Text color={{ base: 'colorPalette.600', _dark: 'colorPalette.300' }}>
+      <Text color={{ _light: 'colorPalette.600', _dark: 'colorPalette.300' }}>
         Carregando...
       </Text>
     </VStack>

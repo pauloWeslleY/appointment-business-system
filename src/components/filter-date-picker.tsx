@@ -93,12 +93,12 @@ const FilterDatePicker = ({
           minH="10"
           py="2"
           whiteSpace="normal"
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-          color={{ base: 'gray.700', _dark: 'gray.100' }}
+          rounded="lg"
+          bg={{ _light: 'blackAlpha.100', _dark: 'gray.800/40' }}
+          color={{ _light: 'gray.700', _dark: 'gray.100' }}
           transition="backgrounds"
           _hover={{
-            bg: { base: 'blackAlpha.200', _dark: 'gray.950/60' },
+            bg: { _light: 'blackAlpha.200', _dark: 'gray.950/60' },
           }}
         >
           <Icon as={Calendar} boxSize="4" />
@@ -155,7 +155,7 @@ const FilterDatePicker = ({
                 size="sm"
                 colorPalette="primary"
                 variant="ghost"
-                rounded="xl"
+                rounded="lg"
                 mt="2"
                 w="full"
                 onClick={handleResetDate}

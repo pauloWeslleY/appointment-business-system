@@ -26,8 +26,8 @@ const CardUserInfo = () => {
         size="sm"
         borderWidth="1px"
         borderColor="colorPalette.500"
-        bg={{ base: 'colorPalette.600', _dark: 'colorPalette.700/40' }}
-        color={{ base: 'colorPalette.400', _dark: 'colorPalette.500' }}
+        bg={{ _light: 'colorPalette.600', _dark: 'colorPalette.700/40' }}
+        color={{ _light: 'colorPalette.400', _dark: 'colorPalette.500' }}
       >
         {storageData && <Avatar.Image src={storageData} />}
         <Avatar.Fallback />
@@ -38,14 +38,14 @@ const CardUserInfo = () => {
           <Text
             lineHeight="1"
             fontWeight="medium"
-            color={{ base: 'primary.100', _dark: 'primary.300' }}
+            color={{ _light: 'primary.100', _dark: 'primary.300' }}
           >
             {data?.user?.name ?? 'Usuário'}
           </Text>
           <Text
             fontSize="xs"
             letterSpacing="wider"
-            color={{ base: 'tertiary.500', _dark: 'tertiary.500/40' }}
+            color={{ _light: 'tertiary.500', _dark: 'tertiary.500/40' }}
             truncate
           >
             {data?.user?.email ?? 'email@example.com'}

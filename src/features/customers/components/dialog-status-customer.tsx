@@ -43,9 +43,7 @@ const DialogStatusCustomer = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Atualizar status do cliente</Dialog.Title>
             </Dialog.Header>
@@ -63,14 +61,14 @@ const DialogStatusCustomer = ({
             </Dialog.Body>
             <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
-                <Button size="sm" variant="surface" rounded="xl">
+                <Button size="sm" variant="surface" rounded="lg">
                   Cancelar
                 </Button>
               </Dialog.ActionTrigger>
               <Button
                 size="sm"
                 variant="surface"
-                rounded="xl"
+                rounded="lg"
                 colorPalette={customer.status ? 'red' : 'green'}
                 loading={isPendingStatusCustomer}
                 onClick={handleStatusCustomer}

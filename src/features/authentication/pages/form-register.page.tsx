@@ -122,6 +122,7 @@ const FormRegister = () => {
         >
           <Text>Já tem uma conta?</Text>
           <Button
+            rounded="lg"
             asChild
             variant="plain"
             size="sm"

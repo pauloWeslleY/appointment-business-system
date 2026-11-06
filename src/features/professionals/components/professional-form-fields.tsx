@@ -212,7 +212,7 @@ const ProfessionalFormFields = ({
                   onChange={(event) => field.onChange(event.target?.files)}
                 />
                 <FileUpload.Trigger asChild>
-                  <Button variant="outline" size="sm" rounded="xl">
+                  <Button variant="outline" size="sm" rounded="lg">
                     <Upload /> Selecionar arquivo
                   </Button>
                 </FileUpload.Trigger>

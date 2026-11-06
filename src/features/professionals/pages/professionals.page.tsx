@@ -57,7 +57,7 @@ const ProfessionalsPage = () => {
 
         <Button
           colorPalette="brand"
-          rounded="xl"
+          rounded="lg"
           size="xs"
           onClick={() =>
             navigate({
@@ -84,7 +84,7 @@ const ProfessionalsPage = () => {
           <Alert.Indicator />
           <Alert.Content>
             <Alert.Title>{error.message}</Alert.Title>
-            <Button onClick={retryProfessionals} size="sm" mt="2">
+            <Button rounded="lg" onClick={retryProfessionals} size="sm" mt="2">
               Tentar novamente
             </Button>
           </Alert.Content>

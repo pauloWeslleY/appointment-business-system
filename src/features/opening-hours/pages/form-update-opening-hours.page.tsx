@@ -62,7 +62,7 @@ const FormUpdateOpeningHoursPage = ({
             <Button
               type="button"
               size="sm"
-              rounded="xl"
+              rounded="lg"
               variant="ghost"
               colorPalette="red"
               disabled={isPendingUpdateOpeningHours}
@@ -74,7 +74,7 @@ const FormUpdateOpeningHoursPage = ({
             <Button
               type="submit"
               size="sm"
-              rounded="xl"
+              rounded="lg"
               colorPalette="brand"
               loading={isPendingUpdateOpeningHours}
             >

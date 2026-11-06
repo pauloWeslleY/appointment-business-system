@@ -18,7 +18,7 @@ const SidebarCreateCustomer = () => {
   return (
     <Drawer.Root size="md">
       <Drawer.Trigger asChild>
-        <Button rounded="xl" size="xs" colorPalette="brand">
+        <Button rounded="lg" size="xs" colorPalette="brand">
           <Icon as={PlusIcon} boxSize="5" />
           Novo Cliente
         </Button>
@@ -39,7 +39,7 @@ const SidebarCreateCustomer = () => {
                   size="sm"
                   variant="surface"
                   colorPalette="red"
-                  rounded="xl"
+                  rounded="lg"
                 >
                   Cancelar
                 </Button>
@@ -49,7 +49,7 @@ const SidebarCreateCustomer = () => {
                 size="sm"
                 variant="surface"
                 colorPalette="primary"
-                rounded="xl"
+                rounded="lg"
                 onClick={onSubmitCreateCustomer}
                 loading={isPendingCreateCustomer}
               >

@@ -30,11 +30,10 @@ const ButtonLogout = () => {
       {!collapsed && (
         <Button
           onClick={handleLogout}
-          size="xs"
-          rounded="xl"
-          variant="surface"
           w="full"
-          colorPalette="emerald"
+          size="xs"
+          rounded="lg"
+          colorPalette="brand"
         >
           <Icon as={LogOut} boxSize="4" />
           Sair

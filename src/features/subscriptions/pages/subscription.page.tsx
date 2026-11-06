@@ -65,7 +65,12 @@ export function SubscriptionPageContent() {
           <SubscriptionSection role="alert">
             <Text>{organizationQueryError.message}</Text>
 
-            <Button mt="3" variant="outline" onClick={retryOrganizationQueries}>
+            <Button
+              rounded="lg"
+              mt="3"
+              variant="outline"
+              onClick={retryOrganizationQueries}
+            >
               Tentar novamente
             </Button>
           </SubscriptionSection>

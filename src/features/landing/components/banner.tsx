@@ -81,6 +81,7 @@ const Banner = () => {
               <SignupButton />
 
               <Button
+                rounded="lg"
                 asChild
                 variant="outline"
                 borderColor="slate.200"

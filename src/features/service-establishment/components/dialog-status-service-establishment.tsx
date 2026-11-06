@@ -49,9 +49,7 @@ const DialogStatusServiceEstablishment = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Atualizar status do serviço</Dialog.Title>
             </Dialog.Header>
@@ -90,7 +88,7 @@ const DialogStatusServiceEstablishment = ({
                   colorPalette="red"
                   size="sm"
                   variant="surface"
-                  rounded="xl"
+                  rounded="lg"
                 >
                   Cancelar
                 </Button>
@@ -98,7 +96,7 @@ const DialogStatusServiceEstablishment = ({
               <Button
                 size="sm"
                 variant="surface"
-                rounded="xl"
+                rounded="lg"
                 colorPalette="primary"
                 loading={isPendingUpdateStatusServiceEstablishment}
                 onClick={handleSubmit(onSubmitUpdateServiceEstablishment)}

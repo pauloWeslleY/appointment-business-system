@@ -45,7 +45,11 @@ export function SubscriptionNotices() {
         !isNoticeAccessDenied && (
           <Text role="alert">
             Não foi possível consultar os avisos.{' '}
-            <Button variant="plain" onClick={refreshSubscriptionNotices}>
+            <Button
+              rounded="lg"
+              variant="plain"
+              onClick={refreshSubscriptionNotices}
+            >
               Tentar novamente
             </Button>
           </Text>
@@ -82,6 +86,7 @@ export function SubscriptionNotices() {
             )}
             {!notice.readAt && (
               <Button
+                rounded="lg"
                 mt="3"
                 size="sm"
                 variant="outline"

@@ -38,7 +38,7 @@ const FormProfileUser = () => {
                 onChange={(event) => field.onChange(event.target?.files?.[0])}
               />
               <FileUpload.Trigger asChild>
-                <Button variant="outline" size="sm" rounded="xl">
+                <Button variant="outline" size="sm" rounded="lg">
                   <Upload /> Selecionar arquivo
                 </Button>
               </FileUpload.Trigger>
@@ -60,7 +60,7 @@ const FormProfileUser = () => {
           <Button
             type="submit"
             size="sm"
-            rounded="xl"
+            rounded="lg"
             colorPalette="brand"
             loading={isSubmitting}
           >

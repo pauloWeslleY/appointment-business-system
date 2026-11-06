@@ -1,13 +1,26 @@
-import { Box, Flex, For, Separator, Skeleton } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  For,
+  HStack,
+  Separator,
+  Skeleton,
+  Text,
+} from '@chakra-ui/react'
 import { Navigate } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
+import { Status } from '@/components/ui/status'
 
 import CardHeaderEstablishmentDetail from '../components/card-header-establishment-detail'
 import SelectEstablishmentsByOrganization from '../components/select-establishments-by-organization'
 import { loadMenuDashboardEstablishment } from '../constants/menu-dashboard-establishment'
 import { useEstablishmentLayout } from '../hooks/use-establishment-layout'
+import {
+  mapStatusColorEstablishment,
+  mapStatusEstablishment,
+} from '../types/establishment-status.type'
 import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
 import { establishmentThemeStyle } from '../utils/establishment-theme'
 
@@ -30,6 +43,7 @@ const EstablishmentLayout = ({
     activePathEstablishmentLayout,
     handleNavigationEstablishmentLayout,
   } = useEstablishmentLayout(establishment)
+  const statusEstablishmentMap = mapStatusEstablishment(establishment.status)
 
   if (isEstablishmentRootPath) {
     return (
@@ -72,6 +86,11 @@ const EstablishmentLayout = ({
 
       <Sidebar.Content>
         <Sidebar.Header
+          select={
+            <SelectEstablishmentsByOrganization
+              organizationId={organizationId}
+            />
+          }
           navigation={{
             menu: loadMenuDashboardEstablishment,
             activePath: activePathEstablishmentLayout,
@@ -92,9 +111,15 @@ const EstablishmentLayout = ({
                 borderColor={{ _light: 'gray.200', _dark: 'gray.500' }}
               />
 
-              <SelectEstablishmentsByOrganization
-                organizationId={organizationId}
-              />
+              <HStack>
+                <Text fontSize="sm">Status:</Text>
+
+                <Status
+                  value={mapStatusColorEstablishment[establishment.status]}
+                >
+                  {statusEstablishmentMap.label}
+                </Status>
+              </HStack>
             </Flex>
           )}
         </Sidebar.Header>

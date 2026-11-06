@@ -27,7 +27,6 @@ export const Route = createFileRoute('/dashboard/$slug')({
     return { organizationProfile, establishment }
   },
   component: DashboardLayout,
-  pendingComponent: () => <div>Loading...</div>,
 })
 
 function DashboardLayout() {

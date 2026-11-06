@@ -1,6 +1,8 @@
 import type { ColorPalette } from '@chakra-ui/react'
 import z from 'zod'
 
+import type { StatusProps } from '@/components/ui/status'
+
 export const EstablishmentStatus = {
   DRAFT: 'draft',
   ACTIVE: 'active',
@@ -27,3 +29,15 @@ export const mapStatusEstablishment = (status?: EstablishmentStatusType) => {
 
   return status ? statusMap[status] : { label: 'Desconhecido', color: 'gray' }
 }
+
+type StatusColorMapEstablishmentType = StatusProps['value']
+
+export const mapStatusColorEstablishment: Record<
+  EstablishmentStatusType,
+  StatusColorMapEstablishmentType
+> = {
+  [EstablishmentStatus.DRAFT]: 'info',
+  [EstablishmentStatus.ACTIVE]: 'success',
+  [EstablishmentStatus.INACTIVE]: 'error',
+  [EstablishmentStatus.SUSPENDED]: 'warning',
+} as const

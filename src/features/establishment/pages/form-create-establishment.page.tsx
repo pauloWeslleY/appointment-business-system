@@ -85,8 +85,12 @@ const FormCreateEstablishmentPage = () => {
             <Field
               label="URL da página do estabelecimento"
               gridColumn={{ base: 'span 1', md: '1 / -1' }}
-              invalid={Boolean(formCreateEstablishment.formState.errors.websiteUrl)}
-              errorText={formCreateEstablishment.formState.errors.websiteUrl?.message}
+              invalid={Boolean(
+                formCreateEstablishment.formState.errors.websiteUrl,
+              )}
+              errorText={
+                formCreateEstablishment.formState.errors.websiteUrl?.message
+              }
               helperText="Opcional. Informe o endereço HTTPS da página do estabelecimento."
             >
               <InputField
@@ -107,7 +111,7 @@ const FormCreateEstablishmentPage = () => {
               <Button
                 type="submit"
                 size="sm"
-                rounded="xl"
+                rounded="lg"
                 w="fit"
                 colorPalette="brand"
                 loading={isPendingCreateEstablishment}

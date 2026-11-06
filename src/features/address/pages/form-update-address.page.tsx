@@ -45,7 +45,7 @@ const FormUpdateAddressPage = ({
           <Button
             type="submit"
             size="sm"
-            rounded="xl"
+            rounded="lg"
             alignSelf="end"
             colorPalette="brand"
             loading={isPendingUpdateAddress}

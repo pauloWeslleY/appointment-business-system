@@ -98,6 +98,7 @@ const FormLoginPage = () => {
           </Field>
 
           <Button
+            rounded="lg"
             asChild
             variant="plain"
             size="sm"
@@ -160,6 +161,7 @@ const FormLoginPage = () => {
         >
           <Text>Ainda não tem uma conta?</Text>
           <Button
+            rounded="lg"
             asChild
             variant="plain"
             size="sm"

@@ -46,7 +46,7 @@ function CustomersPage() {
         <Alert.Root status="error" rounded="lg">
           <Alert.Indicator />
           <Alert.Title>Error: {errorCustomers?.message}</Alert.Title>
-          <Button onClick={retryCustomers} size="sm">
+          <Button rounded="lg" onClick={retryCustomers} size="sm">
             Tentar novamente
           </Button>
         </Alert.Root>

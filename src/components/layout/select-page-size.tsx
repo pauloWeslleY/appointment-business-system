@@ -2,7 +2,7 @@ import { createListCollection, Portal, Select } from '@chakra-ui/react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 interface SelectPageSizeProps {
   pages: number[]
@@ -13,13 +13,6 @@ interface SelectPageSizeProps {
 }
 
 const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
-  const loadCollectionPage = createListCollection({
-    items: pages.map((page) => ({
-      value: page.toString(),
-      label: page.toString(),
-    })),
-  })
-
   const [pagination, setPagination] = useQueryStates(
     {
       page: parseAsInteger.withDefault(search?.page ?? 1),
@@ -30,11 +23,15 @@ const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
     },
   )
 
+  const loadCollectionPage = createListCollection({
+    items: pages.map((page) => ({
+      value: page.toString(),
+      label: page.toString(),
+    })),
+  })
+
   const onChangePagination = (status: string[]) => {
-    setPagination({
-      page: search?.page ?? 1,
-      page_size: Number(status[0] ?? 12),
-    })
+    setPagination((prev) => ({ ...prev, page_size: Number(status[0] ?? 12) }))
   }
 
   const clearPagination = () => {
@@ -67,15 +64,7 @@ const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
         <Select.Positioner>
           <Select.Content css={contentCss}>
             {loadCollectionPage.items.map((page) => (
-              <Select.Item
-                key={page.value}
-                item={page}
-                rounded="xl"
-                cursor="pointer"
-                _hover={{
-                  bg: { base: 'gray.100', _dark: 'secondary.600' },
-                }}
-              >
+              <Select.Item key={page.value} item={page} {...menuItemCss}>
                 <Select.ItemText>{page.label}</Select.ItemText>
                 <Select.ItemIndicator />
               </Select.Item>

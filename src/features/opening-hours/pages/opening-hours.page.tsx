@@ -72,7 +72,7 @@ const OpeningHoursPage = () => {
                   <Alert.Title>{openingHoursQuery.error.message}</Alert.Title>
                   <Button
                     size="sm"
-                    rounded="xl"
+                    rounded="lg"
                     variant="outline"
                     alignSelf="start"
                     onClick={() => openingHoursQuery.refetch()}

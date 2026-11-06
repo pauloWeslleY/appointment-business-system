@@ -19,9 +19,9 @@ const FileUploadCardItem = ({ file }: FileUploadCardItemProps) => {
       py="3"
       rounded="lg"
       borderWidth="1px"
-      borderColor={{ base: 'gray.300', _dark: 'secondary.500/20' }}
-      bg={{ base: 'secondary.200', _dark: 'gray.900' }}
-      color={{ base: 'gray.900', _dark: 'white' }}
+      borderColor={{ _light: 'gray.300', _dark: 'secondary.500/20' }}
+      bg={{ _light: 'secondary.200', _dark: 'gray.900' }}
+      color={{ _light: 'gray.900', _dark: 'white' }}
       display="flex"
       alignItems="center"
     >

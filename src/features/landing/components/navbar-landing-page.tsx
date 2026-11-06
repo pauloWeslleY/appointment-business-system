@@ -60,17 +60,18 @@ const NavBarLandingPage = () => {
             color={{ base: 'slate.700', _hover: 'sea.400' }}
             borderColor="slate.200"
             size="sm"
-            rounded="md"
+            rounded="lg"
           >
             <Link href="/login">Entrar</Link>
           </Button>
 
-          <Button asChild bg="brand.navy" color="white" size="sm" rounded="md">
+          <Button asChild bg="brand.navy" color="white" size="sm" rounded="lg">
             <Link href="/register">Criar conta</Link>
           </Button>
         </HStack>
 
         <Button
+          rounded="lg"
           display={{ lg: 'none' }}
           variant="ghost"
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}

@@ -278,7 +278,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Button
           colorPalette="emerald"
           variant="ghost"
-          rounded="xl"
+          rounded="lg"
           size="sm"
           flex={{ base: 'auto', md: '1' }}
           onClick={() =>
@@ -295,7 +295,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
         <Button
           colorPalette="emerald"
           variant="ghost"
-          rounded="xl"
+          rounded="lg"
           size="sm"
           flex={{ base: 'auto', md: '1' }}
           onClick={() =>

@@ -90,7 +90,7 @@ const FormUpdateServiceEstablishment = () => {
       <Button
         type="submit"
         size="sm"
-        rounded="xl"
+        rounded="lg"
         w="fit"
         alignSelf="flex-end"
         colorPalette="emerald"
