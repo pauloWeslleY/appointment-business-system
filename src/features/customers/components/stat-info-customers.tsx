@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 
 import { useGetAllCustomersByEstablishment } from '../hooks/use-get-all-customers-by-establishment'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const StatInfoCustomers = () => {
   const { establishment } = dashboardSlugRoute.useLoaderData()

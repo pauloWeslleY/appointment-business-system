@@ -16,14 +16,15 @@ export function SubscriptionPageContent() {
     authenticationSession,
     userId,
     organizationId,
-    subscriptionContextQuery,
+    subscriptionContext,
+    organizationSelectionMutation,
     retryOrganizationQueries,
     organizationQueryError,
     canShowSubscriptionWorkspace,
   } = useSubscriptionOrganizationContext()
 
   const isLoadingSubscriptionContextSession =
-    authenticationSession.isPending || subscriptionContextQuery.isLoading
+    authenticationSession.isPending || organizationSelectionMutation.isPending
 
   return (
     <Box
@@ -80,7 +81,7 @@ export function SubscriptionPageContent() {
           <Text role="status">Carregando contexto autenticado…</Text>
         )}
 
-        {canShowSubscriptionWorkspace && subscriptionContextQuery.data && (
+        {canShowSubscriptionWorkspace && subscriptionContext && (
           <SubscriptionWorkspaceProvider key={`${userId}:${organizationId}`}>
             <SubscriptionWorkspace />
           </SubscriptionWorkspaceProvider>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { useAddressByEstablishment } from './use-address-by-establishment'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useAddressPage() {
   const { establishment } = dashboardSlugRoute.useLoaderData()

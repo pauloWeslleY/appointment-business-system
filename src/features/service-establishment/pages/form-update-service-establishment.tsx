@@ -19,7 +19,7 @@ import UploadImageServiceEstablishment from '../components/upload-image-service-
 import { useFormUpdateServiceEstablishment } from '../hooks/use-form-update-service-establishment'
 
 const serviceEstablishmentPageRoute = getRouteApi(
-  '/dashboard/$slug/services/_pages/$serviceEstablishmentId',
+  '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId',
 )
 
 const FormUpdateServiceEstablishment = () => {

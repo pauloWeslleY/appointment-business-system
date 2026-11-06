@@ -6,12 +6,12 @@ import dayjs from 'dayjs'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { useGetAllCustomersByEstablishment } from '@/features/customers/hooks/use-get-all-customers-by-establishment'
 import { establishmentAvailabilityQueryOptions } from '@/features/establishment/queries/establishment.query-options'
 import { useProfessionals } from '@/features/professionals/hooks/use-professionals'
 import { professionalAvailabilityQueryOptions } from '@/features/professionals/queries/professionals.query-options'
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
-import { authClient } from '@/lib/auth'
 
 import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
 import { CreateAppointmentSchema } from '../schemas/create-appointment-form.schema'
@@ -22,7 +22,7 @@ import {
   calculateAppointmentEndsAt,
 } from '../utils/appointment-date'
 
-const dashboardRoute = getRouteApi('/dashboard/$slug')
+const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const createAppointmentDefaultValues: CreateAppointmentFormType = {
   customerId: [],
@@ -38,7 +38,7 @@ const isValidCalendarDate = (date: string) =>
 
 export function useFormCreateAppointment(onCreated: () => void) {
   const { establishment } = dashboardRoute.useLoaderData()
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const organizationId = session?.session.activeOrganizationId
 
   const form = useForm<CreateAppointmentFormType>({

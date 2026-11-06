@@ -1,12 +1,12 @@
 import { Avatar, HStack, Skeleton, Stack, Text } from '@chakra-ui/react'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { useStorageImage } from '@/shared/hooks/use-get-storage-image'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
 const CardUserInfo = () => {
   const { collapsed } = useMenuCollapse()
-  const { data } = authClient.useSession()
+  const { data } = useAppSession()
   const { data: storageData, isLoading } = useStorageImage(data?.user?.image)
 
   if (isLoading) {

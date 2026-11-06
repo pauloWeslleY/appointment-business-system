@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { invitationEstablishmentsQueryOptions } from '@/features/invitations/queries/invitations.query-options'
-import { authClient } from '@/lib/auth'
 
 import { memberMutationOptions } from '../queries/member.mutation-options'
 import { UpdateScopeMemberFormSchema } from '../schemas/update-scope-member.api.schema'
@@ -23,7 +23,7 @@ export const loadSelectAccessScopeFormSendInvite = createListCollection({
 export function useFormUpadteScopeMember(memberId?: string) {
   const query = new URLSearchParams(window.location.search)
   const isOpen = !!query.get('is_open')
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const userId = session?.user.id
   const organizationId = session?.session.activeOrganizationId ?? undefined
   const {

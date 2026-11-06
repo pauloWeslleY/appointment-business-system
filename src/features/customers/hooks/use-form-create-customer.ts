@@ -10,7 +10,7 @@ import { CustomerFormSchema } from '../schemas/customer-form.schema'
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import { toCustomerRequestValues } from '../utils/customer-form-values'
 
-const dashboardRoute = getRouteApi('/dashboard/$slug')
+const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useFormCreateCustomer() {
   const { establishment } = dashboardRoute.useLoaderData()

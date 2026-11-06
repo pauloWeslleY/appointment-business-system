@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
 import { UpdateStatusAppointmentSchema } from '../schemas/update-status-appointment-form.schema'
@@ -12,7 +12,7 @@ import type { UpdateStatusAppointmentFormType } from '../types/appointment-form.
 import { AppointmentStatusSchema } from '../types/appointment-status.type'
 
 export function useUpdateStatusAppointmentForm(appointment: AppointmentModel) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const form = useForm<UpdateStatusAppointmentFormType>({
     resolver: zodResolver(UpdateStatusAppointmentSchema),
     values: { status: [appointment.status], cancellationReason: '' },

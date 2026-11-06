@@ -28,7 +28,7 @@ interface TopClientsBookingsEstablishmentDashboardProps {
   to: string
 }
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const TopClientsBookingsEstablishmentDashboard = ({
   from,

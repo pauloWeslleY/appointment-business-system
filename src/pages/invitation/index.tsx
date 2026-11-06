@@ -4,9 +4,9 @@ import { MailOpen, ShieldCheck } from 'lucide-react'
 import z from 'zod'
 
 import Logotipo from '@/components/logotipo'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import AuthLayoutContainer from '@/features/authentication/layout/authentication-layout'
 import AuthAcceptInvitation from '@/features/invitations/pages/auth-accept-invitations'
-import { authClient } from '@/lib/auth'
 import { setCookie } from '@/shared/cache/cookie'
 
 export const Route = createFileRoute('/invitation/')({
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/invitation/')({
 })
 
 function RouteComponent() {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const search = Route.useSearch()
 
   if (!session) {

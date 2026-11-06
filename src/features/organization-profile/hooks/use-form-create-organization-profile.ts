@@ -8,7 +8,7 @@ import {
 import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { createMeContextService } from '@/features/members/services/member-context.service'
+import { memberMutationOptions } from '@/features/members/queries/member.mutation-options'
 import { createSlug } from '@/shared/utils/create-slug'
 import {
   generateIdempotencyKey,
@@ -31,6 +31,7 @@ const formDefaultValues =
   })
 
 export function useFormCreateOrganizationProfile() {
+  const organizationSelection = useMutation(memberMutationOptions.create())
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const {
@@ -125,7 +126,7 @@ export function useFormCreateOrganizationProfile() {
           }
 
           try {
-            await createMeContextService({
+            await organizationSelection.mutateAsync({
               organizationId: organizationProfile.organization.id,
             })
             await navigate({ to: '/organization', replace: true })

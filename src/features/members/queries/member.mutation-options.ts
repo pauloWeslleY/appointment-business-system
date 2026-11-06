@@ -1,4 +1,7 @@
-import { mutationOptions } from '@tanstack/react-query'
+import {
+  type MutationFunctionContext,
+  mutationOptions,
+} from '@tanstack/react-query'
 
 import {
   updateRoleMemberService,
@@ -6,12 +9,28 @@ import {
   updateStatusMemberService,
 } from '../services/member.service'
 import { createMeContextService } from '../services/member-context.service'
+import { memberQueryKey } from './member.query-key'
+import { cacheSelectedMemberContext } from './member-context-cache'
+
+function invalidateMemberCache(
+  _data: unknown,
+  _variables: unknown,
+  _result: unknown,
+  { client }: MutationFunctionContext,
+): Promise<void> {
+  return client.invalidateQueries({ queryKey: memberQueryKey.all })
+}
 
 export const memberMutationOptions = {
   create() {
     return mutationOptions({
       mutationKey: ['create-me-context'],
       mutationFn: createMeContextService,
+      onMutate: async (_variables, { client }) => {
+        await client.cancelQueries()
+      },
+      onSuccess: (data, _variables, _result, { client }) =>
+        cacheSelectedMemberContext(client, data),
     })
   },
 
@@ -19,6 +38,7 @@ export const memberMutationOptions = {
     return mutationOptions({
       mutationKey: ['update-scope-member'],
       mutationFn: updateScopeMemberService,
+      onSuccess: invalidateMemberCache,
     })
   },
 
@@ -26,6 +46,7 @@ export const memberMutationOptions = {
     return mutationOptions({
       mutationKey: ['update-status-member'],
       mutationFn: updateStatusMemberService,
+      onSuccess: invalidateMemberCache,
     })
   },
 
@@ -33,6 +54,7 @@ export const memberMutationOptions = {
     return mutationOptions({
       mutationKey: ['update-role-member'],
       mutationFn: updateRoleMemberService,
+      onSuccess: invalidateMemberCache,
     })
   },
 }

@@ -27,7 +27,7 @@ interface CardAppointmentProps {
   appointment: GetAppointmentByEstablishmentModel
 }
 
-const establishmentPage = getRouteApi('/dashboard/$slug')
+const establishmentPage = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const CardAppointment = ({ appointment }: CardAppointmentProps) => {
   const { establishment } = establishmentPage.useLoaderData()

@@ -1,7 +1,7 @@
 import { Badge, Card, DataList, For, Text } from '@chakra-ui/react'
 
 import { Status } from '@/components/ui/status'
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { mapStatusUserAuthenticated } from '@/shared/helpers/status-user-authenticated'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { cardSectionCss } from '@/theme/styles/global-styles'
@@ -9,7 +9,7 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 // const verifiedTitle = () => new Set(['E-mail verificado', 'Status'])
 
 const AdditionalInformationUser = () => {
-  const { data } = authClient.useSession()
+  const { data } = useAppSession()
   const emailVerified = data?.user?.emailVerified ?? false
   const statusUserAuth = mapStatusUserAuthenticated(
     data?.user?.status ?? undefined,

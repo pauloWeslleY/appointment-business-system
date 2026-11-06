@@ -12,7 +12,9 @@ const loadSelectOpeningStatus = createListCollection({
 })
 
 const FilterEstablishmentOpening = () => {
-  const search = useSearch({ from: '/_authenticated/establishment/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/_admin/establishment/',
+  })
   const [opening, setOpening] = useQueryState(
     'opening',
     parseAsString.withDefault(search.opening?.toString() ?? ''),

@@ -39,7 +39,9 @@ const ListAppointmentEstablishment = ({
     },
   )
 
-  const search = useSearch({ from: '/dashboard/$slug/appointment/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/dashboard/$slug/appointment/',
+  })
 
   const filteredAppointmentByEstablishment = useMemo(() => {
     const filteredClient = (clientName: string) => {

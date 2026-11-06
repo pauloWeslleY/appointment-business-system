@@ -5,21 +5,21 @@ import { useEffect, useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { serviceEstablishmentMutationOptions } from '../queries/service-establishment.mutation-options'
 import { StatusServiceEstablishmentSchema } from '../schemas/status-service-establishment.schema'
 import type { UpdateStatusServiceEstablishmentFormData } from '../types/form-service-establishment.type'
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useFormUpdateStatusServiceEstablishment(
   serviceEstablishment: ListServicesEstablishmentModel,
   onOpen: (open: boolean) => void,
 ) {
   const { organizationProfile } = dashboardSlugRoute.useLoaderData()
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const formDefaultValues = useMemo<
     DefaultValues<UpdateStatusServiceEstablishmentFormData>
   >(

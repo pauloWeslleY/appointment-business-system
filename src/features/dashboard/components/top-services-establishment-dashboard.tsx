@@ -32,7 +32,7 @@ const servicosImageFallback = (name: string) => {
   return nameDoctor.join('').slice(0, 2)
 }
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const TopServicesEstablishmentDashboard = ({
   from,

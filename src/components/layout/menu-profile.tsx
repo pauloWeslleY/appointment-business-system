@@ -9,29 +9,21 @@ import {
   Skeleton,
   Text,
 } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
 import { ChevronDown, LogOut } from 'lucide-react'
 
-import { memberContextQueryOptions } from '@/features/members/queries/member.query-options'
+import { useMemberContext } from '@/features/members/hooks/use-member-context'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
-import { authClient } from '@/lib/auth'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 const MenuProfile = () => {
-  const { data } = authClient.useSession()
-  const { data: member, isLoading: isLoadingMember } = useQuery(
-    memberContextQueryOptions(
-      data?.user?.id,
-      data?.session?.activeOrganizationId ?? undefined,
-    ),
-  )
+  const member = useMemberContext()
   const userImage = useAccountImage()
 
   const { handleLogout } = useLogout()
 
-  if (isLoadingMember || !member) {
+  if (!member) {
     return <Skeleton h="40px" w="28" rounded="2xl" />
   }
 
@@ -74,7 +66,7 @@ const MenuProfile = () => {
                 color={{ _light: 'secondary.500', _dark: 'secondary.300' }}
                 textTransform="capitalize"
               >
-                {data?.user?.name ?? 'Usuário'}
+                {member.user.name}
               </Text>
               <Text
                 fontWeight="light"

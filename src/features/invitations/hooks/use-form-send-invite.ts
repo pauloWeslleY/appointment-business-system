@@ -5,6 +5,7 @@ import { parseAsBoolean, useQueryState } from 'nuqs'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { MemberAccessScope } from '@/features/members/types/member-access-scope.type'
 import { loadSelectMemberAccessScope } from '@/features/members/types/member-access-scope.type'
 import { MemberRoles } from '@/features/members/types/member-role.type'
@@ -25,7 +26,7 @@ import { sendInvitationService } from '../services/invitations.service'
 import type { SendInvitationApiRequest } from '../types/send-invitation.api.type'
 
 export function useFormSendInvite() {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const userId = session?.user.id
   const organizationId = session?.session.activeOrganizationId ?? undefined
   const [isOpenDialogSendInvite, setIsOpenDialogSendInvite] = useQueryState(
@@ -81,9 +82,7 @@ export function useFormSendInvite() {
     data: establishmentsByOrganizationProfile,
     isLoading: isLoadingEstablishmentsByOrganizationProfile,
     error: establishmentsError,
-  } = useQuery(
-    invitationEstablishmentsQueryOptions(userId, organizationId),
-  )
+  } = useQuery(invitationEstablishmentsQueryOptions(userId, organizationId))
 
   const establishmentItems = (establishmentsByOrganizationProfile ?? []).map(
     (establishment) => ({

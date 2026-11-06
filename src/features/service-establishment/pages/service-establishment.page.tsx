@@ -20,9 +20,9 @@ import { useGetServiceByEstablishment } from '@/features/service-establishment/h
 import ServicesListPage from '@/features/service-establishment/pages/services.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-const pageRoute = getRouteApi('/dashboard/$slug/services/')
+const pageRoute = getRouteApi('/_app/_authenticated/dashboard/$slug/services/')
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export default function ServicesPage() {
   const { establishment } = dashboardSlugRoute.useLoaderData()

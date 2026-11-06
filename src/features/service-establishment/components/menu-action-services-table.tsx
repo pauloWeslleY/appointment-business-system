@@ -20,7 +20,9 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
     isOpenDialogStatusServiceEstablishment,
     setIsOpenDialogStatusServiceEstablishment,
   ] = useState(false)
-  const { slug } = useParams({ from: '/dashboard/$slug/services/' })
+  const { slug } = useParams({
+    from: '/_app/_authenticated/dashboard/$slug/services/',
+  })
   const navigate = useNavigate()
 
   const handleNavigateToService = (page: 'edit' | 'info') => {

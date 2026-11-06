@@ -9,12 +9,12 @@ import {
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 const NotFoundPage = () => {
-  const { data } = authClient.useSession()
+  const { data } = useAppSession()
 
   return (
     <Flex as="section" minH="lg" align="center" justify="center">

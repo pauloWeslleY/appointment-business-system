@@ -8,7 +8,7 @@ import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 const AdditionalSummaryMember = () => {
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const memberCurrentRole = mapLabelMemberRole(memberContext.role)
   const memberCurrentAccessScope = mapLabelMemberAccessScope(
     memberContext.member.profile.accessScope,

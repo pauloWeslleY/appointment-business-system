@@ -25,7 +25,7 @@ interface HistoryBookingSummaryList {
 }
 
 const serviceEstablishmentRoute = getRouteApi(
-  '/dashboard/$slug/services/_pages/$serviceEstablishmentId',
+  '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId',
 )
 
 const ServiceEstablishmentDetails = () => {

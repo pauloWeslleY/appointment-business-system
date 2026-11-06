@@ -10,7 +10,7 @@ import { listGroupedPermissions } from '@/shared/helpers/list-permissions'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 const ProfileSummaryPermissions = () => {
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const permissionGrouped = listGroupedPermissions(memberContext.permissions)
 
   return (

@@ -6,7 +6,7 @@ import { useAccountImage } from '@/shared/hooks/use-account-image'
 
 const CarduserProfile = () => {
   const userImage = useAccountImage()
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const { label: memberRole } = mapLabelMemberRole(memberContext.role)
 
   return (

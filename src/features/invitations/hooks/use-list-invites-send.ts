@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useSearch } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { listInvitationsQueryOptions } from '../queries/invitations.query-options'
 import type { InviteProps } from '../types/invitation.model.api'
@@ -13,10 +13,10 @@ export function useInvitationNavigation() {
     useState<InviteProps | null>(null)
 
   const { q } = useSearch({
-    from: '/_authenticated/team-management/invitations/',
+    from: '/_app/_authenticated/_admin/team-management/invitations/',
   })
 
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const { data: invitations, isLoading: isLoadingInvitations } = useQuery(
     listInvitationsQueryOptions(
       session?.user?.id,

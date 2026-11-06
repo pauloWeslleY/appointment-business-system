@@ -22,7 +22,9 @@ export function useTableLegalEntities() {
         shallow: true,
       },
     )
-  const { limit, q, status } = useSearch({ from: '/_authenticated/settings/' })
+  const { limit, q, status } = useSearch({
+    from: '/_app/_authenticated/_admin/settings/',
+  })
   const {
     data: listLegalEntities,
     error: errorListLegalEntities,

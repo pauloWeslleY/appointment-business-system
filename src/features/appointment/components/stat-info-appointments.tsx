@@ -10,11 +10,13 @@ import {
 } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const StatInfoAppointments = () => {
   const { establishment } = dashboardSlugRoute.useLoaderData()
-  const search = useSearch({ from: '/dashboard/$slug/appointment/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/dashboard/$slug/appointment/',
+  })
   const { data: getAppointments } = useGetAppointmentByEstablishment({
     establishmentId: establishment.id,
     from: search.from ?? '',

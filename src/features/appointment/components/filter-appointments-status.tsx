@@ -7,7 +7,9 @@ import { contentCss } from '@/theme/styles/global-styles'
 import { loadCollectionStatusAppointment } from '../utils/select-appointment'
 
 const FilterAppointmentsStatus = () => {
-  const search = useSearch({ from: '/dashboard/$slug/appointment/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/dashboard/$slug/appointment/',
+  })
   const [status, setStatus] = useQueryState(
     'status',
     parseAsString.withDefault(search.status ?? ''),

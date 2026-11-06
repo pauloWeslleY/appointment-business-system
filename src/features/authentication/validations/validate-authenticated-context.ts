@@ -3,10 +3,15 @@ import { redirect } from '@tanstack/react-router'
 
 import { memberContextQueryOptions } from '@/features/members/queries/member.query-options'
 
-import { validateEnsureAuthRoute } from './validate-auth-route'
+import type {
+  AuthenticatedContext,
+  AuthenticationSession,
+} from '../types/authentication-session.type'
 
-export async function validateAuthenticatedContext(queryClient: QueryClient) {
-  const session = await validateEnsureAuthRoute()
+export async function validateAuthenticatedContext(
+  queryClient: QueryClient,
+  session: AuthenticationSession,
+): Promise<AuthenticatedContext> {
   const userId = session.user.id
   const activeOrganizationId = session.session.activeOrganizationId
 
@@ -17,16 +22,6 @@ export async function validateAuthenticatedContext(queryClient: QueryClient) {
   const memberContext = await queryClient.query(
     memberContextQueryOptions(userId, activeOrganizationId),
   )
-
-  const matchedMemberContext =
-    memberContext.user.id === userId &&
-    memberContext.organization.id === activeOrganizationId
-
-  if (!matchedMemberContext) {
-    throw new Response('Contexto de membro não corresponde à sessão!', {
-      status: 400,
-    })
-  }
 
   return {
     session,

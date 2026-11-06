@@ -1,5 +1,7 @@
 import { mutationOptions } from '@tanstack/react-query'
 
+import { memberQueryKey } from '@/features/members/queries/member.query-key'
+
 import {
   createEstablishmentService,
   updateEstablishmentService,
@@ -13,9 +15,14 @@ export const establishmentMutationOptions = {
       mutationKey: ['create-establishment'],
       mutationFn: createEstablishmentService,
       onSuccess: async (_data, _variables, _result, context) => {
-        await context.client.invalidateQueries({
-          queryKey: establishmentQueryKeys.lists(),
-        })
+        await Promise.all([
+          context.client.invalidateQueries({
+            queryKey: establishmentQueryKeys.lists(),
+          }),
+          context.client.invalidateQueries({
+            queryKey: memberQueryKey.context(),
+          }),
+        ])
       },
     }),
 
@@ -24,9 +31,14 @@ export const establishmentMutationOptions = {
       mutationKey: ['update-establishment'],
       mutationFn: updateEstablishmentService,
       onSuccess: async (_data, _variables, _result, context) => {
-        await context.client.invalidateQueries({
-          queryKey: establishmentQueryKeys.all,
-        })
+        await Promise.all([
+          context.client.invalidateQueries({
+            queryKey: establishmentQueryKeys.all,
+          }),
+          context.client.invalidateQueries({
+            queryKey: memberQueryKey.context(),
+          }),
+        ])
       },
     }),
 

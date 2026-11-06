@@ -1,13 +1,13 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
 export function useSidebarAuthenticated() {
   const { collapsed } = useMenuCollapse()
   const { pathname } = useLocation()
-  const { data } = authClient.useSession()
+  const { data } = useAppSession()
   const navigate = useNavigate()
 
   const dateCurrent = dayjs().format('dddd, D [de] MMMM')

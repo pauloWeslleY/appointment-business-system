@@ -42,7 +42,7 @@ const HistoryBookingServiceTable = ({
   )
 
   const search = useSearch({
-    from: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/',
+    from: '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/',
   })
 
   const historyBookingServices = useMemo(

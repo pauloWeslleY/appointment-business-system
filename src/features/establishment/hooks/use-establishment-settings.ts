@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 import { authClient } from '@/lib/auth'
 
@@ -27,7 +28,7 @@ export function useEstablishmentSettings(
   establishmentSlug: string,
   memberContext: GetMeContextResponse,
 ) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
 
   const establishmentSettingsScope: EstablishmentSettingsScope = {
     userId: session?.user.id ?? '',

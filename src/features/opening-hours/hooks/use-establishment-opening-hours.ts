@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { establishmentOpeningHoursQueryOptions } from '../queries/opening-hours.query-options'
 
 export function useEstablishmentOpeningHours(establishmentId: string) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
 
   const scope = {
     userId: session?.user.id ?? '',

@@ -5,7 +5,7 @@ import AuthLayoutContainer from '@/features/authentication/layout/authentication
 import { authGuardUserAuthenticated } from '@/features/authentication/validations/auth-guard-user-authenticated'
 
 export const Route = createFileRoute('/_auth')({
-  beforeLoad: async () => authGuardUserAuthenticated(),
+  beforeLoad: ({ context }) => authGuardUserAuthenticated(context.queryClient),
   component: AuthLayout,
   notFoundComponent: NotFoundPage,
 })

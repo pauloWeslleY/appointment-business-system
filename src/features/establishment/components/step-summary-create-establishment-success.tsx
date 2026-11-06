@@ -33,7 +33,7 @@ const StepSummaryCreateEstablishmentSuccess = ({
   establishmentId,
   slug,
 }: StepSummaryCreateEstablishmentSuccessProps) => {
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const [establishment, address] = useQueries({
     queries: [
       establishmentAdminSlugQueryOptions(slug),

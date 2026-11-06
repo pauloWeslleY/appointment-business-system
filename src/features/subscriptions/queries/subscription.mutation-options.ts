@@ -1,5 +1,7 @@
 import { mutationOptions } from '@tanstack/react-query'
 
+import { cacheSelectedMemberContext } from '@/features/members/queries/member-context-cache'
+
 import {
   cancelSubscriptionService,
   createSubscriptionCheckoutService,
@@ -39,6 +41,12 @@ export const subscriptionMutationOptions = {
       mutationKey: ['select-subscription-organization'],
       mutationFn: (organizationId: string) =>
         selectSubscriptionOrganizationService(organizationId),
+      onMutate: async (_variables, { client }) => {
+        await client.cancelQueries()
+      },
+      onSuccess: (selectedContext, _variables, _result, { client }) => {
+        cacheSelectedMemberContext(client, selectedContext)
+      },
     })
   },
 

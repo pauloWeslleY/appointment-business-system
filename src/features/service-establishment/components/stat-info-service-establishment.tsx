@@ -6,7 +6,7 @@ import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
 import { useGetServiceByEstablishment } from '../hooks/use-get-service-by-establishment'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const StatInfoServiceEstablishment = () => {
   const { establishment } = dashboardSlugRoute.useLoaderData()

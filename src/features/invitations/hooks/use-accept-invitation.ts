@@ -2,7 +2,7 @@ import { useMutation, useQueries } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
 import { toaster } from '@/components/ui/toaster'
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { cookie } from '@/shared/cache/cookie'
 
 import { invitationsMutationOptions } from '../queries/invitations.mutation-options'
@@ -16,7 +16,7 @@ import {
 } from '../types/status-invitations.type'
 
 export function useAcceptInvitation(invitationId?: string) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const [
     { data: invite, isLoading: isLoadingInvite },
     { data: invitationPreview, isLoading: isLoadingInvitationPreview },

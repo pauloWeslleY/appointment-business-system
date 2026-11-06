@@ -12,7 +12,9 @@ const loadCollectionStatusActives = createListCollection({
 })
 
 const FilterServicesEstablishmentStatus = () => {
-  const search = useSearch({ from: '/dashboard/$slug/services/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/dashboard/$slug/services/',
+  })
   const [status, setStatus] = useQueryState(
     'status',
     parseAsString.withDefault(search.status ?? ''),

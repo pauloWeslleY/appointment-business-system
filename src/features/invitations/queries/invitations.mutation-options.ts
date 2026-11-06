@@ -1,5 +1,6 @@
 import { mutationOptions } from '@tanstack/react-query'
 
+import { authenticationQueryKey } from '@/features/authentication/queries/authentication.query-key'
 import { memberQueryKey } from '@/features/members/queries/member.query-key'
 
 import {
@@ -16,6 +17,7 @@ export const invitationsMutationOptions = {
       mutationFn: acceptInvitationService,
       onSuccess: async (_data, _variables, _result, context) => {
         const queryKeysMembers = [
+          authenticationQueryKey.all,
           invitationQueryKey.all,
           memberQueryKey.all,
           memberQueryKey.context(),

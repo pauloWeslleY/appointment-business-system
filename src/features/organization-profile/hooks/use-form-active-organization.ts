@@ -1,10 +1,12 @@
 import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { memberMutationOptions } from '@/features/members/queries/member.mutation-options'
 import { authClient } from '@/lib/auth'
 
@@ -16,7 +18,8 @@ import { ActiveOrganizationSchema } from '../schemas/active-organization.schema'
 import type { FormActiveOrganizationType } from '../types/active-organization.type'
 
 export function useFormActiveOrganization() {
-  const { data: userAuth } = authClient.useSession()
+  const router = useRouter()
+  const { data: userAuth } = useAppSession()
   const { data: organizations, isLoading: isLoadingOrganizations } = useQuery({
     queryKey: organizationQueryKeys.select(),
     queryFn: async () => await authClient.organization.list(),
@@ -60,9 +63,10 @@ export function useFormActiveOrganization() {
     activeOrganization(
       { organizationId: organizationId[0] },
       {
-        onSuccess: ({ organization }) => {
+        onSuccess: async ({ organization }) => {
+          await router.invalidate()
           reset({
-            organizationId: [userAuth?.session.activeOrganizationId ?? ''],
+            organizationId: [organization.id],
           })
 
           toaster.success({
@@ -70,7 +74,7 @@ export function useFormActiveOrganization() {
             description: `O perfil da organização ${organization.name} foi ativado com sucesso.`,
           })
 
-          queryClient.invalidateQueries({
+          await queryClient.invalidateQueries({
             queryKey: organizationProfileQueryKeys.summary(),
           })
         },

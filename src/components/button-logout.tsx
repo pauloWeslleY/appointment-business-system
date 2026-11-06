@@ -1,29 +1,12 @@
 import { Button, Icon, IconButton } from '@chakra-ui/react'
-import { useNavigate } from '@tanstack/react-router'
 import { LogOut } from 'lucide-react'
 
-import { authClient } from '@/lib/auth'
-import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
+import { useLogout } from '@/shared/hooks/use-logout'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
-
-import { toaster } from './ui/toaster'
 
 const ButtonLogout = () => {
   const { collapsed } = useMenuCollapse()
-  const navigate = useNavigate()
-
-  const handleLogout = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => navigate({ to: '/login' }),
-        onError: ({ error }) => {
-          toaster.error({
-            title: mapErrorsLabel[error.code] || 'Erro ao realizar logout',
-          })
-        },
-      },
-    })
-  }
+  const { handleLogout } = useLogout()
 
   return (
     <>

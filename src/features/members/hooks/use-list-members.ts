@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useLocation } from '@tanstack/react-router'
 import { parseAsBoolean, parseAsString, useQueryState } from 'nuqs'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { listMembersQueryOptions } from '../queries/member.query-options'
 
@@ -20,7 +20,7 @@ export function useListMembers() {
   )
 
   const { search } = useLocation()
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const { data: members, isLoading: isLoadingMembers } = useQuery(
     listMembersQueryOptions(session?.session.activeOrganizationId ?? undefined),
   )

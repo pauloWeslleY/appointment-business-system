@@ -29,7 +29,9 @@ const loadSelectRatings = createListCollection({
 })
 
 const FilterReviewsNotes = () => {
-  const search = useSearch({ from: '/dashboard/$slug/reviews/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/dashboard/$slug/reviews/',
+  })
   const [notes, setNotes] = useQueryState(
     'notes',
     parseAsInteger.withDefault(search.notes ?? 0),

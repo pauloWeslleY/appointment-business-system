@@ -1,6 +1,8 @@
 import z from 'zod'
 
-import { BadRequestError, ConflictError } from '@/shared/errors'
+import { createMeContextService } from '@/features/members/services/member-context.service'
+import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
+import { BadRequestError } from '@/shared/errors'
 import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
 
@@ -11,10 +13,7 @@ import {
 } from '../schemas/subscription-billing.schema'
 import { subscriptionCancellationResponseSchema } from '../schemas/subscription-cancellation.schema'
 import { subscriptionCheckoutResponseSchema } from '../schemas/subscription-checkout.schema'
-import {
-  subscriptionContextQuerySchema,
-  subscriptionSelectionSchema,
-} from '../schemas/subscription-context.schema'
+import { subscriptionSelectionSchema } from '../schemas/subscription-context.schema'
 import {
   subscriptionContextSchema,
   subscriptionOrganizationsResponseSchema,
@@ -31,12 +30,13 @@ import { noticesSchema } from '../schemas/subscription-notices.schema.ts'
 import { subscriptionPortalResponseSchema } from '../schemas/subscription-portal.schema'
 import { subscriptionTrialResponseSchema } from '../schemas/subscription-trial.schema'
 import { type BillingIntervalType } from '../types/billing-interval.type'
-import { type SubscriptionSnapshot } from '../types/subscription.model'
+import {
+  type SubscriptionContext,
+  type SubscriptionSnapshot,
+} from '../types/subscription.model'
 import type {
   SubscriptionCancellationResponse,
   SubscriptionCheckoutResponse,
-  SubscriptionContextQuery,
-  SubscriptionContextResponse,
   SubscriptionIntervalResponse,
   SubscriptionNoticePath,
   SubscriptionNoticesResponse,
@@ -69,61 +69,22 @@ export const listSubscriptionOrganizationsService = async (
   return parsedResponse.data
 }
 
-export const getSubscriptionContextService = async (
-  organizationId: string,
-  signal?: AbortSignal,
-  query?: SubscriptionContextQuery,
-) => {
-  const { api, validate } = httpDependencies<SubscriptionContextResponse>()
-  const response = await api.request({
-    method: HttpMethod.GET,
-    url: '/me/context',
-    signal,
-    ...(query ? { params: subscriptionContextQuerySchema.parse(query) } : {}),
-  })
-
-  const parsedResponse = subscriptionContextSchema.safeParse(
-    validate.errors(response),
-  )
-
-  if (!parsedResponse.success) {
-    throw new BadRequestError(z.prettifyError(parsedResponse.error))
-  }
-
-  if (parsedResponse.data.organization.id !== organizationId) {
-    throw new ConflictError(
-      'A organização ativa mudou. Atualize a página antes de continuar.',
-    )
-  }
-
-  return parsedResponse.data
-}
-
 export const selectSubscriptionOrganizationService = async (
   organizationId: string,
   establishmentId?: string,
-) => {
+): Promise<GetMeContextResponse> => {
   const body: SubscriptionSelectionRequest = subscriptionSelectionSchema.parse({
     organizationId,
     ...(establishmentId === undefined ? {} : { establishmentId }),
   })
 
-  const { api, validate } = httpDependencies<SubscriptionContextResponse>()
-  const response = await api.request({
-    method: HttpMethod.POST,
-    url: '/me/context',
-    body,
-  })
+  return createMeContextService(body)
+}
 
-  const parsedResponse = subscriptionContextSchema.safeParse(
-    validate.errors(response),
-  )
-
-  if (!parsedResponse.success) {
-    throw new BadRequestError(z.prettifyError(parsedResponse.error))
-  }
-
-  return parsedResponse.data
+export function toSubscriptionContext(
+  context: GetMeContextResponse,
+): SubscriptionContext {
+  return subscriptionContextSchema.parse(context)
 }
 
 export const getSubscriptionAccessService = async (

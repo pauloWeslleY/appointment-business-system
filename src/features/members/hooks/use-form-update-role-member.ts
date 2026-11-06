@@ -6,16 +6,14 @@ import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { authClient } from '@/lib/auth'
 
 import { memberMutationOptions } from '../queries/member.mutation-options'
-import { memberQueryKey } from '../queries/member.query-key'
 import { getActiveMemberQueryOptions } from '../queries/member.query-options'
 import { UpdateRoleMemberFormSchema } from '../schemas/update-role-member.api.schema'
 import { mapLabelMemberRole, MEMBER_ROLES } from '../types/member-role.type'
 import type { UpdateRoleMemberFormType } from '../types/update-role-member.type'
 
-const authenticatedLayoutRoute = getRouteApi('/_authenticated')
+const authenticatedLayoutRoute = getRouteApi('/_app/_authenticated')
 
 const loadSelectRoleUpdateMember = createListCollection({
   items: MEMBER_ROLES.map((role) => ({
@@ -47,21 +45,7 @@ export function useFormUpadteRoleMember(memberId?: string) {
   })
 
   const { isPending: isPendingUpdateRoleMember, mutate: updateRoleMember } =
-    useMutation({
-      ...memberMutationOptions.updateRole(),
-      onSuccess: async (_data, _variables, _result, context) => {
-        const { data } = await authClient.organization.getActiveMember({
-          query: {
-            organizationId: memberContext?.organization.id,
-            memberId,
-          },
-        })
-
-        await context.client.invalidateQueries({
-          queryKey: memberQueryKey.members(data?.organizationId),
-        })
-      },
-    })
+    useMutation(memberMutationOptions.updateRole())
 
   const handleFormSubmitUpdateRoleMember = (data: UpdateRoleMemberFormType) => {
     if (!memberId) {

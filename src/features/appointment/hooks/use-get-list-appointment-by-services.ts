@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { appointmentServiceListQueryOptions } from '../queries/appointment.query-options'
 import type { GetListAppointmentByServiceQueryParams } from '../types/get-list-appointment-by-service.query-params'
@@ -8,7 +8,7 @@ import type { GetListAppointmentByServiceQueryParams } from '../types/get-list-a
 export function useGetAppointmentByService(
   params: Omit<GetListAppointmentByServiceQueryParams, 'organizationId'>,
 ) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   return useQuery(
     appointmentServiceListQueryOptions(
       {

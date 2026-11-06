@@ -5,7 +5,7 @@ import { parseAsString, useQueryState } from 'nuqs'
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 import { contentCss } from '@/theme/styles/global-styles'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const FilterAppointmentsService = () => {
   const { establishment } = dashboardSlugRoute.useLoaderData()

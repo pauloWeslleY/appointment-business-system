@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import {
   professionalDetailsQueryOptions,
@@ -8,7 +8,7 @@ import {
 } from '../queries/professionals.query-options'
 
 export function useProfessionals(establishmentId: string) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   return useQuery(
     professionalsListQueryOptions(
       establishmentId,
@@ -19,7 +19,7 @@ export function useProfessionals(establishmentId: string) {
 }
 
 export function useProfessional(professionalId?: string) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   return useQuery(
     professionalDetailsQueryOptions(
       professionalId,

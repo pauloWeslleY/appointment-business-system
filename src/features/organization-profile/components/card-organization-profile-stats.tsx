@@ -31,7 +31,7 @@ const CardOrganizationProfileStats = ({
   organizationProfile,
   organization,
 }: CardOrganizationProfileStatsProps) => {
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const totalEstablishments = memberContext.establishments.length.toString()
   const totalMembers = organization.members.length.toString()
   const memberOwner = organization.members.find((member) =>

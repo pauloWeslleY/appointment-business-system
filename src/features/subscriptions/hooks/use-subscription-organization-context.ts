@@ -16,9 +16,9 @@ export function useSubscriptionOrganizationContext() {
 }
 
 export function useActiveSubscriptionOrganization() {
-  const { subscriptionContextQuery, pageEntry } =
+  const { subscriptionContext, pageEntry } =
     useSubscriptionOrganizationContext()
-  const authenticatedSubscriptionContext = subscriptionContextQuery.data
+  const authenticatedSubscriptionContext = subscriptionContext
 
   if (!authenticatedSubscriptionContext) {
     throw new Error('Subscription organization context is required')

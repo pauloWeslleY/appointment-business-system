@@ -111,7 +111,6 @@ const FormCreateEstablishmentPage = () => {
               >
                 <InputField
                   {...formCreateEstablishment.register('websiteUrl')}
-                  type="url"
                   placeholder="/seu-estabelecimento"
                   autoComplete="url"
                   maxLength={2048}

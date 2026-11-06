@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 
 import { useGetAllReviewsByEstablishment } from '../hooks/use-get-all-reviews-by-establishment'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const StatsReviews = () => {
   const { establishment } = dashboardSlugRoute.useLoaderData()

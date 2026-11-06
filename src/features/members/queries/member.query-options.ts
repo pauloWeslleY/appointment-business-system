@@ -1,8 +1,9 @@
 import { queryOptions, skipToken } from '@tanstack/react-query'
 
+import { AUTHENTICATION_CACHE_POLICY } from '@/features/authentication/constants/authentication-cache'
+
 import {
   getActiveMemberService,
-  getMemberDetailsService,
   listMembersService,
 } from '../services/member.service'
 import { getMeContextService } from '../services/member-context.service'
@@ -19,23 +20,16 @@ export const memberContextQueryOptions = (
       userId,
       establishmentId,
     ),
-    queryFn: () => getMeContextService(establishmentId),
-    staleTime: 0,
-  })
-}
-
-export const getMeContextQueryOptions = (establishmentId?: string) => {
-  return queryOptions({
-    queryKey: memberQueryKey.detail(establishmentId),
-    queryFn: () => getMeContextService(establishmentId),
-    enabled: !!establishmentId,
-  })
-}
-
-export const getMemberContextQueryOptions = () => {
-  return queryOptions({
-    queryKey: memberQueryKey.context(),
-    queryFn: getMemberDetailsService,
+    queryFn:
+      userId && organizationId
+        ? ({ signal }) =>
+            getMeContextService(
+              { userId, organizationId, establishmentId },
+              signal,
+            )
+        : skipToken,
+    ...AUTHENTICATION_CACHE_POLICY,
+    retry: false,
   })
 }
 

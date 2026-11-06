@@ -5,8 +5,8 @@ import dayjs from 'dayjs'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { establishmentAvailabilityQueryOptions } from '@/features/establishment/queries/establishment.query-options'
-import { authClient } from '@/lib/auth'
 
 import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
 import { UpdateAppointmentSchema } from '../schemas/update-appointment-form.schema'
@@ -18,7 +18,7 @@ import {
 } from '../utils/appointment-date'
 
 export function useUpdateAppointmentForm(appointment: AppointmentModel) {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const localDate = appointmentLocalDate(
     appointment.startsAt,
     appointment.timezone,

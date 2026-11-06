@@ -1,7 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
+import { memberQueryKey } from '@/features/members/queries/member.query-key'
 import { authClient } from '@/lib/auth'
 import {
   type UploadFileResponse,
@@ -12,7 +15,8 @@ import { UpdateProfileFormSchema } from '../schemas/update-profile-form.schema'
 import type { UpdateProfileFormType } from '../types/update-profile-form.type'
 
 export function useUpdateProfile() {
-  const { data: session } = authClient.useSession()
+  const { data: session, refetch: refreshSession } = useAppSession()
+  const queryClient = useQueryClient()
   const {
     reset,
     control,
@@ -55,6 +59,11 @@ export function useUpdateProfile() {
       await authClient.updateUser({
         name: data.name,
         image: urlImage?.key ?? null,
+      })
+
+      await refreshSession()
+      await queryClient.invalidateQueries({
+        queryKey: memberQueryKey.context(),
       })
 
       reset(data)

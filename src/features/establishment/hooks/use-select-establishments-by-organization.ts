@@ -5,11 +5,9 @@ import { useMemo } from 'react'
 
 import { establishmentByOrganizationQueryOptions } from '../queries/establishment.query-options'
 
-export function useSelectEstablishmentsByOrganization(
-  organizationId?: string,
-) {
+export function useSelectEstablishmentsByOrganization(organizationId?: string) {
   const slug = useParams({
-    from: '/dashboard/$slug',
+    from: '/_app/_authenticated/dashboard/$slug',
     select: (params) => params.slug,
   })
 

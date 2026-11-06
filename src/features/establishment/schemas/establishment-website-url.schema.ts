@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const EstablishmentWebsiteUrlSchema = z
-  .url({ protocol: /^https$/, error: 'Informe uma URL HTTPS válida.' })
+  .string()
   .max(2048, 'Use no máximo 2048 caracteres.')
 
 export const EstablishmentWebsiteUrlFormSchema = z

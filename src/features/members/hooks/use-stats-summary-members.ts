@@ -8,7 +8,7 @@ import { StatusInvitations } from '@/features/invitations/types/status-invitatio
 
 import { listMembersQueryOptions } from '../queries/member.query-options'
 
-const authenticatedRoute = getRouteApi('/_authenticated')
+const authenticatedRoute = getRouteApi('/_app/_authenticated')
 
 export function useStatsSummaryMembers() {
   const { memberContext } = authenticatedRoute.useRouteContext()

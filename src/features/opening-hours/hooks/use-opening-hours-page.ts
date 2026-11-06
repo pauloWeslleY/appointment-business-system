@@ -4,7 +4,7 @@ import { useState } from 'react'
 import type { EstablishmentOpeningHoursItemApiResponse } from '../types/opening-hours-response.api.type'
 import { useEstablishmentOpeningHours } from './use-establishment-opening-hours'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useOpeningHoursPage() {
   const { establishment } = dashboardSlugRoute.useLoaderData()

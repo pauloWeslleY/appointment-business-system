@@ -18,7 +18,7 @@ import { useGetAllReviewsByEstablishment } from '@/features/reviews/hooks/use-ge
 import ReviewsListPage from '@/features/reviews/pages/reviews-list.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export default function ReviewsPage() {
   const { establishment } = dashboardSlugRoute.useLoaderData()

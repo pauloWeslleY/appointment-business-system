@@ -22,9 +22,9 @@ const UpdateEstablishmentPage = () => {
     ),
   )
 
-  const { memberContext } = useRouteContext({ from: '/_authenticated' })
+  const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const slug = useParams({
-    from: '/_authenticated/establishment/_routes/$establishmentSlug/',
+    from: '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/',
     select: (params) => params.establishmentSlug,
   })
 

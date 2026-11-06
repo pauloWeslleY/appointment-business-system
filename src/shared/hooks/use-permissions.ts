@@ -1,12 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import { memberContextQueryOptions } from '@/features/members/queries/member.query-options'
+import { useMemberContext } from '@/features/members/hooks/use-member-context'
 import {
   MemberRoles,
   type MemberRoleType,
 } from '@/features/members/types/member-role.type'
-import { authClient } from '@/lib/auth'
 
 import { RESOURCES, type ResourceType } from '../constants/permission'
 import { listGroupedPermissions } from '../helpers/list-permissions'
@@ -16,13 +14,7 @@ export const hasMemberOwner = (role: MemberRoleType) =>
   role === MemberRoles.OWNER
 
 export function usePermissions(resources?: ResourceType[]) {
-  const { data: session } = authClient.useSession()
-  const { data: memberContext } = useQuery(
-    memberContextQueryOptions(
-      session?.user.id,
-      session?.session.activeOrganizationId ?? undefined,
-    ),
-  )
+  const memberContext = useMemberContext()
 
   const { invitations, subscriptions, organizationProfile, appointments } =
     useMemo(() => {

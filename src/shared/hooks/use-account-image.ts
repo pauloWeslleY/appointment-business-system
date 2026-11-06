@@ -1,4 +1,4 @@
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { useStorageImage } from './use-get-storage-image'
 
@@ -12,7 +12,7 @@ const validateImageUserProfile = (image?: string | null) => {
 }
 
 export function useAccountImage() {
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const { data: storageData } = useStorageImage(
     validateImageUserProfile(session?.user?.image),
   )

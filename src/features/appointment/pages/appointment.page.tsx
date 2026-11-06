@@ -15,9 +15,11 @@ import { RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-const pageRoute = getRouteApi('/dashboard/$slug/appointment/')
+const pageRoute = getRouteApi(
+  '/_app/_authenticated/dashboard/$slug/appointment/',
+)
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const appointmentPermissionResources = [RESOURCES.APPOINTMENT]
 

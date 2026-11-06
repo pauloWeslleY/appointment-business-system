@@ -4,7 +4,7 @@ import { getRouteApi } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { serviceEstablishmentMutationOptions } from '../queries/service-establishment.mutation-options'
 import { ServiceEstablishmentFormSchema } from '../schemas/service-establishment-form.schema'
@@ -14,12 +14,12 @@ import type {
 } from '../types/form-service-establishment.type'
 import { createServiceEstablishmentSlug } from '../utils/slug-service-establishment'
 
-const dashboardSlugRoute = getRouteApi('/dashboard/$slug')
+const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useFormCreateServiceEstablishment() {
   const { establishment, organizationProfile } =
     dashboardSlugRoute.useLoaderData()
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
 
   const mutationOptions = serviceEstablishmentMutationOptions.create()
   const {

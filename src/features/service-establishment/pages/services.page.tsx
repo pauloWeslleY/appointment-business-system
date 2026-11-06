@@ -39,7 +39,9 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
     },
   )
 
-  const search = useSearch({ from: '/dashboard/$slug/services/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/dashboard/$slug/services/',
+  })
 
   const filteredServices = useMemo(() => {
     const query = search.q?.toLowerCase()

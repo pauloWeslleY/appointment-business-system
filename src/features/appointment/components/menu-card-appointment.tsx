@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { EllipsisVertical, Info, PencilLineIcon } from 'lucide-react'
 import { useReducer } from 'react'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { appointmentDetailQueryOptions } from '../queries/appointment.query-options'
@@ -44,7 +44,7 @@ const reducer = (state: StateProps, action: ActionType) => {
 
 const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const {
     data: detail,
     isFetching,

@@ -27,7 +27,7 @@ export const loadCollectionStatusTaxInformation = createListCollection({
 })
 
 export function useFilterTableTaxInformation() {
-  const { limit } = useSearch({ from: '/_authenticated/settings/' })
+  const { limit } = useSearch({ from: '/_app/_authenticated/_admin/settings/' })
   const [filterTaxInformation, setFilterTaxInformation] = useQueryStates(
     {
       limit: parseAsInteger.withDefault(limit ?? 5),

@@ -25,7 +25,9 @@ import ProfessionalEditor from '../components/professional-editor'
 import StatInfoProfessionals from '../components/stat-info-professionals'
 import { useProfessionalsPage } from '../hooks/use-professionals-page'
 
-const professionalsRoute = getRouteApi('/dashboard/$slug/professionals/')
+const professionalsRoute = getRouteApi(
+  '/_app/_authenticated/dashboard/$slug/professionals/',
+)
 
 const ProfessionalsPage = () => {
   const {

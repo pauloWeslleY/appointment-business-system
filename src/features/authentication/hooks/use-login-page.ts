@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { type LinkProps, useNavigate } from '@tanstack/react-router'
 import { useLocation } from '@tanstack/react-router'
 import { type SuccessContext } from 'better-auth/react'
@@ -18,6 +19,7 @@ import type { LoginFormData } from '../types/login-form-data.type'
 const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/establishment'
 
 export function useLoginPage() {
+  const queryClient = useQueryClient()
   const [isPendingLoginWithGoogle, startTransition] = useTransition()
   const { state } = useLocation()
   const navigate = useNavigate()
@@ -55,6 +57,7 @@ export function useLoginPage() {
       },
       {
         onSuccess: ({ data }: SuccessContext<AuthModel>) => {
+          queryClient.clear()
           toaster.success({
             title: `Usuário ${data.user.name}`,
             description: 'Entrou no sistema',

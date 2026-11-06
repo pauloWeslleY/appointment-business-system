@@ -39,7 +39,9 @@ const ListEstablishmentPage = ({
     },
   )
 
-  const search = useSearch({ from: '/_authenticated/establishment/' })
+  const search = useSearch({
+    from: '/_app/_authenticated/_admin/establishment/',
+  })
 
   const visibleEstablishments = useMemo<
     EstablishmentOrganizationProfileApiResponse[]

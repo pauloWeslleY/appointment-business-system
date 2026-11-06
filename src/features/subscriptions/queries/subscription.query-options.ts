@@ -2,7 +2,6 @@ import { queryOptions, skipToken } from '@tanstack/react-query'
 
 import {
   getSubscriptionAccessService,
-  getSubscriptionContextService,
   listSubscriptionNoticesService,
   listSubscriptionOrganizationsService,
 } from '../services/subscription.service'
@@ -14,19 +13,6 @@ export const subscriptionOrganizationsQueryOptions = (userId?: string) =>
     queryFn: userId
       ? ({ signal }) => listSubscriptionOrganizationsService(signal)
       : skipToken,
-  })
-
-export const subscriptionContextQueryOptions = (
-  userId?: string,
-  organizationId?: string,
-) =>
-  queryOptions({
-    queryKey: subscriptionQueryKey.context(userId, organizationId),
-    queryFn:
-      userId && organizationId
-        ? ({ signal }) => getSubscriptionContextService(organizationId, signal)
-        : skipToken,
-    retry: false,
   })
 
 export const subscriptionAccessQueryOptions = (

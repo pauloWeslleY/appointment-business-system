@@ -1,18 +1,24 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from '@tanstack/react-router'
+import { useMemo } from 'react'
 
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
+import { useMemberContext } from '@/features/members/hooks/use-member-context'
 import { memberQueryKey } from '@/features/members/queries/member.query-key'
-import { organizationProfileQueryKeys } from '@/features/organization-profile/queries/organization-profile-query-key'
-import { authClient } from '@/lib/auth'
 
 import { subscriptionMutationOptions } from '../queries/subscription.mutation-options'
-import { subscriptionQueryKey } from '../queries/subscription.query-key'
-import {
-  subscriptionContextQueryOptions,
-  subscriptionOrganizationsQueryOptions,
-} from '../queries/subscription.query-options'
+import { subscriptionOrganizationsQueryOptions } from '../queries/subscription.query-options'
+import { toSubscriptionContext } from '../services/subscription.service'
 
 export function useSubscriptionOrganization() {
-  const authenticationSession = authClient.useSession()
+  const authenticationSession = useAppSession()
+  const queryClient = useQueryClient()
+  const router = useRouter()
+  const memberContext = useMemberContext()
+  const subscriptionContext = useMemo(
+    () => (memberContext ? toSubscriptionContext(memberContext) : undefined),
+    [memberContext],
+  )
   const userId = authenticationSession.data?.user.id
   const organizationId =
     authenticationSession.data?.session.activeOrganizationId ?? ''
@@ -25,49 +31,33 @@ export function useSubscriptionOrganization() {
 
   const organizationSelectionMutation = useMutation({
     ...organizationSelectionOptions,
-    onMutate: async (_variables, context) => {
-      await context.client.cancelQueries({ queryKey: subscriptionQueryKey.all })
+    onSuccess: async (data, variables, result, context) => {
+      await organizationSelectionOptions.onSuccess?.(
+        data,
+        variables,
+        result,
+        context,
+      )
+      await router.invalidate()
     },
-    onSuccess: async (_data, _variables, _result, context) => {
-      context.client.removeQueries({ queryKey: subscriptionQueryKey.all })
-      const keysMember = [
-        memberQueryKey.all,
-        memberQueryKey.context(),
-        organizationProfileQueryKeys.all,
-      ] as const
-
-      await Promise.all([
-        ...keysMember.map((key) =>
-          context.client.invalidateQueries({ queryKey: key }),
-        ),
-      ])
-
-      await authenticationSession.refetch()
-    },
-  })
-
-  const subscriptionContextQuery = useQuery({
-    ...subscriptionContextQueryOptions(userId, organizationId),
-    enabled:
-      Boolean(userId && organizationId) &&
-      !organizationSelectionMutation.isPending,
   })
 
   const organizationQueryError =
-    organizationSelectionMutation.error ??
-    organizationsQuery.error ??
-    subscriptionContextQuery.error
+    organizationSelectionMutation.error ?? organizationsQuery.error
 
   const canShowSubscriptionWorkspace = Boolean(
     userId &&
     !organizationSelectionMutation.isPending &&
-    subscriptionContextQuery.data?.organization.id === organizationId,
+    subscriptionContext?.organization.id === organizationId,
   )
 
-  const retryOrganizationQueries = () => {
-    void organizationsQuery.refetch()
+  const retryOrganizationQueries = async (): Promise<void> => {
+    await organizationsQuery.refetch()
     if (organizationId) {
-      void subscriptionContextQuery.refetch()
+      await queryClient.invalidateQueries({
+        queryKey: memberQueryKey.context(),
+      })
+      await router.invalidate()
     }
   }
 
@@ -88,7 +78,7 @@ export function useSubscriptionOrganization() {
     organizationId,
     organizationsQuery,
     organizationSelectionMutation,
-    subscriptionContextQuery,
+    subscriptionContext,
     organizationQueryError,
     canShowSubscriptionWorkspace,
     retryOrganizationQueries,

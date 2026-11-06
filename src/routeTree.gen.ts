@@ -10,64 +10,62 @@
 
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as IndexRouteImport } from './pages/index'
+import { Route as AppLayoutRouteImport } from './pages/_app/layout'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
-import { Route as AuthenticatedLayoutRouteImport } from './pages/_authenticated/layout'
-import { Route as SubscriptionLayoutRouteImport } from './pages/_subscription/layout'
 import { Route as ErrorRouteImport } from './pages/error'
-import { Route as AuthenticatedTeamManagementLayoutRouteImport } from './pages/_authenticated/team-management/layout'
-import { Route as DashboardIndexRouteImport } from './pages/dashboard/index'
-import { Route as DashboardSlugLayoutRouteImport } from './pages/dashboard/$slug/layout'
+import { Route as AppAuthenticatedLayoutRouteImport } from './pages/_app/_authenticated/layout'
+import { Route as AppSubscriptionLayoutRouteImport } from './pages/_app/_subscription/layout'
 import { Route as InvitationIndexRouteImport } from './pages/invitation/index'
-import { Route as OrganizationProfileIndexRouteImport } from './pages/organization-profile/index'
+import { Route as AppAuthenticatedAdminLayoutRouteImport } from './pages/_app/_authenticated/_admin/layout'
+import { Route as AppOrganizationProfileIndexRouteImport } from './pages/_app/organization-profile/index'
 import { Route as AuthForgotPasswordIndexRouteImport } from './pages/_auth/forgot-password/index'
 import { Route as AuthLoginIndexRouteImport } from './pages/_auth/login/index'
 import { Route as AuthRegisterIndexRouteImport } from './pages/_auth/register/index'
 import { Route as AuthResetPasswordIndexRouteImport } from './pages/_auth/reset-password/index'
 import { Route as AuthVerifyEmailIndexRouteImport } from './pages/_auth/verify-email/index'
-import { Route as AuthenticatedAccountIndexRouteImport } from './pages/_authenticated/account/index'
-import { Route as AuthenticatedEstablishmentIndexRouteImport } from './pages/_authenticated/establishment/index'
-import { Route as AuthenticatedOrganizationIndexRouteImport } from './pages/_authenticated/organization/index'
-import { Route as AuthenticatedSettingsIndexRouteImport } from './pages/_authenticated/settings/index'
-import { Route as AuthenticatedTeamManagementIndexRouteImport } from './pages/_authenticated/team-management/index'
 import { Route as Error_pageAccessDeniedIndexRouteImport } from './pages/_error_page/access-denied/index'
-import { Route as SubscriptionSubscriptionIndexRouteImport } from './pages/_subscription/subscription/index'
-import { Route as SubscriptionSubscriptionCanceledRouteImport } from './pages/_subscription/subscription/canceled'
-import { Route as SubscriptionSubscriptionReturnRouteImport } from './pages/_subscription/subscription/return'
-import { Route as AuthenticatedOrganizationNewIndexRouteImport } from './pages/_authenticated/organization/new/index'
-import { Route as AuthenticatedTeamManagementInvitationsIndexRouteImport } from './pages/_authenticated/team-management/invitations/index'
-import { Route as AuthenticatedTeamManagementMembersIndexRouteImport } from './pages/_authenticated/team-management/members/index'
-import { Route as DashboardSlugAddressIndexRouteImport } from './pages/dashboard/$slug/address/index'
-import { Route as DashboardSlugAppointmentIndexRouteImport } from './pages/dashboard/$slug/appointment/index'
-import { Route as DashboardSlugConfigIndexRouteImport } from './pages/dashboard/$slug/config/index'
-import { Route as DashboardSlugCustomersIndexRouteImport } from './pages/dashboard/$slug/customers/index'
-import { Route as DashboardSlugOpeningHoursIndexRouteImport } from './pages/dashboard/$slug/opening-hours/index'
-import { Route as DashboardSlugOverviewIndexRouteImport } from './pages/dashboard/$slug/overview/index'
-import { Route as DashboardSlugProfessionalsIndexRouteImport } from './pages/dashboard/$slug/professionals/index'
-import { Route as DashboardSlugReviewsIndexRouteImport } from './pages/dashboard/$slug/reviews/index'
-import { Route as DashboardSlugServicesIndexRouteImport } from './pages/dashboard/$slug/services/index'
-import { Route as AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport } from './pages/_authenticated/establishment/_routes/$establishmentSlug/index'
-import { Route as AuthenticatedEstablishmentRoutesNewIndexRouteImport } from './pages/_authenticated/establishment/_routes/new/index'
-import { Route as DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/layout'
-import { Route as DashboardSlugProfessionalsPagesNewIndexRouteImport } from './pages/dashboard/$slug/professionals/_pages/new/index'
-import { Route as DashboardSlugServicesPagesNewIndexRouteImport } from './pages/dashboard/$slug/services/_pages/new/index'
-import { Route as DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/index'
-import { Route as DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/index'
+import { Route as AppAuthenticatedAdminTeamManagementLayoutRouteImport } from './pages/_app/_authenticated/_admin/team-management/layout'
+import { Route as AppAuthenticatedDashboardIndexRouteImport } from './pages/_app/_authenticated/dashboard/index'
+import { Route as AppAuthenticatedDashboardSlugLayoutRouteImport } from './pages/_app/_authenticated/dashboard/$slug/layout'
+import { Route as AppSubscriptionSubscriptionIndexRouteImport } from './pages/_app/_subscription/subscription/index'
+import { Route as AppSubscriptionSubscriptionCanceledRouteImport } from './pages/_app/_subscription/subscription/canceled'
+import { Route as AppSubscriptionSubscriptionReturnRouteImport } from './pages/_app/_subscription/subscription/return'
+import { Route as AppAuthenticatedAdminAccountIndexRouteImport } from './pages/_app/_authenticated/_admin/account/index'
+import { Route as AppAuthenticatedAdminEstablishmentIndexRouteImport } from './pages/_app/_authenticated/_admin/establishment/index'
+import { Route as AppAuthenticatedAdminOrganizationIndexRouteImport } from './pages/_app/_authenticated/_admin/organization/index'
+import { Route as AppAuthenticatedAdminSettingsIndexRouteImport } from './pages/_app/_authenticated/_admin/settings/index'
+import { Route as AppAuthenticatedAdminTeamManagementIndexRouteImport } from './pages/_app/_authenticated/_admin/team-management/index'
+import { Route as AppAuthenticatedAdminOrganizationNewIndexRouteImport } from './pages/_app/_authenticated/_admin/organization/new/index'
+import { Route as AppAuthenticatedAdminTeamManagementInvitationsIndexRouteImport } from './pages/_app/_authenticated/_admin/team-management/invitations/index'
+import { Route as AppAuthenticatedAdminTeamManagementMembersIndexRouteImport } from './pages/_app/_authenticated/_admin/team-management/members/index'
+import { Route as AppAuthenticatedDashboardSlugAddressIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/address/index'
+import { Route as AppAuthenticatedDashboardSlugAppointmentIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/appointment/index'
+import { Route as AppAuthenticatedDashboardSlugConfigIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/config/index'
+import { Route as AppAuthenticatedDashboardSlugCustomersIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/customers/index'
+import { Route as AppAuthenticatedDashboardSlugOpeningHoursIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/opening-hours/index'
+import { Route as AppAuthenticatedDashboardSlugOverviewIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/overview/index'
+import { Route as AppAuthenticatedDashboardSlugProfessionalsIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/professionals/index'
+import { Route as AppAuthenticatedDashboardSlugReviewsIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/reviews/index'
+import { Route as AppAuthenticatedDashboardSlugServicesIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/services/index'
+import { Route as AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRouteImport } from './pages/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/index'
+import { Route as AppAuthenticatedAdminEstablishmentRoutesNewIndexRouteImport } from './pages/_app/_authenticated/_admin/establishment/_routes/new/index'
+import { Route as AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport } from './pages/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/layout'
+import { Route as AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/professionals/_pages/new/index'
+import { Route as AppAuthenticatedDashboardSlugServicesPagesNewIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/services/_pages/new/index'
+import { Route as AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/index'
+import { Route as AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport } from './pages/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppLayoutRoute = AppLayoutRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedLayoutRoute = AuthenticatedLayoutRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SubscriptionLayoutRoute = SubscriptionLayoutRouteImport.update({
-  id: '/_subscription',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ErrorRoute = ErrorRouteImport.update({
@@ -75,32 +73,29 @@ const ErrorRoute = ErrorRouteImport.update({
   path: '/error',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedTeamManagementLayoutRoute =
-  AuthenticatedTeamManagementLayoutRouteImport.update({
-    id: '/team-management',
-    path: '/team-management',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+const AppAuthenticatedLayoutRoute = AppAuthenticatedLayoutRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
-const DashboardSlugLayoutRoute = DashboardSlugLayoutRouteImport.update({
-  id: '/dashboard/$slug',
-  path: '/dashboard/$slug',
-  getParentRoute: () => rootRouteImport,
+const AppSubscriptionLayoutRoute = AppSubscriptionLayoutRouteImport.update({
+  id: '/_subscription',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 const InvitationIndexRoute = InvitationIndexRouteImport.update({
   id: '/invitation/',
   path: '/invitation/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OrganizationProfileIndexRoute =
-  OrganizationProfileIndexRouteImport.update({
+const AppAuthenticatedAdminLayoutRoute =
+  AppAuthenticatedAdminLayoutRouteImport.update({
+    id: '/_admin',
+    getParentRoute: () => AppAuthenticatedLayoutRoute,
+  } as any)
+const AppOrganizationProfileIndexRoute =
+  AppOrganizationProfileIndexRouteImport.update({
     id: '/organization-profile/',
     path: '/organization-profile/',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AppLayoutRoute,
   } as any)
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
   id: '/forgot-password/',
@@ -127,330 +122,358 @@ const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
   path: '/verify-email/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
-const AuthenticatedAccountIndexRoute =
-  AuthenticatedAccountIndexRouteImport.update({
-    id: '/account/',
-    path: '/account/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthenticatedEstablishmentIndexRoute =
-  AuthenticatedEstablishmentIndexRouteImport.update({
-    id: '/establishment/',
-    path: '/establishment/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthenticatedOrganizationIndexRoute =
-  AuthenticatedOrganizationIndexRouteImport.update({
-    id: '/organization/',
-    path: '/organization/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthenticatedSettingsIndexRoute =
-  AuthenticatedSettingsIndexRouteImport.update({
-    id: '/settings/',
-    path: '/settings/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthenticatedTeamManagementIndexRoute =
-  AuthenticatedTeamManagementIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
-  } as any)
 const Error_pageAccessDeniedIndexRoute =
   Error_pageAccessDeniedIndexRouteImport.update({
     id: '/_error_page/access-denied/',
     path: '/access-denied/',
     getParentRoute: () => rootRouteImport,
   } as any)
-const SubscriptionSubscriptionIndexRoute =
-  SubscriptionSubscriptionIndexRouteImport.update({
+const AppAuthenticatedAdminTeamManagementLayoutRoute =
+  AppAuthenticatedAdminTeamManagementLayoutRouteImport.update({
+    id: '/team-management',
+    path: '/team-management',
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+  } as any)
+const AppAuthenticatedDashboardIndexRoute =
+  AppAuthenticatedDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => AppAuthenticatedLayoutRoute,
+  } as any)
+const AppAuthenticatedDashboardSlugLayoutRoute =
+  AppAuthenticatedDashboardSlugLayoutRouteImport.update({
+    id: '/dashboard/$slug',
+    path: '/dashboard/$slug',
+    getParentRoute: () => AppAuthenticatedLayoutRoute,
+  } as any)
+const AppSubscriptionSubscriptionIndexRoute =
+  AppSubscriptionSubscriptionIndexRouteImport.update({
     id: '/subscription/',
     path: '/subscription/',
-    getParentRoute: () => SubscriptionLayoutRoute,
+    getParentRoute: () => AppSubscriptionLayoutRoute,
   } as any)
-const SubscriptionSubscriptionCanceledRoute =
-  SubscriptionSubscriptionCanceledRouteImport.update({
+const AppSubscriptionSubscriptionCanceledRoute =
+  AppSubscriptionSubscriptionCanceledRouteImport.update({
     id: '/subscription/canceled',
     path: '/subscription/canceled',
-    getParentRoute: () => SubscriptionLayoutRoute,
+    getParentRoute: () => AppSubscriptionLayoutRoute,
   } as any)
-const SubscriptionSubscriptionReturnRoute =
-  SubscriptionSubscriptionReturnRouteImport.update({
+const AppSubscriptionSubscriptionReturnRoute =
+  AppSubscriptionSubscriptionReturnRouteImport.update({
     id: '/subscription/return',
     path: '/subscription/return',
-    getParentRoute: () => SubscriptionLayoutRoute,
+    getParentRoute: () => AppSubscriptionLayoutRoute,
   } as any)
-const AuthenticatedOrganizationNewIndexRoute =
-  AuthenticatedOrganizationNewIndexRouteImport.update({
+const AppAuthenticatedAdminAccountIndexRoute =
+  AppAuthenticatedAdminAccountIndexRouteImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+  } as any)
+const AppAuthenticatedAdminEstablishmentIndexRoute =
+  AppAuthenticatedAdminEstablishmentIndexRouteImport.update({
+    id: '/establishment/',
+    path: '/establishment/',
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+  } as any)
+const AppAuthenticatedAdminOrganizationIndexRoute =
+  AppAuthenticatedAdminOrganizationIndexRouteImport.update({
+    id: '/organization/',
+    path: '/organization/',
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+  } as any)
+const AppAuthenticatedAdminSettingsIndexRoute =
+  AppAuthenticatedAdminSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+  } as any)
+const AppAuthenticatedAdminTeamManagementIndexRoute =
+  AppAuthenticatedAdminTeamManagementIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppAuthenticatedAdminTeamManagementLayoutRoute,
+  } as any)
+const AppAuthenticatedAdminOrganizationNewIndexRoute =
+  AppAuthenticatedAdminOrganizationNewIndexRouteImport.update({
     id: '/organization/new/',
     path: '/organization/new/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
   } as any)
-const AuthenticatedTeamManagementInvitationsIndexRoute =
-  AuthenticatedTeamManagementInvitationsIndexRouteImport.update({
+const AppAuthenticatedAdminTeamManagementInvitationsIndexRoute =
+  AppAuthenticatedAdminTeamManagementInvitationsIndexRouteImport.update({
     id: '/invitations/',
     path: '/invitations/',
-    getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
+    getParentRoute: () => AppAuthenticatedAdminTeamManagementLayoutRoute,
   } as any)
-const AuthenticatedTeamManagementMembersIndexRoute =
-  AuthenticatedTeamManagementMembersIndexRouteImport.update({
+const AppAuthenticatedAdminTeamManagementMembersIndexRoute =
+  AppAuthenticatedAdminTeamManagementMembersIndexRouteImport.update({
     id: '/members/',
     path: '/members/',
-    getParentRoute: () => AuthenticatedTeamManagementLayoutRoute,
+    getParentRoute: () => AppAuthenticatedAdminTeamManagementLayoutRoute,
   } as any)
-const DashboardSlugAddressIndexRoute =
-  DashboardSlugAddressIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugAddressIndexRoute =
+  AppAuthenticatedDashboardSlugAddressIndexRouteImport.update({
     id: '/address/',
     path: '/address/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugAppointmentIndexRoute =
-  DashboardSlugAppointmentIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugAppointmentIndexRoute =
+  AppAuthenticatedDashboardSlugAppointmentIndexRouteImport.update({
     id: '/appointment/',
     path: '/appointment/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugConfigIndexRoute =
-  DashboardSlugConfigIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugConfigIndexRoute =
+  AppAuthenticatedDashboardSlugConfigIndexRouteImport.update({
     id: '/config/',
     path: '/config/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugCustomersIndexRoute =
-  DashboardSlugCustomersIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugCustomersIndexRoute =
+  AppAuthenticatedDashboardSlugCustomersIndexRouteImport.update({
     id: '/customers/',
     path: '/customers/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugOpeningHoursIndexRoute =
-  DashboardSlugOpeningHoursIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugOpeningHoursIndexRoute =
+  AppAuthenticatedDashboardSlugOpeningHoursIndexRouteImport.update({
     id: '/opening-hours/',
     path: '/opening-hours/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugOverviewIndexRoute =
-  DashboardSlugOverviewIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugOverviewIndexRoute =
+  AppAuthenticatedDashboardSlugOverviewIndexRouteImport.update({
     id: '/overview/',
     path: '/overview/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugProfessionalsIndexRoute =
-  DashboardSlugProfessionalsIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugProfessionalsIndexRoute =
+  AppAuthenticatedDashboardSlugProfessionalsIndexRouteImport.update({
     id: '/professionals/',
     path: '/professionals/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugReviewsIndexRoute =
-  DashboardSlugReviewsIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugReviewsIndexRoute =
+  AppAuthenticatedDashboardSlugReviewsIndexRouteImport.update({
     id: '/reviews/',
     path: '/reviews/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugServicesIndexRoute =
-  DashboardSlugServicesIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugServicesIndexRoute =
+  AppAuthenticatedDashboardSlugServicesIndexRouteImport.update({
     id: '/services/',
     path: '/services/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute =
-  AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport.update({
-    id: '/establishment/_routes/$establishmentSlug/',
-    path: '/establishment/$establishmentSlug/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-const AuthenticatedEstablishmentRoutesNewIndexRoute =
-  AuthenticatedEstablishmentRoutesNewIndexRouteImport.update({
+const AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute =
+  AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRouteImport.update(
+    {
+      id: '/establishment/_routes/$establishmentSlug/',
+      path: '/establishment/$establishmentSlug/',
+      getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
+    } as any,
+  )
+const AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute =
+  AppAuthenticatedAdminEstablishmentRoutesNewIndexRouteImport.update({
     id: '/establishment/_routes/new/',
     path: '/establishment/new/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    getParentRoute: () => AppAuthenticatedAdminLayoutRoute,
   } as any)
-const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute =
-  DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport.update({
-    id: '/services/_pages/$serviceEstablishmentId',
-    path: '/services/$serviceEstablishmentId',
-    getParentRoute: () => DashboardSlugLayoutRoute,
-  } as any)
-const DashboardSlugProfessionalsPagesNewIndexRoute =
-  DashboardSlugProfessionalsPagesNewIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute =
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport.update(
+    {
+      id: '/services/_pages/$serviceEstablishmentId',
+      path: '/services/$serviceEstablishmentId',
+      getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
+    } as any,
+  )
+const AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute =
+  AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRouteImport.update({
     id: '/professionals/_pages/new/',
     path: '/professionals/new/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugServicesPagesNewIndexRoute =
-  DashboardSlugServicesPagesNewIndexRouteImport.update({
+const AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute =
+  AppAuthenticatedDashboardSlugServicesPagesNewIndexRouteImport.update({
     id: '/services/_pages/new/',
     path: '/services/new/',
-    getParentRoute: () => DashboardSlugLayoutRoute,
+    getParentRoute: () => AppAuthenticatedDashboardSlugLayoutRoute,
   } as any)
-const DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute =
-  DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport.update({
-    id: '/edit/',
-    path: '/edit/',
-    getParentRoute: () =>
-      DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
-  } as any)
-const DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute =
-  DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport.update({
-    id: '/info/',
-    path: '/info/',
-    getParentRoute: () =>
-      DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
-  } as any)
+const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute =
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport.update(
+    {
+      id: '/edit/',
+      path: '/edit/',
+      getParentRoute: () =>
+        AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
+    } as any,
+  )
+const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute =
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport.update(
+    {
+      id: '/info/',
+      path: '/info/',
+      getParentRoute: () =>
+        AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/error': typeof ErrorRoute
-  '/team-management': typeof AuthenticatedTeamManagementLayoutRouteWithChildren
-  '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
-  '/dashboard/': typeof DashboardIndexRoute
   '/invitation/': typeof InvitationIndexRoute
-  '/organization-profile/': typeof OrganizationProfileIndexRoute
-  '/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
-  '/subscription/return': typeof SubscriptionSubscriptionReturnRoute
+  '/organization-profile/': typeof AppOrganizationProfileIndexRoute
   '/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/login/': typeof AuthLoginIndexRoute
   '/register/': typeof AuthRegisterIndexRoute
   '/reset-password/': typeof AuthResetPasswordIndexRoute
   '/verify-email/': typeof AuthVerifyEmailIndexRoute
-  '/account/': typeof AuthenticatedAccountIndexRoute
-  '/establishment/': typeof AuthenticatedEstablishmentIndexRoute
-  '/organization/': typeof AuthenticatedOrganizationIndexRoute
-  '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/team-management/': typeof AuthenticatedTeamManagementIndexRoute
   '/access-denied/': typeof Error_pageAccessDeniedIndexRoute
-  '/subscription/': typeof SubscriptionSubscriptionIndexRoute
-  '/organization/new/': typeof AuthenticatedOrganizationNewIndexRoute
-  '/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
-  '/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
-  '/dashboard/$slug/address/': typeof DashboardSlugAddressIndexRoute
-  '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
-  '/dashboard/$slug/config/': typeof DashboardSlugConfigIndexRoute
-  '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
-  '/dashboard/$slug/opening-hours/': typeof DashboardSlugOpeningHoursIndexRoute
-  '/dashboard/$slug/overview/': typeof DashboardSlugOverviewIndexRoute
-  '/dashboard/$slug/professionals/': typeof DashboardSlugProfessionalsIndexRoute
-  '/dashboard/$slug/reviews/': typeof DashboardSlugReviewsIndexRoute
-  '/dashboard/$slug/services/': typeof DashboardSlugServicesIndexRoute
-  '/dashboard/$slug/services/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
-  '/establishment/$establishmentSlug/': typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
-  '/establishment/new/': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
-  '/dashboard/$slug/professionals/new/': typeof DashboardSlugProfessionalsPagesNewIndexRoute
-  '/dashboard/$slug/services/new/': typeof DashboardSlugServicesPagesNewIndexRoute
-  '/dashboard/$slug/services/$serviceEstablishmentId/edit/': typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
-  '/dashboard/$slug/services/$serviceEstablishmentId/info/': typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
+  '/team-management': typeof AppAuthenticatedAdminTeamManagementLayoutRouteWithChildren
+  '/dashboard/$slug': typeof AppAuthenticatedDashboardSlugLayoutRouteWithChildren
+  '/subscription/canceled': typeof AppSubscriptionSubscriptionCanceledRoute
+  '/subscription/return': typeof AppSubscriptionSubscriptionReturnRoute
+  '/dashboard/': typeof AppAuthenticatedDashboardIndexRoute
+  '/subscription/': typeof AppSubscriptionSubscriptionIndexRoute
+  '/account/': typeof AppAuthenticatedAdminAccountIndexRoute
+  '/establishment/': typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  '/organization/': typeof AppAuthenticatedAdminOrganizationIndexRoute
+  '/settings/': typeof AppAuthenticatedAdminSettingsIndexRoute
+  '/team-management/': typeof AppAuthenticatedAdminTeamManagementIndexRoute
+  '/organization/new/': typeof AppAuthenticatedAdminOrganizationNewIndexRoute
+  '/team-management/invitations/': typeof AppAuthenticatedAdminTeamManagementInvitationsIndexRoute
+  '/team-management/members/': typeof AppAuthenticatedAdminTeamManagementMembersIndexRoute
+  '/dashboard/$slug/address/': typeof AppAuthenticatedDashboardSlugAddressIndexRoute
+  '/dashboard/$slug/appointment/': typeof AppAuthenticatedDashboardSlugAppointmentIndexRoute
+  '/dashboard/$slug/config/': typeof AppAuthenticatedDashboardSlugConfigIndexRoute
+  '/dashboard/$slug/customers/': typeof AppAuthenticatedDashboardSlugCustomersIndexRoute
+  '/dashboard/$slug/opening-hours/': typeof AppAuthenticatedDashboardSlugOpeningHoursIndexRoute
+  '/dashboard/$slug/overview/': typeof AppAuthenticatedDashboardSlugOverviewIndexRoute
+  '/dashboard/$slug/professionals/': typeof AppAuthenticatedDashboardSlugProfessionalsIndexRoute
+  '/dashboard/$slug/reviews/': typeof AppAuthenticatedDashboardSlugReviewsIndexRoute
+  '/dashboard/$slug/services/': typeof AppAuthenticatedDashboardSlugServicesIndexRoute
+  '/dashboard/$slug/services/$serviceEstablishmentId': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
+  '/establishment/$establishmentSlug/': typeof AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute
+  '/establishment/new/': typeof AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute
+  '/dashboard/$slug/professionals/new/': typeof AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute
+  '/dashboard/$slug/services/new/': typeof AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute
+  '/dashboard/$slug/services/$serviceEstablishmentId/edit/': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
+  '/dashboard/$slug/services/$serviceEstablishmentId/info/': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/error': typeof ErrorRoute
-  '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
-  '/dashboard': typeof DashboardIndexRoute
   '/invitation': typeof InvitationIndexRoute
-  '/organization-profile': typeof OrganizationProfileIndexRoute
-  '/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
-  '/subscription/return': typeof SubscriptionSubscriptionReturnRoute
+  '/organization-profile': typeof AppOrganizationProfileIndexRoute
   '/forgot-password': typeof AuthForgotPasswordIndexRoute
   '/login': typeof AuthLoginIndexRoute
   '/register': typeof AuthRegisterIndexRoute
   '/reset-password': typeof AuthResetPasswordIndexRoute
   '/verify-email': typeof AuthVerifyEmailIndexRoute
-  '/account': typeof AuthenticatedAccountIndexRoute
-  '/establishment': typeof AuthenticatedEstablishmentIndexRoute
-  '/organization': typeof AuthenticatedOrganizationIndexRoute
-  '/settings': typeof AuthenticatedSettingsIndexRoute
-  '/team-management': typeof AuthenticatedTeamManagementIndexRoute
   '/access-denied': typeof Error_pageAccessDeniedIndexRoute
-  '/subscription': typeof SubscriptionSubscriptionIndexRoute
-  '/organization/new': typeof AuthenticatedOrganizationNewIndexRoute
-  '/team-management/invitations': typeof AuthenticatedTeamManagementInvitationsIndexRoute
-  '/team-management/members': typeof AuthenticatedTeamManagementMembersIndexRoute
-  '/dashboard/$slug/address': typeof DashboardSlugAddressIndexRoute
-  '/dashboard/$slug/appointment': typeof DashboardSlugAppointmentIndexRoute
-  '/dashboard/$slug/config': typeof DashboardSlugConfigIndexRoute
-  '/dashboard/$slug/customers': typeof DashboardSlugCustomersIndexRoute
-  '/dashboard/$slug/opening-hours': typeof DashboardSlugOpeningHoursIndexRoute
-  '/dashboard/$slug/overview': typeof DashboardSlugOverviewIndexRoute
-  '/dashboard/$slug/professionals': typeof DashboardSlugProfessionalsIndexRoute
-  '/dashboard/$slug/reviews': typeof DashboardSlugReviewsIndexRoute
-  '/dashboard/$slug/services': typeof DashboardSlugServicesIndexRoute
-  '/dashboard/$slug/services/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
-  '/establishment/$establishmentSlug': typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
-  '/establishment/new': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
-  '/dashboard/$slug/professionals/new': typeof DashboardSlugProfessionalsPagesNewIndexRoute
-  '/dashboard/$slug/services/new': typeof DashboardSlugServicesPagesNewIndexRoute
-  '/dashboard/$slug/services/$serviceEstablishmentId/edit': typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
-  '/dashboard/$slug/services/$serviceEstablishmentId/info': typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
+  '/dashboard/$slug': typeof AppAuthenticatedDashboardSlugLayoutRouteWithChildren
+  '/subscription/canceled': typeof AppSubscriptionSubscriptionCanceledRoute
+  '/subscription/return': typeof AppSubscriptionSubscriptionReturnRoute
+  '/dashboard': typeof AppAuthenticatedDashboardIndexRoute
+  '/subscription': typeof AppSubscriptionSubscriptionIndexRoute
+  '/account': typeof AppAuthenticatedAdminAccountIndexRoute
+  '/establishment': typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  '/organization': typeof AppAuthenticatedAdminOrganizationIndexRoute
+  '/settings': typeof AppAuthenticatedAdminSettingsIndexRoute
+  '/team-management': typeof AppAuthenticatedAdminTeamManagementIndexRoute
+  '/organization/new': typeof AppAuthenticatedAdminOrganizationNewIndexRoute
+  '/team-management/invitations': typeof AppAuthenticatedAdminTeamManagementInvitationsIndexRoute
+  '/team-management/members': typeof AppAuthenticatedAdminTeamManagementMembersIndexRoute
+  '/dashboard/$slug/address': typeof AppAuthenticatedDashboardSlugAddressIndexRoute
+  '/dashboard/$slug/appointment': typeof AppAuthenticatedDashboardSlugAppointmentIndexRoute
+  '/dashboard/$slug/config': typeof AppAuthenticatedDashboardSlugConfigIndexRoute
+  '/dashboard/$slug/customers': typeof AppAuthenticatedDashboardSlugCustomersIndexRoute
+  '/dashboard/$slug/opening-hours': typeof AppAuthenticatedDashboardSlugOpeningHoursIndexRoute
+  '/dashboard/$slug/overview': typeof AppAuthenticatedDashboardSlugOverviewIndexRoute
+  '/dashboard/$slug/professionals': typeof AppAuthenticatedDashboardSlugProfessionalsIndexRoute
+  '/dashboard/$slug/reviews': typeof AppAuthenticatedDashboardSlugReviewsIndexRoute
+  '/dashboard/$slug/services': typeof AppAuthenticatedDashboardSlugServicesIndexRoute
+  '/dashboard/$slug/services/$serviceEstablishmentId': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
+  '/establishment/$establishmentSlug': typeof AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute
+  '/establishment/new': typeof AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute
+  '/dashboard/$slug/professionals/new': typeof AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute
+  '/dashboard/$slug/services/new': typeof AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute
+  '/dashboard/$slug/services/$serviceEstablishmentId/edit': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
+  '/dashboard/$slug/services/$serviceEstablishmentId/info': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
-  '/_authenticated': typeof AuthenticatedLayoutRouteWithChildren
-  '/_subscription': typeof SubscriptionLayoutRouteWithChildren
   '/error': typeof ErrorRoute
-  '/_authenticated/team-management': typeof AuthenticatedTeamManagementLayoutRouteWithChildren
-  '/dashboard/$slug': typeof DashboardSlugLayoutRouteWithChildren
-  '/dashboard/': typeof DashboardIndexRoute
+  '/_app/_authenticated': typeof AppAuthenticatedLayoutRouteWithChildren
+  '/_app/_subscription': typeof AppSubscriptionLayoutRouteWithChildren
   '/invitation/': typeof InvitationIndexRoute
-  '/organization-profile/': typeof OrganizationProfileIndexRoute
-  '/_subscription/subscription/canceled': typeof SubscriptionSubscriptionCanceledRoute
-  '/_subscription/subscription/return': typeof SubscriptionSubscriptionReturnRoute
+  '/_app/_authenticated/_admin': typeof AppAuthenticatedAdminLayoutRouteWithChildren
+  '/_app/organization-profile/': typeof AppOrganizationProfileIndexRoute
   '/_auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_auth/register/': typeof AuthRegisterIndexRoute
   '/_auth/reset-password/': typeof AuthResetPasswordIndexRoute
   '/_auth/verify-email/': typeof AuthVerifyEmailIndexRoute
-  '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
-  '/_authenticated/establishment/': typeof AuthenticatedEstablishmentIndexRoute
-  '/_authenticated/organization/': typeof AuthenticatedOrganizationIndexRoute
-  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/_authenticated/team-management/': typeof AuthenticatedTeamManagementIndexRoute
   '/_error_page/access-denied/': typeof Error_pageAccessDeniedIndexRoute
-  '/_subscription/subscription/': typeof SubscriptionSubscriptionIndexRoute
-  '/_authenticated/organization/new/': typeof AuthenticatedOrganizationNewIndexRoute
-  '/_authenticated/team-management/invitations/': typeof AuthenticatedTeamManagementInvitationsIndexRoute
-  '/_authenticated/team-management/members/': typeof AuthenticatedTeamManagementMembersIndexRoute
-  '/dashboard/$slug/address/': typeof DashboardSlugAddressIndexRoute
-  '/dashboard/$slug/appointment/': typeof DashboardSlugAppointmentIndexRoute
-  '/dashboard/$slug/config/': typeof DashboardSlugConfigIndexRoute
-  '/dashboard/$slug/customers/': typeof DashboardSlugCustomersIndexRoute
-  '/dashboard/$slug/opening-hours/': typeof DashboardSlugOpeningHoursIndexRoute
-  '/dashboard/$slug/overview/': typeof DashboardSlugOverviewIndexRoute
-  '/dashboard/$slug/professionals/': typeof DashboardSlugProfessionalsIndexRoute
-  '/dashboard/$slug/reviews/': typeof DashboardSlugReviewsIndexRoute
-  '/dashboard/$slug/services/': typeof DashboardSlugServicesIndexRoute
-  '/dashboard/$slug/services/_pages/$serviceEstablishmentId': typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
-  '/_authenticated/establishment/_routes/$establishmentSlug/': typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
-  '/_authenticated/establishment/_routes/new/': typeof AuthenticatedEstablishmentRoutesNewIndexRoute
-  '/dashboard/$slug/professionals/_pages/new/': typeof DashboardSlugProfessionalsPagesNewIndexRoute
-  '/dashboard/$slug/services/_pages/new/': typeof DashboardSlugServicesPagesNewIndexRoute
-  '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/': typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
-  '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
+  '/_app/_authenticated/_admin/team-management': typeof AppAuthenticatedAdminTeamManagementLayoutRouteWithChildren
+  '/_app/_authenticated/dashboard/$slug': typeof AppAuthenticatedDashboardSlugLayoutRouteWithChildren
+  '/_app/_subscription/subscription/canceled': typeof AppSubscriptionSubscriptionCanceledRoute
+  '/_app/_subscription/subscription/return': typeof AppSubscriptionSubscriptionReturnRoute
+  '/_app/_authenticated/dashboard/': typeof AppAuthenticatedDashboardIndexRoute
+  '/_app/_subscription/subscription/': typeof AppSubscriptionSubscriptionIndexRoute
+  '/_app/_authenticated/_admin/account/': typeof AppAuthenticatedAdminAccountIndexRoute
+  '/_app/_authenticated/_admin/establishment/': typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  '/_app/_authenticated/_admin/organization/': typeof AppAuthenticatedAdminOrganizationIndexRoute
+  '/_app/_authenticated/_admin/settings/': typeof AppAuthenticatedAdminSettingsIndexRoute
+  '/_app/_authenticated/_admin/team-management/': typeof AppAuthenticatedAdminTeamManagementIndexRoute
+  '/_app/_authenticated/_admin/organization/new/': typeof AppAuthenticatedAdminOrganizationNewIndexRoute
+  '/_app/_authenticated/_admin/team-management/invitations/': typeof AppAuthenticatedAdminTeamManagementInvitationsIndexRoute
+  '/_app/_authenticated/_admin/team-management/members/': typeof AppAuthenticatedAdminTeamManagementMembersIndexRoute
+  '/_app/_authenticated/dashboard/$slug/address/': typeof AppAuthenticatedDashboardSlugAddressIndexRoute
+  '/_app/_authenticated/dashboard/$slug/appointment/': typeof AppAuthenticatedDashboardSlugAppointmentIndexRoute
+  '/_app/_authenticated/dashboard/$slug/config/': typeof AppAuthenticatedDashboardSlugConfigIndexRoute
+  '/_app/_authenticated/dashboard/$slug/customers/': typeof AppAuthenticatedDashboardSlugCustomersIndexRoute
+  '/_app/_authenticated/dashboard/$slug/opening-hours/': typeof AppAuthenticatedDashboardSlugOpeningHoursIndexRoute
+  '/_app/_authenticated/dashboard/$slug/overview/': typeof AppAuthenticatedDashboardSlugOverviewIndexRoute
+  '/_app/_authenticated/dashboard/$slug/professionals/': typeof AppAuthenticatedDashboardSlugProfessionalsIndexRoute
+  '/_app/_authenticated/dashboard/$slug/reviews/': typeof AppAuthenticatedDashboardSlugReviewsIndexRoute
+  '/_app/_authenticated/dashboard/$slug/services/': typeof AppAuthenticatedDashboardSlugServicesIndexRoute
+  '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
+  '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/': typeof AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute
+  '/_app/_authenticated/_admin/establishment/_routes/new/': typeof AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute
+  '/_app/_authenticated/dashboard/$slug/professionals/_pages/new/': typeof AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute
+  '/_app/_authenticated/dashboard/$slug/services/_pages/new/': typeof AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute
+  '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
+  '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/error'
-    | '/team-management'
-    | '/dashboard/$slug'
-    | '/dashboard/'
     | '/invitation/'
     | '/organization-profile/'
-    | '/subscription/canceled'
-    | '/subscription/return'
     | '/forgot-password/'
     | '/login/'
     | '/register/'
     | '/reset-password/'
     | '/verify-email/'
+    | '/access-denied/'
+    | '/team-management'
+    | '/dashboard/$slug'
+    | '/subscription/canceled'
+    | '/subscription/return'
+    | '/dashboard/'
+    | '/subscription/'
     | '/account/'
     | '/establishment/'
     | '/organization/'
     | '/settings/'
     | '/team-management/'
-    | '/access-denied/'
-    | '/subscription/'
     | '/organization/new/'
     | '/team-management/invitations/'
     | '/team-management/members/'
@@ -474,24 +497,24 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/error'
-    | '/dashboard/$slug'
-    | '/dashboard'
     | '/invitation'
     | '/organization-profile'
-    | '/subscription/canceled'
-    | '/subscription/return'
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/reset-password'
     | '/verify-email'
+    | '/access-denied'
+    | '/dashboard/$slug'
+    | '/subscription/canceled'
+    | '/subscription/return'
+    | '/dashboard'
+    | '/subscription'
     | '/account'
     | '/establishment'
     | '/organization'
     | '/settings'
     | '/team-management'
-    | '/access-denied'
-    | '/subscription'
     | '/organization/new'
     | '/team-management/invitations'
     | '/team-management/members'
@@ -514,60 +537,58 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_app'
     | '/_auth'
-    | '/_authenticated'
-    | '/_subscription'
     | '/error'
-    | '/_authenticated/team-management'
-    | '/dashboard/$slug'
-    | '/dashboard/'
+    | '/_app/_authenticated'
+    | '/_app/_subscription'
     | '/invitation/'
-    | '/organization-profile/'
-    | '/_subscription/subscription/canceled'
-    | '/_subscription/subscription/return'
+    | '/_app/_authenticated/_admin'
+    | '/_app/organization-profile/'
     | '/_auth/forgot-password/'
     | '/_auth/login/'
     | '/_auth/register/'
     | '/_auth/reset-password/'
     | '/_auth/verify-email/'
-    | '/_authenticated/account/'
-    | '/_authenticated/establishment/'
-    | '/_authenticated/organization/'
-    | '/_authenticated/settings/'
-    | '/_authenticated/team-management/'
     | '/_error_page/access-denied/'
-    | '/_subscription/subscription/'
-    | '/_authenticated/organization/new/'
-    | '/_authenticated/team-management/invitations/'
-    | '/_authenticated/team-management/members/'
-    | '/dashboard/$slug/address/'
-    | '/dashboard/$slug/appointment/'
-    | '/dashboard/$slug/config/'
-    | '/dashboard/$slug/customers/'
-    | '/dashboard/$slug/opening-hours/'
-    | '/dashboard/$slug/overview/'
-    | '/dashboard/$slug/professionals/'
-    | '/dashboard/$slug/reviews/'
-    | '/dashboard/$slug/services/'
-    | '/dashboard/$slug/services/_pages/$serviceEstablishmentId'
-    | '/_authenticated/establishment/_routes/$establishmentSlug/'
-    | '/_authenticated/establishment/_routes/new/'
-    | '/dashboard/$slug/professionals/_pages/new/'
-    | '/dashboard/$slug/services/_pages/new/'
-    | '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/'
-    | '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
+    | '/_app/_authenticated/_admin/team-management'
+    | '/_app/_authenticated/dashboard/$slug'
+    | '/_app/_subscription/subscription/canceled'
+    | '/_app/_subscription/subscription/return'
+    | '/_app/_authenticated/dashboard/'
+    | '/_app/_subscription/subscription/'
+    | '/_app/_authenticated/_admin/account/'
+    | '/_app/_authenticated/_admin/establishment/'
+    | '/_app/_authenticated/_admin/organization/'
+    | '/_app/_authenticated/_admin/settings/'
+    | '/_app/_authenticated/_admin/team-management/'
+    | '/_app/_authenticated/_admin/organization/new/'
+    | '/_app/_authenticated/_admin/team-management/invitations/'
+    | '/_app/_authenticated/_admin/team-management/members/'
+    | '/_app/_authenticated/dashboard/$slug/address/'
+    | '/_app/_authenticated/dashboard/$slug/appointment/'
+    | '/_app/_authenticated/dashboard/$slug/config/'
+    | '/_app/_authenticated/dashboard/$slug/customers/'
+    | '/_app/_authenticated/dashboard/$slug/opening-hours/'
+    | '/_app/_authenticated/dashboard/$slug/overview/'
+    | '/_app/_authenticated/dashboard/$slug/professionals/'
+    | '/_app/_authenticated/dashboard/$slug/reviews/'
+    | '/_app/_authenticated/dashboard/$slug/services/'
+    | '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId'
+    | '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/'
+    | '/_app/_authenticated/_admin/establishment/_routes/new/'
+    | '/_app/_authenticated/dashboard/$slug/professionals/_pages/new/'
+    | '/_app/_authenticated/dashboard/$slug/services/_pages/new/'
+    | '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/'
+    | '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
-  AuthenticatedLayoutRoute: typeof AuthenticatedLayoutRouteWithChildren
-  SubscriptionLayoutRoute: typeof SubscriptionLayoutRouteWithChildren
   ErrorRoute: typeof ErrorRoute
-  DashboardSlugLayoutRoute: typeof DashboardSlugLayoutRouteWithChildren
-  DashboardIndexRoute: typeof DashboardIndexRoute
   InvitationIndexRoute: typeof InvitationIndexRoute
-  OrganizationProfileIndexRoute: typeof OrganizationProfileIndexRoute
   Error_pageAccessDeniedIndexRoute: typeof Error_pageAccessDeniedIndexRoute
 }
 
@@ -580,25 +601,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_subscription': {
-      id: '/_subscription'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof SubscriptionLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/error': {
@@ -608,26 +622,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErrorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/team-management': {
-      id: '/_authenticated/team-management'
-      path: '/team-management'
-      fullPath: '/team-management'
-      preLoaderRoute: typeof AuthenticatedTeamManagementLayoutRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
+    '/_app/_authenticated': {
+      id: '/_app/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppAuthenticatedLayoutRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/$slug': {
-      id: '/dashboard/$slug'
-      path: '/dashboard/$slug'
-      fullPath: '/dashboard/$slug'
-      preLoaderRoute: typeof DashboardSlugLayoutRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_app/_subscription': {
+      id: '/_app/_subscription'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppSubscriptionLayoutRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
     '/invitation/': {
       id: '/invitation/'
@@ -636,12 +643,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvitationIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/organization-profile/': {
-      id: '/organization-profile/'
+    '/_app/_authenticated/_admin': {
+      id: '/_app/_authenticated/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppAuthenticatedAdminLayoutRouteImport
+      parentRoute: typeof AppAuthenticatedLayoutRoute
+    }
+    '/_app/organization-profile/': {
+      id: '/_app/organization-profile/'
       path: '/organization-profile'
       fullPath: '/organization-profile/'
-      preLoaderRoute: typeof OrganizationProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppOrganizationProfileIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
     '/_auth/forgot-password/': {
       id: '/_auth/forgot-password/'
@@ -678,41 +692,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
-    '/_authenticated/account/': {
-      id: '/_authenticated/account/'
-      path: '/account'
-      fullPath: '/account/'
-      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_authenticated/establishment/': {
-      id: '/_authenticated/establishment/'
-      path: '/establishment'
-      fullPath: '/establishment/'
-      preLoaderRoute: typeof AuthenticatedEstablishmentIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_authenticated/organization/': {
-      id: '/_authenticated/organization/'
-      path: '/organization'
-      fullPath: '/organization/'
-      preLoaderRoute: typeof AuthenticatedOrganizationIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_authenticated/settings/': {
-      id: '/_authenticated/settings/'
-      path: '/settings'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
-    }
-    '/_authenticated/team-management/': {
-      id: '/_authenticated/team-management/'
-      path: '/'
-      fullPath: '/team-management/'
-      preLoaderRoute: typeof AuthenticatedTeamManagementIndexRouteImport
-      parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
-    }
     '/_error_page/access-denied/': {
       id: '/_error_page/access-denied/'
       path: '/access-denied'
@@ -720,162 +699,396 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Error_pageAccessDeniedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_subscription/subscription/': {
-      id: '/_subscription/subscription/'
+    '/_app/_authenticated/_admin/team-management': {
+      id: '/_app/_authenticated/_admin/team-management'
+      path: '/team-management'
+      fullPath: '/team-management'
+      preLoaderRoute: typeof AppAuthenticatedAdminTeamManagementLayoutRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
+    }
+    '/_app/_authenticated/dashboard/': {
+      id: '/_app/_authenticated/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AppAuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AppAuthenticatedLayoutRoute
+    }
+    '/_app/_authenticated/dashboard/$slug': {
+      id: '/_app/_authenticated/dashboard/$slug'
+      path: '/dashboard/$slug'
+      fullPath: '/dashboard/$slug'
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugLayoutRouteImport
+      parentRoute: typeof AppAuthenticatedLayoutRoute
+    }
+    '/_app/_subscription/subscription/': {
+      id: '/_app/_subscription/subscription/'
       path: '/subscription'
       fullPath: '/subscription/'
-      preLoaderRoute: typeof SubscriptionSubscriptionIndexRouteImport
-      parentRoute: typeof SubscriptionLayoutRoute
+      preLoaderRoute: typeof AppSubscriptionSubscriptionIndexRouteImport
+      parentRoute: typeof AppSubscriptionLayoutRoute
     }
-    '/_subscription/subscription/canceled': {
-      id: '/_subscription/subscription/canceled'
+    '/_app/_subscription/subscription/canceled': {
+      id: '/_app/_subscription/subscription/canceled'
       path: '/subscription/canceled'
       fullPath: '/subscription/canceled'
-      preLoaderRoute: typeof SubscriptionSubscriptionCanceledRouteImport
-      parentRoute: typeof SubscriptionLayoutRoute
+      preLoaderRoute: typeof AppSubscriptionSubscriptionCanceledRouteImport
+      parentRoute: typeof AppSubscriptionLayoutRoute
     }
-    '/_subscription/subscription/return': {
-      id: '/_subscription/subscription/return'
+    '/_app/_subscription/subscription/return': {
+      id: '/_app/_subscription/subscription/return'
       path: '/subscription/return'
       fullPath: '/subscription/return'
-      preLoaderRoute: typeof SubscriptionSubscriptionReturnRouteImport
-      parentRoute: typeof SubscriptionLayoutRoute
+      preLoaderRoute: typeof AppSubscriptionSubscriptionReturnRouteImport
+      parentRoute: typeof AppSubscriptionLayoutRoute
     }
-    '/_authenticated/organization/new/': {
-      id: '/_authenticated/organization/new/'
+    '/_app/_authenticated/_admin/account/': {
+      id: '/_app/_authenticated/_admin/account/'
+      path: '/account'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AppAuthenticatedAdminAccountIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
+    }
+    '/_app/_authenticated/_admin/establishment/': {
+      id: '/_app/_authenticated/_admin/establishment/'
+      path: '/establishment'
+      fullPath: '/establishment/'
+      preLoaderRoute: typeof AppAuthenticatedAdminEstablishmentIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
+    }
+    '/_app/_authenticated/_admin/organization/': {
+      id: '/_app/_authenticated/_admin/organization/'
+      path: '/organization'
+      fullPath: '/organization/'
+      preLoaderRoute: typeof AppAuthenticatedAdminOrganizationIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
+    }
+    '/_app/_authenticated/_admin/settings/': {
+      id: '/_app/_authenticated/_admin/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof AppAuthenticatedAdminSettingsIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
+    }
+    '/_app/_authenticated/_admin/team-management/': {
+      id: '/_app/_authenticated/_admin/team-management/'
+      path: '/'
+      fullPath: '/team-management/'
+      preLoaderRoute: typeof AppAuthenticatedAdminTeamManagementIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminTeamManagementLayoutRoute
+    }
+    '/_app/_authenticated/_admin/organization/new/': {
+      id: '/_app/_authenticated/_admin/organization/new/'
       path: '/organization/new'
       fullPath: '/organization/new/'
-      preLoaderRoute: typeof AuthenticatedOrganizationNewIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedAdminOrganizationNewIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
     }
-    '/_authenticated/team-management/invitations/': {
-      id: '/_authenticated/team-management/invitations/'
+    '/_app/_authenticated/_admin/team-management/invitations/': {
+      id: '/_app/_authenticated/_admin/team-management/invitations/'
       path: '/invitations'
       fullPath: '/team-management/invitations/'
-      preLoaderRoute: typeof AuthenticatedTeamManagementInvitationsIndexRouteImport
-      parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedAdminTeamManagementInvitationsIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminTeamManagementLayoutRoute
     }
-    '/_authenticated/team-management/members/': {
-      id: '/_authenticated/team-management/members/'
+    '/_app/_authenticated/_admin/team-management/members/': {
+      id: '/_app/_authenticated/_admin/team-management/members/'
       path: '/members'
       fullPath: '/team-management/members/'
-      preLoaderRoute: typeof AuthenticatedTeamManagementMembersIndexRouteImport
-      parentRoute: typeof AuthenticatedTeamManagementLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedAdminTeamManagementMembersIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminTeamManagementLayoutRoute
     }
-    '/dashboard/$slug/address/': {
-      id: '/dashboard/$slug/address/'
+    '/_app/_authenticated/dashboard/$slug/address/': {
+      id: '/_app/_authenticated/dashboard/$slug/address/'
       path: '/address'
       fullPath: '/dashboard/$slug/address/'
-      preLoaderRoute: typeof DashboardSlugAddressIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugAddressIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/appointment/': {
-      id: '/dashboard/$slug/appointment/'
+    '/_app/_authenticated/dashboard/$slug/appointment/': {
+      id: '/_app/_authenticated/dashboard/$slug/appointment/'
       path: '/appointment'
       fullPath: '/dashboard/$slug/appointment/'
-      preLoaderRoute: typeof DashboardSlugAppointmentIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugAppointmentIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/config/': {
-      id: '/dashboard/$slug/config/'
+    '/_app/_authenticated/dashboard/$slug/config/': {
+      id: '/_app/_authenticated/dashboard/$slug/config/'
       path: '/config'
       fullPath: '/dashboard/$slug/config/'
-      preLoaderRoute: typeof DashboardSlugConfigIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugConfigIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/customers/': {
-      id: '/dashboard/$slug/customers/'
+    '/_app/_authenticated/dashboard/$slug/customers/': {
+      id: '/_app/_authenticated/dashboard/$slug/customers/'
       path: '/customers'
       fullPath: '/dashboard/$slug/customers/'
-      preLoaderRoute: typeof DashboardSlugCustomersIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugCustomersIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/opening-hours/': {
-      id: '/dashboard/$slug/opening-hours/'
+    '/_app/_authenticated/dashboard/$slug/opening-hours/': {
+      id: '/_app/_authenticated/dashboard/$slug/opening-hours/'
       path: '/opening-hours'
       fullPath: '/dashboard/$slug/opening-hours/'
-      preLoaderRoute: typeof DashboardSlugOpeningHoursIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugOpeningHoursIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/overview/': {
-      id: '/dashboard/$slug/overview/'
+    '/_app/_authenticated/dashboard/$slug/overview/': {
+      id: '/_app/_authenticated/dashboard/$slug/overview/'
       path: '/overview'
       fullPath: '/dashboard/$slug/overview/'
-      preLoaderRoute: typeof DashboardSlugOverviewIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugOverviewIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/professionals/': {
-      id: '/dashboard/$slug/professionals/'
+    '/_app/_authenticated/dashboard/$slug/professionals/': {
+      id: '/_app/_authenticated/dashboard/$slug/professionals/'
       path: '/professionals'
       fullPath: '/dashboard/$slug/professionals/'
-      preLoaderRoute: typeof DashboardSlugProfessionalsIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugProfessionalsIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/reviews/': {
-      id: '/dashboard/$slug/reviews/'
+    '/_app/_authenticated/dashboard/$slug/reviews/': {
+      id: '/_app/_authenticated/dashboard/$slug/reviews/'
       path: '/reviews'
       fullPath: '/dashboard/$slug/reviews/'
-      preLoaderRoute: typeof DashboardSlugReviewsIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugReviewsIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/services/': {
-      id: '/dashboard/$slug/services/'
+    '/_app/_authenticated/dashboard/$slug/services/': {
+      id: '/_app/_authenticated/dashboard/$slug/services/'
       path: '/services'
       fullPath: '/dashboard/$slug/services/'
-      preLoaderRoute: typeof DashboardSlugServicesIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugServicesIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/_authenticated/establishment/_routes/$establishmentSlug/': {
-      id: '/_authenticated/establishment/_routes/$establishmentSlug/'
+    '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/': {
+      id: '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/'
       path: '/establishment/$establishmentSlug'
       fullPath: '/establishment/$establishmentSlug/'
-      preLoaderRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
     }
-    '/_authenticated/establishment/_routes/new/': {
-      id: '/_authenticated/establishment/_routes/new/'
+    '/_app/_authenticated/_admin/establishment/_routes/new/': {
+      id: '/_app/_authenticated/_admin/establishment/_routes/new/'
       path: '/establishment/new'
       fullPath: '/establishment/new/'
-      preLoaderRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRouteImport
-      parentRoute: typeof AuthenticatedLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedAdminEstablishmentRoutesNewIndexRouteImport
+      parentRoute: typeof AppAuthenticatedAdminLayoutRoute
     }
-    '/dashboard/$slug/services/_pages/$serviceEstablishmentId': {
-      id: '/dashboard/$slug/services/_pages/$serviceEstablishmentId'
+    '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId': {
+      id: '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId'
       path: '/services/$serviceEstablishmentId'
       fullPath: '/dashboard/$slug/services/$serviceEstablishmentId'
-      preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/professionals/_pages/new/': {
-      id: '/dashboard/$slug/professionals/_pages/new/'
+    '/_app/_authenticated/dashboard/$slug/professionals/_pages/new/': {
+      id: '/_app/_authenticated/dashboard/$slug/professionals/_pages/new/'
       path: '/professionals/new'
       fullPath: '/dashboard/$slug/professionals/new/'
-      preLoaderRoute: typeof DashboardSlugProfessionalsPagesNewIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/services/_pages/new/': {
-      id: '/dashboard/$slug/services/_pages/new/'
+    '/_app/_authenticated/dashboard/$slug/services/_pages/new/': {
+      id: '/_app/_authenticated/dashboard/$slug/services/_pages/new/'
       path: '/services/new'
       fullPath: '/dashboard/$slug/services/new/'
-      preLoaderRoute: typeof DashboardSlugServicesPagesNewIndexRouteImport
-      parentRoute: typeof DashboardSlugLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugServicesPagesNewIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugLayoutRoute
     }
-    '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/': {
-      id: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/'
+    '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/': {
+      id: '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/'
       path: '/edit'
       fullPath: '/dashboard/$slug/services/$serviceEstablishmentId/edit/'
-      preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport
-      parentRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
     }
-    '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': {
-      id: '/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
+    '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/': {
+      id: '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/'
       path: '/info'
       fullPath: '/dashboard/$slug/services/$serviceEstablishmentId/info/'
-      preLoaderRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport
-      parentRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
+      preLoaderRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRouteImport
+      parentRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute
     }
   }
 }
+
+interface AppAuthenticatedAdminTeamManagementLayoutRouteChildren {
+  AppAuthenticatedAdminTeamManagementIndexRoute: typeof AppAuthenticatedAdminTeamManagementIndexRoute
+  AppAuthenticatedAdminTeamManagementInvitationsIndexRoute: typeof AppAuthenticatedAdminTeamManagementInvitationsIndexRoute
+  AppAuthenticatedAdminTeamManagementMembersIndexRoute: typeof AppAuthenticatedAdminTeamManagementMembersIndexRoute
+}
+
+const AppAuthenticatedAdminTeamManagementLayoutRouteChildren: AppAuthenticatedAdminTeamManagementLayoutRouteChildren =
+  {
+    AppAuthenticatedAdminTeamManagementIndexRoute:
+      AppAuthenticatedAdminTeamManagementIndexRoute,
+    AppAuthenticatedAdminTeamManagementInvitationsIndexRoute:
+      AppAuthenticatedAdminTeamManagementInvitationsIndexRoute,
+    AppAuthenticatedAdminTeamManagementMembersIndexRoute:
+      AppAuthenticatedAdminTeamManagementMembersIndexRoute,
+  }
+
+const AppAuthenticatedAdminTeamManagementLayoutRouteWithChildren =
+  AppAuthenticatedAdminTeamManagementLayoutRoute._addFileChildren(
+    AppAuthenticatedAdminTeamManagementLayoutRouteChildren,
+  )
+
+interface AppAuthenticatedAdminLayoutRouteChildren {
+  AppAuthenticatedAdminTeamManagementLayoutRoute: typeof AppAuthenticatedAdminTeamManagementLayoutRouteWithChildren
+  AppAuthenticatedAdminAccountIndexRoute: typeof AppAuthenticatedAdminAccountIndexRoute
+  AppAuthenticatedAdminEstablishmentIndexRoute: typeof AppAuthenticatedAdminEstablishmentIndexRoute
+  AppAuthenticatedAdminOrganizationIndexRoute: typeof AppAuthenticatedAdminOrganizationIndexRoute
+  AppAuthenticatedAdminSettingsIndexRoute: typeof AppAuthenticatedAdminSettingsIndexRoute
+  AppAuthenticatedAdminOrganizationNewIndexRoute: typeof AppAuthenticatedAdminOrganizationNewIndexRoute
+  AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute
+  AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute: typeof AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute
+}
+
+const AppAuthenticatedAdminLayoutRouteChildren: AppAuthenticatedAdminLayoutRouteChildren =
+  {
+    AppAuthenticatedAdminTeamManagementLayoutRoute:
+      AppAuthenticatedAdminTeamManagementLayoutRouteWithChildren,
+    AppAuthenticatedAdminAccountIndexRoute:
+      AppAuthenticatedAdminAccountIndexRoute,
+    AppAuthenticatedAdminEstablishmentIndexRoute:
+      AppAuthenticatedAdminEstablishmentIndexRoute,
+    AppAuthenticatedAdminOrganizationIndexRoute:
+      AppAuthenticatedAdminOrganizationIndexRoute,
+    AppAuthenticatedAdminSettingsIndexRoute:
+      AppAuthenticatedAdminSettingsIndexRoute,
+    AppAuthenticatedAdminOrganizationNewIndexRoute:
+      AppAuthenticatedAdminOrganizationNewIndexRoute,
+    AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute:
+      AppAuthenticatedAdminEstablishmentRoutesEstablishmentSlugIndexRoute,
+    AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute:
+      AppAuthenticatedAdminEstablishmentRoutesNewIndexRoute,
+  }
+
+const AppAuthenticatedAdminLayoutRouteWithChildren =
+  AppAuthenticatedAdminLayoutRoute._addFileChildren(
+    AppAuthenticatedAdminLayoutRouteChildren,
+  )
+
+interface AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren {
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
+}
+
+const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren: AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren =
+  {
+    AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute:
+      AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute,
+    AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute:
+      AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute,
+  }
+
+const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren =
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute._addFileChildren(
+    AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren,
+  )
+
+interface AppAuthenticatedDashboardSlugLayoutRouteChildren {
+  AppAuthenticatedDashboardSlugAddressIndexRoute: typeof AppAuthenticatedDashboardSlugAddressIndexRoute
+  AppAuthenticatedDashboardSlugAppointmentIndexRoute: typeof AppAuthenticatedDashboardSlugAppointmentIndexRoute
+  AppAuthenticatedDashboardSlugConfigIndexRoute: typeof AppAuthenticatedDashboardSlugConfigIndexRoute
+  AppAuthenticatedDashboardSlugCustomersIndexRoute: typeof AppAuthenticatedDashboardSlugCustomersIndexRoute
+  AppAuthenticatedDashboardSlugOpeningHoursIndexRoute: typeof AppAuthenticatedDashboardSlugOpeningHoursIndexRoute
+  AppAuthenticatedDashboardSlugOverviewIndexRoute: typeof AppAuthenticatedDashboardSlugOverviewIndexRoute
+  AppAuthenticatedDashboardSlugProfessionalsIndexRoute: typeof AppAuthenticatedDashboardSlugProfessionalsIndexRoute
+  AppAuthenticatedDashboardSlugReviewsIndexRoute: typeof AppAuthenticatedDashboardSlugReviewsIndexRoute
+  AppAuthenticatedDashboardSlugServicesIndexRoute: typeof AppAuthenticatedDashboardSlugServicesIndexRoute
+  AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute: typeof AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
+  AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute: typeof AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute
+  AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute: typeof AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute
+}
+
+const AppAuthenticatedDashboardSlugLayoutRouteChildren: AppAuthenticatedDashboardSlugLayoutRouteChildren =
+  {
+    AppAuthenticatedDashboardSlugAddressIndexRoute:
+      AppAuthenticatedDashboardSlugAddressIndexRoute,
+    AppAuthenticatedDashboardSlugAppointmentIndexRoute:
+      AppAuthenticatedDashboardSlugAppointmentIndexRoute,
+    AppAuthenticatedDashboardSlugConfigIndexRoute:
+      AppAuthenticatedDashboardSlugConfigIndexRoute,
+    AppAuthenticatedDashboardSlugCustomersIndexRoute:
+      AppAuthenticatedDashboardSlugCustomersIndexRoute,
+    AppAuthenticatedDashboardSlugOpeningHoursIndexRoute:
+      AppAuthenticatedDashboardSlugOpeningHoursIndexRoute,
+    AppAuthenticatedDashboardSlugOverviewIndexRoute:
+      AppAuthenticatedDashboardSlugOverviewIndexRoute,
+    AppAuthenticatedDashboardSlugProfessionalsIndexRoute:
+      AppAuthenticatedDashboardSlugProfessionalsIndexRoute,
+    AppAuthenticatedDashboardSlugReviewsIndexRoute:
+      AppAuthenticatedDashboardSlugReviewsIndexRoute,
+    AppAuthenticatedDashboardSlugServicesIndexRoute:
+      AppAuthenticatedDashboardSlugServicesIndexRoute,
+    AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute:
+      AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren,
+    AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute:
+      AppAuthenticatedDashboardSlugProfessionalsPagesNewIndexRoute,
+    AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute:
+      AppAuthenticatedDashboardSlugServicesPagesNewIndexRoute,
+  }
+
+const AppAuthenticatedDashboardSlugLayoutRouteWithChildren =
+  AppAuthenticatedDashboardSlugLayoutRoute._addFileChildren(
+    AppAuthenticatedDashboardSlugLayoutRouteChildren,
+  )
+
+interface AppAuthenticatedLayoutRouteChildren {
+  AppAuthenticatedAdminLayoutRoute: typeof AppAuthenticatedAdminLayoutRouteWithChildren
+  AppAuthenticatedDashboardSlugLayoutRoute: typeof AppAuthenticatedDashboardSlugLayoutRouteWithChildren
+  AppAuthenticatedDashboardIndexRoute: typeof AppAuthenticatedDashboardIndexRoute
+}
+
+const AppAuthenticatedLayoutRouteChildren: AppAuthenticatedLayoutRouteChildren =
+  {
+    AppAuthenticatedAdminLayoutRoute:
+      AppAuthenticatedAdminLayoutRouteWithChildren,
+    AppAuthenticatedDashboardSlugLayoutRoute:
+      AppAuthenticatedDashboardSlugLayoutRouteWithChildren,
+    AppAuthenticatedDashboardIndexRoute: AppAuthenticatedDashboardIndexRoute,
+  }
+
+const AppAuthenticatedLayoutRouteWithChildren =
+  AppAuthenticatedLayoutRoute._addFileChildren(
+    AppAuthenticatedLayoutRouteChildren,
+  )
+
+interface AppSubscriptionLayoutRouteChildren {
+  AppSubscriptionSubscriptionCanceledRoute: typeof AppSubscriptionSubscriptionCanceledRoute
+  AppSubscriptionSubscriptionReturnRoute: typeof AppSubscriptionSubscriptionReturnRoute
+  AppSubscriptionSubscriptionIndexRoute: typeof AppSubscriptionSubscriptionIndexRoute
+}
+
+const AppSubscriptionLayoutRouteChildren: AppSubscriptionLayoutRouteChildren = {
+  AppSubscriptionSubscriptionCanceledRoute:
+    AppSubscriptionSubscriptionCanceledRoute,
+  AppSubscriptionSubscriptionReturnRoute:
+    AppSubscriptionSubscriptionReturnRoute,
+  AppSubscriptionSubscriptionIndexRoute: AppSubscriptionSubscriptionIndexRoute,
+}
+
+const AppSubscriptionLayoutRouteWithChildren =
+  AppSubscriptionLayoutRoute._addFileChildren(
+    AppSubscriptionLayoutRouteChildren,
+  )
+
+interface AppLayoutRouteChildren {
+  AppAuthenticatedLayoutRoute: typeof AppAuthenticatedLayoutRouteWithChildren
+  AppSubscriptionLayoutRoute: typeof AppSubscriptionLayoutRouteWithChildren
+  AppOrganizationProfileIndexRoute: typeof AppOrganizationProfileIndexRoute
+}
+
+const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppAuthenticatedLayoutRoute: AppAuthenticatedLayoutRouteWithChildren,
+  AppSubscriptionLayoutRoute: AppSubscriptionLayoutRouteWithChildren,
+  AppOrganizationProfileIndexRoute: AppOrganizationProfileIndexRoute,
+}
+
+const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
+  AppLayoutRouteChildren,
+)
 
 interface AuthLayoutRouteChildren {
   AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
@@ -897,135 +1110,12 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
   AuthLayoutRouteChildren,
 )
 
-interface AuthenticatedTeamManagementLayoutRouteChildren {
-  AuthenticatedTeamManagementIndexRoute: typeof AuthenticatedTeamManagementIndexRoute
-  AuthenticatedTeamManagementInvitationsIndexRoute: typeof AuthenticatedTeamManagementInvitationsIndexRoute
-  AuthenticatedTeamManagementMembersIndexRoute: typeof AuthenticatedTeamManagementMembersIndexRoute
-}
-
-const AuthenticatedTeamManagementLayoutRouteChildren: AuthenticatedTeamManagementLayoutRouteChildren =
-  {
-    AuthenticatedTeamManagementIndexRoute:
-      AuthenticatedTeamManagementIndexRoute,
-    AuthenticatedTeamManagementInvitationsIndexRoute:
-      AuthenticatedTeamManagementInvitationsIndexRoute,
-    AuthenticatedTeamManagementMembersIndexRoute:
-      AuthenticatedTeamManagementMembersIndexRoute,
-  }
-
-const AuthenticatedTeamManagementLayoutRouteWithChildren =
-  AuthenticatedTeamManagementLayoutRoute._addFileChildren(
-    AuthenticatedTeamManagementLayoutRouteChildren,
-  )
-
-interface AuthenticatedLayoutRouteChildren {
-  AuthenticatedTeamManagementLayoutRoute: typeof AuthenticatedTeamManagementLayoutRouteWithChildren
-  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
-  AuthenticatedEstablishmentIndexRoute: typeof AuthenticatedEstablishmentIndexRoute
-  AuthenticatedOrganizationIndexRoute: typeof AuthenticatedOrganizationIndexRoute
-  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
-  AuthenticatedOrganizationNewIndexRoute: typeof AuthenticatedOrganizationNewIndexRoute
-  AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute: typeof AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute
-  AuthenticatedEstablishmentRoutesNewIndexRoute: typeof AuthenticatedEstablishmentRoutesNewIndexRoute
-}
-
-const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
-  AuthenticatedTeamManagementLayoutRoute:
-    AuthenticatedTeamManagementLayoutRouteWithChildren,
-  AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
-  AuthenticatedEstablishmentIndexRoute: AuthenticatedEstablishmentIndexRoute,
-  AuthenticatedOrganizationIndexRoute: AuthenticatedOrganizationIndexRoute,
-  AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
-  AuthenticatedOrganizationNewIndexRoute:
-    AuthenticatedOrganizationNewIndexRoute,
-  AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute:
-    AuthenticatedEstablishmentRoutesEstablishmentSlugIndexRoute,
-  AuthenticatedEstablishmentRoutesNewIndexRoute:
-    AuthenticatedEstablishmentRoutesNewIndexRoute,
-}
-
-const AuthenticatedLayoutRouteWithChildren =
-  AuthenticatedLayoutRoute._addFileChildren(AuthenticatedLayoutRouteChildren)
-
-interface SubscriptionLayoutRouteChildren {
-  SubscriptionSubscriptionCanceledRoute: typeof SubscriptionSubscriptionCanceledRoute
-  SubscriptionSubscriptionReturnRoute: typeof SubscriptionSubscriptionReturnRoute
-  SubscriptionSubscriptionIndexRoute: typeof SubscriptionSubscriptionIndexRoute
-}
-
-const SubscriptionLayoutRouteChildren: SubscriptionLayoutRouteChildren = {
-  SubscriptionSubscriptionCanceledRoute: SubscriptionSubscriptionCanceledRoute,
-  SubscriptionSubscriptionReturnRoute: SubscriptionSubscriptionReturnRoute,
-  SubscriptionSubscriptionIndexRoute: SubscriptionSubscriptionIndexRoute,
-}
-
-const SubscriptionLayoutRouteWithChildren =
-  SubscriptionLayoutRoute._addFileChildren(SubscriptionLayoutRouteChildren)
-
-interface DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren {
-  DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute
-  DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute
-}
-
-const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren: DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren =
-  {
-    DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute:
-      DashboardSlugServicesPagesServiceEstablishmentIdEditIndexRoute,
-    DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute:
-      DashboardSlugServicesPagesServiceEstablishmentIdInfoIndexRoute,
-  }
-
-const DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren =
-  DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute._addFileChildren(
-    DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteChildren,
-  )
-
-interface DashboardSlugLayoutRouteChildren {
-  DashboardSlugAddressIndexRoute: typeof DashboardSlugAddressIndexRoute
-  DashboardSlugAppointmentIndexRoute: typeof DashboardSlugAppointmentIndexRoute
-  DashboardSlugConfigIndexRoute: typeof DashboardSlugConfigIndexRoute
-  DashboardSlugCustomersIndexRoute: typeof DashboardSlugCustomersIndexRoute
-  DashboardSlugOpeningHoursIndexRoute: typeof DashboardSlugOpeningHoursIndexRoute
-  DashboardSlugOverviewIndexRoute: typeof DashboardSlugOverviewIndexRoute
-  DashboardSlugProfessionalsIndexRoute: typeof DashboardSlugProfessionalsIndexRoute
-  DashboardSlugReviewsIndexRoute: typeof DashboardSlugReviewsIndexRoute
-  DashboardSlugServicesIndexRoute: typeof DashboardSlugServicesIndexRoute
-  DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute: typeof DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren
-  DashboardSlugProfessionalsPagesNewIndexRoute: typeof DashboardSlugProfessionalsPagesNewIndexRoute
-  DashboardSlugServicesPagesNewIndexRoute: typeof DashboardSlugServicesPagesNewIndexRoute
-}
-
-const DashboardSlugLayoutRouteChildren: DashboardSlugLayoutRouteChildren = {
-  DashboardSlugAddressIndexRoute: DashboardSlugAddressIndexRoute,
-  DashboardSlugAppointmentIndexRoute: DashboardSlugAppointmentIndexRoute,
-  DashboardSlugConfigIndexRoute: DashboardSlugConfigIndexRoute,
-  DashboardSlugCustomersIndexRoute: DashboardSlugCustomersIndexRoute,
-  DashboardSlugOpeningHoursIndexRoute: DashboardSlugOpeningHoursIndexRoute,
-  DashboardSlugOverviewIndexRoute: DashboardSlugOverviewIndexRoute,
-  DashboardSlugProfessionalsIndexRoute: DashboardSlugProfessionalsIndexRoute,
-  DashboardSlugReviewsIndexRoute: DashboardSlugReviewsIndexRoute,
-  DashboardSlugServicesIndexRoute: DashboardSlugServicesIndexRoute,
-  DashboardSlugServicesPagesServiceEstablishmentIdLayoutRoute:
-    DashboardSlugServicesPagesServiceEstablishmentIdLayoutRouteWithChildren,
-  DashboardSlugProfessionalsPagesNewIndexRoute:
-    DashboardSlugProfessionalsPagesNewIndexRoute,
-  DashboardSlugServicesPagesNewIndexRoute:
-    DashboardSlugServicesPagesNewIndexRoute,
-}
-
-const DashboardSlugLayoutRouteWithChildren =
-  DashboardSlugLayoutRoute._addFileChildren(DashboardSlugLayoutRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
-  AuthenticatedLayoutRoute: AuthenticatedLayoutRouteWithChildren,
-  SubscriptionLayoutRoute: SubscriptionLayoutRouteWithChildren,
   ErrorRoute: ErrorRoute,
-  DashboardSlugLayoutRoute: DashboardSlugLayoutRouteWithChildren,
-  DashboardIndexRoute: DashboardIndexRoute,
   InvitationIndexRoute: InvitationIndexRoute,
-  OrganizationProfileIndexRoute: OrganizationProfileIndexRoute,
   Error_pageAccessDeniedIndexRoute: Error_pageAccessDeniedIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -2,16 +2,16 @@ import { getRouteApi } from '@tanstack/react-router'
 import { parseAsString, useQueryState } from 'nuqs'
 import { useState } from 'react'
 
-import { authClient } from '@/lib/auth'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { usePagination } from '@/shared/hooks/use-pagination'
 
 import { useProfessionals } from './use-professionals'
 
-const dashboardRoute = getRouteApi('/dashboard/$slug')
+const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useProfessionalsPage() {
   const { establishment } = dashboardRoute.useLoaderData()
-  const { data: session } = authClient.useSession()
+  const { data: session } = useAppSession()
   const scopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishment.id}`
   const query = useProfessionals(establishment.id)
   const [search] = useQueryState('q', parseAsString.withDefault(''))
