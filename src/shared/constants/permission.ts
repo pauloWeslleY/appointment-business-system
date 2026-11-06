@@ -22,6 +22,18 @@ export const RESOURCES = {
 
 export type ResourceType = (typeof RESOURCES)[keyof typeof RESOURCES]
 
+export const PERMISSION_ACTIONS = {
+  CREATE: 'create',
+  READ: 'read',
+  UPDATE: 'update',
+  DELETE: 'delete',
+  CANCEL: 'cancel',
+  CONCLUDE: 'conclude',
+} as const
+
+export type PermissionActionType =
+  (typeof PERMISSION_ACTIONS)[keyof typeof PERMISSION_ACTIONS]
+
 export const mapLabelResource: Record<ResourceType, string> = {
   [RESOURCES.SUBSCRIPTION]: 'Assinaturas',
   [RESOURCES.DASHBOARD]: 'Painel',

@@ -1,7 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import ProfessionalsPage from '@/features/professionals/pages/professionals.page'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 export const Route = createFileRoute('/dashboard/$slug/professionals/')({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.member.memberContext, {
+      resource: RESOURCES.PROFESSIONAL,
+      action: PERMISSION_ACTIONS.READ,
+    }),
   component: ProfessionalsPage,
 })

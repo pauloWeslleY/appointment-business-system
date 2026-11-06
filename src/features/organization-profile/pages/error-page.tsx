@@ -1,10 +1,19 @@
 import { Alert, Box } from '@chakra-ui/react'
 import type { ErrorComponentProps } from '@tanstack/react-router'
 
+import AccessDenied from '@/components/layout/access-denied'
+import { AccessDeniedError } from '@/shared/errors'
+
 import ActiveOrganization from '../components/active-organization'
 import ErrorPageOrganizationAlert from '../components/error-page-organization-alert'
 
 const ErrorOrganizationPage = (props: ErrorComponentProps) => {
+  const isAccessDenied = props.error instanceof AccessDeniedError
+
+  if (isAccessDenied) {
+    return <AccessDenied />
+  }
+
   const _error =
     props.error instanceof Error ? props.error : new Error('Unknown error')
 

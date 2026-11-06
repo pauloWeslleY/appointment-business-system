@@ -12,6 +12,10 @@ import { type ErrorComponentProps } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+import { AccessDeniedError } from '@/shared/errors'
+
+import AccessDenied from './access-denied'
+
 interface ResultProps {
   response: Response
   message: string
@@ -63,6 +67,12 @@ const validateErrorMessage = (error: unknown) => {
 }
 
 const AppError = (props: ErrorComponentProps) => {
+  const isAccessDenied = props.error instanceof AccessDeniedError
+
+  if (isAccessDenied) {
+    return <AccessDenied />
+  }
+
   const handleResetAndReloadPage = () => {
     window.location.reload()
     props.reset()

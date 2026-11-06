@@ -11,6 +11,8 @@ import RevenueEstablishmentDashboard from '@/features/dashboard/components/reven
 import StatsEstablishmentDashboard from '@/features/dashboard/components/stats-establishment-dashboard'
 import TopClientsBookingsEstablishmentDashboard from '@/features/dashboard/components/top-clients-bookings-establishment-dashboard'
 import TopServicesEstablishmentDashboard from '@/features/dashboard/components/top-services-establishment-dashboard'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 const currentDate = dayjs()
 
@@ -20,6 +22,11 @@ const filteredDateOverview = {
 }
 
 export const Route = createFileRoute('/dashboard/$slug/overview/')({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.member.memberContext, {
+      resource: RESOURCES.DASHBOARD,
+      action: PERMISSION_ACTIONS.READ,
+    }),
   validateSearch: z.object({
     to: z.string().optional().default(filteredDateOverview.to),
     from: z.string().optional().default(filteredDateOverview.from),

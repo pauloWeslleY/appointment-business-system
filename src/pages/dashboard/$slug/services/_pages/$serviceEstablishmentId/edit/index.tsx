@@ -4,11 +4,18 @@ import { PencilLine } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import FormUpdateServiceEstablishment from '@/features/service-establishment/pages/form-update-service-establishment'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/',
 )({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.member.memberContext, {
+      resource: RESOURCES.SERVICE,
+      action: PERMISSION_ACTIONS.UPDATE,
+    }),
   component: EditServiceEstablishmentPage,
 })
 

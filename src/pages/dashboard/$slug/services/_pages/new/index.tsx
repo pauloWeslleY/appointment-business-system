@@ -3,11 +3,18 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import Header from '@/components/layout/header'
 import FormCreateServiceEstablishment from '@/features/service-establishment/pages/form-create-service-establishment.page'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/dashboard/$slug/services/_pages/new/',
 )({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.member.memberContext, {
+      resource: RESOURCES.SERVICE,
+      action: PERMISSION_ACTIONS.CREATE,
+    }),
   component: CreateServicePage,
 })
 

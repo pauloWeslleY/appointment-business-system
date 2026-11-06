@@ -14,13 +14,21 @@ import {
   organizationDetailQueryOptions,
   organizationProfileSummaryQueryOptions,
 } from '@/features/organization-profile/queries/organization-profile-query-options'
-import { RESOURCES } from '@/shared/constants/permission'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 export const Route = createFileRoute('/_authenticated/organization/')({
-  beforeLoad: () => validateEnsureOrganizationExists(),
+  beforeLoad: async ({ context }) => {
+    validateRoutePermission(context.memberContext, {
+      resource: RESOURCES.ORGANIZATION_PROFILE,
+      action: PERMISSION_ACTIONS.READ,
+    })
+
+    return validateEnsureOrganizationExists()
+  },
   loader: async ({ context }) => {
     const [organizationProfile, organization] = await Promise.all([
       context.queryClient.query(organizationProfileSummaryQueryOptions()),

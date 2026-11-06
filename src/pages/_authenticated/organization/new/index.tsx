@@ -4,9 +4,16 @@ import { Building2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import FormCreateOrganizationProfile from '@/features/organization-profile/pages/form-create-organization-profile'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_authenticated/organization/new/')({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.memberContext, {
+      resource: RESOURCES.ORGANIZATION_PROFILE,
+      action: PERMISSION_ACTIONS.CREATE,
+    }),
   component: CreateOrganizationProfile,
 })
 

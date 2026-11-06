@@ -3,6 +3,8 @@ import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 
 import Header from '@/components/layout/header'
 import CreateProfessionalForm from '@/features/professionals/components/create-professional-form'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 const dashboardRoute = getRouteApi('/dashboard/$slug')
@@ -10,6 +12,11 @@ const dashboardRoute = getRouteApi('/dashboard/$slug')
 export const Route = createFileRoute(
   '/dashboard/$slug/professionals/_pages/new/',
 )({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.member.memberContext, {
+      resource: RESOURCES.PROFESSIONAL,
+      action: PERMISSION_ACTIONS.CREATE,
+    }),
   component: CreateProfessionalPage,
 })
 

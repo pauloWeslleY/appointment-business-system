@@ -7,11 +7,18 @@ import z from 'zod'
 import EmptyStateTeamManagement from '@/components/empty-state-team-management'
 import DialogSendInvite from '@/features/invitations/components/dialog-send-invite'
 import ListInvitesSendPage from '@/features/invitations/pages/list-invites-send'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_authenticated/team-management/invitations/',
 )({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.memberContext, {
+      resource: RESOURCES.INVITATION,
+      action: PERMISSION_ACTIONS.CREATE,
+    }),
   validateSearch: z.object({
     q: z.string().optional(),
   }),

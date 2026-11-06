@@ -4,10 +4,17 @@ import { z } from 'zod'
 
 import Header from '@/components/layout/header'
 import StepCreateEstablishmentPage from '@/features/establishment/pages/step-create-establishment.page'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 export const Route = createFileRoute(
   '/_authenticated/establishment/_routes/new/',
 )({
+  beforeLoad: ({ context }) =>
+    validateRoutePermission(context.memberContext, {
+      resource: RESOURCES.ESTABLISHMENT,
+      action: PERMISSION_ACTIONS.CREATE,
+    }),
   validateSearch: z.object({
     step: z.coerce.number().optional().default(0),
   }),

@@ -1,28 +1,22 @@
 import { redirect } from '@tanstack/react-router'
 
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { hasPermission } from '@/shared/helpers/has-permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 export const validateEstablishmentExistsRoute = (
   memberContext: GetMeContextResponse,
 ) => {
-  const canRead = memberContext.permissions.some(
-    (permission) =>
-      permission.resource === 'establishment' && permission.action === 'read',
-  )
+  validateRoutePermission(memberContext, {
+    resource: RESOURCES.ESTABLISHMENT,
+    action: PERMISSION_ACTIONS.READ,
+  })
 
-  if (!canRead) {
-    throw new Response(
-      'Você não tem permissão para consultar estabelecimentos',
-      {
-        status: 403,
-      },
-    )
-  }
-
-  const canCreate = memberContext.permissions.some(
-    (permission) =>
-      permission.resource === 'establishment' && permission.action === 'create',
-  )
+  const canCreate = hasPermission(memberContext.permissions, {
+    resource: RESOURCES.ESTABLISHMENT,
+    action: PERMISSION_ACTIONS.CREATE,
+  })
 
   const hasNoAvailableEstablishments = memberContext.establishments.length === 0
 

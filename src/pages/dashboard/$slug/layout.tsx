@@ -6,6 +6,8 @@ import { validateAuthenticatedContext } from '@/features/authentication/validati
 import EstablishmentLayout from '@/features/establishment/layout/establishment-layout'
 import { establishmentAdminSlugQueryOptions } from '@/features/establishment/queries/establishment.query-options'
 import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
+import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
+import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 export const Route = createFileRoute('/dashboard/$slug')({
   beforeLoad: async ({ context }) => {
@@ -13,6 +15,11 @@ export const Route = createFileRoute('/dashboard/$slug')({
       validateAuthenticatedContext(context.queryClient),
       validateEnsureAuthRoute(),
     ])
+
+    validateRoutePermission(member.memberContext, {
+      resource: RESOURCES.ESTABLISHMENT,
+      action: PERMISSION_ACTIONS.READ,
+    })
 
     return { member, ensureAuth }
   },
