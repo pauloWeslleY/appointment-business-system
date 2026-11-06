@@ -7,7 +7,7 @@ import {
   RadioGroup,
   SimpleGrid,
 } from '@chakra-ui/react'
-import { Settings2 } from 'lucide-react'
+import { SaveIcon, Settings2 } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
@@ -143,13 +143,15 @@ const FormUpdateOrganizationProfile = () => {
         </SimpleGrid>
 
         <Button
-          alignSelf="flex-end"
           type="submit"
+          w="fit"
           size="sm"
           rounded="lg"
-          w="fit"
+          colorPalette="brand"
+          alignSelf="flex-end"
           loading={isPendingUpdateOrganizationProfile}
         >
+          <Icon as={SaveIcon} boxSize="5" />
           Salvar
         </Button>
       </chakra.form>

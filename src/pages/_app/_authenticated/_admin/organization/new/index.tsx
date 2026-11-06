@@ -11,6 +11,9 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/organization/new/',
 )({
+  head: () => ({
+    meta: [{ title: 'Cadastrar perfil empresarial' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {
       resource: RESOURCES.ORGANIZATION_PROFILE,

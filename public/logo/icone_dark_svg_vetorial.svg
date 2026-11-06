@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 460 430"><defs>
+ <linearGradient id="calendar" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#6720CC"/><stop offset="0.68" stop-color="#3E0794"/><stop offset="1" stop-color="#200A58"/></linearGradient>
+ <linearGradient id="check" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#25E8B6"/><stop offset="1" stop-color="#05BF97"/></linearGradient>
+ <linearGradient id="teal" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#65DCD5"/><stop offset="1" stop-color="#1DABCA"/></linearGradient>
+ <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="24"/></filter>
+ </defs><g transform="translate(-57,-108)"><g>
+<!-- faint purple and emerald atmospheric halo -->
+<rect x="44" y="148" width="400" height="345" rx="60" fill="#6425BD" opacity=".18" filter="url(#shadow)"/>
+<circle cx="376" cy="424" r="120" fill="#04CAAC" opacity=".19" filter="url(#shadow)"/>
+<!-- calendar body and white page -->
+<rect x="76" y="173" width="369" height="337" rx="49" fill="url(#calendar)"/>
+<rect x="100" y="233" width="320" height="253" rx="21" fill="#FFFFFF"/>
+<!-- ring binds -->
+<rect x="156" y="122" width="55" height="101" rx="27" fill="url(#calendar)" stroke="#FFFFFF" stroke-width="12"/>
+<rect x="312" y="122" width="55" height="101" rx="27" fill="url(#calendar)" stroke="#FFFFFF" stroke-width="12"/>
+<!-- date grid -->
+<rect x="137" y="270" width="51" height="50" rx="14" fill="#4B109E"/>
+<rect x="206" y="270" width="51" height="50" rx="14" fill="#4B109E"/>
+<rect x="275" y="270" width="51" height="50" rx="14" fill="#4B109E"/>
+<rect x="137" y="342" width="51" height="50" rx="14" fill="#ABA0F5"/>
+<rect x="206" y="342" width="51" height="50" rx="14" fill="#ABA0F5"/>
+<!-- approval disc -->
+<circle cx="390" cy="427" r="86" fill="#FFFFFF"/>
+<circle cx="390" cy="427" r="79" fill="url(#check)"/>
+<path d="M349 425 L377 454 L429 400" fill="none" stroke="#FFFFFF" stroke-width="23" stroke-linecap="round" stroke-linejoin="round"/>
+</g></g></svg>

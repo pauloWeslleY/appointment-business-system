@@ -14,7 +14,7 @@ const MeAccess = ({ access }: MeAccessProps) => {
   const memberCurrentRole = mapLabelMemberRole(access.role)
 
   return (
-    <Card.Root variant="outline" {...cardSectionCss}>
+    <Card.Root variant="outline" {...cardSectionCss} h="fit">
       <Card.Header
         display="flex"
         flexDir="row"

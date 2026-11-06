@@ -10,6 +10,9 @@ import { validateRoutePermission } from '@/shared/validations/validate-route-per
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/establishment/_routes/new/',
 )({
+  head: () => ({
+    meta: [{ title: 'Cadastrar estabelecimento' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {
       resource: RESOURCES.ESTABLISHMENT,

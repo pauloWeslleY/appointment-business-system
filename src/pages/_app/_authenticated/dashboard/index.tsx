@@ -14,6 +14,9 @@ import { loadMenuDashboardEstablishment } from '@/features/establishment/constan
 import useGetEstablishmentById from '@/features/establishment/hooks/use-get-establishment-by-id'
 
 export const Route = createFileRoute('/_app/_authenticated/dashboard/')({
+  head: () => ({
+    meta: [{ title: 'Dashboard' }],
+  }),
   component: DashboardLayout,
 })
 

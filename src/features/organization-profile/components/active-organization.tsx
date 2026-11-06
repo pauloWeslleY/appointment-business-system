@@ -102,9 +102,10 @@ const ActiveOrganization = () => {
         </Field>
 
         <Button
-          type="submit"
           size="sm"
+          type="submit"
           rounded="lg"
+          colorPalette="brand"
           loading={isPendingUpdateActiveOrganization}
         >
           Ativar

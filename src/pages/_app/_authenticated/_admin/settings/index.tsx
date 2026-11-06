@@ -65,7 +65,7 @@ function SettingsPage() {
         <Grid
           templateColumns={{
             base: 'minmax(0, 1fr)',
-            xl: 'repeat(2, minmax(0, 1fr))',
+            xl: '450px 1fr',
           }}
           gap="4"
         >

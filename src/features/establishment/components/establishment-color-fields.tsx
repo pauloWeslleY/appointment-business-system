@@ -131,7 +131,7 @@ const EstablishmentColorFields = ({
               Prévia da identidade visual
             </Text>
             <Text color={{ _light: 'secondary.800', _dark: 'secondary.100' }}>
-              Assim ficam os destaques e as superfícies do painel desta unidade.
+              Prévia das cores cadastradas para o site deste estabelecimento.
             </Text>
 
             <Button

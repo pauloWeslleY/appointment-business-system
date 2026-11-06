@@ -78,7 +78,7 @@ function OrganizationPage() {
         </HStack>
 
         {organizationProfilePermission.canCreate && (
-          <Button rounded="lg" size="xs" asChild>
+          <Button asChild rounded="lg" size="xs" colorPalette="brand">
             <Link to="/organization/new">
               <Icon as={PlusIcon} boxSize="5" />
               Novo perfil empresarial

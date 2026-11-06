@@ -20,6 +20,9 @@ import { useLogout } from '@/shared/hooks/use-logout'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_app/organization-profile/')({
+  head: () => ({
+    meta: [{ title: 'Configurar perfil empresarial' }],
+  }),
   loader: async () => await authClient.organization.list(),
   component: OrganzationProfilePage,
 })

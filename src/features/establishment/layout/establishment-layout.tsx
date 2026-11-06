@@ -22,7 +22,6 @@ import {
   mapStatusEstablishment,
 } from '../types/establishment-status.type'
 import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
-import { establishmentThemeStyle } from '../utils/establishment-theme'
 
 interface EstablishmentLayoutProps {
   establishment: EstablishmentSlugApiResponse
@@ -36,7 +35,6 @@ const EstablishmentLayout = ({
   organizationId,
 }: EstablishmentLayoutProps) => {
   const {
-    colorMode,
     collapsed,
     isEstablishmentRootPath,
     isLoadingEstablishmentLayout,
@@ -55,7 +53,7 @@ const EstablishmentLayout = ({
   }
 
   return (
-    <Sidebar.Root style={establishmentThemeStyle(establishment, colorMode)}>
+    <Sidebar.Root>
       <Sidebar.Aside>
         <For each={loadMenuDashboardEstablishment}>
           {(item) => {

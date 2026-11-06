@@ -4,12 +4,13 @@ import {
   Container,
   Flex,
   Grid,
-  Image,
   Link,
   Stack,
   Text,
 } from '@chakra-ui/react'
 import { ArrowRight } from 'lucide-react'
+
+import Logotipo from '@/components/logotipo'
 
 import { navigation } from '../constants/data-landing-page'
 
@@ -25,10 +26,11 @@ const Footer = () => {
           pb="7"
         >
           <Box>
-            <Image
-              src="/logo/logo-horizontal-monochrome-white.svg"
-              alt="System Appointment"
+            <Logotipo
+              variant="horizontal"
+              theme="dark"
               w="160px"
+              h="auto"
               mb="3"
             />
             <Text fontSize="12px" color="navy.200">
@@ -99,9 +101,7 @@ const Footer = () => {
           fontSize="10px"
           color="navy.200"
         >
-          <Text>
-            © {yearFooter} System Appointment. Todos os direitos reservados.
-          </Text>
+          <Text>© {yearFooter} Agendros. Todos os direitos reservados.</Text>
           <Text>🇧🇷 Português (BR)</Text>
         </Flex>
       </Container>

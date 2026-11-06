@@ -12,6 +12,9 @@ const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/professionals/_pages/new/',
 )({
+  head: () => ({
+    meta: [{ title: 'Novo profissional' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {
       resource: RESOURCES.PROFESSIONAL,

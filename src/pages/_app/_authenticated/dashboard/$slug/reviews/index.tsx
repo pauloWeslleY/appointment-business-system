@@ -6,6 +6,9 @@ import { ReviewsRouteSearchSchema } from '@/features/reviews/schemas/reviews-rou
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/reviews/',
 )({
+  head: () => ({
+    meta: [{ title: 'Avaliações' }],
+  }),
   validateSearch: ReviewsRouteSearchSchema,
   component: ReviewsPage,
 })

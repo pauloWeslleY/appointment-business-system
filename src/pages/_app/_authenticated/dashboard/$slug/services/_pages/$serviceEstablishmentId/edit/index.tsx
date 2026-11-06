@@ -11,6 +11,9 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/',
 )({
+  head: () => ({
+    meta: [{ title: 'Atualizar serviço' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {
       resource: RESOURCES.SERVICE,

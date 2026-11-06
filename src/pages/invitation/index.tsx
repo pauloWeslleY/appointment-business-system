@@ -10,6 +10,9 @@ import AuthAcceptInvitation from '@/features/invitations/pages/auth-accept-invit
 import { setCookie } from '@/shared/cache/cookie'
 
 export const Route = createFileRoute('/invitation/')({
+  head: () => ({
+    meta: [{ title: 'Convite' }],
+  }),
   validateSearch: z.object({
     invitationId: z.string().optional(),
   }),

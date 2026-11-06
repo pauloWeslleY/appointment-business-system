@@ -121,7 +121,7 @@ export function useFormCreateOrganizationProfile() {
           reset(data)
 
           if (pathname === pathCreateOrganization) {
-            await navigate({ to: '/organization', replace: true })
+            navigate({ to: '/organization', replace: true })
             return
           }
 
@@ -129,7 +129,7 @@ export function useFormCreateOrganizationProfile() {
             await organizationSelection.mutateAsync({
               organizationId: organizationProfile.organization.id,
             })
-            await navigate({ to: '/organization', replace: true })
+            navigate({ to: '/organization', replace: true })
           } catch (error) {
             toaster.error({
               title: 'Ops! Não foi possível ativar a organização.',

@@ -16,7 +16,7 @@ export function SubscriptionOrganizationSelect() {
     <SubscriptionSection>
       <SubscriptionSelect
         id="subscription-organization"
-        label="Organização"
+        label="Perfil empresarial"
         value={organizationId}
         disabled={
           organizationSelectionMutation.isPending ||

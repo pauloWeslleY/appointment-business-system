@@ -12,6 +12,8 @@ interface ThemeLogos {
   monochrome: string
 }
 
+// Logos anteriores preservados para referência.
+/*
 const logos = {
   app: {
     light: '/logo/app-light.svg',
@@ -54,16 +56,46 @@ const logosByTheme = {
     monochrome: logos.horizontal.monochromeWhite,
   },
 } as const satisfies Record<Theme, ThemeLogos>
+*/
+
+const logos = {
+  light: {
+    icon: '/logo/icone_light_svg_vetorial.svg',
+    horizontal: '/logo/logo1.png',
+  },
+  dark: {
+    icon: '/logo/icone_dark_svg_vetorial.svg',
+    horizontal: '/logo/logo3.png',
+  },
+} as const
+
+const logosByTheme = {
+  light: {
+    app: logos.light.icon,
+    icon: logos.light.icon,
+    horizontal: logos.light.horizontal,
+    vertical: logos.light.horizontal,
+    monochrome: logos.light.horizontal,
+  },
+  dark: {
+    app: logos.dark.icon,
+    icon: logos.dark.icon,
+    horizontal: logos.dark.horizontal,
+    vertical: logos.dark.horizontal,
+    monochrome: logos.dark.horizontal,
+  },
+} as const satisfies Record<Theme, ThemeLogos>
 
 interface LogotipoProps extends ImageProps {
   variant?: keyof (typeof logosByTheme)['light']
+  theme?: Theme
 }
 
-const Logotipo = ({ variant, ...props }: LogotipoProps) => {
+const Logotipo = ({ variant, theme, ...props }: LogotipoProps) => {
   const logotipoTheme = useColorModeValue('light', 'dark')
-  const logo = logosByTheme[logotipoTheme][variant ?? 'app']
+  const logo = logosByTheme[theme ?? logotipoTheme][variant ?? 'app']
 
-  return <Image src={logo} alt="Logo" {...props} />
+  return <Image src={logo} alt="Agendros" {...props} />
 }
 
 export default Logotipo

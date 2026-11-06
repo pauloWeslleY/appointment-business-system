@@ -24,6 +24,9 @@ const filteredDateOverview = {
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/overview/',
 )({
+  head: () => ({
+    meta: [{ title: 'Dashboard' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {
       resource: RESOURCES.DASHBOARD,

@@ -1,14 +1,8 @@
-import {
-  Button,
-  Container,
-  Flex,
-  HStack,
-  Image,
-  Link,
-  Stack,
-} from '@chakra-ui/react'
+import { Button, Container, Flex, HStack, Link, Stack } from '@chakra-ui/react'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
+
+import Logotipo from '@/components/logotipo'
 
 import { navigation } from '../constants/data-landing-page'
 import SignupButton from './signup-button'
@@ -26,12 +20,8 @@ const NavBarLandingPage = () => {
         gap="6"
         position="relative"
       >
-        <Link href="/" aria-label="System Appointment — início">
-          <Image
-            src="/logo/logo-horizontal-light.svg"
-            alt="System Appointment"
-            w="170px"
-          />
+        <Link href="/" aria-label="Agendros — início" flexShrink="0">
+          <Logotipo variant="horizontal" theme="light" w="170px" h="auto" />
         </Link>
         <HStack
           gap="7"
@@ -74,6 +64,8 @@ const NavBarLandingPage = () => {
           rounded="lg"
           display={{ lg: 'none' }}
           variant="ghost"
+          color="brand.slate"
+          _hover={{ bg: 'brand.mint', color: 'sea.700' }}
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -87,17 +79,30 @@ const NavBarLandingPage = () => {
             top="100%"
             insetX="0"
             bg="white"
+            color="brand.slate"
             p="6"
             shadow="lg"
             zIndex="10"
             rounded="lg"
           >
             {navigation.map(([label, href]) => (
-              <Link key={href} href={href} onClick={() => setMenuOpen(false)}>
+              <Link
+                key={href}
+                href={href}
+                color="brand.slate"
+                _hover={{ color: 'sea.700' }}
+                onClick={() => setMenuOpen(false)}
+              >
                 {label}
               </Link>
             ))}
-            <Link href="/login">Entrar</Link>
+            <Link
+              href="/login"
+              color="brand.slate"
+              _hover={{ color: 'sea.700' }}
+            >
+              Entrar
+            </Link>
             <SignupButton>Criar conta</SignupButton>
           </Stack>
         )}

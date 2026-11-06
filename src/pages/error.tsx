@@ -3,6 +3,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import z from 'zod'
 
 export const Route = createFileRoute('/error')({
+  head: () => ({
+    meta: [{ title: 'Erro ao carregar a página' }],
+  }),
   validateSearch: z.object({
     search: z.string().optional().default(''),
   }),

@@ -1,7 +1,6 @@
 import { useIsFetching } from '@tanstack/react-query'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 
-import { useColorMode } from '@/components/ui/color-mode'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
 import { establishmentQueryKeys } from '../queries/establishment.query-key'
@@ -10,7 +9,6 @@ import type { EstablishmentSlugApiResponse } from '../types/get-establishment-ap
 export function useEstablishmentLayout(
   establishment: EstablishmentSlugApiResponse,
 ) {
-  const { colorMode } = useColorMode()
   const { pathname } = useLocation()
   const { collapsed } = useMenuCollapse()
   const navigate = useNavigate()
@@ -41,7 +39,6 @@ export function useEstablishmentLayout(
   }
 
   return {
-    colorMode,
     collapsed,
     isEstablishmentRootPath,
     isLoadingEstablishmentLayout,

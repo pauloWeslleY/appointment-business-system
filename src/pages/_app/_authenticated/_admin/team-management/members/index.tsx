@@ -8,6 +8,9 @@ import ListMembers from '@/features/members/components/list-members'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/members/',
 )({
+  head: () => ({
+    meta: [{ title: 'Membros' }],
+  }),
   component: MembersPage,
 })
 

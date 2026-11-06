@@ -7,6 +7,9 @@ import { validateRoutePermission } from '@/shared/validations/validate-route-per
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/professionals/',
 )({
+  head: () => ({
+    meta: [{ title: 'Profissionais' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {
       resource: RESOURCES.PROFESSIONAL,

@@ -14,6 +14,9 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/',
 )({
+  head: () => ({
+    meta: [{ title: 'Editar estabelecimento' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {
       resource: RESOURCES.ESTABLISHMENT,

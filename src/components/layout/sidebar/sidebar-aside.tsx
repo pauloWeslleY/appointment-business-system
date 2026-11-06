@@ -6,7 +6,6 @@ import {
   Separator,
   Stack,
   type StackProps,
-  Text,
 } from '@chakra-ui/react'
 import { ChevronLeft } from 'lucide-react'
 
@@ -80,28 +79,13 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
             justify={collapsed ? 'center' : 'flex-start'}
             gap="2"
           >
-            <Logotipo variant="app" boxSize="10" />
-
-            {!collapsed && (
-              <div>
-                <Text
-                  fontFamily="heading"
-                  fontWeight="semibold"
-                  fontSize="lg"
-                  color={{ base: 'navy.800', _dark: 'sea.300' }}
-                >
-                  System
-                </Text>
-                <Text
-                  fontFamily="heading"
-                  fontWeight="semibold"
-                  fontSize="xs"
-                  color={{ base: 'navy.800', _dark: 'sea.300' }}
-                >
-                  Appointment
-                </Text>
-              </div>
-            )}
+            <Logotipo
+              variant={collapsed ? 'icon' : 'horizontal'}
+              w={collapsed ? '10' : 'full'}
+              h={collapsed ? '10' : '14'}
+              objectFit="contain"
+              flexShrink="0"
+            />
           </Flex>
 
           <Separator

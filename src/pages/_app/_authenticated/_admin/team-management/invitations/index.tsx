@@ -14,6 +14,9 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/invitations/',
 )({
+  head: () => ({
+    meta: [{ title: 'Convites' }],
+  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {
       resource: RESOURCES.INVITATION,

@@ -4,6 +4,9 @@ import { SubscriptionOrganizationProvider } from '@/features/subscriptions/compo
 import { SubscriptionPageContent } from '@/features/subscriptions/pages/subscription.page'
 
 export const Route = createFileRoute('/_app/_subscription/subscription/')({
+  head: () => ({
+    meta: [{ title: 'Assinatura' }],
+  }),
   component: () => (
     <SubscriptionOrganizationProvider pageEntry="default">
       <SubscriptionPageContent />

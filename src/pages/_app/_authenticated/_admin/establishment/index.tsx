@@ -36,6 +36,9 @@ export const Route = createFileRoute(
   beforeLoad: ({ context }) =>
     validateEstablishmentExistsRoute(context.memberContext),
   component: EstablishmentPage,
+  head: () => ({
+    meta: [{ title: 'Estabelecimentos' }],
+  }),
 })
 
 function EstablishmentPage() {
