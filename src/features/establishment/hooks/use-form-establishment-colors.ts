@@ -17,64 +17,81 @@ export function useFormEstablishmentColors(
   memberContext: GetMeContextResponse,
 ) {
   const {
-    scope,
-    scopeIdentity,
-    query,
-    canUpdate,
-    isCurrentScope,
-    getEstablishmentIdToSave,
+    establishmentSettingsScope,
+    establishmentSettingsScopeIdentity,
+    establishmentSettingsQuery: establishmentColorsQuery,
+    canUpdateEstablishmentSettings: canUpdateEstablishmentColors,
+    isCurrentEstablishmentSettingsScope,
+    resolveEstablishmentIdToSave,
   } = useEstablishmentSettings(establishmentSlug, memberContext)
 
-  const form = useForm<EstablishmentColorsForm>({
+  const formEstablishmentColors = useForm<EstablishmentColorsForm>({
     resolver: zodResolver(EstablishmentColorsFormSchema),
     defaultValues: getEstablishmentColorsFormValues(),
   })
 
-  const values = useWatch({ control: form.control })
+  const establishmentColorsValues = useWatch({
+    control: formEstablishmentColors.control,
+  })
 
   useSyncEstablishmentSettingsForm(
-    form,
-    query.data,
-    scopeIdentity,
+    formEstablishmentColors,
+    establishmentColorsQuery.data,
+    establishmentSettingsScopeIdentity,
     getEstablishmentColorsFormValues,
   )
 
-  const mutation = useSaveEstablishmentSettings({
-    isCurrentScope,
+  const {
+    mutate: saveEstablishmentColors,
+    isPending: isPendingSaveEstablishmentColors,
+  } = useSaveEstablishmentSettings({
+    isCurrentEstablishmentSettingsScope,
     successMessage: 'Cores salvas com sucesso.',
-    onSaved: (settings) =>
-      form.reset(getEstablishmentColorsFormValues(settings)),
+    onSaved: (savedSettings) =>
+      formEstablishmentColors.reset(
+        getEstablishmentColorsFormValues(savedSettings),
+      ),
   })
 
-  const onSubmit = form.handleSubmit((colors) => {
-    if (mutation.isPending) {
+  const handleSaveEstablishmentColors = (
+    establishmentColors: EstablishmentColorsForm,
+  ) => {
+    if (isPendingSaveEstablishmentColors) {
       return
     }
 
-    const establishmentId = getEstablishmentIdToSave(form.formState.isDirty)
+    const establishmentId = resolveEstablishmentIdToSave(
+      formEstablishmentColors.formState.isDirty,
+    )
 
     if (!establishmentId) {
       return
     }
 
-    mutation.mutate({ scope, establishmentId, settings: colors })
-  })
+    saveEstablishmentColors({
+      scope: establishmentSettingsScope,
+      establishmentId,
+      settings: establishmentColors,
+    })
+  }
 
-  function discardChanges() {
-    if (!query.data) {
+  const handleDiscardEstablishmentColors = () => {
+    if (!establishmentColorsQuery.data) {
       return
     }
 
-    form.reset(getEstablishmentColorsFormValues(query.data))
+    formEstablishmentColors.reset(
+      getEstablishmentColorsFormValues(establishmentColorsQuery.data),
+    )
   }
 
   return {
-    query,
-    form,
-    values,
-    canUpdate,
-    onSubmit,
-    isSaving: mutation.isPending,
-    discardChanges,
+    establishmentColorsQuery,
+    formEstablishmentColors,
+    establishmentColorsValues,
+    canUpdateEstablishmentColors,
+    isPendingSaveEstablishmentColors,
+    handleSaveEstablishmentColors,
+    handleDiscardEstablishmentColors,
   }
 }

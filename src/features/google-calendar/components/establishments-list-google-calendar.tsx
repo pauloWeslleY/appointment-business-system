@@ -1,4 +1,4 @@
-import { For, Table } from '@chakra-ui/react'
+import { For, Table, Text } from '@chakra-ui/react'
 
 import { cssTableColumns } from '@/theme/styles/global-styles'
 
@@ -14,6 +14,18 @@ const EstablishmentsListGoogleCalendar = () => {
     handleDialogGoogleCalendar,
     setIsOpenDialogGoogleCalendar,
   } = useEstablishmentsListGoogleCalendar()
+
+  if (listEstablishmentsGoogleCalendar.length === 0) {
+    return (
+      <Text
+        mt="4"
+        textAlign="center"
+        color={{ _light: 'gray.500', _dark: 'gray.600' }}
+      >
+        Nenhum estabelecimento encontrado.
+      </Text>
+    )
+  }
 
   return (
     <>

@@ -14,8 +14,14 @@ import type {
   EstablishmentSettingsScope,
 } from '../types/establishment-settings.type'
 
-const toScopeIdentity = (scope: EstablishmentSettingsScope) =>
-  [scope.userId, scope.organizationId, scope.slug].join(':')
+const toEstablishmentSettingsScopeIdentity = (
+  establishmentSettingsScope: EstablishmentSettingsScope,
+) =>
+  [
+    establishmentSettingsScope.userId,
+    establishmentSettingsScope.organizationId,
+    establishmentSettingsScope.slug,
+  ].join(':')
 
 export function useEstablishmentSettings(
   establishmentSlug: string,
@@ -23,44 +29,60 @@ export function useEstablishmentSettings(
 ) {
   const { data: session } = authClient.useSession()
 
-  const scope: EstablishmentSettingsScope = {
+  const establishmentSettingsScope: EstablishmentSettingsScope = {
     userId: session?.user.id ?? '',
     organizationId: session?.session.activeOrganizationId ?? '',
     slug: establishmentSlug,
   }
-  const scopeIdentity = toScopeIdentity(scope)
-  const activeScopeIdentity = useRef(scopeIdentity)
+  const establishmentSettingsScopeIdentity =
+    toEstablishmentSettingsScopeIdentity(establishmentSettingsScope)
+  const activeEstablishmentSettingsScopeIdentity = useRef(
+    establishmentSettingsScopeIdentity,
+  )
 
   useEffect(() => {
-    activeScopeIdentity.current = scopeIdentity
-  }, [scopeIdentity])
+    activeEstablishmentSettingsScopeIdentity.current =
+      establishmentSettingsScopeIdentity
+  }, [establishmentSettingsScopeIdentity])
 
-  const query = useQuery(establishmentSettingsQueryOptions(scope))
+  const establishmentSettingsQuery = useQuery(
+    establishmentSettingsQueryOptions(establishmentSettingsScope),
+  )
 
-  const canUpdate =
-    memberContext.organization.id === scope.organizationId &&
+  const canUpdateEstablishmentSettings =
+    memberContext.organization.id ===
+      establishmentSettingsScope.organizationId &&
     memberContext.permissions.some(
       (permission) =>
         permission.resource === 'establishment' &&
         permission.action === 'update',
     )
 
-  async function isCurrentScope(savedScope: EstablishmentSettingsScope) {
+  async function isCurrentEstablishmentSettingsScope(
+    savedEstablishmentSettingsScope: EstablishmentSettingsScope,
+  ) {
     const { data: currentSession } = await authClient.getSession()
 
     return (
-      currentSession?.user.id === savedScope.userId &&
+      currentSession?.user.id === savedEstablishmentSettingsScope.userId &&
       currentSession.session.activeOrganizationId ===
-        savedScope.organizationId &&
-      activeScopeIdentity.current === toScopeIdentity(savedScope)
+        savedEstablishmentSettingsScope.organizationId &&
+      activeEstablishmentSettingsScopeIdentity.current ===
+        toEstablishmentSettingsScopeIdentity(savedEstablishmentSettingsScope)
     )
   }
 
-  function getEstablishmentIdToSave(isDirty: boolean): string | null {
+  function resolveEstablishmentIdToSave(isDirty: boolean): string | null {
+    const establishmentSettings = establishmentSettingsQuery.data
     const belongsToActiveOrganization =
-      query.data?.organizationId === scope.organizationId
+      establishmentSettings?.organizationId ===
+      establishmentSettingsScope.organizationId
 
-    if (!query.data || !belongsToActiveOrganization || !canUpdate) {
+    if (
+      !establishmentSettings ||
+      !belongsToActiveOrganization ||
+      !canUpdateEstablishmentSettings
+    ) {
       toaster.error({
         title: 'Você não tem acesso para alterar estas configurações.',
       })
@@ -73,70 +95,89 @@ export function useEstablishmentSettings(
       return null
     }
 
-    return query.data.id
+    return establishmentSettings.id
   }
 
   return {
-    scope,
-    scopeIdentity,
-    query,
-    canUpdate,
-    isCurrentScope,
-    getEstablishmentIdToSave,
+    establishmentSettingsScope,
+    establishmentSettingsScopeIdentity,
+    establishmentSettingsQuery,
+    canUpdateEstablishmentSettings,
+    isCurrentEstablishmentSettingsScope,
+    resolveEstablishmentIdToSave,
   }
 }
 
 export function useSyncEstablishmentSettingsForm<
   TFormValues extends FieldValues,
 >(
-  form: UseFormReturn<TFormValues>,
-  settings: EstablishmentSettingsApiResponse | undefined,
-  scopeIdentity: string,
-  toFormValues: (settings: EstablishmentSettingsApiResponse) => TFormValues,
+  formEstablishmentSettings: UseFormReturn<TFormValues>,
+  establishmentSettings: EstablishmentSettingsApiResponse | undefined,
+  establishmentSettingsScopeIdentity: string,
+  toFormValues: (
+    establishmentSettings: EstablishmentSettingsApiResponse,
+  ) => TFormValues,
 ) {
-  const loadedIdentity = useRef<string | undefined>(undefined)
+  const loadedEstablishmentSettingsIdentity = useRef<string | undefined>(
+    undefined,
+  )
 
   useEffect(() => {
-    if (!settings) {
+    if (!establishmentSettings) {
       return
     }
 
-    const identity = [scopeIdentity, settings.id].join(':')
+    const establishmentSettingsIdentity = [
+      establishmentSettingsScopeIdentity,
+      establishmentSettings.id,
+    ].join(':')
 
-    form.reset(toFormValues(settings), {
-      keepDirtyValues: loadedIdentity.current === identity,
+    formEstablishmentSettings.reset(toFormValues(establishmentSettings), {
+      keepDirtyValues:
+        loadedEstablishmentSettingsIdentity.current ===
+        establishmentSettingsIdentity,
     })
 
-    loadedIdentity.current = identity
-  }, [settings, form, scopeIdentity, toFormValues])
+    loadedEstablishmentSettingsIdentity.current = establishmentSettingsIdentity
+  }, [
+    establishmentSettings,
+    formEstablishmentSettings,
+    establishmentSettingsScopeIdentity,
+    toFormValues,
+  ])
 }
 
 interface UseSaveEstablishmentSettingsOptions {
-  isCurrentScope: (scope: EstablishmentSettingsScope) => Promise<boolean>
-  onSaved: (settings: EstablishmentSettingsApiResponse) => void
+  isCurrentEstablishmentSettingsScope: (
+    establishmentSettingsScope: EstablishmentSettingsScope,
+  ) => Promise<boolean>
+  onSaved: (
+    savedEstablishmentSettings: EstablishmentSettingsApiResponse,
+  ) => void
   successMessage: string
 }
 
 export function useSaveEstablishmentSettings({
-  isCurrentScope,
+  isCurrentEstablishmentSettingsScope,
   onSaved,
   successMessage,
 }: UseSaveEstablishmentSettingsOptions) {
   const router = useRouter()
-  const mutationOptions = saveEstablishmentSettingsMutationOptions()
+  const saveEstablishmentSettingsOptions =
+    saveEstablishmentSettingsMutationOptions()
 
   return useMutation({
-    ...mutationOptions,
+    ...saveEstablishmentSettingsOptions,
     onSuccess: async (...args) => {
-      await mutationOptions.onSuccess?.(...args)
+      await saveEstablishmentSettingsOptions.onSuccess?.(...args)
 
-      const [savedSettings, variables] = args
+      const [savedEstablishmentSettings, variables] = args
 
-      if (!(await isCurrentScope(variables.scope))) {
+      if (!(await isCurrentEstablishmentSettingsScope(variables.scope))) {
         return
       }
 
-      onSaved(savedSettings)
+      onSaved(savedEstablishmentSettings)
       await router.invalidate()
       toaster.success({ title: successMessage })
     },

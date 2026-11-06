@@ -22,7 +22,7 @@ const StepCreateEstablishmentPage = () => {
     stepCreateEstablishment,
     onChangeStepCreateEstablishment,
     nextStepCreateEstablishment,
-  } = useStepCreateEstablishment()
+  } = useStepCreateEstablishment(establishment)
 
   function handleClearSessionEstablishment() {
     storageEstablishment.delete()
@@ -38,12 +38,7 @@ const StepCreateEstablishmentPage = () => {
       <Steps.List flexWrap="wrap" gap="3">
         <For each={steps}>
           {(step, index) => (
-            <Steps.Item
-              key={index}
-              index={index}
-              title={step.title}
-              flex={{ base: '1 1 100%', md: '1' }}
-            >
+            <Steps.Item key={index} index={index} title={step.title}>
               <Steps.Indicator />
               <Steps.Title>{step.title}</Steps.Title>
               <Steps.Separator />

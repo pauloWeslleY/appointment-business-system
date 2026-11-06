@@ -15,7 +15,7 @@ const Profile = () => {
       <Stack gap="2" gridColumn={{ base: '1 / -1', lg: 'span 2' }}>
         <Card.Root variant="outline" css={cardSectionCss} h="fit">
           <Text fontSize="lg" fontWeight="bold" mb="4">
-            Editar perfil
+            Atualizar perfil
           </Text>
 
           <FormProfileUser />

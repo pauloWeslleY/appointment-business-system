@@ -1,4 +1,5 @@
-import { Alert, Button, Card, chakra, Stack } from '@chakra-ui/react'
+import { Alert, Button, Card, chakra, HStack, Stack } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
@@ -44,16 +45,27 @@ const FormCreateAddressPage = ({
             <FormAddressFields form={formCreateAddress} />
           </chakra.fieldset>
 
-          <Button
-            type="submit"
-            size="sm"
-            rounded="lg"
-            alignSelf="end"
-            colorPalette="brand"
-            loading={isPendingCreateAddress}
-          >
-            Cadastrar endereço
-          </Button>
+          <HStack justify="flex-end" gap="2">
+            <Button
+              asChild
+              size="sm"
+              rounded="lg"
+              colorPalette="red"
+              variant="ghost"
+            >
+              <Link to="/establishment">Pular</Link>
+            </Button>
+            <Button
+              type="submit"
+              size="sm"
+              rounded="lg"
+
+              colorPalette="brand"
+              loading={isPendingCreateAddress}
+            >
+              Cadastrar endereço
+            </Button>
+          </HStack>
         </Stack>
       </chakra.form>
 

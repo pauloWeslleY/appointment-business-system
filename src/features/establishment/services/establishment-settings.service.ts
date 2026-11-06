@@ -67,6 +67,9 @@ async function toEstablishmentSettingsRequest(
 
   return {
     websiteUrl: settings.websiteUrl || null,
+    instagram: settings.instagram || null,
+    facebook: settings.facebook || null,
+    whatsapp: settings.whatsapp || null,
     requiresBookingDeposit: settings.requiresBookingDeposit,
     paymentLink: settings.paymentLink || null,
     paymentQrCodeUrl: await resolvePaymentQrCodeUrl(establishmentId, settings),

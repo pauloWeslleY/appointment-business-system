@@ -73,7 +73,7 @@ function SettingsPage() {
             <MeAccess access={memberContext} />
           </GridItem>
 
-          <Card.Root variant="outline" {...cardSectionCss}>
+          <Card.Root variant="outline" {...cardSectionCss} h="fit">
             <Card.Header
               display="flex"
               flexDir={{ base: 'column', md: 'row' }}

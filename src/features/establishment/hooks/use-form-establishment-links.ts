@@ -17,12 +17,12 @@ export function useFormEstablishmentLinks(
   memberContext: GetMeContextResponse,
 ) {
   const {
-    scope,
-    scopeIdentity,
-    query,
-    canUpdate,
-    isCurrentScope,
-    getEstablishmentIdToSave,
+    establishmentSettingsScope,
+    establishmentSettingsScopeIdentity: scopeIdentity,
+    establishmentSettingsQuery: query,
+    canUpdateEstablishmentSettings: canUpdate,
+    isCurrentEstablishmentSettingsScope,
+    resolveEstablishmentIdToSave,
   } = useEstablishmentSettings(establishmentSlug, memberContext)
 
   const form = useForm<EstablishmentLinksForm>({
@@ -37,25 +37,32 @@ export function useFormEstablishmentLinks(
     getEstablishmentLinksFormValues,
   )
 
-  const mutation = useSaveEstablishmentSettings({
-    isCurrentScope,
+  const {
+    mutate: saveEstablishmentLinks,
+    isPending: isPendingSaveEstablishmentLinks,
+  } = useSaveEstablishmentSettings({
+    isCurrentEstablishmentSettingsScope,
     successMessage: 'Links salvos com sucesso.',
     onSaved: (settings) =>
       form.reset(getEstablishmentLinksFormValues(settings)),
   })
 
   const onSubmit = form.handleSubmit((links) => {
-    if (mutation.isPending) {
+    if (isPendingSaveEstablishmentLinks) {
       return
     }
 
-    const establishmentId = getEstablishmentIdToSave(form.formState.isDirty)
+    const establishmentId = resolveEstablishmentIdToSave(form.formState.isDirty)
 
     if (!establishmentId) {
       return
     }
 
-    mutation.mutate({ scope, establishmentId, settings: links })
+    saveEstablishmentLinks({
+      scope: establishmentSettingsScope,
+      establishmentId,
+      settings: links,
+    })
   })
 
   function discardChanges() {
@@ -72,7 +79,7 @@ export function useFormEstablishmentLinks(
     scopeIdentity,
     canUpdate,
     onSubmit,
-    isSaving: mutation.isPending,
+    isSaving: isPendingSaveEstablishmentLinks,
     discardChanges,
   }
 }

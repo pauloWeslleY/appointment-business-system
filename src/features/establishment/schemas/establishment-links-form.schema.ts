@@ -6,6 +6,7 @@ import {
 } from '@/shared/constants/files-config'
 
 import { PaymentHttpsUrlSchema } from './establishment-settings.schema'
+import { EstablishmentSocialLinksFormSchema } from './establishment-social-links.schema'
 import { EstablishmentWebsiteUrlFormSchema } from './establishment-website-url.schema'
 
 const OptionalPaymentUrlFormSchema = z
@@ -28,6 +29,7 @@ const QrCodeImageFileSchema = z
 export const EstablishmentLinksFormSchema = z
   .object({
     websiteUrl: EstablishmentWebsiteUrlFormSchema,
+    ...EstablishmentSocialLinksFormSchema.shape,
     requiresBookingDeposit: z.boolean(),
     paymentLink: OptionalPaymentUrlFormSchema,
     paymentQrCodeUrl: OptionalPaymentUrlFormSchema,

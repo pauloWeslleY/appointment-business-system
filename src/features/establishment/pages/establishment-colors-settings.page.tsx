@@ -25,10 +25,17 @@ export default function EstablishmentColorsSettingsPage({
   establishmentSlug,
   memberContext,
 }: EstablishmentColorsSettingsPageProps) {
-  const { query, form, values, canUpdate, onSubmit, isSaving, discardChanges } =
-    useFormEstablishmentColors(establishmentSlug, memberContext)
+  const {
+    establishmentColorsQuery,
+    formEstablishmentColors,
+    establishmentColorsValues,
+    canUpdateEstablishmentColors,
+    isPendingSaveEstablishmentColors,
+    handleSaveEstablishmentColors,
+    handleDiscardEstablishmentColors,
+  } = useFormEstablishmentColors(establishmentSlug, memberContext)
 
-  if (query.isPending) {
+  if (establishmentColorsQuery.isPending) {
     return (
       <Stack role="status" aria-label="Carregando cores">
         <Skeleton height="12" />
@@ -37,19 +44,21 @@ export default function EstablishmentColorsSettingsPage({
     )
   }
 
-  if (query.error) {
+  if (establishmentColorsQuery.error) {
     return (
       <Alert.Root status="error" variant="surface" rounded="lg">
         <Alert.Indicator />
         <Stack>
           <Alert.Title>Não foi possível carregar as cores.</Alert.Title>
-          <Alert.Description>{query.error.message}</Alert.Description>
+          <Alert.Description>
+            {establishmentColorsQuery.error.message}
+          </Alert.Description>
           <Button
             rounded="lg"
             type="button"
             size="sm"
             variant="outline"
-            onClick={() => query.refetch()}
+            onClick={() => establishmentColorsQuery.refetch()}
           >
             Tentar novamente
           </Button>
@@ -58,7 +67,7 @@ export default function EstablishmentColorsSettingsPage({
     )
   }
 
-  if (!query.data) {
+  if (!establishmentColorsQuery.data) {
     return (
       <Alert.Root status="info" variant="surface" rounded="lg">
         <Alert.Indicator />
@@ -68,8 +77,14 @@ export default function EstablishmentColorsSettingsPage({
   }
 
   return (
-    <chakra.form w="full" onSubmit={onSubmit} noValidate>
-      {!canUpdate && (
+    <chakra.form
+      w="full"
+      onSubmit={formEstablishmentColors.handleSubmit(
+        handleSaveEstablishmentColors,
+      )}
+      noValidate
+    >
+      {!canUpdateEstablishmentColors && (
         <Alert.Root status="info" variant="surface" rounded="lg" mb="4">
           <Alert.Indicator />
           <Alert.Title>
@@ -79,12 +94,20 @@ export default function EstablishmentColorsSettingsPage({
         </Alert.Root>
       )}
 
-      <Fieldset.Root disabled={!canUpdate || isSaving}>
+      <Fieldset.Root
+        disabled={
+          !canUpdateEstablishmentColors || isPendingSaveEstablishmentColors
+        }
+      >
         <Fieldset.Content gap="6">
-          <EstablishmentColorFields form={form} values={values} />
+          <EstablishmentColorFields
+            form={formEstablishmentColors}
+            values={establishmentColorsValues}
+          />
 
           <Text fontSize="sm">
-            As cores são salvas apenas para {query.data.name}.
+            As cores são salvas apenas para {establishmentColorsQuery.data.name}
+            .
           </Text>
 
           <HStack justify="end" flexWrap="wrap" gap="3">
@@ -94,9 +117,12 @@ export default function EstablishmentColorsSettingsPage({
               rounded="lg"
               alignSelf="start"
               colorPalette="brand"
-              loading={isSaving}
+              loading={isPendingSaveEstablishmentColors}
               loadingText="Salvando cores"
-              disabled={!canUpdate || !form.formState.isDirty}
+              disabled={
+                !canUpdateEstablishmentColors ||
+                !formEstablishmentColors.formState.isDirty
+              }
             >
               <Icon as={Save} boxSize="5" />
               Salvar cores
@@ -108,8 +134,8 @@ export default function EstablishmentColorsSettingsPage({
               size="sm"
               rounded="lg"
               alignSelf="start"
-              disabled={!form.formState.isDirty}
-              onClick={discardChanges}
+              disabled={!formEstablishmentColors.formState.isDirty}
+              onClick={handleDiscardEstablishmentColors}
             >
               Descartar alterações
             </Button>

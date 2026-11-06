@@ -18,6 +18,7 @@ import { Field } from '@/components/ui/field'
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 
 import EstablishmentPaymentFields from '../components/establishment-payment-fields'
+import EstablishmentSocialLinksFields from '../components/establishment-social-links-fields'
 import { useFormEstablishmentLinks } from '../hooks/use-form-establishment-links'
 
 interface EstablishmentLinksSettingsPageProps {
@@ -108,6 +109,10 @@ export default function EstablishmentLinksSettingsPage({
                 maxLength={2048}
               />
             </Field>
+
+            <Separator />
+
+            <EstablishmentSocialLinksFields />
 
             <Separator />
 

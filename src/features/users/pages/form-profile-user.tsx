@@ -1,5 +1,12 @@
-import { Box, Button, chakra, FileUpload, SimpleGrid } from '@chakra-ui/react'
-import { Upload } from 'lucide-react'
+import {
+  Box,
+  Button,
+  chakra,
+  FileUpload,
+  Icon,
+  SimpleGrid,
+} from '@chakra-ui/react'
+import { SaveIcon, Upload } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import FileUploadCardItem from '@/components/file-upload-item'
@@ -33,26 +40,28 @@ const FormProfileUser = () => {
           control={control}
           name="image"
           render={({ field }) => (
-            <FileUpload.Root placeContent="flex-end">
-              <FileUpload.HiddenInput
-                onChange={(event) => field.onChange(event.target?.files?.[0])}
-              />
-              <FileUpload.Trigger asChild>
-                <Button variant="outline" size="sm" rounded="lg">
-                  <Upload /> Selecionar arquivo
-                </Button>
-              </FileUpload.Trigger>
+            <Field label="Alterar imagem">
+              <FileUpload.Root>
+                <FileUpload.HiddenInput
+                  onChange={(event) => field.onChange(event.target?.files?.[0])}
+                />
+                <FileUpload.Trigger asChild>
+                  <Button variant="outline" size="sm" rounded="lg">
+                    <Upload /> Selecionar arquivo
+                  </Button>
+                </FileUpload.Trigger>
 
-              <FileUpload.ItemGroup mt="1" gap="2">
-                <FileUpload.Context>
-                  {({ acceptedFiles }) =>
-                    acceptedFiles.map((file) => (
-                      <FileUploadCardItem key={file.name} file={file} />
-                    ))
-                  }
-                </FileUpload.Context>
-              </FileUpload.ItemGroup>
-            </FileUpload.Root>
+                <FileUpload.ItemGroup mt="1" gap="2">
+                  <FileUpload.Context>
+                    {({ acceptedFiles }) =>
+                      acceptedFiles.map((file) => (
+                        <FileUploadCardItem key={file.name} file={file} />
+                      ))
+                    }
+                  </FileUpload.Context>
+                </FileUpload.ItemGroup>
+              </FileUpload.Root>
+            </Field>
           )}
         />
 
@@ -64,6 +73,7 @@ const FormProfileUser = () => {
             colorPalette="brand"
             loading={isSubmitting}
           >
+            <Icon as={SaveIcon} />
             Salvar
           </Button>
         </Box>

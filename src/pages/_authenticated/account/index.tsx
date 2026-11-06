@@ -7,12 +7,14 @@ import { z } from 'zod'
 import Header from '@/components/layout/header'
 import AdditionalSummaryMember from '@/features/users/components/additional-summary-member'
 import ProfileSummaryPermissions from '@/features/users/components/profile-summary-permissions'
+import { MenuAccount } from '@/features/users/constants/menu-account'
+import FormChangePassword from '@/features/users/pages/form-change-password'
 import Profile from '@/features/users/pages/profile'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_authenticated/account/')({
   validateSearch: z.object({
-    menu: z.string().optional().default('profile'),
+    menu: z.string().optional().default(MenuAccount.PROFILE),
   }),
   component: AccountPage,
   head: () => ({
@@ -40,18 +42,19 @@ function AccountPage() {
         onValueChange={(e) => setMenuProfile(e.value)}
       >
         <Tabs.List
-          flexWrap="wrap"
           {...cardSectionCss}
+          flexWrap="wrap"
           bg={{ _light: 'slate.100', _dark: 'slate.950/40' }}
           border="1px solid"
-          p="1.5"
+          p="2"
           h="fit"
         >
           <For
             each={[
-              { value: 'profile', label: 'Perfil' },
-              { value: 'member', label: 'Membro' },
-              { value: 'permissions', label: 'Permissões' },
+              { value: MenuAccount.PROFILE, label: 'Perfil' },
+              { value: MenuAccount.MEMBER, label: 'Membro' },
+              { value: MenuAccount.PERMISSIONS, label: 'Permissões' },
+              { value: MenuAccount.CHANGE_PASSWORD, label: 'Alterar Senha' },
             ]}
           >
             {({ value, label }) => (
@@ -62,22 +65,25 @@ function AccountPage() {
           </For>
           <Tabs.Indicator
             shadow="none"
-            roundedTopLeft="lg"
-            roundedTopRight="lg"
+            rounded="lg"
             bg={{ _light: 'navy.100', _dark: 'navy.950/40' }}
-            borderBottom="4px solid"
-            borderBottomColor={{ _light: 'navy.300', _dark: 'navy.700' }}
+            outlineOffset="2px"
+            outline="2px solid"
+            outlineColor={{ _light: 'navy.300', _dark: 'navy.700' }}
           />
         </Tabs.List>
 
-        <Tabs.Content value="profile" w="full">
+        <Tabs.Content value={MenuAccount.PROFILE} w="full">
           <Profile />
         </Tabs.Content>
-        <Tabs.Content value="member" w="full">
+        <Tabs.Content value={MenuAccount.MEMBER} w="full">
           <AdditionalSummaryMember />
         </Tabs.Content>
-        <Tabs.Content value="permissions" w="full">
+        <Tabs.Content value={MenuAccount.PERMISSIONS} w="full">
           <ProfileSummaryPermissions />
+        </Tabs.Content>
+        <Tabs.Content value={MenuAccount.CHANGE_PASSWORD} w="full">
+          <FormChangePassword />
         </Tabs.Content>
       </Tabs.Root>
     </Box>

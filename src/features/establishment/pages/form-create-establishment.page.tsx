@@ -1,4 +1,11 @@
-import { Button, Card, chakra, GridItem, SimpleGrid } from '@chakra-ui/react'
+import {
+  Button,
+  Card,
+  chakra,
+  GridItem,
+  InputGroup,
+  SimpleGrid,
+} from '@chakra-ui/react'
 import { FormProvider } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
@@ -20,8 +27,8 @@ const FormCreateEstablishmentPage = () => {
       rounded="xl"
       p="4"
       shadow="xs"
-      bg={{ base: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+      bg={{ _light: 'white', _dark: 'gray.950/40' }}
+      borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
     >
       <FormProvider {...formCreateEstablishment}>
         <chakra.form
@@ -93,13 +100,23 @@ const FormCreateEstablishmentPage = () => {
               }
               helperText="Opcional. Informe o endereço HTTPS da página do estabelecimento."
             >
-              <InputField
-                {...formCreateEstablishment.register('websiteUrl')}
-                type="url"
-                placeholder="https://seu-estabelecimento.com.br"
-                autoComplete="url"
-                maxLength={2048}
-              />
+              <InputGroup
+                startAddon="https://agendros.com.br"
+                startAddonProps={{
+                  variant: 'subtle',
+                  size: 'sm',
+                  roundedTopLeft: 'xl',
+                  roundedBottomLeft: 'xl',
+                }}
+              >
+                <InputField
+                  {...formCreateEstablishment.register('websiteUrl')}
+                  type="url"
+                  placeholder="/seu-estabelecimento"
+                  autoComplete="url"
+                  maxLength={2048}
+                />
+              </InputGroup>
             </Field>
 
             <FormTelephoneEstablishment />

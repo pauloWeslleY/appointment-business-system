@@ -43,6 +43,11 @@ const baseSidebarNavItemRecipe = defineRecipe({
         shadow: '2xs',
         bg: 'sidebar.item.active.bg',
         color: 'sidebar.item.active.fg',
+        borderLeft: '5px solid',
+        borderLeftColor: {
+          _light: 'navy.600',
+          _dark: 'sea.400',
+        },
       },
       false: {},
     },

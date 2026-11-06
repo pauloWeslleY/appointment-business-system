@@ -11,6 +11,9 @@ export const EstablishmentSettingsApiResponseSchema =
   })
     .partial({
       websiteUrl: true,
+      instagram: true,
+      facebook: true,
+      whatsapp: true,
       requiresBookingDeposit: true,
       paymentLink: true,
       paymentQrCodeUrl: true,
@@ -21,6 +24,9 @@ export const EstablishmentSettingsApiResponseSchema =
     .transform((establishment) => ({
       ...establishment,
       websiteUrl: establishment.websiteUrl ?? null,
+      instagram: establishment.instagram ?? null,
+      facebook: establishment.facebook ?? null,
+      whatsapp: establishment.whatsapp ?? null,
       requiresBookingDeposit: establishment.requiresBookingDeposit ?? false,
       paymentLink: establishment.paymentLink ?? null,
       paymentQrCodeUrl: establishment.paymentQrCodeUrl ?? null,

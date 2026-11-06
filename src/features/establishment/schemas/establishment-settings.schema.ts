@@ -2,6 +2,8 @@ import { z } from 'zod'
 
 import { EstablishmentWebsiteUrlSchema } from '@/features/establishment/schemas/establishment-website-url.schema'
 
+import { EstablishmentSocialLinksSchema } from './establishment-social-links.schema'
+
 export const PaymentHttpsUrlSchema = z
   .url({ protocol: /^https$/, error: 'Informe uma URL HTTPS válida.' })
   .max(2048, 'Use no máximo 2048 caracteres.')
@@ -13,6 +15,7 @@ export const EstablishmentHexColorSchema = z
   )
 export const EstablishmentSettingsSchema = z.object({
   websiteUrl: EstablishmentWebsiteUrlSchema.nullable(),
+  ...EstablishmentSocialLinksSchema.shape,
   requiresBookingDeposit: z.boolean(),
   paymentLink: PaymentHttpsUrlSchema.nullable(),
   paymentQrCodeUrl: PaymentHttpsUrlSchema.nullable(),

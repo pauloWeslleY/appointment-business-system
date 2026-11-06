@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Alert, Box } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 
@@ -15,6 +15,9 @@ export const Route = createFileRoute(
 })
 
 function CreateEstablishmentPage() {
+  const { memberContext } = Route.useRouteContext()
+  const verifyEstablishments = memberContext.establishments.length === 0
+
   return (
     <Box spaceY={{ base: '4', lg: '6' }} w="full">
       <Header.Root>
@@ -22,7 +25,24 @@ function CreateEstablishmentPage() {
         <Header.Title>Cadastrar estabelecimento</Header.Title>
       </Header.Root>
 
-      <StepCreateEstablishmentPage />
+      <Box spaceY="4">
+        {verifyEstablishments && (
+          <Alert.Root status="info" variant="surface" rounded="xl">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Title>Cadastro necessário</Alert.Title>
+              <Alert.Description>
+                O Perfil da sua empresa não possui estabelecimento cadastrado.
+                <br />
+                Conclua esta etapa para configurar seus estabelecimentos e
+                gerenciar seus agendamentos.
+              </Alert.Description>
+            </Alert.Content>
+          </Alert.Root>
+        )}
+
+        <StepCreateEstablishmentPage />
+      </Box>
     </Box>
   )
 }
