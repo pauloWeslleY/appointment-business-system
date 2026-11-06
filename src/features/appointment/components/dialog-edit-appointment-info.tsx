@@ -1,5 +1,4 @@
 import { Badge, DataList, For } from '@chakra-ui/react'
-import React from 'react'
 
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
 import type { AppointmentModel } from '../types/appointment.model'
