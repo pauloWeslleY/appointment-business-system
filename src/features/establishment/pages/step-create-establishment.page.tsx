@@ -22,7 +22,7 @@ const StepCreateEstablishmentPage = () => {
     stepCreateEstablishment,
     onChangeStepCreateEstablishment,
     nextStepCreateEstablishment,
-  } = useStepCreateEstablishment(establishment)
+  } = useStepCreateEstablishment()
 
   function handleClearSessionEstablishment() {
     storageEstablishment.delete()
