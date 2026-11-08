@@ -6,7 +6,7 @@ import Logotipo from '@/components/logotipo'
 import { getCustomerHref } from '@/shared/config/site-domains'
 import { useLogout } from '@/shared/hooks/use-logout'
 
-export const Route = createFileRoute('/business-access-required')({
+export const Route = createFileRoute('/business-access-required/')({
   head: () => ({
     meta: [{ title: 'Acesso empresarial necessário | Agendros' }],
   }),

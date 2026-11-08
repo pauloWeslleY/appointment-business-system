@@ -12,12 +12,12 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
-import { Route as BusinessAccessRequiredRouteImport } from './pages/business-access-required'
 import { Route as ErrorRouteImport } from './pages/error'
-import { Route as PoliticaDePrivacidadeRouteImport } from './pages/_legal/privacy-policy'
-import { Route as TermosDeUsoRouteImport } from './pages/_legal/terms-of-use'
 import { Route as AppAuthenticatedLayoutRouteImport } from './pages/_app/_authenticated/layout'
 import { Route as AppSubscriptionLayoutRouteImport } from './pages/_app/_subscription/layout'
+import { Route as LegalPoliticaDePrivacidadeRouteImport } from './pages/_legal/politica-de-privacidade'
+import { Route as LegalTermsOfUseRouteImport } from './pages/_legal/terms-of-use'
+import { Route as BusinessAccessRequiredIndexRouteImport } from './pages/business-access-required/index'
 import { Route as InvitationIndexRouteImport } from './pages/invitation/index'
 import { Route as AppAuthenticatedAdminLayoutRouteImport } from './pages/_app/_authenticated/_admin/layout'
 import { Route as AppOrganizationProfileIndexRouteImport } from './pages/_app/organization-profile/index'
@@ -72,24 +72,9 @@ const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BusinessAccessRequiredRoute = BusinessAccessRequiredRouteImport.update({
-  id: '/business-access-required',
-  path: '/business-access-required',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ErrorRoute = ErrorRouteImport.update({
   id: '/error',
   path: '/error',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
-  id: '/terms-of-use',
-  path: '/terms-of-use',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppAuthenticatedLayoutRoute = AppAuthenticatedLayoutRouteImport.update({
@@ -100,6 +85,23 @@ const AppSubscriptionLayoutRoute = AppSubscriptionLayoutRouteImport.update({
   id: '/_subscription',
   getParentRoute: () => AppLayoutRoute,
 } as any)
+const LegalPoliticaDePrivacidadeRoute =
+  LegalPoliticaDePrivacidadeRouteImport.update({
+    id: '/_legal/politica-de-privacidade',
+    path: '/politica-de-privacidade',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LegalTermsOfUseRoute = LegalTermsOfUseRouteImport.update({
+  id: '/_legal/terms-of-use',
+  path: '/terms-of-use',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BusinessAccessRequiredIndexRoute =
+  BusinessAccessRequiredIndexRouteImport.update({
+    id: '/business-access-required/',
+    path: '/business-access-required/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const InvitationIndexRoute = InvitationIndexRouteImport.update({
   id: '/invitation/',
   path: '/invitation/',
@@ -346,10 +348,10 @@ const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexR
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/business-access-required': typeof BusinessAccessRequiredRoute
   '/error': typeof ErrorRoute
-  '/privacy-policy': typeof PoliticaDePrivacidadeRoute
-  '/terms-of-use': typeof TermosDeUsoRoute
+  '/politica-de-privacidade': typeof LegalPoliticaDePrivacidadeRoute
+  '/terms-of-use': typeof LegalTermsOfUseRoute
+  '/business-access-required/': typeof BusinessAccessRequiredIndexRoute
   '/invitation/': typeof InvitationIndexRoute
   '/organization-profile/': typeof AppOrganizationProfileIndexRoute
   '/forgot-password/': typeof AuthForgotPasswordIndexRoute
@@ -392,10 +394,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/business-access-required': typeof BusinessAccessRequiredRoute
   '/error': typeof ErrorRoute
-  '/privacy-policy': typeof PoliticaDePrivacidadeRoute
-  '/terms-of-use': typeof TermosDeUsoRoute
+  '/politica-de-privacidade': typeof LegalPoliticaDePrivacidadeRoute
+  '/terms-of-use': typeof LegalTermsOfUseRoute
+  '/business-access-required': typeof BusinessAccessRequiredIndexRoute
   '/invitation': typeof InvitationIndexRoute
   '/organization-profile': typeof AppOrganizationProfileIndexRoute
   '/forgot-password': typeof AuthForgotPasswordIndexRoute
@@ -440,12 +442,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
-  '/business-access-required': typeof BusinessAccessRequiredRoute
   '/error': typeof ErrorRoute
-  '/privacy-policy': typeof PoliticaDePrivacidadeRoute
-  '/terms-of-use': typeof TermosDeUsoRoute
   '/_app/_authenticated': typeof AppAuthenticatedLayoutRouteWithChildren
   '/_app/_subscription': typeof AppSubscriptionLayoutRouteWithChildren
+  '/_legal/politica-de-privacidade': typeof LegalPoliticaDePrivacidadeRoute
+  '/_legal/terms-of-use': typeof LegalTermsOfUseRoute
+  '/business-access-required/': typeof BusinessAccessRequiredIndexRoute
   '/invitation/': typeof InvitationIndexRoute
   '/_app/_authenticated/_admin': typeof AppAuthenticatedAdminLayoutRouteWithChildren
   '/_app/organization-profile/': typeof AppOrganizationProfileIndexRoute
@@ -491,10 +493,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/business-access-required'
     | '/error'
-    | '/privacy-policy'
+    | '/politica-de-privacidade'
     | '/terms-of-use'
+    | '/business-access-required/'
     | '/invitation/'
     | '/organization-profile/'
     | '/forgot-password/'
@@ -537,10 +539,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/business-access-required'
     | '/error'
-    | '/privacy-policy'
+    | '/politica-de-privacidade'
     | '/terms-of-use'
+    | '/business-access-required'
     | '/invitation'
     | '/organization-profile'
     | '/forgot-password'
@@ -584,12 +586,12 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/_auth'
-    | '/business-access-required'
     | '/error'
-    | '/privacy-policy'
-    | '/terms-of-use'
     | '/_app/_authenticated'
     | '/_app/_subscription'
+    | '/_legal/politica-de-privacidade'
+    | '/_legal/terms-of-use'
+    | '/business-access-required/'
     | '/invitation/'
     | '/_app/_authenticated/_admin'
     | '/_app/organization-profile/'
@@ -636,10 +638,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
-  BusinessAccessRequiredRoute: typeof BusinessAccessRequiredRoute
   ErrorRoute: typeof ErrorRoute
-  PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
-  TermosDeUsoRoute: typeof TermosDeUsoRoute
+  LegalPoliticaDePrivacidadeRoute: typeof LegalPoliticaDePrivacidadeRoute
+  LegalTermsOfUseRoute: typeof LegalTermsOfUseRoute
+  BusinessAccessRequiredIndexRoute: typeof BusinessAccessRequiredIndexRoute
   InvitationIndexRoute: typeof InvitationIndexRoute
   Error_pageAccessDeniedIndexRoute: typeof Error_pageAccessDeniedIndexRoute
 }
@@ -667,32 +669,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/business-access-required': {
-      id: '/business-access-required'
-      path: '/business-access-required'
-      fullPath: '/business-access-required'
-      preLoaderRoute: typeof BusinessAccessRequiredRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/error': {
       id: '/error'
       path: '/error'
       fullPath: '/error'
       preLoaderRoute: typeof ErrorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy': {
-      id: '/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PoliticaDePrivacidadeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms-of-use': {
-      id: '/terms-of-use'
-      path: '/terms-of-use'
-      fullPath: '/terms-of-use'
-      preLoaderRoute: typeof TermosDeUsoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/_authenticated': {
@@ -708,6 +689,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AppSubscriptionLayoutRouteImport
       parentRoute: typeof AppLayoutRoute
+    }
+    '/_legal/politica-de-privacidade': {
+      id: '/_legal/politica-de-privacidade'
+      path: '/politica-de-privacidade'
+      fullPath: '/politica-de-privacidade'
+      preLoaderRoute: typeof LegalPoliticaDePrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_legal/terms-of-use': {
+      id: '/_legal/terms-of-use'
+      path: '/terms-of-use'
+      fullPath: '/terms-of-use'
+      preLoaderRoute: typeof LegalTermsOfUseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/business-access-required/': {
+      id: '/business-access-required/'
+      path: '/business-access-required'
+      fullPath: '/business-access-required/'
+      preLoaderRoute: typeof BusinessAccessRequiredIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/invitation/': {
       id: '/invitation/'
@@ -1196,10 +1198,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
-  BusinessAccessRequiredRoute: BusinessAccessRequiredRoute,
   ErrorRoute: ErrorRoute,
-  PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
-  TermosDeUsoRoute: TermosDeUsoRoute,
+  LegalPoliticaDePrivacidadeRoute: LegalPoliticaDePrivacidadeRoute,
+  LegalTermsOfUseRoute: LegalTermsOfUseRoute,
+  BusinessAccessRequiredIndexRoute: BusinessAccessRequiredIndexRoute,
   InvitationIndexRoute: InvitationIndexRoute,
   Error_pageAccessDeniedIndexRoute: Error_pageAccessDeniedIndexRoute,
 }
