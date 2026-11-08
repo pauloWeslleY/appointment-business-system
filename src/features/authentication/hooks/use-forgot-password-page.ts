@@ -7,6 +7,8 @@ import { authClient } from '@/lib/auth'
 import { ForgotPasswordSchema } from '../schemas/forgot-password.schema'
 import type { ForgotPasswordData } from '../types/forgot-password.type'
 
+const formDefaultValuesForgotPassword: ForgotPasswordData = { email: '' }
+
 export function useForgotPasswordPage() {
   const navigate = useNavigate()
   const {
@@ -17,7 +19,7 @@ export function useForgotPasswordPage() {
     formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordData>({
     resolver: zodResolver(ForgotPasswordSchema),
-    defaultValues: { email: '' },
+    defaultValues: formDefaultValuesForgotPassword,
   })
 
   const onSubmitForgotPassword = async ({ email }: ForgotPasswordData) => {
@@ -28,7 +30,7 @@ export function useForgotPasswordPage() {
       return
     }
 
-    reset({ email: '' })
+    reset(formDefaultValuesForgotPassword)
     navigate({
       to: '/login',
       replace: true,

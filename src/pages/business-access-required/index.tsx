@@ -1,4 +1,12 @@
-import { Box, Button, Container, Heading, Stack, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Container,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { CalendarDays, ShieldAlert } from 'lucide-react'
 
@@ -27,7 +35,7 @@ function BusinessAccessRequired() {
   }
 
   return (
-    <Container maxW="lg" py={{ base: '10', md: '24' }}>
+    <Container maxW="breakpoint-md" py={{ base: '10', md: '24' }}>
       <Stack
         align="start"
         gap="6"
@@ -83,15 +91,28 @@ function BusinessAccessRequired() {
           )}
         </Stack>
 
-        <Button asChild rounded="lg">
-          <a href={getCustomerHref()}>
-            <CalendarDays size={18} />
-            Área do cliente
-          </a>
-        </Button>
-        <Button variant="outline" onClick={handleLogout} rounded="lg">
-          Sair e usar outra conta
-        </Button>
+        <HStack
+          gap="2"
+          justify="center"
+          w="full"
+          wrap={{ base: 'wrap', md: 'nowrap' }}
+        >
+          <Button asChild rounded="lg" flex="1">
+            <a href={getCustomerHref()}>
+              <CalendarDays size={18} />
+              Área do cliente
+            </a>
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            rounded="lg"
+            flex="1"
+          >
+            Sair e usar outra conta
+          </Button>
+        </HStack>
       </Stack>
     </Container>
   )
