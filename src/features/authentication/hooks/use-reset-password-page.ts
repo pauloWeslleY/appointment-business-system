@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import { authClient } from '@/lib/auth'
 
@@ -10,6 +10,7 @@ import type { ResetPasswordData } from '../types/reset-password.type'
 export function useResetPasswordPage(token?: string) {
   const navigate = useNavigate()
   const {
+    control,
     reset,
     register,
     setError,
@@ -19,6 +20,7 @@ export function useResetPasswordPage(token?: string) {
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: { newPassword: '' },
   })
+  const newPassword = useWatch({ control, name: 'newPassword' })
 
   const onSubmitResetPassword = async ({ newPassword }: ResetPasswordData) => {
     if (!token) {
@@ -45,6 +47,7 @@ export function useResetPasswordPage(token?: string) {
 
   return {
     errors,
+    newPassword,
     isSubmitting,
     register,
     handleSubmit,

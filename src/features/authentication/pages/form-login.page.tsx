@@ -25,12 +25,13 @@ const FormLoginPage = () => {
   const {
     errors,
     isSubmitting,
-    isPendingLoginWithGoogle,
+    isPendingLoginPage,
     hasRedirectToLogin,
     register,
-    handleSubmit,
     onSubmitLogin,
+    handleSubmit,
     handleSignInWithGoogle,
+    handleResendConfirmationEmail,
   } = useLoginPage()
   const location = useLocation()
 
@@ -143,7 +144,7 @@ const FormLoginPage = () => {
             w="full"
             rounded="lg"
             variant="solid"
-            loading={isPendingLoginWithGoogle}
+            loading={isPendingLoginPage}
             loadingText="Processando..."
             colorPalette="gray"
           >
@@ -202,6 +203,17 @@ const FormLoginPage = () => {
               Enviamos um link de confirmação para seu e-mail. Acesse sua caixa
               de entrada e confirme seu endereço para ativar sua conta.
             </Alert.Description>
+
+            <Button
+              size="xs"
+              mt="2"
+              w="fit"
+              alignSelf="flex-end"
+              rounded="lg"
+              onClick={handleResendConfirmationEmail}
+            >
+              Reenviar e-mail de confirmação
+            </Button>
           </Alert.Content>
         </Alert.Root>
       )}

@@ -4,7 +4,7 @@ import { type LinkProps, useNavigate } from '@tanstack/react-router'
 import { useLocation } from '@tanstack/react-router'
 import { type SuccessContext } from 'better-auth/react'
 import { useTransition } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 import { takeSubscriptionLoginReturn } from '@/features/subscriptions/services/subscription-login-return'
@@ -20,11 +20,12 @@ import type { LoginFormData } from '../types/login-form-data.type'
 const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/establishment'
 
 export function useLoginPage() {
-  const [isPendingLoginWithGoogle, startTransition] = useTransition()
+  const [isPendingLoginPage, startTransition] = useTransition()
   const { state } = useLocation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const {
+    control,
     reset,
     register,
     setError,
@@ -37,7 +38,7 @@ export function useLoginPage() {
       password: '',
     },
   })
-
+  const inputEmail = useWatch({ control, name: 'email' })
   const redirectToLogin = cookie.get('redirectTo')
   const hasRedirectToLogin = Boolean(redirectToLogin)
 
@@ -46,6 +47,25 @@ export function useLoginPage() {
       await authClient.signIn.social({
         provider: 'google',
         callbackURL: `${import.meta.env.VITE_WEB_URL}${DEFAULT_CALLBACK_URL}`,
+      })
+    })
+  }
+
+  const handleResendConfirmationEmail = () => {
+    const emailState = state?.email ?? inputEmail
+
+    if (!emailState || emailState.trim() === '') {
+      toaster.error({
+        title: 'E-mail não encontrado',
+        description: 'Não foi possível reenviar o e-mail de confirmação',
+      })
+      return
+    }
+
+    startTransition(async () => {
+      await authClient.sendVerificationEmail({
+        email: emailState,
+        callbackURL: '/login',
       })
     })
   }
@@ -113,12 +133,13 @@ export function useLoginPage() {
 
   return {
     errors,
-    register,
     isSubmitting,
-    isPendingLoginWithGoogle,
-    onSubmitLogin,
+    isPendingLoginPage,
     hasRedirectToLogin,
+    register,
+    onSubmitLogin,
     handleSubmit,
     handleSignInWithGoogle,
+    handleResendConfirmationEmail,
   }
 }

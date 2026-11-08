@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { type SuccessContext } from 'better-auth/react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 import { authClient } from '@/lib/auth'
@@ -15,6 +15,7 @@ import type { RegisterFormData } from '../types/register-form-data.type'
 export function useRegisterPage() {
   const navigate = useNavigate()
   const {
+    control,
     reset,
     register,
     setError,
@@ -28,7 +29,7 @@ export function useRegisterPage() {
       password: '',
     },
   })
-
+  const password = useWatch({ name: 'password', control })
   const redirectTo = getCookie('redirectTo')
   const hasRedirectTo = Boolean(redirectTo)
 
@@ -73,6 +74,7 @@ export function useRegisterPage() {
   }
 
   return {
+    password,
     errors,
     isSubmitting,
     hasRedirectTo,

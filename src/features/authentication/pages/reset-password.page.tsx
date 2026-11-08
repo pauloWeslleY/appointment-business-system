@@ -1,6 +1,7 @@
 import { Alert, Box, Button, chakra, Flex, Icon, Text } from '@chakra-ui/react'
 import { ArrowRight } from 'lucide-react'
 
+import ProgressBarPassword from '@/components/progress-bar-password'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
 import { inputStyles } from '@/theme/styles/global-styles'
@@ -18,6 +19,7 @@ const FormResetPassword = ({ token }: FormResetPasswordProps) => {
     onSubmitResetPassword,
     errors,
     isSubmitting,
+    newPassword,
   } = useResetPasswordPage(token)
 
   return (
@@ -46,18 +48,22 @@ const FormResetPassword = ({ token }: FormResetPasswordProps) => {
       </Box>
 
       <Flex flexDir="column" gap="4">
-        <Field
-          label="Nova senha"
-          invalid={!!errors.newPassword}
-          errorText={errors.newPassword?.message}
-        >
-          <PasswordInput
-            {...register('newPassword')}
-            placeholder="Digite sua nova senha"
-            size="sm"
-            css={inputStyles}
-          />
-        </Field>
+        <Flex w="full" flexDir="column" gap="2">
+          <Field
+            label="Senha"
+            invalid={!!errors.newPassword}
+            errorText={errors.newPassword?.message}
+          >
+            <PasswordInput
+              {...register('newPassword')}
+              placeholder="Digite sua nova senha"
+              size="sm"
+              css={inputStyles}
+            />
+          </Field>
+
+          <ProgressBarPassword password={newPassword} w="full" />
+        </Flex>
 
         <Button
           type="submit"

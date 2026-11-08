@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   chakra,
+  Flex,
   HStack,
   Icon,
   Input,
@@ -11,6 +12,7 @@ import {
 import { Link } from '@tanstack/react-router'
 import { LogIn } from 'lucide-react'
 
+import ProgressBarPassword from '@/components/progress-bar-password'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
 import { inputStyles } from '@/theme/styles/global-styles'
@@ -23,6 +25,7 @@ const FormRegister = () => {
     register,
     handleSubmit,
     onSubmitRegister,
+    password,
     errors,
     isSubmitting,
     hasRedirectTo,
@@ -87,18 +90,22 @@ const FormRegister = () => {
           />
         </Field>
 
-        <Field
-          label="Senha"
-          invalid={!!errors.password}
-          errorText={errors.password?.message}
-        >
-          <PasswordInput
-            {...register('password')}
-            placeholder="Digite sua senha"
-            size="sm"
-            css={inputStyles}
-          />
-        </Field>
+        <Flex w="full" flexDir="column" gap="2">
+          <Field
+            label="Senha"
+            invalid={!!errors.password}
+            errorText={errors.password?.message}
+          >
+            <PasswordInput
+              {...register('password')}
+              placeholder="Digite sua senha"
+              size="sm"
+              css={inputStyles}
+            />
+          </Field>
+
+          <ProgressBarPassword password={password} w="full" />
+        </Flex>
 
         <Button
           type="submit"
