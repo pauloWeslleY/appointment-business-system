@@ -13,7 +13,6 @@ import { cookie } from '@/shared/cache/cookie'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 
 import { LoginFormSchema } from '../schemas/login-form.schema'
-import { getPanelAccessService } from '../services/panel-access.service'
 import type { AuthModel } from '../types/authentication.model'
 import type { LoginFormData } from '../types/login-form-data.type'
 
@@ -111,26 +110,6 @@ export function useLoginPage() {
       {
         onSuccess: async ({ data }: SuccessContext<AuthModel>) => {
           queryClient.clear()
-          try {
-            const access = await getPanelAccessService()
-
-            if (!access.canAccessAdmin && !access.canStartBusinessOnboarding) {
-              navigate({ to: '/business-access-required', replace: true })
-              return
-            }
-
-            if (!access.canAccessAdmin && access.canStartBusinessOnboarding) {
-              navigate({ to: '/organization-profile', replace: true })
-              return
-            }
-          } catch {
-            setError('root', {
-              type: 'custom',
-              message:
-                'Não foi possível validar seu acesso empresarial. Tente novamente.',
-            })
-            return
-          }
 
           toaster.success({
             title: `Usuário ${data.user.name}`,

@@ -25,6 +25,12 @@ export function cacheSelectedMemberContext(
   queryClient.removeQueries({
     predicate: (query) => query.queryKey[0] !== authenticationQueryKey.all[0],
   })
+  const hasOrganizationChanged =
+    cachedSession.session.activeOrganizationId !== selectedContext.organization.id
+
+  if (hasOrganizationChanged) {
+    queryClient.removeQueries({ queryKey: authenticationQueryKey.panelAccess() })
+  }
   queryClient.setQueryData(
     memberQueryKey.meContextByOrganization(
       selectedContext.organization.id,

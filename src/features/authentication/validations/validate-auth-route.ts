@@ -18,7 +18,18 @@ export const validateEnsureAuthRoute = async (
     throw redirect({ to: '/login', replace: true })
   }
 
-  await validatePanelAccess()
+  const access = await validatePanelAccess(queryClient, data)
+  const isOrganizationSetup =
+    pathname === '/organization-profile' ||
+    pathname === '/organization-profile/'
+
+  if (
+    !access.canAccessAdmin &&
+    access.canStartBusinessOnboarding &&
+    !isOrganizationSetup
+  ) {
+    throw redirect({ to: '/organization-profile', replace: true })
+  }
 
   return data
 }

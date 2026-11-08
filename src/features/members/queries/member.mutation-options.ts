@@ -3,6 +3,8 @@ import {
   mutationOptions,
 } from '@tanstack/react-query'
 
+import { authenticationQueryKey } from '@/features/authentication/queries/authentication.query-key'
+
 import {
   updateRoleMemberService,
   updateScopeMemberService,
@@ -12,13 +14,18 @@ import { createMeContextService } from '../services/member-context.service'
 import { memberQueryKey } from './member.query-key'
 import { cacheSelectedMemberContext } from './member-context-cache'
 
-function invalidateMemberCache(
+async function invalidateMemberCache(
   _data: unknown,
   _variables: unknown,
   _result: unknown,
   { client }: MutationFunctionContext,
 ): Promise<void> {
-  return client.invalidateQueries({ queryKey: memberQueryKey.all })
+  await Promise.all([
+    client.invalidateQueries({ queryKey: memberQueryKey.all }),
+    client.invalidateQueries({
+      queryKey: authenticationQueryKey.panelAccess(),
+    }),
+  ])
 }
 
 export const memberMutationOptions = {

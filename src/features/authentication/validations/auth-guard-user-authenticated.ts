@@ -10,7 +10,7 @@ export const authGuardUserAuthenticated = async (queryClient: QueryClient) => {
   const data = await queryClient.query(authenticationSessionQueryOptions())
 
   if (data) {
-    const access = await validatePanelAccess()
+    const access = await validatePanelAccess(queryClient, data)
 
     if (!access.canAccessAdmin && access.canStartBusinessOnboarding) {
       throw redirect({ to: '/organization-profile', replace: true })
