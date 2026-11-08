@@ -25,10 +25,14 @@ export function useAppSession(): AppSessionState {
     return data
   }
 
+  const isPending = !context && query.isPending
+  const data = context?.session ?? query.data
+  const error = query.error
+
   return {
-    data: context?.session ?? query.data,
-    isPending: !context && query.isPending,
-    error: query.error,
+    data,
+    isPending,
+    error,
     refetch,
   }
 }
