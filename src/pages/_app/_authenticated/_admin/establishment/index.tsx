@@ -37,7 +37,7 @@ export const Route = createFileRoute(
     validateEstablishmentExistsRoute(context.memberContext),
   component: EstablishmentPage,
   head: () => ({
-    meta: [{ title: 'Estabelecimentos' }],
+    meta: [{ title: 'Estabelecimentos | Agendros' }],
   }),
 })
 

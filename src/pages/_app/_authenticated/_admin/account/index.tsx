@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_app/_authenticated/_admin/account/')({
   }),
   component: AccountPage,
   head: () => ({
-    meta: [{ title: 'Conta' }],
+    meta: [{ title: 'Conta | Agendros' }],
   }),
 })
 

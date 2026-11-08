@@ -15,7 +15,7 @@ import useGetEstablishmentById from '@/features/establishment/hooks/use-get-esta
 
 export const Route = createFileRoute('/_app/_authenticated/dashboard/')({
   head: () => ({
-    meta: [{ title: 'Dashboard' }],
+    meta: [{ title: 'Dashboard | Agendros' }],
   }),
   component: DashboardLayout,
 })

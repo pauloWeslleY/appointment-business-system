@@ -7,7 +7,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/reviews/',
 )({
   head: () => ({
-    meta: [{ title: 'Avaliações' }],
+    meta: [{ title: 'Avaliações | Agendros' }],
   }),
   validateSearch: ReviewsRouteSearchSchema,
   component: ReviewsPage,

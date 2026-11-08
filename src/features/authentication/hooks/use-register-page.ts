@@ -40,7 +40,7 @@ export function useRegisterPage() {
         name: registerData.username,
       },
       {
-        onSuccess: async ({ data }: SuccessContext<AuthModel>) => {
+        onSuccess: ({ data }: SuccessContext<AuthModel>) => {
           toaster.success({
             title: `Usuário ${data.user.name} cadastrado com sucesso`,
             description: 'Verifique seu e-mail para ativar sua conta.',
@@ -48,7 +48,7 @@ export function useRegisterPage() {
 
           reset(registerData)
 
-          await navigate({
+          navigate({
             to: '/login',
             state: {
               registrationSuccess: true,

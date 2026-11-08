@@ -16,7 +16,7 @@ export function useLogout() {
         onSuccess: async () => {
           await queryClient.cancelQueries()
           queryClient.clear()
-          await navigate({ to: '/login' })
+          navigate({ to: '/login' })
         },
         onError: ({ error }) => {
           toaster.error({

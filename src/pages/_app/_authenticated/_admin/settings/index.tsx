@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_app/_authenticated/_admin/settings/')({
   }),
   component: SettingsPage,
   head: () => ({
-    meta: [{ title: 'Configurações' }],
+    meta: [{ title: 'Configurações | Agendros' }],
   }),
 })
 

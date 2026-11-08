@@ -9,7 +9,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/services/',
 )({
   head: () => ({
-    meta: [{ title: 'Serviços' }],
+    meta: [{ title: 'Serviços | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {

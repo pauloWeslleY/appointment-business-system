@@ -7,7 +7,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/info/',
 )({
   head: () => ({
-    meta: [{ title: 'Detalhes do serviço' }],
+    meta: [{ title: 'Detalhes do serviço | Agendros' }],
   }),
   validateSearch: z.object({
     page: z.number().optional().default(1),

@@ -13,7 +13,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/professionals/_pages/new/',
 )({
   head: () => ({
-    meta: [{ title: 'Novo profissional' }],
+    meta: [{ title: 'Novo profissional | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {

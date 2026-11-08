@@ -11,7 +11,7 @@ import { setCookie } from '@/shared/cache/cookie'
 
 export const Route = createFileRoute('/invitation/')({
   head: () => ({
-    meta: [{ title: 'Convite' }],
+    meta: [{ title: 'Convite | Agendros' }],
   }),
   validateSearch: z.object({
     invitationId: z.string().optional(),

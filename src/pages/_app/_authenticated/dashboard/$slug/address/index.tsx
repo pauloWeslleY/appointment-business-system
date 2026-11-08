@@ -14,6 +14,6 @@ export const Route = createFileRoute(
     }),
   component: AddressPage,
   head: () => ({
-    meta: [{ title: 'Endereço' }],
+    meta: [{ title: 'Endereço | Agendros' }],
   }),
 })

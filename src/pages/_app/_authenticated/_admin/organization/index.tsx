@@ -46,7 +46,7 @@ export const Route = createFileRoute(
   head: () => ({
     meta: [
       {
-        title: 'Perfil Empresarial',
+        title: 'Perfil Empresarial | Agendros',
       },
     ],
   }),

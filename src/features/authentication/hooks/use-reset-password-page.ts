@@ -40,7 +40,7 @@ export function useResetPasswordPage(token?: string) {
     }
 
     reset({ newPassword: '' })
-    await navigate({ to: '/login', replace: data.status })
+    navigate({ to: '/login', replace: data.status })
   }
 
   return {

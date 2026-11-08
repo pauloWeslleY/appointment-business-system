@@ -4,7 +4,7 @@ import z from 'zod'
 
 export const Route = createFileRoute('/error')({
   head: () => ({
-    meta: [{ title: 'Erro ao carregar a página' }],
+    meta: [{ title: 'Erro ao carregar a página | Agendros' }],
   }),
   validateSearch: z.object({
     search: z.string().optional().default(''),

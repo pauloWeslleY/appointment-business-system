@@ -12,7 +12,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId/edit/',
 )({
   head: () => ({
-    meta: [{ title: 'Atualizar serviço' }],
+    meta: [{ title: 'Atualizar serviço | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {

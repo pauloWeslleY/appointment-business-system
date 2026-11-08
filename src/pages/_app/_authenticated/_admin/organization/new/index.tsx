@@ -12,7 +12,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/_admin/organization/new/',
 )({
   head: () => ({
-    meta: [{ title: 'Cadastrar perfil empresarial' }],
+    meta: [{ title: 'Cadastrar perfil empresarial | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {

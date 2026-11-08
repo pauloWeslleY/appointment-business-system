@@ -9,7 +9,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/members/',
 )({
   head: () => ({
-    meta: [{ title: 'Membros' }],
+    meta: [{ title: 'Membros | Agendros' }],
   }),
   component: MembersPage,
 })

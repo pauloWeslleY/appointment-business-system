@@ -6,7 +6,7 @@ import { SubscriptionPageContent } from '@/features/subscriptions/pages/subscrip
 export const Route = createFileRoute('/_app/_subscription/subscription/return')(
   {
     head: () => ({
-      meta: [{ title: 'Retorno do pagamento' }],
+      meta: [{ title: 'Retorno do pagamento | Agendros' }],
     }),
     component: () => (
       <SubscriptionOrganizationProvider pageEntry="return">

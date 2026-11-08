@@ -25,7 +25,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/overview/',
 )({
   head: () => ({
-    meta: [{ title: 'Dashboard' }],
+    meta: [{ title: 'Dashboard | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {

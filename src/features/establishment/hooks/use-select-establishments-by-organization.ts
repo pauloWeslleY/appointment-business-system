@@ -63,7 +63,7 @@ export function useSelectEstablishmentsByOrganization(organizationId?: string) {
       return
     }
 
-    await navigate({
+    navigate({
       to: '/dashboard/$slug/overview',
       params: { slug: establishment[0] },
       search: (prev) => ({ ...prev }),

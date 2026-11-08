@@ -15,7 +15,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/invitations/',
 )({
   head: () => ({
-    meta: [{ title: 'Convites' }],
+    meta: [{ title: 'Convites | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {

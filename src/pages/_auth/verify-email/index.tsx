@@ -9,7 +9,7 @@ export const Route = createFileRoute('/_auth/verify-email/')({
   }),
   component: VerifyEmailPage,
   head: () => ({
-    meta: [{ title: 'Verificar email' }],
+    meta: [{ title: 'Verificar email | Agendros' }],
   }),
 })
 

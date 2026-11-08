@@ -21,7 +21,7 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_app/organization-profile/')({
   head: () => ({
-    meta: [{ title: 'Configurar perfil empresarial' }],
+    meta: [{ title: 'Configurar perfil empresarial | Agendros' }],
   }),
   loader: async () => await authClient.organization.list(),
   component: OrganzationProfilePage,

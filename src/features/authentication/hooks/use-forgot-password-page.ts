@@ -29,7 +29,7 @@ export function useForgotPasswordPage() {
     }
 
     reset({ email: '' })
-    await navigate({
+    navigate({
       to: '/login',
       replace: true,
       state: {

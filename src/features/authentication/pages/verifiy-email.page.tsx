@@ -29,7 +29,7 @@ const VerifyEmail = ({ search }: { search: { token: string } }) => {
         return
       }
 
-      await navigate({
+      navigate({
         to: '/login',
         replace: true,
         search: {

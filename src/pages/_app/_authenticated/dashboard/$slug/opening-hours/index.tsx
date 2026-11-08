@@ -14,6 +14,6 @@ export const Route = createFileRoute(
     }),
   component: OpeningHoursPage,
   head: () => ({
-    meta: [{ title: 'Horários de Funcionamento' }],
+    meta: [{ title: 'Horários de Funcionamento | Agendros' }],
   }),
 })

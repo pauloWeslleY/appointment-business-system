@@ -11,7 +11,7 @@ export const Route = createFileRoute(
   '/_app/_authenticated/_admin/establishment/_routes/new/',
 )({
   head: () => ({
-    meta: [{ title: 'Cadastrar estabelecimento' }],
+    meta: [{ title: 'Cadastrar estabelecimento | Agendros' }],
   }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.memberContext, {

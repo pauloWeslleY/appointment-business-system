@@ -7,7 +7,7 @@ export const Route = createFileRoute(
   '/_app/_subscription/subscription/canceled',
 )({
   head: () => ({
-    meta: [{ title: 'Pagamento cancelado' }],
+    meta: [{ title: 'Pagamento cancelado | Agendros' }],
   }),
   component: () => (
     <SubscriptionOrganizationProvider pageEntry="cancel">
