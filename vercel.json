@@ -1,12 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.agendros.com.br" }],
-      "destination": "https://agendros.com.br/:path*",
-      "permanent": false
-    },
-    {
       "source": "/",
       "has": [{ "type": "host", "value": "admin.agendros.com.br" }],
       "destination": "/login",

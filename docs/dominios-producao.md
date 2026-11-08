@@ -15,6 +15,23 @@ pela aplicação. Não é necessário criar outro projeto para a landing page.
 
 No projeto Next.js `front-end`, adicione somente `cliente.agendros.com.br`.
 
+### Domínio principal e alias www
+
+Configure a escolha entre `agendros.com.br` e `www.agendros.com.br` somente em
+**Settings → Domains** da Vercel. O `vercel.json` não deve redirecionar um desses
+domínios para o outro: uma regra no sentido oposto à configuração do painel
+cria um ciclo que impede carregar JavaScript, CSS e imagens.
+
+Para usar a landing sem `www`, conecte `agendros.com.br` à produção e configure
+`www.agendros.com.br` para redirecionar a ele na Vercel. Se a opção do painel for
+manter `www` como principal, o sentido deve ser somente o inverso.
+
+A aplicação reconhece ambos os hosts como landing e encaminha páginas de
+autenticação e do painel para `admin.agendros.com.br`, independentemente do alias.
+Depois de alterar `vercel.json`, publique um novo deploy para remover a regra
+anterior da hospedagem. Redirecionamentos 308 antigos podem permanecer no cache
+do navegador; valide também em janela anônima.
+
 ## DNS
 
 Use exatamente os valores exibidos pela Vercel ao adicionar cada domínio:

@@ -15,12 +15,12 @@ export const Route = createFileRoute('/business-access-required/')({
 })
 
 function BusinessAccessRequired() {
-  const { handleLogout } = useLogout()
   const {
     mutate: onboarding,
     error: errorOnboarding,
     isPending: isPendingOnboarding,
   } = useStartBusinessOnboarding()
+  const { handleLogout } = useLogout()
 
   const handleOnboarding = () => {
     onboarding()

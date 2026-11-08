@@ -31,6 +31,8 @@ interface LegalDocumentPageProps {
   }[]
 }
 
+const dateCurrentYearFooterLegalDocumentPage = new Date().getFullYear()
+
 export default function LegalDocumentPage({
   title,
   description,
@@ -280,13 +282,15 @@ export default function LegalDocumentPage({
             ))}
           </Box>
         </Grid>
+
         <Text
           as="footer"
           mt="8"
           fontSize="sm"
           color={{ base: 'slate.500', _dark: 'slate.400' }}
         >
-          © {new Date().getFullYear()} Agendros. Todos os direitos reservados.
+          © {dateCurrentYearFooterLegalDocumentPage} Agendros. Todos os direitos
+          reservados.
         </Text>
       </Container>
     </Box>
