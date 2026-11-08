@@ -65,10 +65,22 @@ export function useLoginPage() {
     }
 
     startTransitionResendEmail(async () => {
-      await authClient.sendVerificationEmail({
-        email: emailState,
-        callbackURL: '/login',
-      })
+      try {
+        await authClient.sendVerificationEmail({
+          email: emailState,
+          callbackURL: '/login',
+        })
+        toaster.success({
+          title: 'E-mail reenviado',
+          description: `Verifique sua caixa de entrada (${emailState})`,
+        })
+      } catch (error: unknown) {
+        toaster.error({
+          title: 'Erro ao reenviar e-mail',
+          description:
+            (error as Error)?.message || 'Tente novamente mais tarde',
+        })
+      }
     })
   }
 
