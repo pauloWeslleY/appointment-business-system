@@ -1,10 +1,7 @@
 import { z } from 'zod'
 
+import { InputPasswordSchema } from './password.schema'
+
 export const ResetPasswordSchema = z.object({
-  newPassword: z
-    .string({
-      error: (issue) =>
-        issue.input === undefined ? 'A nova senha é obrigatória' : '',
-    })
-    .min(10, 'A nova senha deve ter pelo menos 10 caracteres'),
+  newPassword: InputPasswordSchema,
 })
