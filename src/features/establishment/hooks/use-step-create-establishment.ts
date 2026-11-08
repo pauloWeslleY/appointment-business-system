@@ -9,9 +9,9 @@ export function useStepCreateEstablishment() {
     'step',
     parseAsInteger.withDefault(0),
   )
-
-  // Lido a cada renderização: o estabelecimento é gravado no storage durante o
-  // primeiro passo, depois que este módulo já foi carregado.
+  const query = new URLSearchParams(window.location.search)
+  const hasCreatedAddress = query.get('address_create')
+  const hasCreatedOpeningHours = query.get('opening_hours_create')
   const createdEstablishment = storageEstablishment.get()
 
   const onChangeStepCreateEstablishment = (step: number) => {
@@ -19,6 +19,22 @@ export function useStepCreateEstablishment() {
       toaster.warning({
         title: 'Para prosseguir',
         description: 'Você precisa concluir o cadastro do estabelecimento.',
+      })
+      return
+    }
+
+    if (!hasCreatedAddress) {
+      toaster.warning({
+        title: 'Para prosseguir',
+        description: 'Você precisa cadastrar um endereço.',
+      })
+      return
+    }
+
+    if (!hasCreatedOpeningHours) {
+      toaster.warning({
+        title: 'Para prosseguir',
+        description: 'Você precisa cadastrar o horário de funcionamento.',
       })
       return
     }

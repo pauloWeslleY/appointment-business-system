@@ -11,6 +11,7 @@ import {
 import { ArrowRight } from 'lucide-react'
 
 import Logotipo from '@/components/logotipo'
+import { getAdminHref, getCustomerHref } from '@/shared/config/site-domains'
 
 import { navigation } from '../constants/data-landing-page'
 
@@ -61,10 +62,19 @@ const Footer = () => {
               <Link href="#recursos" color="navy.200">
                 Sobre nós
               </Link>
-              <Link href="/register" color="navy.200">
+              <Link href={getCustomerHref()} color="navy.200">
+                Área do cliente
+              </Link>
+              <Link href="/terms-of-use" color="navy.200">
+                Termos de Uso
+              </Link>
+              <Link href="/privacy-policy" color="navy.200">
+                Política de Privacidade
+              </Link>
+              <Link href={getAdminHref('/register')} color="navy.200">
                 Criar sua conta
               </Link>
-              <Link href="/login" color="navy.200">
+              <Link href={getAdminHref('/login')} color="navy.200">
                 Acessar plataforma
               </Link>
             </Stack>
@@ -84,7 +94,7 @@ const Footer = () => {
               bg="brand.mint"
               color="brand.navy"
             >
-              <Link href="/register">
+              <Link href={getAdminHref('/register')}>
                 Experimente grátis
                 <ArrowRight size={14} />
               </Link>

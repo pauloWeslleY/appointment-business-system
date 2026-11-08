@@ -13,15 +13,16 @@ import { cookie } from '@/shared/cache/cookie'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 
 import { LoginFormSchema } from '../schemas/login-form.schema'
+import { getPanelAccess } from '../services/panel-access.service'
 import type { AuthModel } from '../types/authentication.model'
 import type { LoginFormData } from '../types/login-form-data.type'
 
 const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/establishment'
 
 export function useLoginPage() {
-  const queryClient = useQueryClient()
   const [isPendingLoginWithGoogle, startTransition] = useTransition()
   const { state } = useLocation()
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const {
     reset,
@@ -56,8 +57,29 @@ export function useLoginPage() {
         password: data.password,
       },
       {
-        onSuccess: ({ data }: SuccessContext<AuthModel>) => {
+        onSuccess: async ({ data }: SuccessContext<AuthModel>) => {
           queryClient.clear()
+          try {
+            const access = await getPanelAccess()
+
+            if (!access.canAccessAdmin && !access.canStartBusinessOnboarding) {
+              navigate({ to: '/business-access-required', replace: true })
+              return
+            }
+
+            if (!access.canAccessAdmin && access.canStartBusinessOnboarding) {
+              navigate({ to: '/organization-profile', replace: true })
+              return
+            }
+          } catch {
+            setError('root', {
+              type: 'custom',
+              message:
+                'Não foi possível validar seu acesso empresarial. Tente novamente.',
+            })
+            return
+          }
+
           toaster.success({
             title: `Usuário ${data.user.name}`,
             description: 'Entrou no sistema',

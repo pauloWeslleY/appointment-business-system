@@ -1,6 +1,7 @@
 import { Button } from '@chakra-ui/react'
-import { Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
+
+import { getAdminHref } from '@/shared/config/site-domains'
 
 const SignupButton = ({
   children = 'Começar agora',
@@ -17,10 +18,10 @@ const SignupButton = ({
       h="11"
       _hover={{ bg: 'navy.800', transform: 'translateY(-1px)' }}
     >
-      <Link to="/register">
+      <a href={getAdminHref('/register')}>
         {children}
         <ArrowRight size={16} />
-      </Link>
+      </a>
     </Button>
   )
 }

@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 
 import Logotipo from '@/components/logotipo'
+import { getAdminHref, getCustomerHref } from '@/shared/config/site-domains'
 
 import { navigation } from '../constants/data-landing-page'
 import SignupButton from './signup-button'
@@ -43,6 +44,7 @@ const NavBarLandingPage = () => {
         </HStack>
 
         <HStack gap="3" display={{ base: 'none', lg: 'flex' }}>
+          <Button asChild variant="ghost" color="brand.navy" size="sm" rounded="lg"><Link href={getCustomerHref()}>Área do cliente</Link></Button>
           <Button
             asChild
             variant="outline"
@@ -52,11 +54,11 @@ const NavBarLandingPage = () => {
             size="sm"
             rounded="lg"
           >
-            <Link href="/login">Entrar</Link>
+            <Link href={getAdminHref('/login')}>Área empresarial</Link>
           </Button>
 
           <Button asChild bg="brand.navy" color="white" size="sm" rounded="lg">
-            <Link href="/register">Criar conta</Link>
+            <Link href={getAdminHref('/register')}>Criar conta</Link>
           </Button>
         </HStack>
 
@@ -97,12 +99,13 @@ const NavBarLandingPage = () => {
               </Link>
             ))}
             <Link
-              href="/login"
+              href={getAdminHref('/login')}
               color="brand.slate"
               _hover={{ color: 'sea.700' }}
             >
-              Entrar
+              Área empresarial
             </Link>
+            <Button asChild variant="outline" color="brand.navy" rounded="lg"><Link href={getCustomerHref()}>Área do cliente</Link></Button>
             <SignupButton>Criar conta</SignupButton>
           </Stack>
         )}

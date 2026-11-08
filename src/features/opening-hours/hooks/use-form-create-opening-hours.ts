@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { parseAsBoolean, useQueryState } from 'nuqs'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -12,6 +13,10 @@ export function useFormCreateOpeningHours(
   establishmentId?: string,
   onSaved?: () => void,
 ) {
+  const [, setOpeningHoursCreate] = useQueryState(
+    'opening_hours_create',
+    parseAsBoolean.withDefault(false),
+  )
   const formCreateOpeningHours = useForm<OpeningHoursFormData>({
     resolver: zodResolver(OpeningHoursFormDataSchema),
     defaultValues: { day: 0, open: '', close: '' },
@@ -37,6 +42,7 @@ export function useFormCreateOpeningHours(
       { ...data, establishmentId },
       {
         onSuccess: () => {
+          setOpeningHoursCreate(true)
           formCreateOpeningHours.reset()
           toaster.success({
             title: 'Horário de funcionamento criado com sucesso',

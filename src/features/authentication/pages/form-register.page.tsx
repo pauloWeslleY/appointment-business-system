@@ -15,6 +15,7 @@ import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
 import { inputStyles } from '@/theme/styles/global-styles'
 
+import LegalDocumentsReference from '../components/legal-documents-reference'
 import { useRegisterPage } from '../hooks/use-register-page'
 
 const FormRegister = () => {
@@ -141,6 +142,7 @@ const FormRegister = () => {
             <Alert.Title>{errors.root.message}</Alert.Title>
           </Alert.Root>
         )}
+        <LegalDocumentsReference />
       </VStack>
     </chakra.form>
   )

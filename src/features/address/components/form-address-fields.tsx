@@ -25,6 +25,7 @@ const FormAddressFields = ({ form }: FormAddressFieldsProps) => {
     <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">
       <Field
         label="CEP"
+        optionalText="*"
         invalid={!!errors.postalCode}
         errorText={errors.postalCode?.message}
       >
@@ -57,30 +58,35 @@ const FormAddressFields = ({ form }: FormAddressFieldsProps) => {
               name: 'state',
               label: 'UF',
               placeholder: 'SP',
+              optionalText: '*',
               maxLength: 2,
             },
             {
               name: 'city',
               label: 'Cidade',
               placeholder: 'São Paulo',
+              optionalText: '*',
               maxLength: 150,
             },
             {
               name: 'street',
               label: 'Logradouro',
               placeholder: 'Rua ou avenida',
+              optionalText: '*',
               maxLength: 200,
             },
             {
               name: 'neighborhood',
               label: 'Bairro',
               placeholder: 'Centro',
+              optionalText: '*',
               maxLength: 150,
             },
             {
               name: 'number',
               label: 'Número',
               placeholder: '123 ou S/N',
+              optionalText: '*',
               maxLength: 20,
             },
             {
@@ -92,12 +98,13 @@ const FormAddressFields = ({ form }: FormAddressFieldsProps) => {
           ] as const
         }
       >
-        {({ name, label, placeholder, maxLength }) => (
+        {({ name, label, placeholder, maxLength, optionalText }) => (
           <Field
             key={name}
             label={label}
             invalid={!!errors[name]}
             errorText={errors[name]?.message}
+            optionalText={optionalText ?? ''}
             gridColumn={{
               base: 'span 1',
               md: name === 'neighborhood' ? 'span 2' : 'span 1',

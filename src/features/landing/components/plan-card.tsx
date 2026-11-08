@@ -7,8 +7,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { Link } from '@tanstack/react-router'
 import { Check } from 'lucide-react'
+
+import { getAdminHref } from '@/shared/config/site-domains'
 
 import type { plans } from '../constants/data-plans'
 
@@ -123,7 +124,7 @@ const PlanCard = ({ plan, index }: PlanCardProps) => {
         size="sm"
         rounded="lg"
       >
-        <Link to="/register">Começar agora</Link>
+        <a href={getAdminHref('/register')}>Começar agora</a>
       </Button>
     </Box>
   )

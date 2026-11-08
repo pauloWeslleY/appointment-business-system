@@ -19,7 +19,10 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
             {label}
             <ChakraField.RequiredIndicator
               fallback={
-                <Text as="span" color="red.500">
+                <Text
+                  as="span"
+                  color={optionalText !== '*' ? 'gray.500' : 'red.500'}
+                >
                   {optionalText}
                 </Text>
               }

@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { parseAsBoolean, useQueryState } from 'nuqs'
 import { useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -12,6 +13,10 @@ export function useFormCreateAddress(
   establishmentId?: string,
   onSaved?: () => void,
 ) {
+  const [, setAddressCreate] = useQueryState(
+    'address_create',
+    parseAsBoolean.withDefault(false),
+  )
   const formCreateAddress = useForm<AddressFormData>({
     resolver: zodResolver(AddressFormDataSchema),
     defaultValues: {
@@ -48,6 +53,7 @@ export function useFormCreateAddress(
       { ...data, establishmentId },
       {
         onSuccess: () => {
+          setAddressCreate(true)
           formCreateAddress.reset()
           toaster.success({ title: 'Endereço criado com sucesso' })
           if (onSaved) {

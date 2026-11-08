@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
+import { Route as BusinessAccessRequiredRouteImport } from './pages/business-access-required'
 import { Route as ErrorRouteImport } from './pages/error'
+import { Route as PoliticaDePrivacidadeRouteImport } from './pages/_legal/privacy-policy'
+import { Route as TermosDeUsoRouteImport } from './pages/_legal/terms-of-use'
 import { Route as AppAuthenticatedLayoutRouteImport } from './pages/_app/_authenticated/layout'
 import { Route as AppSubscriptionLayoutRouteImport } from './pages/_app/_subscription/layout'
 import { Route as InvitationIndexRouteImport } from './pages/invitation/index'
@@ -69,9 +72,24 @@ const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BusinessAccessRequiredRoute = BusinessAccessRequiredRouteImport.update({
+  id: '/business-access-required',
+  path: '/business-access-required',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ErrorRoute = ErrorRouteImport.update({
   id: '/error',
   path: '/error',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
+  id: '/terms-of-use',
+  path: '/terms-of-use',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppAuthenticatedLayoutRoute = AppAuthenticatedLayoutRouteImport.update({
@@ -328,7 +346,10 @@ const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexR
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/business-access-required': typeof BusinessAccessRequiredRoute
   '/error': typeof ErrorRoute
+  '/privacy-policy': typeof PoliticaDePrivacidadeRoute
+  '/terms-of-use': typeof TermosDeUsoRoute
   '/invitation/': typeof InvitationIndexRoute
   '/organization-profile/': typeof AppOrganizationProfileIndexRoute
   '/forgot-password/': typeof AuthForgotPasswordIndexRoute
@@ -371,7 +392,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/business-access-required': typeof BusinessAccessRequiredRoute
   '/error': typeof ErrorRoute
+  '/privacy-policy': typeof PoliticaDePrivacidadeRoute
+  '/terms-of-use': typeof TermosDeUsoRoute
   '/invitation': typeof InvitationIndexRoute
   '/organization-profile': typeof AppOrganizationProfileIndexRoute
   '/forgot-password': typeof AuthForgotPasswordIndexRoute
@@ -416,7 +440,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
+  '/business-access-required': typeof BusinessAccessRequiredRoute
   '/error': typeof ErrorRoute
+  '/privacy-policy': typeof PoliticaDePrivacidadeRoute
+  '/terms-of-use': typeof TermosDeUsoRoute
   '/_app/_authenticated': typeof AppAuthenticatedLayoutRouteWithChildren
   '/_app/_subscription': typeof AppSubscriptionLayoutRouteWithChildren
   '/invitation/': typeof InvitationIndexRoute
@@ -464,7 +491,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/business-access-required'
     | '/error'
+    | '/privacy-policy'
+    | '/terms-of-use'
     | '/invitation/'
     | '/organization-profile/'
     | '/forgot-password/'
@@ -507,7 +537,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/business-access-required'
     | '/error'
+    | '/privacy-policy'
+    | '/terms-of-use'
     | '/invitation'
     | '/organization-profile'
     | '/forgot-password'
@@ -551,7 +584,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/_auth'
+    | '/business-access-required'
     | '/error'
+    | '/privacy-policy'
+    | '/terms-of-use'
     | '/_app/_authenticated'
     | '/_app/_subscription'
     | '/invitation/'
@@ -600,7 +636,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
+  BusinessAccessRequiredRoute: typeof BusinessAccessRequiredRoute
   ErrorRoute: typeof ErrorRoute
+  PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
+  TermosDeUsoRoute: typeof TermosDeUsoRoute
   InvitationIndexRoute: typeof InvitationIndexRoute
   Error_pageAccessDeniedIndexRoute: typeof Error_pageAccessDeniedIndexRoute
 }
@@ -628,11 +667,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/business-access-required': {
+      id: '/business-access-required'
+      path: '/business-access-required'
+      fullPath: '/business-access-required'
+      preLoaderRoute: typeof BusinessAccessRequiredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/error': {
       id: '/error'
       path: '/error'
       fullPath: '/error'
       preLoaderRoute: typeof ErrorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PoliticaDePrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-of-use': {
+      id: '/terms-of-use'
+      path: '/terms-of-use'
+      fullPath: '/terms-of-use'
+      preLoaderRoute: typeof TermosDeUsoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/_authenticated': {
@@ -1136,7 +1196,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
+  BusinessAccessRequiredRoute: BusinessAccessRequiredRoute,
   ErrorRoute: ErrorRoute,
+  PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
+  TermosDeUsoRoute: TermosDeUsoRoute,
   InvitationIndexRoute: InvitationIndexRoute,
   Error_pageAccessDeniedIndexRoute: Error_pageAccessDeniedIndexRoute,
 }

@@ -3,6 +3,7 @@ import { redirect } from '@tanstack/react-router'
 
 import { authenticationSessionQueryOptions } from '../queries/authentication.query-options'
 import type { AuthenticationSession } from '../types/authentication-session.type'
+import { validatePanelAccess } from './validate-panel-access'
 
 export const validateEnsureAuthRoute = async (
   queryClient: QueryClient,
@@ -16,6 +17,8 @@ export const validateEnsureAuthRoute = async (
     }
     throw redirect({ to: '/login', replace: true })
   }
+
+  await validatePanelAccess()
 
   return data
 }

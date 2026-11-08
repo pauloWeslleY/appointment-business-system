@@ -2,6 +2,15 @@ import { ESTABLISHMENT_WEBSITE_BASE } from '../constants/establishment-website'
 
 export function getEstablishmentWebsitePath(value?: string | null): string {
   const website = value?.trim() ?? ''
+  const legacyBase = 'https://agendros.com.br'
+
+  if (website === legacyBase) {
+    return '/'
+  }
+
+  if (website.startsWith(`${legacyBase}/`)) {
+    return website.slice(legacyBase.length)
+  }
 
   if (website === ESTABLISHMENT_WEBSITE_BASE) {
     return '/'

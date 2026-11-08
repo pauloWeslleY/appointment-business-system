@@ -1,4 +1,4 @@
-export const ESTABLISHMENT_WEBSITE_BASE = 'https://agendros.com.br'
+export const ESTABLISHMENT_WEBSITE_BASE = 'https://cliente.agendros.com.br'
 export const ESTABLISHMENT_WEBSITE_MAX_LENGTH = 2048
 export const ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH =
   ESTABLISHMENT_WEBSITE_MAX_LENGTH - ESTABLISHMENT_WEBSITE_BASE.length - 1

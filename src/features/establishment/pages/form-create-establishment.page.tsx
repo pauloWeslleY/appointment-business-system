@@ -44,6 +44,7 @@ const FormCreateEstablishmentPage = () => {
           <SimpleGrid columns={{ base: 1, md: 3 }} gap="4" w="full">
             <Field
               label="Nome do estabelecimento"
+              optionalText="*"
               invalid={!!formCreateEstablishment.formState.errors.name}
               errorText={formCreateEstablishment.formState.errors.name?.message}
             >
@@ -55,6 +56,7 @@ const FormCreateEstablishmentPage = () => {
 
             <Field
               label="E-mail do estabelecimento"
+              optionalText="*"
               invalid={!!formCreateEstablishment.formState.errors.email}
               errorText={
                 formCreateEstablishment.formState.errors.email?.message
@@ -81,6 +83,7 @@ const FormCreateEstablishmentPage = () => {
 
             <Field
               label="Descrição do estabelecimento"
+              optionalText="*"
               gridColumn={{ base: 'span 1', md: '1 / -1' }}
               invalid={!!formCreateEstablishment.formState.errors.description}
               errorText={

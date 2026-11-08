@@ -18,6 +18,7 @@ import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
 import { inputStyles } from '@/theme/styles/global-styles'
 
+import LegalDocumentsReference from '../components/legal-documents-reference'
 import { useLoginPage } from '../hooks/use-login-page'
 
 const FormLoginPage = () => {
@@ -175,6 +176,7 @@ const FormLoginPage = () => {
             </Link>
           </Button>
         </HStack>
+        <LegalDocumentsReference />
       </VStack>
 
       {location.state.passwordResetRequestSuccess && (

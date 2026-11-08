@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "admin.agendros.com.br" }],
+      "destination": "/login",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
