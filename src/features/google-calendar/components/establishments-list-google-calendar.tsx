@@ -1,5 +1,7 @@
-import { For, Table, Text } from '@chakra-ui/react'
+import { Flex, For, Spinner, Table, Text, VStack } from '@chakra-ui/react'
 
+import PaginationTable from '@/components/layout/pagination-table'
+import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { cssTableColumns } from '@/theme/styles/global-styles'
 
 import { useEstablishmentsListGoogleCalendar } from '../hooks/use-establishments-list-google-calendar'
@@ -11,6 +13,11 @@ const EstablishmentsListGoogleCalendar = () => {
   const {
     isOpenDialogGoogleCalendar,
     listEstablishmentsGoogleCalendar,
+    paginatedEstablishments,
+    page,
+    pageSize,
+    isPendingPagination,
+    handlePaginationChange,
     handleDialogGoogleCalendar,
     setIsOpenDialogGoogleCalendar,
   } = useEstablishmentsListGoogleCalendar()
@@ -58,21 +65,55 @@ const EstablishmentsListGoogleCalendar = () => {
               </Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
-          <Table.Body>
-            {listEstablishmentsGoogleCalendar.map((establishment) => {
-              return (
-                <EstablishmentItemGoogleCalendar
-                  key={establishment.id}
-                  establishment={establishment}
-                  onDialogGoogleCalendar={() =>
-                    handleDialogGoogleCalendar(establishment.id)
-                  }
-                />
-              )
-            })}
+          <Table.Body aria-busy={isPendingPagination}>
+            {isPendingPagination && (
+              <Table.Row>
+                <Table.Cell colSpan={5}>
+                  <VStack py="6" role="status" colorPalette={colorDefaultTheme}>
+                    <Spinner color="colorPalette.600" />
+                    <Text color="colorPalette.600">Carregando dados...</Text>
+                  </VStack>
+                </Table.Cell>
+              </Table.Row>
+            )}
+
+            {!isPendingPagination &&
+              paginatedEstablishments.map((establishment) => {
+                return (
+                  <EstablishmentItemGoogleCalendar
+                    key={establishment.id}
+                    establishment={establishment}
+                    onDialogGoogleCalendar={() =>
+                      handleDialogGoogleCalendar(establishment.id)
+                    }
+                  />
+                )
+              })}
           </Table.Body>
         </Table.Root>
       </Table.ScrollArea>
+
+      <Flex
+        mt="4"
+        gap="3"
+        flexWrap="wrap"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Text fontSize="sm" color="fg.muted">
+          Exibindo {paginatedEstablishments.length} de{' '}
+          {listEstablishmentsGoogleCalendar.length} estabelecimentos
+        </Text>
+
+        {listEstablishmentsGoogleCalendar.length > pageSize && (
+          <PaginationTable
+            count={listEstablishmentsGoogleCalendar.length}
+            page={page}
+            pageSize={pageSize}
+            onPageChange={handlePaginationChange}
+          />
+        )}
+      </Flex>
 
       <DialogConnectGoogleCalendar
         isOpen={isOpenDialogGoogleCalendar}

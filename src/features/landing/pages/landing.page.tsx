@@ -33,8 +33,12 @@ export function LandingPage() {
             fontFamily: 'inherit',
             letterSpacing: '-0.035em',
           },
-          '& section': { scrollMarginTop: '32px' },
-          '& a': { textDecoration: 'none' },
+          '& section': {
+            scrollMarginTop: '32px',
+          },
+          '& a': {
+            textDecoration: 'none',
+          },
         }}
       >
         <link
