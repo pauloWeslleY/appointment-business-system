@@ -20,7 +20,9 @@ import type { LoginFormData } from '../types/login-form-data.type'
 const DEFAULT_CALLBACK_URL: LinkProps['to'] = '/establishment'
 
 export function useLoginPage() {
-  const [isPendingLoginPage, startTransition] = useTransition()
+  const [isPendingLoginWithGoogle, startTransitionLoginWithGoogle] =
+    useTransition()
+  const [isPendingResendEmail, startTransitionResendEmail] = useTransition()
   const { state } = useLocation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -43,7 +45,7 @@ export function useLoginPage() {
   const hasRedirectToLogin = Boolean(redirectToLogin)
 
   const handleSignInWithGoogle = () => {
-    startTransition(async () => {
+    startTransitionLoginWithGoogle(async () => {
       await authClient.signIn.social({
         provider: 'google',
         callbackURL: `${import.meta.env.VITE_WEB_URL}${DEFAULT_CALLBACK_URL}`,
@@ -62,7 +64,7 @@ export function useLoginPage() {
       return
     }
 
-    startTransition(async () => {
+    startTransitionResendEmail(async () => {
       await authClient.sendVerificationEmail({
         email: emailState,
         callbackURL: '/login',
@@ -134,7 +136,8 @@ export function useLoginPage() {
   return {
     errors,
     isSubmitting,
-    isPendingLoginPage,
+    isPendingResendEmail,
+    isPendingLoginWithGoogle,
     hasRedirectToLogin,
     register,
     onSubmitLogin,

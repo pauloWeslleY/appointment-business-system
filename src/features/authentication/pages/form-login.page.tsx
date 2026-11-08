@@ -25,7 +25,8 @@ const FormLoginPage = () => {
   const {
     errors,
     isSubmitting,
-    isPendingLoginPage,
+    isPendingResendEmail,
+    isPendingLoginWithGoogle,
     hasRedirectToLogin,
     register,
     onSubmitLogin,
@@ -144,7 +145,7 @@ const FormLoginPage = () => {
             w="full"
             rounded="lg"
             variant="solid"
-            loading={isPendingLoginPage}
+            loading={isPendingLoginWithGoogle}
             loadingText="Processando..."
             colorPalette="gray"
           >
@@ -210,6 +211,7 @@ const FormLoginPage = () => {
               w="fit"
               alignSelf="flex-end"
               rounded="lg"
+              loading={isPendingResendEmail}
               onClick={handleResendConfirmationEmail}
             >
               Reenviar e-mail de confirmação
