@@ -13,17 +13,7 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
       bgGradient="to-tl"
       gradientFrom={{ _light: 'navy.300', _dark: 'brand.navy' }}
       gradientTo={{ _light: 'app.accent', _dark: 'app.primary' }}
-      pos="relative"
     >
-      <Box
-        pos="absolute"
-        top="2"
-        right="2"
-        display={{ base: 'block', xl: 'none' }}
-      >
-        <ColorModeButton rounded="full" variant="ghost" />
-      </Box>
-
       <SimpleGrid columns={{ base: 1, xl: 3 }} w="full" h="full" flex="1">
         <BannerAuth />
 
@@ -36,7 +26,16 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
           backdropFilter="blur(16px) saturate(160%)"
           asChild
         >
-          <Flex flexDir="column" justify="center">
+          <Flex flexDir="column" justify="center" pos="relative">
+            <Box
+              pos="absolute"
+              top="2"
+              right="2"
+              display={{ base: 'block', xl: 'none' }}
+            >
+              <ColorModeButton rounded="full" variant="ghost" />
+            </Box>
+
             {children}
           </Flex>
         </GridItem>

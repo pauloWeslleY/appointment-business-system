@@ -1,17 +1,20 @@
 import {
   Alert,
+  Box,
   Button,
   chakra,
   Flex,
   HStack,
   Icon,
   Input,
+  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { LogIn } from 'lucide-react'
 
+import Logotipo from '@/components/logotipo'
 import ProgressBarPassword from '@/components/progress-bar-password'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
@@ -42,19 +45,36 @@ const FormRegister = () => {
       gap={{ base: '4', md: '8' }}
       autoComplete="off"
     >
-      <div>
-        <Text
-          as="h2"
-          fontSize={{ base: '2xl', md: '3xl' }}
-          fontWeight="semibold"
-          color={{ base: 'navy.800', _dark: 'sea.200' }}
-        >
-          Crie sua conta
-        </Text>
-        <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
-          Insira suas informações para criar sua conta.
-        </Text>
-      </div>
+      <Stack gap={{ base: '4', md: '8' }}>
+        {/* Logo and system name */}
+        <Box asChild display={{ base: 'block', md: 'none' }}>
+          <Link to="/">
+            <div>
+              <Logotipo
+                variant="horizontal"
+                w="38"
+                h="14"
+                objectFit="contain"
+                flexShrink="0"
+              />
+            </div>
+          </Link>
+        </Box>
+
+        <div>
+          <Text
+            as="h2"
+            fontSize={{ base: '2xl', md: '3xl' }}
+            fontWeight="semibold"
+            color={{ base: 'navy.800', _dark: 'sea.200' }}
+          >
+            Crie sua conta
+          </Text>
+          <Text color={{ base: 'gray.500', _dark: 'gray.400' }}>
+            Insira suas informações para criar sua conta.
+          </Text>
+        </div>
+      </Stack>
 
       {hasRedirectTo && (
         <Alert.Root status="info" variant="surface" rounded="xl">

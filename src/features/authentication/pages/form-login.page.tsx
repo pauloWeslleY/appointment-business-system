@@ -1,5 +1,6 @@
 import {
   Alert,
+  Box,
   Button,
   chakra,
   HStack,
@@ -14,6 +15,7 @@ import {
 import { Link, useLocation } from '@tanstack/react-router'
 import { LogIn } from 'lucide-react'
 
+import Logotipo from '@/components/logotipo'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
 import { inputStyles } from '@/theme/styles/global-styles'
@@ -47,19 +49,36 @@ const FormLoginPage = () => {
       gap={{ base: '4', md: '8' }}
       autoComplete="off"
     >
-      <div>
-        <Text
-          as="h2"
-          fontSize={{ base: '2xl', md: '3xl' }}
-          fontWeight="semibold"
-          color={{ _light: 'navy.800', _dark: 'sea.200' }}
-        >
-          Bem-vindo de volta
-        </Text>
-        <Text color={{ _light: 'gray.500', _dark: 'gray.400' }}>
-          Insira suas informações para continuar.
-        </Text>
-      </div>
+      <Stack gap={{ base: '4', md: '8' }}>
+        {/* Logo and system name */}
+        <Box asChild display={{ base: 'block', md: 'none' }}>
+          <Link to="/">
+            <div>
+              <Logotipo
+                variant="horizontal"
+                w="38"
+                h="14"
+                objectFit="contain"
+                flexShrink="0"
+              />
+            </div>
+          </Link>
+        </Box>
+
+        <div>
+          <Text
+            as="h2"
+            fontSize={{ base: '2xl', md: '3xl' }}
+            fontWeight="semibold"
+            color={{ _light: 'navy.800', _dark: 'sea.200' }}
+          >
+            Bem-vindo de volta
+          </Text>
+          <Text color={{ _light: 'gray.500', _dark: 'gray.400' }}>
+            Insira suas informações para continuar.
+          </Text>
+        </div>
+      </Stack>
 
       {hasRedirectToLogin && (
         <Alert.Root status="info" rounded="lg">
