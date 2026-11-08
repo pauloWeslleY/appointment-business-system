@@ -11,7 +11,7 @@ import { NuqsAdapter } from 'nuqs/adapters/tanstack-router'
 import {
   ADMIN_HOSTNAME,
   ADMIN_ORIGIN,
-  LANDING_HOSTNAME,
+  isLandingHostname,
 } from '@/shared/config/site-domains'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
@@ -26,7 +26,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     const hostname = window.location.hostname
     const isPublicPage = LANDING_PATHS.includes(location.pathname)
 
-    if (hostname === LANDING_HOSTNAME && !isPublicPage) {
+    if (isLandingHostname(hostname) && !isPublicPage) {
       throw redirect({
         href: `${ADMIN_ORIGIN}${location.href}`,
         replace: true,

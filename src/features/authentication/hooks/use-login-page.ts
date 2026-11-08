@@ -13,7 +13,7 @@ import { cookie } from '@/shared/cache/cookie'
 import { mapErrorsLabel } from '@/shared/constants/map-errors-label'
 
 import { LoginFormSchema } from '../schemas/login-form.schema'
-import { getPanelAccess } from '../services/panel-access.service'
+import { getPanelAccessService } from '../services/panel-access.service'
 import type { AuthModel } from '../types/authentication.model'
 import type { LoginFormData } from '../types/login-form-data.type'
 
@@ -106,12 +106,13 @@ export function useLoginPage() {
       {
         email: data.email,
         password: data.password,
+        // rememberMe
       },
       {
         onSuccess: async ({ data }: SuccessContext<AuthModel>) => {
           queryClient.clear()
           try {
-            const access = await getPanelAccess()
+            const access = await getPanelAccessService()
 
             if (!access.canAccessAdmin && !access.canStartBusinessOnboarding) {
               navigate({ to: '/business-access-required', replace: true })

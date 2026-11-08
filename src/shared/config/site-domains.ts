@@ -3,6 +3,10 @@ export const ADMIN_HOSTNAME = 'admin.agendros.com.br'
 export const ADMIN_ORIGIN = `https://${ADMIN_HOSTNAME}`
 export const CUSTOMER_ORIGIN = 'https://cliente.agendros.com.br'
 
+export function isLandingHostname(hostname: string): boolean {
+  return hostname === LANDING_HOSTNAME || hostname === `www.${LANDING_HOSTNAME}`
+}
+
 export function getCustomerHref(): string {
   const hostname = window.location.hostname
 
@@ -14,7 +18,7 @@ export function getCustomerHref(): string {
 }
 
 export function getAdminHref(path: '/login' | '/register'): string {
-  if (window.location.hostname === LANDING_HOSTNAME) {
+  if (isLandingHostname(window.location.hostname)) {
     return `${ADMIN_ORIGIN}${path}`
   }
 
