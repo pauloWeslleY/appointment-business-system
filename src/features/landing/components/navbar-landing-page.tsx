@@ -1,4 +1,13 @@
-import { Button, Container, Flex, HStack, Link, Stack } from '@chakra-ui/react'
+import {
+  Button,
+  Container,
+  Flex,
+  HStack,
+  Link as ChakraLink,
+  Stack,
+} from '@chakra-ui/react'
+import type { LinkProps } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 
@@ -19,11 +28,12 @@ const NavBarLandingPage = () => {
         justify="space-between"
         py="5"
         gap="6"
-        position="relative"
+        pos="relative"
       >
-        <Link href="/" aria-label="Agendros — início" flexShrink="0">
+        <ChakraLink href="/" aria-label="Agendros — início" flexShrink="0">
           <Logotipo variant="horizontal" theme="light" w="170px" h="auto" />
-        </Link>
+        </ChakraLink>
+
         <HStack
           gap="7"
           display={{ base: 'none', lg: 'flex' }}
@@ -31,7 +41,7 @@ const NavBarLandingPage = () => {
           color="brand.slate"
         >
           {navigation.map(([label, href]) => (
-            <Link
+            <ChakraLink
               key={href}
               href={href}
               color="brand.slate"
@@ -39,12 +49,23 @@ const NavBarLandingPage = () => {
               _hover={{ color: 'sea.700' }}
             >
               {label}
-            </Link>
+            </ChakraLink>
           ))}
         </HStack>
 
         <HStack gap="3" display={{ base: 'none', lg: 'flex' }}>
-          <Button asChild variant="ghost" color="brand.navy" size="sm" rounded="lg"><Link href={getCustomerHref()}>Área do cliente</Link></Button>
+          <Button
+            asChild
+            variant="plain"
+            color="brand.navy"
+            size="sm"
+            rounded="lg"
+          >
+            <Link to={getCustomerHref() as LinkProps['to']}>
+              Área do cliente
+            </Link>
+          </Button>
+
           <Button
             asChild
             variant="outline"
@@ -54,11 +75,15 @@ const NavBarLandingPage = () => {
             size="sm"
             rounded="lg"
           >
-            <Link href={getAdminHref('/login')}>Área empresarial</Link>
+            <Link to={getAdminHref('/login') as LinkProps['to']}>
+              Área empresarial
+            </Link>
           </Button>
 
           <Button asChild bg="brand.navy" color="white" size="sm" rounded="lg">
-            <Link href={getAdminHref('/register')}>Criar conta</Link>
+            <Link to={getAdminHref('/register') as LinkProps['to']}>
+              Criar conta
+            </Link>
           </Button>
         </HStack>
 
@@ -88,7 +113,7 @@ const NavBarLandingPage = () => {
             rounded="lg"
           >
             {navigation.map(([label, href]) => (
-              <Link
+              <ChakraLink
                 key={href}
                 href={href}
                 color="brand.slate"
@@ -96,16 +121,19 @@ const NavBarLandingPage = () => {
                 onClick={() => setMenuOpen(false)}
               >
                 {label}
-              </Link>
+              </ChakraLink>
             ))}
-            <Link
-              href={getAdminHref('/login')}
-              color="brand.slate"
-              _hover={{ color: 'sea.700' }}
-            >
-              Área empresarial
-            </Link>
-            <Button asChild variant="outline" color="brand.navy" rounded="lg"><Link href={getCustomerHref()}>Área do cliente</Link></Button>
+
+            <Button asChild color="brand.slate" _hover={{ color: 'sea.700' }}>
+              <Link to={getAdminHref('/login') as LinkProps['to']}>
+                Área empresarial
+              </Link>
+            </Button>
+            <Button asChild variant="outline" color="brand.navy" rounded="lg">
+              <Link to={getCustomerHref() as LinkProps['to']}>
+                Área do cliente
+              </Link>
+            </Button>
             <SignupButton>Criar conta</SignupButton>
           </Stack>
         )}

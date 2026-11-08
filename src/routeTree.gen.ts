@@ -15,7 +15,7 @@ import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as ErrorRouteImport } from './pages/error'
 import { Route as AppAuthenticatedLayoutRouteImport } from './pages/_app/_authenticated/layout'
 import { Route as AppSubscriptionLayoutRouteImport } from './pages/_app/_subscription/layout'
-import { Route as LegalPoliticaDePrivacidadeRouteImport } from './pages/_legal/politica-de-privacidade'
+import { Route as LegalPrivacyPolicyRouteImport } from './pages/_legal/privacy-policy'
 import { Route as LegalTermsOfUseRouteImport } from './pages/_legal/terms-of-use'
 import { Route as BusinessAccessRequiredIndexRouteImport } from './pages/business-access-required/index'
 import { Route as InvitationIndexRouteImport } from './pages/invitation/index'
@@ -85,12 +85,11 @@ const AppSubscriptionLayoutRoute = AppSubscriptionLayoutRouteImport.update({
   id: '/_subscription',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const LegalPoliticaDePrivacidadeRoute =
-  LegalPoliticaDePrivacidadeRouteImport.update({
-    id: '/_legal/politica-de-privacidade',
-    path: '/politica-de-privacidade',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const LegalPrivacyPolicyRoute = LegalPrivacyPolicyRouteImport.update({
+  id: '/_legal/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LegalTermsOfUseRoute = LegalTermsOfUseRouteImport.update({
   id: '/_legal/terms-of-use',
   path: '/terms-of-use',
@@ -349,7 +348,7 @@ const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexR
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/error': typeof ErrorRoute
-  '/politica-de-privacidade': typeof LegalPoliticaDePrivacidadeRoute
+  '/privacy-policy': typeof LegalPrivacyPolicyRoute
   '/terms-of-use': typeof LegalTermsOfUseRoute
   '/business-access-required/': typeof BusinessAccessRequiredIndexRoute
   '/invitation/': typeof InvitationIndexRoute
@@ -395,7 +394,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/error': typeof ErrorRoute
-  '/politica-de-privacidade': typeof LegalPoliticaDePrivacidadeRoute
+  '/privacy-policy': typeof LegalPrivacyPolicyRoute
   '/terms-of-use': typeof LegalTermsOfUseRoute
   '/business-access-required': typeof BusinessAccessRequiredIndexRoute
   '/invitation': typeof InvitationIndexRoute
@@ -445,7 +444,7 @@ export interface FileRoutesById {
   '/error': typeof ErrorRoute
   '/_app/_authenticated': typeof AppAuthenticatedLayoutRouteWithChildren
   '/_app/_subscription': typeof AppSubscriptionLayoutRouteWithChildren
-  '/_legal/politica-de-privacidade': typeof LegalPoliticaDePrivacidadeRoute
+  '/_legal/privacy-policy': typeof LegalPrivacyPolicyRoute
   '/_legal/terms-of-use': typeof LegalTermsOfUseRoute
   '/business-access-required/': typeof BusinessAccessRequiredIndexRoute
   '/invitation/': typeof InvitationIndexRoute
@@ -494,7 +493,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/error'
-    | '/politica-de-privacidade'
+    | '/privacy-policy'
     | '/terms-of-use'
     | '/business-access-required/'
     | '/invitation/'
@@ -540,7 +539,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/error'
-    | '/politica-de-privacidade'
+    | '/privacy-policy'
     | '/terms-of-use'
     | '/business-access-required'
     | '/invitation'
@@ -589,7 +588,7 @@ export interface FileRouteTypes {
     | '/error'
     | '/_app/_authenticated'
     | '/_app/_subscription'
-    | '/_legal/politica-de-privacidade'
+    | '/_legal/privacy-policy'
     | '/_legal/terms-of-use'
     | '/business-access-required/'
     | '/invitation/'
@@ -639,7 +638,7 @@ export interface RootRouteChildren {
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
   ErrorRoute: typeof ErrorRoute
-  LegalPoliticaDePrivacidadeRoute: typeof LegalPoliticaDePrivacidadeRoute
+  LegalPrivacyPolicyRoute: typeof LegalPrivacyPolicyRoute
   LegalTermsOfUseRoute: typeof LegalTermsOfUseRoute
   BusinessAccessRequiredIndexRoute: typeof BusinessAccessRequiredIndexRoute
   InvitationIndexRoute: typeof InvitationIndexRoute
@@ -690,11 +689,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSubscriptionLayoutRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/_legal/politica-de-privacidade': {
-      id: '/_legal/politica-de-privacidade'
-      path: '/politica-de-privacidade'
-      fullPath: '/politica-de-privacidade'
-      preLoaderRoute: typeof LegalPoliticaDePrivacidadeRouteImport
+    '/_legal/privacy-policy': {
+      id: '/_legal/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof LegalPrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_legal/terms-of-use': {
@@ -1199,7 +1198,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
   ErrorRoute: ErrorRoute,
-  LegalPoliticaDePrivacidadeRoute: LegalPoliticaDePrivacidadeRoute,
+  LegalPrivacyPolicyRoute: LegalPrivacyPolicyRoute,
   LegalTermsOfUseRoute: LegalTermsOfUseRoute,
   BusinessAccessRequiredIndexRoute: BusinessAccessRequiredIndexRoute,
   InvitationIndexRoute: InvitationIndexRoute,
