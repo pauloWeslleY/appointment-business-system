@@ -46,10 +46,18 @@ export function useLoginPage() {
 
   const handleSignInWithGoogle = () => {
     startTransitionLoginWithGoogle(async () => {
-      await authClient.signIn.social({
+      const response = await authClient.signIn.social({
         provider: 'google',
         callbackURL: `${import.meta.env.VITE_WEB_URL}${DEFAULT_CALLBACK_URL}`,
       })
+
+      if (response.error) {
+        toaster.error({
+          title: 'Erro ao iniciar sessão com Google',
+          description: response.error.message || 'Tente novamente mais tarde',
+        })
+        return
+      }
     })
   }
 
@@ -65,22 +73,31 @@ export function useLoginPage() {
     }
 
     startTransitionResendEmail(async () => {
-      try {
-        await authClient.sendVerificationEmail({
-          email: emailState,
-          callbackURL: '/login',
-        })
-        toaster.success({
-          title: 'E-mail reenviado',
-          description: `Verifique sua caixa de entrada (${emailState})`,
-        })
-      } catch (error: unknown) {
+      const response = await authClient.sendVerificationEmail({
+        email: emailState,
+        callbackURL: '/login',
+      })
+
+      if (response.error) {
         toaster.error({
           title: 'Erro ao reenviar e-mail',
-          description:
-            (error as Error)?.message || 'Tente novamente mais tarde',
+          description: response.error.message || 'Tente novamente mais tarde',
         })
+        return
       }
+
+      if (!response.data) {
+        toaster.error({
+          title: 'Erro ao reenviar e-mail',
+          description: 'Tente novamente mais tarde',
+        })
+        return
+      }
+
+      toaster.success({
+        title: 'E-mail reenviado',
+        description: `Verifique sua caixa de entrada (${emailState})`,
+      })
     })
   }
 
