@@ -36,7 +36,10 @@ const createAppointmentDefaultValues: CreateAppointmentFormType = {
 const isValidCalendarDate = (date: string) =>
   /^\d{4}-\d{2}-\d{2}$/.test(date) && dayjs(date).isValid()
 
-export function useFormCreateAppointment(onCreated: () => void) {
+export function useFormCreateAppointment(
+  onCreated: () => void,
+  enabled = true,
+) {
   const { establishment } = dashboardRoute.useLoaderData()
   const { data: session } = useAppSession()
   const organizationId = session?.session.activeOrganizationId
@@ -51,9 +54,9 @@ export function useFormCreateAppointment(onCreated: () => void) {
     name: ['serviceId', 'date', 'hour', 'professionalId'],
   })
 
-  const customers = useGetAllCustomersByEstablishment(establishment.id)
-  const services = useGetServiceByEstablishment(establishment.id)
-  const professionals = useProfessionals(establishment.id)
+  const customers = useGetAllCustomersByEstablishment(establishment.id, enabled)
+  const services = useGetServiceByEstablishment(establishment.id, enabled)
+  const professionals = useProfessionals(establishment.id, enabled)
 
   const activeCustomers = (customers.data ?? []).filter(
     (customer) => customer.active && customer.status,

@@ -7,26 +7,22 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { getRouteApi } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterReviewsNotes from '@/features/reviews/components/filter-reviews-notes'
 import StatsReviews from '@/features/reviews/components/stats-reviews'
-import { useGetAllReviewsByEstablishment } from '@/features/reviews/hooks/use-get-all-reviews-by-establishment'
+import { useReviewPage } from '@/features/reviews/hooks/use-review-page'
 import ReviewsListPage from '@/features/reviews/pages/reviews-list.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
-
 export default function ReviewsPage() {
-  const { establishment } = dashboardSlugRoute.useLoaderData()
   const {
     data: getReviews,
     isLoading: isLoadingReviews,
     error: errorReviews,
-  } = useGetAllReviewsByEstablishment(establishment.id)
+  } = useReviewPage()
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -55,17 +51,20 @@ export default function ReviewsPage() {
         </Stack>
       )}
 
+      <HStack flexWrap="wrap">
+        <SearchPage resetPagination />
+        <FilterReviewsNotes />
+      </HStack>
+
       {!isLoadingReviews && !errorReviews && (
         <Box spaceY="4">
-          <StatsReviews />
-
-          <HStack flexWrap="wrap">
-            <SearchPage />
-            <FilterReviewsNotes />
-          </HStack>
+          {getReviews && <StatsReviews summary={getReviews.summary} />}
 
           <Card.Root variant="outline" css={cardSectionCss}>
-            <ReviewsListPage reviews={getReviews ?? []} />
+            <ReviewsListPage
+              reviews={getReviews?.reviews ?? []}
+              total={getReviews?.total ?? 0}
+            />
           </Card.Root>
         </Box>
       )}

@@ -1,82 +1,35 @@
 import { For, SimpleGrid, Stat } from '@chakra-ui/react'
-import { getRouteApi } from '@tanstack/react-router'
-import { useSearch } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
-import { useGetAppointmentByEstablishment } from '../hooks/use-get-appointment-by-establishment'
-import {
-  AppointmentStatus,
-  type AppointmentStatusType,
-} from '../types/appointment-status.type'
-import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
+import type { AppointmentPageApiResponse } from '../types/appointment-page-api.type'
+import { AppointmentStatus } from '../types/appointment-status.type'
 
-const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
-
-const StatInfoAppointments = () => {
-  const { establishment } = dashboardSlugRoute.useLoaderData()
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/appointment/',
-  })
-  const { data: getAppointments } = useGetAppointmentByEstablishment({
-    establishmentId: establishment.id,
-    from: search.from ?? '',
-    to: search.to ?? '',
-  })
-
-  const getStatAppointments = useMemo(() => {
-    const filteredAppointmentByEstablishment = (
-      status: AppointmentStatusType,
-    ) => {
-      return getAppointments?.filter((service) => service.status === status)
-    }
-
-    const getTotalAppointments: Record<
-      AppointmentStatusType,
-      GetAppointmentByEstablishmentModel[] | undefined
-    > = {
-      [AppointmentStatus.PENDING]: filteredAppointmentByEstablishment(
-        AppointmentStatus.PENDING,
-      ),
-      [AppointmentStatus.CONCLUDED]: filteredAppointmentByEstablishment(
-        AppointmentStatus.CONCLUDED,
-      ),
-      [AppointmentStatus.CONFIRMED]: filteredAppointmentByEstablishment(
-        AppointmentStatus.CONFIRMED,
-      ),
-      [AppointmentStatus.CANCELLED]: filteredAppointmentByEstablishment(
-        AppointmentStatus.CANCELLED,
-      ),
-    }
-
-    return [
-      {
-        title: 'Total de agendamentos',
-        value: String(getAppointments?.length ?? 0),
-        color: 'pink',
-      },
-      {
-        title: 'Total de agendamentos concluídos',
-        value: String(
-          getTotalAppointments[AppointmentStatus.CONCLUDED]?.length ?? 0,
-        ),
-        color: 'green',
-      },
-      {
-        title: 'Total de agendamentos confirmados',
-        value: String(
-          getTotalAppointments[AppointmentStatus.CONFIRMED]?.length ?? 0,
-        ),
-        color: 'blue',
-      },
-      {
-        title: 'Total de agendamentos cancelados',
-        value: String(
-          getTotalAppointments[AppointmentStatus.CANCELLED]?.length ?? 0,
-        ),
-        color: 'red',
-      },
-    ]
-  }, [getAppointments])
+const StatInfoAppointments = ({
+  summary,
+}: {
+  summary: AppointmentPageApiResponse['summary']
+}) => {
+  const getStatAppointments = [
+    {
+      title: 'Total de agendamentos',
+      value: String(summary.total),
+      color: 'pink',
+    },
+    {
+      title: 'Total de agendamentos concluídos',
+      value: String(summary.byStatus[AppointmentStatus.CONCLUDED]),
+      color: 'green',
+    },
+    {
+      title: 'Total de agendamentos confirmados',
+      value: String(summary.byStatus[AppointmentStatus.CONFIRMED]),
+      color: 'blue',
+    },
+    {
+      title: 'Total de agendamentos cancelados',
+      value: String(summary.byStatus[AppointmentStatus.CANCELLED]),
+      color: 'red',
+    },
+  ]
 
   return (
     <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">

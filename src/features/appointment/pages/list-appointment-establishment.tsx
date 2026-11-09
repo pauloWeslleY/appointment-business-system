@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
-import { useMemo, useTransition } from 'react'
+import { useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
@@ -19,10 +19,12 @@ import type { GetAppointmentByEstablishmentModel } from '../types/get-appointmen
 
 interface ListAppointmentEstablishmentProps {
   appointments: GetAppointmentByEstablishmentModel[]
+  total: number
 }
 
 const ListAppointmentEstablishment = ({
   appointments,
+  total,
 }: ListAppointmentEstablishmentProps) => {
   const [isPendingPagination, startTransition] = useTransition()
   const [pagination, setPagination] = useQueryStates(
@@ -33,7 +35,7 @@ const ListAppointmentEstablishment = ({
       }),
     },
     {
-      shallow: false,
+      shallow: true,
     },
   )
 
@@ -41,38 +43,7 @@ const ListAppointmentEstablishment = ({
     from: '/_app/_authenticated/dashboard/$slug/appointment/',
   })
 
-  const filteredAppointmentByEstablishment = useMemo(() => {
-    const filteredClient = (clientName: string) => {
-      return search.q
-        ? clientName.toLowerCase().includes(search.q.toLowerCase())
-        : true
-    }
-
-    const filteredServices = (serviceId: string) => {
-      return search.service_id ? search.service_id === serviceId : true
-    }
-
-    const filteredStatus = (status: string) => {
-      return search.status ? search.status === status : true
-    }
-
-    return appointments.filter(
-      (appointment) =>
-        filteredClient(appointment.customerNameSnapshot) &&
-        filteredServices(appointment.serviceId) &&
-        filteredStatus(appointment.status),
-    )
-  }, [appointments, search.q, search.service_id, search.status])
-
-  const visibleAppointments = useMemo(() => {
-    const start = (pagination.page - 1) * pagination.page_size
-    const end = start + pagination.page_size
-    return filteredAppointmentByEstablishment.slice(start, end)
-  }, [
-    filteredAppointmentByEstablishment,
-    pagination.page,
-    pagination.page_size,
-  ])
+  const visibleAppointments = appointments
 
   const handlePageChange = (details: PaginationPageChangeDetails) => {
     startTransition(() => {
@@ -83,10 +54,7 @@ const ListAppointmentEstablishment = ({
     })
   }
 
-  if (
-    appointments.length === 0 ||
-    filteredAppointmentByEstablishment.length === 0
-  ) {
+  if (total === 0) {
     return (
       <Alert.Root status="info" rounded="xl" w="fit-content">
         <Alert.Indicator />
@@ -123,13 +91,14 @@ const ListAppointmentEstablishment = ({
           flexWrap="wrap"
         >
           <PaginationTable
-            count={filteredAppointmentByEstablishment.length}
+            count={total}
             pageSize={pagination.page_size}
             page={pagination.page}
             onPageChange={handlePageChange}
           />
 
           <SelectPageSize
+            shallow
             pages={[12, 24, 48]}
             search={{
               page: search.page,
@@ -143,7 +112,7 @@ const ListAppointmentEstablishment = ({
           mt={{ base: '2', md: '0' }}
         >
           <Text fontSize="sm" color="gray.400">
-            {`Exibindo ${visibleAppointments.length} de ${filteredAppointmentByEstablishment.length} agendamentos`}
+            {`Exibindo ${visibleAppointments.length} de ${total} agendamentos`}
           </Text>
         </Box>
       </Flex>

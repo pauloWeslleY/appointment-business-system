@@ -1,13 +1,19 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { getStatsDashboardQueryOptions } from '../queries/dashboard.query-options'
+import type { DashboardOverviewApiResponse } from '../types/dashboard-overview-api.type'
 import type { DashboardQueryApiRequest } from '../types/dashboard-query.api.type'
-import { normalizeDashboardQuery } from '../utils/normalize-dashboard-query'
+import { useDashboardOverview } from './use-dashboard-overview'
+
+function selectData(overview: DashboardOverviewApiResponse) {
+  const value = overview.stats
+
+  if (value === null) {
+    throw new Error('Você não tem permissão para consultar o faturamento.')
+  }
+
+  return value
+}
 
 export function useGetStatsEstablishmentDashboard(
   params: DashboardQueryApiRequest,
 ) {
-  return useQuery(
-    getStatsDashboardQueryOptions(normalizeDashboardQuery(params)),
-  )
+  return useDashboardOverview(params, selectData)
 }

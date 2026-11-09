@@ -5,6 +5,7 @@ import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 interface SelectPageSizeProps {
+  shallow?: boolean
   pages: number[]
   search?: {
     page: number
@@ -12,14 +13,18 @@ interface SelectPageSizeProps {
   }
 }
 
-const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
+const SelectPageSize = ({
+  pages,
+  search,
+  shallow = false,
+}: SelectPageSizeProps) => {
   const [pagination, setPagination] = useQueryStates(
     {
       page: parseAsInteger.withDefault(search?.page ?? 1),
       page_size: parseAsInteger.withDefault(search?.pageSize ?? 12),
     },
     {
-      shallow: false,
+      shallow,
     },
   )
 
@@ -31,7 +36,7 @@ const SelectPageSize = ({ pages, search }: SelectPageSizeProps) => {
   })
 
   const onChangePagination = (status: string[]) => {
-    setPagination((prev) => ({ ...prev, page_size: Number(status[0] ?? 12) }))
+    setPagination({ page: 1, page_size: Number(status[0] ?? 12) })
   }
 
   const clearPagination = () => {

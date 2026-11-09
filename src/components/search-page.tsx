@@ -5,25 +5,40 @@ import {
   type InputGroupProps,
 } from '@chakra-ui/react'
 import { SearchIcon, X } from 'lucide-react'
-import { debounce, parseAsString, useQueryState } from 'nuqs'
+import { debounce, parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 import type { ChangeEvent } from 'react'
 
 import InputField from '@/components/input-field'
 
-const SearchPage = (props: Omit<InputGroupProps, 'children'>) => {
-  const [search, setSearch] = useQueryState('q', parseAsString.withDefault(''))
+interface SearchPageProps extends Omit<InputGroupProps, 'children'> {
+  resetPagination?: boolean
+}
+
+const SearchPage = ({ resetPagination = false, ...props }: SearchPageProps) => {
+  const [{ q: search }, setSearch] = useQueryStates({
+    q: parseAsString.withDefault(''),
+    page: parseAsInteger.withDefault(1),
+  })
 
   function handleSearchPage(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value, {
-      limitUrlUpdates:
-        event.target.value.length !== 0 ? debounce(500) : undefined,
-    })
+    setSearch(
+      { q: event.target.value, ...(resetPagination ? { page: 1 } : {}) },
+      {
+        shallow: resetPagination,
+        limitUrlUpdates:
+          event.target.value.length !== 0 ? debounce(500) : undefined,
+      },
+    )
   }
 
   function handleClearSearchPage() {
-    setSearch('', {
-      limitUrlUpdates: debounce(500),
-    })
+    setSearch(
+      { q: '', ...(resetPagination ? { page: 1 } : {}) },
+      {
+        shallow: resetPagination,
+        limitUrlUpdates: debounce(500),
+      },
+    )
   }
 
   return (

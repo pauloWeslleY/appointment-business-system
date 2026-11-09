@@ -5,9 +5,8 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
-import { parseAsInteger, useQueryState } from 'nuqs'
+import { parseAsInteger, useQueryStates } from 'nuqs'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
@@ -29,13 +28,15 @@ const loadSelectRatings = createListCollection({
 })
 
 const FilterReviewsNotes = () => {
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/reviews/',
-  })
-  const [notes, setNotes] = useQueryState(
-    'notes',
-    parseAsInteger.withDefault(search.notes ?? 0),
+  const [{ notes }, setSearch] = useQueryStates(
+    {
+      notes: parseAsInteger.withDefault(0),
+      page: parseAsInteger.withDefault(1),
+    },
+    { shallow: true },
   )
+  const setNotes = (value: number | null) =>
+    setSearch({ notes: value, page: 1 })
 
   const onChangeNotes = (notes: string[]) => {
     const noteSelected = notes[0]

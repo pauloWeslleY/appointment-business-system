@@ -9,7 +9,7 @@ import FilterAppointmentsService from '@/features/appointment/components/filter-
 import FilterAppointmentsStatus from '@/features/appointment/components/filter-appointments-status'
 import SidebarCreateAppointment from '@/features/appointment/components/sidebar-create-appointment'
 import StatInfoAppointments from '@/features/appointment/components/stat-info-appointments'
-import { useGetAppointmentByEstablishment } from '@/features/appointment/hooks/use-get-appointment-by-establishment'
+import { useAppointmentPage } from '@/features/appointment/hooks/use-appointment-page'
 import ListAppointmentEstablishment from '@/features/appointment/pages/list-appointment-establishment'
 import { RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
@@ -19,26 +19,19 @@ const pageRoute = getRouteApi(
   '/_app/_authenticated/dashboard/$slug/appointment/',
 )
 
-const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
-
 const appointmentPermissionResources = [RESOURCES.APPOINTMENT]
 
 export default function AppointmentPage() {
-  const { establishment } = dashboardSlugRoute.useLoaderData()
   const search = pageRoute.useSearch()
   const { appointments: appointmentPermissions } = usePermissions(
     appointmentPermissionResources,
   )
 
   const {
-    data: getAppointmentByEstablishment = [],
+    data: getAppointmentByEstablishment,
     error: errorAppointmentByEstablishment,
     isLoading: isLoadingAppointmentByEstablishment,
-  } = useGetAppointmentByEstablishment({
-    establishmentId: establishment.id,
-    from: search.from ?? '',
-    to: search.to ?? '',
-  })
+  } = useAppointmentPage()
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -66,21 +59,26 @@ export default function AppointmentPage() {
         </Stack>
       )}
 
+      <HStack flexWrap="wrap">
+        <SearchPage resetPagination />
+        <FilterDatePicker from={search.from} to={search.to} resetPagination />
+        <FilterAppointmentsStatus />
+        <FilterAppointmentsService />
+      </HStack>
+
       {!isLoadingAppointmentByEstablishment &&
         !errorAppointmentByEstablishment && (
           <Box spaceY="4">
-            <StatInfoAppointments />
-
-            <HStack flexWrap="wrap">
-              <SearchPage />
-              <FilterDatePicker from={search.from} to={search.to} />
-              <FilterAppointmentsStatus />
-              <FilterAppointmentsService />
-            </HStack>
+            {getAppointmentByEstablishment && (
+              <StatInfoAppointments
+                summary={getAppointmentByEstablishment.summary}
+              />
+            )}
 
             <Card.Root variant="outline" css={cardSectionCss}>
               <ListAppointmentEstablishment
-                appointments={getAppointmentByEstablishment ?? []}
+                appointments={getAppointmentByEstablishment?.appointments ?? []}
+                total={getAppointmentByEstablishment?.total ?? 0}
               />
             </Card.Root>
           </Box>

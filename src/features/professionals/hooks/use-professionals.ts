@@ -7,15 +7,16 @@ import {
   professionalsListQueryOptions,
 } from '../queries/professionals.query-options'
 
-export function useProfessionals(establishmentId: string) {
+export function useProfessionals(establishmentId: string, enabled = true) {
   const { data: session } = useAppSession()
-  return useQuery(
-    professionalsListQueryOptions(
+  return useQuery({
+    ...professionalsListQueryOptions(
       establishmentId,
       session?.user.id,
       session?.session.activeOrganizationId ?? undefined,
     ),
-  )
+    enabled,
+  })
 }
 
 export function useProfessional(professionalId?: string) {

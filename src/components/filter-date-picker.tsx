@@ -1,7 +1,7 @@
 import { Button, DatePicker, Icon, parseDate, Popover } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { Calendar } from 'lucide-react'
-import { parseAsString, useQueryStates } from 'nuqs'
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 import { useEffect, useMemo, useState } from 'react'
 
 import { contentCss } from '@/theme/styles/global-styles'
@@ -9,19 +9,22 @@ import { contentCss } from '@/theme/styles/global-styles'
 interface FilterDatePickerProps {
   from?: string
   to?: string
+  resetPagination?: boolean
 }
 
 const FilterDatePicker = ({
   from: initialFrom,
   to: initialTo,
+  resetPagination = false,
 }: FilterDatePickerProps) => {
   const [{ from, to }, setDateSearch] = useQueryStates(
     {
       from: parseAsString.withDefault(initialFrom ?? ''),
       to: parseAsString.withDefault(initialTo ?? ''),
+      page: parseAsInteger.withDefault(1),
     },
     {
-      shallow: false,
+      shallow: resetPagination,
     },
   )
 
@@ -63,6 +66,7 @@ const FilterDatePicker = ({
     setDateSearch({
       from: dateCurrent.format('YYYY-MM-DD'),
       to: dateCurrent.add(1, 'month').format('YYYY-MM-DD'),
+      ...(resetPagination ? { page: 1 } : {}),
     })
   }
 
@@ -80,6 +84,7 @@ const FilterDatePicker = ({
     setDateSearch({
       from: dateFrom,
       to: dateTo,
+      ...(resetPagination ? { page: 1 } : {}),
     })
   }
 

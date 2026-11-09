@@ -1,27 +1,23 @@
 import { For, SimpleGrid, Stat } from '@chakra-ui/react'
 
-import type { ProfessionalListItemApiResponse } from '../types/professional-api.type'
+import type { ProfessionalPageApiResponse } from '../types/professional-page-api.type'
 
 interface StatInfoProfessionalsProps {
-  professionals: ProfessionalListItemApiResponse[]
+  summary: ProfessionalPageApiResponse['summary']
 }
 
 export default function StatInfoProfessionals({
-  professionals,
+  summary,
 }: StatInfoProfessionalsProps) {
-  const specialtyCount = new Set(
-    professionals.map((professional) => professional.specialty.trim()),
-  ).size
-
   const stats = [
     {
       title: 'Profissionais cadastrados',
-      value: professionals.length,
+      value: summary.total,
       color: 'blue',
     },
     {
       title: 'Especialidades',
-      value: specialtyCount,
+      value: summary.specialties,
       color: 'purple',
     },
   ]

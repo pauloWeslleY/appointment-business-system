@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
-import { useMemo, useTransition } from 'react'
+import { useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
@@ -21,9 +21,10 @@ import type { ListServicesEstablishmentModel } from '../types/list-services-esta
 
 interface ServicesListPageProps {
   services: ListServicesEstablishmentModel[]
+  total: number
 }
 
-const ServicesListPage = ({ services }: ServicesListPageProps) => {
+const ServicesListPage = ({ services, total }: ServicesListPageProps) => {
   const [isPendingPagination, startTransition] = useTransition()
   const [pagination, setPagination] = useQueryStates(
     {
@@ -33,7 +34,7 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
       }),
     },
     {
-      shallow: false,
+      shallow: true,
     },
   )
 
@@ -41,30 +42,7 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
     from: '/_app/_authenticated/dashboard/$slug/services/',
   })
 
-  const filteredServices = useMemo(() => {
-    const query = search.q?.toLowerCase()
-    return services.filter((service) => {
-      const queryStringName = query
-        ? service.name.toLowerCase().includes(query)
-        : true
-
-      const queryStringDescription = query
-        ? service.description.toLowerCase().includes(query)
-        : true
-
-      const queryString = queryStringName || queryStringDescription
-      const queryStatus = service.status ? 'active' : 'inactive'
-      const status = search?.status ? search.status === queryStatus : true
-
-      return queryString && status
-    })
-  }, [search.q, search.status, services])
-
-  const visibleServices = useMemo(() => {
-    const start = (pagination.page - 1) * pagination.page_size
-    const end = start + pagination.page_size
-    return filteredServices.slice(start, end)
-  }, [filteredServices, pagination.page, pagination.page_size])
+  const visibleServices = services
 
   const handlePageChange = (details: PaginationPageChangeDetails) => {
     startTransition(() => {
@@ -75,7 +53,7 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
     })
   }
 
-  if (services.length === 0 || filteredServices.length === 0) {
+  if (total === 0) {
     return (
       <Alert.Root status="info" rounded="xl">
         <Alert.Indicator />
@@ -107,17 +85,18 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
         </SimpleGrid>
       )}
 
-      {filteredServices.length > 0 && (
+      {total > 0 && (
         <HStack justify="space-between" w="full" flexWrap="wrap" gap="3">
           <Flex align="center" gap="2" flexWrap="wrap" maxW="full">
             <PaginationTable
-              count={filteredServices.length}
+              count={total}
               pageSize={pagination.page_size}
               page={pagination.page}
               onPageChange={handlePageChange}
             />
 
             <SelectPageSize
+              shallow
               pages={[12, 24, 48]}
               search={{
                 page: search?.page ?? 1,
@@ -128,7 +107,7 @@ const ServicesListPage = ({ services }: ServicesListPageProps) => {
 
           <Box>
             <Text fontSize="sm" color="gray.400">
-              {`Exibindo ${visibleServices.length} de ${filteredServices.length} serviços`}
+              {`Exibindo ${visibleServices.length} de ${total} serviços`}
             </Text>
           </Box>
         </HStack>

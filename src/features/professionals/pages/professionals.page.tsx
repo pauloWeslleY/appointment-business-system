@@ -31,9 +31,9 @@ const professionalsRoute = getRouteApi(
 
 const ProfessionalsPage = () => {
   const {
-    professionals,
     visibleProfessionals,
     filteredCount,
+    summary,
     pagination,
     handlePaginationChange,
     isLoading,
@@ -93,20 +93,20 @@ const ProfessionalsPage = () => {
         </Alert.Root>
       )}
 
+      <Flex gap="2" align="center" flexWrap="wrap">
+        <SearchPage resetPagination />
+      </Flex>
+
       {!isLoading && !error && (
         <Box spaceY="4">
-          <StatInfoProfessionals professionals={professionals} />
-
-          <Flex gap="2" align="center" flexWrap="wrap">
-            <SearchPage />
-          </Flex>
+          {summary && <StatInfoProfessionals summary={summary} />}
 
           <Card.Root variant="outline" css={cardSectionCss}>
             {visibleProfessionals.length === 0 ? (
               <Alert.Root status="info" variant="subtle" rounded="lg">
                 <Alert.Indicator />
                 <Alert.Title>
-                  {professionals.length === 0
+                  {(summary?.total ?? 0) === 0
                     ? 'Nenhum profissional cadastrado.'
                     : 'Nenhum profissional corresponde à busca.'}
                 </Alert.Title>

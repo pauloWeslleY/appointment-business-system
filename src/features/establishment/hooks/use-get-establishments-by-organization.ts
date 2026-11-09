@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import { organizationProfileSummaryQueryOptions } from '@/features/organization-profile/queries/organization-profile-query-options'
+import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
 import { establishmentByOrganizationQueryOptions } from '../queries/establishment.query-options'
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
@@ -11,11 +11,7 @@ export function useGetEstablishmentsByOrganization(
   searchTerm?: string,
   opening?: string,
 ) {
-  const {
-    data: organizationProfile,
-    error: errorOrganizationProfile,
-    isLoading: isLoadingOrganizationProfile,
-  } = useQuery(organizationProfileSummaryQueryOptions())
+  const { data: session, error: sessionError, isPending } = useAppSession()
 
   const {
     data: establishments = [],
@@ -23,13 +19,12 @@ export function useGetEstablishmentsByOrganization(
     isLoading: isLoadingEstablishments,
   } = useQuery(
     establishmentByOrganizationQueryOptions(
-      organizationProfile?.organizationId,
+      session?.session.activeOrganizationId ?? undefined,
     ),
   )
 
-  const errorGetEstablishments = errorOrganizationProfile ?? errorEstablishments
-  const isLoadingGetEstablishments =
-    isLoadingOrganizationProfile || isLoadingEstablishments
+  const errorGetEstablishments = sessionError ?? errorEstablishments
+  const isLoadingGetEstablishments = isPending || isLoadingEstablishments
 
   const filteredEstablishments = useMemo<
     EstablishmentOrganizationProfileApiResponse[]

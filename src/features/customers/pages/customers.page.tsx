@@ -25,6 +25,8 @@ import { useCustomersPage } from '../hooks/use-customers-page'
 function CustomersPage() {
   const {
     customers: getCustomers,
+    total,
+    summary,
     customersError: errorCustomers,
     isLoadingCustomers,
     retryCustomers,
@@ -67,18 +69,18 @@ function CustomersPage() {
         </Stack>
       )}
 
+      <Flex align="center" gap="2" flexWrap="wrap">
+        <SearchPage resetPagination />
+        <FilterCustomerStatus />
+        <FilterCustomerSex />
+      </Flex>
+
       {!isLoadingCustomers && !errorCustomers && (
         <Box spaceY="4">
-          <StatInfoCustomers />
-
-          <Flex align="center" gap="2" flexWrap="wrap">
-            <SearchPage />
-            <FilterCustomerStatus />
-            <FilterCustomerSex />
-          </Flex>
+          {summary && <StatInfoCustomers summary={summary} />}
 
           <Card.Root variant="outline" css={cardSectionCss}>
-            <CustomersTable customers={getCustomers ?? []} />
+            <CustomersTable customers={getCustomers ?? []} total={total} />
           </Card.Root>
         </Box>
       )}

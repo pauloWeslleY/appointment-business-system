@@ -1,13 +1,13 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { getDailyAppointmentsDashboardQueryOptions } from '../queries/dashboard.query-options'
+import type { DashboardOverviewApiResponse } from '../types/dashboard-overview-api.type'
 import type { DashboardQueryApiRequest } from '../types/dashboard-query.api.type'
-import { normalizeDashboardQuery } from '../utils/normalize-dashboard-query'
+import { useDashboardOverview } from './use-dashboard-overview'
+
+function selectData(overview: DashboardOverviewApiResponse) {
+  return overview.dailyAppointments
+}
 
 export function useGetDailyAppointmentsEstablishmentDashboard(
   params: DashboardQueryApiRequest,
 ) {
-  return useQuery(
-    getDailyAppointmentsDashboardQueryOptions(normalizeDashboardQuery(params)),
-  )
+  return useDashboardOverview(params, selectData)
 }

@@ -9,69 +9,14 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
-import { formatSubscriptionDate } from '@/features/subscriptions/policies/subscription-view'
-import { mapLabelBillingInterval } from '@/features/subscriptions/types/billing-interval.type'
-import {
-  mapLabelSubscriptionStatus,
-  mapLabelSubscriptionStatusColor,
-} from '@/features/subscriptions/types/subscription-status.type'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import { useProfileSubscription } from '../hooks/use-profile-subscription'
 
 export function ProfileSubscriptionSummary() {
-  const { canShowSummary, subscriptionQuery } = useProfileSubscription()
-  const snapshot = subscriptionQuery.data
-
-  const summaryItems = useMemo(() => {
-    if (!snapshot) {
-      return []
-    }
-
-    const { subscription, access } = snapshot
-    const isTrial = access.status === 'trialing'
-    const isRenewing =
-      subscription &&
-      !subscription.cancellationRequested &&
-      access.status === 'active'
-
-    let planLabel = 'Sem assinatura contratada'
-    if (subscription) {
-      planLabel = `Básico · ${mapLabelBillingInterval[subscription.billingInterval]}`
-    } else if (isTrial) {
-      planLabel = 'Teste gratuito'
-    }
-
-    let endDateLabel = 'Fim do período pago'
-    if (isTrial) {
-      endDateLabel = 'Fim do teste gratuito'
-    } else if (isRenewing) {
-      endDateLabel = 'Próxima renovação'
-    } else if (access.canWrite) {
-      endDateLabel = 'Acesso até'
-    }
-
-    let endDate = access.operationalUntil ?? subscription?.paidUntil ?? null
-    if (isRenewing) {
-      endDate = subscription.paidUntil
-    }
-
-    return [
-      { label: 'Plano atual', value: planLabel },
-      {
-        label: 'Status da assinatura',
-        value: mapLabelSubscriptionStatus[access.status],
-        colorPalette: mapLabelSubscriptionStatusColor[access.status],
-      },
-      {
-        label: 'Início da assinatura',
-        value: formatSubscriptionDate(subscription?.createdAt ?? null),
-      },
-      { label: endDateLabel, value: formatSubscriptionDate(endDate) },
-    ]
-  }, [snapshot])
+  const { canShowSummary, subscriptionQuery, summaryItems, snapshot } =
+    useProfileSubscription()
 
   if (!canShowSummary) {
     return null

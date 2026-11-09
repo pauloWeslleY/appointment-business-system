@@ -7,8 +7,6 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import Loader from '@/components/loader'
@@ -23,48 +21,21 @@ import type { CustomerApiResponse } from '../types/customer-response.api.type'
 
 interface CustomerTableProps {
   customers: CustomerApiResponse[]
+  total: number
 }
 
-const CustomersTable = ({ customers }: CustomerTableProps) => {
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/customers/',
-  })
-
-  const loadCustomers = useMemo(() => {
-    const query = search.q?.toLowerCase()
-
-    const rows = customers.filter((customer) => {
-      const queryStringName = query
-        ? customer.name.toLowerCase().includes(query)
-        : true
-
-      const queryStringEmail = query
-        ? customer.email.toLowerCase().includes(query)
-        : true
-
-      const queryString = queryStringName || queryStringEmail
-      const querySex = search.sex ? search.sex === customer.gender : true
-      const queryStatus = search.status
-        ? search.status === (customer.status ? 'active' : 'inactive')
-        : true
-
-      return queryString && querySex && queryStatus
-    })
-
-    return rows
-  }, [customers, search.q, search.sex, search.status])
-
+const CustomersTable = ({ customers, total }: CustomerTableProps) => {
   const {
     pagination,
     isPendingPagination,
     loadTablePagination,
     handlePaginationChange,
-  } = usePagination(loadCustomers)
+  } = usePagination(customers, total)
 
   const formattedPhoneCustomer = (phones: string[]) =>
     phones.map(formattedPhone)[0]
 
-  if (customers.length === 0) {
+  if (total === 0) {
     return (
       <Stack
         direction={{ base: 'column' }}
@@ -142,7 +113,7 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
 
       <HStack justify="space-between" w="full" flexWrap="wrap">
         <PaginationTable
-          count={customers.length}
+          count={total}
           pageSize={pagination.page_size}
           page={pagination.page}
           onPageChange={handlePaginationChange}
@@ -150,7 +121,7 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
 
         <Box>
           <Text fontSize="sm" color="gray.400">
-            {`Exibindo ${loadTablePagination.length} de ${loadCustomers.length} clientes`}
+            {`Exibindo ${loadTablePagination.length} de ${total} clientes`}
           </Text>
         </Box>
       </HStack>

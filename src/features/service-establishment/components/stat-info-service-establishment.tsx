@@ -1,68 +1,41 @@
 import { For, SimpleGrid, Stat } from '@chakra-ui/react'
-import { getRouteApi } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
-import { useGetServiceByEstablishment } from '../hooks/use-get-service-by-establishment'
+import type { ServicePageApiResponse } from '../types/service-page-api.type'
 
-const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
-
-const StatInfoServiceEstablishment = () => {
-  const { establishment } = dashboardSlugRoute.useLoaderData()
-  const { data: serviceEstablishment } = useGetServiceByEstablishment(
-    establishment.id,
-  )
-
-  const getStatServiceEstablishment = useMemo(() => {
-    const getTotalServicesActive = serviceEstablishment?.filter(
-      (service) => service.status,
-    )
-
-    const getTotalServicesInactive = serviceEstablishment?.filter(
-      (service) => !service.status,
-    )
-
-    const getTotalValueServices = serviceEstablishment?.reduce(
-      (total, service) => total + service.servicePriceInCents,
-      0,
-    )
-
-    const getTotalBookingsServices = serviceEstablishment?.reduce(
-      (total, service) => total + service.totalAppointments,
-      0,
-    )
-
-    const getStatServices = [
-      {
-        title: 'Total de serviços cadastrados',
-        value: (serviceEstablishment?.length ?? 0).toString(),
-        color: 'blue',
-      },
-      {
-        title: 'Valor total dos serviços',
-        value: formatCurrencyInCents(getTotalValueServices ?? 0),
-        color: 'purple',
-      },
-      {
-        title: 'Total de serviços agendados',
-        value: (getTotalBookingsServices ?? 0).toString(),
-        color: 'orange',
-      },
-      {
-        title: 'Serviços ativos',
-        value: (getTotalServicesActive?.length ?? 0).toString(),
-        color: 'green',
-      },
-      {
-        title: 'Serviços inativos',
-        value: (getTotalServicesInactive?.length ?? 0).toString(),
-        color: 'red',
-      },
-    ]
-
-    return getStatServices
-  }, [serviceEstablishment])
+const StatInfoServiceEstablishment = ({
+  summary,
+}: {
+  summary: ServicePageApiResponse['summary']
+}) => {
+  const getStatServiceEstablishment = [
+    {
+      title: 'Total de serviços cadastrados',
+      value: summary.totalServices.toString(),
+      color: 'blue',
+    },
+    {
+      title: 'Valor total dos serviços',
+      value: formatCurrencyInCents(summary.totalValueInCents),
+      color: 'purple',
+    },
+    {
+      title: 'Total de serviços agendados',
+      value: summary.totalAppointments.toString(),
+      color: 'orange',
+    },
+    {
+      title: 'Serviços ativos',
+      value: summary.activeServices.toString(),
+      color: 'green',
+    },
+    {
+      title: 'Serviços inativos',
+      value: summary.inactiveServices.toString(),
+      color: 'red',
+    },
+  ]
 
   return (
     <SimpleGrid columns={{ base: 1, md: 2, xl: 3, '2xl': 5 }} gap="4" w="full">

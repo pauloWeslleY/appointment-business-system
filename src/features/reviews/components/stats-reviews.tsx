@@ -1,28 +1,17 @@
 import { Flex, Icon, Stat } from '@chakra-ui/react'
-import { getRouteApi } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
-import { useMemo } from 'react'
 
-import { useGetAllReviewsByEstablishment } from '../hooks/use-get-all-reviews-by-establishment'
+import type { ReviewPageApiResponse } from '../types/review-page-api.type'
 
-const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
-
-const StatsReviews = () => {
-  const { establishment } = dashboardSlugRoute.useLoaderData()
-  const { data: getReviewsList } = useGetAllReviewsByEstablishment(
-    establishment.id,
-  )
-
-  const getAverageRating = useMemo(() => {
-    const totalReviews = getReviewsList?.length || 0
-    const totalRating =
-      getReviewsList?.reduce((acc, review) => acc + review.rating, 0) || 0
-    return {
-      average:
-        totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : '0.0',
-      reviewsCount: totalReviews,
-    }
-  }, [getReviewsList])
+const StatsReviews = ({
+  summary,
+}: {
+  summary: ReviewPageApiResponse['summary']
+}) => {
+  const getAverageRating = {
+    average: summary.average.toFixed(1),
+    reviewsCount: summary.total,
+  }
 
   return (
     <Flex align="stretch" gap="4" flexDir={{ base: 'column', sm: 'row' }}>

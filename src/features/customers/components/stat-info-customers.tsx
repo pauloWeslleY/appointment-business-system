@@ -1,52 +1,33 @@
 import { type ColorPalette, For, SimpleGrid, Stat } from '@chakra-ui/react'
-import { getRouteApi } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
-import { useGetAllCustomersByEstablishment } from '../hooks/use-get-all-customers-by-establishment'
+import type { CustomerPageApiResponse } from '../types/customer-page-api.type'
 
-const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
-
-const StatInfoCustomers = () => {
-  const { establishment } = dashboardSlugRoute.useLoaderData()
-
-  const { data: getCustomersList } = useGetAllCustomersByEstablishment(
-    establishment.id,
-  )
-
-  const getStatCustomers = useMemo<
-    { title: string; value: string; color: ColorPalette }[]
-  >(() => {
-    const filteredCustomersActive = getCustomersList?.filter(
-      (service) => service.status,
-    )
-
-    const filteredCustomersInactive = getCustomersList?.filter(
-      (service) => !service.status,
-    )
-
-    const customerTotals: Record<string, number> = {
-      ativo: filteredCustomersActive?.length ?? 0,
-      inativo: filteredCustomersInactive?.length ?? 0,
-    }
-
-    return [
-      {
-        title: 'Total de clientes',
-        value: String(getCustomersList?.length ?? 0),
-        color: 'cyan',
-      },
-      {
-        title: 'Total de clientes ativos',
-        value: String(customerTotals.ativo ?? 0),
-        color: 'green',
-      },
-      {
-        title: 'Total de clientes inativos',
-        value: String(customerTotals.inativo ?? 0),
-        color: 'red',
-      },
-    ]
-  }, [getCustomersList])
+const StatInfoCustomers = ({
+  summary,
+}: {
+  summary: CustomerPageApiResponse['summary']
+}) => {
+  const getStatCustomers: {
+    title: string
+    value: string
+    color: ColorPalette
+  }[] = [
+    {
+      title: 'Total de clientes',
+      value: String(summary.total),
+      color: 'cyan',
+    },
+    {
+      title: 'Total de clientes ativos',
+      value: String(summary.active),
+      color: 'green',
+    },
+    {
+      title: 'Total de clientes inativos',
+      value: String(summary.inactive),
+      color: 'red',
+    },
+  ]
 
   return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap="4" w="full">

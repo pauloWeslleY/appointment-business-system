@@ -1,6 +1,5 @@
 import { createListCollection, Portal, Select } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
-import { useQueryState } from 'nuqs'
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
@@ -13,13 +12,13 @@ const selectMaxCustomers = createListCollection({
 })
 
 const FilterCustomerSex = () => {
-  const [customerSex, setCustomerSex] = useQueryState('sex')
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/customers/',
-  })
+  const [{ sex: customerSex }, setCustomerSex] = useQueryStates(
+    { sex: parseAsString, page: parseAsInteger.withDefault(1) },
+    { shallow: true },
+  )
 
   const onChangeCustomerSex = (sex: string | null) => {
-    setCustomerSex(sex || null)
+    setCustomerSex({ sex: sex || null, page: 1 })
   }
 
   return (
@@ -30,7 +29,7 @@ const FilterCustomerSex = () => {
       w={{ base: 'full', md: '250px' }}
       minW="0"
       maxW="full"
-      value={[customerSex ?? search.sex ?? '']}
+      value={[customerSex ?? '']}
       onValueChange={(e) => onChangeCustomerSex(e.value[0])}
     >
       <Select.HiddenSelect />
@@ -42,7 +41,9 @@ const FilterCustomerSex = () => {
           <Select.ValueText placeholder="Selecione o sexo" />
         </Select.Trigger>
         <Select.IndicatorGroup>
-          <Select.ClearTrigger onClick={() => setCustomerSex(null)} />
+          <Select.ClearTrigger
+            onClick={() => setCustomerSex({ sex: null, page: 1 })}
+          />
           <Select.Indicator />
         </Select.IndicatorGroup>
       </Select.Control>

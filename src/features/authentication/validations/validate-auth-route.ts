@@ -6,7 +6,7 @@ import type { AuthenticationSessionType } from '@/shared/types/auth-client.type'
 import { authenticationSessionQueryOptions } from '../queries/authentication.query-options'
 import { validatePanelAccess } from './validate-panel-access'
 
-export const validateEnsureAuthRoute = async (
+export const validateEnsureSessionRoute = async (
   queryClient: QueryClient,
   pathname?: string,
 ): Promise<AuthenticationSessionType> => {
@@ -19,6 +19,14 @@ export const validateEnsureAuthRoute = async (
     throw redirect({ to: '/login', replace: true })
   }
 
+  return data
+}
+
+export const validateEnsureAuthRoute = async (
+  queryClient: QueryClient,
+  pathname?: string,
+): Promise<AuthenticationSessionType> => {
+  const data = await validateEnsureSessionRoute(queryClient, pathname)
   const access = await validatePanelAccess(queryClient, data)
   const pathsOrganizationProfile = new Set<string>([
     '/organization-profile',

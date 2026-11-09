@@ -47,7 +47,7 @@ const SidebarCreateAppointment = () => {
     onChangeScheduleField,
     onSubmitCreateAppointment,
     onResetCreateAppointment,
-  } = useFormCreateAppointment(() => setOpen(false))
+  } = useFormCreateAppointment(() => setOpen(false), open)
 
   const hasNoAvailableHours =
     hasScheduleSelected &&

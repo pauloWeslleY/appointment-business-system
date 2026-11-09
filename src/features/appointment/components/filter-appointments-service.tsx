@@ -1,6 +1,7 @@
 import { createListCollection, Portal, Select, Spinner } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
-import { parseAsString, useQueryState } from 'nuqs'
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
+import { useState } from 'react'
 
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 import { contentCss } from '@/theme/styles/global-styles'
@@ -8,14 +9,19 @@ import { contentCss } from '@/theme/styles/global-styles'
 const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const FilterAppointmentsService = () => {
+  const [open, setOpen] = useState(false)
   const { establishment } = dashboardSlugRoute.useLoaderData()
-  const [serviceId, setServiceId] = useQueryState(
-    'service_id',
-    parseAsString.withDefault(''),
+  const [{ service_id: serviceId }, setServiceId] = useQueryStates(
+    {
+      service_id: parseAsString.withDefault(''),
+      page: parseAsInteger.withDefault(1),
+    },
+    { shallow: true },
   )
 
   const loadServiceByEstablishment = useGetServiceByEstablishment(
     establishment.id,
+    open || Boolean(serviceId),
   )
 
   const loadSelectServiceAppointments = createListCollection({
@@ -25,11 +31,13 @@ const FilterAppointmentsService = () => {
   })
 
   const onChangeService = (serviceId: string[]) => {
-    setServiceId(serviceId[0])
+    setServiceId({ service_id: serviceId[0] ?? null, page: 1 })
   }
 
   return (
     <Select.Root
+      open={open}
+      onOpenChange={(details) => setOpen(details.open)}
       variant="subtle"
       size="sm"
       collection={loadSelectServiceAppointments}
@@ -53,7 +61,9 @@ const FilterAppointmentsService = () => {
           )}
 
           {!loadServiceByEstablishment.isLoading && (
-            <Select.ClearTrigger onClick={() => setServiceId(null)} />
+            <Select.ClearTrigger
+              onClick={() => setServiceId({ service_id: null, page: 1 })}
+            />
           )}
           <Select.Indicator />
         </Select.IndicatorGroup>

@@ -1,21 +1,21 @@
 import { Portal, Select } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
-import { parseAsString, useQueryState } from 'nuqs'
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { loadCollectionStatusAppointment } from '../utils/select-appointment'
 
 const FilterAppointmentsStatus = () => {
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/appointment/',
-  })
-  const [status, setStatus] = useQueryState(
-    'status',
-    parseAsString.withDefault(search.status ?? ''),
+  const [{ status }, setStatus] = useQueryStates(
+    {
+      status: parseAsString.withDefault(''),
+      page: parseAsInteger.withDefault(1),
+    },
+    { shallow: true },
   )
 
-  const onChangeStatus = (status: string[]) => setStatus(status[0])
+  const onChangeStatus = (status: string[]) =>
+    setStatus({ status: status[0] ?? null, page: 1 })
 
   return (
     <Select.Root
@@ -37,7 +37,9 @@ const FilterAppointmentsStatus = () => {
           <Select.ValueText placeholder="Selecione o status" />
         </Select.Trigger>
         <Select.IndicatorGroup>
-          <Select.ClearTrigger onClick={() => setStatus(null)} />
+          <Select.ClearTrigger
+            onClick={() => setStatus({ status: null, page: 1 })}
+          />
           <Select.Indicator />
         </Select.IndicatorGroup>
       </Select.Control>

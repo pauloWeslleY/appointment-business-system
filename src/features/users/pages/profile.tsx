@@ -14,6 +14,7 @@ const Profile = () => {
         <Card.Root variant="outline" css={cardSectionCss} h="fit">
           <CarduserProfile />
         </Card.Root>
+
         <ProfileSubscriptionSummary />
       </Stack>
 

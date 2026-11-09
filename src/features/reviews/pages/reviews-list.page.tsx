@@ -5,9 +5,8 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
-import { useMemo, useTransition } from 'react'
+import { useTransition } from 'react'
 
 import Loader from '@/components/loader'
 
@@ -17,9 +16,10 @@ import type { ReviewEstablishmentModel } from '../types/reviews-establishment.mo
 
 interface ReviewsListPageProps {
   reviews: ReviewEstablishmentModel[]
+  total: number
 }
 
-const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
+const ReviewsListPage = ({ reviews, total }: ReviewsListPageProps) => {
   const [isPendingPagination, startTransition] = useTransition()
   const [pagination, setPagination] = useQueryStates(
     {
@@ -29,30 +29,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
     { shallow: true },
   )
 
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/reviews/',
-  })
-
-  const visibleReviews = useMemo<ReviewEstablishmentModel[]>(() => {
-    const searchReviewsTable = (params: string) => {
-      const querySearch = search.q?.trim().toLowerCase()
-      return querySearch ? params.toLowerCase().includes(querySearch) : true
-    }
-
-    const filteredReviews = reviews.filter((review) => {
-      const commentQueryParams = searchReviewsTable(review.comment ?? '')
-      const nameQueryParams = searchReviewsTable(review.user.name)
-      const notesQueryParams = search.notes
-        ? parseInt(review.rating.toString(), 10) === search.notes
-        : true
-      const textSearch = commentQueryParams || nameQueryParams
-      return textSearch && notesQueryParams
-    })
-
-    const start = (pagination.page - 1) * pagination.page_size
-    const end = start + pagination.page_size
-    return filteredReviews.slice(start, end)
-  }, [pagination.page, pagination.page_size, reviews, search.q, search.notes])
+  const visibleReviews = reviews
 
   const handlePageChange = (details: PaginationPageChangeDetails) => {
     startTransition(() => {
@@ -63,7 +40,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
     })
   }
 
-  if (reviews.length === 0) {
+  if (total === 0) {
     return (
       <Alert.Root status="info" rounded="xl">
         <Alert.Indicator />
@@ -101,7 +78,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
       )}
 
       <PaginationTableReviews
-        reviewsLength={reviews.length}
+        reviewsLength={total}
         pagination={pagination}
         onPageChange={handlePageChange}
       />

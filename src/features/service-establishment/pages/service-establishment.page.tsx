@@ -16,7 +16,7 @@ import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterServicesEstablishmentStatus from '@/features/service-establishment/components/filter-services-status'
 import StatInfoServiceEstablishment from '@/features/service-establishment/components/stat-info-service-establishment'
-import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
+import { useServicePage } from '@/features/service-establishment/hooks/use-service-page'
 import ServicesListPage from '@/features/service-establishment/pages/services.page'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
@@ -32,7 +32,7 @@ export default function ServicesPage() {
     data: serviceEstablishments,
     isLoading: isLoadingServicesEstablishment,
     error: errorServicesEstablishment,
-  } = useGetServiceByEstablishment(establishment.id)
+  } = useServicePage(establishment.id)
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -73,17 +73,24 @@ export default function ServicesPage() {
         </Stack>
       )}
 
+      <Flex gap="2" align="center" flexWrap="wrap">
+        <SearchPage resetPagination />
+        <FilterServicesEstablishmentStatus />
+      </Flex>
+
       {!isLoadingServicesEstablishment && !errorServicesEstablishment && (
         <Box spaceY="4">
-          <StatInfoServiceEstablishment />
-
-          <Flex gap="2" align="center" flexWrap="wrap">
-            <SearchPage />
-            <FilterServicesEstablishmentStatus />
-          </Flex>
+          {serviceEstablishments && (
+            <StatInfoServiceEstablishment
+              summary={serviceEstablishments.summary}
+            />
+          )}
 
           <Card.Root variant="outline" css={cardSectionCss}>
-            <ServicesListPage services={serviceEstablishments ?? []} />
+            <ServicesListPage
+              services={serviceEstablishments?.services ?? []}
+              total={serviceEstablishments?.total ?? 0}
+            />
           </Card.Root>
         </Box>
       )}

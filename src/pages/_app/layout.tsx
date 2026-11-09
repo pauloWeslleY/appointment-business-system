@@ -4,22 +4,37 @@ import { Outlet, useMatches } from '@tanstack/react-router'
 import Loader from '@/components/loader'
 import LoaderFull from '@/components/loader-full'
 import { useRefreshSessionContext } from '@/features/authentication/hooks/use-refresh-session-context'
-import { validateEnsureAuthRoute } from '@/features/authentication/validations/validate-auth-route'
+import {
+  validateEnsureAuthRoute,
+  validateEnsureSessionRoute,
+} from '@/features/authentication/validations/validate-auth-route'
 import { subscriptionAccessQueryOptions } from '@/features/subscriptions/queries/subscription.query-options'
 
 export const Route = createFileRoute('/_app')({
   pendingComponent: AppPendingLoader,
   beforeLoad: async ({ context, location }) => {
-    const session = await validateEnsureAuthRoute(
+    const session = await validateEnsureSessionRoute(
       context.queryClient,
       location.pathname,
     )
-    const subscription = await context.queryClient.query(
-      subscriptionAccessQueryOptions(
-        session.user.id,
-        session.session.activeOrganizationId ?? '',
-      ),
+    const authorization = validateEnsureAuthRoute(
+      context.queryClient,
+      location.pathname,
     )
+
+    if (!session.session.activeOrganizationId) {
+      await authorization
+    }
+
+    const [, subscription] = await Promise.all([
+      authorization,
+      context.queryClient.query(
+        subscriptionAccessQueryOptions(
+          session.user.id,
+          session.session.activeOrganizationId ?? '',
+        ),
+      ),
+    ])
     return {
       session,
       subscription,
