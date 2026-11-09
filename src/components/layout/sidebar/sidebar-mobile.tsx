@@ -6,19 +6,21 @@ import {
   For,
   Icon,
   IconButton,
-  Image,
   Portal,
   Separator,
+  Stack,
   Text,
 } from '@chakra-ui/react'
 import { Menu } from 'lucide-react'
 import { useState } from 'react'
 
 import ButtonLogout from '@/components/button-logout'
+import CurrentPlan from '@/components/current-plain'
+import Logotipo from '@/components/logotipo'
 import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 import { contentCss } from '@/theme/styles/global-styles'
 
-import CardUserInfo from '../card-user-info'
+import SidebarCurrentUser from './sidebar-current-user'
 import SidebarItem from './sidebar-item'
 
 export interface SidebarMobileProps {
@@ -56,52 +58,33 @@ const SidebarMobile = ({
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content css={contentCss}>
-            <Drawer.Title srOnly>Menu de navegação</Drawer.Title>
+          <Drawer.Content css={contentCss} bg="sidebar.aside.bg">
+            <Drawer.Header
+              flexShrink="0"
+              px="4"
+              py="5"
+              pr="10"
+              borderBottomWidth="1px"
+              borderColor="border.muted"
+            >
+              <Drawer.Title srOnly>Menu de navegação</Drawer.Title>
+              <Logotipo
+                variant="horizontal"
+                w="full"
+                h="14"
+                objectFit="contain"
+                objectPosition="left"
+              />
+            </Drawer.Header>
             <Drawer.Body
-              spaceY="2"
-              h="full"
               display="flex"
               flexDirection="column"
+              minH="0"
+              gap="6"
+              p="4"
+              pb="calc(env(safe-area-inset-bottom, 0px) + 16px)"
             >
-              <Box w="full" spaceY="2" flex="1">
-                <Flex pt="4" align="center" gap="2">
-                  <Image
-                    src="/appointly-symbol.svg"
-                    alt="Appointly Logo"
-                    boxSize="10"
-                  />
-
-                  <div>
-                    <Text
-                      fontFamily="heading"
-                      fontSize="lg"
-                      fontWeight="semibold"
-                      color={{
-                        base: 'colorPalette.600',
-                        _dark: 'colorPalette.400',
-                      }}
-                    >
-                      Appointly
-                    </Text>
-                    <Text
-                      fontFamily="heading"
-                      fontSize="xs"
-                      color={{ base: 'gray.400', _dark: 'gray.600' }}
-                      fontWeight="semibold"
-                    >
-                      Booking System
-                    </Text>
-                  </div>
-                </Flex>
-
-                <Separator
-                  borderColor={{
-                    base: 'gray.700',
-                    _dark: 'colorPalette.800/60',
-                  }}
-                />
-
+              <Box w="full" flex="1" flexShrink="0">
                 <Flex
                   as="nav"
                   direction="column"
@@ -148,24 +131,21 @@ const SidebarMobile = ({
                 </Flex>
               </Box>
 
-              <Flex
-                flexDir="column"
+              <Stack
+                as="footer"
+                mt="auto"
                 gap="4"
                 w="full"
-                py="4"
-                align="center"
-                justify="center"
-                px="4"
-                rounded="xl"
-                shadow="xs"
-                bg={{ base: 'tertiary.800', _dark: 'secondary.900' }}
-                borderWidth="1px"
-                borderColor={{ base: 'gray.600', _dark: 'secondary.500/20' }}
+                flexShrink="0"
+                pt="4"
+                borderTopWidth="1px"
+                borderColor="border.muted"
               >
-                <CardUserInfo />
-
-                <ButtonLogout />
-              </Flex>
+                <CurrentPlan expanded onNavigate={() => setOpen(false)} />
+                <Separator borderColor="border.muted" />
+                <SidebarCurrentUser expanded />
+                <ButtonLogout expanded />
+              </Stack>
             </Drawer.Body>
 
             <Drawer.CloseTrigger asChild>

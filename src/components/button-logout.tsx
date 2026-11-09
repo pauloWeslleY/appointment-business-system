@@ -4,8 +4,13 @@ import { LogOut } from 'lucide-react'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
-const ButtonLogout = () => {
-  const { collapsed } = useMenuCollapse()
+interface ButtonLogoutProps {
+  expanded?: boolean
+}
+
+const ButtonLogout = ({ expanded = false }: ButtonLogoutProps) => {
+  const menu = useMenuCollapse()
+  const collapsed = !expanded && menu.collapsed
   const { handleLogout } = useLogout()
 
   return (

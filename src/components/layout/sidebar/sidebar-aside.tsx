@@ -71,7 +71,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
         gap="0"
         align="flex-start"
         px="2"
-        pb="10"
+        pb="4"
       >
         <Box w="full">
           <Flex

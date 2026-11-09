@@ -30,9 +30,15 @@ import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
 import { Tooltip } from './ui/tooltip'
 
-const CurrentPlan = () => {
+interface CurrentPlanProps {
+  expanded?: boolean
+  onNavigate?: () => void
+}
+
+const CurrentPlan = ({ expanded = false, onNavigate }: CurrentPlanProps) => {
   const { session } = useRouteContext({ from: '/_app' })
-  const { collapsed } = useMenuCollapse()
+  const menu = useMenuCollapse()
+  const collapsed = !expanded && menu.collapsed
   const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
   const { data: currentSubscription } = useQuery(
     subscriptionAccessQueryOptions(
@@ -148,7 +154,9 @@ const CurrentPlan = () => {
               variant="surface"
               size="xs"
             >
-              <Link to="/subscription">Gerenciar plano</Link>
+              <Link to="/subscription" onClick={onNavigate}>
+                Gerenciar plano
+              </Link>
             </Button>
           )}
         </>

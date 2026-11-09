@@ -5,8 +5,13 @@ import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
-const SidebarCurrentUser = () => {
-  const { collapsed } = useMenuCollapse()
+interface SidebarCurrentUserProps {
+  expanded?: boolean
+}
+
+const SidebarCurrentUser = ({ expanded = false }: SidebarCurrentUserProps) => {
+  const menu = useMenuCollapse()
+  const collapsed = !expanded && menu.collapsed
   const member = useMemberContext()
   const userImage = useAccountImage()
 
@@ -47,6 +52,7 @@ const SidebarCurrentUser = () => {
               fontSize="sm"
               fontWeight="light"
               color={{ _light: 'gray.500', _dark: 'gray.300' }}
+              lineHeight="shorter"
             >
               {mapLabelMemberRole(member.role).label}
             </Text>
