@@ -1,12 +1,13 @@
 import { type QueryClient } from '@tanstack/react-query'
 import { redirect } from '@tanstack/react-router'
 
+import type { AuthenticationSessionType } from '@/shared/types/auth-client.type'
+
 import { authenticatedContextQueryOptions } from '../queries/authentication.query-options'
-import type { AuthenticationSession } from '../types/authentication-session.type'
 
 export async function validatePanelAccess(
   queryClient: QueryClient,
-  session: AuthenticationSession,
+  session: AuthenticationSessionType,
 ) {
   const context = await queryClient.query(
     authenticatedContextQueryOptions(

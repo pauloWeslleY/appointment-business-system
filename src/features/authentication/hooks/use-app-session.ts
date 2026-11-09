@@ -1,11 +1,10 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMatch, useRouter } from '@tanstack/react-router'
 
+import type { AuthenticationSessionType } from '@/shared/types/auth-client.type'
+
 import { authenticationSessionQueryOptions } from '../queries/authentication.query-options'
-import type {
-  AppSessionState,
-  AuthenticationSession,
-} from '../types/authentication-session.type'
+import type { AppSessionState } from '../types/authentication-session.type'
 
 export function useAppSession(): AppSessionState {
   const context = useMatch({ from: '/_app', shouldThrow: false })?.context
@@ -16,7 +15,7 @@ export function useAppSession(): AppSessionState {
     enabled: !context,
   })
 
-  const refetch = async (): Promise<AuthenticationSession | null> => {
+  const refetch = async (): Promise<AuthenticationSessionType | null> => {
     const data = await queryClient.query({
       ...authenticationSessionQueryOptions(),
       staleTime: 0,

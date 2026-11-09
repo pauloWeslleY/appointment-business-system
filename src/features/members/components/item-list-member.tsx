@@ -10,17 +10,12 @@ import {
 } from '@chakra-ui/react'
 import { EllipsisVertical } from 'lucide-react'
 
-import type { MemberType } from '@/shared/types/auth-client.type'
-
-import {
-  mapLabelMemberRole,
-  MemberRoles,
-  type MemberRoleType,
-} from '../types/member-role.type'
+import type { MemberApiResponse } from '../types/list-member.api.type'
+import { mapLabelMemberRole, MemberRoles } from '../types/member-role.type'
 
 interface ItemListMemberProps extends StackProps {
   onSidebarOpen: () => void
-  member: MemberType
+  member: MemberApiResponse
 }
 
 const ItemListMember = ({
@@ -28,7 +23,7 @@ const ItemListMember = ({
   onSidebarOpen,
   ...rest
 }: ItemListMemberProps) => {
-  const role = mapLabelMemberRole(member.role as MemberRoleType)
+  const role = mapLabelMemberRole(member.role)
   const mapColor = member.role === MemberRoles.OWNER ? 'blue' : 'gray'
 
   return (
