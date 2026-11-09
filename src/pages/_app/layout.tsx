@@ -22,19 +22,26 @@ export const Route = createFileRoute('/_app')({
       location.pathname,
     )
 
-    if (!session.session.activeOrganizationId) {
+    const activeOrganizationId = session.session.activeOrganizationId
+
+    // Sem organização ativa a query de acesso usa skipToken; executá-la
+    // imperativamente rejeita com "Missing queryFn" e derruba a rota.
+    if (!activeOrganizationId) {
       await authorization
+
+      return {
+        session,
+        subscription: undefined,
+      }
     }
 
     const [, subscription] = await Promise.all([
       authorization,
       context.queryClient.query(
-        subscriptionAccessQueryOptions(
-          session.user.id,
-          session.session.activeOrganizationId ?? '',
-        ),
+        subscriptionAccessQueryOptions(session.user.id, activeOrganizationId),
       ),
     ])
+
     return {
       session,
       subscription,
