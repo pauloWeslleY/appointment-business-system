@@ -147,11 +147,20 @@ const CurrentPlan = ({ expanded = false, onNavigate }: CurrentPlanProps) => {
         )}
       </HStack>
 
-      {isOnlyModeRead && (
-        <Alert.Root status="warning" variant="surface" rounded="lg" size="sm">
-          <Alert.Indicator />
-          <Alert.Title>Modo de leitura</Alert.Title>
-        </Alert.Root>
+      {!collapsed && (
+        <>
+          {isOnlyModeRead && (
+            <Alert.Root
+              status="warning"
+              variant="surface"
+              rounded="lg"
+              size="sm"
+            >
+              <Alert.Indicator />
+              <Alert.Title>Modo de leitura</Alert.Title>
+            </Alert.Root>
+          )}
+        </>
       )}
 
       {subscriptions.canRead && (
