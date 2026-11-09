@@ -23,11 +23,12 @@ const Footer = () => {
     <Box as="footer" bg="brand.navy" color="white" pt="7" pb="4">
       <Container maxW="breakpoint-2xl" px={{ base: 6, md: 10 }}>
         <Grid
-          templateColumns={{ base: '1fr 1fr', md: '1.5fr 0.75fr 0.9fr 1fr' }}
+          templateColumns={{ base: '1fr', md: '1.5fr 0.75fr 0.9fr 1fr' }}
+          placeItems={{ base: 'center', md: 'start' }}
           gap="7"
           pb="7"
         >
-          <Box>
+          <Flex direction="column" align={{ base: 'center', md: 'start' }}>
             <Logotipo
               variant="horizontal"
               theme="dark"
@@ -56,13 +57,22 @@ const Footer = () => {
                 Fale diretamente com o desenvolvedor.
               </Link>
             </Button>
-          </Box>
+          </Flex>
 
           <Box>
-            <Text fontSize="12px" fontWeight="600" mb="3">
+            <Text
+              fontSize="12px"
+              fontWeight="600"
+              mb="3"
+              textAlign={{ base: 'center', lg: 'initial' }}
+            >
               Produto
             </Text>
-            <Stack gap="1" fontSize="xs">
+            <Stack
+              gap="1"
+              fontSize="xs"
+              align={{ base: 'center', lg: 'flex-start' }}
+            >
               {navigation.map(([label, href]) => (
                 <Link key={href} href={href} color="navy.200">
                   {label}
@@ -71,11 +81,15 @@ const Footer = () => {
             </Stack>
           </Box>
 
-          <Box>
+          <Box textAlign={{ base: 'center', lg: 'initial' }}>
             <Text fontSize="12px" fontWeight="600" mb="3">
               Institucional
             </Text>
-            <Stack gap="1" fontSize="xs">
+            <Stack
+              gap="1"
+              fontSize="xs"
+              align={{ base: 'center', lg: 'flex-start' }}
+            >
               <Link href="#recursos" color="navy.200">
                 Sobre nós
               </Link>

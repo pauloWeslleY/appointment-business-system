@@ -3,7 +3,9 @@ import {
   Container,
   Flex,
   HStack,
+  IconButton,
   Link as ChakraLink,
+  Separator,
   Stack,
 } from '@chakra-ui/react'
 import type { LinkProps } from '@tanstack/react-router'
@@ -88,18 +90,24 @@ const NavBarLandingPage = () => {
           </Button>
         </HStack>
 
-        <Button
-          rounded="lg"
+        <IconButton
           display={{ lg: 'none' }}
+          size="xs"
+          rounded="lg"
           variant="ghost"
+          transition="all 0.2s ease-in-out"
+          bg="transparent"
           color="brand.slate"
-          _hover={{ bg: 'brand.mint', color: 'sea.700' }}
+          _hover={{
+            bg: 'brand.navy/60',
+            color: 'sea.900',
+          }}
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X /> : <Menu />}
-        </Button>
+        </IconButton>
 
         {menuOpen && (
           <Stack
@@ -109,9 +117,13 @@ const NavBarLandingPage = () => {
             bg="white"
             color="brand.slate"
             p="6"
-            shadow="sm"
+            shadow="xs"
+            border="1px solid"
+            borderColor="slate.200"
             zIndex="10"
             rounded="lg"
+            align="center"
+            justify="center"
           >
             {navigation.map(([label, href]) => (
               <ChakraLink
@@ -125,16 +137,20 @@ const NavBarLandingPage = () => {
               </ChakraLink>
             ))}
 
+            <Separator w="full" my="2" borderColor="slate.200" />
+
             <Button asChild color="brand.slate" _hover={{ color: 'sea.700' }}>
               <Link to={getAdminHref('/login') as LinkProps['to']}>
                 Área empresarial
               </Link>
             </Button>
+
             <Button asChild variant="outline" color="brand.navy" rounded="lg">
               <Link to={getCustomerHref() as LinkProps['to']}>
                 Área do cliente
               </Link>
             </Button>
+
             <SignupButton>Criar conta</SignupButton>
           </Stack>
         )}

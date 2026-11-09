@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { CircleHelp } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import Header from '@/components/layout/header'
 import { cardSectionCss, inputFieldStyles } from '@/theme/styles/global-styles'
@@ -28,24 +28,33 @@ function normalizeSearchText(value: string) {
 
 export default function FrequentlyAskedQuestionsPage() {
   const [search, setSearch] = useState('')
-  const searchTerms = normalizeSearchText(search).split(/\s+/).filter(Boolean)
-  const groups = frequentlyAskedQuestionGroups
-    .map((group) => ({
-      ...group,
-      questions: group.questions.filter((question) => {
-        const content = normalizeSearchText(
-          `${group.title} ${question.title} ${question.answer}`,
-        )
 
-        return searchTerms.every((term) => content.includes(term))
-      }),
-    }))
-    .filter((group) => group.questions.length > 0)
+  const listGroupQuestions = useMemo(() => {
+    const searchTerms = normalizeSearchText(search).split(/\s+/).filter(Boolean)
+    const groups = frequentlyAskedQuestionGroups
+      .map((group) => ({
+        ...group,
+        questions: group.questions.filter((question) => {
+          const content = normalizeSearchText(
+            `${group.title} ${question.title} ${question.answer}`,
+          )
 
-  const questionCount = groups.reduce(
-    (total, group) => total + group.questions.length,
-    0,
-  )
+          return searchTerms.every((term) => content.includes(term))
+        }),
+      }))
+      .filter((group) => group.questions.length > 0)
+
+    const questionCount = groups.reduce(
+      (total, group) => total + group.questions.length,
+      0,
+    )
+
+    return {
+      groups,
+      questionCount,
+      searchTerms,
+    }
+  }, [search])
 
   return (
     <Stack gap={{ base: '4', lg: '6' }} minW="0" pb="4">
@@ -77,14 +86,14 @@ export default function FrequentlyAskedQuestionsPage() {
             {...inputFieldStyles}
           />
           <Text fontSize="sm" color="fg.muted" role="status" aria-live="polite">
-            {questionCount === 1
+            {listGroupQuestions.questionCount === 1
               ? '1 pergunta encontrada'
-              : `${questionCount} perguntas encontradas`}
+              : `${listGroupQuestions.questionCount} perguntas encontradas`}
           </Text>
         </Stack>
       </Card.Root>
 
-      {groups.length === 0 && (
+      {listGroupQuestions.groups.length === 0 && (
         <Card.Root variant="outline" css={cardSectionCss}>
           <Stack gap="2" py="6" align="center" textAlign="center">
             <Heading as="h2" size="md">
@@ -108,7 +117,7 @@ export default function FrequentlyAskedQuestionsPage() {
           },
         }}
       >
-        <For each={groups}>
+        <For each={listGroupQuestions.groups}>
           {(group) => <ItemGroupQuestions key={group.id} group={group} />}
         </For>
       </Box>
