@@ -14,10 +14,7 @@ import { Crown } from 'lucide-react'
 import { useMemo } from 'react'
 
 import { subscriptionAccessQueryOptions } from '@/features/subscriptions/queries/subscription.query-options'
-import {
-  BillingIntervals,
-  mapLabelBillingInterval,
-} from '@/features/subscriptions/types/billing-interval.type'
+import { mapLabelBillingInterval } from '@/features/subscriptions/types/billing-interval.type'
 import {
   mapLabelSubscriptionStatus,
   mapLabelSubscriptionStatusColor,
@@ -55,15 +52,29 @@ const CurrentPlan = ({ expanded = false, onNavigate }: CurrentPlanProps) => {
 
   const currentPlan = useMemo(
     () => ({
-      type: mapLabelBillingInterval[
-        currentSubscription?.subscription?.billingInterval ??
-          BillingIntervals.MONTHLY
-      ],
       status: mapLabelSubscriptionStatus[statusSubscription],
       mapStatusColor: mapLabelSubscriptionStatusColor[statusSubscription],
     }),
-    [currentSubscription?.subscription?.billingInterval, statusSubscription],
+    [statusSubscription],
   )
+
+  const planLabel = useMemo(() => {
+    if (!currentSubscription) {
+      return []
+    }
+
+    const { subscription, access } = currentSubscription
+    const isTrial = access.status === 'trialing'
+
+    let planLabel = 'Sem assinatura contratada'
+    if (subscription) {
+      planLabel = `Básico · ${mapLabelBillingInterval[subscription.billingInterval]}`
+    } else if (isTrial) {
+      planLabel = 'Teste gratuito'
+    }
+
+    return planLabel
+  }, [currentSubscription])
 
   return (
     <Flex
@@ -82,7 +93,7 @@ const CurrentPlan = ({ expanded = false, onNavigate }: CurrentPlanProps) => {
     >
       <HStack gap={!collapsed ? '4' : '0'}>
         <Tooltip
-          content={`Você está no Plano: ${currentPlan.type}`}
+          content={`Você está no Plano: ${planLabel}`}
           showArrow
           positioning={{ placement: 'top-start' }}
         >
@@ -106,7 +117,7 @@ const CurrentPlan = ({ expanded = false, onNavigate }: CurrentPlanProps) => {
               fontSize="sm"
               color={{ _light: 'gray.800', _dark: 'gray.200' }}
             >
-              Plano: {currentPlan.type}
+              {planLabel}
             </Text>
             <HStack gap="2">
               <Text
