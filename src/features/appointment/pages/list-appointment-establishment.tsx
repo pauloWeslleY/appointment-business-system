@@ -4,9 +4,7 @@ import {
   Flex,
   type PaginationPageChangeDetails,
   SimpleGrid,
-  Spinner,
   Text,
-  VStack,
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
@@ -14,7 +12,7 @@ import { useMemo, useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import Loader from '@/components/loader'
 
 import CardAppointment from '../components/card-appointment'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
@@ -101,12 +99,7 @@ const ListAppointmentEstablishment = ({
 
   return (
     <Box spaceY="4" w="full">
-      {isPendingPagination && (
-        <VStack colorPalette={colorDefaultTheme}>
-          <Spinner color="colorPalette.500" />
-          <Text color="colorPalette.500">Carregando dados...</Text>
-        </VStack>
-      )}
+      {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
 
       {!isPendingPagination && (
         <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">

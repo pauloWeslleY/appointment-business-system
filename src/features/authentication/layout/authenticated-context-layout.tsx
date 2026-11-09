@@ -1,9 +1,14 @@
 import { Outlet } from '@tanstack/react-router'
+import type { ComponentType } from 'react'
 
-import PageLoader from '@/components/page-loader'
+import LoaderFull from '@/components/loader-full'
 import { useRefreshMemberContext } from '@/features/members/hooks/use-refresh-member-context'
 
-export function AuthenticatedContextLayout() {
+export function AuthenticatedContextLayout({
+  loadingComponent: LoadingComponent = LoaderFull,
+}: {
+  loadingComponent?: ComponentType
+}) {
   const hasContextChanged = useRefreshMemberContext()
-  return hasContextChanged ? <PageLoader /> : <Outlet />
+  return hasContextChanged ? <LoadingComponent /> : <Outlet />
 }

@@ -4,6 +4,7 @@ import { Link } from '@tanstack/react-router'
 import { Building2, PlusIcon, UserSquare2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
+import PageLoader from '@/components/page-loader'
 import { validateEnsureOrganizationExists } from '@/features/authentication/validations/validate-organization-exists'
 import ActiveOrganization from '@/features/organization-profile/components/active-organization'
 import CardOrganizationProfileSummary from '@/features/organization-profile/components/card-organization-profile-stats'
@@ -23,6 +24,7 @@ import { validateRoutePermission } from '@/shared/validations/validate-route-per
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/organization/',
 )({
+  pendingComponent: PageLoader,
   beforeLoad: async ({ context }) => {
     validateRoutePermission(context.memberContext, {
       resource: RESOURCES.ORGANIZATION_PROFILE,

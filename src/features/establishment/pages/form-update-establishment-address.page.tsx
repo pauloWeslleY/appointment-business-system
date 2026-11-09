@@ -1,5 +1,6 @@
-import { Button, Flex, Spinner, Stack, Text } from '@chakra-ui/react'
+import { Button, Stack, Text } from '@chakra-ui/react'
 
+import Loader from '@/components/loader'
 import FormUpdateAddressPage from '@/features/address/pages/form-update-address.page'
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
 
@@ -25,12 +26,7 @@ const FormUpdateEstablishmentAddressPage = ({
   } = useEstablishmentAddress(establishmentSlug, member)
 
   if (isLoading || !establishment || !address) {
-    return (
-      <Flex gap="2" flexWrap="wrap">
-        <Spinner aria-label="Carregando estabelecimento" />
-        <Text>Carregando endereço...</Text>
-      </Flex>
-    )
+    return <Loader h="28" message="Carregando endereço..." />
   }
 
   if (errorEstablishment || errorAddress) {

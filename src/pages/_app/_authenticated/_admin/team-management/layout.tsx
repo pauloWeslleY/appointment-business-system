@@ -9,6 +9,7 @@ import { Users2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import { MenuNavigation } from '@/components/menu-nav-links'
+import PageLoader from '@/components/page-loader'
 import { listInvitationsQueryOptions } from '@/features/invitations/queries/invitations.query-options'
 import StatsSummaryMembers from '@/features/members/pages/stats-summary-members'
 import { listMembersQueryOptions } from '@/features/members/queries/member.query-options'
@@ -16,6 +17,7 @@ import { listMembersQueryOptions } from '@/features/members/queries/member.query
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management',
 )({
+  pendingComponent: PageLoader,
   loader: async ({ context }) => {
     const organizationId =
       context.session?.session.activeOrganizationId ?? undefined

@@ -1,7 +1,7 @@
-import { Flex, For, Spinner, Table, Text, VStack } from '@chakra-ui/react'
+import { Flex, For, Table, Text } from '@chakra-ui/react'
 
 import PaginationTable from '@/components/layout/pagination-table'
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import Loader from '@/components/loader'
 import { cssTableColumns } from '@/theme/styles/global-styles'
 
 import { useEstablishmentsListGoogleCalendar } from '../hooks/use-establishments-list-google-calendar'
@@ -69,10 +69,7 @@ const EstablishmentsListGoogleCalendar = () => {
             {isPendingPagination && (
               <Table.Row>
                 <Table.Cell colSpan={5}>
-                  <VStack py="6" role="status" colorPalette={colorDefaultTheme}>
-                    <Spinner color="colorPalette.600" />
-                    <Text color="colorPalette.600">Carregando dados...</Text>
-                  </VStack>
+                  <Loader h="auto" py="6" message="Carregando dados..." />
                 </Table.Cell>
               </Table.Row>
             )}

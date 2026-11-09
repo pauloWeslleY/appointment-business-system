@@ -2,6 +2,7 @@ import { Box, Button, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 
+import Loader from '@/components/loader'
 import { ColorModeButton } from '@/components/ui/color-mode'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
@@ -78,7 +79,7 @@ export function SubscriptionPageContent() {
         )}
 
         {isLoadingSubscriptionContextSession && (
-          <Text role="status">Carregando contexto autenticado…</Text>
+          <Loader h="28" message="Carregando contexto autenticado…" />
         )}
 
         {canShowSubscriptionWorkspace && subscriptionContext && (

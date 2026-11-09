@@ -1,21 +1,10 @@
-import {
-  Alert,
-  Box,
-  Button,
-  Card,
-  Flex,
-  HStack,
-  Icon,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
-  Stack,
-} from '@chakra-ui/react'
+import { Alert, Box, Button, Card, Flex, HStack, Icon } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { PlusIcon, Store } from 'lucide-react'
 import z from 'zod'
 
 import Header from '@/components/layout/header'
+import PageLoader from '@/components/page-loader'
 import SearchPage from '@/components/search-page'
 import FilterEstablishmentOpening from '@/features/establishment/components/filter-establishment-opening'
 import StatsEstablishments from '@/features/establishment/components/stats-establishments'
@@ -27,6 +16,7 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/establishment/',
 )({
+  pendingComponent: PageLoader,
   validateSearch: z.object({
     page: z.number().optional().default(1),
     page_size: z.number().optional().default(4),
@@ -49,6 +39,10 @@ function EstablishmentPage() {
     errorGetEstablishments,
     isLoadingGetEstablishments,
   } = useGetEstablishmentsByOrganization(search.q, search.opening)
+
+  if (isLoadingGetEstablishments) {
+    return <PageLoader />
+  }
 
   return (
     <Box spaceY={{ base: '4', lg: '8' }} pb="4">
@@ -77,18 +71,6 @@ function EstablishmentPage() {
           <Alert.Indicator />
           <Alert.Title>Erro: {errorGetEstablishments.message}</Alert.Title>
         </Alert.Root>
-      )}
-
-      {isLoadingGetEstablishments && (
-        <Stack gap="2" w="full" p="2">
-          <HStack width="full">
-            <SkeletonCircle size="10" />
-            <SkeletonText noOfLines={2} />
-          </HStack>
-          <Skeleton height="100px" rounded="xl" />
-          <Skeleton height="100px" rounded="xl" />
-          <Skeleton height="100px" rounded="xl" />
-        </Stack>
       )}
 
       {!isLoadingGetEstablishments && filteredEstablishments.length === 0 && (

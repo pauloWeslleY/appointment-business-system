@@ -3,10 +3,8 @@ import {
   Box,
   Flex,
   type PaginationPageChangeDetails,
-  Spinner,
   Table,
   Text,
-  VStack,
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
@@ -14,9 +12,9 @@ import { useMemo, useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
+import Loader from '@/components/loader'
 import { getBadgeAppointmentColor } from '@/features/appointment/constants/get-badge-appointment-color'
 import { appointmentStatusLabel } from '@/features/appointment/types/appointment-status.type'
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
 import type { ServiceEstablishmentDetailsModel } from '../types/service-establishment-details.model'
@@ -74,17 +72,7 @@ const HistoryBookingServiceTable = ({
 
   return (
     <Box mt="4" spaceY="4">
-      {isPendingPagination && (
-        <VStack
-          colorPalette={colorDefaultTheme}
-          h="28"
-          justify="center"
-          align="center"
-        >
-          <Spinner color="colorPalette.500" />
-          <Text color="colorPalette.500">Carregando dados...</Text>
-        </VStack>
-      )}
+      {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
 
       {!isPendingPagination && (
         <Table.ScrollArea

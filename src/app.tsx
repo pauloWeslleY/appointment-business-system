@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 
 import AppError from './components/layout/app-error'
 import NotFoundPage from './components/layout/not-found'
-import PageLoader from './components/page-loader'
+import Loader from './components/loader'
 import { Provider as ThemeProvider } from './components/ui/provider'
 import { Toaster } from './components/ui/toaster'
 import { routeTree } from './routeTree.gen'
@@ -32,7 +32,7 @@ const router = createRouter({
   scrollToTopSelectors: ['.sidebar-content'],
   scrollRestorationBehavior: 'instant',
 
-  defaultPendingComponent: PageLoader,
+  defaultPendingComponent: Loader,
   defaultErrorComponent: AppError,
   defaultNotFoundComponent: NotFoundPage,
 })

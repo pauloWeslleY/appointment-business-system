@@ -26,6 +26,7 @@ import {
 import { RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
+import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 
 import { Tooltip } from './ui/tooltip'
 
@@ -101,21 +102,29 @@ const CurrentPlan = () => {
             >
               Plano: {currentPlan.type}
             </Text>
-            <HStack align="center" gap="2">
+            <HStack gap="2">
               <Text
-                fontSize="sm"
-                color={{ _light: 'gray.800', _dark: 'gray.400' }}
+                as="span"
+                fontSize="xs"
+                color={{ _light: 'gray.800', _dark: 'gray.200' }}
               >
-                Status:
+                Vencimento:
               </Text>
-              <Badge
-                size="sm"
-                rounded="md"
-                variant="outline"
-                colorPalette={currentPlan.mapStatusColor}
+              <Tooltip
+                content={`Status: ${currentPlan.status}`}
+                showArrow
+                positioning={{ placement: 'top-start' }}
               >
-                {currentPlan.status}
-              </Badge>
+                <Badge
+                  size="xs"
+                  variant="subtle"
+                  colorPalette={currentPlan.mapStatusColor}
+                >
+                  {formattedDateAndHours(
+                    currentSubscription?.subscription?.paidUntil ?? null,
+                  )}
+                </Badge>
+              </Tooltip>
             </HStack>
           </Box>
         )}

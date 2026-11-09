@@ -3,16 +3,13 @@ import {
   For,
   type PaginationPageChangeDetails,
   SimpleGrid,
-  Spinner,
   Stack,
-  Text,
-  VStack,
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
 
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
+import Loader from '@/components/loader'
 
 import CardReview from '../components/card-review'
 import PaginationTableReviews from '../components/pagination-table-reviews'
@@ -82,12 +79,7 @@ const ReviewsListPage = ({ reviews }: ReviewsListPageProps) => {
 
   return (
     <Stack gap="4" w="full">
-      {isPendingPagination && (
-        <VStack colorPalette={colorDefaultTheme}>
-          <Spinner color="colorPalette.600" />
-          <Text color="colorPalette.600">Carregando dados...</Text>
-        </VStack>
-      )}
+      {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
 
       {!isPendingPagination && (
         <div>

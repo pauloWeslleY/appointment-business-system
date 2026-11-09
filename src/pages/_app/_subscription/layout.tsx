@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import Loader from '@/components/loader'
 import { AuthenticatedContextLayout } from '@/features/authentication/layout/authenticated-context-layout'
 import { validateAuthenticatedContext } from '@/features/authentication/validations/validate-authenticated-context'
 
@@ -11,5 +12,5 @@ export const Route = createFileRoute('/_app/_subscription')({
 
     return validateAuthenticatedContext(context.queryClient, context.session)
   },
-  component: AuthenticatedContextLayout,
+  component: () => <AuthenticatedContextLayout loadingComponent={Loader} />,
 })

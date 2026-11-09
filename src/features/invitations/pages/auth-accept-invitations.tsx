@@ -10,10 +10,8 @@ import {
   Icon,
   Separator,
   Skeleton,
-  Spinner,
   Stack,
   Text,
-  VStack,
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import {
@@ -24,6 +22,7 @@ import {
   TimerIcon,
 } from 'lucide-react'
 
+import Loader from '@/components/loader'
 import Logotipo from '@/components/logotipo'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
@@ -47,12 +46,7 @@ const AuthAcceptInvitation = ({ invitationId }: AuthAcceptInvitationProps) => {
   } = useAcceptInvitation(invitationId)
 
   if (isLoadingInvite) {
-    return (
-      <VStack colorPalette="teal">
-        <Spinner color="colorPalette.600" />
-        <Text color="colorPalette.600">Carregando...</Text>
-      </VStack>
-    )
+    return <Loader h="auto" py="8" />
   }
 
   return (

@@ -1,5 +1,6 @@
-import { Alert, Button, Heading, Spinner, Stack, Text } from '@chakra-ui/react'
+import { Button, Heading, Stack, Text } from '@chakra-ui/react'
 
+import Loader from '@/components/loader'
 import { RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 
@@ -18,18 +19,7 @@ export function SubscriptionWorkspace() {
   const subscriptionSnapshot = subscriptionAccessQuery.data
 
   if (subscriptionAccessQuery.isLoading) {
-    return (
-      <Alert.Root
-        borderStartWidth="3px"
-        borderStartColor="colorPalette.600"
-        title="Consultando sua assinatura"
-      >
-        <Alert.Indicator>
-          <Spinner size="sm" />
-        </Alert.Indicator>
-        <Alert.Title>Consultando sua assinatura…</Alert.Title>
-      </Alert.Root>
-    )
+    return <Loader h="28" message="Consultando sua assinatura…" />
   }
 
   if (!subscriptionSnapshot) {

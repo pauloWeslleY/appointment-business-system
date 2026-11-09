@@ -4,17 +4,15 @@ import {
   For,
   HStack,
   SimpleGrid,
-  Spinner,
   Stack,
   Text,
-  VStack,
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { useMemo } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
+import Loader from '@/components/loader'
 import { Status } from '@/components/ui/status'
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { mapGenderLabel } from '@/shared/constants/map-label-gender-customer'
 import { usePagination } from '@/shared/hooks/use-pagination'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
@@ -81,12 +79,7 @@ const CustomersTable = ({ customers }: CustomerTableProps) => {
 
   return (
     <Stack direction={{ base: 'column' }} w="full">
-      {isPendingPagination && (
-        <VStack colorPalette={colorDefaultTheme}>
-          <Spinner color="colorPalette.600" />
-          <Text color="colorPalette.600">Carregando dados...</Text>
-        </VStack>
-      )}
+      {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
 
       {!isPendingPagination && (
         <For each={loadTablePagination}>

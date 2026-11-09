@@ -4,6 +4,7 @@ import { PencilLine } from 'lucide-react'
 import { z } from 'zod'
 
 import Header from '@/components/layout/header'
+import PageLoader from '@/components/page-loader'
 import { MENU_UPDATE_ESTABLISHMENT } from '@/features/establishment/constants/menu-tab-establishment-update'
 import UpdateEstablishmentPage from '@/features/establishment/pages/update-establishment.page'
 import { establishmentAdminSlugQueryOptions } from '@/features/establishment/queries/establishment.query-options'
@@ -14,6 +15,7 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/establishment/_routes/$establishmentSlug/',
 )({
+  pendingComponent: PageLoader,
   head: () => ({
     meta: [{ title: 'Editar estabelecimento | Agendros' }],
   }),
