@@ -21,7 +21,11 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
               fallback={
                 <Text
                   as="span"
-                  color={optionalText !== '*' ? 'gray.500' : 'red.500'}
+                  color={
+                    optionalText === ' *' || optionalText === '*'
+                      ? 'red.500'
+                      : 'gray.500'
+                  }
                 >
                   {optionalText}
                 </Text>
