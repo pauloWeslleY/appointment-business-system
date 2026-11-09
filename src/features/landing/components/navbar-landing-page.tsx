@@ -109,7 +109,7 @@ const NavBarLandingPage = () => {
             bg="white"
             color="brand.slate"
             p="6"
-            shadow="lg"
+            shadow="sm"
             zIndex="10"
             rounded="lg"
           >

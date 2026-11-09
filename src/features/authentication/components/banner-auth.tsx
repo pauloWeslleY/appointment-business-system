@@ -1,13 +1,15 @@
 import { Box, Button, Flex, For, Stack, Text } from '@chakra-ui/react'
-import { Link } from '@tanstack/react-router'
 
 import Logotipo from '@/components/logotipo'
 import { ColorModeButton } from '@/components/ui/color-mode'
+import { getLandingHref } from '@/shared/config/site-domains'
 
 import { GeometricBackground } from './geometric-background'
 import ItemContentAuthLayout from './item-content-auth-layout'
 
 const BannerAuth = () => {
+  const landingHref = getLandingHref()
+
   return (
     <Stack
       gridColumn="span 2"
@@ -34,7 +36,7 @@ const BannerAuth = () => {
       <GeometricBackground zIndex="-1" />
 
       {/* Logo and system name */}
-      <Link to="/">
+      <a href={landingHref}>
         <Flex px="4" py="5" justify="flex-start">
           <Logotipo
             variant="horizontal"
@@ -44,7 +46,7 @@ const BannerAuth = () => {
             flexShrink="0"
           />
         </Flex>
-      </Link>
+      </a>
 
       {/* Main content: heading, description, and features list */}
       <Flex flexDir="column" gap={{ base: '2', lg: '20' }}>
@@ -77,7 +79,7 @@ const BannerAuth = () => {
             </Text>
 
             <Button asChild variant="plain" size="xs">
-              <Link to="/">Voltar para o site</Link>
+              <a href={landingHref}>Voltar para o site</a>
             </Button>
           </div>
         </Box>

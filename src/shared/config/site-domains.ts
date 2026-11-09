@@ -7,6 +7,14 @@ export function isLandingHostname(hostname: string): boolean {
   return hostname === LANDING_HOSTNAME || hostname === `www.${LANDING_HOSTNAME}`
 }
 
+export function getLandingHref(): string {
+  if (window.location.hostname === ADMIN_HOSTNAME) {
+    return `https://${LANDING_HOSTNAME}/`
+  }
+
+  return '/'
+}
+
 export function getCustomerHref(): string {
   const hostname = window.location.hostname
 
