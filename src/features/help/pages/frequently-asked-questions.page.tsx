@@ -1,12 +1,11 @@
 import {
-  Accordion,
   Box,
   Card,
   chakra,
+  For,
   Heading,
   HStack,
   Input,
-  SimpleGrid,
   Stack,
   Text,
 } from '@chakra-ui/react'
@@ -16,6 +15,7 @@ import { useState } from 'react'
 import Header from '@/components/layout/header'
 import { cardSectionCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
+import ItemGroupQuestions from '../components/item-group-questions'
 import { frequentlyAskedQuestionGroups } from '../constants/frequently-asked-questions'
 
 function normalizeSearchText(value: string) {
@@ -41,6 +41,7 @@ export default function FrequentlyAskedQuestionsPage() {
       }),
     }))
     .filter((group) => group.questions.length > 0)
+
   const questionCount = groups.reduce(
     (total, group) => total + group.questions.length,
     0,
@@ -49,7 +50,7 @@ export default function FrequentlyAskedQuestionsPage() {
   return (
     <Stack gap={{ base: '4', lg: '6' }} minW="0" pb="4">
       <Header.Root>
-        <HStack align="start" minW="0">
+        <HStack align="center" minW="0">
           <Header.Icon icon={CircleHelp} />
           <Box minW="0">
             <Header.Title>Dúvidas frequentes</Header.Title>
@@ -96,65 +97,21 @@ export default function FrequentlyAskedQuestionsPage() {
         </Card.Root>
       )}
 
-      <SimpleGrid
-        columns={{ base: 1, xl: 2 }}
-        gap="4"
-        alignItems="start"
+      <Box
         minW="0"
+        css={{
+          columnWidth: '480px',
+          columnGap: '4',
+          '& > *': {
+            breakInside: 'avoid',
+            marginBottom: '4',
+          },
+        }}
       >
-        {groups.map((group) => (
-          <Card.Root
-            key={group.id}
-            as="section"
-            aria-labelledby={`faq-${group.id}`}
-            variant="outline"
-            css={cardSectionCss}
-          >
-            <Heading
-              as="h2"
-              id={`faq-${group.id}`}
-              size="md"
-              px="4"
-              pt="3"
-              pb="2"
-            >
-              {group.title}
-            </Heading>
-            <Accordion.Root collapsible multiple variant="outline" minW="0">
-              {group.questions.map((question) => (
-                <Accordion.Item key={question.id} value={question.id}>
-                  <Accordion.ItemTrigger
-                    px="4"
-                    py="4"
-                    gap="3"
-                    fontSize="sm"
-                    fontWeight="medium"
-                    textAlign="start"
-                  >
-                    <Box as="span" flex="1" minW="0" overflowWrap="anywhere">
-                      {question.title}
-                    </Box>
-                    <Accordion.ItemIndicator flexShrink="0" />
-                  </Accordion.ItemTrigger>
-                  <Accordion.ItemContent>
-                    <Accordion.ItemBody
-                      px="4"
-                      pt="0"
-                      pb="4"
-                      color="fg.muted"
-                      fontSize="sm"
-                      lineHeight="tall"
-                      overflowWrap="anywhere"
-                    >
-                      {question.answer}
-                    </Accordion.ItemBody>
-                  </Accordion.ItemContent>
-                </Accordion.Item>
-              ))}
-            </Accordion.Root>
-          </Card.Root>
-        ))}
-      </SimpleGrid>
+        <For each={groups}>
+          {(group) => <ItemGroupQuestions key={group.id} group={group} />}
+        </For>
+      </Box>
     </Stack>
   )
 }

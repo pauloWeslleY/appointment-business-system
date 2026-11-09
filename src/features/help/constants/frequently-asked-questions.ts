@@ -1,4 +1,4 @@
-interface FrequentlyAskedQuestionGroup {
+export interface FrequentlyAskedQuestionGroup {
   id: string
   title: string
   questions: {

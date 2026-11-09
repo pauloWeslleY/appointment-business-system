@@ -4,7 +4,11 @@ import FrequentlyAskedQuestionsPage from '@/features/help/pages/frequently-asked
 
 export const Route = createFileRoute('/_app/_authenticated/_admin/help/')({
   head: () => ({
-    meta: [{ title: 'Dúvidas frequentes | Agendros' }],
+    meta: [
+      {
+        title: 'Dúvidas frequentes | Agendros',
+      },
+    ],
   }),
   component: FrequentlyAskedQuestionsPage,
 })
