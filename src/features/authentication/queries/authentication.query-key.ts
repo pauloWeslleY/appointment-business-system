@@ -1,10 +1,22 @@
+import { memberQueryKey } from '@/features/members/queries/member.query-key'
+
 export const authenticationQueryKey = {
   all: ['authentication'] as const,
+
   session: () => [...authenticationQueryKey.all, 'session'] as const,
-  panelAccess: () => [...authenticationQueryKey.all, 'panel-access'] as const,
-  panelAccessByContext: (userId: string, organizationId?: string | null) =>
-    [
-      ...authenticationQueryKey.panelAccess(),
-      { userId, organizationId: organizationId ?? null },
-    ] as const,
 }
+
+export const authenticatedContextQueryPrefix = () =>
+  [...memberQueryKey.context(), 'authenticated'] as const
+
+export const authenticatedContextQueryKey = (
+  userId: string,
+  organizationId?: string | null,
+) =>
+  [
+    ...authenticatedContextQueryPrefix(),
+    {
+      userId: userId || null,
+      organizationId: organizationId || null,
+    },
+  ] as const

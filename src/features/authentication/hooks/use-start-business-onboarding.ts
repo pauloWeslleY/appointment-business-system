@@ -6,6 +6,7 @@ import { startBusinessOnboardingMutationOptions } from '../queries/panel-access.
 export function useStartBusinessOnboarding() {
   const navigate = useNavigate()
   const options = startBusinessOnboardingMutationOptions()
+
   return useMutation({
     ...options,
     onSuccess: async (data, variables, result, context) => {

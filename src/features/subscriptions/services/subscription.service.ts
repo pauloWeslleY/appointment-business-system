@@ -72,7 +72,7 @@ export const listSubscriptionOrganizationsService = async (
 export const selectSubscriptionOrganizationService = async (
   organizationId: string,
   establishmentId?: string,
-): Promise<GetMeContextResponse> => {
+): ReturnType<typeof createMeContextService> => {
   const body: SubscriptionSelectionRequest = subscriptionSelectionSchema.parse({
     organizationId,
     ...(establishmentId === undefined ? {} : { establishmentId }),

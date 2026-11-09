@@ -1,22 +1,34 @@
 import type { QueryClient } from '@tanstack/react-query'
 
 import { authenticationQueryKey } from '@/features/authentication/queries/authentication.query-key'
-import { authenticationSessionQueryOptions } from '@/features/authentication/queries/authentication.query-options'
+import {
+  authenticatedContextQueryOptions,
+  authenticationSessionQueryOptions,
+} from '@/features/authentication/queries/authentication.query-options'
+import type { AuthenticatedContextApiResponse } from '@/features/authentication/types/authenticated-context.type'
+import { hasOperationalContext } from '@/features/authentication/validations/has-operational-context'
 import { BadRequestError } from '@/shared/errors'
 
-import type { GetMeContextResponse } from '../types/member-response.type'
-import { memberQueryKey } from './member.query-key'
-
-export function cacheSelectedMemberContext(
+export async function cacheSelectedMemberContext(
   queryClient: QueryClient,
-  selectedContext: GetMeContextResponse,
-): void {
+  selectedContext: AuthenticatedContextApiResponse,
+): Promise<void> {
+  const hasValidContextOperational = !hasOperationalContext(selectedContext)
+
+  if (hasValidContextOperational) {
+    throw new BadRequestError(
+      'A seleção não retornou um contexto empresarial ativo e completo.',
+    )
+  }
+
+  await queryClient.cancelQueries()
+
   const sessionKey = authenticationSessionQueryOptions().queryKey
   const cachedSession = queryClient.getQueryData(sessionKey)
   const matchesAuthenticatedUser =
     cachedSession?.user.id === selectedContext.user.id
 
-  if (!matchesAuthenticatedUser) {
+  if (!cachedSession || !matchesAuthenticatedUser) {
     throw new BadRequestError(
       'O contexto não corresponde ao usuário autenticado.',
     )
@@ -25,28 +37,22 @@ export function cacheSelectedMemberContext(
   queryClient.removeQueries({
     predicate: (query) => query.queryKey[0] !== authenticationQueryKey.all[0],
   })
-  const hasOrganizationChanged =
-    cachedSession.session.activeOrganizationId !== selectedContext.organization.id
 
-  if (hasOrganizationChanged) {
-    queryClient.removeQueries({ queryKey: authenticationQueryKey.panelAccess() })
-  }
-  queryClient.setQueryData(
-    memberQueryKey.meContextByOrganization(
-      selectedContext.organization.id,
-      selectedContext.user.id,
-    ),
+  const contextOptions = authenticatedContextQueryOptions(
+    selectedContext.user.id,
+    selectedContext.organization.id,
+  )
+
+  queryClient.setQueryData<AuthenticatedContextApiResponse>(
+    contextOptions.queryKey,
     selectedContext,
   )
-  queryClient.setQueryData(sessionKey, (previous) =>
-    previous
-      ? {
-          ...previous,
-          session: {
-            ...previous.session,
-            activeOrganizationId: selectedContext.organization.id,
-          },
-        }
-      : previous,
-  )
+
+  queryClient.setQueryData(sessionKey, () => ({
+    ...cachedSession,
+    session: {
+      ...cachedSession.session,
+      activeOrganizationId: selectedContext.organization.id,
+    },
+  }))
 }

@@ -44,9 +44,8 @@ export const subscriptionMutationOptions = {
       onMutate: async (_variables, { client }) => {
         await client.cancelQueries()
       },
-      onSuccess: (selectedContext, _variables, _result, { client }) => {
-        cacheSelectedMemberContext(client, selectedContext)
-      },
+      onSuccess: (selectedContext, _variables, _result, { client }) =>
+        cacheSelectedMemberContext(client, selectedContext),
     })
   },
 

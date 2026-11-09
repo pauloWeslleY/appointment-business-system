@@ -4,7 +4,6 @@ import { authClient } from '@/lib/auth'
 import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
 
-import { GetMeContextSchema } from '../schemas/get-me-context.schema'
 import { MemberDetailsSchema } from '../schemas/member-details.schema'
 import {
   UpdateRoleMemberRequestApiSchema,
@@ -18,12 +17,8 @@ import {
   UpdateStatusMemberRequestApiSchema,
   UpdateStatusMemberResponseApiSchema,
 } from '../schemas/update-status-member.api.schema'
-import type { CreateMeContextRequestType } from '../types/create-me-context-request.type'
 import type { ListMemberApiResponse } from '../types/list-member.api.type'
-import type {
-  GetMeContextResponse,
-  GetMemberDetailsResponse,
-} from '../types/member-response.type'
+import type { GetMemberDetailsResponse } from '../types/member-response.type'
 import type {
   UpdateRoleMemberRequestType,
   UpdateRoleMemberResponseType,
@@ -36,25 +31,6 @@ import type {
   UpdateStatusMemberRequestType,
   UpdateStatusMemberResponseType,
 } from '../types/update-status-member.type'
-
-export const createMeContextService = async (
-  data: CreateMeContextRequestType,
-) => {
-  const { api, validate } = httpDependencies<GetMeContextResponse>()
-  const response = await api.request({
-    method: HttpMethod.POST,
-    url: '/me/context',
-    body: data,
-  })
-
-  const parsedResponse = GetMeContextSchema.safeParse(validate.errors(response))
-
-  if (!parsedResponse.success) {
-    throw new Response(z.prettifyError(parsedResponse.error), { status: 400 })
-  }
-
-  return parsedResponse.data
-}
 
 export const getMemberDetailsService = async () => {
   const { api, validate } = httpDependencies<GetMemberDetailsResponse>()

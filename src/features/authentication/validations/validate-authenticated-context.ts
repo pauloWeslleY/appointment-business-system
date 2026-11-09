@@ -1,27 +1,26 @@
-import type { QueryClient } from '@tanstack/react-query'
+import { type QueryClient } from '@tanstack/react-query'
 import { redirect } from '@tanstack/react-router'
-
-import { memberContextQueryOptions } from '@/features/members/queries/member.query-options'
 
 import type {
   AuthenticatedContext,
   AuthenticationSession,
 } from '../types/authentication-session.type'
+import { hasOperationalContext } from './has-operational-context'
+import { validatePanelAccess } from './validate-panel-access'
 
 export async function validateAuthenticatedContext(
   queryClient: QueryClient,
   session: AuthenticationSession,
 ): Promise<AuthenticatedContext> {
-  const userId = session.user.id
-  const activeOrganizationId = session.session.activeOrganizationId
+  const memberContext = await validatePanelAccess(queryClient, session)
+  const hasValidOperationalContext = !hasOperationalContext(memberContext)
 
-  if (!activeOrganizationId) {
-    throw redirect({ to: '/organization-profile' })
+  if (hasValidOperationalContext) {
+    throw redirect({
+      to: '/organization-profile',
+      replace: true,
+    })
   }
-
-  const memberContext = await queryClient.query(
-    memberContextQueryOptions(userId, activeOrganizationId),
-  )
 
   return {
     session,

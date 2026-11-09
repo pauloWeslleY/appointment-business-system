@@ -20,7 +20,6 @@ export const invitationsMutationOptions = {
           authenticationQueryKey.all,
           invitationQueryKey.all,
           memberQueryKey.all,
-          memberQueryKey.context(),
         ] as const
 
         await Promise.all(
