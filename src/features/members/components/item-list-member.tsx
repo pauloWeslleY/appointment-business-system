@@ -8,8 +8,9 @@ import {
   type StackProps,
   Text,
 } from '@chakra-ui/react'
-import type { Member } from 'better-auth/client/plugins'
 import { EllipsisVertical } from 'lucide-react'
+
+import type { MemberType } from '@/shared/types/auth-client.type'
 
 import {
   mapLabelMemberRole,
@@ -19,14 +20,7 @@ import {
 
 interface ItemListMemberProps extends StackProps {
   onSidebarOpen: () => void
-  member: Member & {
-    user: {
-      id: string
-      email: string
-      name: string
-      image?: string | undefined
-    }
-  }
+  member: MemberType
 }
 
 const ItemListMember = ({

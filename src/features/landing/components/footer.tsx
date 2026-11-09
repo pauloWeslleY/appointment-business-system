@@ -16,6 +16,7 @@ import { getAdminHref, getCustomerHref } from '@/shared/config/site-domains'
 import { navigation } from '../constants/data-landing-page'
 
 const yearFooter = new Date().getFullYear()
+const mensagem = encodeURIComponent('Olá! Gostaria de mais informações.')
 
 const Footer = () => {
   return (
@@ -34,11 +35,27 @@ const Footer = () => {
               h="auto"
               mb="3"
             />
-            <Text fontSize="12px" color="navy.200">
+            <Text fontSize="xs" color="navy.200">
               Mais organização para o seu negócio.
               <br />
               Mais tempo para o que importa.
             </Text>
+            <Button
+              asChild
+              variant="plain"
+              fontSize="xs"
+              color="navy.200"
+              px="0"
+              mt="2"
+            >
+              <Link
+                href={`https://wa.me/5511958908360?text=${mensagem}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Fale diretamente com o desenvolvedor.
+              </Link>
+            </Button>
           </Box>
 
           <Box>

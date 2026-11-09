@@ -1,6 +1,5 @@
-import { Box, Grid, Heading, HStack, Stack, Text } from '@chakra-ui/react'
+import { Box, For, Grid, Heading, HStack, Image, Stack, Text } from '@chakra-ui/react'
 
-import { reference } from '../constants/data-landing-page'
 import {
   featuresLandingPage,
   listFeaturesLandingPage,
@@ -37,31 +36,32 @@ const SessionSummary = () => {
         </Text>
 
         <Stack gap="3" my="6">
-          {listFeaturesLandingPage.map((text, index) => {
-            const Icon =
-              featuresLandingPage[index % featuresLandingPage.length].icon
-            return (
-              <HStack key={text} color="brand.slate" fontSize="14px">
-                <Box bg="sea.50" color="sea.700" rounded="sm" p="1">
-                  <Icon size={18} />
-                </Box>
-                {text}
-              </HStack>
-            )
-          })}
+          <For each={listFeaturesLandingPage}>
+            {(text, index) => {
+              const Icon =
+                featuresLandingPage[index % featuresLandingPage.length].icon
+
+              return (
+                <HStack key={text} color="brand.slate" fontSize="14px">
+                  <Box bg="sea.50" color="sea.700" rounded="sm" p="1">
+                    <Icon size={18} />
+                  </Box>
+                  {text}
+                </HStack>
+              )
+            }}
+          </For>
         </Stack>
 
         <SignupButton>Conhecer todos os recursos</SignupButton>
       </Box>
 
-      <Box
-        role="img"
-        aria-label="Profissional usando tablet, com cartões de próximo agendamento, crescimento e receita"
-        aspectRatio="1.18"
-        backgroundImage={`url("${reference}")`}
-        backgroundSize="193% auto"
-        backgroundPosition="96% 30.5%"
-        backgroundRepeat="no-repeat"
+      <Image
+        src="/Profissional de salão com cartões de métricas.png"
+        alt="Profissional usando tablet, com cartões de próximo agendamento, crescimento e receita"
+        w="full"
+        h="auto"
+        objectFit="contain"
       />
     </Grid>
   )

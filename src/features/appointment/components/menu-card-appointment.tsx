@@ -1,4 +1,3 @@
-import { Alert, Spinner } from '@chakra-ui/react'
 import { For, Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { EllipsisVertical, Info, PencilLineIcon } from 'lucide-react'
@@ -59,6 +58,8 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
     ),
   )
 
+  const isLoadingAppointment = (state.info || state.update) && isFetching
+
   const currentDetail =
     detail &&
     detail.organizationId === session?.session.activeOrganizationId &&
@@ -96,6 +97,7 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
             rounded="full"
             aria-label="Options"
             size="2xs"
+            loading={isLoadingAppointment}
           >
             <Icon as={EllipsisVertical} boxSize="4" />
           </IconButton>
@@ -125,15 +127,6 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
         </Portal>
       </Menu.Root>
 
-      {(state.info || state.update) && isFetching && (
-        <Spinner size="sm" aria-label="Carregando agendamento" />
-      )}
-      {(state.info || state.update) && error && (
-        <Alert.Root status="error">
-          <Alert.Indicator />
-          <Alert.Title>{error.message}</Alert.Title>
-        </Alert.Root>
-      )}
       {currentDetail && !error && (
         <>
           <DialogInfoAppointment

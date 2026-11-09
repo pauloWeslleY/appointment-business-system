@@ -2,20 +2,12 @@ import type {
   SubscriptionContext,
   SubscriptionSnapshot,
 } from '../types/subscription.model'
+import { mapLabelSubscriptionStatus } from '../types/subscription-status.type'
 
 export const subscriptionStatusLabel: Record<
   SubscriptionSnapshot['access']['status'],
   string
-> = {
-  payment_required: 'Contratação necessária',
-  trialing: 'Teste gratuito em andamento',
-  trial_expired: 'Teste gratuito encerrado',
-  active: 'Assinatura ativa',
-  grace: 'Pagamento pendente — em tolerância',
-  cancellation_scheduled: 'Cancelamento agendado',
-  cancelled: 'Assinatura encerrada',
-  suspended: 'Acesso em somente leitura',
-}
+> = mapLabelSubscriptionStatus
 
 export function canManageSubscription(
   context: SubscriptionContext,

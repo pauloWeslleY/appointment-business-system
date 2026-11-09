@@ -14,6 +14,8 @@ import Logotipo from '@/components/logotipo'
 import { Tooltip } from '@/components/ui/tooltip'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
 
+import SidebarCurrentUser from './sidebar-current-user'
+
 interface SidebarAsideProps extends StackProps {
   loading?: boolean
 }
@@ -113,6 +115,13 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
           justify="flex-end"
         >
           {!loading && <CurrentPlan />}
+
+          <Separator
+            w="full"
+            borderColor={{ _light: 'gray.700', _dark: 'colorPalette.800/60' }}
+          />
+
+          {!loading && <SidebarCurrentUser />}
         </Flex>
       </Stack>
     </Stack>

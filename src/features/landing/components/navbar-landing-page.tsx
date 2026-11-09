@@ -67,13 +67,14 @@ const NavBarLandingPage = () => {
           </Button>
 
           <Button
+            rounded="lg"
             asChild
             variant="outline"
-            transition="colors"
-            color={{ base: 'slate.700', _hover: 'sea.400' }}
             borderColor="slate.200"
+            color="brand.slate"
             size="sm"
-            rounded="lg"
+            transition="colors"
+            _hover={{ bg: 'slate.100' }}
           >
             <Link to={getAdminHref('/login') as LinkProps['to']}>
               Área empresarial

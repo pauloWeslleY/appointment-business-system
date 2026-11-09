@@ -47,7 +47,6 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
   const { data: storageImageUrl } = useStorageImage(
     getEstablishmentStorageImageKey(establishment.imageUrl),
   )
-
   const navigate = useNavigate()
   const establishmentBannerUrl = storageImageUrl ?? establishment.imageUrl
 
@@ -134,7 +133,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               <Badge
                 size="sm"
                 rounded="sm"
-                variant="solid"
+                variant="surface"
                 colorPalette={establishmentDetails.status.color}
               >
                 {establishmentDetails.status.label}
@@ -164,6 +163,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
 
             <Badge
               size="sm"
+              rounded="xl"
               colorPalette={
                 establishmentDetails.establishmentOpen ? 'green' : 'red'
               }
@@ -181,6 +181,37 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           </Text>
 
           <Box spaceY="2" w="full">
+            <HStack align="center" gap="1" flexWrap="wrap">
+              <Text
+                lineHeight="short"
+                fontSize="sm"
+                letterSpacing="wide"
+                color={{ _light: 'gray.600', _dark: 'gray.400' }}
+              >
+                Hoje: {establishment.todayAppointmentsTotal} agendamentos
+              </Text>
+
+              <Separator orientation="vertical" height="4" />
+
+              <Text
+                lineHeight="short"
+                fontSize="sm"
+                letterSpacing="wide"
+                color={{ _light: 'gray.600', _dark: 'gray.400' }}
+              >
+                Próximo:{' '}
+                {formattedDateAndHours(establishment.nextAppointmentAt, true)}
+              </Text>
+            </HStack>
+
+            <Text
+              letterSpacing="wide"
+              color={{ _light: 'gray.600', _dark: 'gray.500' }}
+              fontSize="sm"
+            >
+              {establishmentDetails.openingDays}
+            </Text>
+
             <Flex
               gap={{ base: '2', md: '4' }}
               align={{ base: 'flex-start', md: 'center' }}
@@ -240,37 +271,6 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
                 </Text>
               </Flex>
             </Flex>
-
-            <HStack align="center" gap="1" flexWrap="wrap">
-              <Text
-                lineHeight="short"
-                fontSize="sm"
-                letterSpacing="wide"
-                color={{ _light: 'gray.600', _dark: 'gray.400' }}
-              >
-                Hoje: {establishment.todayAppointmentsTotal} agendamentos
-              </Text>
-
-              <Separator orientation="vertical" height="4" />
-
-              <Text
-                lineHeight="short"
-                fontSize="sm"
-                letterSpacing="wide"
-                color={{ _light: 'gray.600', _dark: 'gray.400' }}
-              >
-                Próximo:{' '}
-                {formattedDateAndHours(establishment.nextAppointmentAt, true)}
-              </Text>
-            </HStack>
-
-            <Text
-              letterSpacing="wide"
-              color={{ _light: 'gray.600', _dark: 'gray.500' }}
-              fontSize="sm"
-            >
-              {establishmentDetails.openingDays}
-            </Text>
           </Box>
         </VStack>
       </Card.Body>

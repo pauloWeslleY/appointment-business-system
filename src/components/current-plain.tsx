@@ -1,7 +1,28 @@
-import { Box, Button, Flex, HStack, Icon, Text } from '@chakra-ui/react'
-import { Link } from '@tanstack/react-router'
+import {
+  Alert,
+  Badge,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Icon,
+  Text,
+} from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
+import { Link, useRouteContext } from '@tanstack/react-router'
 import { Crown } from 'lucide-react'
+import { useMemo } from 'react'
 
+import { subscriptionAccessQueryOptions } from '@/features/subscriptions/queries/subscription.query-options'
+import {
+  BillingIntervals,
+  mapLabelBillingInterval,
+} from '@/features/subscriptions/types/billing-interval.type'
+import {
+  mapLabelSubscriptionStatus,
+  mapLabelSubscriptionStatusColor,
+  SubscriptionStatuses,
+} from '@/features/subscriptions/types/subscription-status.type'
 import { RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
@@ -9,8 +30,33 @@ import { useMenuCollapse } from '@/shared/store/menu-collapse'
 import { Tooltip } from './ui/tooltip'
 
 const CurrentPlan = () => {
+  const { session } = useRouteContext({ from: '/_app' })
   const { collapsed } = useMenuCollapse()
   const { subscriptions } = usePermissions([RESOURCES.SUBSCRIPTION])
+  const { data: currentSubscription } = useQuery(
+    subscriptionAccessQueryOptions(
+      session.user.id,
+      session.session.activeOrganizationId ?? '',
+    ),
+  )
+
+  const isOnlyRead =
+    currentSubscription?.access.canRead && !currentSubscription?.access.canWrite
+  const isOnlyModeRead = isOnlyRead ?? true
+  const statusSubscription =
+    currentSubscription?.access?.status ?? SubscriptionStatuses.PAYMENT_REQUIRED
+
+  const currentPlan = useMemo(
+    () => ({
+      type: mapLabelBillingInterval[
+        currentSubscription?.subscription?.billingInterval ??
+          BillingIntervals.MONTHLY
+      ],
+      status: mapLabelSubscriptionStatus[statusSubscription],
+      mapStatusColor: mapLabelSubscriptionStatusColor[statusSubscription],
+    }),
+    [currentSubscription?.subscription?.billingInterval, statusSubscription],
+  )
 
   return (
     <Flex
@@ -29,7 +75,7 @@ const CurrentPlan = () => {
     >
       <HStack gap={!collapsed ? '4' : '0'}>
         <Tooltip
-          content="Você está no plano Básico."
+          content={`Você está no Plano: ${currentPlan.type}`}
           showArrow
           positioning={{ placement: 'top-start' }}
         >
@@ -47,23 +93,40 @@ const CurrentPlan = () => {
         </Tooltip>
 
         {!collapsed && (
-          <Box>
+          <Box spaceY="1">
             <Text
               as="span"
-              fontSize="md"
+              fontSize="sm"
               color={{ _light: 'gray.800', _dark: 'gray.200' }}
             >
-              Plano atual
+              Plano: {currentPlan.type}
             </Text>
-            <Text
-              fontSize="sm"
-              color={{ _light: 'gray.800', _dark: 'gray.400' }}
-            >
-              Você está no plano Básico.
-            </Text>
+            <HStack align="center" gap="2">
+              <Text
+                fontSize="sm"
+                color={{ _light: 'gray.800', _dark: 'gray.400' }}
+              >
+                Status:
+              </Text>
+              <Badge
+                size="sm"
+                rounded="md"
+                variant="outline"
+                colorPalette={currentPlan.mapStatusColor}
+              >
+                {currentPlan.status}
+              </Badge>
+            </HStack>
           </Box>
         )}
       </HStack>
+
+      {isOnlyModeRead && (
+        <Alert.Root status="warning" variant="surface" rounded="lg" size="sm">
+          <Alert.Indicator />
+          <Alert.Title>Modo de leitura</Alert.Title>
+        </Alert.Root>
+      )}
 
       {subscriptions.canRead && (
         <>
@@ -74,6 +137,7 @@ const CurrentPlan = () => {
               rounded="lg"
               colorPalette="grey"
               variant="surface"
+              size="xs"
             >
               <Link to="/subscription">Gerenciar plano</Link>
             </Button>

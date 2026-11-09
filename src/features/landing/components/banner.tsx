@@ -6,13 +6,13 @@ import {
   Grid,
   Heading,
   HStack,
+  Image,
   Link,
   Stack,
   Text,
 } from '@chakra-ui/react'
 import { Check, CirclePlay } from 'lucide-react'
 
-import { reference } from '../constants/data-landing-page'
 import SignupButton from './signup-button'
 
 const trialList = [
@@ -87,6 +87,8 @@ const Banner = () => {
                 borderColor="slate.200"
                 color="brand.slate"
                 h="11"
+                transition="colors"
+                _hover={{ bg: 'slate.100' }}
               >
                 <Link href="#como-funciona">
                   <CirclePlay size={17} />
@@ -107,16 +109,12 @@ const Banner = () => {
             </Stack>
           </Box>
 
-          <Box
-            role="img"
-            aria-label="System Appointment em computador e celular, com calendário de agendamentos"
-            w={{ base: '100%', md: '660px' }}
-            aspectRatio="1.2"
-            backgroundImage={`url("${reference}")`}
-            backgroundSize="177% auto"
-            backgroundPosition="100% 3.5%"
-            backgroundRepeat="no-repeat"
-            alignSelf="end"
+          <Image
+            src="/banner.png"
+            alt="Sistema Agendros"
+            w="full"
+            h="auto"
+            objectFit="contain"
           />
         </Grid>
       </Container>

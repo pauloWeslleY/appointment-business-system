@@ -97,10 +97,10 @@ const PlanCard = ({ plan, index }: PlanCardProps) => {
           rounded="xl"
           mb="5"
           mx="auto"
-          w="xs"
+          w={{ base: 'fit', md: '2xs' }}
         >
           <Text fontSize="sm" color="purple.500">
-            Equivalente a apenas <strong>R$ 29,17 por mês</strong>
+            Equivalente <strong>R$ 29,17 por mês</strong>
           </Text>
         </Flex>
       )}

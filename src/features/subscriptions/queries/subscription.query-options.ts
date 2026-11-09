@@ -21,8 +21,10 @@ export const subscriptionAccessQueryOptions = (
 ) =>
   queryOptions({
     queryKey: subscriptionQueryKey.access(userId, organizationId),
-    queryFn: ({ signal }) =>
-      getSubscriptionAccessService(organizationId, signal),
+    queryFn:
+      organizationId.trim() !== ''
+        ? ({ signal }) => getSubscriptionAccessService(organizationId, signal)
+        : skipToken,
     retry: false,
     refetchOnWindowFocus: true,
   })

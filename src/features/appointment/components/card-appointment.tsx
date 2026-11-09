@@ -72,12 +72,12 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
             _dark: { color: 'primary.200' },
             letterSpacing: 'wider',
             fontWeight: 'medium',
+            minW: '0',
+            overflowWrap: 'anywhere',
           },
         }}
       >
-        <Text as="h3" minW="0" overflowWrap="anywhere">
-          {appointment.serviceNameSnapshot}
-        </Text>
+        <h3>{appointment.serviceNameSnapshot}</h3>
 
         <MenuCardAppointment appointment={appointment} />
       </Card.Header>

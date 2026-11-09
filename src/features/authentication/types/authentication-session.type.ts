@@ -1,18 +1,14 @@
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
-import type { authClient } from '@/lib/auth'
-
-export type AuthenticationSession = NonNullable<
-  Awaited<ReturnType<typeof authClient.getSession>>['data']
->
+import type { AuthenticationSessionType } from '@/shared/types/auth-client.type'
 
 export interface AuthenticatedContext {
-  session: AuthenticationSession
+  session: AuthenticationSessionType
   memberContext: GetMeContextResponse
 }
 
 export interface AppSessionState {
-  data: AuthenticationSession | null | undefined
+  data: AuthenticationSessionType | null | undefined
   isPending: boolean
   error: Error | null
-  refetch: () => Promise<AuthenticationSession | null>
+  refetch: () => Promise<AuthenticationSessionType | null>
 }
