@@ -43,7 +43,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
       >
         <IconButton
           onClick={() => setCollapsed(!collapsed)}
-          colorPalette="gray"
+          colorPalette="primary"
           size="2xs"
           rounded="lg"
           variant="surface"

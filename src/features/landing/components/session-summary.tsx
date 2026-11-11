@@ -1,4 +1,13 @@
-import { Box, For, Grid, Heading, HStack, Image, Stack, Text } from '@chakra-ui/react'
+import {
+  Box,
+  For,
+  Grid,
+  Heading,
+  HStack,
+  Image,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 
 import {
   featuresLandingPage,
@@ -31,8 +40,8 @@ const SessionSummary = () => {
           em um só lugar.
         </Heading>
         <Text color="brand.slate" fontSize="14px" mt="3" maxW="400px">
-          Do agendamento ao pagamento, o System Appointment centraliza a gestão
-          do seu negócio de forma prática e eficiente.
+          Do agendamento ao pagamento, o Agendros centraliza a gestão do seu
+          negócio de forma prática e eficiente.
         </Text>
 
         <Stack gap="3" my="6">
