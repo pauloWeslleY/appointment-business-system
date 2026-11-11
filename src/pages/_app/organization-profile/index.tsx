@@ -21,7 +21,11 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_app/organization-profile/')({
   head: () => ({
-    meta: [{ title: 'Configurar perfil empresarial | Agendros' }],
+    meta: [
+      {
+        title: 'Configurar perfil empresarial | Agendros',
+      },
+    ],
   }),
   loader: async () => await authClient.organization.list(),
   component: OrganzationProfilePage,
@@ -110,7 +114,11 @@ function OrganzationProfilePage() {
           </Flex>
         </Alert.Root>
 
-        <Separator my="4" mx="8" />
+        <Separator
+          my="4"
+          mx="8"
+          borderColor={{ _light: 'slate.200', _dark: 'slate.800' }}
+        />
 
         <Card.Root variant="outline" css={cardSectionCss} h="fit">
           <Card.Header>

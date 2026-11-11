@@ -9,9 +9,9 @@ const InputField = ({ ref, ...props }: InputFieldProps) => {
   return (
     <Input
       ref={ref}
-      {...props}
       variant="subtle"
       size="sm"
+      {...props}
       {...inputFieldStyles}
     />
   )

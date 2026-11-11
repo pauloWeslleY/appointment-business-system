@@ -1,17 +1,9 @@
-import {
-  Alert,
-  Box,
-  Button,
-  chakra,
-  Flex,
-  Group,
-  Icon,
-  Input,
-} from '@chakra-ui/react'
+import { Alert, Box, Button, chakra, Flex, Group, Icon } from '@chakra-ui/react'
 import { PlusIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
+import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { inputFieldStyles } from '@/theme/styles/global-styles'
 
@@ -55,10 +47,9 @@ const FormCreateOrganizationProfile = () => {
             invalid={!!errors.profile?.legalName}
             errorText={errors.profile?.legalName?.message}
           >
-            <Input
+            <InputField
               {...register('profile.legalName')}
               placeholder="Ex: Minha Empresa LTDA"
-              size="sm"
               css={inputFieldStyles}
             />
           </Field>
@@ -69,10 +60,9 @@ const FormCreateOrganizationProfile = () => {
             invalid={!!errors.profile?.tradeName}
             errorText={errors.profile?.tradeName?.message}
           >
-            <Input
+            <InputField
               {...register('profile.tradeName')}
               placeholder="Ex: Minha Empresa"
-              size="sm"
               css={inputFieldStyles}
             />
           </Field>
@@ -83,10 +73,9 @@ const FormCreateOrganizationProfile = () => {
             invalid={!!errors.profile?.email}
             errorText={errors.profile?.email?.message}
           >
-            <Input
+            <InputField
               {...register('profile.email')}
               placeholder="contato@minhaempresa.com"
-              size="sm"
               css={inputFieldStyles}
             />
           </Field>
@@ -107,8 +96,7 @@ const FormCreateOrganizationProfile = () => {
                   format="(##) #####-####"
                   placeholder="(00) 00000-0000"
                   mask="_"
-                  size="sm"
-                  customInput={Input}
+                  customInput={InputField}
                   css={inputFieldStyles}
                 />
               </Field>
@@ -128,10 +116,9 @@ const FormCreateOrganizationProfile = () => {
             flexDirection={{ base: 'column', md: 'row' }}
             alignItems="center"
           >
-            <Input
+            <InputField
               {...register('name')}
               placeholder="Ex: Minha Empresa"
-              size="sm"
               css={inputFieldStyles}
             />
             <Button size="xs" rounded="lg" onClick={syncNameFromTradeName}>

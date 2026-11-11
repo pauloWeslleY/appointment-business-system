@@ -199,8 +199,8 @@ export const semanticTokens = defineSemanticTokens.colors({
   app: {
     bg: {
       value: {
-        base: '#F8FAFC',
-        _dark: '#151121',
+        _light: '{colors.navy.50}',
+        _dark: '{colors.slate.950}',
       },
     },
     surface: {
