@@ -1,6 +1,8 @@
 import { Alert, Button, chakra, Flex, Stack } from '@chakra-ui/react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
+import { toaster } from '@/components/ui/toaster'
+
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import TelephoneContactCustomerField from './telephone-contact-customer-field'
 
@@ -12,8 +14,16 @@ const FormPhonesCustomer = () => {
     remove: removeTelephone,
   } = useFieldArray({ control: form.control, name: 'phones' })
 
-  const addNewTelephone = () =>
+  const addNewTelephone = () => {
+    if (telephoneFields.length >= 4) {
+      toaster.warning({
+        title: 'Limite de contatos atingido',
+        description: 'Você não pode adicionar mais de 4 contatos.',
+      })
+      return
+    }
     appendTelephone({ phone: '', type: 'telephone' })
+  }
 
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
 
