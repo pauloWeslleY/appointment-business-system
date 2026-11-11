@@ -1,11 +1,13 @@
 import {
   Box,
   Button,
+  EmptyState,
+  Fieldset,
   FileUpload,
-  Flex,
   Grid,
   Icon,
   Image,
+  VStack,
 } from '@chakra-ui/react'
 import { FileImage, Upload, UploadCloud } from 'lucide-react'
 import { Controller } from 'react-hook-form'
@@ -40,62 +42,81 @@ const UploadImageEstablishment = ({
       gap="4"
       mt="4"
     >
-      <Box display="flex" flexDirection="column" gap="2" h="fit">
-        <Controller
-          name="file"
-          control={control}
-          render={({ field }) => (
-            <Field
-              invalid={Boolean(errors.file)}
-              errorText={errors.file?.message}
-              label="Imagem do estabelecimento"
-            >
-              <FileUpload.Root rounded="xl" alignItems="stretch" maxFiles={10}>
-                <FileUpload.HiddenInput
-                  onChange={(e) => field.onChange(e.target.files?.[0])}
-                />
-                <FileUpload.Dropzone
+      <Fieldset.Root
+        p="4"
+        rounded="xl"
+        borderWidth="1px"
+        borderColor={{ _light: 'gray.200', _dark: 'slate.800/80' }}
+      >
+        <Fieldset.Legend fontSize="lg">Upload de imagem</Fieldset.Legend>
+        <Fieldset.HelperText mt="0">
+          Faça upload de uma imagem para o estabelecimento. <br /> Deixe em
+          branco para não alterar a imagem atual.
+        </Fieldset.HelperText>
+
+        <Fieldset.Content display="flex" flexDirection="column" gap="2" h="fit">
+          <Controller
+            name="file"
+            control={control}
+            render={({ field }) => (
+              <Field
+                invalid={Boolean(errors.file)}
+                errorText={errors.file?.message}
+              >
+                <FileUpload.Root
                   rounded="xl"
-                  bg="gray.700/10"
-                  borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+                  alignItems="stretch"
+                  maxFiles={10}
                 >
-                  <Icon size="md" color="fg.muted">
-                    <Upload />
-                  </Icon>
+                  <FileUpload.HiddenInput
+                    onChange={(e) => field.onChange(e.target.files?.[0])}
+                  />
+                  <FileUpload.Dropzone
+                    rounded="xl"
+                    bg="gray.700/10"
+                    borderColor={{
+                      base: 'gray.200',
+                      _dark: 'secondary.500/20',
+                    }}
+                  >
+                    <Icon size="md" color="fg.muted">
+                      <Upload />
+                    </Icon>
 
-                  <FileUpload.DropzoneContent>
-                    <Box>Drag and drop files here</Box>
-                    <Box color="fg.muted">.png, .jpg up to 5MB</Box>
-                  </FileUpload.DropzoneContent>
-                </FileUpload.Dropzone>
+                    <FileUpload.DropzoneContent>
+                      <Box>Drag and drop files here</Box>
+                      <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+                    </FileUpload.DropzoneContent>
+                  </FileUpload.Dropzone>
 
-                <FileUpload.ItemGroup mt="1">
-                  <FileUpload.Context>
-                    {({ acceptedFiles }) =>
-                      acceptedFiles.map((file) => (
-                        <FileUploadCardItem key={file.name} file={file} />
-                      ))
-                    }
-                  </FileUpload.Context>
-                </FileUpload.ItemGroup>
-              </FileUpload.Root>
-            </Field>
-          )}
-        />
+                  <FileUpload.ItemGroup mt="1">
+                    <FileUpload.Context>
+                      {({ acceptedFiles }) =>
+                        acceptedFiles.map((file) => (
+                          <FileUploadCardItem key={file.name} file={file} />
+                        ))
+                      }
+                    </FileUpload.Context>
+                  </FileUpload.ItemGroup>
+                </FileUpload.Root>
+              </Field>
+            )}
+          />
 
-        <Button
-          w="fit"
-          size="sm"
-          rounded="lg"
-          alignSelf="flex-end"
-          colorPalette="brand"
-          loading={isPendingUploadImageEstablishment}
-          onClick={handleSubmit(onSubmitUploadImageEstablishment)}
-        >
-          <Icon as={UploadCloud} boxSize="5" />
-          Salvar
-        </Button>
-      </Box>
+          <Button
+            w="fit"
+            size="sm"
+            rounded="lg"
+            alignSelf="flex-end"
+            colorPalette="brand"
+            loading={isPendingUploadImageEstablishment}
+            onClick={handleSubmit(onSubmitUploadImageEstablishment)}
+          >
+            <Icon as={UploadCloud} boxSize="5" />
+            Salvar
+          </Button>
+        </Fieldset.Content>
+      </Fieldset.Root>
 
       <div>
         {establishment?.imageUrl ? (
@@ -110,17 +131,19 @@ const UploadImageEstablishment = ({
             src={establishment.imageUrl}
           />
         ) : (
-          <Flex
-            w="full"
-            p="2"
-            bg={{ base: 'gray.200', _dark: 'gray.800' }}
-            rounded="lg"
-            placeContent="center"
-          >
-            <Icon boxSize="32">
-              <FileImage />
-            </Icon>
-          </Flex>
+          <EmptyState.Root h="full">
+            <EmptyState.Content h="full">
+              <EmptyState.Indicator>
+                <FileImage />
+              </EmptyState.Indicator>
+              <VStack textAlign="center">
+                <EmptyState.Title>Nenhuma imagem disponível</EmptyState.Title>
+                <EmptyState.Description>
+                  Estabelecimento não possui imagem
+                </EmptyState.Description>
+              </VStack>
+            </EmptyState.Content>
+          </EmptyState.Root>
         )}
       </div>
     </Grid>

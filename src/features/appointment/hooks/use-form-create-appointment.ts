@@ -20,7 +20,7 @@ import {
   appointmentDateTime,
   appointmentToday,
   calculateAppointmentEndsAt,
-} from '../utils/appointment-date'
+} from '../helpers/appointment-date'
 
 const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 

@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Icon, SimpleGrid } from '@chakra-ui/react'
+import { Box, Button, Grid, HStack, Icon } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { Building2, PlusIcon, UserSquare2 } from 'lucide-react'
@@ -89,30 +89,32 @@ function OrganizationPage() {
         )}
       </Header.Root>
 
-      <CardOrganizationProfileSummary
-        organizationProfile={organizationProfile}
-        organization={organization}
-      />
-
-      <SimpleGrid
-        columns={{
-          base: 1,
-          lg: organizationProfilePermission.canUpdate ? 2 : 1,
-        }}
-        gap="4"
-      >
-        <SummaryOrganizationProfile
-          title="Dados empresariais"
-          icon={UserSquare2}
-          data={loadListDataOrganizationProfile}
+      <>
+        <CardOrganizationProfileSummary
+          organizationProfile={organizationProfile}
+          organization={organization}
         />
 
-        {organizationProfilePermission.canUpdate && (
-          <FormUpdateOrganizationProfile />
-        )}
-      </SimpleGrid>
+        <Grid
+          templateColumns={{
+            base: '1fr',
+            xl: organizationProfilePermission.canUpdate ? `400px 1fr` : '1fr',
+          }}
+          gap="4"
+        >
+          <SummaryOrganizationProfile
+            title="Dados empresariais"
+            icon={UserSquare2}
+            data={loadListDataOrganizationProfile}
+          />
 
-      {organizationProfilePermission.canUpdate && <ActiveOrganization />}
+          {organizationProfilePermission.canUpdate && (
+            <FormUpdateOrganizationProfile />
+          )}
+        </Grid>
+
+        {organizationProfilePermission.canUpdate && <ActiveOrganization />}
+      </>
     </Box>
   )
 }

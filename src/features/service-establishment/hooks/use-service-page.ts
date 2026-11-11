@@ -14,26 +14,48 @@ export function useServicePage(establishmentId: string) {
     status: parseAsString.withDefault(''),
   })
   const { data: session } = useAppSession()
-  const query = useDebouncedSearch(search.q)
-  const active =
+  const debouncedServicesSearch = useDebouncedSearch(search.q)
+  const isActiveServicesFilter =
     search.status === 'active'
       ? true
       : search.status === 'inactive'
         ? false
         : undefined
 
-  return useQuery({
+  const {
+    data: servicesPageData,
+    error: servicesError,
+    isLoading: isLoadingServices,
+    refetch: refetchServices,
+  } = useQuery({
     ...servicePageQueryOptions(
       {
         establishmentId,
         page: search.page,
         pageSize: search.page_size,
-        q: query,
-        active,
+        q: debouncedServicesSearch,
+        active: isActiveServicesFilter,
       },
       session?.user.id,
       session?.session.activeOrganizationId,
     ),
-    enabled: query === search.q,
+    enabled: debouncedServicesSearch === search.q,
   })
+
+  const services = servicesPageData?.services ?? []
+  const totalServices = servicesPageData?.total ?? 0
+  const servicesSummary = servicesPageData?.summary
+  const servicesScopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishmentId}`
+
+  const retryServices = () => refetchServices()
+
+  return {
+    services,
+    totalServices,
+    servicesSummary,
+    servicesError,
+    isLoadingServices,
+    retryServices,
+    servicesScopeKey,
+  }
 }

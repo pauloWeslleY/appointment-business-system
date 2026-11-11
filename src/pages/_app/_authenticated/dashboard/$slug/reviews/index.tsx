@@ -1,4 +1,15 @@
-import { Alert, Box, Card, HStack, Skeleton, Stack } from '@chakra-ui/react'
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  Flex,
+  For,
+  HStack,
+  Skeleton,
+  Stack,
+  VStack,
+} from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Star } from 'lucide-react'
 
@@ -27,55 +38,68 @@ export const Route = createFileRoute(
 
 function ReviewsPage() {
   const {
-    data: getReviews,
-    isLoading: isLoadingReviews,
-    error: errorReviews,
+    reviews,
+    totalReviews,
+    reviewsSummary,
+    reviewsError,
+    isLoadingReviews,
+    retryReviews,
+    reviewsScopeKey,
   } = useReviewPage()
 
   return (
-    <Box spaceY={{ base: '4', lg: '6' }} pb="4">
-      <Header.Root>
-        <Header.Icon icon={Star} />
-        <div>
-          <Header.Title>Avaliações</Header.Title>
-          <Header.SubTitle>
-            Avaliações verificadas disponíveis publicamente.
-          </Header.SubTitle>
-        </div>
+    <Box key={reviewsScopeKey} spaceY={{ base: '4', lg: '6' }} pb="4">
+      <Header.Root justify="space-between" align="center">
+        <HStack align="center" minW="0">
+          <Header.Icon icon={Star} />
+          <VStack align="start" gap="0" minW="0">
+            <Header.Title>Avaliações</Header.Title>
+            <Header.SubTitle>
+              Avaliações verificadas disponíveis publicamente.
+            </Header.SubTitle>
+          </VStack>
+        </HStack>
       </Header.Root>
 
       <Box spaceY="4">
-        <HStack flexWrap="wrap">
+        <Flex align="center" gap="2" flexWrap="wrap">
           <SearchPage resetPagination />
           <FilterReviewsNotes />
-        </HStack>
+        </Flex>
 
-        {errorReviews && (
-          <Alert.Root status="error" rounded="xl">
+        {reviewsError && (
+          <Alert.Root status="error" rounded="lg">
             <Alert.Indicator />
-            <Alert.Title>{errorReviews.message}</Alert.Title>
+            <Alert.Title>{reviewsError.message}</Alert.Title>
+            <Button rounded="lg" onClick={retryReviews} size="sm">
+              Tentar novamente
+            </Button>
           </Alert.Root>
         )}
 
         {isLoadingReviews && (
           <Stack gap="2" w="full">
-            <Skeleton h="40px" rounded="xl" />
-            <Skeleton h="40px" rounded="xl" />
-            <Skeleton h="40px" rounded="xl" />
+            <For each={[1, 2, 3]}>
+              {(item) => (
+                <Skeleton
+                  key={item}
+                  height="60px"
+                  rounded="lg"
+                  bg={{ base: 'gray.200', _dark: 'gray.700/70' }}
+                />
+              )}
+            </For>
           </Stack>
         )}
 
-        {!isLoadingReviews && !errorReviews && (
-          <>
-            {getReviews && <StatsReviews summary={getReviews.summary} />}
+        {!isLoadingReviews && !reviewsError && (
+          <Box spaceY="4">
+            {reviewsSummary && <StatsReviews summary={reviewsSummary} />}
 
             <Card.Root variant="outline" css={cardSectionCss}>
-              <ReviewsListPage
-                reviews={getReviews?.reviews ?? []}
-                total={getReviews?.total ?? 0}
-              />
+              <ReviewsListPage reviews={reviews} total={totalReviews} />
             </Card.Root>
-          </>
+          </Box>
         )}
       </Box>
     </Box>

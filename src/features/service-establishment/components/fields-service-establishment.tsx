@@ -1,4 +1,4 @@
-import { GridItem } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
 import {
   type Control,
   Controller,
@@ -31,8 +31,12 @@ const FieldsServiceEstablishment = ({
   errors,
 }: FieldsServiceEstablishmentProps) => {
   return (
-    <>
-      <GridItem colSpan={{ base: 1, md: 2 }}>
+    <Grid
+      templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+      gap="4"
+      gridColumn="1 / -1"
+    >
+      <GridItem colSpan={1} asChild>
         <Field
           required
           label="Nome"
@@ -41,7 +45,7 @@ const FieldsServiceEstablishment = ({
         >
           <InputField
             {...register('name')}
-            placeholder="Digite o nome do serviço"
+            placeholder="Ex.: Corte de cabelo"
           />
         </Field>
       </GridItem>
@@ -103,7 +107,7 @@ const FieldsServiceEstablishment = ({
         )}
       />
 
-      <GridItem colSpan={{ base: 1, md: 2 }}>
+      <GridItem asChild gridColumn="1 / -1">
         <Field
           required
           label="Descrição"
@@ -112,11 +116,11 @@ const FieldsServiceEstablishment = ({
         >
           <InputField
             {...register('description')}
-            placeholder="Digite a descrição do serviço"
+            placeholder="Ex.: Serviço de corte de cabelo"
           />
         </Field>
       </GridItem>
-    </>
+    </Grid>
   )
 }
 

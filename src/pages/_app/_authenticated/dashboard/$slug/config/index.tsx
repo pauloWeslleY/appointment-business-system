@@ -1,6 +1,7 @@
 import { Box, For, Icon, Tabs, useBreakpointValue } from '@chakra-ui/react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import {
+  ClipboardIcon,
   LinkIcon,
   MapPin,
   PaletteIcon,
@@ -9,9 +10,9 @@ import {
   UploadCloud,
 } from 'lucide-react'
 import { parseAsStringLiteral, useQueryState } from 'nuqs'
-import z from 'zod'
 
 import Header from '@/components/layout/header'
+import SummaryEstablishment from '@/features/establishment/components/summary-establishment'
 import {
   MENU_SETTINGS_ESTABLISHMENT,
   MenuSettingsEstablishment,
@@ -22,14 +23,13 @@ import EstablishmentLinksSettingsPage from '@/features/establishment/pages/estab
 import FormUpdateEstablishmentPage from '@/features/establishment/pages/form-update-establishment.page'
 import FormUpdateEstablishmentAddressPage from '@/features/establishment/pages/form-update-establishment-address.page'
 import UploadImageEstablishment from '@/features/establishment/pages/upload-image-establishment.page'
+import { EstablishmentSettingsRouteSearchSchema } from '@/features/establishment/schemas/establishment-settings-route-search.schema'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/config/',
 )({
-  validateSearch: z.object({
-    tab: z.enum(MENU_SETTINGS_ESTABLISHMENT).optional().catch(undefined),
-  }),
+  validateSearch: EstablishmentSettingsRouteSearchSchema,
   beforeLoad: ({ search, params }) => {
     if (!search.tab) {
       throw redirect({
@@ -39,7 +39,7 @@ export const Route = createFileRoute(
       })
     }
   },
-  component: RouteComponent,
+  component: EstablishmentSettingsPage,
   head: () => ({
     meta: [
       {
@@ -49,7 +49,7 @@ export const Route = createFileRoute(
   }),
 })
 
-function RouteComponent() {
+function EstablishmentSettingsPage() {
   const [tabConfigEstablishment, setTabConfigEstablishment] = useQueryState(
     'tab',
     parseAsStringLiteral(MENU_SETTINGS_ESTABLISHMENT).withDefault(
@@ -58,11 +58,13 @@ function RouteComponent() {
   )
 
   const { member } = Route.useRouteContext()
-  const slug = Route.useParams({ select: (params) => params.slug })
-  const orientation = useBreakpointValue<'horizontal' | 'vertical'>({
-    base: 'horizontal',
-    lg: 'vertical',
-  })
+  const establishmentSlug = Route.useParams({ select: (params) => params.slug })
+  const settingsTabsOrientation = useBreakpointValue<'horizontal' | 'vertical'>(
+    {
+      base: 'horizontal',
+      lg: 'vertical',
+    },
+  )
 
   return (
     <Box spaceY={{ base: '4', lg: '8' }} pb="4">
@@ -74,10 +76,12 @@ function RouteComponent() {
       <Box spaceY="4">
         <Tabs.Root
           value={tabConfigEstablishment}
-          onValueChange={(e) =>
-            setTabConfigEstablishment(e.value as MenuSettingsEstablishmentType)
+          onValueChange={(tabsValueChange) =>
+            setTabConfigEstablishment(
+              tabsValueChange.value as MenuSettingsEstablishmentType,
+            )
           }
-          orientation={orientation}
+          orientation={settingsTabsOrientation}
           variant="plain"
           gap="4"
         >
@@ -92,6 +96,11 @@ function RouteComponent() {
           >
             <For
               each={[
+                {
+                  label: 'Resumo',
+                  value: MenuSettingsEstablishment.SUMMARY,
+                  icon: ClipboardIcon,
+                },
                 {
                   label: 'Editar',
                   value: MenuSettingsEstablishment.EDIT,
@@ -136,12 +145,23 @@ function RouteComponent() {
           </Tabs.List>
 
           <Tabs.Content
+            value={MenuSettingsEstablishment.SUMMARY}
+            w="full"
+            border="1px solid"
+            {...cardSectionCss}
+          >
+            <SummaryEstablishment />
+          </Tabs.Content>
+
+          <Tabs.Content
             value={MenuSettingsEstablishment.EDIT}
             w="full"
             border="1px solid"
             {...cardSectionCss}
           >
-            <FormUpdateEstablishmentPage establishmentSlug={slug} />
+            <FormUpdateEstablishmentPage
+              establishmentSlug={establishmentSlug}
+            />
           </Tabs.Content>
 
           <Tabs.Content
@@ -150,7 +170,7 @@ function RouteComponent() {
             border="1px solid"
             {...cardSectionCss}
           >
-            <UploadImageEstablishment establishmentSlug={slug} />
+            <UploadImageEstablishment establishmentSlug={establishmentSlug} />
           </Tabs.Content>
 
           <Tabs.Content
@@ -160,7 +180,7 @@ function RouteComponent() {
             {...cardSectionCss}
           >
             <FormUpdateEstablishmentAddressPage
-              establishmentSlug={slug}
+              establishmentSlug={establishmentSlug}
               member={member.memberContext}
             />
           </Tabs.Content>
@@ -172,7 +192,7 @@ function RouteComponent() {
             {...cardSectionCss}
           >
             <EstablishmentLinksSettingsPage
-              establishmentSlug={slug}
+              establishmentSlug={establishmentSlug}
               memberContext={member.memberContext}
             />
           </Tabs.Content>
@@ -184,7 +204,7 @@ function RouteComponent() {
             {...cardSectionCss}
           >
             <EstablishmentColorsSettingsPage
-              establishmentSlug={slug}
+              establishmentSlug={establishmentSlug}
               memberContext={member.memberContext}
             />
           </Tabs.Content>

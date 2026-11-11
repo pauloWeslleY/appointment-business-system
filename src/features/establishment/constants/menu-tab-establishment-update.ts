@@ -14,6 +14,7 @@ export const MenuSettingsEstablishment = Object.assign(
   {
     LINKS: 'links',
     COLORS: 'colors',
+    SUMMARY: 'summary',
   } as const,
 )
 

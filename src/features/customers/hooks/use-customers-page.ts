@@ -26,6 +26,7 @@ export function useCustomersPage() {
       : search.status === 'inactive'
         ? false
         : undefined
+
   const { data, error, isLoading, refetch } = useQuery({
     ...customerPageQueryOptions(
       {

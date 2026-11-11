@@ -64,7 +64,13 @@ export function SubscriptionNotices() {
       )}
       <Stack gap="4">
         {subscriptionNoticesQuery.data?.notices.map((notice) => (
-          <Box key={notice.id} borderWidth="1px" rounded="xl" p="4">
+          <Box
+            key={notice.id}
+            borderWidth="1px"
+            borderColor="border"
+            rounded="xl"
+            p="4"
+          >
             <HStack justify="space-between" flexWrap="wrap" mb="2">
               <Heading size="sm">{notice.subject}</Heading>
               <Badge colorPalette={notice.readAt ? 'gray' : 'green'}>

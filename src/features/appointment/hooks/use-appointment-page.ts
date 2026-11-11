@@ -12,7 +12,7 @@ import { useDebouncedSearch } from '@/shared/hooks/use-debounced-search'
 
 import { appointmentPageQueryOptions } from '../queries/appointment-page.query-options'
 import { AppointmentStatus } from '../types/appointment-status.type'
-import { appointmentRangeBoundary } from '../utils/appointment-date'
+import { appointmentRangeBoundary } from '../helpers/appointment-date'
 
 const pageRoute = getRouteApi(
   '/_app/_authenticated/dashboard/$slug/appointment/',
@@ -32,9 +32,14 @@ export function useAppointmentPage() {
   })
   const { establishment } = dashboardRoute.useLoaderData()
   const { data: session } = useAppSession()
-  const query = useDebouncedSearch(search.q)
+  const debouncedAppointmentsSearch = useDebouncedSearch(search.q)
 
-  return useQuery({
+  const {
+    data: appointmentsPageData,
+    error: appointmentsError,
+    isLoading: isLoadingAppointments,
+    refetch: refetchAppointments,
+  } = useQuery({
     ...appointmentPageQueryOptions(
       {
         establishmentId: establishment.id,
@@ -50,12 +55,29 @@ export function useAppointmentPage() {
         ),
         page: search.page,
         pageSize: search.page_size,
-        q: query,
+        q: debouncedAppointmentsSearch,
         status: search.status ?? undefined,
         serviceId: search.service_id ?? undefined,
       },
       session?.user.id,
     ),
-    enabled: query === search.q,
+    enabled: debouncedAppointmentsSearch === search.q,
   })
+
+  const appointments = appointmentsPageData?.appointments ?? []
+  const totalAppointments = appointmentsPageData?.total ?? 0
+  const appointmentsSummary = appointmentsPageData?.summary
+  const appointmentsScopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishment.id}`
+
+  const retryAppointments = () => refetchAppointments()
+
+  return {
+    appointments,
+    totalAppointments,
+    appointmentsSummary,
+    appointmentsError,
+    isLoadingAppointments,
+    retryAppointments,
+    appointmentsScopeKey,
+  }
 }

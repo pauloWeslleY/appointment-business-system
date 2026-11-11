@@ -21,18 +21,20 @@ import { useState } from 'react'
 
 import { Status } from '@/components/ui/status'
 import { Tooltip } from '@/components/ui/tooltip'
-import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
-import { formattedPhone } from '@/shared/utils/formatted-mask'
 import { contentCss } from '@/theme/styles/global-styles'
 
+import { openingHoursEstablishmentMapper } from '../helpers/opening-hours-establishment-mapper'
+import {
+  establishmentAddressFormatted,
+  establishmentPhonesFormatted,
+  hasCustomRenderingEstablishment,
+} from '../helpers/summary-establishment.mapper'
 import {
   type EstablishmentStatusType,
   mapStatusEstablishment,
 } from '../types/establishment-status.type'
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
-
-const CUSTOM_RENDERED_LABELS = new Set(['Horário de funcionamento', 'Status'])
 
 interface SidebarInfoEstablishmentProps {
   establishment: EstablishmentOrganizationProfileApiResponse
@@ -59,16 +61,9 @@ const SidebarInfoEstablishment = ({
     true,
   )
 
-  const openingHoursByDay = establishment.openingHours.map((item) => ({
-    day: weekDaysLabels[item.day],
-    intervals: item.intervals
-      .map((interval) => `${interval.open} - ${interval.close}`)
-      .join(', '),
-  }))
-
-  function hasCustomRendering(label: string) {
-    return CUSTOM_RENDERED_LABELS.has(label)
-  }
+  const openingHoursByDay = openingHoursEstablishmentMapper(
+    establishment.openingHours,
+  )
 
   return (
     <>
@@ -117,26 +112,19 @@ const SidebarInfoEstablishment = ({
                       },
                       {
                         label: 'Telefone',
-                        value: establishment.phones
-                          .map(formattedPhone)
-                          .join(' - '),
+                        value: establishmentPhonesFormatted(
+                          establishment.phones,
+                        ),
                       },
                       {
                         label: 'Endereço',
-                        value: `
-                          ${establishment.address.street}, 
-                          ${establishment.address.number} - 
-                          ${establishment.address.neighborhood}, 
-                          ${establishment.address.city} - 
-                          ${establishment.address.state}
-                        `,
+                        value: establishmentAddressFormatted(establishment),
                       },
                     ]}
                   >
                     {(item) => {
-                      const isCustomRenderedLabel = hasCustomRendering(
-                        item.label,
-                      )
+                      const isCustomRenderedLabel =
+                        hasCustomRenderingEstablishment(item.label)
 
                       return (
                         <DataList.Item key={item.label}>

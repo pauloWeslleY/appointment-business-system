@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   chakra,
+  Flex,
   GridItem,
   Icon,
   InputGroup,
@@ -42,6 +43,7 @@ const FormUpdateEstablishmentPage = ({
     formUpdateEstablishment,
     loadSelectStatusUpdateEstablishment,
     handleUpdateEstablishment,
+    handleUpdateInputUrlAtSlugUpdateFormEstablishment,
   } = useFormUpdateEstablishment(establishmentSlug)
 
   if (isLoadingEstablishment) {
@@ -187,35 +189,53 @@ const FormUpdateEstablishmentPage = ({
             />
           </Field>
 
-          <Field
-            label="URL da página do estabelecimento"
+          <Flex
+            flexDir={{ base: 'column', md: 'row' }}
             gridColumn="1 / -1"
-            invalid={Boolean(
-              formUpdateEstablishment.formState.errors.websiteUrl,
-            )}
-            errorText={
-              formUpdateEstablishment.formState.errors.websiteUrl?.message
-            }
-            helperText="Digite apenas o caminho; o domínio será incluído ao salvar. Deixe em branco para remover."
+            align="center"
+            gap="2"
           >
-            <InputGroup
-              startAddon={ESTABLISHMENT_WEBSITE_BASE}
-              startAddonProps={{
-                variant: 'subtle',
-                size: 'sm',
-                roundedTopLeft: 'xl',
-                roundedBottomLeft: 'xl',
-              }}
+            <Field
+              label="URL da página do estabelecimento"
+              invalid={Boolean(
+                formUpdateEstablishment.formState.errors.websiteUrl,
+              )}
+              errorText={
+                formUpdateEstablishment.formState.errors.websiteUrl?.message
+              }
+              helperText="Digite apenas o caminho; o domínio será incluído ao salvar. Deixe em branco para remover."
             >
-              <InputField
-                {...formUpdateEstablishment.register('websiteUrl')}
-                type="text"
-                placeholder="/seu-estabelecimento"
-                autoComplete="off"
-                maxLength={ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH}
-              />
-            </InputGroup>
-          </Field>
+              <InputGroup
+                startAddon={ESTABLISHMENT_WEBSITE_BASE}
+                startAddonProps={{
+                  variant: 'subtle',
+                  size: 'sm',
+                  roundedTopLeft: 'xl',
+                  roundedBottomLeft: 'xl',
+                  bg: { _light: 'slate.200', _dark: 'slate.800' },
+                }}
+              >
+                <InputField
+                  {...formUpdateEstablishment.register('websiteUrl')}
+                  placeholder="/seu-estabelecimento"
+                  autoComplete="off"
+                  maxLength={ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH}
+                />
+              </InputGroup>
+            </Field>
+
+            <Button
+              variant="surface"
+              colorPalette="primary"
+              rounded="lg"
+              mt="1"
+              size="xs"
+              w={{ base: 'full', md: 'auto' }}
+              onClick={handleUpdateInputUrlAtSlugUpdateFormEstablishment}
+            >
+              Utilizar slug
+            </Button>
+          </Flex>
 
           <FormTelephoneEstablishment />
 

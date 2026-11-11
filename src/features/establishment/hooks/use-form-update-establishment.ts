@@ -14,6 +14,7 @@ import {
   EstablishmentStatus,
   mapStatusEstablishment,
 } from '../types/establishment-status.type'
+import type { UpdateEstablishmentRequest } from '../types/update-establishment-request.type'
 import { getEstablishmentWebsitePath } from '../utils/establishment-website'
 
 const loadSelectStatusUpdateEstablishment = createListCollection({
@@ -60,7 +61,10 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
     formUpdateEstablishment.reset,
   ])
 
-  const { isDirty, dirtyFields } = formUpdateEstablishment.formState
+  const {
+    isDirty: isEstablishmentFormDirty,
+    dirtyFields: changedEstablishmentFields,
+  } = formUpdateEstablishment.formState
 
   const {
     mutate: updateEstablishment,
@@ -77,36 +81,58 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
       }),
   })
 
-  const handleUpdateEstablishment = () => {
+  const handleUpdateInputUrlAtSlugUpdateFormEstablishment = () => {
+    if (!establishment || establishment.slug.trim() === '') {
+      formUpdateEstablishment.setError('websiteUrl', {
+        type: 'manual',
+        message: 'Slug do estabelecimento indisponível',
+      })
+      return
+    }
+    formUpdateEstablishment.setValue('websiteUrl', establishment.slug, {
+      shouldDirty: true,
+    })
+  }
+
+  const handleUpdateEstablishment = (
+    establishmentFormValues: UpdateEstablishmentFormData,
+  ) => {
     if (!establishment) {
       toaster.error({ title: 'Estabelecimento indisponível' })
       return
     }
 
-    const hasAddressChanges = isDirty && Object.keys(dirtyFields).length > 0
-    if (!hasAddressChanges) {
+    const hasEstablishmentChanges =
+      isEstablishmentFormDirty &&
+      Object.keys(changedEstablishmentFields).length > 0
+
+    if (!hasEstablishmentChanges) {
       toaster.warning({ title: 'Você não alterou o formulário' })
       return
     }
 
-    const changesUpdateEstablishment = formUpdateEstablishment.getValues(
-      undefined,
-      {
-        dirtyFields: true,
-      },
-    )
+    const { name, email, description, timezone, status, websiteUrl, phones } =
+      establishmentFormValues
+    const selectedEstablishmentStatus = status[0]
 
-    const { phones, status, websiteUrl, ...otherChanges } =
-      changesUpdateEstablishment
-    const statusValue = status?.[0] ?? null
-
-    updateEstablishment({
+    const establishmentChanges: UpdateEstablishmentRequest = {
       id: establishment.id,
-      ...otherChanges,
-      ...(websiteUrl === undefined ? {} : { websiteUrl: websiteUrl || null }),
-      ...(statusValue ? { status: statusValue } : {}),
-      ...(phones?.length ? { phones: phones.map((item) => item.phone) } : {}),
-    })
+      ...(changedEstablishmentFields.name ? { name } : {}),
+      ...(changedEstablishmentFields.email ? { email } : {}),
+      ...(changedEstablishmentFields.description ? { description } : {}),
+      ...(changedEstablishmentFields.timezone ? { timezone } : {}),
+      ...(changedEstablishmentFields.websiteUrl
+        ? { websiteUrl: websiteUrl || null }
+        : {}),
+      ...(changedEstablishmentFields.status && selectedEstablishmentStatus
+        ? { status: selectedEstablishmentStatus }
+        : {}),
+      ...(changedEstablishmentFields.phones
+        ? { phones: phones.map(({ phone }) => phone) }
+        : {}),
+    }
+
+    updateEstablishment(establishmentChanges)
   }
 
   return {
@@ -114,7 +140,8 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
     isLoadingEstablishment,
     isPendingUpdateEstablishment,
     formUpdateEstablishment,
-    handleUpdateEstablishment,
     loadSelectStatusUpdateEstablishment,
+    handleUpdateEstablishment,
+    handleUpdateInputUrlAtSlugUpdateFormEstablishment,
   }
 }

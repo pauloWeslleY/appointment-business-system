@@ -3,7 +3,6 @@ import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
-
 dayjs.extend(timezone)
 
 export function appointmentLocalDate(date: string, zone: string) {
@@ -15,7 +14,8 @@ export function appointmentDateTime(
   time: string,
   zone: string,
 ): string {
-  return dayjs.tz(date + ' ' + time, zone).toISOString()
+  const dateTime = `${date} ${time}`
+  return dayjs.tz(dateTime, zone).toISOString()
 }
 
 export function appointmentRangeBoundary(

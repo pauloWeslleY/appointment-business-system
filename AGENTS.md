@@ -23,10 +23,20 @@ Estas instruções se aplicam a `appointment-business-system` e seus subdiretór
 
 ## Organização das features
 
-Mantenha rotas finas em `src/pages` e o comportamento da funcionalidade em `src/features/<feature>`. Use nomes de arquivos e diretórios em kebab-case.
+O comportamento da funcionalidade fica em `src/features/<feature>`. Use nomes de arquivos e diretórios em kebab-case.
+
+### Hierarquia de composição das telas
+
+A segregação obrigatória é: **route page (`src/pages`) → `feature/pages` → `feature/components`**. Use `src/pages/_app/_authenticated/dashboard/$slug/customers/index.tsx` como referência.
+
+- Todo arquivo de rota em `src/pages` declara o `Route` e o **componente da tela no mesmo arquivo** (`component: CustomersPage`, com `function CustomersPage()` logo abaixo). Não use `component: XPage` importado de `feature/pages`.
+- O componente da rota compõe a tela: `Header`, filtros, estados de carregamento/erro/vazio e as seções, obtendo os dados por um hook da feature (ex.: `useCustomersPage`).
+- A rota também concentra `beforeLoad` (permissão), `validateSearch` (schema importado de `feature/schemas`) e `head`.
+- `feature/pages` contém blocos de tela (ex.: `customers-table.page.tsx`) que servem para ser chamados dentro do componente da rota; não são telas completas nem são registrados diretamente como `component` de rota.
+- `feature/components` contém os componentes visuais usados por `feature/pages` e pelo componente da rota.
 
 - `components`: componentes visuais da feature.
-- `pages`: composição das telas da feature.
+- `pages`: blocos de tela chamados pelo componente da rota.
 - `hooks`: coordenação do comportamento da interface.
 - `queries`: query keys, query options, mutations e invalidação de cache.
 - `services`: comunicação com a API e adaptação de respostas.

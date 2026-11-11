@@ -36,21 +36,19 @@ const FormCreateServiceEstablishment = () => {
           errors={errors}
         />
 
-        <GridItem colSpan={{ base: 1, md: 2 }} asChild>
-          <HStack>
-            <Separator
-              flex="1"
-              borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            />
-            <Text flexShrink="0">Imagem do serviço</Text>
-            <Separator
-              flex="1"
-              borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            />
-          </HStack>
-        </GridItem>
+        <HStack gridColumn="1 / -1">
+          <Separator
+            flex="1"
+            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+          />
+          <Text flexShrink="0">Imagem do serviço</Text>
+          <Separator
+            flex="1"
+            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+          />
+        </HStack>
 
-        <GridItem colSpan={{ base: 1, md: 2 }}>
+        <GridItem gridColumn="1 / -1">
           <UploadImageServiceEstablishment control={control} errors={errors} />
         </GridItem>
 

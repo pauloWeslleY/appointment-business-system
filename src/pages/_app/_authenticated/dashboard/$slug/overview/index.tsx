@@ -1,8 +1,6 @@
 import { Box, Grid, HStack, Stack, VStack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
-import dayjs from 'dayjs'
 import { HomeIcon } from 'lucide-react'
-import z from 'zod'
 
 import FilterDatePicker from '@/components/filter-date-picker'
 import Header from '@/components/layout/header'
@@ -11,36 +9,31 @@ import RevenueEstablishmentDashboard from '@/features/dashboard/components/reven
 import StatsEstablishmentDashboard from '@/features/dashboard/components/stats-establishment-dashboard'
 import TopClientsBookingsEstablishmentDashboard from '@/features/dashboard/components/top-clients-bookings-establishment-dashboard'
 import TopServicesEstablishmentDashboard from '@/features/dashboard/components/top-services-establishment-dashboard'
+import { DashboardOverviewRouteSearchSchema } from '@/features/dashboard/schemas/dashboard-overview-route-search.schema'
 import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
-
-const currentDate = dayjs()
-
-const filteredDateOverview = {
-  from: currentDate.format('YYYY-MM-DD'),
-  to: currentDate.add(1, 'month').format('YYYY-MM-DD'),
-}
 
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/overview/',
 )({
-  head: () => ({
-    meta: [{ title: 'Dashboard | Agendros' }],
-  }),
   beforeLoad: ({ context }) =>
     validateRoutePermission(context.member.memberContext, {
       resource: RESOURCES.DASHBOARD,
       action: PERMISSION_ACTIONS.READ,
     }),
-  validateSearch: z.object({
-    to: z.string().optional().default(filteredDateOverview.to),
-    from: z.string().optional().default(filteredDateOverview.from),
-  }),
+  validateSearch: DashboardOverviewRouteSearchSchema,
   component: OverviewPage,
+  head: () => ({
+    meta: [
+      {
+        title: 'Dashboard | Agendros',
+      },
+    ],
+  }),
 })
 
 function OverviewPage() {
-  const search = Route.useSearch()
+  const overviewSearch = Route.useSearch()
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -55,11 +48,14 @@ function OverviewPage() {
           </VStack>
         </HStack>
 
-        <FilterDatePicker from={search.from} to={search.to} />
+        <FilterDatePicker from={overviewSearch.from} to={overviewSearch.to} />
       </Header.Root>
 
       <Box spaceY="4">
-        <StatsEstablishmentDashboard from={search.from} to={search.to} />
+        <StatsEstablishmentDashboard
+          from={overviewSearch.from}
+          to={overviewSearch.to}
+        />
 
         <Grid
           templateColumns={{
@@ -69,23 +65,26 @@ function OverviewPage() {
           gap="4"
         >
           <Stack gap="4" minW="0">
-            <RevenueEstablishmentDashboard from={search.from} to={search.to} />
+            <RevenueEstablishmentDashboard
+              from={overviewSearch.from}
+              to={overviewSearch.to}
+            />
 
             <DailyBookingsEstablishmentDashboard
-              from={search.from}
-              to={search.to}
+              from={overviewSearch.from}
+              to={overviewSearch.to}
             />
           </Stack>
 
           <Stack gap="4" minW="0">
             <TopServicesEstablishmentDashboard
-              from={search.from}
-              to={search.to}
+              from={overviewSearch.from}
+              to={overviewSearch.to}
             />
 
             <TopClientsBookingsEstablishmentDashboard
-              from={search.from}
-              to={search.to}
+              from={overviewSearch.from}
+              to={overviewSearch.to}
             />
           </Stack>
         </Grid>

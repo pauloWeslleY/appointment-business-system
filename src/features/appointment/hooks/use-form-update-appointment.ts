@@ -15,7 +15,7 @@ import type { UpdateAppointmentFormType } from '../types/appointment-form.type'
 import {
   appointmentDateTime,
   appointmentLocalDate,
-} from '../utils/appointment-date'
+} from '../helpers/appointment-date'
 
 export function useUpdateAppointmentForm(appointment: AppointmentModel) {
   const { data: session } = useAppSession()

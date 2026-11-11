@@ -18,7 +18,7 @@ import { cardCss } from '@/theme/styles/global-styles'
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
 import { appointmentStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
-import { appointmentLocalDate } from '../utils/appointment-date'
+import { appointmentLocalDate } from '../helpers/appointment-date'
 import MenuCardAppointment from './menu-card-appointment'
 
 dayjs.locale('pt-br')
