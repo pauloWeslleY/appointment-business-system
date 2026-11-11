@@ -20,6 +20,7 @@ import { PatternFormat } from 'react-number-format'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
+import { toaster } from '@/components/ui/toaster'
 import { Tooltip } from '@/components/ui/tooltip'
 import {
   createListWeekDays,
@@ -76,6 +77,13 @@ const ProfessionalWorkScheduleFields = ({
   }
 
   const addWorkPeriodToDay = (dayOfWeek: number) => {
+    if (workScheduleFields.length >= 4) {
+      toaster.warning({
+        title: 'Limite de períodos atingido',
+        description: 'Você não pode adicionar mais de 4 períodos de trabalho.',
+      })
+      return
+    }
     appendWorkPeriod({ dayOfWeek, ...EMPTY_WORK_PERIOD })
   }
 
@@ -115,8 +123,8 @@ const ProfessionalWorkScheduleFields = ({
         p="4"
         borderWidth="1px"
         rounded="lg"
-        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-        shadow={{ base: 'shape', md: '2xs' }}
+        borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
+        shadow={{ _light: 'shape', _dark: '2xs' }}
       >
         <Text fontWeight="medium">Horário de trabalho</Text>
 

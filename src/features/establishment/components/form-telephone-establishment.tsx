@@ -1,5 +1,7 @@
-import { Alert, Button, chakra, Flex, Stack } from '@chakra-ui/react'
+import { Alert, Button, chakra, Flex, For, Grid } from '@chakra-ui/react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
+
+import { toaster } from '@/components/ui/toaster'
 
 import type { FormTelephoneEstablishmentType } from '../types/establishment-form-data.type'
 import TelephoneContactField from './telephone-contact-field'
@@ -12,8 +14,16 @@ const FormTelephoneEstablishment = () => {
     remove: removeTelephone,
   } = useFieldArray({ control: form.control, name: 'phones' })
 
-  const addNewTelephone = () =>
+  const addNewTelephone = () => {
+    if (telephoneFields.length >= 5) {
+      toaster.warning({
+        title: 'Limite de contatos atingido',
+        description: 'Você não pode adicionar mais de 5 contatos.',
+      })
+      return
+    }
     appendTelephone({ phone: '', type: 'telephone' })
+  }
 
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
 
@@ -45,16 +55,22 @@ const FormTelephoneEstablishment = () => {
         </Button>
       </chakra.div>
 
-      <Stack direction="row" wrap="wrap" flex="1" minW="0">
-        {telephoneFields.map((input, index) => (
-          <TelephoneContactField
-            key={input.id}
-            index={index}
-            canRemove={telephoneFields.length > 1}
-            onRemove={() => removeTelephoneByIndex(index)}
-          />
-        ))}
-      </Stack>
+      <Grid
+        templateColumns="repeat(auto-fill, minmax(min(270px, 100%), 1fr))"
+        gap="2"
+        flex="1"
+      >
+        <For each={telephoneFields}>
+          {(input, index) => (
+            <TelephoneContactField
+              key={input.id}
+              index={index}
+              canRemove={telephoneFields.length > 1}
+              onRemove={() => removeTelephoneByIndex(index)}
+            />
+          )}
+        </For>
+      </Grid>
 
       {form.formState.errors.phones?.message && (
         <Alert.Root
