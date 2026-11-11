@@ -1,10 +1,9 @@
 import { Flex, HStack, Separator } from '@chakra-ui/react'
 import { type PropsWithChildren, type ReactElement } from 'react'
 
-import { ColorModeButton } from '@/components/ui/color-mode'
-
 import MenuProfile from '../menu-profile'
 import MenuSettings from '../menu-settings'
+import MenuTheme from '../menu-theme'
 import SidebarMobile, { type SidebarMobileProps } from './sidebar-mobile'
 
 interface SidebarHeaderProps {
@@ -47,7 +46,7 @@ const SidebarHeader = ({
           </>
         )}
 
-        <ColorModeButton rounded="full" variant="ghost" size="sm" />
+        <MenuTheme />
         <MenuSettings />
         <MenuProfile />
       </Flex>
