@@ -43,7 +43,7 @@ const SearchPage = ({ resetPagination = false, ...props }: SearchPageProps) => {
 
   return (
     <InputGroup
-      w={{ base: 'full', md: '450px' }}
+      w={{ base: 'full', md: '200px', xl: '450px' }}
       minW="0"
       maxW="full"
       {...props}

@@ -11,7 +11,7 @@ const Loader = ({ message = 'Carregando...', ...props }: LoaderProps) => {
       aria-busy="true"
       align="center"
       justify="center"
-      colorPalette="primary"
+      colorPalette="app"
       h={{ base: 'sm', md: 'xl', xl: 'dvh' }}
       {...props}
     >

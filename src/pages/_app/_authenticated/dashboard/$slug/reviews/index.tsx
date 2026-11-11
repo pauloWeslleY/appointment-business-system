@@ -44,26 +44,26 @@ function ReviewsPage() {
         </div>
       </Header.Root>
 
-      {errorReviews && (
-        <Alert.Root status="error" rounded="xl">
-          <Alert.Indicator />
-          <Alert.Title>{errorReviews.message}</Alert.Title>
-        </Alert.Root>
-      )}
-
-      {isLoadingReviews && (
-        <Stack gap="2" w="full" p="2">
-          <Skeleton height="40px" rounded="xl" />
-          <Skeleton height="40px" rounded="xl" />
-          <Skeleton height="40px" rounded="xl" />
-        </Stack>
-      )}
-
       <Box spaceY="4">
         <HStack flexWrap="wrap">
           <SearchPage resetPagination />
           <FilterReviewsNotes />
         </HStack>
+
+        {errorReviews && (
+          <Alert.Root status="error" rounded="xl">
+            <Alert.Indicator />
+            <Alert.Title>{errorReviews.message}</Alert.Title>
+          </Alert.Root>
+        )}
+
+        {isLoadingReviews && (
+          <Stack gap="2" w="full">
+            <Skeleton h="40px" rounded="xl" />
+            <Skeleton h="40px" rounded="xl" />
+            <Skeleton h="40px" rounded="xl" />
+          </Stack>
+        )}
 
         {!isLoadingReviews && !errorReviews && (
           <>

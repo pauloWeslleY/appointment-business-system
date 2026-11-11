@@ -22,7 +22,7 @@ const FormAddressFields = ({ form }: FormAddressFieldsProps) => {
   const { onBlurPostalCode } = usePostalCode(form)
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="4" w="full">
+    <SimpleGrid columns={{ base: 1, md: 2, '2xl': 4 }} gap="4" w="full">
       <Field
         label="CEP"
         optionalText="*"

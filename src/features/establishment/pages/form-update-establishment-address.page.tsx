@@ -1,4 +1,5 @@
-import { Button, Stack, Text } from '@chakra-ui/react'
+import { Alert, Button } from '@chakra-ui/react'
+import { Link } from '@tanstack/react-router'
 
 import Loader from '@/components/loader'
 import FormUpdateAddressPage from '@/features/address/pages/form-update-address.page'
@@ -25,36 +26,61 @@ const FormUpdateEstablishmentAddressPage = ({
     retryEstablishment,
   } = useEstablishmentAddress(establishmentSlug, member)
 
-  if (isLoading || !establishment || !address) {
+  if (isLoading || !establishment) {
     return <Loader h="28" message="Carregando endereço..." />
   }
 
   if (errorEstablishment || errorAddress) {
     return (
-      <Stack>
-        <Text role="alert">
-          Não foi possível carregar o estabelecimento:{' '}
-          {errorEstablishment?.message}
-          {errorAddress && (
-            <>
-              <br />
-              Não foi possível carregar o endereço: {errorAddress.message}
-            </>
-          )}
-        </Text>
+      <Alert.Root role="alert" rounded="lg" status="error" variant="surface">
+        <Alert.Indicator />
+
+        <Alert.Content>
+          <Alert.Title>Erro ao carregar dados</Alert.Title>
+          <Alert.Description>
+            Não foi possível carregar os dados do estabelecimento.
+            <br />
+            {errorEstablishment && `Erro: ${errorEstablishment.message}`}
+            <br />
+            {errorAddress && `Erro: ${errorAddress.message}`}
+          </Alert.Description>
+        </Alert.Content>
+
         <Button rounded="lg" onClick={retryEstablishment}>
           Tentar novamente
         </Button>
+
         {errorAddress && (
           <Button rounded="lg" onClick={retryAddress}>
             Tentar novamente
           </Button>
         )}
-      </Stack>
+      </Alert.Root>
     )
   }
 
-  return <FormUpdateAddressPage address={address} mt="4" />
+  return address ? (
+    <FormUpdateAddressPage address={address} mt="4" />
+  ) : (
+    <Alert.Root role="alert" rounded="lg" status="warning" variant="surface">
+      <Alert.Indicator />
+      <Alert.Content>
+        <Alert.Title>Endereço não encontrado</Alert.Title>
+        <Alert.Description>
+          Este estabelecimento não possui endereço cadastrado.
+        </Alert.Description>
+      </Alert.Content>
+
+      <Button asChild rounded="lg" onClick={retryAddress}>
+        <Link
+          to="/dashboard/$slug/address"
+          params={{ slug: establishmentSlug }}
+        >
+          Cadastrar endereço
+        </Link>
+      </Button>
+    </Alert.Root>
+  )
 }
 
 export default FormUpdateEstablishmentAddressPage

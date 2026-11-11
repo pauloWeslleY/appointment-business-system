@@ -73,7 +73,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
         px="2"
         pb="4"
       >
-        <Box w="full">
+        <Box w="full" mb="2">
           <Flex
             px="4"
             py="5"
