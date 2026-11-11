@@ -56,7 +56,7 @@ const MenuSettings = () => {
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content css={contentCss}>
+          <Menu.Content css={contentCss} shadow="md">
             <For each={menuSettings} fallback={null}>
               {(item) => (
                 <Menu.Item asChild value={item.value} css={menuItemCss}>

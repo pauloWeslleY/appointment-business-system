@@ -9,19 +9,20 @@ import {
   Skeleton,
   Text,
 } from '@chakra-ui/react'
-import { ChevronDown, LogOut } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { ChevronDown, LockIcon, LogOut, UserKeyIcon } from 'lucide-react'
 
 import { useMemberContext } from '@/features/members/hooks/use-member-context'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
+import { MenuAccount } from '@/features/users/constants/menu-account'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 const MenuProfile = () => {
+  const { handleLogout } = useLogout()
   const member = useMemberContext()
   const userImage = useAccountImage()
-
-  const { handleLogout } = useLogout()
 
   if (!member) {
     return <Skeleton h="40px" w="28" rounded="2xl" />
@@ -86,7 +87,32 @@ const MenuProfile = () => {
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content css={contentCss}>
+          <Menu.Content css={contentCss} shadow="md">
+            <Menu.Item
+              asChild
+              value={MenuAccount.PERMISSIONS}
+              css={menuItemCss}
+            >
+              <Link to="/account" search={{ menu: MenuAccount.PERMISSIONS }}>
+                <Icon as={UserKeyIcon} boxSize="4" />
+                Minhas Permissões
+              </Link>
+            </Menu.Item>
+
+            <Menu.Item
+              asChild
+              value={MenuAccount.CHANGE_PASSWORD}
+              css={menuItemCss}
+            >
+              <Link
+                to="/account"
+                search={{ menu: MenuAccount.CHANGE_PASSWORD }}
+              >
+                <Icon as={LockIcon} boxSize="4" />
+                Alterar senha
+              </Link>
+            </Menu.Item>
+
             <Menu.Item value="signout" css={menuItemCss} onClick={handleLogout}>
               <Icon as={LogOut} boxSize="4" />
               Sair
