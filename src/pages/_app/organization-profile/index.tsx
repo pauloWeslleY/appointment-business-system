@@ -102,7 +102,7 @@ function OrganzationProfilePage() {
               Voltar para o painel
             </Button>
             <Button
-              colorPalette="gray"
+              colorPalette="primary"
               variant="surface"
               rounded="lg"
               size="2xs"
