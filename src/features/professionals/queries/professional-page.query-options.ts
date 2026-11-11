@@ -5,21 +5,20 @@ import type { ProfessionalPageApiRequest } from '../types/professional-page-api.
 import { professionalsQueryKeys } from './professionals.query-key'
 
 export function professionalPageQueryOptions(
-  input: ProfessionalPageApiRequest,
+  professionalPageRequest: ProfessionalPageApiRequest,
   userId?: string,
   organizationId?: string | null,
 ) {
   return queryOptions({
-    queryKey: [
-      ...professionalsQueryKeys.all,
-      'page',
+    queryKey: professionalsQueryKeys.page(
+      professionalPageRequest,
       userId,
       organizationId,
-      input,
-    ],
+    ),
     queryFn:
       userId && organizationId
-        ? ({ signal }) => getProfessionalPageService(input, signal)
+        ? ({ signal }) =>
+            getProfessionalPageService(professionalPageRequest, signal)
         : skipToken,
   })
 }

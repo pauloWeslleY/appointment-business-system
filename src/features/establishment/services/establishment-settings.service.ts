@@ -81,7 +81,7 @@ export async function getEstablishmentSettingsService(
 ): Promise<EstablishmentSettingsApiResponse> {
   const scope = EstablishmentSettingsScopeSchema.parse(input)
   await assertSettingsSession(scope)
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<EstablishmentSettingsApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: '/admin/establishments/by-slug/' + encodeURIComponent(scope.slug),
@@ -114,7 +114,7 @@ export async function saveEstablishmentSettingsService(
 
   await assertSettingsSession(scope)
 
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<EstablishmentSettingsApiResponse>()
   const response = await api.request({
     method: HttpMethod.PATCH,
     url: '/admin/establishments/' + establishmentId,

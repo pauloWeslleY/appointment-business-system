@@ -11,12 +11,12 @@ import {
   Stack,
   Textarea,
 } from '@chakra-ui/react'
-import { Calendar, PlusIcon } from 'lucide-react'
+import { Calendar, PlusIcon, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 import { useFormCreateAppointment } from '../hooks/use-form-create-appointment'
 import ProfessionalAvailabilityAlert from './professional-availability-alert'
@@ -167,6 +167,7 @@ const SidebarCreateAppointment = () => {
                       onValueChange={field.onChange}
                       loading={isLoadingProfessionals}
                       errorText={errors.professionalId?.message}
+                      disabled={professionalsCollection.items.length === 0}
                       helperText="Opcional."
                     />
                   )}
@@ -199,11 +200,7 @@ const SidebarCreateAppointment = () => {
                         >
                           <DatePicker.Control>
                             <DatePicker.Input
-                              rounded="xl"
-                              bg={{
-                                base: 'blackAlpha.100',
-                                _dark: 'gray.800/40',
-                              }}
+                              {...inputFieldStyles}
                               placeholder="Selecione a data"
                             />
                             <DatePicker.IndicatorGroup>
@@ -295,8 +292,7 @@ const SidebarCreateAppointment = () => {
                     size="sm"
                     rows={4}
                     maxLength={500}
-                    rounded="xl"
-                    bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
+                    {...inputFieldStyles}
                   />
                 </Field>
               </Stack>
@@ -305,7 +301,7 @@ const SidebarCreateAppointment = () => {
               <Drawer.ActionTrigger asChild>
                 <Button
                   size="sm"
-                  variant="surface"
+                  variant="ghost"
                   colorPalette="red"
                   rounded="lg"
                   disabled={isPendingCreateAppointment}
@@ -316,16 +312,15 @@ const SidebarCreateAppointment = () => {
 
               <Button
                 size="sm"
-                variant="surface"
-                colorPalette="primary"
+                colorPalette="brand"
                 rounded="lg"
                 loading={isPendingCreateAppointment}
-                loadingText="Salvando..."
                 disabled={
                   isLoadingAvailableHours || isCheckingProfessionalAvailability
                 }
                 onClick={onSubmitCreateAppointment}
               >
+                <Icon as={SaveIcon} boxSize="5" />
                 Salvar
               </Button>
             </Drawer.Footer>

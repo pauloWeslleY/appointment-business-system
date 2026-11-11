@@ -7,7 +7,10 @@ import {
   professionalsListQueryOptions,
 } from '../queries/professionals.query-options'
 
-export function useProfessionals(establishmentId: string, enabled = true) {
+export function useProfessionalsList(
+  establishmentId: string,
+  isProfessionalsListEnabled = true,
+) {
   const { data: session } = useAppSession()
   return useQuery({
     ...professionalsListQueryOptions(
@@ -15,11 +18,11 @@ export function useProfessionals(establishmentId: string, enabled = true) {
       session?.user.id,
       session?.session.activeOrganizationId ?? undefined,
     ),
-    enabled,
+    enabled: isProfessionalsListEnabled,
   })
 }
 
-export function useProfessional(professionalId?: string) {
+export function useProfessionalDetails(professionalId?: string) {
   const { data: session } = useAppSession()
   return useQuery(
     professionalDetailsQueryOptions(

@@ -39,7 +39,6 @@ const getEstablishmentStorageImageKey = (imageUrl?: string | null) => {
   if (!imageUrl) {
     return null
   }
-
   return imageUrl.startsWith('establishment/') ? imageUrl : null
 }
 
@@ -57,11 +56,9 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
       if (establishment.openingHours.length === 0) {
         return 'N/A'
       }
-
       const openingDays = establishment.openingHours.map(
         (hour) => `${weekDaysLabels[hour.day].slice(0, 3)}`,
       )
-
       return openingDays.join(' - ')
     }
 
@@ -133,7 +130,7 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
               <Badge
                 size="sm"
                 rounded="sm"
-                variant="surface"
+                variant="plain"
                 colorPalette={establishmentDetails.status.color}
               >
                 {establishmentDetails.status.label}

@@ -9,7 +9,7 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react'
-import { Save } from 'lucide-react'
+import { PencilIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
@@ -87,7 +87,7 @@ const DialogStatusServiceEstablishment = ({
                 <Button
                   colorPalette="red"
                   size="sm"
-                  variant="surface"
+                  variant="ghost"
                   rounded="lg"
                 >
                   Cancelar
@@ -95,13 +95,12 @@ const DialogStatusServiceEstablishment = ({
               </Dialog.ActionTrigger>
               <Button
                 size="sm"
-                variant="surface"
                 rounded="lg"
-                colorPalette="primary"
+                colorPalette="brand"
                 loading={isPendingUpdateStatusServiceEstablishment}
                 onClick={handleSubmit(onSubmitUpdateServiceEstablishment)}
               >
-                <Icon as={Save} boxSize="4" />
+                <Icon as={PencilIcon} boxSize="4" />
                 Editar
               </Button>
             </Dialog.Footer>

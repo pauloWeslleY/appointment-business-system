@@ -21,16 +21,15 @@ const FormTelephoneEstablishment = () => {
     <Flex
       aria-label="Form Telephones"
       gridColumn={{ base: 'span 1', md: '1 / -1' }}
+      flexDir="row"
       w="full"
       minW="0"
-      flexDir={{ base: 'column', xl: 'row' }}
       gap="4"
-      pl="2"
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-      borderWidth="1px"
-      rounded="lg"
-      shadow={{ base: 'shape', md: '2xs' }}
       p="4"
+      rounded="lg"
+      borderWidth="1px"
+      borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
+      shadow={{ _light: 'shape', _dark: '2xs' }}
     >
       <chakra.div display="flex" flexDir="column" alignItems="center" gap="4">
         Contato

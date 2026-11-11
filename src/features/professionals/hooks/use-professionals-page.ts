@@ -9,56 +9,77 @@ import { usePagination } from '@/shared/hooks/use-pagination'
 
 import { professionalPageQueryOptions } from '../queries/professional-page.query-options'
 
-const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
+const establishmentDashboardRoute = getRouteApi(
+  '/_app/_authenticated/dashboard/$slug',
+)
 
 export function useProfessionalsPage() {
-  const { establishment } = dashboardRoute.useLoaderData()
+  const [professionalEditorState, setProfessionalEditorState] = useState<{
+    professionalId: string
+    professionalsScopeKey: string
+  } | null>(null)
+  const [{ q: professionalsSearch, page: currentPage, page_size: pageSize }] =
+    useQueryStates({
+      q: parseAsString.withDefault(''),
+      page: parseAsInteger.withDefault(1),
+      page_size: parseAsInteger.withDefault(10),
+    })
+  const { establishment } = establishmentDashboardRoute.useLoaderData()
   const { data: session } = useAppSession()
-  const scopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishment.id}`
-  const [{ q: search, page, page_size }] = useQueryStates({
-    q: parseAsString.withDefault(''),
-    page: parseAsInteger.withDefault(1),
-    page_size: parseAsInteger.withDefault(10),
-  })
-  const searchQuery = useDebouncedSearch(search)
-  const query = useQuery({
+  const debouncedProfessionalsSearch = useDebouncedSearch(professionalsSearch)
+  const professionalsScopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishment.id}`
+  const {
+    data: professionalsPageData,
+    isPending: isLoadingProfessionals,
+    error: professionalsError,
+    refetch: refetchProfessionals,
+  } = useQuery({
     ...professionalPageQueryOptions(
       {
         establishmentId: establishment.id,
-        page,
-        pageSize: page_size,
-        q: searchQuery,
+        page: currentPage,
+        pageSize,
+        q: debouncedProfessionalsSearch,
       },
       session?.user.id,
       session?.session.activeOrganizationId,
     ),
-    enabled: searchQuery === search,
+    enabled: debouncedProfessionalsSearch === professionalsSearch,
   })
-  const professionals = query.data?.professionals ?? []
+  const professionals = professionalsPageData?.professionals ?? []
+  const filteredProfessionalsCount = professionalsPageData?.total ?? 0
+  const professionalsSummary = professionalsPageData?.summary
+  const professionalEditor =
+    professionalEditorState?.professionalsScopeKey === professionalsScopeKey
+      ? professionalEditorState
+      : null
 
-  const { pagination, loadTablePagination, handlePaginationChange } =
-    usePagination(professionals, query.data?.total ?? 0)
-  const [editor, setEditor] = useState<{
-    professionalId: string
-    scopeKey: string
-  } | null>(null)
-  const openUpdateProfessional = (professionalId: string) =>
-    setEditor({ professionalId, scopeKey })
-  const closeProfessionalEditor = () => setEditor(null)
+  const {
+    pagination: professionalsPagination,
+    loadTablePagination: visibleProfessionals,
+    handlePaginationChange: handleProfessionalsPageChange,
+  } = usePagination(professionals, filteredProfessionalsCount)
+
+  const openProfessionalEditor = (professionalId: string) =>
+    setProfessionalEditorState({ professionalId, professionalsScopeKey })
+
+  const closeProfessionalEditor = () => setProfessionalEditorState(null)
+  const retryProfessionals = () => refetchProfessionals()
+
   return {
     professionals,
-    visibleProfessionals: loadTablePagination,
-    filteredCount: query.data?.total ?? 0,
-    summary: query.data?.summary,
-    pagination,
-    handlePaginationChange,
-    search,
-    isLoading: query.isPending,
-    error: query.error,
-    retryProfessionals: () => query.refetch(),
-    editor: editor?.scopeKey === scopeKey ? editor : null,
-    openUpdateProfessional,
+    visibleProfessionals,
+    filteredProfessionalsCount,
+    professionalsSummary,
+    professionalsPagination,
+    handleProfessionalsPageChange,
+    professionalsSearch,
+    isLoadingProfessionals,
+    professionalsError,
+    retryProfessionals,
+    professionalEditor,
+    openProfessionalEditor,
     closeProfessionalEditor,
-    scopeKey,
+    professionalsScopeKey,
   }
 }

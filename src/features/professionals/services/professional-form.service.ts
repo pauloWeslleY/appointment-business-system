@@ -4,9 +4,13 @@ import { uploadFiles } from '@/shared/services/storage/upload-files'
 import type { ProfessionalDetailsApiResponse } from '../types/professional-api.type'
 import type {
   CreateProfessionalFormRequest,
+  ProfessionalFormData,
   UpdateProfessionalFormRequest,
 } from '../types/professional-form.type'
-import { toProfessionalProfile } from '../utils/professional-form-values'
+import {
+  toProfessionalEmploymentRequest,
+  toProfessionalProfileRequest,
+} from '../utils/professional-form-values'
 import {
   createProfessionalService,
   updateEmploymentService,
@@ -14,72 +18,91 @@ import {
 } from './professional.service'
 
 export async function createProfessionalFromForm({
-  values,
+  values: professionalFormValues,
   establishmentId,
 }: CreateProfessionalFormRequest): Promise<ProfessionalDetailsApiResponse> {
-  const imageUrl = await uploadFiles(values.image, {
+  const imageUrl = await uploadFiles(professionalFormValues.image, {
     id: establishmentId,
     folder: UploadFolder.COLLABORATORS,
   })
 
   return createProfessionalService({
-    ...toProfessionalProfile(values, imageUrl),
-    specialty: values.specialty,
-    status: values.status,
-    workSchedule: values.workSchedule.length ? values.workSchedule : null,
-    establishmentIds: [establishmentId],
+    ...toProfessionalProfileRequest(professionalFormValues, imageUrl),
+    ...toProfessionalEmploymentRequest(professionalFormValues, [
+      establishmentId,
+    ]),
   })
 }
 
 export async function updateProfessionalFromForm({
-  values,
-  details,
+  values: professionalFormValues,
+  details: professionalDetails,
   updateProfile,
   updateEmployment,
 }: UpdateProfessionalFormRequest): Promise<ProfessionalDetailsApiResponse> {
-  let profileSaved = false
-  let professional = details.professional
-  let employment = details.employment
-  try {
-    if (updateProfile) {
-      const imageUrl = values.image
-        ? await uploadFiles(values.image, {
-            id: details.professional.id,
-            folder: UploadFolder.COLLABORATORS,
-          })
-        : details.professional.imageUrl
-      const profileResult = await updateProfessionalService(
-        details.professional.id,
-        toProfessionalProfile(values, imageUrl),
-      )
+  let professional = professionalDetails.professional
 
-      professional = profileResult.professional
-      profileSaved = true
-    }
-
-    if (updateEmployment) {
-      const employmentResult = await updateEmploymentService(
-        details.employment.id,
-        {
-          specialty: values.specialty,
-          status: values.status,
-          workSchedule: values.workSchedule.length ? values.workSchedule : null,
-          establishmentIds: details.employment.establishmentIds,
-        },
-      )
-
-      employment = employmentResult.employment
-    }
-  } catch (error) {
-    const hasPartialUpdate = profileSaved && updateEmployment
-    if (hasPartialUpdate) {
-      throw new Error(
-        'O perfil foi salvo, mas não foi possível atualizar o vínculo. Recarregue e confira os dados antes de tentar novamente.',
-        { cause: error },
-      )
-    }
-
-    throw error
+  if (updateProfile) {
+    professional = await saveProfessionalProfile(
+      professionalFormValues,
+      professionalDetails.professional,
+    )
   }
-  return { professional, employment }
+
+  if (!updateEmployment) {
+    return { professional, employment: professionalDetails.employment }
+  }
+
+  try {
+    const employmentUpdateResponse = await updateEmploymentService(
+      professionalDetails.employment.id,
+      toProfessionalEmploymentRequest(
+        professionalFormValues,
+        professionalDetails.employment.establishmentIds,
+      ),
+    )
+
+    return { professional, employment: employmentUpdateResponse.employment }
+  } catch (error) {
+    if (!updateProfile) {
+      throw error
+    }
+
+    throw new Error(
+      'O perfil foi salvo, mas não foi possível atualizar o vínculo. Recarregue e confira os dados antes de tentar novamente.',
+      { cause: error },
+    )
+  }
+}
+
+async function saveProfessionalProfile(
+  professionalFormValues: ProfessionalFormData,
+  professional: ProfessionalDetailsApiResponse['professional'],
+): Promise<ProfessionalDetailsApiResponse['professional']> {
+  const imageUrl = await resolveProfessionalImage(
+    professionalFormValues.image,
+    professional,
+  )
+  const profileUpdateResponse = await updateProfessionalService(
+    professional.id,
+    toProfessionalProfileRequest(professionalFormValues, imageUrl),
+  )
+
+  return profileUpdateResponse.professional
+}
+
+async function resolveProfessionalImage(
+  image: ProfessionalFormData['image'],
+  professional: ProfessionalDetailsApiResponse['professional'],
+): Promise<string | null> {
+  if (!image) {
+    return professional.imageUrl
+  }
+
+  const imageKey = await uploadFiles(image, {
+    id: professional.id,
+    folder: UploadFolder.COLLABORATORS,
+  })
+
+  return imageKey ?? professional.imageUrl
 }

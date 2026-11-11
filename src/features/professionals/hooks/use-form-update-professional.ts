@@ -11,63 +11,63 @@ import type {
   ProfessionalFormData,
   ProfessionalFormInput,
 } from '../types/professional-form.type'
-import { toProfessionalFormValues } from '../utils/professional-form-values'
+import {
+  getProfessionalFormChanges,
+  toProfessionalFormValues,
+} from '../utils/professional-form-values'
 
 export function useFormUpdateProfessional(
-  details: ProfessionalDetailsApiResponse,
+  professionalDetails: ProfessionalDetailsApiResponse,
   onSaved: () => void,
 ) {
   const form = useForm<ProfessionalFormInput, unknown, ProfessionalFormData>({
     resolver: zodResolver(ProfessionalFormSchema),
-    defaultValues: toProfessionalFormValues(details),
+    defaultValues: toProfessionalFormValues(professionalDetails),
   })
-
-  const { isDirty, dirtyFields } = form.formState
-  const { mutateAsync: updateProfessional, isPending: isUpdatingProfessional } =
+  const {
+    isDirty: hasProfessionalFormChanges,
+    dirtyFields: changedProfessionalFields,
+  } = form.formState
+  const { mutate: updateProfessional, isPending: isUpdatingProfessional } =
     useMutation(professionalsMutationOptions.update())
-  const handleUpdateProfessional = form.handleSubmit(async (values) => {
-    if (isUpdatingProfessional) {
-      return
-    }
 
-    if (!isDirty) {
-      toaster.warning({ title: 'Nenhuma alteração foi feita' })
-      return
-    }
+  const handleUpdateProfessional = form.handleSubmit(
+    (professionalFormValues) => {
+      if (!hasProfessionalFormChanges) {
+        toaster.warning({ title: 'Nenhuma alteração foi feita' })
+        return
+      }
 
-    const updateProfile = !!(
-      dirtyFields.displayName ||
-      dirtyFields.email ||
-      dirtyFields.phone ||
-      dirtyFields.document ||
-      dirtyFields.bio ||
-      dirtyFields.image
-    )
+      const professionalUpdateOptions = getProfessionalFormChanges(
+        changedProfessionalFields,
+      )
 
-    const updateEmployment = !!(
-      dirtyFields.specialty ||
-      dirtyFields.status ||
-      dirtyFields.workSchedule
-    )
+      updateProfessional(
+        {
+          values: professionalFormValues,
+          details: professionalDetails,
+          ...professionalUpdateOptions,
+        },
+        {
+          onSuccess: (updatedProfessionalDetails) => {
+            form.reset(toProfessionalFormValues(updatedProfessionalDetails))
+            toaster.success({ title: 'Profissional atualizado com sucesso' })
+            onSaved()
+          },
+          onError: (professionalUpdateError) => {
+            toaster.error({
+              title: 'Erro ao atualizar profissional',
+              description: professionalUpdateError.message || 'Tente novamente',
+            })
+          },
+        },
+      )
+    },
+  )
 
-    try {
-      const updated = await updateProfessional({
-        values,
-        details,
-        updateProfile,
-        updateEmployment,
-      })
-
-      form.reset(toProfessionalFormValues(updated))
-      toaster.success({ title: 'Profissional atualizado com sucesso' })
-      onSaved()
-    } catch (error) {
-      toaster.error({
-        title: 'Erro ao atualizar profissional',
-        description: error instanceof Error ? error.message : 'Tente novamente',
-      })
-    }
-  })
-
-  return { form, handleUpdateProfessional, isUpdatingProfessional }
+  return {
+    form,
+    handleUpdateProfessional,
+    isUpdatingProfessional,
+  }
 }

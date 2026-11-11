@@ -1,7 +1,7 @@
 import { Portal, Select } from '@chakra-ui/react'
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 import { loadCollectionStatusAppointment } from '../utils/select-appointment'
 
@@ -30,10 +30,7 @@ const FilterAppointmentsStatus = () => {
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-        >
+        <Select.Trigger {...inputFieldStyles}>
           <Select.ValueText placeholder="Selecione o status" />
         </Select.Trigger>
         <Select.IndicatorGroup>

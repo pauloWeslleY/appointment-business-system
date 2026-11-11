@@ -8,7 +8,7 @@ import {
 import { Star } from 'lucide-react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 const reviewsNotes = () => {
   const notes = []
@@ -61,10 +61,7 @@ const FilterReviewsNotes = () => {
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-        >
+        <Select.Trigger {...inputFieldStyles}>
           <Select.ValueText placeholder="Selecione uma avaliação" />
         </Select.Trigger>
         <Select.IndicatorGroup>

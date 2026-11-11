@@ -1,4 +1,4 @@
-import { Alert, Text } from '@chakra-ui/react'
+import { Alert, Icon, Text } from '@chakra-ui/react'
 import {
   Button,
   CloseButton,
@@ -11,12 +11,17 @@ import {
   Separator,
   Stack,
 } from '@chakra-ui/react'
-import { Calendar } from 'lucide-react'
+import { Calendar, SaveIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { cardCss, contentCss } from '@/theme/styles/global-styles'
+import {
+  cardCss,
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import { useUpdateAppointmentForm } from '../hooks/use-form-update-appointment'
 import type { AppointmentModel } from '../types/appointment.model'
@@ -75,8 +80,9 @@ const DialogEditAppointment = ({
                 aria-label="form-update-appointment"
                 gap="2"
                 css={cardCss}
+                shadow="none"
                 borderWidth="1px"
-                bg={{ base: 'tertiary.200', _dark: 'secondary.900/20' }}
+                bg="transparent"
               >
                 <HStack align="stretch" flexDir={{ base: 'column', md: 'row' }}>
                   <Controller
@@ -99,11 +105,7 @@ const DialogEditAppointment = ({
                         >
                           <DatePicker.Control>
                             <DatePicker.Input
-                              rounded="xl"
-                              bg={{
-                                base: 'blackAlpha.100',
-                                _dark: 'gray.800/40',
-                              }}
+                              {...inputFieldStyles}
                               placeholder="Selecione a data"
                             />
                             <DatePicker.IndicatorGroup>
@@ -158,13 +160,7 @@ const DialogEditAppointment = ({
                         >
                           <Select.HiddenSelect />
                           <Select.Control>
-                            <Select.Trigger
-                              rounded="xl"
-                              bg={{
-                                base: 'blackAlpha.100',
-                                _dark: 'gray.800/40',
-                              }}
-                            >
+                            <Select.Trigger {...inputFieldStyles}>
                               <Select.ValueText placeholder="Selecione o horário" />
                             </Select.Trigger>
                             <Select.IndicatorGroup>
@@ -178,14 +174,7 @@ const DialogEditAppointment = ({
                                   <Select.Item
                                     key={hour.value}
                                     item={hour}
-                                    rounded="xl"
-                                    cursor="pointer"
-                                    _hover={{
-                                      bg: {
-                                        base: 'gray.100',
-                                        _dark: 'secondary.600',
-                                      },
-                                    }}
+                                    {...menuItemCss}
                                   >
                                     {hour.label}
                                     <Select.ItemIndicator />
@@ -212,24 +201,23 @@ const DialogEditAppointment = ({
                 </Field>
 
                 <Button
-                  size="sm"
-                  variant="subtle"
+                  size="xs"
                   rounded="lg"
-                  colorPalette="primary"
+                  colorPalette="brand"
                   alignSelf="flex-end"
                   loading={isPendingAppointment}
                   disabled={
                     isLoadingAvailableHours || Boolean(errorAvailableHours)
                   }
-                  loadingText="Salvando..."
                   onClick={onSubmitUpdateAppointment}
                 >
+                  <Icon as={SaveIcon} boxSize="5" />
                   Salvar
                 </Button>
               </Stack>
 
               <Separator
-                mx="6"
+                mx="2"
                 borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
               />
 

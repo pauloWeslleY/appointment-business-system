@@ -36,6 +36,16 @@ Mantenha rotas finas em `src/pages` e o comportamento da funcionalidade em `src/
 
 Não crie diretórios vazios nem uma arquitetura paralela para uma funcionalidade pequena. Componentes não devem concentrar requisições HTTP, validação, transformação e regras de negócio no mesmo arquivo.
 
+## CLEAN CODE obrigatório — nomenclatura com contexto
+
+**Sempre revise a nomenclatura do código no escopo da tarefa. Nomes sem contexto são proibidos.**
+
+- A regra vale para variáveis, constantes, parâmetros, propriedades, funções (inclusive arrow functions e callbacks), hooks, componentes, tipos e interfaces.
+- Use nomes que identifiquem o dado, o recurso ou a ação no ponto de uso. Para booleanos, explicite a condição e seu alvo, como `isLoadingProfessionals`. Para funções, indique a ação e o alvo, como `retryProfessionals`.
+- Dê contexto a nomes genéricos ao desestruturar APIs. Use aliases como `isPending: isLoadingProfessionals` e `error: professionalDetailsError`. Nomes curtos são adequados quando o escopo imediato já deixa o significado claro, como `professional` em `professionals.map`.
+- Em objetos retornados por hooks, declare valores derivados e callbacks antes do `return` e exponha apenas referências nomeadas com sintaxe abreviada.
+- Antes de concluir qualquer alteração de código, leia os nomes no ponto de uso e corrija os que exigem rastrear a implementação para entender seu significado.
+
 ## Código e React
 
 - Escreva funções e componentes coesos, com nomes que expressem intenção. Extraia etapas independentes e evite duplicação.

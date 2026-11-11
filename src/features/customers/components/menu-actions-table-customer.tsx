@@ -102,10 +102,10 @@ const MenuActionsTableCustomers = ({
         <Menu.Trigger asChild>
           <IconButton
             aria-label="Options"
-            variant="surface"
-            rounded="lg"
+            variant="ghost"
+            rounded="xl"
             size="xs"
-            colorPalette="gray"
+            colorPalette="primary"
           >
             <Icon as={EllipsisVertical} boxSize="4" />
           </IconButton>

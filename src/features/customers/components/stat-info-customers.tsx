@@ -1,4 +1,4 @@
-import { type ColorPalette, For, SimpleGrid, Stat } from '@chakra-ui/react'
+import { For, SimpleGrid, Stat } from '@chakra-ui/react'
 
 import type { CustomerPageApiResponse } from '../types/customer-page-api.type'
 
@@ -7,31 +7,27 @@ const StatInfoCustomers = ({
 }: {
   summary: CustomerPageApiResponse['summary']
 }) => {
-  const getStatCustomers: {
-    title: string
-    value: string
-    color: ColorPalette
-  }[] = [
-    {
-      title: 'Total de clientes',
-      value: String(summary.total),
-      color: 'cyan',
-    },
-    {
-      title: 'Total de clientes ativos',
-      value: String(summary.active),
-      color: 'green',
-    },
-    {
-      title: 'Total de clientes inativos',
-      value: String(summary.inactive),
-      color: 'red',
-    },
-  ]
-
   return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap="4" w="full">
-      <For each={getStatCustomers}>
+      <For
+        each={[
+          {
+            title: 'Total de clientes',
+            value: String(summary.total),
+            color: 'cyan',
+          },
+          {
+            title: 'Total de clientes ativos',
+            value: String(summary.active),
+            color: 'green',
+          },
+          {
+            title: 'Total de clientes inativos',
+            value: String(summary.inactive),
+            color: 'red',
+          },
+        ]}
+      >
         {(statService) => (
           <Stat.Root
             key={statService.title}

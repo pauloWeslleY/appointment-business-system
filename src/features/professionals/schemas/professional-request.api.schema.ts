@@ -2,7 +2,7 @@ import z from 'zod'
 
 import { WorkScheduleApiSchema } from './professional-response.api.schema'
 
-const profileFields = {
+const professionalProfileRequestFields = {
   displayName: z.string().trim().min(1).max(160),
   email: z.email().nullable(),
   phone: z.string().max(40).nullable(),
@@ -12,8 +12,9 @@ const profileFields = {
 }
 
 export const UpdateProfessionalApiRequestSchema = z
-  .object(profileFields)
+  .object(professionalProfileRequestFields)
   .strict()
+
 export const EmploymentApiRequestSchema = z
   .object({
     specialty: z.string().trim().min(1).max(160),
@@ -22,19 +23,21 @@ export const EmploymentApiRequestSchema = z
     establishmentIds: z.array(z.uuid()).max(500),
   })
   .strict()
+
 export const CreateProfessionalApiRequestSchema = z
   .object({
-    displayName: profileFields.displayName,
-    email: profileFields.email.optional(),
-    phone: profileFields.phone.optional(),
-    document: profileFields.document.optional(),
-    bio: profileFields.bio.optional(),
-    imageUrl: profileFields.imageUrl.optional(),
+    displayName: professionalProfileRequestFields.displayName,
+    email: professionalProfileRequestFields.email.optional(),
+    phone: professionalProfileRequestFields.phone.optional(),
+    document: professionalProfileRequestFields.document.optional(),
+    bio: professionalProfileRequestFields.bio.optional(),
+    imageUrl: professionalProfileRequestFields.imageUrl.optional(),
     ...EmploymentApiRequestSchema.shape,
     status: EmploymentApiRequestSchema.shape.status.default('active'),
     userId: z.string().min(1).nullable().optional(),
   })
   .strict()
+
 export const ProfessionalIdApiRequestSchema = z.uuid()
 
 export const ProfessionalAvailabilityApiRequestSchema = z

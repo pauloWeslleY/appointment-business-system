@@ -15,7 +15,11 @@ import { Controller, FormProvider } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import FormTelephoneEstablishment from '../components/form-telephone-establishment'
 import {
@@ -138,13 +142,7 @@ const FormUpdateEstablishmentPage = ({
                   >
                     <Select.HiddenSelect />
                     <Select.Control>
-                      <Select.Trigger
-                        rounded="xl"
-                        bg={{
-                          _light: 'blackAlpha.100',
-                          _dark: 'gray.800/40',
-                        }}
-                      >
+                      <Select.Trigger {...inputFieldStyles}>
                         <Select.ValueText placeholder="Selecione o horário" />
                       </Select.Trigger>
                       <Select.IndicatorGroup>

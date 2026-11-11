@@ -2,7 +2,7 @@ import { Flex, For, Table, Text } from '@chakra-ui/react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import Loader from '@/components/loader'
-import { cssTableColumns } from '@/theme/styles/global-styles'
+import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
 
 import { useEstablishmentsListGoogleCalendar } from '../hooks/use-establishments-list-google-calendar'
 import DialogConnectGoogleCalendar from './dialog-connect-google-calendar'
@@ -45,7 +45,7 @@ const EstablishmentsListGoogleCalendar = () => {
       >
         <Table.Root variant="outline" minW="36rem">
           <Table.Header>
-            <Table.Row bg={{ _light: 'slate.200', _dark: 'slate.900/60' }}>
+            <Table.Row {...cssTableRows}>
               <For
                 each={[
                   'Estabelecimento',
@@ -74,9 +74,9 @@ const EstablishmentsListGoogleCalendar = () => {
               </Table.Row>
             )}
 
-            {!isPendingPagination &&
-              paginatedEstablishments.map((establishment) => {
-                return (
+            {!isPendingPagination && (
+              <For each={paginatedEstablishments}>
+                {(establishment) => (
                   <EstablishmentItemGoogleCalendar
                     key={establishment.id}
                     establishment={establishment}
@@ -84,8 +84,9 @@ const EstablishmentsListGoogleCalendar = () => {
                       handleDialogGoogleCalendar(establishment.id)
                     }
                   />
-                )
-              })}
+                )}
+              </For>
+            )}
           </Table.Body>
         </Table.Root>
       </Table.ScrollArea>

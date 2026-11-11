@@ -10,6 +10,7 @@ export const WorkScheduleApiSchema = z
   )
   .max(84)
   .nullable()
+
 export const ProfessionalApiResponseSchema = z.object({
   id: z.uuid(),
   userId: z.string().nullable(),
@@ -55,7 +56,7 @@ export const UpdateProfessionalApiResponseSchema = z.object({
   professional: ProfessionalApiResponseSchema,
 })
 
-export const EmploymentResultApiResponseSchema = z.object({
+export const UpdateEmploymentApiResponseSchema = z.object({
   employment: EmploymentApiResponseSchema,
 })
 

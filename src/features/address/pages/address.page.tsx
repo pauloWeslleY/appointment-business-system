@@ -95,12 +95,7 @@ const AddressPage = () => {
               </EmptyState.Root>
             )}
 
-            {address && (
-              <AddressSummary
-                address={address}
-                onEdit={addressInEdition ? undefined : onEditAddress}
-              />
-            )}
+            {address && <AddressSummary address={address} />}
           </Card.Root>
         </GridItem>
 

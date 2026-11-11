@@ -18,7 +18,11 @@ export const Route = createFileRoute('/_app/_authenticated/_admin/account/')({
   }),
   component: AccountPage,
   head: () => ({
-    meta: [{ title: 'Conta | Agendros' }],
+    meta: [
+      {
+        title: 'Conta | Agendros',
+      },
+    ],
   }),
 })
 
@@ -44,7 +48,6 @@ function AccountPage() {
         <Tabs.List
           {...cardSectionCss}
           flexWrap="wrap"
-          bg={{ _light: 'slate.100', _dark: 'slate.950/40' }}
           border="1px solid"
           p="2"
           h="fit"

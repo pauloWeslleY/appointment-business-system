@@ -12,7 +12,7 @@ import {
 import SearchPage from '@/components/search-page'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
-import { cssTableColumns } from '@/theme/styles/global-styles'
+import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
 
 import DialogCancelInvite from '../components/dialog-cancel-invite'
 import DialogSendInvite from '../components/dialog-send-invite'
@@ -55,11 +55,10 @@ const ListInvitesSendPage = () => {
         maxW="full"
         aria-label="Convites enviados: role para ver todas as colunas"
         rounded="lg"
-        borderColor={{ _light: 'slate.200', _dark: 'slate.900/60' }}
       >
         <Table.Root variant="outline" minW="36rem">
           <Table.Header>
-            <Table.Row bg={{ _light: 'slate.200', _dark: 'slate.900/60' }}>
+            <Table.Row {...cssTableRows}>
               <For each={['E-mail', 'Papel', 'Status', 'Data de expiração']}>
                 {(column) => (
                   <Table.ColumnHeader {...cssTableColumns}>
@@ -79,17 +78,14 @@ const ListInvitesSendPage = () => {
               const expireDate = formattedDateAndHours(invite.expiresAt, true)
 
               return (
-                <Table.Row
-                  key={invite.id}
-                  bg={{ _light: 'slate.50', _dark: 'slate.950/60' }}
-                >
+                <Table.Row key={invite.id} {...cssTableRows}>
                   <Table.Cell>{invite.email}</Table.Cell>
                   <Table.Cell>
                     <Badge
                       size="sm"
                       rounded="full"
-                      variant="surface"
-                      colorPalette="gray"
+                      variant="plain"
+                      colorPalette="primary"
                     >
                       {mapRole.label}
                     </Badge>

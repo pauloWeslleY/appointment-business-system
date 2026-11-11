@@ -51,7 +51,7 @@ const SidebarUpdateMember = ({
               </Button>
             </Drawer.Footer>
             <Drawer.CloseTrigger asChild>
-              <CloseButton size="sm" />
+              <CloseButton size="sm" rounded="xl" />
             </Drawer.CloseTrigger>
           </Drawer.Content>
         </Drawer.Positioner>

@@ -82,7 +82,13 @@ const StepCreateEstablishmentPage = () => {
           </Alert.Content>
         </Alert.Root>
 
-        <Flex mt="2" gap="4" justify="flex-end" flexWrap="wrap">
+        <Flex
+          colorPalette="tertiary"
+          mt="2"
+          gap="2"
+          justify="flex-end"
+          flexWrap="wrap"
+        >
           <Button
             asChild
             rounded="lg"
@@ -111,7 +117,7 @@ const StepCreateEstablishmentPage = () => {
         </Flex>
       </Steps.CompletedContent>
 
-      <ButtonGroup size="xs" variant="subtle">
+      <ButtonGroup size="xs" variant="subtle" colorPalette="primary">
         {stepCreateEstablishment !== 0 && (
           <Steps.PrevTrigger asChild>
             <Button rounded="lg" disabled={establishment?.created}>

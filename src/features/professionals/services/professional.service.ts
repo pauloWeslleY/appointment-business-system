@@ -12,20 +12,20 @@ import {
   UpdateProfessionalApiRequestSchema,
 } from '../schemas/professional-request.api.schema'
 import {
-  EmploymentResultApiResponseSchema,
   ProfessionalAvailabilityApiResponseSchema,
   ProfessionalDetailsApiResponseSchema,
   ProfessionalListApiResponseSchema,
+  UpdateEmploymentApiResponseSchema,
   UpdateProfessionalApiResponseSchema,
 } from '../schemas/professional-response.api.schema'
 import type {
   CreateProfessionalApiRequest,
   EmploymentApiRequest,
-  EmploymentResultApiResponse,
   ProfessionalAvailabilityApiRequest,
   ProfessionalAvailabilityApiResponse,
   ProfessionalDetailsApiResponse,
   ProfessionalListApiResponse,
+  UpdateEmploymentApiResponse,
   UpdateProfessionalApiRequest,
   UpdateProfessionalApiResponse,
 } from '../types/professional-api.type'
@@ -40,14 +40,16 @@ function parseResponse<T>(schema: z.ZodType<T>, value: unknown): T {
 }
 
 export async function createProfessionalService(
-  data: CreateProfessionalApiRequest,
+  createProfessionalRequest: CreateProfessionalApiRequest,
 ): Promise<ProfessionalDetailsApiResponse> {
-  const body = CreateProfessionalApiRequestSchema.parse(data)
+  const createProfessionalBody = CreateProfessionalApiRequestSchema.parse(
+    createProfessionalRequest,
+  )
   const { api, validate } = httpDependencies<ProfessionalDetailsApiResponse>()
   const response = await api.request({
     method: HttpMethod.POST,
     url: '/admin/professionals',
-    body,
+    body: createProfessionalBody,
   })
 
   return parseResponse(
@@ -59,11 +61,12 @@ export async function createProfessionalService(
 export async function getProfessionalService(
   professionalId: string,
 ): Promise<ProfessionalDetailsApiResponse> {
-  const id = ProfessionalIdApiRequestSchema.parse(professionalId)
+  const validatedProfessionalId =
+    ProfessionalIdApiRequestSchema.parse(professionalId)
   const { api, validate } = httpDependencies<ProfessionalDetailsApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: '/admin/professionals/' + id,
+    url: `/admin/professionals/${validatedProfessionalId}`,
   })
 
   return parseResponse(
@@ -75,11 +78,11 @@ export async function getProfessionalService(
 export async function listProfessionalsService(
   establishmentId: string,
 ): Promise<ProfessionalListApiResponse> {
-  const id = z.uuid().parse(establishmentId)
+  const validatedEstablishmentId = z.uuid().parse(establishmentId)
   const { api, validate } = httpDependencies<ProfessionalListApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: '/admin/establishments/' + id + '/professionals',
+    url: `/admin/establishments/${validatedEstablishmentId}/professionals`,
   })
 
   return parseResponse(
@@ -90,15 +93,17 @@ export async function listProfessionalsService(
 
 export async function updateProfessionalService(
   professionalId: string,
-  data: UpdateProfessionalApiRequest,
+  profileUpdateRequest: UpdateProfessionalApiRequest,
 ): Promise<UpdateProfessionalApiResponse> {
-  const id = ProfessionalIdApiRequestSchema.parse(professionalId)
-  const body = UpdateProfessionalApiRequestSchema.parse(data)
+  const validatedProfessionalId =
+    ProfessionalIdApiRequestSchema.parse(professionalId)
+  const profileUpdateBody =
+    UpdateProfessionalApiRequestSchema.parse(profileUpdateRequest)
   const { api, validate } = httpDependencies<UpdateProfessionalApiResponse>()
   const response = await api.request({
     method: HttpMethod.PATCH,
-    url: '/admin/professionals/' + id,
-    body,
+    url: `/admin/professionals/${validatedProfessionalId}`,
+    body: profileUpdateBody,
   })
 
   return parseResponse(
@@ -109,39 +114,36 @@ export async function updateProfessionalService(
 
 export async function updateEmploymentService(
   employmentId: string,
-  data: EmploymentApiRequest,
-): Promise<EmploymentResultApiResponse> {
-  const id = z.uuid().parse(employmentId)
-  const body = EmploymentApiRequestSchema.parse(data)
-  const { api, validate } = httpDependencies<EmploymentResultApiResponse>()
+  employmentUpdateRequest: EmploymentApiRequest,
+): Promise<UpdateEmploymentApiResponse> {
+  const validatedEmploymentId = z.uuid().parse(employmentId)
+  const employmentUpdateBody = EmploymentApiRequestSchema.parse(
+    employmentUpdateRequest,
+  )
+  const { api, validate } = httpDependencies<UpdateEmploymentApiResponse>()
   const response = await api.request({
     method: HttpMethod.PATCH,
-    url: '/admin/employments/' + id,
-    body,
+    url: `/admin/employments/${validatedEmploymentId}`,
+    body: employmentUpdateBody,
   })
 
   return parseResponse(
-    EmploymentResultApiResponseSchema,
+    UpdateEmploymentApiResponseSchema,
     validate.errors(response),
   )
 }
 
 export async function getProfessionalAvailabilityService(
-  data: ProfessionalAvailabilityApiRequest,
+  availabilityRequest: ProfessionalAvailabilityApiRequest,
 ): Promise<ProfessionalAvailabilityApiResponse> {
-  const { professionalId, establishmentId, ...params } =
-    ProfessionalAvailabilityApiRequestSchema.parse(data)
+  const { professionalId, establishmentId, ...availabilityPeriod } =
+    ProfessionalAvailabilityApiRequestSchema.parse(availabilityRequest)
   const { api, validate } =
     httpDependencies<ProfessionalAvailabilityApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url:
-      '/public/establishments/' +
-      establishmentId +
-      '/professionals/' +
-      professionalId +
-      '/availability',
-    params,
+    url: `/public/establishments/${establishmentId}/professionals/${professionalId}/availability`,
+    params: availabilityPeriod,
   })
 
   return parseResponse(

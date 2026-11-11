@@ -78,11 +78,11 @@ export default function EstablishmentColorsSettingsPage({
 
   return (
     <chakra.form
+      noValidate
       w="full"
       onSubmit={formEstablishmentColors.handleSubmit(
         handleSaveEstablishmentColors,
       )}
-      noValidate
     >
       {!canUpdateEstablishmentColors && (
         <Alert.Root status="info" variant="surface" rounded="lg" mb="4">
@@ -112,6 +112,19 @@ export default function EstablishmentColorsSettingsPage({
 
           <HStack justify="end" flexWrap="wrap" gap="3">
             <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              rounded="lg"
+              alignSelf="start"
+              colorPalette="red"
+              disabled={!formEstablishmentColors.formState.isDirty}
+              onClick={handleDiscardEstablishmentColors}
+            >
+              Descartar alterações
+            </Button>
+
+            <Button
               type="submit"
               size="sm"
               rounded="lg"
@@ -126,18 +139,6 @@ export default function EstablishmentColorsSettingsPage({
             >
               <Icon as={Save} boxSize="5" />
               Salvar cores
-            </Button>
-
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              rounded="lg"
-              alignSelf="start"
-              disabled={!formEstablishmentColors.formState.isDirty}
-              onClick={handleDiscardEstablishmentColors}
-            >
-              Descartar alterações
             </Button>
           </HStack>
         </Fieldset.Content>

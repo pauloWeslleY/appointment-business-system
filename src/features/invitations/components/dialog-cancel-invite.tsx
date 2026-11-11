@@ -30,9 +30,7 @@ const DialogCancelInvite = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Cancelar convite</Dialog.Title>
             </Dialog.Header>
@@ -56,7 +54,7 @@ const DialogCancelInvite = ({
               <Dialog.ActionTrigger asChild>
                 <Button
                   colorPalette="brand"
-                  variant="outline"
+                  variant="ghost"
                   rounded="lg"
                   size="sm"
                   onClick={() => onOpen(false)}

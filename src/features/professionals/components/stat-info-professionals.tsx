@@ -9,7 +9,7 @@ interface StatInfoProfessionalsProps {
 export default function StatInfoProfessionals({
   summary,
 }: StatInfoProfessionalsProps) {
-  const stats = [
+  const professionalsStats = [
     {
       title: 'Profissionais cadastrados',
       value: summary.total,
@@ -24,7 +24,7 @@ export default function StatInfoProfessionals({
 
   return (
     <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
-      <For each={stats}>
+      <For each={professionalsStats}>
         {(stat) => (
           <Stat.Root
             key={stat.title}

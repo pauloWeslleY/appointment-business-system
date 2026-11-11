@@ -6,12 +6,14 @@ const baseMenuNavLinkRoot = defineRecipe({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+    gap: '2',
+    p: '2',
     rounded: 'xl',
     shadow: 'xs',
-    p: '1',
-    bg: { _light: 'white', _dark: 'gray.950/40' },
     border: '1px solid',
-    borderColor: { _light: 'gray.200', _dark: 'secondary.500/20' },
+    bg: { _light: 'white', _dark: 'slate.900/60' },
+    borderColor: { _light: 'gray.200', _dark: 'slate.800/80' },
+    w: 'fit',
   },
 })
 
@@ -25,32 +27,27 @@ const baseMenuNavLinkRecipe = defineRecipe({
     px: '2',
     minH: '10',
     transition: 'backgrounds',
-    rounded: 'xl',
-    flex: '1',
+    rounded: 'lg',
   },
   variants: {
     active: {
       true: {
-        shadow: 'sm',
-        border: '1px solid',
-        borderColor: {
-          _light: 'slate.200',
-          _dark: 'slate.900',
-        },
+        shadow: 'none',
+        rounded: 'lg',
+        bg: { _light: 'navy.100', _dark: 'navy.900/60' },
+        outlineOffset: '2px',
+        outline: '2px solid',
+        outlineColor: { _light: 'navy.300', _dark: 'navy.700' },
         fontWeight: 'medium',
         letterSpacing: 'wider',
         color: {
           _light: 'sea.900',
           _dark: 'sea.500',
         },
-        bg: {
-          _light: 'slate.100',
-          _dark: 'slate.950',
-        },
         _hover: {
           bg: {
             _light: 'slate.200',
-            _dark: 'slate.700/60',
+            _dark: 'navy.800/60',
           },
         },
       },

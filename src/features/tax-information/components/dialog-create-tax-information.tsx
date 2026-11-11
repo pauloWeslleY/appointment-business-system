@@ -17,7 +17,11 @@ import { PatternFormat } from 'react-number-format'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import {
   loadSelectTaxtInformationFormSendInvite,
@@ -61,9 +65,7 @@ const DialogFormCreateTaxInformation = () => {
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Cadastrar Dados Fiscais</Dialog.Title>
             </Dialog.Header>
@@ -123,13 +125,7 @@ const DialogFormCreateTaxInformation = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger
-                            rounded="xl"
-                            bg={{
-                              _light: 'blackAlpha.100',
-                              _dark: 'gray.800/40',
-                            }}
-                          >
+                          <Select.Trigger {...inputFieldStyles}>
                             <Select.ValueText placeholder="Selecione o tipo de identificação fiscal" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>

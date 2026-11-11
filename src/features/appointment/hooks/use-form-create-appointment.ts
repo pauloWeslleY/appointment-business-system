@@ -9,7 +9,7 @@ import { toaster } from '@/components/ui/toaster'
 import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { useGetAllCustomersByEstablishment } from '@/features/customers/hooks/use-get-all-customers-by-establishment'
 import { establishmentAvailabilityQueryOptions } from '@/features/establishment/queries/establishment.query-options'
-import { useProfessionals } from '@/features/professionals/hooks/use-professionals'
+import { useProfessionalsList } from '@/features/professionals/hooks/use-professionals'
 import { professionalAvailabilityQueryOptions } from '@/features/professionals/queries/professionals.query-options'
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 
@@ -56,7 +56,7 @@ export function useFormCreateAppointment(
 
   const customers = useGetAllCustomersByEstablishment(establishment.id, enabled)
   const services = useGetServiceByEstablishment(establishment.id, enabled)
-  const professionals = useProfessionals(establishment.id, enabled)
+  const professionals = useProfessionalsList(establishment.id, enabled)
 
   const activeCustomers = (customers.data ?? []).filter(
     (customer) => customer.active && customer.status,

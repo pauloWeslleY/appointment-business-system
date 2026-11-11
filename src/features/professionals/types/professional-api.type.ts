@@ -7,11 +7,11 @@ import type {
   UpdateProfessionalApiRequestSchema,
 } from '../schemas/professional-request.api.schema'
 import type {
-  EmploymentResultApiResponseSchema,
   ProfessionalAvailabilityApiResponseSchema,
   ProfessionalDetailsApiResponseSchema,
   ProfessionalListApiResponseSchema,
   ProfessionalListItemApiResponseSchema,
+  UpdateEmploymentApiResponseSchema,
   UpdateProfessionalApiResponseSchema,
 } from '../schemas/professional-response.api.schema'
 
@@ -31,8 +31,8 @@ export type UpdateProfessionalApiResponse = z.infer<
   typeof UpdateProfessionalApiResponseSchema
 >
 
-export type EmploymentResultApiResponse = z.infer<
-  typeof EmploymentResultApiResponseSchema
+export type UpdateEmploymentApiResponse = z.infer<
+  typeof UpdateEmploymentApiResponseSchema
 >
 
 export type CreateProfessionalApiRequest = z.infer<

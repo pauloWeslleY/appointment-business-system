@@ -6,6 +6,7 @@ import {
   Flex,
   GridItem,
   HStack,
+  Icon,
   Image,
   Separator,
   SimpleGrid,
@@ -13,6 +14,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
+import { SaveIcon } from 'lucide-react'
 
 import FieldsServiceEstablishment from '../components/fields-service-establishment'
 import UploadImageServiceEstablishment from '../components/upload-image-service-establishment'
@@ -93,11 +95,10 @@ const FormUpdateServiceEstablishment = () => {
         rounded="lg"
         w="fit"
         alignSelf="flex-end"
-        colorPalette="emerald"
-        variant="subtle"
+        colorPalette="brand"
         loading={isUpdatingServiceEstablishment}
-        loadingText="Salvando..."
       >
+        <Icon as={SaveIcon} boxSize="5" />
         Salvar alterações
       </Button>
 

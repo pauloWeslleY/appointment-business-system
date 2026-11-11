@@ -40,12 +40,11 @@ interface SidebarInfoEstablishmentProps {
 }
 
 const styleSidebarInfoCss = defineStyle({
+  bg: { base: 'gray.50', _dark: 'gray.900/50' },
   borderWidth: '1px',
   borderColor: { base: 'gray.200', _dark: 'secondary.500/20' },
   rounded: 'lg',
-  shadow: 'xs',
   p: '2',
-  bg: { base: 'gray.50', _dark: 'gray.900/50' },
 })
 
 const SidebarInfoEstablishment = ({

@@ -10,6 +10,7 @@ import { FormProvider } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import FormTelephoneEstablishment from '../components/form-telephone-establishment'
 import {
@@ -26,14 +27,7 @@ const FormCreateEstablishmentPage = () => {
   } = useFormCreateEstablishment()
 
   return (
-    <Card.Root
-      variant="outline"
-      rounded="xl"
-      p="4"
-      shadow="xs"
-      bg={{ _light: 'white', _dark: 'gray.950/40' }}
-      borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
-    >
+    <Card.Root variant="outline" {...cardSectionCss}>
       <FormProvider {...formCreateEstablishment}>
         <chakra.form
           w="full"

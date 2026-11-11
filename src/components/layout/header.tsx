@@ -8,7 +8,7 @@ import {
   type IconButtonProps,
 } from '@chakra-ui/react'
 import { ArrowLeft } from 'lucide-react'
-import type { ElementType } from 'react'
+import { type ElementType } from 'react'
 
 const baseHeaderTitleRecipe = defineRecipe({
   className: 'base-header-title',
@@ -39,12 +39,12 @@ const HeaderIcon = (props: { icon: ElementType }) => {
       boxSize="8"
       flexShrink="0"
       rounded="lg"
-      bg={{ _light: 'primary.200/60', _dark: 'primary.500/80' }}
+      bg={{ _light: 'primary.200/60', _dark: 'primary.700/80' }}
     >
       <Icon
         as={props.icon}
         boxSize="5"
-        color={{ _light: 'primary.400', _dark: 'primary.200' }}
+        color={{ _light: 'primary.700', _dark: 'primary.200' }}
       />
     </Flex>
   )
@@ -69,6 +69,7 @@ const HeaderButton = (props: IconButtonProps) => {
       variant="ghost"
       aria-label="Voltar"
       onClick={handleNavigateToPreviousPage}
+      colorPalette="primary"
     >
       <Icon as={ArrowLeft} boxSize="4" />
     </IconButton>

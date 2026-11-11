@@ -91,7 +91,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
           </Flex>
 
           <Separator
-            borderColor={{ base: 'gray.700', _dark: 'colorPalette.800/60' }}
+            borderColor={{ _light: 'gray.300', _dark: 'secondary.500/50' }}
           />
 
           <Flex
@@ -118,7 +118,7 @@ const SidebarAside = ({ loading = false, ...props }: SidebarAsideProps) => {
 
           <Separator
             w="full"
-            borderColor={{ _light: 'gray.700', _dark: 'colorPalette.800/60' }}
+            borderColor={{ _light: 'gray.300', _dark: 'secondary.500/50' }}
           />
 
           {!loading && <SidebarCurrentUser />}

@@ -41,7 +41,11 @@ export const Route = createFileRoute(
   },
   component: RouteComponent,
   head: () => ({
-    meta: [{ title: 'Configurações do Estabelecimento | Agendros' }],
+    meta: [
+      {
+        title: 'Configurações do Estabelecimento | Agendros',
+      },
+    ],
   }),
 })
 

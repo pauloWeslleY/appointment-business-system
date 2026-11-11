@@ -5,6 +5,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardSectionCss,
   contentCss,
+  inputFieldStyles,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -59,13 +60,7 @@ const FormUpadteRoleMember = ({ memberId }: FormUpadteRoleMemberProps) => {
             >
               <Select.HiddenSelect />
               <Select.Control>
-                <Select.Trigger
-                  rounded="xl"
-                  bg={{
-                    _light: 'blackAlpha.100',
-                    _dark: 'gray.800/40',
-                  }}
-                >
+                <Select.Trigger css={inputFieldStyles}>
                   <Select.ValueText placeholder="Selecione o papel" />
                 </Select.Trigger>
                 <Select.IndicatorGroup>
@@ -98,6 +93,7 @@ const FormUpadteRoleMember = ({ memberId }: FormUpadteRoleMemberProps) => {
         size="xs"
         rounded="lg"
         alignSelf="flex-end"
+        colorPalette="brand"
         loading={isPendingUpdateRoleMember}
       >
         Salvar

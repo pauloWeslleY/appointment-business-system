@@ -1,4 +1,4 @@
-import { Flex, Icon, Stat } from '@chakra-ui/react'
+import { Flex, Icon, SimpleGrid, Stat } from '@chakra-ui/react'
 import { Star } from 'lucide-react'
 
 import type { ReviewPageApiResponse } from '../types/review-page-api.type'
@@ -14,15 +14,15 @@ const StatsReviews = ({
   }
 
   return (
-    <Flex align="stretch" gap="4" flexDir={{ base: 'column', sm: 'row' }}>
+    <SimpleGrid gap="4" columns={{ base: 1, sm: 2 }}>
       <Stat.Root
         p="4"
         shadow="xs"
         rounded="xl"
         bg={{ base: 'white', _dark: 'gray.950/40' }}
-        outlineWidth="1px"
-        outlineStyle="solid"
-        outlineColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       >
         <Stat.Label>Média de Avaliações</Stat.Label>
 
@@ -37,14 +37,14 @@ const StatsReviews = ({
         shadow="xs"
         rounded="xl"
         bg={{ base: 'white', _dark: 'gray.950/40' }}
-        outlineWidth="1px"
-        outlineStyle="solid"
-        outlineColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
       >
         <Stat.Label>Total de Avaliações</Stat.Label>
         <Stat.ValueText>{getAverageRating.reviewsCount}</Stat.ValueText>
       </Stat.Root>
-    </Flex>
+    </SimpleGrid>
   )
 }
 

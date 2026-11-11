@@ -57,7 +57,7 @@ const CardOrganizationProfileStats = ({
             align="center"
             justify="center"
             rounded="full"
-            bg={{ _light: 'teal.100/60', _dark: 'teal.800/30' }}
+            bg={{ _light: 'navy.100/60', _dark: 'navy.800/30' }}
           >
             <Icon as={Building2} />
           </Flex>
@@ -66,7 +66,7 @@ const CardOrganizationProfileStats = ({
             <Text fontSize="md">{organizationProfile.legalName || '---'}</Text>
             <Text
               fontSize="sm"
-              color={{ _light: 'gray.500', _dark: 'gray.600' }}
+              color={{ _light: 'gray.400', _dark: 'gray.500' }}
             >
               {organizationProfile.tradeName || '---'}
             </Text>

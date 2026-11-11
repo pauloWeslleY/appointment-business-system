@@ -15,6 +15,7 @@ import {
   mapLabelOpeningHoursIntervalsSummary,
   mapLabelWeekday,
 } from '@/features/opening-hours/helpers/map-label-weekday'
+import { formattedPhone, formattedZipCode } from '@/shared/utils/formatted-mask'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import { establishmentAdminSlugQueryOptions } from '../queries/establishment.query-options'
@@ -47,6 +48,8 @@ const StepSummaryCreateEstablishmentSuccess = ({
     ],
   })
 
+  const listPhones = (establishment?.data?.phones ?? []).map(formattedPhone)
+
   return (
     <Box spaceY="2">
       <Grid
@@ -67,10 +70,7 @@ const StepSummaryCreateEstablishmentSuccess = ({
                 { label: 'Nome', value: establishment?.data?.name },
                 { label: 'Descrição', value: establishment?.data?.description },
                 { label: 'E-mail', value: establishment?.data?.email },
-                {
-                  label: 'Contatos',
-                  value: establishment?.data?.phones.join(', '),
-                },
+                { label: 'Contatos', value: listPhones.join(', ') },
               ]}
             >
               {(item) => (
@@ -133,7 +133,10 @@ const StepSummaryCreateEstablishmentSuccess = ({
               { label: 'Bairro', value: address?.data?.neighborhood },
               { label: 'Cidade', value: address?.data?.city },
               { label: 'Estado', value: address?.data?.state },
-              { label: 'CEP', value: address?.data?.postalCode },
+              {
+                label: 'CEP',
+                value: formattedZipCode(address?.data?.postalCode),
+              },
             ]}
           >
             {(item) => (

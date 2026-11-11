@@ -80,7 +80,7 @@ const ProfileSummaryPermissions = () => {
       <Box
         p="2"
         rounded="lg"
-        bg={{ _light: 'slate.100/50', _dark: 'slate.900/30' }}
+        bg={{ _light: 'slate.100/50', _dark: 'slate.800/40' }}
       >
         <Flex gap="4" align="center">
           <Flex

@@ -35,9 +35,9 @@ export const cardSectionCss = defineStyle({
   overflowWrap: 'anywhere',
   shadow: 'xs',
   rounded: 'xl',
-  bg: { _light: 'white', _dark: 'gray.950/40' },
-  borderColor: { _light: 'gray.200', _dark: 'secondary.500/20' },
   p: { base: '2', md: '4' },
+  bg: { _light: 'white', _dark: 'slate.900/60' },
+  borderColor: { _light: 'gray.200', _dark: 'slate.800/80' },
 })
 
 export const inputStyles = defineStyle({
@@ -49,9 +49,13 @@ export const inputFieldStyles = defineStyle({
   minW: '0',
   maxW: 'full',
   rounded: 'xl',
-  bg: { _light: 'blackAlpha.100', _dark: 'gray.800/40' },
+  bg: { _light: 'blackAlpha.100', _dark: 'gray.950/40' },
 })
 
 export const cssTableColumns = defineStyle({
   color: { _light: 'sea.600', _dark: 'sea.500' },
+})
+
+export const cssTableRows = defineStyle({
+  bg: { _light: 'slate.100', _dark: 'slate.950/80' },
 })

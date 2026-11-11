@@ -5,7 +5,11 @@ import { SubscriptionPageContent } from '@/features/subscriptions/pages/subscrip
 
 export const Route = createFileRoute('/_app/_subscription/subscription/')({
   head: () => ({
-    meta: [{ title: 'Assinatura | Agendros' }],
+    meta: [
+      {
+        title: 'Assinatura | Agendros',
+      },
+    ],
   }),
   component: () => (
     <SubscriptionOrganizationProvider pageEntry="default">

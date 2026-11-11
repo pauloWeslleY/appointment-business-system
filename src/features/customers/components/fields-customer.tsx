@@ -12,7 +12,7 @@ import { Controller, FormProvider, type UseFormReturn } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import { getTodayIsoDate } from '../utils/customer-birth-date'
@@ -32,9 +32,9 @@ const loadSelectGenderCustomer = createListCollection({
 
 const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full" mt="5">
+    <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
       <Field
-        gridColumn={{ base: 'span 1' }}
+        gridColumn={{ base: '1 / -1' }}
         invalid={!!form.formState.errors.name}
         errorText={form.formState.errors.name?.message}
       >
@@ -46,7 +46,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
       </Field>
 
       <Field
-        gridColumn={{ base: 'span 1' }}
+        gridColumn={{ base: '1 / -1' }}
         invalid={!!form.formState.errors.email}
         errorText={form.formState.errors.email?.message}
       >
@@ -77,8 +77,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
             >
               <DatePicker.Control>
                 <DatePicker.Input
-                  rounded="xl"
-                  bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
+                  {...inputFieldStyles}
                   placeholder="Selecione a data"
                 />
                 <DatePicker.IndicatorGroup>
@@ -128,10 +127,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
             >
               <Select.HiddenSelect />
               <Select.Control>
-                <Select.Trigger
-                  rounded="xl"
-                  bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-                >
+                <Select.Trigger {...inputFieldStyles}>
                   <Select.ValueText placeholder="Selecione o sexo" />
                 </Select.Trigger>
                 <Select.IndicatorGroup>
@@ -181,8 +177,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
           placeholder="Digite as observações"
           size="sm"
           rows={5}
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
+          {...inputFieldStyles}
         />
       </Field>
     </SimpleGrid>

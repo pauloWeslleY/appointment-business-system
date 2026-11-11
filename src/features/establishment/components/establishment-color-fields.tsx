@@ -66,7 +66,7 @@ const EstablishmentColorFields = ({
   return (
     <Fieldset.Root css={cardSectionCss} borderWidth="1px">
       <Fieldset.Legend fontSize="lg">Cores do estabelecimento</Fieldset.Legend>
-      <Fieldset.HelperText>
+      <Fieldset.HelperText mt="0">
         Personalize a paleta desta unidade. Campos vazios usam as cores padrão.
       </Fieldset.HelperText>
 

@@ -16,6 +16,11 @@ export const formatterMask = (value: string, mask: FormatMaskType): string => {
   return mask.replace(/#/g, () => v[i++]).replace(/undefined/g, '')
 }
 
+export const formattedZipCode = (value?: string): string => {
+  if (!value) return 'N/A'
+  return formatterMask(value, FormatMask.ZIP_CODE)
+}
+
 export const formattedPersonalTaxId = (value: string): string => {
   return formatterMask(value, FormatMask.PERSONAL_TAX_ID)
 }

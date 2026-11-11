@@ -25,6 +25,21 @@ export default defineConfig([
       'unused-imports': unusedImports,
     },
     rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            'CallExpression[callee.name="httpDependencies"] > TSTypeParameterInstantiation :matches(TSUnknownKeyword, TSAnyKeyword)',
+          message:
+            'httpDependencies exige o tipo concreto da resposta da API. unknown e any são proibidos; mantenha a validação com Zod.',
+        },
+        {
+          selector:
+            'CallExpression[callee.name="httpDependencies"]:not([typeArguments])',
+          message:
+            'Informe explicitamente o tipo de resposta em httpDependencies<T>().',
+        },
+      ],
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-namespace': 'off',
       'simple-import-sort/imports': 'error',

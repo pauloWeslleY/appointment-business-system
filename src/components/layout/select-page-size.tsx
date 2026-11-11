@@ -2,7 +2,11 @@ import { createListCollection, Portal, Select } from '@chakra-ui/react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 interface SelectPageSizeProps {
   shallow?: boolean
@@ -45,10 +49,10 @@ const SelectPageSize = ({
 
   return (
     <Select.Root
-      colorPalette={colorDefaultTheme}
-      variant="outline"
-      size="sm"
       collection={loadCollectionPage}
+      colorPalette={colorDefaultTheme}
+      variant="subtle"
+      size="sm"
       w={{ base: 'full', md: '250px' }}
       minW="0"
       maxW="full"
@@ -57,7 +61,7 @@ const SelectPageSize = ({
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger rounded="xl">
+        <Select.Trigger {...inputFieldStyles}>
           <Select.ValueText placeholder="Itens por página" />
         </Select.Trigger>
         <Select.IndicatorGroup>

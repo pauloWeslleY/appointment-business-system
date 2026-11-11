@@ -26,7 +26,6 @@ export default function AppointmentPage() {
   const { appointments: appointmentPermissions } = usePermissions(
     appointmentPermissionResources,
   )
-
   const {
     data: getAppointmentByEstablishment,
     error: errorAppointmentByEstablishment,
@@ -61,9 +60,10 @@ export default function AppointmentPage() {
 
       <HStack flexWrap="wrap">
         <SearchPage resetPagination />
-        <FilterDatePicker from={search.from} to={search.to} resetPagination />
         <FilterAppointmentsStatus />
         <FilterAppointmentsService />
+
+        <FilterDatePicker from={search.from} to={search.to} resetPagination />
       </HStack>
 
       {!isLoadingAppointmentByEstablishment &&

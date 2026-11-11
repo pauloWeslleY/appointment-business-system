@@ -37,7 +37,7 @@ const SidebarCreateCustomer = () => {
               <Drawer.ActionTrigger asChild>
                 <Button
                   size="sm"
-                  variant="surface"
+                  variant="ghost"
                   colorPalette="red"
                   rounded="lg"
                 >
@@ -47,13 +47,12 @@ const SidebarCreateCustomer = () => {
 
               <Button
                 size="sm"
-                variant="surface"
-                colorPalette="primary"
+                colorPalette="brand"
                 rounded="lg"
                 onClick={onSubmitCreateCustomer}
                 loading={isPendingCreateCustomer}
               >
-                Salvar
+                Cadastrar cliente
               </Button>
             </Drawer.Footer>
             <Drawer.CloseTrigger asChild>

@@ -63,7 +63,7 @@ const EstablishmentPaymentFields = ({
       <Fieldset.Legend fontSize="lg">
         Sinal e formas de pagamento
       </Fieldset.Legend>
-      <Fieldset.HelperText>
+      <Fieldset.HelperText mt="0">
         Configure onde o cliente deve pagar o sinal. A confirmação do
         recebimento é feita pela sua equipe.
       </Fieldset.HelperText>

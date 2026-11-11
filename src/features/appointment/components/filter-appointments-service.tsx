@@ -4,7 +4,7 @@ import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 import { useState } from 'react'
 
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
@@ -49,10 +49,7 @@ const FilterAppointmentsService = () => {
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-        >
+        <Select.Trigger {...inputFieldStyles}>
           <Select.ValueText placeholder="Selecione o serviço" />
         </Select.Trigger>
         <Select.IndicatorGroup>

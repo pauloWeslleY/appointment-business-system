@@ -35,7 +35,7 @@ export function SubscriptionBilling() {
           </Text>
 
           {subscriptions.canRead && (
-            <HStack gap="4" align="end" flexWrap="wrap">
+            <HStack gap="2" align="end" flexWrap="wrap">
               <Box minW="0" w={{ base: 'full', sm: '280px' }}>
                 <SubscriptionSelect
                   id="billing-interval"
@@ -64,6 +64,8 @@ export function SubscriptionBilling() {
                 rounded="lg"
                 disabled={isBillingActionDisabled}
                 onClick={handleSubmitBillingChange}
+                colorPalette="primary"
+                variant="surface"
               >
                 {canStartCheckout
                   ? 'Continuar para pagamento'

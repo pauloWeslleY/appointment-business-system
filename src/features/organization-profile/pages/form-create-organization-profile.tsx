@@ -5,14 +5,15 @@ import {
   chakra,
   Flex,
   Group,
+  Icon,
   Input,
 } from '@chakra-ui/react'
-import { CheckIcon } from 'lucide-react'
+import { PlusIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
 import { Field } from '@/components/ui/field'
-import { inputStyles } from '@/theme/styles/global-styles'
+import { inputFieldStyles } from '@/theme/styles/global-styles'
 
 import { useFormCreateOrganizationProfile } from '../hooks/use-form-create-organization-profile'
 
@@ -29,6 +30,7 @@ const FormCreateOrganizationProfile = () => {
 
   return (
     <chakra.form
+      noValidate
       autoComplete="off"
       onSubmit={handleSubmit(handleCreateOrganizationProfile)}
       w="full"
@@ -57,7 +59,7 @@ const FormCreateOrganizationProfile = () => {
               {...register('profile.legalName')}
               placeholder="Ex: Minha Empresa LTDA"
               size="sm"
-              css={inputStyles}
+              css={inputFieldStyles}
             />
           </Field>
 
@@ -71,7 +73,7 @@ const FormCreateOrganizationProfile = () => {
               {...register('profile.tradeName')}
               placeholder="Ex: Minha Empresa"
               size="sm"
-              css={inputStyles}
+              css={inputFieldStyles}
             />
           </Field>
 
@@ -85,7 +87,7 @@ const FormCreateOrganizationProfile = () => {
               {...register('profile.email')}
               placeholder="contato@minhaempresa.com"
               size="sm"
-              css={inputStyles}
+              css={inputFieldStyles}
             />
           </Field>
 
@@ -107,7 +109,7 @@ const FormCreateOrganizationProfile = () => {
                   mask="_"
                   size="sm"
                   customInput={Input}
-                  css={inputStyles}
+                  css={inputFieldStyles}
                 />
               </Field>
             )}
@@ -124,15 +126,15 @@ const FormCreateOrganizationProfile = () => {
           <Group
             w="full"
             flexDirection={{ base: 'column', md: 'row' }}
-            alignItems="stretch"
+            alignItems="center"
           >
             <Input
               {...register('name')}
               placeholder="Ex: Minha Empresa"
               size="sm"
-              css={inputStyles}
+              css={inputFieldStyles}
             />
-            <Button size="sm" rounded="lg" onClick={syncNameFromTradeName}>
+            <Button size="xs" rounded="lg" onClick={syncNameFromTradeName}>
               Utilizar nome fantasia
             </Button>
           </Group>
@@ -155,10 +157,9 @@ const FormCreateOrganizationProfile = () => {
         loading={isPendingCreateOrganizationProfile}
         variant="solid"
         colorPalette="brand"
-
         alignSelf="flex-end"
       >
-        <CheckIcon size="5" />
+        <Icon as={PlusIcon} boxSize="5" />
         Criar perfil empresarial
       </Button>
     </chakra.form>

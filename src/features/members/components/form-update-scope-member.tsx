@@ -12,6 +12,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardSectionCss,
   contentCss,
+  inputFieldStyles,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -73,13 +74,7 @@ const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
               >
                 <Select.HiddenSelect />
                 <Select.Control>
-                  <Select.Trigger
-                    rounded="xl"
-                    bg={{
-                      _light: 'blackAlpha.100',
-                      _dark: 'gray.800/40',
-                    }}
-                  >
+                  <Select.Trigger {...inputFieldStyles}>
                     <Select.ValueText placeholder="Selecione o escopo de acesso" />
                   </Select.Trigger>
                   <Select.IndicatorGroup>
@@ -132,13 +127,7 @@ const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
               >
                 <Select.HiddenSelect />
                 <Select.Control>
-                  <Select.Trigger
-                    rounded="xl"
-                    bg={{
-                      _light: 'blackAlpha.100',
-                      _dark: 'gray.800/40',
-                    }}
-                  >
+                  <Select.Trigger {...inputFieldStyles}>
                     <Select.ValueText placeholder="Selecione os estabelecimentos" />
                   </Select.Trigger>
                   <Select.IndicatorGroup>
@@ -177,6 +166,7 @@ const FormUpadteScopeMember = ({ memberId }: FormUpadteScopeMemberProps) => {
         size="xs"
         rounded="lg"
         alignSelf="flex-end"
+        colorPalette="brand"
         loading={isPendingUpdateScopeMember}
       >
         Salvar

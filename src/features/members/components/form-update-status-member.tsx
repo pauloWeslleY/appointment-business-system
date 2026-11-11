@@ -11,6 +11,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardSectionCss,
   contentCss,
+  inputFieldStyles,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -59,13 +60,7 @@ const FormUpadteStatusMember = ({ memberId }: FormUpadteStatusMemberProps) => {
             >
               <Select.HiddenSelect />
               <Select.Control>
-                <Select.Trigger
-                  rounded="xl"
-                  bg={{
-                    _light: 'blackAlpha.100',
-                    _dark: 'gray.800/40',
-                  }}
-                >
+                <Select.Trigger {...inputFieldStyles}>
                   <Select.ValueText placeholder="Selecione o status" />
                 </Select.Trigger>
                 <Select.IndicatorGroup>
@@ -93,7 +88,13 @@ const FormUpadteStatusMember = ({ memberId }: FormUpadteStatusMemberProps) => {
         )}
       />
 
-      <Button type="submit" size="xs" rounded="lg" alignSelf="flex-end">
+      <Button
+        colorPalette="brand"
+        type="submit"
+        size="xs"
+        rounded="lg"
+        alignSelf="flex-end"
+      >
         Salvar
       </Button>
     </chakra.form>

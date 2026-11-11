@@ -6,7 +6,7 @@ export const sidebarColors = defineSemanticTokens.colors({
       bg: {
         value: {
           _light: '{colors.navy.50}',
-          _dark: '{colors.secondary.900}',
+          _dark: '{colors.slate.950}',
         },
       },
     },
@@ -14,7 +14,7 @@ export const sidebarColors = defineSemanticTokens.colors({
       bg: {
         value: {
           _light: '{colors.white}',
-          _dark: '{colors.navy.900}',
+          _dark: '{colors.slate.900}',
         },
       },
     },

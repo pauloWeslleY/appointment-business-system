@@ -15,7 +15,11 @@ import { Controller } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import { useFormSendInvite } from '../hooks/use-form-send-invite'
 
@@ -97,13 +101,7 @@ const DialogSendInvite = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger
-                            rounded="xl"
-                            bg={{
-                              _light: 'blackAlpha.100',
-                              _dark: 'gray.800/40',
-                            }}
-                          >
+                          <Select.Trigger {...inputFieldStyles}>
                             <Select.ValueText placeholder="Selecione o escopo de acesso" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>
@@ -152,13 +150,7 @@ const DialogSendInvite = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger
-                            rounded="xl"
-                            bg={{
-                              _light: 'blackAlpha.100',
-                              _dark: 'gray.800/40',
-                            }}
-                          >
+                          <Select.Trigger {...inputFieldStyles}>
                             <Select.ValueText placeholder="Selecione o papel" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>
@@ -211,13 +203,7 @@ const DialogSendInvite = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger
-                            rounded="xl"
-                            bg={{
-                              _light: 'blackAlpha.100',
-                              _dark: 'gray.800/40',
-                            }}
-                          >
+                          <Select.Trigger {...inputFieldStyles}>
                             <Select.ValueText placeholder="Selecione os estabelecimentos" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>
@@ -275,7 +261,12 @@ const DialogSendInvite = () => {
             </Dialog.Body>
             <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
-                <Button variant="outline" rounded="lg" size="sm">
+                <Button
+                  variant="ghost"
+                  colorPalette="red"
+                  rounded="lg"
+                  size="sm"
+                >
                   Cancelar
                 </Button>
               </Dialog.ActionTrigger>
@@ -283,6 +274,7 @@ const DialogSendInvite = () => {
               <Button
                 rounded="lg"
                 size="sm"
+                colorPalette="brand"
                 loading={isPendingSendInvite}
                 disabled={disabledButtonSendInvite}
                 onClick={handleSendInvite}

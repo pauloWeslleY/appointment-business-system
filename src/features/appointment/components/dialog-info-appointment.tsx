@@ -75,7 +75,7 @@ const DialogInfoAppointment = ({
                           <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
                           <DataList.ItemValue>
                             <HStack>
-                              <Avatar.Root size="xs">
+                              <Avatar.Root size="xs" colorPalette="primary">
                                 <Avatar.Fallback />
                               </Avatar.Root>
                               {appointment.customerNameSnapshot}

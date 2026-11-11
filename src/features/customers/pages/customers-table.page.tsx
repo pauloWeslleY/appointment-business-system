@@ -32,8 +32,10 @@ const CustomersTable = ({ customers, total }: CustomerTableProps) => {
     handlePaginationChange,
   } = usePagination(customers, total)
 
-  const formattedPhoneCustomer = (phones: string[]) =>
-    phones.map(formattedPhone)[0]
+  const formattedPhoneCustomer = (phones: string[]) => {
+    if (!phones || phones.length === 0) return 'Não informado'
+    return phones.map(formattedPhone)[0]
+  }
 
   if (total === 0) {
     return (
@@ -54,7 +56,7 @@ const CustomersTable = ({ customers, total }: CustomerTableProps) => {
 
       {!isPendingPagination && (
         <For each={loadTablePagination}>
-          {(row) => (
+          {(row, index) => (
             <SimpleGrid
               key={row.id}
               columns={{ base: 1, md: 2, xl: 8 }}
@@ -62,8 +64,10 @@ const CustomersTable = ({ customers, total }: CustomerTableProps) => {
               w="full"
               p="3"
               alignItems="start"
-              bg={{ base: 'white', _dark: 'transparent' }}
-              borderBottomWidth="1px"
+              bg={{ _light: 'white', _dark: 'transparent' }}
+              borderBottomWidth={
+                index === loadTablePagination.length - 1 ? '0' : '1px'
+              }
               borderColor="border.muted"
             >
               {[
@@ -103,7 +107,8 @@ const CustomersTable = ({ customers, total }: CustomerTableProps) => {
                   <Box overflowWrap="anywhere">{value}</Box>
                 </Box>
               ))}
-              <Flex justify={{ xl: 'end' }}>
+
+              <Flex justify={{ xl: 'flex-end' }}>
                 <MenuActionsTableCustomers customer={row} />
               </Flex>
             </SimpleGrid>

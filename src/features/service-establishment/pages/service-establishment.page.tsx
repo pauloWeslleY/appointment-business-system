@@ -21,7 +21,6 @@ import ServicesListPage from '@/features/service-establishment/pages/services.pa
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 const pageRoute = getRouteApi('/_app/_authenticated/dashboard/$slug/services/')
-
 const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export default function ServicesPage() {

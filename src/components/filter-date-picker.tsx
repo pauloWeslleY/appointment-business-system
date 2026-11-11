@@ -4,7 +4,7 @@ import { Calendar } from 'lucide-react'
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 import { useEffect, useMemo, useState } from 'react'
 
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 interface FilterDatePickerProps {
   from?: string
@@ -37,10 +37,6 @@ const FilterDatePicker = ({
   const [dateValue, setDateValue] =
     useState<DatePicker.ValueChangeDetails['value']>(queryDateValue)
 
-  /*
-   * TODO: Mantém o calendário sincronizado quando a URL mudar
-   * por navegação externa, botão voltar etc.
-   */
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setDateValue(queryDateValue)
@@ -76,7 +72,6 @@ const FilterDatePicker = ({
     const dateFrom = details.value[0]?.toString()
     const dateTo = details.value[1]?.toString()
 
-    // Não atualiza a URL enquanto o intervalo estiver incompleto
     if (!dateFrom || !dateTo) {
       return
     }
@@ -94,12 +89,9 @@ const FilterDatePicker = ({
         <Button
           size="sm"
           maxW="full"
-          h="auto"
-          minH="10"
-          py="2"
           whiteSpace="normal"
-          rounded="lg"
-          bg={{ _light: 'blackAlpha.100', _dark: 'gray.800/40' }}
+          rounded="xl"
+          bg={inputFieldStyles.bg}
           color={{ _light: 'gray.700', _dark: 'gray.100' }}
           transition="backgrounds"
           _hover={{

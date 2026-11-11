@@ -14,14 +14,15 @@ export function professionalsListQueryOptions(
   userId?: string,
   organizationId?: string,
 ) {
-  const hasContext = !!establishmentId && !!userId && !!organizationId
+  const canFetchProfessionalsList =
+    !!establishmentId && !!userId && !!organizationId
   return queryOptions({
     queryKey: professionalsQueryKeys.list(
       establishmentId,
       userId,
       organizationId,
     ),
-    queryFn: hasContext
+    queryFn: canFetchProfessionalsList
       ? () => listProfessionalsService(establishmentId)
       : skipToken,
   })
@@ -32,30 +33,32 @@ export function professionalDetailsQueryOptions(
   userId?: string,
   organizationId?: string,
 ) {
-  const hasContext = !!professionalId && !!userId && !!organizationId
+  const canFetchProfessionalDetails =
+    !!professionalId && !!userId && !!organizationId
   return queryOptions({
     queryKey: professionalsQueryKeys.detail(
       professionalId,
       userId,
       organizationId,
     ),
-    queryFn: hasContext
+    queryFn: canFetchProfessionalDetails
       ? () => getProfessionalService(professionalId)
       : skipToken,
   })
 }
 
 export function professionalAvailabilityQueryOptions(
-  params: ProfessionalAvailabilityApiRequest,
+  availabilityRequest: ProfessionalAvailabilityApiRequest,
   userId?: string,
 ) {
-  const hasContext =
+  const canFetchProfessionalAvailability =
     !!userId &&
-    ProfessionalAvailabilityApiRequestSchema.safeParse(params).success
+    ProfessionalAvailabilityApiRequestSchema.safeParse(availabilityRequest)
+      .success
   return queryOptions({
-    queryKey: professionalsQueryKeys.availability(params, userId),
-    queryFn: hasContext
-      ? () => getProfessionalAvailabilityService(params)
+    queryKey: professionalsQueryKeys.availability(availabilityRequest, userId),
+    queryFn: canFetchProfessionalAvailability
+      ? () => getProfessionalAvailabilityService(availabilityRequest)
       : skipToken,
     staleTime: 0,
     retry: false,

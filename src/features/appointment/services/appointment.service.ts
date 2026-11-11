@@ -15,6 +15,7 @@ import {
 } from '../schemas/appointment-api-response.schema'
 import { AppointmentServiceListRequestSchema } from '../schemas/appointment-service-list-api-request.schema'
 import type { AppointmentModel } from '../types/appointment.model'
+import type { AppointmentListApiResponse } from '../types/appointment-list-api-response.type'
 import type { CreateAppointmentRequest } from '../types/create-appointment-request'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import type { GetAppointmentByEstablishmentQueryParams } from '../types/get-appointment-by-establishment-query-params'
@@ -26,7 +27,7 @@ export async function getAppointmentByEstablishmentService(
   input: GetAppointmentByEstablishmentQueryParams,
 ): Promise<GetAppointmentByEstablishmentModel[]> {
   const params = AppointmentListApiRequestSchema.parse(input)
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<AppointmentListApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: '/admin/appointments',
@@ -51,7 +52,7 @@ export async function getAppointmentByIdService(
     .object({ establishmentId: z.uuid(), organizationId: z.string().min(1) })
     .parse({ establishmentId, organizationId })
 
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<AppointmentModel>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: '/admin/appointments/' + z.uuid().parse(id),
@@ -80,7 +81,7 @@ export async function createAppointmentService(
   input: CreateAppointmentRequest,
 ): Promise<AppointmentModel> {
   const body = CreateAppointmentApiRequestSchema.parse(input)
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<AppointmentModel>()
   const response = await api.request({
     method: HttpMethod.POST,
     url: '/admin/appointments',
@@ -94,7 +95,7 @@ export async function updateAppointmentService(
   input: UpdateAppointmentRequest,
 ): Promise<AppointmentModel> {
   const body = UpdateAppointmentApiRequestSchema.parse(input)
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<AppointmentModel>()
   const response = await api.request({
     method: HttpMethod.PUT,
     url: '/admin/appointments',
@@ -114,7 +115,7 @@ export async function updateStatusAppointmentService(
   ) {
     throw new Error('Informe o serviço e o motivo do cancelamento.')
   }
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<AppointmentModel>()
   const response = await api.request({
     method: HttpMethod.PUT,
     url: '/admin/appointments/status',

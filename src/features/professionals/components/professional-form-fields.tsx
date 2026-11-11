@@ -9,26 +9,27 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { Upload } from 'lucide-react'
-import { Controller, type UseFormReturn } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
 import FileUploadCardItem from '@/components/file-upload-item'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
-import type {
-  ProfessionalFormData,
-  ProfessionalFormInput,
-} from '../types/professional-form.type'
+import type { ProfessionalFormMethods } from '../types/professional-form.type'
 import ProfessionalWorkScheduleFields from './professional-work-schedule-fields'
 
 interface ProfessionalFormFieldsProps {
-  form: UseFormReturn<ProfessionalFormInput, unknown, ProfessionalFormData>
+  form: ProfessionalFormMethods
   imageUrl?: string | null
 }
 
-const loadSelectEmploymentStatus = createListCollection({
+const employmentStatusOptions = createListCollection({
   items: [
     { label: 'Ativo', value: 'active' },
     { label: 'Inativo', value: 'inactive' },
@@ -44,9 +45,10 @@ const ProfessionalFormFields = ({
 
   return (
     <Stack gap="4">
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap="4">
         <Field
           label="Nome"
+          optionalText="*"
           invalid={!!errors.displayName}
           errorText={errors.displayName?.message}
         >
@@ -59,6 +61,7 @@ const ProfessionalFormFields = ({
 
         <Field
           label="Especialidade"
+          optionalText="*"
           invalid={!!errors.specialty}
           errorText={errors.specialty?.message}
         >
@@ -132,17 +135,16 @@ const ProfessionalFormFields = ({
                 w="full"
                 size="sm"
                 variant="subtle"
-                collection={loadSelectEmploymentStatus}
+                collection={employmentStatusOptions}
                 value={field.value ? [field.value] : []}
-                onValueChange={(e) => field.onChange(e.value[0])}
+                onValueChange={(statusSelection) =>
+                  field.onChange(statusSelection.value[0])
+                }
                 onInteractOutside={() => field.onBlur()}
               >
                 <Select.HiddenSelect name={field.name} />
                 <Select.Control>
-                  <Select.Trigger
-                    rounded="xl"
-                    bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-                  >
+                  <Select.Trigger {...inputFieldStyles}>
                     <Select.ValueText placeholder="Selecione o status" />
                   </Select.Trigger>
                   <Select.IndicatorGroup>
@@ -152,15 +154,11 @@ const ProfessionalFormFields = ({
                 <Portal>
                   <Select.Positioner>
                     <Select.Content css={contentCss}>
-                      {loadSelectEmploymentStatus.items.map((status) => (
+                      {employmentStatusOptions.items.map((status) => (
                         <Select.Item
                           key={status.value}
                           item={status}
-                          rounded="xl"
-                          cursor="pointer"
-                          _hover={{
-                            bg: { base: 'gray.100', _dark: 'secondary.600' },
-                          }}
+                          {...menuItemCss}
                         >
                           {status.label}
                           <Select.ItemIndicator />
@@ -173,64 +171,67 @@ const ProfessionalFormFields = ({
             </Field>
           )}
         />
-
-        <Field
-          gridColumn={{ base: 'span 1', md: 'span 2' }}
-          label="Sobre o profissional (opcional)"
-          invalid={!!errors.bio}
-          errorText={errors.bio?.message}
-        >
-          <InputField
-            {...form.register('bio')}
-            placeholder="Conte um pouco sobre a experiência do profissional"
-            maxLength={2000}
-          />
-        </Field>
-
-        <Field
-          gridColumn={{ base: 'span 1', md: 'span 2' }}
-          label="Foto (opcional)"
-          invalid={!!errors.image}
-          errorText={errors.image?.message}
-        >
-          {imageUrl && (
-            <Image
-              src={imageUrl}
-              alt="Foto atual do profissional"
-              boxSize="16"
-              rounded="full"
-              objectFit="cover"
-            />
-          )}
-
-          <Controller
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FileUpload.Root placeContent="flex-end">
-                <FileUpload.HiddenInput
-                  onChange={(event) => field.onChange(event.target?.files)}
-                />
-                <FileUpload.Trigger asChild>
-                  <Button variant="outline" size="sm" rounded="lg">
-                    <Upload /> Selecionar arquivo
-                  </Button>
-                </FileUpload.Trigger>
-
-                <FileUpload.ItemGroup mt="1" gap="2">
-                  <FileUpload.Context>
-                    {({ acceptedFiles }) =>
-                      acceptedFiles.map((file) => (
-                        <FileUploadCardItem key={file.name} file={file} />
-                      ))
-                    }
-                  </FileUpload.Context>
-                </FileUpload.ItemGroup>
-              </FileUpload.Root>
-            )}
-          />
-        </Field>
       </SimpleGrid>
+
+      <Field
+        label="Sobre o profissional (opcional)"
+        invalid={!!errors.bio}
+        errorText={errors.bio?.message}
+      >
+        <InputField
+          {...form.register('bio')}
+          placeholder="Conte um pouco sobre a experiência do profissional"
+          maxLength={2000}
+        />
+      </Field>
+
+      <Field
+        label="Foto (opcional)"
+        invalid={!!errors.image}
+        errorText={errors.image?.message}
+      >
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt="Foto atual do profissional"
+            boxSize="16"
+            rounded="full"
+            objectFit="cover"
+          />
+        )}
+
+        <Controller
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FileUpload.Root placeContent="flex-end">
+              <FileUpload.HiddenInput
+                onChange={(event) => field.onChange(event.target?.files)}
+              />
+              <FileUpload.Trigger asChild>
+                <Button
+                  colorPalette="secondary"
+                  variant="surface"
+                  size="sm"
+                  rounded="lg"
+                >
+                  <Upload /> Selecionar arquivo
+                </Button>
+              </FileUpload.Trigger>
+
+              <FileUpload.ItemGroup mt="1" gap="2">
+                <FileUpload.Context>
+                  {({ acceptedFiles }) =>
+                    acceptedFiles.map((file) => (
+                      <FileUploadCardItem key={file.name} file={file} />
+                    ))
+                  }
+                </FileUpload.Context>
+              </FileUpload.ItemGroup>
+            </FileUpload.Root>
+          )}
+        />
+      </Field>
 
       <ProfessionalWorkScheduleFields form={form} />
     </Stack>

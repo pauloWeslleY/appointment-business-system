@@ -4,7 +4,6 @@ import { ArrowLeft } from 'lucide-react'
 
 import Loader from '@/components/loader'
 import { ColorModeButton } from '@/components/ui/color-mode'
-import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 
 import { SubscriptionOrganizationSelect } from '../components/subscription-organization-select'
 import { SubscriptionSection } from '../components/subscription-section'
@@ -29,9 +28,9 @@ export function SubscriptionPageContent() {
 
   return (
     <Box
+      colorPalette="primary"
       minH="100dvh"
-      bg="app.bg"
-      colorPalette={colorDefaultTheme}
+      bg="sidebar.content.bg"
       py={{ base: '6', md: '10' }}
       px={{ base: '4', md: '8' }}
     >
@@ -50,7 +49,7 @@ export function SubscriptionPageContent() {
           </div>
 
           <HStack>
-            <Button asChild variant="outline" rounded="lg">
+            <Button asChild variant="ghost" rounded="lg">
               <Link to="/establishment">
                 <ArrowLeft size={16} />
                 Voltar ao painel

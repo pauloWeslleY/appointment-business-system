@@ -1,7 +1,20 @@
 import type { ProfessionalAvailabilityApiRequest } from '../types/professional-api.type'
+import type { ProfessionalPageApiRequest } from '../types/professional-page-api.type'
 
 export const professionalsQueryKeys = {
   all: ['professionals'] as const,
+  page: (
+    professionalPageRequest: ProfessionalPageApiRequest,
+    userId?: string,
+    organizationId?: string | null,
+  ) =>
+    [
+      'professionals',
+      'page',
+      userId,
+      organizationId,
+      professionalPageRequest,
+    ] as const,
   list: (establishmentId?: string, userId?: string, organizationId?: string) =>
     [
       'professionals',
@@ -18,6 +31,14 @@ export const professionalsQueryKeys = {
       organizationId ?? null,
       professionalId ?? null,
     ] as const,
-  availability: (params: ProfessionalAvailabilityApiRequest, userId?: string) =>
-    ['professionals', 'availability', userId ?? null, params] as const,
+  availability: (
+    availabilityRequest: ProfessionalAvailabilityApiRequest,
+    userId?: string,
+  ) =>
+    [
+      'professionals',
+      'availability',
+      userId ?? null,
+      availabilityRequest,
+    ] as const,
 }

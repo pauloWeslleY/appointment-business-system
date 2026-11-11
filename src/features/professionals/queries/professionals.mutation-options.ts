@@ -17,6 +17,7 @@ export const professionalsMutationOptions = {
         })
       },
     }),
+
   update: () =>
     mutationOptions({
       mutationKey: ['professionals', 'update'],

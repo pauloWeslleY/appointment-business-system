@@ -1,26 +1,13 @@
-import {
-  Box,
-  Flex,
-  For,
-  HStack,
-  Separator,
-  Skeleton,
-  Text,
-} from '@chakra-ui/react'
+import { Box, For, Skeleton } from '@chakra-ui/react'
 import { Navigate } from '@tanstack/react-router'
 import { type ReactNode } from 'react'
 
 import Sidebar from '@/components/layout/sidebar'
-import { Status } from '@/components/ui/status'
 
 import CardHeaderEstablishmentDetail from '../components/card-header-establishment-detail'
 import SelectEstablishmentsByOrganization from '../components/select-establishments-by-organization'
 import { loadMenuDashboardEstablishment } from '../constants/menu-dashboard-establishment'
 import { useEstablishmentLayout } from '../hooks/use-establishment-layout'
-import {
-  mapStatusColorEstablishment,
-  mapStatusEstablishment,
-} from '../types/establishment-status.type'
 import type { EstablishmentSlugApiResponse } from '../types/get-establishment-api.response.type'
 
 interface EstablishmentLayoutProps {
@@ -41,7 +28,6 @@ const EstablishmentLayout = ({
     activePathEstablishmentLayout,
     handleNavigationEstablishmentLayout,
   } = useEstablishmentLayout(establishment)
-  const statusEstablishmentMap = mapStatusEstablishment(establishment.status)
 
   if (isEstablishmentRootPath) {
     return (
@@ -100,25 +86,7 @@ const EstablishmentLayout = ({
           )}
 
           {!isLoadingEstablishmentLayout && (
-            <Flex align="center" gap="4" minW="0" flexWrap="wrap">
-              <CardHeaderEstablishmentDetail establishment={establishment} />
-
-              <Separator
-                h="8"
-                orientation="vertical"
-                borderColor={{ _light: 'gray.200', _dark: 'gray.500' }}
-              />
-
-              <HStack>
-                <Text fontSize="sm">Status:</Text>
-
-                <Status
-                  value={mapStatusColorEstablishment[establishment.status]}
-                >
-                  {statusEstablishmentMap.label}
-                </Status>
-              </HStack>
-            </Flex>
+            <CardHeaderEstablishmentDetail establishment={establishment} />
           )}
         </Sidebar.Header>
 

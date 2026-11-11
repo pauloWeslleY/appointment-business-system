@@ -11,7 +11,7 @@ import {
 
 import { contentCss } from '@/theme/styles/global-styles'
 
-import { useProfessional } from '../hooks/use-professionals'
+import { useProfessionalDetails } from '../hooks/use-professionals'
 import UpdateProfessionalForm from './update-professional-form'
 
 interface ProfessionalEditorProps {
@@ -24,11 +24,11 @@ const ProfessionalEditor = ({
   onClose,
 }: ProfessionalEditorProps) => {
   const {
-    data: details,
-    isPending,
-    error,
-    refetch,
-  } = useProfessional(professionalId)
+    data: professionalDetails,
+    isPending: isLoadingProfessionalDetails,
+    error: professionalDetailsError,
+    refetch: refetchProfessionalDetails,
+  } = useProfessionalDetails(professionalId)
 
   return (
     <Dialog.Root
@@ -52,29 +52,33 @@ const ProfessionalEditor = ({
             </Dialog.Header>
 
             <Dialog.Body>
-              {isPending && (
+              {isLoadingProfessionalDetails && (
                 <Stack
                   gap="2"
                   role="status"
                   aria-label="Carregando profissional"
                 >
                   <For each={[1, 2, 3]}>
-                    {(item) => <Skeleton key={item} height="10" rounded="xl" />}
+                    {(skeletonRow) => (
+                      <Skeleton key={skeletonRow} height="10" rounded="xl" />
+                    )}
                   </For>
                 </Stack>
               )}
 
-              {error && (
+              {professionalDetailsError && (
                 <Alert.Root status="error" variant="subtle" rounded="lg">
                   <Alert.Indicator />
                   <Stack>
-                    <Alert.Title>{error.message}</Alert.Title>
+                    <Alert.Title>
+                      {professionalDetailsError.message}
+                    </Alert.Title>
                     <Button
                       size="sm"
                       rounded="lg"
                       variant="outline"
                       alignSelf="start"
-                      onClick={() => refetch()}
+                      onClick={() => refetchProfessionalDetails()}
                     >
                       Tentar novamente
                     </Button>
@@ -82,10 +86,10 @@ const ProfessionalEditor = ({
                 </Alert.Root>
               )}
 
-              {details && !error && (
+              {professionalDetails && !professionalDetailsError && (
                 <UpdateProfessionalForm
-                  key={details.professional.id}
-                  details={details}
+                  key={professionalDetails.professional.id}
+                  details={professionalDetails}
                   onSaved={onClose}
                   onCancel={onClose}
                 />

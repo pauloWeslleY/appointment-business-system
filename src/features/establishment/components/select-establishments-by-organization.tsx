@@ -1,6 +1,10 @@
 import { Portal, Select, Spinner } from '@chakra-ui/react'
 
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import { useSelectEstablishmentsByOrganization } from '../hooks/use-select-establishments-by-organization'
 
@@ -36,10 +40,7 @@ const SelectEstablishmentsByOrganization = ({
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-        >
+        <Select.Trigger {...inputFieldStyles}>
           <Select.ValueText placeholder="Selecione o serviço" />
         </Select.Trigger>
         <Select.IndicatorGroup>

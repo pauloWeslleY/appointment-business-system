@@ -60,9 +60,9 @@ const FormCreateServiceEstablishment = () => {
         >
           <Button
             type="submit"
+            w="fit"
             size="sm"
             rounded="lg"
-            w="fit"
             colorPalette="brand"
             loading={isCreatingServiceEstablishment}
             loadingText="Cadastrando..."

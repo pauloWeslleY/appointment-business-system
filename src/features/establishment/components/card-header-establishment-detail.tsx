@@ -1,11 +1,16 @@
 import { Badge, Box, HStack, Separator, Text } from '@chakra-ui/react'
 import { useMemo } from 'react'
 
+import {
+  type EstablishmentStatusType,
+  mapStatusEstablishment,
+} from '../types/establishment-status.type'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
 interface CardHeaderEstablishmentDetailProps {
   establishment: {
     name: string
+    status: EstablishmentStatusType
     openingHours: {
       day: number
       intervals: { open: string; close: string }[]
@@ -16,6 +21,7 @@ interface CardHeaderEstablishmentDetailProps {
 const CardHeaderEstablishmentDetail = ({
   establishment,
 }: CardHeaderEstablishmentDetailProps) => {
+  const statusEstablishmentMap = mapStatusEstablishment(establishment.status)
   const establishmentOpeningStatus = useMemo<{
     establishmentOpen: boolean
     openingHours: string
@@ -51,6 +57,18 @@ const CardHeaderEstablishmentDetail = ({
           }
         >
           {establishmentOpeningStatus.establishmentOpen ? 'Aberto' : 'Fechado'}
+        </Badge>
+      </HStack>
+
+      <HStack gap="1" align="center">
+        <Text fontSize="xs">Status:</Text>
+
+        <Badge
+          size="xs"
+          variant="surface"
+          colorPalette={statusEstablishmentMap.color}
+        >
+          {statusEstablishmentMap.label}
         </Badge>
       </HStack>
     </Box>

@@ -16,7 +16,7 @@ export async function getServicePageService(
 ): Promise<ServicePageApiResponse> {
   const { establishmentId, ...params } =
     ServicePageApiRequestSchema.parse(input)
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<ServicePageApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: `/admin/service/establishment/establishments/${establishmentId}/page`,

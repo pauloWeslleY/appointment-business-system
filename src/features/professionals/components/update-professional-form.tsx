@@ -19,12 +19,10 @@ const UpdateProfessionalForm = ({
   const { form, handleUpdateProfessional, isUpdatingProfessional } =
     useFormUpdateProfessional(details, onSaved)
 
-  const isSubmitting = isUpdatingProfessional || form.formState.isSubmitting
-
   return (
     <chakra.form onSubmit={handleUpdateProfessional}>
       <Stack gap="4">
-        <chakra.fieldset disabled={isSubmitting} border="0" minW="0">
+        <chakra.fieldset disabled={isUpdatingProfessional} border="0" minW="0">
           <ProfessionalFormFields
             form={form}
             imageUrl={details.professional.imageUrl}
@@ -37,7 +35,8 @@ const UpdateProfessionalForm = ({
             size="sm"
             rounded="lg"
             colorPalette="red"
-            disabled={isSubmitting}
+            variant="ghost"
+            disabled={isUpdatingProfessional}
             onClick={onCancel}
           >
             Fechar
@@ -48,8 +47,7 @@ const UpdateProfessionalForm = ({
             size="sm"
             rounded="lg"
             colorPalette="brand"
-            loading={isSubmitting}
-            loadingText="Salvando..."
+            loading={isUpdatingProfessional}
           >
             <Icon as={Save} boxSize="5" />
             Salvar profissional

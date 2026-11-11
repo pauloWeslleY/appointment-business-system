@@ -4,6 +4,7 @@ import type {
   ProfessionalPageApiRequestSchema,
   ProfessionalPageApiResponseSchema,
 } from '../schemas/professional-page-api.schema'
+
 export type ProfessionalPageApiRequest = z.infer<
   typeof ProfessionalPageApiRequestSchema
 >

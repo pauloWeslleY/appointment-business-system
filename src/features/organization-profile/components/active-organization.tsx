@@ -11,7 +11,11 @@ import { Building } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
-import { cardSectionCss, contentCss } from '@/theme/styles/global-styles'
+import {
+  cardSectionCss,
+  contentCss,
+  inputFieldStyles,
+} from '@/theme/styles/global-styles'
 
 import { useFormActiveOrganization } from '../hooks/use-form-active-organization'
 
@@ -47,7 +51,7 @@ const ActiveOrganization = () => {
       <chakra.form
         display="flex"
         flexDirection="row"
-        gap="4"
+        gap="2"
         onSubmit={handleSubmit(handleUpdateOrganizationProfile)}
       >
         <Field
@@ -71,10 +75,7 @@ const ActiveOrganization = () => {
               >
                 <Select.HiddenSelect />
                 <Select.Control>
-                  <Select.Trigger
-                    rounded="xl"
-                    bg={{ _light: 'blackAlpha.100', _dark: 'gray.800/40' }}
-                  >
+                  <Select.Trigger {...inputFieldStyles}>
                     <Select.ValueText placeholder="Selecione a organização" />
                   </Select.Trigger>
                   <Select.IndicatorGroup>

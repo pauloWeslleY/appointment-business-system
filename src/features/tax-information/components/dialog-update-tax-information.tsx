@@ -11,7 +11,11 @@ import { Controller } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import { useFormUpdateTaxInformation } from '../hooks/use-form-update-tax-information'
 
@@ -46,9 +50,7 @@ const DialogFormUpdateTaxInformation = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            css={contentCss}
-          >
+          <Dialog.Content css={contentCss}>
             <Dialog.Header>
               <Dialog.Title>Atualizar Dados Fiscais</Dialog.Title>
             </Dialog.Header>
@@ -104,13 +106,7 @@ const DialogFormUpdateTaxInformation = ({
                         >
                           <Select.HiddenSelect />
                           <Select.Control>
-                            <Select.Trigger
-                              rounded="xl"
-                              bg={{
-                                _light: 'blackAlpha.100',
-                                _dark: 'gray.800/40',
-                              }}
-                            >
+                            <Select.Trigger {...inputFieldStyles}>
                               <Select.ValueText placeholder="Selecione o status" />
                             </Select.Trigger>
                             <Select.IndicatorGroup>

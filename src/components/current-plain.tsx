@@ -86,10 +86,9 @@ const CurrentPlan = ({ expanded = false, onNavigate }: CurrentPlanProps) => {
       py="2"
       gap="4"
       rounded="xl"
-      shadow="xs"
-      bg={{ _light: 'navy.100', _dark: 'secondary.900' }}
+      bg={{ _light: 'navy.100', _dark: 'slate.900' }}
       borderWidth="1px"
-      borderColor={{ _light: 'gray.300', _dark: 'secondary.500/20' }}
+      borderColor={{ _light: 'gray.300', _dark: 'secondary.500/50' }}
     >
       <HStack gap={!collapsed ? '4' : '0'}>
         <Tooltip

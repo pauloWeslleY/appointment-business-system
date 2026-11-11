@@ -2,7 +2,7 @@ import { createListCollection, Portal, Select } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
 import { parseAsString, useQueryState } from 'nuqs'
 
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
 
 const loadSelectOpeningStatus = createListCollection({
   items: [
@@ -35,10 +35,7 @@ const FilterEstablishmentOpening = () => {
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger
-          rounded="xl"
-          bg={{ base: 'blackAlpha.100', _dark: 'gray.800/40' }}
-        >
+        <Select.Trigger {...inputFieldStyles}>
           <Select.ValueText placeholder="Selecione o status" />
         </Select.Trigger>
         <Select.IndicatorGroup>

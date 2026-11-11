@@ -21,25 +21,34 @@ export function useFormCreateProfessional(
     defaultValues: professionalFormDefaultValues,
   })
 
-  const { mutateAsync: createProfessional, isPending: isCreatingProfessional } =
+  const { mutate: createProfessional, isPending: isCreatingProfessional } =
     useMutation(professionalsMutationOptions.create())
-  const handleCreateProfessional = form.handleSubmit(async (values) => {
-    if (isCreatingProfessional) {
-      return
-    }
 
-    try {
-      await createProfessional({ values, establishmentId })
-      form.reset()
-      toaster.success({ title: 'Profissional cadastrado com sucesso' })
-      onSaved()
-    } catch (error) {
-      toaster.error({
-        title: 'Erro ao cadastrar profissional',
-        description: error instanceof Error ? error.message : 'Tente novamente',
-      })
-    }
-  })
+  const handleCreateProfessional = form.handleSubmit(
+    (professionalFormValues) => {
+      createProfessional(
+        { values: professionalFormValues, establishmentId },
+        {
+          onSuccess: () => {
+            form.reset()
+            toaster.success({ title: 'Profissional cadastrado com sucesso' })
+            onSaved()
+          },
+          onError: (professionalCreationError) => {
+            toaster.error({
+              title: 'Erro ao cadastrar profissional',
+              description:
+                professionalCreationError.message || 'Tente novamente',
+            })
+          },
+        },
+      )
+    },
+  )
 
-  return { form, handleCreateProfessional, isCreatingProfessional }
+  return {
+    form,
+    handleCreateProfessional,
+    isCreatingProfessional,
+  }
 }

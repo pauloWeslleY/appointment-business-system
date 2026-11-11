@@ -16,7 +16,7 @@ export async function getCustomerPageService(
 ): Promise<CustomerPageApiResponse> {
   const { establishmentId, ...params } =
     CustomerPageApiRequestSchema.parse(input)
-  const { api, validate } = httpDependencies<unknown>()
+  const { api, validate } = httpDependencies<CustomerPageApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
     url: `/admin/customers/establishment/${establishmentId}`,

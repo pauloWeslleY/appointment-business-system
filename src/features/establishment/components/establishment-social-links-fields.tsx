@@ -16,7 +16,7 @@ const EstablishmentSocialLinksFields = () => {
   return (
     <Fieldset.Root css={cardSectionCss} borderWidth="1px">
       <Fieldset.Legend fontSize="lg">Redes sociais</Fieldset.Legend>
-      <Fieldset.HelperText>
+      <Fieldset.HelperText mt="0">
         Opcional. Deixe um campo em branco para remover o contato cadastrado.
       </Fieldset.HelperText>
 

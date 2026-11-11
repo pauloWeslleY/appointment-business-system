@@ -95,7 +95,9 @@ export default function EstablishmentLinksSettingsPage({
           <Fieldset.Content gap="6">
             <EstablishmentSocialLinksFields />
 
-            <Separator />
+            <Separator
+              borderColor={{ _light: 'slate.200', _dark: 'slate.800' }}
+            />
 
             <EstablishmentPaymentFields
               scopeIdentity={scopeIdentity}

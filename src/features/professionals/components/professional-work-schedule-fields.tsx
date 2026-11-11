@@ -1,11 +1,13 @@
 import {
   Alert,
+  Box,
   Button,
   Checkbox,
   CheckboxGroup,
   Fieldset,
   Flex,
   For,
+  Grid,
   HStack,
   Icon,
   IconButton,
@@ -13,12 +15,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Plus, Trash2 } from 'lucide-react'
-import {
-  Controller,
-  useFieldArray,
-  type UseFormReturn,
-  useWatch,
-} from 'react-hook-form'
+import { Controller, useFieldArray, useWatch } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
 import InputField from '@/components/input-field'
@@ -29,19 +26,14 @@ import {
   weekDaysLabels,
 } from '@/shared/utils/create-list-weekdays'
 
-import type {
-  ProfessionalFormData,
-  ProfessionalFormInput,
-} from '../types/professional-form.type'
-
-const MAX_WORK_SCHEDULE_PERIODS = 84
+import { MAX_WORK_SCHEDULE_PERIODS } from '../schemas/professional-form.schema'
+import type { ProfessionalFormMethods } from '../types/professional-form.type'
 
 const DEFAULT_WORK_PERIOD = { startsAt: '08:00', endsAt: '18:00' }
-
 const EMPTY_WORK_PERIOD = { startsAt: '', endsAt: '' }
 
 interface ProfessionalWorkScheduleFieldsProps {
-  form: UseFormReturn<ProfessionalFormInput, unknown, ProfessionalFormData>
+  form: ProfessionalFormMethods
 }
 
 const ProfessionalWorkScheduleFields = ({
@@ -49,7 +41,11 @@ const ProfessionalWorkScheduleFields = ({
 }: ProfessionalWorkScheduleFieldsProps) => {
   const { errors } = form.formState
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: workScheduleFields,
+    append: appendWorkPeriod,
+    remove: removeWorkPeriod,
+  } = useFieldArray({
     control: form.control,
     name: 'workSchedule',
   })
@@ -57,29 +53,30 @@ const ProfessionalWorkScheduleFields = ({
   const workSchedule =
     useWatch({ control: form.control, name: 'workSchedule' }) ?? []
 
-  const selectedDays = [
+  const selectedWorkDays = [
     ...new Set(workSchedule.map((period) => String(period.dayOfWeek))),
   ]
 
-  const hasReachedPeriodsLimit = fields.length >= MAX_WORK_SCHEDULE_PERIODS
+  const hasReachedWorkPeriodsLimit =
+    workScheduleFields.length >= MAX_WORK_SCHEDULE_PERIODS
 
-  const onChangeSelectedDays = (days: string[]) => {
-    const addedDays = days.filter((day) => !selectedDays.includes(day))
-    const removedDays = selectedDays.filter((day) => !days.includes(day))
+  const handleSelectedWorkDaysChange = (days: string[]) => {
+    const addedDays = days.filter((day) => !selectedWorkDays.includes(day))
+    const removedDays = selectedWorkDays.filter((day) => !days.includes(day))
 
-    const removedPeriodIndexes = fields.flatMap((field, index) =>
+    const removedPeriodIndexes = workScheduleFields.flatMap((field, index) =>
       removedDays.includes(String(field.dayOfWeek)) ? [index] : [],
     )
 
-    remove(removedPeriodIndexes)
+    removeWorkPeriod(removedPeriodIndexes)
 
     for (const day of addedDays) {
-      append({ dayOfWeek: Number(day), ...DEFAULT_WORK_PERIOD })
+      appendWorkPeriod({ dayOfWeek: Number(day), ...DEFAULT_WORK_PERIOD })
     }
   }
 
-  const addPeriodToDay = (dayOfWeek: number) => {
-    append({ dayOfWeek, ...EMPTY_WORK_PERIOD })
+  const addWorkPeriodToDay = (dayOfWeek: number) => {
+    appendWorkPeriod({ dayOfWeek, ...EMPTY_WORK_PERIOD })
   }
 
   return (
@@ -91,8 +88,8 @@ const ProfessionalWorkScheduleFields = ({
 
         <CheckboxGroup
           name="workScheduleDays"
-          value={selectedDays}
-          onValueChange={onChangeSelectedDays}
+          value={selectedWorkDays}
+          onValueChange={handleSelectedWorkDaysChange}
         >
           <Fieldset.Content
             display="flex"
@@ -123,7 +120,7 @@ const ProfessionalWorkScheduleFields = ({
       >
         <Text fontWeight="medium">Horário de trabalho</Text>
 
-        {fields.length === 0 && (
+        {workScheduleFields.length === 0 && (
           <Text fontSize="sm" color="fg.muted">
             Nenhum dia selecionado.
           </Text>
@@ -132,7 +129,7 @@ const ProfessionalWorkScheduleFields = ({
         <For each={createListWeekDays()}>
           {(day) => {
             const dayOfWeek = Number(day.value)
-            const dayPeriods = fields.flatMap((field, index) =>
+            const dayPeriods = workScheduleFields.flatMap((field, index) =>
               field.dayOfWeek === dayOfWeek ? [{ field, index }] : [],
             )
 
@@ -147,83 +144,15 @@ const ProfessionalWorkScheduleFields = ({
                 flexDir={{ base: 'column', md: 'row' }}
                 align={{ base: 'stretch', md: 'flex-start' }}
               >
-                <Text
-                  fontSize="sm"
-                  w={{ md: '20' }}
-                  pt={{ md: '2' }}
-                  color={{ base: 'secondary.600', _dark: 'secondary.400' }}
-                >
-                  {weekDaysLabels[dayOfWeek]}
-                </Text>
-
-                <Stack gap="2" flex="1">
-                  {dayPeriods.map(({ field, index }) => (
-                    <HStack key={field.id} gap="2" align="flex-start">
-                      <Controller
-                        name={`workSchedule.${index}.startsAt`}
-                        control={form.control}
-                        render={({ field: startsAtField }) => (
-                          <Field
-                            invalid={!!errors.workSchedule?.[index]?.startsAt}
-                            errorText={
-                              errors.workSchedule?.[index]?.startsAt?.message
-                            }
-                          >
-                            <PatternFormat
-                              value={startsAtField.value}
-                              onValueChange={(values) =>
-                                startsAtField.onChange(values.formattedValue)
-                              }
-                              format="##:##"
-                              placeholder="00:00"
-                              mask="_"
-                              aria-label={`Início em ${weekDaysLabels[dayOfWeek]}`}
-                              customInput={InputField}
-                            />
-                          </Field>
-                        )}
-                      />
-
-                      <Controller
-                        name={`workSchedule.${index}.endsAt`}
-                        control={form.control}
-                        render={({ field: endsAtField }) => (
-                          <Field
-                            invalid={!!errors.workSchedule?.[index]?.endsAt}
-                            errorText={
-                              errors.workSchedule?.[index]?.endsAt?.message
-                            }
-                          >
-                            <PatternFormat
-                              value={endsAtField.value}
-                              onValueChange={(values) =>
-                                endsAtField.onChange(values.formattedValue)
-                              }
-                              format="##:##"
-                              placeholder="00:00"
-                              mask="_"
-                              aria-label={`Fim em ${weekDaysLabels[dayOfWeek]}`}
-                              customInput={InputField}
-                            />
-                          </Field>
-                        )}
-                      />
-
-                      <Tooltip content="Remover horário" showArrow>
-                        <IconButton
-                          size="xs"
-                          rounded="full"
-                          variant="ghost"
-                          colorPalette="red"
-                          mt="1"
-                          aria-label={`Remover horário de ${weekDaysLabels[dayOfWeek]}`}
-                          onClick={() => remove(index)}
-                        >
-                          <Icon as={Trash2} boxSize="4" />
-                        </IconButton>
-                      </Tooltip>
-                    </HStack>
-                  ))}
+                <Box spaceY="2">
+                  <Text
+                    fontSize="sm"
+                    w={{ md: '20' }}
+                    pt={{ md: '2' }}
+                    color={{ base: 'secondary.600', _dark: 'secondary.400' }}
+                  >
+                    {weekDaysLabels[dayOfWeek]}
+                  </Text>
 
                   <Button
                     type="button"
@@ -232,13 +161,89 @@ const ProfessionalWorkScheduleFields = ({
                     variant="ghost"
                     colorPalette="green"
                     alignSelf="start"
-                    disabled={hasReachedPeriodsLimit}
-                    onClick={() => addPeriodToDay(dayOfWeek)}
+                    disabled={hasReachedWorkPeriodsLimit}
+                    onClick={() => addWorkPeriodToDay(dayOfWeek)}
                   >
                     <Icon as={Plus} boxSize="4" />
                     Adicionar horário
                   </Button>
-                </Stack>
+                </Box>
+
+                <Grid
+                  templateColumns="repeat(auto-fit, minmax(min(300px, 100%), 1fr))"
+                  gap="2"
+                  flex="1"
+                >
+                  <For each={dayPeriods}>
+                    {({ field, index }) => (
+                      <HStack key={field.id} gap="2" align="flex-start">
+                        <Controller
+                          name={`workSchedule.${index}.startsAt`}
+                          control={form.control}
+                          render={({ field: startsAtField }) => (
+                            <Field
+                              invalid={!!errors.workSchedule?.[index]?.startsAt}
+                              errorText={
+                                errors.workSchedule?.[index]?.startsAt?.message
+                              }
+                            >
+                              <PatternFormat
+                                value={startsAtField.value}
+                                onValueChange={(values) =>
+                                  startsAtField.onChange(values.formattedValue)
+                                }
+                                format="##:##"
+                                placeholder="00:00"
+                                mask="_"
+                                aria-label={`Início em ${weekDaysLabels[dayOfWeek]}`}
+                                customInput={InputField}
+                              />
+                            </Field>
+                          )}
+                        />
+
+                        <Controller
+                          name={`workSchedule.${index}.endsAt`}
+                          control={form.control}
+                          render={({ field: endsAtField }) => (
+                            <Field
+                              invalid={!!errors.workSchedule?.[index]?.endsAt}
+                              errorText={
+                                errors.workSchedule?.[index]?.endsAt?.message
+                              }
+                            >
+                              <PatternFormat
+                                value={endsAtField.value}
+                                onValueChange={(values) =>
+                                  endsAtField.onChange(values.formattedValue)
+                                }
+                                format="##:##"
+                                placeholder="00:00"
+                                mask="_"
+                                aria-label={`Fim em ${weekDaysLabels[dayOfWeek]}`}
+                                customInput={InputField}
+                              />
+                            </Field>
+                          )}
+                        />
+
+                        <Tooltip content="Remover horário" showArrow>
+                          <IconButton
+                            size="xs"
+                            rounded="full"
+                            variant="ghost"
+                            colorPalette="red"
+                            mt="0.5"
+                            aria-label={`Remover horário de ${weekDaysLabels[dayOfWeek]}`}
+                            onClick={() => removeWorkPeriod(index)}
+                          >
+                            <Icon as={Trash2} boxSize="4" />
+                          </IconButton>
+                        </Tooltip>
+                      </HStack>
+                    )}
+                  </For>
+                </Grid>
               </Flex>
             )
           }}

@@ -11,17 +11,23 @@ import type {
 } from '../types/professional-page-api.type'
 
 export async function getProfessionalPageService(
-  input: ProfessionalPageApiRequest,
+  professionalPageRequest: ProfessionalPageApiRequest,
   signal?: AbortSignal,
 ): Promise<ProfessionalPageApiResponse> {
-  const { establishmentId, ...params } =
-    ProfessionalPageApiRequestSchema.parse(input)
-  const { api, validate } = httpDependencies<unknown>()
+  const validatedPageRequest = ProfessionalPageApiRequestSchema.parse(
+    professionalPageRequest,
+  )
+  const { api, validate } = httpDependencies<ProfessionalPageApiResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/admin/establishments/${establishmentId}/professionals`,
-    params,
+    url: `/admin/establishments/${validatedPageRequest.establishmentId}/professionals`,
+    params: {
+      q: validatedPageRequest.q,
+      page: validatedPageRequest.page,
+      pageSize: validatedPageRequest.pageSize,
+    },
     signal,
   })
+
   return ProfessionalPageApiResponseSchema.parse(validate.errors(response))
 }

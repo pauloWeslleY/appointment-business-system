@@ -94,6 +94,7 @@ export function SubscriptionSummary() {
           </Text>
         </div>
       </SimpleGrid>
+
       <Text fontSize="xs" color="fg.muted">
         Datas exibidas no horário de São Paulo.
       </Text>
@@ -172,6 +173,8 @@ export function SubscriptionSummary() {
               rounded="lg"
               loading={isSubscriptionActionPending}
               onClick={handleStartTrial}
+              colorPalette="primary"
+              variant="surface"
             >
               Iniciar teste gratuito
             </Button>
@@ -185,9 +188,10 @@ export function SubscriptionSummary() {
               minH="10"
               py="2"
               rounded="lg"
-              variant="outline"
               loading={isSubscriptionActionPending}
               onClick={handleOpenBillingPortal}
+              colorPalette="primary"
+              variant="surface"
             >
               Cartão, faturas e regularização
             </Button>
@@ -203,6 +207,7 @@ export function SubscriptionSummary() {
             variant="ghost"
             loading={subscriptionAccessQuery.isFetching}
             onClick={refreshSubscriptionAccess}
+            colorPalette="primary"
           >
             Atualizar estado
           </Button>

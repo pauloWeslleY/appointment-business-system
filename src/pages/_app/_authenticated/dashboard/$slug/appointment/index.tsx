@@ -20,6 +20,10 @@ export const Route = createFileRoute(
   },
   component: AppointmentPage,
   head: () => ({
-    meta: [{ title: 'Agendamentos | Agendros' }],
+    meta: [
+      {
+        title: 'Agendamentos | Agendros',
+      },
+    ],
   }),
 })

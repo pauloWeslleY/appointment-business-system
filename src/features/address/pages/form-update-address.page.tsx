@@ -72,7 +72,7 @@ const FormUpdateAddressPage = ({
               loading={isPendingUpdateAddress}
             >
               <Icon as={SaveIcon} boxSize="5" />
-              Atualizar endereço
+              Salvar
             </Button>
           </HStack>
         </Stack>

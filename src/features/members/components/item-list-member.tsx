@@ -33,12 +33,12 @@ const ItemListMember = ({
       pr="1"
       py="2.5"
       rounded="md"
-      bg={{ _light: 'slate.200/10', _dark: 'slate.800/20' }}
+      bg={{ _light: 'slate.200/10', _dark: 'secondary.800/60' }}
       borderLeft="5px solid"
       borderColor={{ _light: `${mapColor}.500`, _dark: `${mapColor}.400` }}
     >
       <Flex align="center" gap="2" flex="1" minW="0">
-        <Avatar.Root size="sm">
+        <Avatar.Root size="sm" colorPalette="primary">
           {member.user.image && (
             <Avatar.Image src={member.user.image} alt={member.user.name} />
           )}
