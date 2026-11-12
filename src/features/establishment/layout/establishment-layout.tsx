@@ -70,6 +70,7 @@ const EstablishmentLayout = ({
 
       <Sidebar.Content>
         <Sidebar.Header
+          establishment={establishment}
           select={
             <SelectEstablishmentsByOrganization
               organizationId={organizationId}
@@ -86,7 +87,10 @@ const EstablishmentLayout = ({
           )}
 
           {!isLoadingEstablishmentLayout && (
-            <CardHeaderEstablishmentDetail establishment={establishment} />
+            <CardHeaderEstablishmentDetail
+              establishment={establishment}
+              display={{ base: 'none', lg: 'block' }}
+            />
           )}
         </Sidebar.Header>
 

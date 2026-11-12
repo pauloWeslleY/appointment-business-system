@@ -35,13 +35,18 @@ const FormTelephoneEstablishment = () => {
       w="full"
       minW="0"
       gap="4"
-      p="4"
+      p={{ base: '2', md: '4' }}
       rounded="lg"
       borderWidth="1px"
       borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
       shadow={{ _light: 'shape', _dark: '2xs' }}
     >
-      <chakra.div display="flex" flexDir="column" alignItems="center" gap="4">
+      <chakra.div
+        display="flex"
+        flexDir="column"
+        alignItems="center"
+        gap={{ base: '2', md: '4' }}
+      >
         Contato
         <Button
           type="button"

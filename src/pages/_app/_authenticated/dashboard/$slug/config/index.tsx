@@ -84,15 +84,26 @@ function EstablishmentSettingsPage() {
           orientation={settingsTabsOrientation}
           variant="plain"
           gap="4"
+          minW="0"
         >
           <Tabs.List
-            flexWrap="wrap"
             {...cardSectionCss}
+            gap={{ base: '2', md: '4' }}
             bg={{ _light: 'slate.100', _dark: 'slate.950/40' }}
             border="1px solid"
             p="1.5"
             h="fit"
-            minW="200px"
+            w="full"
+            maxW="full"
+            minW={{ base: '0', lg: '200px' }}
+            mb={{ base: '2', md: '0' }}
+            overflowX={{ base: 'auto', lg: 'visible' }}
+            overflowY="hidden"
+            scrollSnapType={{ base: 'x mandatory', lg: 'none' }}
+            scrollbarWidth="none"
+            css={{
+              '&::-webkit-scrollbar': { display: 'none' },
+            }}
           >
             <For
               each={[
@@ -129,7 +140,15 @@ function EstablishmentSettingsPage() {
               ]}
             >
               {(item) => (
-                <Tabs.Trigger key={item.value} value={item.value} rounded="lg">
+                <Tabs.Trigger
+                  key={item.value}
+                  value={item.value}
+                  rounded="lg"
+                  flexShrink="0"
+                  minW="max-content"
+                  whiteSpace="nowrap"
+                  scrollSnapAlign="start"
+                >
                   <Icon as={item.icon} boxSize="4" />
                   {item.label}
                 </Tabs.Trigger>

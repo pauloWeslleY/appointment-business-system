@@ -1,4 +1,12 @@
-import { Button, defineStyle, For, Icon, Menu, Portal } from '@chakra-ui/react'
+import {
+  Button,
+  defineStyle,
+  For,
+  Icon,
+  Menu,
+  Portal,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import type { ElementType } from 'react'
 
@@ -8,6 +16,8 @@ import { type ColorMode, useColorMode } from '../ui/color-mode'
 
 const MenuTheme = () => {
   const { colorMode, setColorMode } = useColorMode()
+  const [isLargerThan800] = useMediaQuery(['(min-width: 600px)'])
+  console.log(isLargerThan800)
 
   const buttonIcon: Record<ColorMode, { label: string; icon: ElementType }> = {
     light: {
@@ -29,8 +39,8 @@ const MenuTheme = () => {
     >
       <Menu.Trigger asChild>
         <Button rounded="lg" variant="ghost" size="sm">
-          <Icon as={currentItem.icon} boxSize="4" />
-          {currentItem.label}
+          <Icon as={currentItem.icon} boxSize={isLargerThan800 ? '4' : '5'} />
+          {isLargerThan800 && currentItem.label}
         </Button>
       </Menu.Trigger>
       <Portal>
