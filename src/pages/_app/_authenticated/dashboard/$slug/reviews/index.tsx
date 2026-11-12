@@ -43,8 +43,8 @@ function ReviewsPage() {
     reviewsSummary,
     reviewsError,
     isLoadingReviews,
-    retryReviews,
     reviewsScopeKey,
+    retryReviews,
   } = useReviewPage()
 
   return (
@@ -70,7 +70,12 @@ function ReviewsPage() {
         {reviewsError && (
           <Alert.Root status="error" rounded="lg">
             <Alert.Indicator />
-            <Alert.Title>{reviewsError.message}</Alert.Title>
+            <Alert.Content>
+              <Alert.Title>{reviewsError.message}</Alert.Title>
+              <Alert.Title>
+                Não foi possível carregar as avaliações.
+              </Alert.Title>
+            </Alert.Content>
             <Button rounded="lg" onClick={retryReviews} size="sm">
               Tentar novamente
             </Button>

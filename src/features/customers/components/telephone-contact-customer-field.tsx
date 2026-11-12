@@ -12,13 +12,15 @@ import type { CustomerFormData } from '../types/customer-form-data.type'
 
 const phoneFormats: Record<
   CustomerFormData['phones'][number]['type'],
-  { mask: string; placeholder: string }
+  { label: string; mask: string; placeholder: string }
 > = {
   telephone: {
+    label: 'Telefone',
     mask: FormatMask.TELEPHONE,
     placeholder: '(00) 0000-0000',
   },
   cellphone: {
+    label: 'Celular',
     mask: FormatMask.CELLPHONE,
     placeholder: '(00) 00000-0000',
   },
@@ -52,13 +54,18 @@ const TelephoneContactCustomerField = ({
 
   return (
     <Flex gap="2" minW="0" maxW="full">
-      <Field invalid={!!phoneState.error} errorText={phoneState.error?.message}>
+      <Field
+        label={format.label}
+        optionalText="*"
+        invalid={!!phoneState.error}
+        errorText={phoneState.error?.message}
+      >
         <PatternFormat
           name={phone.name}
           onBlur={phone.onBlur}
           getInputRef={phone.ref}
           aria-label="Telefone do cliente"
-          value={phone.value ?? ''}
+          value={phone.value}
           onValueChange={(values) => phone.onChange(values.value)}
           format={format.mask}
           placeholder={format.placeholder}
@@ -67,7 +74,7 @@ const TelephoneContactCustomerField = ({
         />
       </Field>
 
-      <Flex mt="0.5" gap="2">
+      <Flex gap="2" mt="7">
         {canRemove && (
           <Tooltip content="Remover telefone" showArrow>
             <IconButton

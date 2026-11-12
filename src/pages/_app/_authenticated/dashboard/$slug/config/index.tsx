@@ -88,12 +88,12 @@ function EstablishmentSettingsPage() {
         >
           <Tabs.List
             {...cardSectionCss}
-            gap={{ base: '2', md: '4' }}
+            gap="2"
             bg={{ _light: 'slate.100', _dark: 'slate.950/40' }}
             border="1px solid"
             p="1.5"
             h="fit"
-            w="full"
+            w={{ base: 'full', lg: 'auto' }}
             maxW="full"
             minW={{ base: '0', lg: '200px' }}
             mb={{ base: '2', md: '0' }}

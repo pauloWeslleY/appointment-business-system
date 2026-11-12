@@ -35,10 +35,10 @@ const FormPhonesCustomer = () => {
       minW="0"
       flexDir="row"
       gap="4"
-      borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+      borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
       borderWidth="1px"
       rounded="lg"
-      shadow={{ base: 'shape', md: '2xs' }}
+      shadow={{ _light: 'shape', _dark: '2xs' }}
       p={{ base: '2', md: '4' }}
     >
       <chakra.div

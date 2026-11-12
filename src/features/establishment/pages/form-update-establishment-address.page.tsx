@@ -1,5 +1,6 @@
-import { Alert, Button } from '@chakra-ui/react'
+import { Alert, Button, EmptyState, Icon, VStack } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
+import { MapPinIcon } from 'lucide-react'
 
 import Loader from '@/components/loader'
 import FormUpdateAddressPage from '@/features/address/pages/form-update-address.page'
@@ -62,24 +63,27 @@ const FormUpdateEstablishmentAddressPage = ({
   return address ? (
     <FormUpdateAddressPage address={address} mt="4" />
   ) : (
-    <Alert.Root role="alert" rounded="lg" status="warning" variant="surface">
-      <Alert.Indicator />
-      <Alert.Content>
-        <Alert.Title>Endereço não encontrado</Alert.Title>
-        <Alert.Description>
-          Este estabelecimento não possui endereço cadastrado.
-        </Alert.Description>
-      </Alert.Content>
-
-      <Button asChild rounded="lg" onClick={retryAddress}>
-        <Link
-          to="/dashboard/$slug/address"
-          params={{ slug: establishmentSlug }}
-        >
-          Cadastrar endereço
-        </Link>
-      </Button>
-    </Alert.Root>
+    <EmptyState.Root>
+      <EmptyState.Content>
+        <EmptyState.Indicator>
+          <Icon as={MapPinIcon} color="orange.500" />
+        </EmptyState.Indicator>
+        <VStack textAlign="center">
+          <EmptyState.Title>Endereço não encontrado</EmptyState.Title>
+          <EmptyState.Description>
+            Este estabelecimento não possui endereço cadastrado.
+          </EmptyState.Description>
+        </VStack>
+        <Button asChild rounded="lg">
+          <Link
+            to="/dashboard/$slug/address"
+            params={{ slug: establishmentSlug }}
+          >
+            Cadastrar endereço
+          </Link>
+        </Button>
+      </EmptyState.Content>
+    </EmptyState.Root>
   )
 }
 
