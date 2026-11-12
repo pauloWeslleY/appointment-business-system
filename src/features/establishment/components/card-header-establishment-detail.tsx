@@ -1,4 +1,11 @@
-import { Badge, Box, HStack, Separator, Text } from '@chakra-ui/react'
+import {
+  Badge,
+  Box,
+  type BoxProps,
+  HStack,
+  Separator,
+  Text,
+} from '@chakra-ui/react'
 import { useMemo } from 'react'
 
 import {
@@ -7,7 +14,7 @@ import {
 } from '../types/establishment-status.type'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 
-interface CardHeaderEstablishmentDetailProps {
+interface CardHeaderEstablishmentDetailProps extends BoxProps {
   establishment: {
     name: string
     status: EstablishmentStatusType
@@ -20,6 +27,7 @@ interface CardHeaderEstablishmentDetailProps {
 
 const CardHeaderEstablishmentDetail = ({
   establishment,
+  ...rest
 }: CardHeaderEstablishmentDetailProps) => {
   const statusEstablishmentMap = mapStatusEstablishment(establishment.status)
   const establishmentOpeningStatus = useMemo<{
@@ -28,7 +36,7 @@ const CardHeaderEstablishmentDetail = ({
   }>(() => validateOpeningHoursEstablishment(establishment), [establishment])
 
   return (
-    <Box spaceY="1" mt="1" minW="0" overflowWrap="anywhere">
+    <Box spaceY="1" mt="1" minW="0" overflowWrap="anywhere" {...rest}>
       <Text as="h2" lineHeight="1">
         {establishment?.name ?? 'Carregando...'}
       </Text>

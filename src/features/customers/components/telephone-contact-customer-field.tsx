@@ -51,7 +51,7 @@ const TelephoneContactCustomerField = ({
   const format = phoneFormats[phoneType.value]
 
   return (
-    <Flex gap="2" minW="0" maxW="full" flexDir={{ base: 'column', md: 'row' }}>
+    <Flex gap="2" minW="0" maxW="full">
       <Field invalid={!!phoneState.error} errorText={phoneState.error?.message}>
         <PatternFormat
           name={phone.name}

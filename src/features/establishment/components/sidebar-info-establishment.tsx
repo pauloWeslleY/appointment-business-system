@@ -15,6 +15,7 @@ import {
   Stack,
   Stat,
   Text,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 import { Info, StarIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -49,12 +50,25 @@ const styleSidebarInfoCss = defineStyle({
   p: '2',
 })
 
+const renderSeparatorStyle = defineStyle({
+  h: { base: '0', md: '14' },
+  w: { base: '14', md: '0' },
+  borderColor: {
+    _light: 'gray.200',
+    _dark: 'secondary.500/20',
+  },
+})
+
 const SidebarInfoEstablishment = ({
   establishment,
   establishmentOpen,
 }: SidebarInfoEstablishmentProps) => {
   const [sidebarEstablishmentOpen, setSidebarEstablishmentOpen] =
     useState(false)
+  const orientation = useBreakpointValue<'vertical' | 'horizontal'>({
+    base: 'horizontal',
+    md: 'vertical',
+  })
 
   const nextAppointmentAt = formattedDateAndHours(
     establishment.nextAppointmentAt,
@@ -169,21 +183,19 @@ const SidebarInfoEstablishment = ({
                   </For>
                 </DataList.Root>
 
-                <Separator
-                  orientation="horizontal"
-                  borderColor={{
-                    _light: 'gray.200',
-                    _dark: 'secondary.500/20',
-                  }}
-                />
-
-                <HStack
+                <Stack
                   aria-label="Establishment Stats"
+                  direction={{ base: 'column', md: 'row' }}
                   align="center"
                   flexWrap="wrap"
                   css={styleSidebarInfoCss}
                 >
-                  <Stat.Root>
+                  <Stat.Root
+                    display="flex"
+                    flexDirection={{ base: 'column', md: 'row' }}
+                    justifyContent={{ base: 'center', md: 'flex-start' }}
+                    alignItems={{ base: 'center', md: 'flex-start' }}
+                  >
                     <Stat.Label>Total de serviços</Stat.Label>
                     <Stat.ValueText>
                       {establishment.totalServices}
@@ -191,15 +203,16 @@ const SidebarInfoEstablishment = ({
                   </Stat.Root>
 
                   <Separator
-                    orientation="vertical"
-                    height="14"
-                    borderColor={{
-                      _light: 'gray.200',
-                      _dark: 'secondary.500/20',
-                    }}
+                    orientation={orientation}
+                    css={renderSeparatorStyle}
                   />
 
-                  <Stat.Root>
+                  <Stat.Root
+                    display="flex"
+                    flexDirection={{ base: 'column', md: 'row' }}
+                    justifyContent={{ base: 'center', md: 'flex-start' }}
+                    alignItems={{ base: 'center', md: 'flex-start' }}
+                  >
                     <Stat.Label>Total de colaboradores</Stat.Label>
                     <Stat.ValueText>
                       {establishment.totalCollaborators}
@@ -207,15 +220,16 @@ const SidebarInfoEstablishment = ({
                   </Stat.Root>
 
                   <Separator
-                    orientation="vertical"
-                    height="14"
-                    borderColor={{
-                      _light: 'gray.200',
-                      _dark: 'secondary.500/20',
-                    }}
+                    orientation={orientation}
+                    css={renderSeparatorStyle}
                   />
 
-                  <Stat.Root>
+                  <Stat.Root
+                    display="flex"
+                    flexDirection={{ base: 'column', md: 'row' }}
+                    justifyContent={{ base: 'center', md: 'flex-start' }}
+                    alignItems={{ base: 'center', md: 'flex-start' }}
+                  >
                     <Stat.Label>Media de avaliações</Stat.Label>
                     <Stat.ValueText gap="2" alignItems="center">
                       <HStack align="center" gap="1">
@@ -233,15 +247,7 @@ const SidebarInfoEstablishment = ({
                       </Text>
                     </Stat.ValueText>
                   </Stat.Root>
-                </HStack>
-
-                <Separator
-                  orientation="horizontal"
-                  borderColor={{
-                    _light: 'gray.200',
-                    _dark: 'secondary.500/20',
-                  }}
-                />
+                </Stack>
 
                 <Flex flexDir="column" gap="4" css={styleSidebarInfoCss}>
                   <Text>Agendamentos</Text>
@@ -269,14 +275,6 @@ const SidebarInfoEstablishment = ({
                     </Stat.Root>
                   </HStack>
                 </Flex>
-
-                <Separator
-                  orientation="horizontal"
-                  borderColor={{
-                    _light: 'gray.200',
-                    _dark: 'secondary.500/20',
-                  }}
-                />
 
                 <Stack css={styleSidebarInfoCss} gap="4">
                   <Text>Horário de Funcionamento</Text>

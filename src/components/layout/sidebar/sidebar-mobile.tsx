@@ -17,6 +17,8 @@ import { useState } from 'react'
 import ButtonLogout from '@/components/button-logout'
 import CurrentPlan from '@/components/current-plain'
 import Logotipo from '@/components/logotipo'
+import CardHeaderEstablishmentDetail from '@/features/establishment/components/card-header-establishment-detail'
+import type { EstablishmentSlugApiResponse } from '@/features/establishment/types/get-establishment-api.response.type'
 import type { MenuNavigationItemProps } from '@/shared/types/menu-item.type'
 import { contentCss } from '@/theme/styles/global-styles'
 
@@ -24,12 +26,14 @@ import SidebarCurrentUser from './sidebar-current-user'
 import SidebarItem from './sidebar-item'
 
 export interface SidebarMobileProps {
+  establishment?: EstablishmentSlugApiResponse
   menu: MenuNavigationItemProps[]
   activePath: (path?: string) => boolean
   onNavigate: (path?: string) => void
 }
 
 const SidebarMobile = ({
+  establishment,
   menu,
   activePath,
   onNavigate,
@@ -84,6 +88,13 @@ const SidebarMobile = ({
               p="4"
               pb="calc(env(safe-area-inset-bottom, 0px) + 16px)"
             >
+              {establishment && (
+                <CardHeaderEstablishmentDetail
+                  establishment={establishment}
+                  mt="0"
+                />
+              )}
+
               <Box w="full" flex="1" flexShrink="0">
                 <Flex
                   as="nav"

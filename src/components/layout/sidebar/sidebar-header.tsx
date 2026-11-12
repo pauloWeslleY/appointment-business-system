@@ -1,13 +1,15 @@
 import { Flex, HStack, Separator } from '@chakra-ui/react'
 import { type PropsWithChildren, type ReactElement } from 'react'
 
-import { ColorModeButton } from '@/components/ui/color-mode'
+import type { EstablishmentSlugApiResponse } from '@/features/establishment/types/get-establishment-api.response.type'
 
 import MenuProfile from '../menu-profile'
 import MenuSettings from '../menu-settings'
+import MenuTheme from '../menu-theme'
 import SidebarMobile, { type SidebarMobileProps } from './sidebar-mobile'
 
 interface SidebarHeaderProps {
+  establishment?: EstablishmentSlugApiResponse
   navigation?: SidebarMobileProps
   select?: ReactElement
 }
@@ -16,6 +18,7 @@ const SidebarHeader = ({
   children,
   navigation,
   select,
+  establishment,
 }: PropsWithChildren<SidebarHeaderProps>) => {
   return (
     <Flex
@@ -30,7 +33,9 @@ const SidebarHeader = ({
       flexWrap="wrap"
     >
       <HStack minW="0" flex="1" pl={{ base: '0', lg: '4' }}>
-        {navigation && <SidebarMobile {...navigation} />}
+        {navigation && (
+          <SidebarMobile {...navigation} establishment={establishment} />
+        )}
         {children}
       </HStack>
 
@@ -47,7 +52,7 @@ const SidebarHeader = ({
           </>
         )}
 
-        <ColorModeButton rounded="full" variant="ghost" size="sm" />
+        <MenuTheme />
         <MenuSettings />
         <MenuProfile />
       </Flex>

@@ -78,6 +78,7 @@ const SidebarCurrentUser = ({ expanded = false }: SidebarCurrentUserProps) => {
             colorPalette="primary"
             size="xs"
             onClick={handleLogout}
+            display={{ base: 'none', lg: 'inline-flex' }}
           >
             <Icon as={LogOutIcon} boxSize="4" />
           </IconButton>
