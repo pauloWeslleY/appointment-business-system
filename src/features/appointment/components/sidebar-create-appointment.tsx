@@ -48,6 +48,8 @@ const SidebarCreateAppointment = () => {
     onSubmitCreateAppointment,
     onResetCreateAppointment,
   } = useFormCreateAppointment(() => setOpen(false), open)
+  const isCustomerCollectionEmpty = customersCollection.items.length === 0
+  const isServiceCollectionEmpty = servicesCollection.items.length === 0
 
   const hasNoAvailableHours =
     hasScheduleSelected &&
@@ -114,14 +116,14 @@ const SidebarCreateAppointment = () => {
                       required
                       label="Cliente"
                       placeholder="Selecione o cliente"
+                      disabled={isCustomerCollectionEmpty}
                       collection={customersCollection}
                       value={field.value}
                       onValueChange={field.onChange}
                       loading={isLoadingCustomers}
                       errorText={errors.customerId?.message}
                       helperText={
-                        !isLoadingCustomers &&
-                        customersCollection.items.length === 0
+                        !isLoadingCustomers && isCustomerCollectionEmpty
                           ? 'Nenhum cliente ativo cadastrado neste estabelecimento.'
                           : undefined
                       }
@@ -137,6 +139,7 @@ const SidebarCreateAppointment = () => {
                       required
                       label="Serviço"
                       placeholder="Selecione o serviço"
+                      disabled={isServiceCollectionEmpty}
                       collection={servicesCollection}
                       value={field.value}
                       onValueChange={(value) =>
@@ -145,8 +148,7 @@ const SidebarCreateAppointment = () => {
                       loading={isLoadingServices}
                       errorText={errors.serviceId?.message}
                       helperText={
-                        !isLoadingServices &&
-                        servicesCollection.items.length === 0
+                        !isLoadingServices && isServiceCollectionEmpty
                           ? 'Nenhum serviço ativo cadastrado neste estabelecimento.'
                           : undefined
                       }

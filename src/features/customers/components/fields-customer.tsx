@@ -12,7 +12,11 @@ import { Controller, FormProvider, type UseFormReturn } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import {
+  contentCss,
+  inputFieldStyles,
+  menuItemCss,
+} from '@/theme/styles/global-styles'
 
 import type { CustomerFormData } from '../types/customer-form-data.type'
 import { getTodayIsoDate } from '../utils/customer-birth-date'
@@ -35,6 +39,8 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
     <SimpleGrid columns={{ base: 1, md: 2 }} gap="4" w="full">
       <Field
         gridColumn={{ base: '1 / -1' }}
+        label="Nome do cliente"
+        optionalText="*"
         invalid={!!form.formState.errors.name}
         errorText={form.formState.errors.name?.message}
       >
@@ -47,6 +53,8 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
 
       <Field
         gridColumn={{ base: '1 / -1' }}
+        label="E-mail do cliente"
+        optionalText="*"
         invalid={!!form.formState.errors.email}
         errorText={form.formState.errors.email?.message}
       >
@@ -61,6 +69,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
         name="birthDate"
         render={({ field }) => (
           <Field
+            label="Data de nascimento"
             invalid={Boolean(form.formState.errors.birthDate)}
             errorText={form.formState.errors.birthDate?.message}
           >
@@ -114,6 +123,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
         name="gender"
         render={({ field }) => (
           <Field
+            label="Gênero"
             invalid={Boolean(form.formState.errors.gender)}
             errorText={form.formState.errors.gender?.message}
           >
@@ -141,14 +151,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
                       <Select.Item
                         key={hour.value}
                         item={hour}
-                        rounded="xl"
-                        cursor="pointer"
-                        _hover={{
-                          bg: {
-                            base: 'gray.100',
-                            _dark: 'secondary.600',
-                          },
-                        }}
+                        css={menuItemCss}
                       >
                         {hour.label}
                         <Select.ItemIndicator />
@@ -168,6 +171,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
 
       <Field
         gridColumn="1 / -1"
+        label="Observações"
         invalid={!!form.formState.errors.notes}
         errorText={form.formState.errors.notes?.message}
       >
