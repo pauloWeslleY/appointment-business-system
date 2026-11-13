@@ -1,10 +1,12 @@
-import { Avatar, Badge, Box, Flex, Text } from '@chakra-ui/react'
+import { Avatar, Badge, Box, Flex, Separator, Text } from '@chakra-ui/react'
 import { useRouteContext } from '@tanstack/react-router'
 
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 
-const CarduserProfile = () => {
+import UploadPhotoProfileUser from './upload-photo-profile-user'
+
+const CardUserProfile = () => {
   const userImage = useAccountImage()
   const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const { label: memberRole } = mapLabelMemberRole(memberContext.role)
@@ -38,8 +40,16 @@ const CarduserProfile = () => {
           {memberRole}
         </Badge>
       </Box>
+
+      <Separator
+        my="2.5"
+        w="48"
+        borderColor={{ _light: 'slate.200', _dark: 'slate.600' }}
+      />
+
+      <UploadPhotoProfileUser />
     </Flex>
   )
 }
 
-export default CarduserProfile
+export default CardUserProfile

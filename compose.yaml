@@ -1,0 +1,8 @@
+name: appointment-business-system
+
+services:
+  frontend:
+    build: .
+    ports:
+      - '127.0.0.1:8080:80'
+      - '[::1]:8080:80'
