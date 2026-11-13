@@ -27,6 +27,8 @@ export function useProfileSubscription() {
   })
 
   const snapshot = subscriptionQuery.data
+  const showInformationSummarySubscription =
+    !subscriptionQuery.isPending && !subscriptionQuery.isError && snapshot
 
   const summaryItems = useMemo(() => {
     if (!snapshot) {
@@ -81,5 +83,6 @@ export function useProfileSubscription() {
     summaryItems,
     canShowSummary,
     subscriptionQuery,
+    showInformationSummarySubscription,
   }
 }

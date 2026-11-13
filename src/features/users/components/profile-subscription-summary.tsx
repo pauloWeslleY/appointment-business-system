@@ -4,6 +4,7 @@ import {
   Card,
   DataList,
   For,
+  HStack,
   Skeleton,
   Stack,
   Text,
@@ -15,8 +16,12 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 import { useProfileSubscription } from '../hooks/use-profile-subscription'
 
 export function ProfileSubscriptionSummary() {
-  const { canShowSummary, subscriptionQuery, summaryItems, snapshot } =
-    useProfileSubscription()
+  const {
+    summaryItems,
+    canShowSummary,
+    subscriptionQuery,
+    showInformationSummarySubscription,
+  } = useProfileSubscription()
 
   if (!canShowSummary) {
     return null
@@ -51,39 +56,42 @@ export function ProfileSubscriptionSummary() {
         </Stack>
       )}
 
-      {!subscriptionQuery.isPending &&
-        !subscriptionQuery.isError &&
-        snapshot && (
-          <Stack gap="4">
-            <DataList.Root orientation="horizontal">
-              <For each={summaryItems}>
-                {(item) => (
-                  <DataList.Item key={item.label}>
-                    <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
-                    <DataList.ItemValue>
-                      {item.colorPalette && (
-                        <Badge
-                          variant="surface"
-                          colorPalette={item.colorPalette}
-                        >
-                          {item.value}
-                        </Badge>
-                      )}
-                      {!item.colorPalette && item.value}
-                    </DataList.ItemValue>
-                  </DataList.Item>
-                )}
-              </For>
-            </DataList.Root>
-            <Text fontSize="xs" color="fg.muted">
-              Datas no horário de São Paulo.
-            </Text>
-          </Stack>
-        )}
+      {showInformationSummarySubscription && (
+        <Stack gap="4">
+          <DataList.Root orientation="horizontal">
+            <For each={summaryItems}>
+              {(item) => (
+                <DataList.Item key={item.label}>
+                  <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
+                  <DataList.ItemValue>
+                    {item.colorPalette && (
+                      <Badge variant="surface" colorPalette={item.colorPalette}>
+                        {item.value}
+                      </Badge>
+                    )}
+                    {!item.colorPalette && item.value}
+                  </DataList.ItemValue>
+                </DataList.Item>
+              )}
+            </For>
+          </DataList.Root>
+          <Text fontSize="xs" color="fg.muted">
+            Datas no horário de São Paulo.
+          </Text>
+        </Stack>
+      )}
 
-      <Button asChild variant="outline" rounded="lg" mt="4">
-        <Link to="/subscription">Gerenciar assinatura</Link>
-      </Button>
+      <HStack justify="flex-end">
+        <Button
+          asChild
+          colorPalette="primary"
+          variant="surface"
+          rounded="lg"
+          mt="4"
+        >
+          <Link to="/subscription">Gerenciar assinatura</Link>
+        </Button>
+      </HStack>
     </Card.Root>
   )
 }

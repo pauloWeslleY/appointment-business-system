@@ -7,6 +7,9 @@ import {
 
 export const UpdateProfileFormSchema = z.object({
   name: z.string().trim().min(1, 'O nome é obrigatório'),
+})
+
+export const UploadPhotoProfileFormSchema = z.object({
   image: z
     .instanceof(File)
     .nullable()

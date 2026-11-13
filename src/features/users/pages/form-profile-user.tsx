@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  chakra,
-  FileUpload,
-  Icon,
-  SimpleGrid,
-} from '@chakra-ui/react'
-import { SaveIcon, Upload } from 'lucide-react'
-import { Controller } from 'react-hook-form'
+import { Alert, Button, chakra, HStack, Icon } from '@chakra-ui/react'
+import { SaveIcon } from 'lucide-react'
 
-import FileUploadCardItem from '@/components/file-upload-item'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 
@@ -17,17 +8,22 @@ import { useUpdateProfile } from '../hooks/use-update-profile'
 
 const FormProfileUser = () => {
   const {
-    control,
-    register,
-    handleSubmit,
     errors,
+    register,
     isSubmitting,
     onSubmitUpdateProfile,
+    handleSubmit,
+    handleClearErrorUpdateProfile,
   } = useUpdateProfile()
 
   return (
-    <chakra.form onSubmit={handleSubmit(onSubmitUpdateProfile)}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
+    <chakra.form
+      onSubmit={handleSubmit(onSubmitUpdateProfile)}
+      display="flex"
+      flexDir="column"
+      gap="4"
+    >
+      <HStack>
         <Field
           label="Nome"
           invalid={!!errors.name}
@@ -36,48 +32,31 @@ const FormProfileUser = () => {
           <InputField placeholder="Usuário" {...register('name')} />
         </Field>
 
-        <Controller
-          control={control}
-          name="image"
-          render={({ field }) => (
-            <Field label="Alterar imagem">
-              <FileUpload.Root>
-                <FileUpload.HiddenInput
-                  onChange={(event) => field.onChange(event.target?.files?.[0])}
-                />
-                <FileUpload.Trigger asChild>
-                  <Button variant="outline" size="sm" rounded="lg">
-                    <Upload /> Selecionar arquivo
-                  </Button>
-                </FileUpload.Trigger>
+        <Button
+          alignSelf="flex-end"
+          type="submit"
+          size="sm"
+          rounded="lg"
+          colorPalette="brand"
+          loading={isSubmitting}
+        >
+          <Icon as={SaveIcon} />
+          Salvar
+        </Button>
+      </HStack>
 
-                <FileUpload.ItemGroup mt="1" gap="2">
-                  <FileUpload.Context>
-                    {({ acceptedFiles }) =>
-                      acceptedFiles.map((file) => (
-                        <FileUploadCardItem key={file.name} file={file} />
-                      ))
-                    }
-                  </FileUpload.Context>
-                </FileUpload.ItemGroup>
-              </FileUpload.Root>
-            </Field>
-          )}
-        />
+      {errors.name && (
+        <Alert.Root status="error" variant="subtle" rounded="lg">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>{errors.name.message}</Alert.Title>
+          </Alert.Content>
 
-        <Box gridColumn={{ base: 'span 1', md: 'span 2' }} placeSelf="end">
-          <Button
-            type="submit"
-            size="sm"
-            rounded="lg"
-            colorPalette="brand"
-            loading={isSubmitting}
-          >
-            <Icon as={SaveIcon} />
-            Salvar
+          <Button size="2xs" onClick={handleClearErrorUpdateProfile}>
+            Fechar
           </Button>
-        </Box>
-      </SimpleGrid>
+        </Alert.Root>
+      )}
     </chakra.form>
   )
 }

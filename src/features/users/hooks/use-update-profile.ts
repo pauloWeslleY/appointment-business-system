@@ -6,10 +6,6 @@ import { toaster } from '@/components/ui/toaster'
 import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { memberQueryKey } from '@/features/members/queries/member.query-key'
 import { authClient } from '@/lib/auth'
-import {
-  type UploadFileResponse,
-  uploadFileToR2,
-} from '@/shared/services/storage/upload.service'
 
 import { UpdateProfileFormSchema } from '../schemas/update-profile-form.schema'
 import type { UpdateProfileFormType } from '../types/update-profile-form.type'
@@ -19,17 +15,21 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient()
   const {
     reset,
-    control,
     register,
+    setError,
+    clearErrors,
     handleSubmit,
     formState: { errors, isDirty, isSubmitting },
   } = useForm<UpdateProfileFormType>({
     resolver: zodResolver(UpdateProfileFormSchema),
     defaultValues: {
       name: session?.user?.name ?? '',
-      image: null,
     },
   })
+
+  function handleClearErrorUpdateProfile() {
+    clearErrors()
+  }
 
   const onSubmitUpdateProfile = async (data: UpdateProfileFormType) => {
     if (!isDirty) {
@@ -39,28 +39,14 @@ export function useUpdateProfile() {
 
     if (!session?.user?.id) {
       toaster.error({
-        title: 'Usuário não autenticado. Por favor, faça login novamente.',
+        title: 'Usuário não autenticado.',
+        description: 'Por favor, faça login novamente.',
       })
-
       return
     }
 
-    let urlImage: UploadFileResponse | undefined
-
-    if (data.image) {
-      urlImage = await uploadFileToR2({
-        id: session.user.id,
-        file: data.image,
-        folder: 'users',
-      })
-    }
-
     try {
-      await authClient.updateUser({
-        name: data.name,
-        image: urlImage?.key ?? null,
-      })
-
+      await authClient.updateUser({ name: data.name })
       await refreshSession()
       await queryClient.invalidateQueries({
         queryKey: memberQueryKey.context(),
@@ -72,15 +58,19 @@ export function useUpdateProfile() {
         title: 'Erro ao atualizar perfil.',
         description: (error as Error).message,
       })
+      setError('name', {
+        type: 'manual',
+        message: (error as Error).message || 'Erro ao atualizar perfil.',
+      })
     }
   }
 
   return {
-    control,
     errors,
     register,
-    handleSubmit,
     isSubmitting,
     onSubmitUpdateProfile,
+    handleSubmit,
+    handleClearErrorUpdateProfile,
   }
 }
