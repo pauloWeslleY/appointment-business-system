@@ -18,6 +18,8 @@ export function useFormUpdateCustomer(customer: CustomerApiResponse) {
     resolver: zodResolver(CustomerFormSchema),
     defaultValues: toCustomerFormValues(customer),
   })
+  const { isDirty: hasCustomerChanges, dirtyFields: changedCustomerFields } =
+    formUpdateCustomer.formState
 
   const { mutateAsync: updateCustomer, isPending: isPendingUpdateCustomer } =
     useMutation(customersMutationOptions.update())
@@ -27,7 +29,7 @@ export function useFormUpdateCustomer(customer: CustomerApiResponse) {
         return
       }
 
-      if (!formUpdateCustomer.formState.isDirty) {
+      if (!hasCustomerChanges) {
         toaster.warning({ title: 'Nenhuma alteração foi feita' })
         return
       }
@@ -35,7 +37,7 @@ export function useFormUpdateCustomer(customer: CustomerApiResponse) {
       try {
         const updatedCustomer = await updateCustomer({
           ...toCustomerRequestValues(data),
-          gender: formUpdateCustomer.formState.dirtyFields.gender
+          gender: changedCustomerFields.gender
             ? (data.gender?.[0] ?? null)
             : customer.gender,
           id: customer.id,

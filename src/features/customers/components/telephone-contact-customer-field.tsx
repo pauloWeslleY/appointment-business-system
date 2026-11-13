@@ -53,7 +53,7 @@ const TelephoneContactCustomerField = ({
   const format = phoneFormats[phoneType.value]
 
   return (
-    <Flex gap="2" minW="0" maxW="full">
+    <Flex wrap="wrap" gap="2" minW="0" maxW="full">
       <Field
         label={format.label}
         optionalText="*"

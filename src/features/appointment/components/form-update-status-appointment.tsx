@@ -1,6 +1,6 @@
-import { Input } from '@chakra-ui/react'
-import { Box, Button, Flex, HStack, RadioCard } from '@chakra-ui/react'
+import { Button, Flex, HStack, RadioCard } from '@chakra-ui/react'
 
+import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { cardCss } from '@/theme/styles/global-styles'
 
@@ -49,7 +49,7 @@ const FormUpdateStatusAppointment = ({
       align={{ base: 'stretch', md: 'center' }}
       flexDir={{ base: 'column', md: 'row' }}
       flexWrap="wrap"
-      gap="6"
+      gap="4"
       css={cardCss}
       shadow="none"
       borderWidth="1px"
@@ -89,11 +89,15 @@ const FormUpdateStatusAppointment = ({
           invalid={Boolean(form.formState.errors.cancellationReason)}
           errorText={form.formState.errors.cancellationReason?.message}
         >
-          <Input {...form.register('cancellationReason')} maxLength={500} />
+          <InputField
+            {...form.register('cancellationReason')}
+            placeholder="Informe o motivo do cancelamento"
+            maxLength={500}
+          />
         </Field>
       )}
 
-      <Box mt="6">
+      <Flex w="full" justify="flex-end">
         <Button
           size="xs"
           rounded="lg"
@@ -104,7 +108,7 @@ const FormUpdateStatusAppointment = ({
         >
           Atualizar status
         </Button>
-      </Box>
+      </Flex>
     </Flex>
   )
 }
