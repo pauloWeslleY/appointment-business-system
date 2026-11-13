@@ -24,7 +24,7 @@ const SidebarUpdateCustomer = ({
   } = useFormUpdateCustomer(customer)
 
   return (
-    <Drawer.Root size="lg" open={open} onOpenChange={(e) => onOpen(e.open)}>
+    <Drawer.Root size="md" open={open} onOpenChange={(e) => onOpen(e.open)}>
       <Portal>
         <Drawer.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Drawer.Positioner>
