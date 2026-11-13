@@ -35,6 +35,9 @@ const FormUpdateStatusAppointment = ({
     form,
   } = useUpdateStatusAppointmentForm(appointment)
 
+  const disabledUpdateStatusCancelled =
+    appointment.status !== AppointmentStatus.CANCELLED
+
   const loadRadioOptionsStatusAppointment = loadSelectStatusAppointment.filter(
     (item) =>
       item.value === appointment.status ||
@@ -59,6 +62,7 @@ const FormUpdateStatusAppointment = ({
         value={statusAppointmentValue[0]}
         colorPalette={getBadgeAppointmentColor[statusAppointmentValue[0]]}
         onValueChange={(e) => onChangeSelectStatusAppointment(e.value)}
+        disabled={!disabledUpdateStatusCancelled}
       >
         <RadioCard.Label>Selecione o status</RadioCard.Label>
         <HStack align="stretch" flexWrap="wrap">
@@ -88,6 +92,7 @@ const FormUpdateStatusAppointment = ({
           label="Motivo do cancelamento"
           invalid={Boolean(form.formState.errors.cancellationReason)}
           errorText={form.formState.errors.cancellationReason?.message}
+          disabled={!disabledUpdateStatusCancelled}
         >
           <InputField
             {...form.register('cancellationReason')}
@@ -97,18 +102,20 @@ const FormUpdateStatusAppointment = ({
         </Field>
       )}
 
-      <Flex w="full" justify="flex-end">
-        <Button
-          size="xs"
-          rounded="lg"
-          colorPalette="primary"
-          variant="subtle"
-          loading={isPendingUpdateStatusAppointment}
-          onClick={onSubmitUpdateStatusAppointment}
-        >
-          Atualizar status
-        </Button>
-      </Flex>
+      {disabledUpdateStatusCancelled && (
+        <Flex w="full" justify="flex-end">
+          <Button
+            size="xs"
+            rounded="lg"
+            colorPalette="primary"
+            variant="subtle"
+            loading={isPendingUpdateStatusAppointment}
+            onClick={onSubmitUpdateStatusAppointment}
+          >
+            Atualizar status
+          </Button>
+        </Flex>
+      )}
     </Flex>
   )
 }
