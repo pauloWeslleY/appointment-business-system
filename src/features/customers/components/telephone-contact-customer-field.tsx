@@ -74,7 +74,7 @@ const TelephoneContactCustomerField = ({
         />
       </Field>
 
-      <Flex gap="2" mt="7">
+      <Flex gap="2">
         {canRemove && (
           <Tooltip content="Remover telefone" showArrow>
             <IconButton
