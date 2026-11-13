@@ -8,14 +8,14 @@ import { toaster } from '@/components/ui/toaster'
 import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { establishmentAvailabilityQueryOptions } from '@/features/establishment/queries/establishment.query-options'
 
-import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
-import { UpdateAppointmentSchema } from '../schemas/update-appointment-form.schema'
-import type { AppointmentModel } from '../types/appointment.model'
-import type { UpdateAppointmentFormType } from '../types/appointment-form.type'
 import {
   appointmentDateTime,
   appointmentLocalDate,
 } from '../helpers/appointment-date'
+import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
+import { UpdateAppointmentSchema } from '../schemas/update-appointment-form.schema'
+import type { AppointmentModel } from '../types/appointment.model'
+import type { UpdateAppointmentFormType } from '../types/appointment-form.type'
 
 export function useUpdateAppointmentForm(appointment: AppointmentModel) {
   const { data: session } = useAppSession()
@@ -32,13 +32,23 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
       notes: appointment.notes,
     },
   })
+  const { isDirty: hasAppointmentChanges } = form.formState
 
-  const date = useWatch({ control: form.control, name: 'date' })
-  const selectedDate =
-    /^\d{4}-\d{2}-\d{2}$/.test(date) && dayjs(date).isValid()
-      ? appointmentDateTime(date, '00:00', appointment.timezone)
-      : ''
-  const selectedTime = useQuery(
+  const date = useWatch({
+    control: form.control,
+    name: 'date',
+  })
+
+  const validadeDate = /^\d{4}-\d{2}-\d{2}$/.test(date) && dayjs(date).isValid()
+  const selectedDate = validadeDate
+    ? appointmentDateTime(date, '00:00', appointment.timezone)
+    : ''
+
+  const {
+    data: selectedTime,
+    error: errorAvailableHours,
+    isLoading: isLoadingAvailableHours,
+  } = useQuery(
     establishmentAvailabilityQueryOptions({
       establishmentId: appointment.establishmentId,
       serviceId: appointment.serviceId,
@@ -47,22 +57,23 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
   )
 
   const mutationOptions = appointmentMutationOptions.update()
-  const mutation = useMutation({
-    ...mutationOptions,
-    onSuccess: async (...args) => {
-      await mutationOptions.onSuccess?.(...args)
-      toaster.success({ title: 'Agendamento atualizado com sucesso.' })
-    },
-    onError: (error) => {
-      toaster.error({
-        title: 'Erro ao atualizar agendamento.',
-        description: error.message,
-      })
-    },
-  })
+  const { mutate: updateAppointment, isPending: isPendingUpdateAppointment } =
+    useMutation({
+      ...mutationOptions,
+      onSuccess: async (...args) => {
+        await mutationOptions.onSuccess?.(...args)
+        toaster.success({ title: 'Agendamento atualizado com sucesso.' })
+      },
+      onError: (error) => {
+        toaster.error({
+          title: 'Erro ao atualizar agendamento.',
+          description: error.message,
+        })
+      },
+    })
 
   const onSubmitUpdateAppointment = form.handleSubmit((data) => {
-    if (mutation.isPending) {
+    if (isPendingUpdateAppointment) {
       return
     }
 
@@ -74,12 +85,12 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
       return
     }
 
-    if (!form.formState.isDirty) {
+    if (!hasAppointmentChanges) {
       toaster.warning({ title: 'Nenhuma alteração foi feita no formulário.' })
       return
     }
 
-    mutation.mutate({
+    updateAppointment({
       id: appointment.id,
       establishmentId: appointment.establishmentId,
       organizationId: appointment.organizationId,
@@ -88,15 +99,19 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
     })
   })
 
+  const errors = form.formState.errors
+  const isPendingAppointment = isPendingUpdateAppointment
+  const loadSelectTimeAppointment = createListCollection({
+    items: selectedTime ?? [],
+  })
+
   return {
     form,
-    errors: form.formState.errors,
-    isPendingAppointment: mutation.isPending,
-    loadSelectTimeAppointment: createListCollection({
-      items: selectedTime.data ?? [],
-    }),
+    errors,
+    isPendingAppointment,
+    loadSelectTimeAppointment,
     onSubmitUpdateAppointment,
-    errorAvailableHours: selectedTime.error,
-    isLoadingAvailableHours: selectedTime.isFetching,
+    errorAvailableHours,
+    isLoadingAvailableHours,
   }
 }

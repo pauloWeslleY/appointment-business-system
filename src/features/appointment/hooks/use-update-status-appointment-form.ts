@@ -17,6 +17,7 @@ export function useUpdateStatusAppointmentForm(appointment: AppointmentModel) {
     resolver: zodResolver(UpdateStatusAppointmentSchema),
     values: { status: [appointment.status], cancellationReason: '' },
   })
+  const { isDirty: hasAppointmentStatusChanges } = form.formState
 
   const statusAppointmentValue = useWatch({
     control: form.control,
@@ -61,7 +62,7 @@ export function useUpdateStatusAppointmentForm(appointment: AppointmentModel) {
       return
     }
 
-    if (!form.formState.isDirty) {
+    if (!hasAppointmentStatusChanges) {
       toaster.warning({ title: 'Nenhuma alteração foi feita.' })
       return
     }

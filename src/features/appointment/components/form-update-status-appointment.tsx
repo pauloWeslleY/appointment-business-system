@@ -1,6 +1,6 @@
-import { Input } from '@chakra-ui/react'
-import { Box, Button, Flex, HStack, RadioCard } from '@chakra-ui/react'
+import { Button, Flex, HStack, RadioCard } from '@chakra-ui/react'
 
+import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { cardCss } from '@/theme/styles/global-styles'
 
@@ -35,6 +35,9 @@ const FormUpdateStatusAppointment = ({
     form,
   } = useUpdateStatusAppointmentForm(appointment)
 
+  const disabledUpdateStatusCancelled =
+    appointment.status !== AppointmentStatus.CANCELLED
+
   const loadRadioOptionsStatusAppointment = loadSelectStatusAppointment.filter(
     (item) =>
       item.value === appointment.status ||
@@ -49,7 +52,7 @@ const FormUpdateStatusAppointment = ({
       align={{ base: 'stretch', md: 'center' }}
       flexDir={{ base: 'column', md: 'row' }}
       flexWrap="wrap"
-      gap="6"
+      gap="4"
       css={cardCss}
       shadow="none"
       borderWidth="1px"
@@ -59,6 +62,7 @@ const FormUpdateStatusAppointment = ({
         value={statusAppointmentValue[0]}
         colorPalette={getBadgeAppointmentColor[statusAppointmentValue[0]]}
         onValueChange={(e) => onChangeSelectStatusAppointment(e.value)}
+        disabled={!disabledUpdateStatusCancelled}
       >
         <RadioCard.Label>Selecione o status</RadioCard.Label>
         <HStack align="stretch" flexWrap="wrap">
@@ -88,23 +92,30 @@ const FormUpdateStatusAppointment = ({
           label="Motivo do cancelamento"
           invalid={Boolean(form.formState.errors.cancellationReason)}
           errorText={form.formState.errors.cancellationReason?.message}
+          disabled={!disabledUpdateStatusCancelled}
         >
-          <Input {...form.register('cancellationReason')} maxLength={500} />
+          <InputField
+            {...form.register('cancellationReason')}
+            placeholder="Informe o motivo do cancelamento"
+            maxLength={500}
+          />
         </Field>
       )}
 
-      <Box mt="6">
-        <Button
-          size="xs"
-          rounded="lg"
-          colorPalette="primary"
-          variant="subtle"
-          loading={isPendingUpdateStatusAppointment}
-          onClick={onSubmitUpdateStatusAppointment}
-        >
-          Atualizar status
-        </Button>
-      </Box>
+      {disabledUpdateStatusCancelled && (
+        <Flex w="full" justify="flex-end">
+          <Button
+            size="xs"
+            rounded="lg"
+            colorPalette="primary"
+            variant="subtle"
+            loading={isPendingUpdateStatusAppointment}
+            onClick={onSubmitUpdateStatusAppointment}
+          >
+            Atualizar status
+          </Button>
+        </Flex>
+      )}
     </Flex>
   )
 }
