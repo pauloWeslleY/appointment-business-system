@@ -10,7 +10,12 @@
     "preview": "vite preview",
     "routes:generate": "tsr generate",
     "routes:watch": "tsr watch",
-    "theme:build": "chakra typegen ./src/theme/theme.ts"
+    "theme:build": "chakra typegen ./src/theme/theme.ts",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f frontend",
+    "docker:restart": "docker compose restart frontend"
   },
   "dependencies": {
     "@chakra-ui/charts": "^3.37.0",
