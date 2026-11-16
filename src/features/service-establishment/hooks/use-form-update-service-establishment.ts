@@ -21,10 +21,11 @@ const dashboardSlugRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 export function useFormUpdateServiceEstablishment(
   serviceEstablishment: ServiceEstablishmentDetailsModel,
 ) {
-  const router = useRouter()
+  const { data: session } = useAppSession()
   const { establishment, organizationProfile } =
     dashboardSlugRoute.useLoaderData()
-  const { data: session } = useAppSession()
+  const navigate = dashboardSlugRoute.useNavigate()
+  const router = useRouter()
   const mutationOptions = serviceEstablishmentMutationOptions.update()
   const {
     mutate: updateServiceEstablishment,
@@ -35,6 +36,10 @@ export function useFormUpdateServiceEstablishment(
       await mutationOptions.onSuccess?.(...args)
       await router.invalidate()
       toaster.success({ title: 'Serviço atualizado com sucesso' })
+      navigate({
+        to: '/dashboard/$slug/services',
+        params: { slug: establishment.slug },
+      })
     },
     onError: (error) => {
       toaster.error({
@@ -109,7 +114,9 @@ export function useFormUpdateServiceEstablishment(
         servicePriceInCents: Math.round(data.servicePriceInCents * 100),
       },
       {
-        onSuccess: () => reset({ ...data, image: null }),
+        onSuccess: () => {
+          reset({ ...data, image: null })
+        },
       },
     )
   }

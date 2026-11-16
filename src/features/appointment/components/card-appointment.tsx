@@ -16,9 +16,9 @@ import { useMemo } from 'react'
 import { cardCss } from '@/theme/styles/global-styles'
 
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
+import { appointmentLocalDate } from '../helpers/appointment-date'
 import { appointmentStatusLabel } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
-import { appointmentLocalDate } from '../helpers/appointment-date'
 import MenuCardAppointment from './menu-card-appointment'
 
 dayjs.locale('pt-br')
@@ -31,14 +31,17 @@ const establishmentPage = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 const CardAppointment = ({ appointment }: CardAppointmentProps) => {
   const { establishment } = establishmentPage.useLoaderData()
-
-  const formatAppointmentDate = useMemo(() => {
-    const formattedDate = appointmentLocalDate(
+  const formatAppointmentDate = useMemo<string>(() => {
+    const appointmentDate = appointmentLocalDate(
       appointment.startsAt,
       establishment.timezone,
-    ).format('ddd, DD [de] MMMM [de] YYYY [às] HH:mm')
-
-    return formattedDate.at(0)?.toUpperCase() + formattedDate.slice(1)
+    )
+    const formattedDateLocalePtBR = appointmentDate.locale('pt-br')
+    const formattedDate = formattedDateLocalePtBR.format(
+      'ddd, DD [de] MMMM [de] YYYY [às] HH:mm',
+    )
+    const firstLetterAppointment = formattedDate.at(0)?.toUpperCase()
+    return `${firstLetterAppointment}${formattedDate.slice(1)}`
   }, [appointment.startsAt, establishment.timezone])
 
   return (
@@ -77,7 +80,7 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
           },
         }}
       >
-        <h3>{appointment.serviceNameSnapshot}</h3>
+        <h3>{appointment.serviceName}</h3>
 
         <MenuCardAppointment appointment={appointment} />
       </Card.Header>
@@ -125,7 +128,7 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
           </Icon>
 
           <Text letterSpacing="wider" fontWeight="normal" fontSize="sm">
-            {appointment.customerNameSnapshot}
+            {appointment.customerName}
           </Text>
         </Flex>
       </Card.Body>

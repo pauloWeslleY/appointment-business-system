@@ -13,9 +13,9 @@ import React from 'react'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
+import { appointmentLocalDate } from '../helpers/appointment-date'
 import type { AppointmentModel } from '../types/appointment.model'
 import { appointmentStatusLabel } from '../types/appointment-status.type'
-import { appointmentLocalDate } from '../helpers/appointment-date'
 
 interface DialogInfoAppointmentProps {
   appointment: AppointmentModel

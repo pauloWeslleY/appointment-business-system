@@ -38,7 +38,6 @@ const ListAppointmentEstablishment = ({
       shallow: true,
     },
   )
-
   const search = useSearch({
     from: '/_app/_authenticated/dashboard/$slug/appointment/',
   })

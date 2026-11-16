@@ -8,7 +8,6 @@ import {
   parseDate,
   Portal,
   Select,
-  Separator,
   Stack,
 } from '@chakra-ui/react'
 import { Calendar, SaveIcon } from 'lucide-react'
@@ -215,11 +214,6 @@ const DialogEditAppointment = ({
                   Salvar
                 </Button>
               </Stack>
-
-              <Separator
-                mx="2"
-                borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-              />
 
               <FormUpdateStatusAppointment appointment={appointment} />
             </Dialog.Body>

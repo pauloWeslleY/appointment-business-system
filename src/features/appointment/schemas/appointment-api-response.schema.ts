@@ -43,8 +43,9 @@ export const AppointmentListApiResponseSchema = z.object({
       startsAt: true,
       endsAt: true,
       status: true,
-      serviceNameSnapshot: true,
-      customerNameSnapshot: true,
+    }).extend({
+      serviceName: z.string(),
+      customerName: z.string(),
     }),
   ),
 })
