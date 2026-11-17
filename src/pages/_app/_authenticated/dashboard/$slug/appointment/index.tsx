@@ -12,7 +12,7 @@ import {
 import { createFileRoute } from '@tanstack/react-router'
 import { CalendarIcon } from 'lucide-react'
 
-import FilterDatePicker from '@/components/filter-date-picker'
+import FilterDatePicker from '@/components/layout/filter-date-picker/filter-date-picker'
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterAppointmentsService from '@/features/appointment/components/filter-appointments-service'
@@ -38,7 +38,6 @@ export const Route = createFileRoute(
       resource: RESOURCES.APPOINTMENT,
       action: PERMISSION_ACTIONS.READ,
     })
-
     validationAppointmentRouteHome(search, params.slug)
   },
   validateSearch: AppointmentRouteSearchSchema,
@@ -108,7 +107,7 @@ function AppointmentPage() {
                   key={item}
                   height="60px"
                   rounded="lg"
-                  bg={{ base: 'gray.200', _dark: 'gray.700/70' }}
+                  bg={{ _light: 'gray.200', _dark: 'gray.700/70' }}
                 />
               )}
             </For>

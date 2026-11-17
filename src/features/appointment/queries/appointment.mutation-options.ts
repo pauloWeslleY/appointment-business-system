@@ -30,6 +30,7 @@ export const appointmentMutationOptions = {
         await invalidateAppointments(context.client)
       },
     }),
+
   update: () =>
     mutationOptions({
       mutationKey: ['appointment', 'update'],
@@ -38,6 +39,7 @@ export const appointmentMutationOptions = {
         await invalidateAppointments(context.client)
       },
     }),
+
   status: () =>
     mutationOptions({
       mutationKey: ['appointment', 'status'],

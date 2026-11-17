@@ -101,14 +101,17 @@ const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {
           )}
 
           {!establishmentBannerUrl && (
-            <Box
+            <Flex
+              align="center"
+              justify="center"
+              rounded="lg"
+              h="20"
+              w="28"
               p="2"
               bg={{ _light: 'gray.200', _dark: 'gray.800' }}
-              rounded="full"
-              w="fit"
             >
-              <Icon as={FileImage} boxSize="6" />
-            </Box>
+              <Icon as={FileImage} boxSize="10" />
+            </Flex>
           )}
         </Box>
 

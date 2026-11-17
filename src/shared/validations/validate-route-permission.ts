@@ -6,14 +6,6 @@ import {
   type RequiredPermission,
 } from '../helpers/has-permission'
 
-const ACCESS_DENIED_MESSAGE = 'Você não tem permissão para acessar esta página.'
-
-/**
- * Executada no `beforeLoad` das rotas: interrompe a navegação antes dos loaders
- * e renderiza o AccessDenied pelo componente de erro da rota.
- * A autorização efetiva continua no backend; aqui apenas evitamos telas
- * e requisições que o membro não pode usar.
- */
 export function validateRoutePermission(
   memberContext: Pick<GetMeContextResponse, 'permissions'>,
   required: RequiredPermission,
@@ -21,6 +13,8 @@ export function validateRoutePermission(
   const isAllowed = hasPermission(memberContext.permissions, required)
 
   if (!isAllowed) {
-    throw new AccessDeniedError(ACCESS_DENIED_MESSAGE)
+    throw new AccessDeniedError(
+      'Você não tem permissão para acessar esta página.',
+    )
   }
 }

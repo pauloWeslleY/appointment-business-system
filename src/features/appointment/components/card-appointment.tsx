@@ -104,6 +104,8 @@ const CardAppointment = ({ appointment }: CardAppointmentProps) => {
             </Text>
 
             <Badge
+              rounded="lg"
+              variant="outline"
               colorPalette={getBadgeAppointmentColor[appointment.status]}
               w="fit-content"
             >

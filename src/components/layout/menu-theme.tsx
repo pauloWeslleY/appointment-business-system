@@ -17,17 +17,10 @@ import { type ColorMode, useColorMode } from '../ui/color-mode'
 const MenuTheme = () => {
   const { colorMode, setColorMode } = useColorMode()
   const [isLargerThan800] = useMediaQuery(['(min-width: 600px)'])
-  console.log(isLargerThan800)
 
   const buttonIcon: Record<ColorMode, { label: string; icon: ElementType }> = {
-    light: {
-      label: 'Claro',
-      icon: SunIcon,
-    },
-    dark: {
-      label: 'Escuro',
-      icon: MoonIcon,
-    },
+    light: { label: 'Claro', icon: SunIcon },
+    dark: { label: 'Escuro', icon: MoonIcon },
   } as const
 
   const currentItem = buttonIcon[colorMode]
@@ -48,16 +41,8 @@ const MenuTheme = () => {
           <Menu.Content css={contentCss} shadow="md" spaceY="1.5">
             <For
               each={[
-                {
-                  label: 'Claro',
-                  value: 'light',
-                  icon: SunIcon,
-                },
-                {
-                  label: 'Escuro',
-                  value: 'dark',
-                  icon: MoonIcon,
-                },
+                { label: 'Claro', value: 'light', icon: SunIcon },
+                { label: 'Escuro', value: 'dark', icon: MoonIcon },
               ]}
             >
               {(item) => (

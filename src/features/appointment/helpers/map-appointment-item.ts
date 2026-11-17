@@ -2,7 +2,7 @@ import type { AppointmentListApiResponse } from '../types/appointment-list-api-r
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import type { GetAppointmentByEstablishmentQueryParams } from '../types/get-appointment-by-establishment-query-params'
 
-export function mapAppointmentListItem(
+export const mapAppointmentListItem = (
   {
     serviceName,
     customerName,
@@ -15,12 +15,10 @@ export function mapAppointmentListItem(
     GetAppointmentByEstablishmentQueryParams,
     'establishmentId' | 'organizationId'
   >,
-): GetAppointmentByEstablishmentModel {
-  return {
-    ...appointment,
-    serviceName: serviceName,
-    customerName: customerName,
-    establishmentId,
-    organizationId,
-  }
-}
+): GetAppointmentByEstablishmentModel => ({
+  ...appointment,
+  serviceName,
+  customerName,
+  establishmentId,
+  organizationId,
+})

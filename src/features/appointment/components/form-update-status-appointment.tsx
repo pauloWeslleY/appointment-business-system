@@ -7,45 +7,29 @@ import { cardCss } from '@/theme/styles/global-styles'
 import { getBadgeAppointmentColor } from '../constants/get-badge-appointment-color'
 import { useUpdateStatusAppointmentForm } from '../hooks/use-update-status-appointment-form'
 import type { AppointmentModel } from '../types/appointment.model'
-import { AppointmentStatus } from '../types/appointment-status.type'
-import { loadSelectStatusAppointment } from '../utils/select-appointment'
 
 interface FormUpdateStatusAppointmentProps {
   appointment: AppointmentModel
 }
 
-const optionsStatusAppointmentConfirmedCancelled = new Set<string>([
-  AppointmentStatus.CONFIRMED,
-  AppointmentStatus.CANCELLED,
-])
-
-const optionsStatusAppointmentConcludedCancelled = new Set<string>([
-  AppointmentStatus.CONCLUDED,
-  AppointmentStatus.CANCELLED,
-])
-
 const FormUpdateStatusAppointment = ({
   appointment,
 }: FormUpdateStatusAppointmentProps) => {
   const {
+    errors,
+    register,
     statusAppointmentValue,
+    showInputCancellationReason,
+    isPendingUpdateStatusAppointment,
+    disabledUpdateStatusCancelled,
+    loadRadioOptionsStatusAppointment,
     onChangeSelectStatusAppointment,
     onSubmitUpdateStatusAppointment,
-    isPendingUpdateStatusAppointment,
-    form,
   } = useUpdateStatusAppointmentForm(appointment)
 
-  const disabledUpdateStatusCancelled =
-    appointment.status !== AppointmentStatus.CANCELLED
-
-  const loadRadioOptionsStatusAppointment = loadSelectStatusAppointment.filter(
-    (item) =>
-      item.value === appointment.status ||
-      (appointment.status === AppointmentStatus.PENDING &&
-        optionsStatusAppointmentConfirmedCancelled.has(item.value)) ||
-      (appointment.status === AppointmentStatus.CONFIRMED &&
-        optionsStatusAppointmentConcludedCancelled.has(item.value)),
-  )
+  if (disabledUpdateStatusCancelled) {
+    return null
+  }
 
   return (
     <Flex
@@ -62,7 +46,6 @@ const FormUpdateStatusAppointment = ({
         value={statusAppointmentValue[0]}
         colorPalette={getBadgeAppointmentColor[statusAppointmentValue[0]]}
         onValueChange={(e) => onChangeSelectStatusAppointment(e.value)}
-        disabled={!disabledUpdateStatusCancelled}
       >
         <RadioCard.Label>Selecione o status</RadioCard.Label>
         <HStack align="stretch" flexWrap="wrap">
@@ -87,35 +70,33 @@ const FormUpdateStatusAppointment = ({
         </HStack>
       </RadioCard.Root>
 
-      {statusAppointmentValue[0] === 'cancelled' && (
+      {showInputCancellationReason && (
         <Field
           label="Motivo do cancelamento"
-          invalid={Boolean(form.formState.errors.cancellationReason)}
-          errorText={form.formState.errors.cancellationReason?.message}
+          invalid={Boolean(errors.cancellationReason)}
+          errorText={errors.cancellationReason?.message}
           disabled={!disabledUpdateStatusCancelled}
         >
           <InputField
-            {...form.register('cancellationReason')}
+            {...register('cancellationReason')}
             placeholder="Informe o motivo do cancelamento"
             maxLength={500}
           />
         </Field>
       )}
 
-      {disabledUpdateStatusCancelled && (
-        <Flex w="full" justify="flex-end">
-          <Button
-            size="xs"
-            rounded="lg"
-            colorPalette="primary"
-            variant="subtle"
-            loading={isPendingUpdateStatusAppointment}
-            onClick={onSubmitUpdateStatusAppointment}
-          >
-            Atualizar status
-          </Button>
-        </Flex>
-      )}
+      <Flex w="full" justify="flex-end">
+        <Button
+          size="xs"
+          rounded="lg"
+          colorPalette="primary"
+          variant="subtle"
+          loading={isPendingUpdateStatusAppointment}
+          onClick={onSubmitUpdateStatusAppointment}
+        >
+          Atualizar status
+        </Button>
+      </Flex>
     </Flex>
   )
 }

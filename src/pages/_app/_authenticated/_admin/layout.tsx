@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-import NotFoundPage from '@/components/layout/not-found'
+import NotFoundPage from '@/components/layout/pages/not-found-page'
 import LoaderFull from '@/components/loader-full'
 import { useMenuSidebarAuthenticated } from '@/features/authentication/hooks/use-menu-authenticated'
 import SideBarAuthenticatedLayout from '@/features/authentication/layout/sidebar-authenticated-layout'

@@ -33,9 +33,7 @@ const DialogConnectGoogleCalendar = ({
       <Portal>
         <Dialog.Backdrop backdropFilter="blur(4px)" bg="blackAlpha.300" />
         <Dialog.Positioner>
-          <Dialog.Content
-            {...contentCss}
-          >
+          <Dialog.Content {...contentCss}>
             <Dialog.Header>
               <Dialog.Title>Conectar ao Google Calendar</Dialog.Title>
             </Dialog.Header>

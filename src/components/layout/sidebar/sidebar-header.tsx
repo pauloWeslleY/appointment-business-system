@@ -36,6 +36,7 @@ const SidebarHeader = ({
         {navigation && (
           <SidebarMobile {...navigation} establishment={establishment} />
         )}
+
         {children}
       </HStack>
 

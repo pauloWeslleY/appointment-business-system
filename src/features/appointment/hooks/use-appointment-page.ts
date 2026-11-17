@@ -10,9 +10,9 @@ import {
 import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { useDebouncedSearch } from '@/shared/hooks/use-debounced-search'
 
+import { appointmentRangeBoundary } from '../helpers/appointment-date'
 import { appointmentPageQueryOptions } from '../queries/appointment-page.query-options'
 import { AppointmentStatus } from '../types/appointment-status.type'
-import { appointmentRangeBoundary } from '../helpers/appointment-date'
 
 const pageRoute = getRouteApi(
   '/_app/_authenticated/dashboard/$slug/appointment/',
@@ -21,6 +21,8 @@ const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 
 export function useAppointmentPage() {
   const initialSearch = pageRoute.useSearch()
+  const { establishment } = dashboardRoute.useLoaderData()
+  const { data: session } = useAppSession()
   const [search] = useQueryStates({
     from: parseAsString.withDefault(initialSearch.from ?? ''),
     to: parseAsString.withDefault(initialSearch.to ?? ''),
@@ -30,8 +32,7 @@ export function useAppointmentPage() {
     service_id: parseAsString,
     status: parseAsStringEnum(Object.values(AppointmentStatus)),
   })
-  const { establishment } = dashboardRoute.useLoaderData()
-  const { data: session } = useAppSession()
+
   const debouncedAppointmentsSearch = useDebouncedSearch(search.q)
 
   const {

@@ -48,8 +48,15 @@ export const inputStyles = defineStyle({
 export const inputFieldStyles = defineStyle({
   minW: '0',
   maxW: 'full',
-  rounded: 'xl',
+  rounded: 'lg',
+  border: 'none',
   bg: { _light: 'blackAlpha.100', _dark: 'gray.950/40' },
+  _focusVisible: {
+    outlineOffset: '2px',
+    outlineWidth: '1px',
+    outlineStyle: 'solid',
+    outlineColor: { _light: 'slate.200', _dark: 'slate.700' },
+  },
 })
 
 export const cssTableColumns = defineStyle({

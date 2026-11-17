@@ -2,10 +2,11 @@ import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo } from 'react'
-import { type DefaultValues, useForm } from 'react-hook-form'
+import { type DefaultValues, useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 
+import { ESTABLISHMENT_WEBSITE_BASE } from '../constants/establishment-website'
 import { establishmentMutationOptions } from '../queries/establishment.mutation-options'
 import { establishmentAdminSlugQueryOptions } from '../queries/establishment.query-options'
 import { UpdateEstablishmentFormDataSchema } from '../schemas/establishment-form.schema'
@@ -31,6 +32,13 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
     isLoading: isLoadingEstablishment,
   } = useQuery(establishmentAdminSlugQueryOptions(establishmentSlug))
 
+  const listPhonesEstablishment = establishment?.phones?.map<
+    UpdateEstablishmentFormData['phones'][number]
+  >((phone) => ({
+    phone,
+    type: phone.length === 10 ? 'telephone' : 'cellphone',
+  }))
+
   const formDefaultValues = useMemo<DefaultValues<UpdateEstablishmentFormData>>(
     () => ({
       websiteUrl: getEstablishmentWebsitePath(establishment?.websiteUrl),
@@ -39,18 +47,18 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
       description: establishment?.description ?? '',
       timezone: establishment?.timezone ?? '',
       status: establishment?.status ? [establishment?.status] : [],
-      phones:
-        establishment?.phones?.map((phone) => ({
-          phone: phone,
-          type: phone.length === 10 ? 'telephone' : 'cellphone',
-        })) ?? [],
+      phones: listPhonesEstablishment ?? [],
     }),
-    [establishment],
+    [establishment, listPhonesEstablishment],
   )
 
   const formUpdateEstablishment = useForm<UpdateEstablishmentFormData>({
     resolver: zodResolver(UpdateEstablishmentFormDataSchema),
     defaultValues: formDefaultValues,
+  })
+  const websiteUrl = useWatch({
+    control: formUpdateEstablishment.control,
+    name: 'websiteUrl',
   })
 
   useEffect(() => {
@@ -80,6 +88,17 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
         title: error.message || 'Erro ao atualizar estabelecimento',
       }),
   })
+
+  const handleCopyWebsiteUrlUpdateEstablishment = () => {
+    if (websiteUrl) {
+      navigator.clipboard.writeText(
+        `${ESTABLISHMENT_WEBSITE_BASE}${websiteUrl}`,
+      )
+      toaster.success({ title: 'URL copiada com sucesso' })
+    } else {
+      toaster.error({ title: 'URL indisponível' })
+    }
+  }
 
   const handleUpdateInputUrlAtSlugUpdateFormEstablishment = () => {
     if (!establishment || establishment.slug.trim() === '') {
@@ -117,19 +136,18 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
 
     const establishmentChanges: UpdateEstablishmentRequest = {
       id: establishment.id,
-      ...(changedEstablishmentFields.name ? { name } : {}),
-      ...(changedEstablishmentFields.email ? { email } : {}),
-      ...(changedEstablishmentFields.description ? { description } : {}),
-      ...(changedEstablishmentFields.timezone ? { timezone } : {}),
-      ...(changedEstablishmentFields.websiteUrl
-        ? { websiteUrl: websiteUrl || null }
-        : {}),
-      ...(changedEstablishmentFields.status && selectedEstablishmentStatus
-        ? { status: selectedEstablishmentStatus }
-        : {}),
-      ...(changedEstablishmentFields.phones
-        ? { phones: phones.map(({ phone }) => phone) }
-        : {}),
+      ...(changedEstablishmentFields.name && { name }),
+      ...(changedEstablishmentFields.email && { email }),
+      ...(changedEstablishmentFields.description && { description }),
+      ...(changedEstablishmentFields.timezone && { timezone }),
+      ...(changedEstablishmentFields.status &&
+        selectedEstablishmentStatus && { status: selectedEstablishmentStatus }),
+      ...(changedEstablishmentFields.websiteUrl && {
+        websiteUrl: websiteUrl || null,
+      }),
+      ...(changedEstablishmentFields.phones && {
+        phones: phones.map(({ phone }) => phone),
+      }),
     }
 
     updateEstablishment(establishmentChanges)
@@ -142,6 +160,7 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
     formUpdateEstablishment,
     loadSelectStatusUpdateEstablishment,
     handleUpdateEstablishment,
+    handleCopyWebsiteUrlUpdateEstablishment,
     handleUpdateInputUrlAtSlugUpdateFormEstablishment,
   }
 }
