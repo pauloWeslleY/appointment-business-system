@@ -18,7 +18,7 @@ import { LogIn } from 'lucide-react'
 import Logotipo from '@/components/logotipo'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
-import { inputStyles } from '@/theme/styles/global-styles'
+import { inputFieldStyles } from '@/theme/styles/global-styles'
 
 import LegalDocumentsReference from '../components/legal-documents-reference'
 import { useLoginPage } from '../hooks/use-login-page'
@@ -101,7 +101,8 @@ const FormLoginPage = () => {
             {...register('email')}
             placeholder="Digite seu email"
             size="sm"
-            css={inputStyles}
+            variant="subtle"
+            css={inputFieldStyles}
           />
         </Field>
 
@@ -115,7 +116,7 @@ const FormLoginPage = () => {
               {...register('password')}
               placeholder="Digite sua senha"
               size="sm"
-              css={inputStyles}
+              css={inputFieldStyles}
             />
           </Field>
 

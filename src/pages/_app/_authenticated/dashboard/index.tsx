@@ -5,11 +5,11 @@ import LoaderFull from '@/components/loader-full'
 import useGetEstablishmentById from '@/features/establishment/hooks/use-get-establishment-by-id'
 
 export const Route = createFileRoute('/_app/_authenticated/dashboard/')({
+  component: DashboardLayout,
   pendingComponent: LoaderFull,
   head: () => ({
     meta: [{ title: 'Dashboard | Agendros' }],
   }),
-  component: DashboardLayout,
 })
 
 function DashboardLayout() {

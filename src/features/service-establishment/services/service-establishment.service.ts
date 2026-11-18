@@ -2,7 +2,10 @@ import { z } from 'zod'
 
 import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
-import { uploadFileToR2 } from '@/shared/services/storage/upload.service'
+import {
+  type UploadFileResponse,
+  uploadFileToR2,
+} from '@/shared/services/storage/upload.service'
 
 import {
   CreateServiceEstablishmentApiRequestSchema,
@@ -34,10 +37,11 @@ import type {
 export const getServiceEstablishmentDetailService = async (
   serviceEstablishmentId: string,
 ): Promise<ServiceEstablishmentDetailsModel> => {
+  const serviceId = z.uuid().parse(serviceEstablishmentId)
   const { api, validate } = httpDependencies<ServiceEstablishmentDetailsModel>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/admin/service/establishment/details/${z.uuid().parse(serviceEstablishmentId)}`,
+    url: `/admin/service/establishment/details/${serviceId}`,
   })
 
   return ServiceEstablishmentDetailsApiResponseSchema.parse(
@@ -46,12 +50,13 @@ export const getServiceEstablishmentDetailService = async (
 }
 
 export const getServicesByEstablishmentService = async (
-  establishmentId: string,
+  idEstablishment: string,
 ): Promise<ListServicesEstablishmentModel[]> => {
+  const establishmentId = z.uuid().parse(idEstablishment)
   const { api, validate } = httpDependencies<ListServicesEstablishmentModel[]>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/admin/service/establishment/establishments/${z.uuid().parse(establishmentId)}`,
+    url: `/admin/service/establishment/establishments/${establishmentId}`,
   })
 
   return z
@@ -98,22 +103,23 @@ export const statusServiceEstablishmentService = async (
   return ServiceEstablishmentApiResponseSchema.parse(validate.errors(response))
 }
 
-export const getServiceEstablishmentByIdService =
-  getServiceEstablishmentDetailService
 export async function createServiceEstablishmentFromForm(
   input: CreateServiceFormRequest,
 ): Promise<ServiceEstablishmentModel> {
   const data = CreateServiceFormApiRequestSchema.parse(input)
-  const upload = data.image
-    ? await uploadFileToR2({
-        id: data.establishmentId,
-        file: data.image,
-        folder: 'services',
-      })
-    : undefined
+  let uploadImage: UploadFileResponse | undefined
+
+  if (data.image) {
+    uploadImage = await uploadFileToR2({
+      id: `${data.name}/${data.establishmentId}`,
+      file: data.image,
+      folder: 'services',
+    })
+  }
+
   return createServiceEstablishmentService({
     ...data,
-    imageUrl: upload?.publicUrl ?? null,
+    imageUrl: uploadImage?.publicUrl ?? null,
   })
 }
 
@@ -121,16 +127,19 @@ export async function updateServiceEstablishmentFromForm(
   input: UpdateServiceFormRequest,
 ): Promise<ServiceEstablishmentModel> {
   const data = UpdateServiceFormApiRequestSchema.parse(input)
-  const upload = data.image
-    ? await uploadFileToR2({
-        id: data.establishmentId,
-        file: data.image,
-        folder: 'services',
-      })
-    : undefined
+  let uploadImage: UploadFileResponse | undefined
+
+  if (data.image) {
+    uploadImage = await uploadFileToR2({
+      id: `${data.name}/${data.establishmentId}`,
+      file: data.image,
+      folder: 'services',
+    })
+  }
+
   return updateServiceEstablishmentService({
     ...data,
     id: data.serviceEstablishmentId,
-    imageUrl: upload?.publicUrl ?? data.imageUrl,
+    imageUrl: uploadImage?.publicUrl ?? data.imageUrl,
   })
 }

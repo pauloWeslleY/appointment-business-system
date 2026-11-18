@@ -1,6 +1,7 @@
 import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
 
+import { mapAppointmentListItem } from '../helpers/map-appointment-item'
 import {
   AppointmentPageApiRequestSchema,
   AppointmentPageApiResponseSchema,
@@ -29,10 +30,8 @@ export async function getAppointmentPageService(
 
   return {
     ...result,
-    appointments: result.appointments.map((item) => ({
-      ...item,
-      establishmentId: params.establishmentId,
-      organizationId: params.organizationId,
-    })),
+    appointments: result.appointments.map((appointment) =>
+      mapAppointmentListItem(appointment, params),
+    ),
   }
 }

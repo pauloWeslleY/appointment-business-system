@@ -14,13 +14,14 @@ import FormUpdateEstablishmentPage from './form-update-establishment.page'
 import FormUpdateEstablishmentAddressPage from './form-update-establishment-address.page'
 import UploadImageEstablishment from './upload-image-establishment.page'
 
-const UpdateEstablishmentPage = () => {
-  const [tab, setTab] = useQueryState(
-    'tab',
-    parseAsStringLiteral(MENU_UPDATE_ESTABLISHMENT).withDefault(
-      MenuUpdateEstablishment.EDIT,
-    ),
-  )
+const MenuUpdateEstablishmentPage = () => {
+  const [tabMenuUpdateEstablishment, setTabMenuUpdateEstablishment] =
+    useQueryState(
+      'tab',
+      parseAsStringLiteral(MENU_UPDATE_ESTABLISHMENT).withDefault(
+        MenuUpdateEstablishment.EDIT,
+      ),
+    )
 
   const { memberContext } = useRouteContext({ from: '/_app/_authenticated' })
   const slug = useParams({
@@ -31,15 +32,16 @@ const UpdateEstablishmentPage = () => {
   return (
     <Tabs.Root
       size="sm"
-      value={tab}
-      onValueChange={(e) => setTab(e.value as MenuUpdateEstablishmentType)}
+      value={tabMenuUpdateEstablishment}
+      onValueChange={(e) =>
+        setTabMenuUpdateEstablishment(e.value as MenuUpdateEstablishmentType)
+      }
       colorPalette={colorDefaultTheme}
-      variant="subtle"
     >
       <Tabs.List
         aria-label="Establishment updated menu"
-        w="full"
         flexWrap="wrap"
+        borderColor={{ _light: 'gray.100', _dark: 'slate.900' }}
       >
         <For
           each={[
@@ -64,11 +66,14 @@ const UpdateEstablishmentPage = () => {
             <Tabs.Trigger
               key={item.value}
               value={item.value}
-              flex={{ base: '1 1 100%', sm: '1 1 auto' }}
               justifyContent="center"
               rounded="lg"
             >
-              <Icon as={item.icon} boxSize="4" />
+              <Icon
+                as={item.icon}
+                boxSize="4"
+                color={{ _light: 'sea.700', _dark: 'sea.300' }}
+              />
               {item.label}
             </Tabs.Trigger>
           )}
@@ -93,4 +98,4 @@ const UpdateEstablishmentPage = () => {
   )
 }
 
-export default UpdateEstablishmentPage
+export default MenuUpdateEstablishmentPage

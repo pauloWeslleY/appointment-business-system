@@ -5,13 +5,14 @@ import {
   Flex,
   GridItem,
   Icon,
+  IconButton,
   InputGroup,
   Portal,
   Select,
   SimpleGrid,
   Skeleton,
 } from '@chakra-ui/react'
-import { Save } from 'lucide-react'
+import { CopyIcon, SaveIcon } from 'lucide-react'
 import { Controller, FormProvider } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
@@ -43,11 +44,19 @@ const FormUpdateEstablishmentPage = ({
     formUpdateEstablishment,
     loadSelectStatusUpdateEstablishment,
     handleUpdateEstablishment,
+    handleCopyWebsiteUrlUpdateEstablishment,
     handleUpdateInputUrlAtSlugUpdateFormEstablishment,
   } = useFormUpdateEstablishment(establishmentSlug)
 
   if (isLoadingEstablishment) {
-    return <Skeleton h="40px" w="full" rounded="lg" />
+    return (
+      <Skeleton
+        h="340px"
+        w="full"
+        rounded="lg"
+        bg={{ _light: 'gray.100', _dark: 'gray.600' }}
+      />
+    )
   }
 
   if (errorEstablishment) {
@@ -67,7 +76,6 @@ const FormUpdateEstablishmentPage = ({
   return (
     <FormProvider {...formUpdateEstablishment}>
       <chakra.form
-        mt="4"
         w="full"
         onSubmit={formUpdateEstablishment.handleSubmit(
           handleUpdateEstablishment,
@@ -214,6 +222,16 @@ const FormUpdateEstablishmentPage = ({
                   roundedBottomLeft: 'xl',
                   bg: { _light: 'slate.200', _dark: 'slate.800' },
                 }}
+                endElement={
+                  <IconButton
+                    size="xs"
+                    rounded="lg"
+                    variant="ghost"
+                    onClick={handleCopyWebsiteUrlUpdateEstablishment}
+                  >
+                    <Icon as={CopyIcon} boxSize="4" />
+                  </IconButton>
+                }
               >
                 <InputField
                   {...formUpdateEstablishment.register('websiteUrl')}
@@ -251,7 +269,7 @@ const FormUpdateEstablishmentPage = ({
               colorPalette="brand"
               loading={isPendingUpdateEstablishment}
             >
-              <Icon as={Save} boxSize="5" />
+              <Icon as={SaveIcon} boxSize="5" />
               Salvar estabelecimento
             </Button>
           </GridItem>

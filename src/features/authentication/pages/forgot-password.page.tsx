@@ -5,15 +5,14 @@ import {
   chakra,
   Flex,
   Icon,
-  Input,
   Stack,
   Text,
 } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 
+import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { inputStyles } from '@/theme/styles/global-styles'
 
 import { useForgotPasswordPage } from '../hooks/use-forgot-password-page'
 
@@ -57,12 +56,7 @@ const FormForgotPassword = () => {
           invalid={!!errors.email}
           errorText={errors.email?.message}
         >
-          <Input
-            {...register('email')}
-            placeholder="Digite seu email"
-            size="sm"
-            css={inputStyles}
-          />
+          <InputField {...register('email')} placeholder="Digite seu email" />
         </Field>
 
         <Stack gap="1">

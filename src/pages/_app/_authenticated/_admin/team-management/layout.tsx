@@ -1,18 +1,18 @@
-import { Box, For, HStack } from '@chakra-ui/react'
+import { Box, Card, HStack, Icon, Tabs } from '@chakra-ui/react'
 import {
   createFileRoute,
   Link,
   Outlet,
   useLocation,
 } from '@tanstack/react-router'
-import { Users2 } from 'lucide-react'
+import { MailsIcon, Users2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
-import { MenuNavigation } from '@/components/menu-nav-links'
 import PageLoader from '@/components/page-loader'
 import { listInvitationsQueryOptions } from '@/features/invitations/queries/invitations.query-options'
 import StatsSummaryMembers from '@/features/members/pages/stats-summary-members'
 import { listMembersQueryOptions } from '@/features/members/queries/member.query-options'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management',
@@ -42,7 +42,9 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { totalMembers, totalInvitations } = Route.useLoaderData()
-  const { pathname } = useLocation()
+  const pathname = useLocation({
+    select: (location) => location.pathname,
+  })
 
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
@@ -56,30 +58,46 @@ function RouteComponent() {
       <Box spaceY="4">
         <StatsSummaryMembers />
 
-        <MenuNavigation.Root>
-          <For
-            each={[
-              {
-                label: `Membros (${totalMembers})`,
-                to: '/team-management/members',
-                active: pathname.includes('members'),
-              },
-              {
-                label: `Convites (${totalInvitations})`,
-                to: '/team-management/invitations',
-                active: pathname.includes('invitations'),
-              },
-            ]}
-          >
-            {({ label, to, active }, index) => (
-              <MenuNavigation.Link key={index} active={active} asChild>
-                <Link to={to}>{label}</Link>
-              </MenuNavigation.Link>
-            )}
-          </For>
-        </MenuNavigation.Root>
+        <Card.Root
+          css={cardSectionCss}
+          variant="outline"
+          display="flex"
+          flexDir="column"
+          gap="3"
+        >
+          <Tabs.Root value={pathname} size="sm">
+            <Tabs.List
+              flexWrap="wrap"
+              borderColor={{ _light: 'gray.100', _dark: 'slate.900' }}
+            >
+              <Tabs.Trigger value="/team-management/members" asChild>
+                <Link to="/team-management/members">
+                  <Icon
+                    as={Users2}
+                    boxSize="4"
+                    color={{ _light: 'sea.700', _dark: 'sea.300' }}
+                    mr="2"
+                  />
+                  {`Membros (${totalMembers})`}
+                </Link>
+              </Tabs.Trigger>
 
-        <Outlet />
+              <Tabs.Trigger value="/team-management/invitations" asChild>
+                <Link to="/team-management/invitations">
+                  <Icon
+                    as={MailsIcon}
+                    boxSize="4"
+                    color={{ _light: 'sea.700', _dark: 'sea.300' }}
+                    mr="2"
+                  />
+                  {`Convites (${totalInvitations})`}
+                </Link>
+              </Tabs.Trigger>
+            </Tabs.List>
+          </Tabs.Root>
+
+          <Outlet />
+        </Card.Root>
       </Box>
     </Box>
   )

@@ -14,8 +14,10 @@ import { FileImage } from 'lucide-react'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 import { cardCss } from '@/theme/styles/global-styles'
 
+import { mapColorStatusServiceEstablishment } from '../helpers/status-service-establishement'
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 import MenuActionServicesTable from './menu-action-services-table'
+import StatusServiceEstablishment from './status-service-establishment'
 
 interface CardServiceEstablishmentProps {
   service: ListServicesEstablishmentModel
@@ -24,7 +26,7 @@ interface CardServiceEstablishmentProps {
 const CardServiceEstablishment = ({
   service,
 }: CardServiceEstablishmentProps) => {
-  const colorMapStatus = service.status ? 'green' : 'red'
+  const mapStatus = mapColorStatusServiceEstablishment(service.status, 'color')
 
   return (
     <Card.Root variant="outline" css={cardCss}>
@@ -37,8 +39,8 @@ const CardServiceEstablishment = ({
         pb="1.5"
         borderBottomWidth="5px"
         borderColor={{
-          base: `${colorMapStatus}.500`,
-          _dark: `${colorMapStatus}.300`,
+          base: `${mapStatus.color}.500`,
+          _dark: `${mapStatus.color}.300`,
         }}
       >
         <HStack gap="2" align="center" minW="0" flexWrap="wrap">
@@ -50,9 +52,7 @@ const CardServiceEstablishment = ({
             borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
           />
 
-          <Badge size="sm" variant="subtle" colorPalette={colorMapStatus}>
-            {service.status ? 'Ativo' : 'Inativo'}
-          </Badge>
+          <StatusServiceEstablishment status={service.status} color="color" />
         </HStack>
 
         <Box>

@@ -10,6 +10,7 @@ import {
   UploadCloud,
 } from 'lucide-react'
 import { parseAsStringLiteral, useQueryState } from 'nuqs'
+import z from 'zod'
 
 import Header from '@/components/layout/header'
 import SummaryEstablishment from '@/features/establishment/components/summary-establishment'
@@ -23,19 +24,20 @@ import EstablishmentLinksSettingsPage from '@/features/establishment/pages/estab
 import FormUpdateEstablishmentPage from '@/features/establishment/pages/form-update-establishment.page'
 import FormUpdateEstablishmentAddressPage from '@/features/establishment/pages/form-update-establishment-address.page'
 import UploadImageEstablishment from '@/features/establishment/pages/upload-image-establishment.page'
-import { EstablishmentSettingsRouteSearchSchema } from '@/features/establishment/schemas/establishment-settings-route-search.schema'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/config/',
 )({
-  validateSearch: EstablishmentSettingsRouteSearchSchema,
+  validateSearch: z.object({
+    tab: z.enum(MENU_SETTINGS_ESTABLISHMENT).optional().catch(undefined),
+  }),
   beforeLoad: ({ search, params }) => {
     if (!search.tab) {
       throw redirect({
         to: '/dashboard/$slug/config',
         params: { slug: params.slug },
-        search: (prev) => ({ ...prev, tab: MenuSettingsEstablishment.EDIT }),
+        search: (prev) => ({ ...prev, tab: MenuSettingsEstablishment.SUMMARY }),
       })
     }
   },
@@ -53,7 +55,7 @@ function EstablishmentSettingsPage() {
   const [tabConfigEstablishment, setTabConfigEstablishment] = useQueryState(
     'tab',
     parseAsStringLiteral(MENU_SETTINGS_ESTABLISHMENT).withDefault(
-      MenuSettingsEstablishment.EDIT,
+      MenuSettingsEstablishment.SUMMARY,
     ),
   )
 

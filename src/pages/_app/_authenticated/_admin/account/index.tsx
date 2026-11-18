@@ -1,6 +1,12 @@
-import { Box, For, Tabs } from '@chakra-ui/react'
+import { Alert, Box, For, Icon, Tabs } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
-import { UserCog } from 'lucide-react'
+import {
+  ShieldCogCornerIcon,
+  ShieldIcon,
+  User2Icon,
+  UserCog,
+  UserSquareIcon,
+} from 'lucide-react'
 import { parseAsString, useQueryState } from 'nuqs'
 import { z } from 'zod'
 
@@ -10,12 +16,13 @@ import ProfileSummaryPermissions from '@/features/users/components/profile-summa
 import { MenuAccount } from '@/features/users/constants/menu-account'
 import FormChangePassword from '@/features/users/pages/form-change-password'
 import Profile from '@/features/users/pages/profile'
-import { cardSectionCss } from '@/theme/styles/global-styles'
+import { validateSignInWithCredential } from '@/features/users/services/validate-sign-in-with-credential'
 
 export const Route = createFileRoute('/_app/_authenticated/_admin/account/')({
   validateSearch: z.object({
     menu: z.string().optional().default(MenuAccount.PROFILE),
   }),
+  loader: async () => await validateSignInWithCredential(),
   component: AccountPage,
   head: () => ({
     meta: [
@@ -27,6 +34,7 @@ export const Route = createFileRoute('/_app/_authenticated/_admin/account/')({
 })
 
 function AccountPage() {
+  const { hasSignInWithCredential } = Route.useLoaderData()
   const search = Route.useSearch()
   const [menuProfile, setMenuProfile] = useQueryState(
     'menu',
@@ -41,39 +49,49 @@ function AccountPage() {
       </Header.Root>
 
       <Tabs.Root
-        variant="plain"
         value={menuProfile}
         onValueChange={(e) => setMenuProfile(e.value)}
       >
         <Tabs.List
-          {...cardSectionCss}
           flexWrap="wrap"
-          border="1px solid"
-          p="2"
-          h="fit"
+          borderColor={{ _light: 'gray.100', _dark: 'slate.900' }}
         >
           <For
             each={[
-              { value: MenuAccount.PROFILE, label: 'Perfil' },
-              { value: MenuAccount.MEMBER, label: 'Membro' },
-              { value: MenuAccount.PERMISSIONS, label: 'Permissões' },
-              { value: MenuAccount.CHANGE_PASSWORD, label: 'Alterar Senha' },
+              {
+                value: MenuAccount.PROFILE,
+                label: 'Perfil',
+                icon: User2Icon,
+              },
+              {
+                value: MenuAccount.MEMBER,
+                label: 'Membro',
+                icon: UserSquareIcon,
+              },
+              {
+                value: MenuAccount.PERMISSIONS,
+                label: 'Permissões',
+                icon: ShieldCogCornerIcon,
+              },
+              {
+                value: MenuAccount.CHANGE_PASSWORD,
+                label: 'Segurança',
+                icon: ShieldIcon,
+              },
             ]}
           >
-            {({ value, label }) => (
-              <Tabs.Trigger key={value} value={value} minH="10">
+            {({ value, label, icon }) => (
+              <Tabs.Trigger key={value} value={value}>
+                <Icon
+                  as={icon}
+                  boxSize="4"
+                  color={{ _light: 'sea.700', _dark: 'sea.300' }}
+                  mr="2"
+                />
                 {label}
               </Tabs.Trigger>
             )}
           </For>
-          <Tabs.Indicator
-            shadow="none"
-            rounded="lg"
-            bg={{ _light: 'navy.100', _dark: 'navy.950/40' }}
-            outlineOffset="2px"
-            outline="2px solid"
-            outlineColor={{ _light: 'navy.300', _dark: 'navy.700' }}
-          />
         </Tabs.List>
 
         <Tabs.Content value={MenuAccount.PROFILE} w="full">
@@ -85,8 +103,21 @@ function AccountPage() {
         <Tabs.Content value={MenuAccount.PERMISSIONS} w="full">
           <ProfileSummaryPermissions />
         </Tabs.Content>
+
         <Tabs.Content value={MenuAccount.CHANGE_PASSWORD} w="full">
-          <FormChangePassword />
+          {!hasSignInWithCredential && (
+            <Alert.Root variant="surface" status="warning" rounded="lg">
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title>Para alterar a senha</Alert.Title>
+                <Alert.Description>
+                  você precisa ter credenciais de login configuradas.
+                </Alert.Description>
+              </Alert.Content>
+            </Alert.Root>
+          )}
+
+          {hasSignInWithCredential && <FormChangePassword />}
         </Tabs.Content>
       </Tabs.Root>
     </Box>

@@ -15,7 +15,7 @@ export const Route = createFileRoute(
     }),
   loader: async ({ context, params }) => {
     const session = context.session
-    return context.queryClient.fetchQuery(
+    return context.queryClient.query(
       serviceEstablishmentDetailQueryOptions(
         params.serviceEstablishmentId,
         session?.session.activeOrganizationId ?? undefined,

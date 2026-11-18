@@ -67,6 +67,14 @@ Não crie diretórios vazios nem uma arquitetura paralela para uma funcionalidad
 - Reutilize componentes e tokens do tema. Preserve responsividade, modo claro/escuro, labels, navegação por teclado e feedback acessível.
 - Em `Dialog` e `Drawer`, defina as dimensões pela prop `size` do `Root`. Não sobrescreva `maxW`, `maxH` ou `overflowY` no `Content`.
 - Toda operação assíncrona deve apresentar estados de carregamento, erro, vazio e sucesso quando aplicáveis. Evite cliques duplicados durante mutations.
+- Para renderizar listas em JSX, use sempre o componente `<For>` do Chakra UI, com `key` estável em cada item. Não use `.map()` diretamente no JSX para repetir elementos.
+
+### Constantes
+
+- Não crie constantes soltas no módulo para valores usados em um único lugar. Use o valor diretamente no ponto de uso, de forma que o nome da prop, do parâmetro ou da variável já dê o contexto.
+- Coloque em `feature/constants` somente valores compartilhados por mais de um componente, hook, schema ou arquivo da feature. Valores compartilhados entre features ficam em `src/shared/constants`.
+- Quando um valor for reutilizado em mais de um ponto do mesmo componente, avalie antes de criar a constante: crie-a no próprio arquivo somente se a repetição for da mesma regra e a constante, com nome descritivo, deixar a intenção mais clara. Caso contrário, mantenha o valor no ponto de uso.
+- Status, tipos e demais valores de negócio continuam vindo das constantes agrupadas do conceito correspondente, mesmo quando usados em um único lugar.
 
 ## Rotas, sessão e contratos
 

@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { httpDependencies } from '@/shared/factory/http-dependencies'
 import { HttpMethod } from '@/shared/protocols'
 
+import { mapAppointmentListItem } from '../helpers/map-appointment-item'
 import {
   AppointmentListApiRequestSchema,
   CreateAppointmentApiRequestSchema,
@@ -34,13 +35,13 @@ export async function getAppointmentByEstablishmentService(
     params,
   })
 
-  return AppointmentListApiResponseSchema.parse(
+  const validatedResponse = AppointmentListApiResponseSchema.parse(
     validate.errors(response),
-  ).appointments.map((item) => ({
-    ...item,
-    establishmentId: params.establishmentId,
-    organizationId: params.organizationId,
-  }))
+  )
+
+  return validatedResponse.appointments.map((appointment) =>
+    mapAppointmentListItem(appointment, params),
+  )
 }
 
 export async function getAppointmentByIdService(

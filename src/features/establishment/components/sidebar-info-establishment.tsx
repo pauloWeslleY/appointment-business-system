@@ -192,7 +192,7 @@ const SidebarInfoEstablishment = ({
                 >
                   <Stat.Root
                     display="flex"
-                    flexDirection={{ base: 'column', md: 'row' }}
+                    flexDirection="column"
                     justifyContent={{ base: 'center', md: 'flex-start' }}
                     alignItems={{ base: 'center', md: 'flex-start' }}
                   >
@@ -209,7 +209,7 @@ const SidebarInfoEstablishment = ({
 
                   <Stat.Root
                     display="flex"
-                    flexDirection={{ base: 'column', md: 'row' }}
+                    flexDirection="column"
                     justifyContent={{ base: 'center', md: 'flex-start' }}
                     alignItems={{ base: 'center', md: 'flex-start' }}
                   >
@@ -226,7 +226,7 @@ const SidebarInfoEstablishment = ({
 
                   <Stat.Root
                     display="flex"
-                    flexDirection={{ base: 'column', md: 'row' }}
+                    flexDirection="column"
                     justifyContent={{ base: 'center', md: 'flex-start' }}
                     alignItems={{ base: 'center', md: 'flex-start' }}
                   >

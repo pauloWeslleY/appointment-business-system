@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 import { toaster } from '@/components/ui/toaster'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
-import { contentCss } from '@/theme/styles/global-styles'
+import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
 
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 import DialogStatusServiceEstablishment from './dialog-status-service-establishment'
@@ -20,16 +20,25 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
     isOpenDialogStatusServiceEstablishment,
     setIsOpenDialogStatusServiceEstablishment,
   ] = useState(false)
-  const { slug } = useParams({
+  const slugEstablishment = useParams({
     from: '/_app/_authenticated/dashboard/$slug/services/',
+    select: (params) => params.slug,
   })
   const navigate = useNavigate()
 
   const handleNavigateToService = (page: 'edit' | 'info') => {
+    if (!service.status && page === 'edit') {
+      toaster.error({
+        title: 'Serviço inativo',
+        description: 'Não é possível editar um serviço que está inativo.',
+      })
+      return
+    }
+
     navigate({
       to: `/dashboard/$slug/services/$serviceEstablishmentId/${page}`,
       params: {
-        slug,
+        slug: slugEstablishment,
         serviceEstablishmentId: service.id,
       },
     })
@@ -58,43 +67,26 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
             <Menu.Content css={contentCss}>
               <Menu.Item
                 value="edit"
-                rounded="xl"
                 cursor={!service.status ? 'not-allowed' : 'pointer'}
                 disabled={!service.status}
-                _hover={{ bg: { base: 'gray.100', _dark: 'secondary.600' } }}
-                onClick={() => {
-                  if (!service.status) {
-                    toaster.error({
-                      title: 'Serviço inativo',
-                      description:
-                        'Não é possível editar um serviço que está inativo.',
-                    })
-
-                    return
-                  }
-
-                  handleNavigateToService('edit')
-                }}
+                {...menuItemCss}
+                onClick={() => handleNavigateToService('edit')}
               >
-                Editar
+                Editar serviço
               </Menu.Item>
               <Menu.Item
                 value="info"
-                rounded="xl"
-                cursor="pointer"
-                _hover={{ bg: { base: 'gray.100', _dark: 'secondary.600' } }}
                 onClick={() => handleNavigateToService('info')}
+                {...menuItemCss}
               >
-                Visualizar
+                Visualizar serviço
               </Menu.Item>
               <Menu.Item
                 value="status"
-                rounded="xl"
-                cursor="pointer"
-                _hover={{ bg: { base: 'gray.100', _dark: 'secondary.600' } }}
                 onClick={() => setIsOpenDialogStatusServiceEstablishment(true)}
+                {...menuItemCss}
               >
-                Status
+                Alterar status do serviço
               </Menu.Item>
             </Menu.Content>
           </Menu.Positioner>

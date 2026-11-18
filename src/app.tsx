@@ -6,7 +6,8 @@ import { Analytics } from '@vercel/analytics/react'
 import dayjs from 'dayjs'
 
 import AppError from './components/layout/app-error'
-import NotFoundPage from './components/layout/not-found'
+import NotFoundPage from './components/layout/pages/not-found-page'
+import { PageStatusContainer } from './components/layout/pages/page-status-container'
 import Loader from './components/loader'
 import { Provider as ThemeProvider } from './components/ui/provider'
 import { Toaster } from './components/ui/toaster'
@@ -34,13 +35,21 @@ const router = createRouter({
 
   defaultPendingComponent: Loader,
   defaultErrorComponent: AppError,
-  defaultNotFoundComponent: NotFoundPage,
+  defaultNotFoundComponent: NotFoundComponent,
 })
 
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
+}
+
+function NotFoundComponent() {
+  return (
+    <PageStatusContainer>
+      <NotFoundPage />
+    </PageStatusContainer>
+  )
 }
 
 const App = () => {

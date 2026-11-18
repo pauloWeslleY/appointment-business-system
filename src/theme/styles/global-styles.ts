@@ -23,9 +23,9 @@ export const menuItemCss = defineStyle({
 export const cardCss = defineStyle({
   minW: '0',
   overflowWrap: 'anywhere',
-  rounded: 'xl',
+  rounded: 'lg',
   shadow: 'xs',
-  bg: { _light: 'primary.100/40', _dark: 'primary.800/40' },
+  bg: { _light: 'primary.100/40', _dark: 'primary.900/50' },
   borderColor: { _light: 'gray.200', _dark: 'secondary.500/20' },
   p: '2',
 })
@@ -48,8 +48,16 @@ export const inputStyles = defineStyle({
 export const inputFieldStyles = defineStyle({
   minW: '0',
   maxW: 'full',
-  rounded: 'xl',
+  rounded: 'lg',
+  borderWidth: '1px',
+  borderColor: { _light: 'slate.400/20', _dark: 'slate.600/30' },
   bg: { _light: 'blackAlpha.100', _dark: 'gray.950/40' },
+  _focusVisible: {
+    outlineOffset: '2px',
+    outlineWidth: '1px',
+    outlineStyle: 'solid',
+    outlineColor: { _light: 'sea.200', _dark: 'sea.600' },
+  },
 })
 
 export const cssTableColumns = defineStyle({

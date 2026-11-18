@@ -13,7 +13,7 @@ import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-const NotFoundPage = () => {
+const NotFound404 = () => {
   const { data } = useAppSession()
 
   return (
@@ -55,4 +55,4 @@ const NotFoundPage = () => {
   )
 }
 
-export default NotFoundPage
+export default NotFound404

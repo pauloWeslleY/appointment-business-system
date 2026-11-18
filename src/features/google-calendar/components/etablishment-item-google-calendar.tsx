@@ -11,7 +11,8 @@ import { cssTableRows } from '@/theme/styles/global-styles'
 import { getConnectionGoogleCalendarQueryOptions } from '../queries/google-calendar.query-options'
 
 interface EstablishmentItemGoogleCalendarProps {
-  onDialogGoogleCalendar: () => void
+  onDialogConnectGoogleCalendar: () => void
+  onDialogDisconnectGoogleCalendar: () => void
   establishment: {
     id: string
     name: string
@@ -21,7 +22,8 @@ interface EstablishmentItemGoogleCalendarProps {
 
 const EstablishmentItemGoogleCalendar = ({
   establishment,
-  onDialogGoogleCalendar,
+  onDialogConnectGoogleCalendar,
+  onDialogDisconnectGoogleCalendar,
 }: EstablishmentItemGoogleCalendarProps) => {
   const { data: connectionGoogleCalendar } = useQuery(
     getConnectionGoogleCalendarQueryOptions(establishment.id),
@@ -74,7 +76,7 @@ const EstablishmentItemGoogleCalendar = ({
             variant="outline"
             rounded="lg"
             colorPalette="red"
-            onClick={onDialogGoogleCalendar}
+            onClick={onDialogDisconnectGoogleCalendar}
           >
             Desconectar
           </Button>
@@ -83,7 +85,7 @@ const EstablishmentItemGoogleCalendar = ({
             size="xs"
             variant="outline"
             rounded="lg"
-            onClick={onDialogGoogleCalendar}
+            onClick={onDialogConnectGoogleCalendar}
           >
             Conectar
           </Button>

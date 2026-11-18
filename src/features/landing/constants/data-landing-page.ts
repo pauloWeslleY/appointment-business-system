@@ -109,7 +109,6 @@ export const questions = [
 export const navigation = [
   ['Recursos', '#recursos'],
   ['Planos', '#planos'],
-  ['Depoimentos', '#depoimentos'],
   ['Dúvidas', '#duvidas'],
 ]
 

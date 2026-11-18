@@ -1,20 +1,32 @@
 import {
-  Box,
   Button,
   Container,
   Flex,
   Heading,
   Icon,
+  Image,
+  Stack,
   Text,
-  VStack,
 } from '@chakra-ui/react'
 import { type ErrorComponentProps } from '@tanstack/react-router'
-import { X } from 'lucide-react'
+import { ArrowLeftIcon, RotateCwIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { AccessDeniedError } from '@/shared/errors'
 
-import AccessDenied from './access-denied'
+import Logotipo from '../logotipo'
+import AccessDeniedPage from './pages/access-denied-page'
+import BackgroundShapes from './pages/background-shapes'
+import {
+  pageCardCss,
+  pageCodeCss,
+  pageDescriptionCss,
+  pageIllustrationCss,
+  pagePrimaryActionCss,
+  pageSecondaryActionCss,
+  pageTitleCss,
+} from './pages/define-styles'
+import { PageStatusContainer } from './pages/page-status-container'
 
 interface ResultProps {
   response: Response
@@ -70,7 +82,11 @@ const AppError = (props: ErrorComponentProps) => {
   const isAccessDenied = props.error instanceof AccessDeniedError
 
   if (isAccessDenied) {
-    return <AccessDenied />
+    return (
+      <PageStatusContainer>
+        <AccessDeniedPage />
+      </PageStatusContainer>
+    )
   }
 
   const handleResetAndReloadPage = () => {
@@ -84,67 +100,63 @@ const AppError = (props: ErrorComponentProps) => {
 
   return (
     <Container maxW="breakpoint-lg" centerContent>
-      <VStack
-        justify="center"
-        shadow="xs"
-        p={{ base: '4', md: '8' }}
-        w="full"
-        rounded="lg"
-        bg={{ _light: 'primary.200', _dark: 'primary.500/20' }}
-        borderWidth="1px"
-        borderColor="border.secondary"
-        gap="1"
-        mt={{ base: '10', xl: '32' }}
+      <Flex
+        as="section"
+        direction={{ base: 'column-reverse', md: 'row' }}
+        align="center"
+        justify="space-between"
+        gap={{ base: '6', md: '10' }}
+        css={pageCardCss}
       >
-        <Flex
-          align="center"
-          justify="center"
-          h="100px"
-          w="100px"
-          bg="red.500"
-          rounded="full"
-          mb="4"
-        >
-          <Icon as={X} boxSize="20" />
-        </Flex>
+        <BackgroundShapes />
 
-        <Box
-          spaceY="2"
-          mb="4"
-          textAlign="center"
-          minW="0"
-          overflowWrap="anywhere"
-        >
-          <Heading size="3xl">Ops! Algo deu errado.</Heading>
-          <Text as="span" fontSize="lg" color="fg.error">
-            {props.error instanceof Response ? (
-              <ResponseErrorMessage response={props.error} />
-            ) : (
-              validateErrorMessage(props.error)
-            )}
-          </Text>
-        </Box>
+        <Stack gap="6" align="flex-start" minW="0" zIndex="1">
+          <Logotipo variant="horizontal" h="8" />
 
-        <Flex gap="4" flexWrap="wrap" justify="center">
-          <Button
-            variant="surface"
-            rounded="lg"
-            size="sm"
-            onClick={handleResetAndReloadPage}
-          >
-            Tentar novamente
-          </Button>
-          <Button
-            variant="surface"
-            rounded="lg"
-            size="sm"
-            colorPalette="primary"
-            onClick={handleNavigateToPreviousPage}
-          >
-            Voltar para a página anterior
-          </Button>
-        </Flex>
-      </VStack>
+          <Stack gap="2">
+            <Text as="span" css={pageCodeCss}>
+              500
+            </Text>
+            <Heading as="h1" css={pageTitleCss}>
+              Ops! Algo deu errado
+            </Heading>
+            <Text color="red.500" css={pageDescriptionCss}>
+              {props.error instanceof Response ? (
+                <ResponseErrorMessage response={props.error} />
+              ) : (
+                validateErrorMessage(props.error)
+              )}
+            </Text>
+          </Stack>
+
+          <Stack gap="3" align="flex-start">
+            <Button
+              size="sm"
+              css={pagePrimaryActionCss}
+              onClick={handleResetAndReloadPage}
+            >
+              <Icon as={RotateCwIcon} />
+              Tentar novamente
+            </Button>
+
+            <Button
+              variant="plain"
+              size="sm"
+              css={pageSecondaryActionCss}
+              onClick={handleNavigateToPreviousPage}
+            >
+              <Icon as={ArrowLeftIcon} />
+              Voltar para a página anterior
+            </Button>
+          </Stack>
+        </Stack>
+
+        <Image
+          src="/illustrations/status/server-error.svg"
+          alt="Server error illustration"
+          css={pageIllustrationCss}
+        />
+      </Flex>
     </Container>
   )
 }

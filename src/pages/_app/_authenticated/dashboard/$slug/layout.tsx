@@ -17,11 +17,11 @@ export const Route = createFileRoute('/_app/_authenticated/dashboard/$slug')({
     })
 
     return {
+      ensureAuth: context.session,
       member: {
         session: context.session,
         memberContext: context.memberContext,
       },
-      ensureAuth: context.session,
     }
   },
   loader: async ({ context, params }) => {

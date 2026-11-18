@@ -11,37 +11,42 @@ import {
 } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { CalendarIcon } from 'lucide-react'
+import type { ReactElement } from 'react'
 
-import FilterDatePicker from '@/components/filter-date-picker'
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
+import AppointmentPeriodFilter from '@/features/appointment/components/appointment-period-filter'
+import AppointmentStatusTabs from '@/features/appointment/components/appointment-status-tabs'
+import AppointmentViewModeToggle from '@/features/appointment/components/appointment-view-mode-toggle'
 import FilterAppointmentsService from '@/features/appointment/components/filter-appointments-service'
-import FilterAppointmentsStatus from '@/features/appointment/components/filter-appointments-status'
+import PendingAppointmentsAlert from '@/features/appointment/components/pending-appointments-alert'
 import SidebarCreateAppointment from '@/features/appointment/components/sidebar-create-appointment'
-import StatInfoAppointments from '@/features/appointment/components/stat-info-appointments'
 import { useAppointmentPage } from '@/features/appointment/hooks/use-appointment-page'
-import ListAppointmentEstablishment from '@/features/appointment/pages/list-appointment-establishment'
+import { useAppointmentViewMode } from '@/features/appointment/hooks/use-appointment-view-mode'
+import CardsAppointmentsViewMode from '@/features/appointment/pages/card-appointments-view-mode'
+import ListAppointmentsViewMode from '@/features/appointment/pages/list-appointments-view-mode.page'
 import { AppointmentRouteSearchSchema } from '@/features/appointment/schemas/appointment-route-search.schema'
+import {
+  AppointmentViewMode,
+  type AppointmentViewModeType,
+} from '@/features/appointment/types/appointment-view-mode.type'
 import { validationAppointmentRouteHome } from '@/features/appointment/validations/validation-appointment.routes'
 import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-const appointmentPermissionResources = [RESOURCES.APPOINTMENT]
-
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/appointment/',
 )({
+  validateSearch: AppointmentRouteSearchSchema,
   beforeLoad: ({ context, search, params }) => {
     validateRoutePermission(context.member.memberContext, {
       resource: RESOURCES.APPOINTMENT,
       action: PERMISSION_ACTIONS.READ,
     })
-
     validationAppointmentRouteHome(search, params.slug)
   },
-  validateSearch: AppointmentRouteSearchSchema,
   component: AppointmentPage,
   head: () => ({
     meta: [
@@ -54,18 +59,40 @@ export const Route = createFileRoute(
 
 function AppointmentPage() {
   const appointmentSearch = Route.useSearch()
-  const { appointments: appointmentPermissions } = usePermissions(
-    appointmentPermissionResources,
-  )
+  const { appointments: appointmentPermissions } = usePermissions([
+    RESOURCES.APPOINTMENT,
+  ])
   const {
     appointments,
     totalAppointments,
     appointmentsSummary,
     appointmentsError,
     isLoadingAppointments,
-    retryAppointments,
     appointmentsScopeKey,
+    pendingAppointmentsCount,
+    hasPendingAppointments,
+    retryAppointments,
   } = useAppointmentPage()
+  const { appointmentViewMode, changeAppointmentViewMode } =
+    useAppointmentViewMode()
+
+  const RenderAppointmentViewMode: Record<
+    AppointmentViewModeType,
+    ReactElement
+  > = {
+    [AppointmentViewMode.LIST]: (
+      <ListAppointmentsViewMode
+        appointments={appointments}
+        totalAppointments={totalAppointments}
+      />
+    ),
+    [AppointmentViewMode.CARD]: (
+      <CardsAppointmentsViewMode
+        appointments={appointments}
+        total={totalAppointments}
+      />
+    ),
+  }
 
   return (
     <Box key={appointmentsScopeKey} spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -79,14 +106,33 @@ function AppointmentPage() {
       </Header.Root>
 
       <Box spaceY="4">
-        <Flex align="center" gap="2" flexWrap="wrap">
-          <SearchPage resetPagination />
-          <FilterAppointmentsStatus />
-          <FilterAppointmentsService />
-          <FilterDatePicker
-            from={appointmentSearch.from}
-            to={appointmentSearch.to}
-            resetPagination
+        <Card.Root variant="outline" css={cardSectionCss}>
+          <Stack gap="4">
+            <Flex align="center" gap="2" flexWrap="wrap">
+              <SearchPage resetPagination flex="1" />
+              <FilterAppointmentsService />
+            </Flex>
+
+            <AppointmentPeriodFilter
+              from={appointmentSearch.from}
+              to={appointmentSearch.to}
+            />
+          </Stack>
+        </Card.Root>
+
+        <Flex
+          align={{ base: 'stretch', md: 'center' }}
+          justify="space-between"
+          flexDir={{ base: 'column-reverse', md: 'row' }}
+          gap="3"
+        >
+          {appointmentsSummary && (
+            <AppointmentStatusTabs appointmentsSummary={appointmentsSummary} />
+          )}
+
+          <AppointmentViewModeToggle
+            appointmentViewMode={appointmentViewMode}
+            onAppointmentViewModeChange={changeAppointmentViewMode}
           />
         </Flex>
 
@@ -108,7 +154,7 @@ function AppointmentPage() {
                   key={item}
                   height="60px"
                   rounded="lg"
-                  bg={{ base: 'gray.200', _dark: 'gray.700/70' }}
+                  bg={{ _light: 'gray.200', _dark: 'gray.700/70' }}
                 />
               )}
             </For>
@@ -116,17 +162,14 @@ function AppointmentPage() {
         )}
 
         {!isLoadingAppointments && !appointmentsError && (
-          <Box spaceY="4">
-            {appointmentsSummary && (
-              <StatInfoAppointments summary={appointmentsSummary} />
+          <Box spaceY="6">
+            {hasPendingAppointments && (
+              <PendingAppointmentsAlert
+                pendingAppointmentsCount={pendingAppointmentsCount}
+              />
             )}
 
-            <Card.Root variant="outline" css={cardSectionCss}>
-              <ListAppointmentEstablishment
-                appointments={appointments}
-                total={totalAppointments}
-              />
-            </Card.Root>
+            {RenderAppointmentViewMode[appointmentViewMode]}
           </Box>
         )}
       </Box>

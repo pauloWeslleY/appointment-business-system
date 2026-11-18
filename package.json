@@ -10,7 +10,12 @@
     "preview": "vite preview",
     "routes:generate": "tsr generate",
     "routes:watch": "tsr watch",
-    "theme:build": "chakra typegen ./src/theme/theme.ts"
+    "theme:build": "chakra typegen ./src/theme/theme.ts",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f frontend",
+    "docker:restart": "docker compose restart frontend"
   },
   "dependencies": {
     "@chakra-ui/charts": "^3.37.0",
@@ -47,6 +52,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "eslint": "^10.13.0",
+    "eslint-plugin-import-x": "^4.18.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "eslint-plugin-simple-import-sort": "^13.0.0",

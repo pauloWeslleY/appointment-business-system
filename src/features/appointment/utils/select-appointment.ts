@@ -13,13 +13,13 @@ const appointmentStatusDescription: Record<AppointmentStatusType, string> = {
   [AppointmentStatus.CONCLUDED]: 'Concluído o agendamento.',
 } as const
 
-export const loadSelectStatusAppointment = Object.entries(AppointmentStatus).map(
-  ([, value]) => ({
-    value,
-    label: appointmentStatusLabel[value as AppointmentStatusType],
-    description: appointmentStatusDescription[value as AppointmentStatusType],
-  }),
-)
+export const loadSelectStatusAppointment = Object.entries(
+  AppointmentStatus,
+).map(([, value]) => ({
+  value,
+  label: appointmentStatusLabel[value],
+  description: appointmentStatusDescription[value],
+}))
 
 export const loadCollectionStatusAppointment = createListCollection({
   items: loadSelectStatusAppointment.map((appointmentStatus) => ({

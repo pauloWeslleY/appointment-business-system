@@ -4,6 +4,7 @@ import PaginationTable from '@/components/layout/pagination-table'
 import Loader from '@/components/loader'
 import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
 
+import { DialogGoogleCalendar } from '../helpers/dialog-google-calendar'
 import { useEstablishmentsListGoogleCalendar } from '../hooks/use-establishments-list-google-calendar'
 import DialogConnectGoogleCalendar from './dialog-connect-google-calendar'
 import DialogDisconnectGoogleCalendar from './dialog-disconnect-google-calendar'
@@ -11,7 +12,7 @@ import EstablishmentItemGoogleCalendar from './etablishment-item-google-calendar
 
 const EstablishmentsListGoogleCalendar = () => {
   const {
-    isOpenDialogGoogleCalendar,
+    searchParams,
     listEstablishmentsGoogleCalendar,
     paginatedEstablishments,
     page,
@@ -19,7 +20,7 @@ const EstablishmentsListGoogleCalendar = () => {
     isPendingPagination,
     handlePaginationChange,
     handleDialogGoogleCalendar,
-    setIsOpenDialogGoogleCalendar,
+    handleDialogIntegrateGoogleCalendar,
   } = useEstablishmentsListGoogleCalendar()
 
   if (listEstablishmentsGoogleCalendar.length === 0) {
@@ -80,8 +81,17 @@ const EstablishmentsListGoogleCalendar = () => {
                   <EstablishmentItemGoogleCalendar
                     key={establishment.id}
                     establishment={establishment}
-                    onDialogGoogleCalendar={() =>
-                      handleDialogGoogleCalendar(establishment.id)
+                    onDialogConnectGoogleCalendar={() =>
+                      handleDialogIntegrateGoogleCalendar(
+                        establishment.id,
+                        DialogGoogleCalendar.CONNECT,
+                      )
+                    }
+                    onDialogDisconnectGoogleCalendar={() =>
+                      handleDialogIntegrateGoogleCalendar(
+                        establishment.id,
+                        DialogGoogleCalendar.DISCONNECT,
+                      )
                     }
                   />
                 )}
@@ -114,13 +124,17 @@ const EstablishmentsListGoogleCalendar = () => {
       </Flex>
 
       <DialogConnectGoogleCalendar
-        isOpen={isOpenDialogGoogleCalendar}
-        onOpen={setIsOpenDialogGoogleCalendar}
+        isOpen={searchParams.open_dialog_connect_google}
+        onOpen={(open) =>
+          handleDialogGoogleCalendar(open, DialogGoogleCalendar.CONNECT)
+        }
       />
 
       <DialogDisconnectGoogleCalendar
-        isOpen={isOpenDialogGoogleCalendar}
-        onOpen={setIsOpenDialogGoogleCalendar}
+        isOpen={searchParams.open_dialog_disconnect_google}
+        onOpen={(open) =>
+          handleDialogGoogleCalendar(open, DialogGoogleCalendar.DISCONNECT)
+        }
       />
     </>
   )

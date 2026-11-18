@@ -83,7 +83,12 @@ const EstablishmentLayout = ({
           }}
         >
           {isLoadingEstablishmentLayout && (
-            <Skeleton h="40px" w="500px" rounded="lg" />
+            <Skeleton
+              rounded="lg"
+              h={{ base: '8', lg: '10' }}
+              w={{ base: '44', lg: '52' }}
+              bg={{ _light: 'gray.200', _dark: 'gray.700/70' }}
+            />
           )}
 
           {!isLoadingEstablishmentLayout && (

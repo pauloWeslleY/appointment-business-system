@@ -2,7 +2,7 @@ import { Box, Grid, HStack, Stack, VStack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { HomeIcon } from 'lucide-react'
 
-import FilterDatePicker from '@/components/filter-date-picker'
+import FilterDatePicker from '@/components/layout/filter-date-picker/filter-date-picker'
 import Header from '@/components/layout/header'
 import DailyBookingsEstablishmentDashboard from '@/features/dashboard/components/daily-bookings-establishment-dashboard'
 import RevenueEstablishmentDashboard from '@/features/dashboard/components/revenue-establishment-dashboard'
