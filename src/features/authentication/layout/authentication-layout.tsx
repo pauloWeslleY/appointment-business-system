@@ -15,10 +15,11 @@ const AuthLayoutContainer = ({ children }: { children: React.ReactNode }) => {
       gradientTo={{ _light: 'app.accent', _dark: 'app.primary' }}
     >
       <SimpleGrid columns={{ base: 1, xl: 3 }} w="full" h="full" flex="1">
-        <BannerAuth />
+        <BannerAuth gridColumn="span 2" shadow="xs" />
 
         <GridItem
           colSpan={1}
+          shadow="xs"
           minW="0"
           p={{ base: '4', md: '8' }}
           rounded="4xl"

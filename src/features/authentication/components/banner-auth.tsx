@@ -1,4 +1,12 @@
-import { Box, Button, Flex, For, Stack, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  For,
+  Stack,
+  type StackProps,
+  Text,
+} from '@chakra-ui/react'
 
 import Logotipo from '@/components/logotipo'
 import { ColorModeButton } from '@/components/ui/color-mode'
@@ -7,12 +15,12 @@ import { getLandingHref } from '@/shared/config/site-domains'
 import { GeometricBackground } from './geometric-background'
 import ItemContentAuthLayout from './item-content-auth-layout'
 
-const BannerAuth = () => {
+const BannerAuth = (props: StackProps) => {
   const landingHref = getLandingHref()
 
   return (
     <Stack
-      gridColumn="span 2"
+      {...props}
       display={{ base: 'none', xl: 'flex' }}
       gap={{ base: '4', lg: '12' }}
       backdropFilter="blur(16px) saturate(160%)"
