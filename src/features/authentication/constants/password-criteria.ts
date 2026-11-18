@@ -1,18 +1,25 @@
+import {
+  hasPasswordMinimumLength,
+  hasPasswordNumber,
+  hasPasswordSymbol,
+  hasPasswordUppercaseLetter,
+} from '@/shared/helpers/verify-password'
+
 export const passwordCriteria = [
   {
     label: 'Pelo menos 12 caracteres',
-    validate: (value: string) => value.length >= 12,
+    validate: hasPasswordMinimumLength,
   },
   {
     label: 'Letras maiúsculas e minúsculas',
-    validate: (value: string) => /[a-z]/.test(value) && /[A-Z]/.test(value),
+    validate: hasPasswordUppercaseLetter,
   },
   {
     label: 'Pelo menos um número',
-    validate: (value: string) => /\d/.test(value),
+    validate: hasPasswordNumber,
   },
   {
     label: 'Pelo menos um símbolo',
-    validate: (value: string) => /[^a-zA-Z0-9\s]/.test(value),
+    validate: hasPasswordSymbol,
   },
 ]

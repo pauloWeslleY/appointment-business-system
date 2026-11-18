@@ -46,7 +46,6 @@ const FormRegister = () => {
       autoComplete="off"
     >
       <Stack gap={{ base: '4', md: '8' }}>
-        {/* Logo and system name */}
         <Box asChild display={{ base: 'block', md: 'none' }}>
           <Link to="/">
             <div>

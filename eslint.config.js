@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
-
+import importX from 'eslint-plugin-import-x'
 export default defineConfig([
   globalIgnores(['dist']),
   {
@@ -23,8 +23,10 @@ export default defineConfig([
     plugins: {
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
+      'import-x': importX,
     },
     rules: {
+      'import-x/no-duplicates': 'error',
       'no-restricted-syntax': [
         'error',
         {

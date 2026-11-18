@@ -1,4 +1,4 @@
-import { Box, For, Tabs } from '@chakra-ui/react'
+import { Alert, Box, For, Tabs } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { UserCog } from 'lucide-react'
 import { parseAsString, useQueryState } from 'nuqs'
@@ -10,12 +10,14 @@ import ProfileSummaryPermissions from '@/features/users/components/profile-summa
 import { MenuAccount } from '@/features/users/constants/menu-account'
 import FormChangePassword from '@/features/users/pages/form-change-password'
 import Profile from '@/features/users/pages/profile'
+import { validateSignInWithCredential } from '@/features/users/services/validate-sign-in-with-credential'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute('/_app/_authenticated/_admin/account/')({
   validateSearch: z.object({
     menu: z.string().optional().default(MenuAccount.PROFILE),
   }),
+  loader: async () => await validateSignInWithCredential(),
   component: AccountPage,
   head: () => ({
     meta: [
@@ -27,6 +29,7 @@ export const Route = createFileRoute('/_app/_authenticated/_admin/account/')({
 })
 
 function AccountPage() {
+  const { hasSignInWithCredential } = Route.useLoaderData()
   const search = Route.useSearch()
   const [menuProfile, setMenuProfile] = useQueryState(
     'menu',
@@ -86,7 +89,19 @@ function AccountPage() {
           <ProfileSummaryPermissions />
         </Tabs.Content>
         <Tabs.Content value={MenuAccount.CHANGE_PASSWORD} w="full">
-          <FormChangePassword />
+          {!hasSignInWithCredential && (
+            <Alert.Root variant="surface" status="warning" rounded="lg">
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title>Para alterar a senha</Alert.Title>
+                <Alert.Description>
+                  você precisa ter credenciais de login configuradas.
+                </Alert.Description>
+              </Alert.Content>
+            </Alert.Root>
+          )}
+
+          {hasSignInWithCredential && <FormChangePassword />}
         </Tabs.Content>
       </Tabs.Root>
     </Box>
