@@ -34,9 +34,9 @@ const MenuCardAppointment = ({ appointment }: MenuCardAppointmentProps) => {
 
   const renderIconButtonTrigger = () => (
     <IconButton
-      variant="ghost"
-      rounded="full"
       aria-label="Options"
+      variant="ghost"
+      rounded="md"
       size="2xs"
       loading={isLoadingAppointment}
     >
