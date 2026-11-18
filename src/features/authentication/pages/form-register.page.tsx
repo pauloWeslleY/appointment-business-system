@@ -6,7 +6,6 @@ import {
   Flex,
   HStack,
   Icon,
-  Input,
   Stack,
   Text,
   VStack,
@@ -14,11 +13,12 @@ import {
 import { Link } from '@tanstack/react-router'
 import { LogIn } from 'lucide-react'
 
+import InputField from '@/components/input-field'
 import Logotipo from '@/components/logotipo'
 import ProgressBarPassword from '@/components/progress-bar-password'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
-import { inputStyles } from '@/theme/styles/global-styles'
+import { inputFieldStyles } from '@/theme/styles/global-styles'
 
 import LegalDocumentsReference from '../components/legal-documents-reference'
 import { useRegisterPage } from '../hooks/use-register-page'
@@ -88,11 +88,9 @@ const FormRegister = () => {
           invalid={!!errors.username}
           errorText={errors.username?.message}
         >
-          <Input
+          <InputField
             {...register('username')}
             placeholder="Digite seu usuário"
-            size="sm"
-            css={inputStyles}
           />
         </Field>
 
@@ -101,12 +99,7 @@ const FormRegister = () => {
           invalid={!!errors.email}
           errorText={errors.email?.message}
         >
-          <Input
-            {...register('email')}
-            placeholder="Digite seu email"
-            size="sm"
-            css={inputStyles}
-          />
+          <InputField {...register('email')} placeholder="Digite seu email" />
         </Field>
 
         <Flex w="full" flexDir="column" gap="2">
@@ -119,7 +112,8 @@ const FormRegister = () => {
               {...register('password')}
               placeholder="Digite sua senha"
               size="sm"
-              css={inputStyles}
+              variant="subtle"
+              css={inputFieldStyles}
             />
           </Field>
 
