@@ -69,6 +69,9 @@ export function useAppointmentPage() {
   const totalAppointments = appointmentsPageData?.total ?? 0
   const appointmentsSummary = appointmentsPageData?.summary
   const appointmentsScopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishment.id}`
+  const pendingAppointmentsCount =
+    appointmentsSummary?.byStatus[AppointmentStatus.PENDING] ?? 0
+  const hasPendingAppointments = pendingAppointmentsCount > 0
 
   const retryAppointments = () => refetchAppointments()
 
@@ -80,5 +83,7 @@ export function useAppointmentPage() {
     isLoadingAppointments,
     retryAppointments,
     appointmentsScopeKey,
+    pendingAppointmentsCount,
+    hasPendingAppointments,
   }
 }

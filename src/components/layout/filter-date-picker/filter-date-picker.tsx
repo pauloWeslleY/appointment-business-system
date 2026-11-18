@@ -45,6 +45,7 @@ const FilterDatePicker = ({
           size="sm"
           maxW="full"
           whiteSpace="normal"
+          borderColor={inputFieldStyles.borderColor}
           rounded={inputFieldStyles.rounded}
           bg={inputFieldStyles.bg}
           transition="backgrounds"

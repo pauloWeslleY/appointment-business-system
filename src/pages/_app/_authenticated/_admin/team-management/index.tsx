@@ -4,13 +4,20 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/',
 )({
-  head: () => ({
-    meta: [{ title: 'Equipe e acessos | Agendros' }],
-  }),
   beforeLoad: () => {
-    throw redirect({ to: '/team-management/members', replace: true })
+    throw redirect({
+      to: '/team-management/members',
+      replace: true,
+    })
   },
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Equipe e acessos | Agendros',
+      },
+    ],
+  }),
 })
 
 function RouteComponent() {

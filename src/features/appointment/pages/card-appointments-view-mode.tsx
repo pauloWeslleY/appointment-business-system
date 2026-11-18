@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  Card,
   Flex,
   type PaginationPageChangeDetails,
   SimpleGrid,
@@ -13,6 +14,7 @@ import { useTransition } from 'react'
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
 import Loader from '@/components/loader'
+import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardAppointment from '../components/card-appointment'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
@@ -22,7 +24,7 @@ interface ListAppointmentEstablishmentProps {
   total: number
 }
 
-const ListAppointmentEstablishment = ({
+const CardsAppointmentsViewMode = ({
   appointments,
   total,
 }: ListAppointmentEstablishmentProps) => {
@@ -65,7 +67,7 @@ const ListAppointmentEstablishment = ({
   }
 
   return (
-    <Box spaceY="4" w="full">
+    <Card.Root variant="outline" css={cardSectionCss} w="full" spaceY="4">
       {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
 
       {!isPendingPagination && (
@@ -115,8 +117,8 @@ const ListAppointmentEstablishment = ({
           </Text>
         </Box>
       </Flex>
-    </Box>
+    </Card.Root>
   )
 }
 
-export default ListAppointmentEstablishment
+export default CardsAppointmentsViewMode

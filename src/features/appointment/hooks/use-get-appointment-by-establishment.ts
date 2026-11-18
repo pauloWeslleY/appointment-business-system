@@ -3,9 +3,9 @@ import { getRouteApi } from '@tanstack/react-router'
 
 import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
+import { appointmentRangeBoundary } from '../helpers/appointment-date'
 import { appointmentListQueryOptions } from '../queries/appointment.query-options'
 import type { GetAppointmentByEstablishmentQueryParams } from '../types/get-appointment-by-establishment-query-params'
-import { appointmentRangeBoundary } from '../helpers/appointment-date'
 
 const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 

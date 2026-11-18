@@ -23,9 +23,9 @@ export const menuItemCss = defineStyle({
 export const cardCss = defineStyle({
   minW: '0',
   overflowWrap: 'anywhere',
-  rounded: 'xl',
+  rounded: 'lg',
   shadow: 'xs',
-  bg: { _light: 'primary.100/40', _dark: 'primary.800/40' },
+  bg: { _light: 'primary.100/40', _dark: 'primary.900/50' },
   borderColor: { _light: 'gray.200', _dark: 'secondary.500/20' },
   p: '2',
 })

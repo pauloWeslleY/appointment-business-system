@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react'
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { Users2 } from 'lucide-react'
 
@@ -8,10 +7,14 @@ import ListMembers from '@/features/members/components/list-members'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/members/',
 )({
-  head: () => ({
-    meta: [{ title: 'Membros | Agendros' }],
-  }),
   component: MembersPage,
+  head: () => ({
+    meta: [
+      {
+        title: 'Membros | Agendros',
+      },
+    ],
+  }),
 })
 
 const routeTeamManagement = getRouteApi(
@@ -31,9 +34,5 @@ function MembersPage() {
     )
   }
 
-  return (
-    <Box spaceY={{ base: '4', lg: '6' }}>
-      <ListMembers />
-    </Box>
-  )
+  return <ListMembers />
 }

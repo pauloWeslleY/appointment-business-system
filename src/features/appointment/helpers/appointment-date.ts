@@ -41,3 +41,10 @@ export function calculateAppointmentEndsAt(
 ): string {
   return dayjs(startsAt).add(durationInMinutes, 'minute').toISOString()
 }
+
+export function appointmentDurationInMinutes(
+  startsAt: string,
+  endsAt: string,
+): number {
+  return dayjs(endsAt).diff(dayjs(startsAt), 'minute')
+}

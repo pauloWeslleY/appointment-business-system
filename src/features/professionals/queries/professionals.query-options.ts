@@ -33,17 +33,16 @@ export function professionalDetailsQueryOptions(
   userId?: string,
   organizationId?: string,
 ) {
-  const canFetchProfessionalDetails =
-    !!professionalId && !!userId && !!organizationId
   return queryOptions({
     queryKey: professionalsQueryKeys.detail(
       professionalId,
       userId,
       organizationId,
     ),
-    queryFn: canFetchProfessionalDetails
-      ? () => getProfessionalService(professionalId)
-      : skipToken,
+    queryFn:
+      !!professionalId && !!userId && !!organizationId
+        ? () => getProfessionalService(professionalId)
+        : skipToken,
   })
 }
 

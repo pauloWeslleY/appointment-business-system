@@ -11,7 +11,7 @@ import {
   Stack,
   Textarea,
 } from '@chakra-ui/react'
-import { Calendar, PlusIcon, SaveIcon } from 'lucide-react'
+import { Calendar, CalendarPlusIcon, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 
@@ -81,7 +81,7 @@ const SidebarCreateAppointment = () => {
     >
       <Drawer.Trigger asChild>
         <Button rounded="lg" size="xs" colorPalette="brand">
-          <Icon as={PlusIcon} boxSize="5" />
+          <Icon as={CalendarPlusIcon} boxSize="5" />
           Novo Agendamento
         </Button>
       </Drawer.Trigger>
