@@ -19,12 +19,12 @@ interface RouterContext {
   queryClient: QueryClient
 }
 
-const LANDING_PATHS = ['/', '/terms-of-use', '/privacy-policy']
+const LANDING_PATHS = new Set(['/', '/terms-of-use', '/privacy-policy'])
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   beforeLoad: ({ location }) => {
     const hostname = window.location.hostname
-    const isPublicPage = LANDING_PATHS.includes(location.pathname)
+    const isPublicPage = LANDING_PATHS.has(location.pathname)
 
     if (isLandingHostname(hostname) && !isPublicPage) {
       throw redirect({

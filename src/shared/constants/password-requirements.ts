@@ -3,7 +3,7 @@ import {
   hasPasswordNumber,
   hasPasswordSymbol,
   hasPasswordUppercaseLetter,
-} from '../helpers/verify-password'
+} from '../helpers/password-rules'
 import type {
   PasswordRequirement,
   PasswordStrengthLevel,

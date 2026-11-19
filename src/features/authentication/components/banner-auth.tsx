@@ -25,13 +25,14 @@ const BannerAuth = (props: StackProps) => {
       gap={{ base: '4', lg: '12' }}
       backdropFilter="blur(16px) saturate(160%)"
       bg={{ _light: 'slate.200/40', _dark: 'navy.600/20' }}
-      rounded="4xl"
       p="10"
       h="full"
       minH="2xl"
       pos="relative"
       overflow="hidden"
     >
+      <GeometricBackground zIndex="-1" />
+
       <Box
         pos="absolute"
         top="2"
@@ -40,8 +41,6 @@ const BannerAuth = (props: StackProps) => {
       >
         <ColorModeButton rounded="full" variant="ghost" />
       </Box>
-
-      <GeometricBackground zIndex="-1" />
 
       {/* Logo and system name */}
       <a href={landingHref}>

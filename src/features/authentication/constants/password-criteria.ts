@@ -3,7 +3,7 @@ import {
   hasPasswordNumber,
   hasPasswordSymbol,
   hasPasswordUppercaseLetter,
-} from '@/shared/helpers/verify-password'
+} from '@/shared/helpers/password-rules'
 
 export const passwordCriteria = [
   {
