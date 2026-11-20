@@ -11,14 +11,14 @@ export const OpeningHoursSummaryApiResponseSchema = z.object({
   status: z.enum(Object.values(StatusOpeningHours)),
 })
 
+export const IntervalOpeningHoursApiResponseSchema = z.object({
+  open: z.string().regex(/^\d{2}:\d{2}$/),
+  close: z.string().regex(/^\d{2}:\d{2}$/),
+})
+
 export const ListOpeningHoursSummaryApiResponseSchema = z.object({
   day: z.number().int().min(0).max(6),
-  intervals: z.array(
-    z.object({
-      open: z.string().regex(/^\d{2}:\d{2}$/),
-      close: z.string().regex(/^\d{2}:\d{2}$/),
-    }),
-  ),
+  intervals: z.array(IntervalOpeningHoursApiResponseSchema),
 })
 
 export const EstablishmentOpeningHoursItemApiResponseSchema =

@@ -1,29 +1,35 @@
-import { Button, CloseButton, Dialog, Portal, Text } from '@chakra-ui/react'
+import {
+  Button,
+  CloseButton,
+  Dialog,
+  Portal,
+  Skeleton,
+  Text,
+} from '@chakra-ui/react'
 
-import { weekDaysLabels } from '@/shared/utils/create-list-weekdays'
 import { contentCss } from '@/theme/styles/global-styles'
 
 import { useDeleteOpeningHours } from '../hooks/use-delete-opening-hours'
-import type { EstablishmentOpeningHoursItemApiResponse } from '../types/opening-hours-response.api.type'
 
 interface DialogDeleteOpeningHoursProps {
-  openingHours: EstablishmentOpeningHoursItemApiResponse | null
-  establishmentId: string
+  openingHoursId: string
   open: boolean
   onOpen: (open: boolean) => void
+  clearOpeningHoursId?: () => void
 }
 
 const DialogDeleteOpeningHours = ({
-  openingHours,
-  establishmentId,
+  openingHoursId,
   open,
   onOpen,
 }: DialogDeleteOpeningHoursProps) => {
-  const { handleDeleteOpeningHours, isPendingDeleteOpeningHours } =
-    useDeleteOpeningHours(establishmentId, () => onOpen(false))
-
-  const dayLabel = openingHours ? weekDaysLabels[openingHours.day] : ''
-  const interval = openingHours?.intervals[0]
+  const {
+    openingHourDetails,
+    // openingHoursErrorSummary,
+    isLoadingOpeningHoursSummary,
+    isPendingDeleteOpeningHours,
+    handleDeleteOpeningHours,
+  } = useDeleteOpeningHours(openingHoursId, () => onOpen(false))
 
   return (
     <Dialog.Root
@@ -42,31 +48,41 @@ const DialogDeleteOpeningHours = ({
               <Dialog.Title>Excluir horário de funcionamento</Dialog.Title>
             </Dialog.Header>
 
-            <Dialog.Body spaceY="2">
-              <Text
-                css={{
-                  '& strong': {
-                    color: { _light: 'sea.500', _dark: 'sea.600' },
-                  },
-                }}
-              >
-                Horário: <strong>{dayLabel}</strong>
-                {interval && (
-                  <strong>{` · ${interval.open} - ${interval.close}`}</strong>
-                )}
-              </Text>
+            {isLoadingOpeningHoursSummary && (
+              <Dialog.Body>
+                <Skeleton
+                  h="14"
+                  w="full"
+                  rounded="lg"
+                  bg={{ _light: 'slate.100', _dark: 'slate.800/30' }}
+                />
+              </Dialog.Body>
+            )}
 
-              <p>
-                Tem certeza que deseja excluir este horário? Esta ação não pode
-                ser desfeita.
-              </p>
-            </Dialog.Body>
+            {!isLoadingOpeningHoursSummary && (
+              <Dialog.Body spaceY="2">
+                <Text
+                  css={{
+                    '& strong': {
+                      color: { _light: 'sea.500', _dark: 'sea.600' },
+                    },
+                  }}
+                >
+                  Horário: <strong>{openingHourDetails}</strong>
+                </Text>
+
+                <p>
+                  Tem certeza que deseja excluir este horário? Esta ação não
+                  pode ser desfeita.
+                </p>
+              </Dialog.Body>
+            )}
 
             <Dialog.Footer flexWrap="wrap" gap="2">
               <Dialog.ActionTrigger asChild>
                 <Button
                   colorPalette="brand"
-                  variant="outline"
+                  variant="ghost"
                   rounded="lg"
                   size="sm"
                   disabled={isPendingDeleteOpeningHours}
@@ -81,7 +97,7 @@ const DialogDeleteOpeningHours = ({
                 rounded="lg"
                 size="sm"
                 loading={isPendingDeleteOpeningHours}
-                onClick={() => handleDeleteOpeningHours(openingHours?.id)}
+                onClick={() => handleDeleteOpeningHours(openingHoursId)}
               >
                 Excluir
               </Button>

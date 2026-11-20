@@ -5,20 +5,19 @@ import {
   Card,
   EmptyState,
   For,
-  GridItem,
-  SimpleGrid,
   Skeleton,
   Stack,
 } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Clock2Icon } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 
 import Header from '@/components/layout/header'
 import DialogDeleteOpeningHours from '@/features/opening-hours/components/dialog-delete-opening-hours'
 import ListOpeningHours from '@/features/opening-hours/components/list-opening-hours'
 import { useOpeningHoursPage } from '@/features/opening-hours/hooks/use-opening-hours-page'
 import FormCreateOpeningHoursPage from '@/features/opening-hours/pages/form-create-opening-hours.page'
-import FormUpdateOpeningHoursPage from '@/features/opening-hours/pages/form-update-opening-hours.page'
+import UpdateOpeningHoursPage from '@/features/opening-hours/pages/update-opening-hours.page'
 import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 import { cardSectionCss } from '@/theme/styles/global-styles'
@@ -41,26 +40,33 @@ export const Route = createFileRoute(
   }),
 })
 
+const MotionBox = motion.create(Box)
+
 function OpeningHoursPage() {
   const {
     establishmentId,
-    openingHours,
-    openingHoursInEdition,
-    openingHoursToDelete,
-    openingHoursError,
     isLoadingOpeningHours,
-    retryOpeningHours,
-    openingHoursScopeKey,
     isDeleteDialogOpen,
+    openingHours,
+    openingHourIdToDelete,
+    openingHoursError,
+    openingHoursScopeKey,
+    hasOpeningHours,
+    hasNoOpeningHours,
+    hourSelectedEdition,
+    isEditingOpeningHours,
+    showOpeningHoursLimitAlert,
+    showFormCreateOpeningHour,
+    showOpeningHoursForm,
+    openingHoursFormWidth,
+    openingHoursMotionDuration,
+    shouldReduceOpeningHoursMotion,
+    retryOpeningHours,
     onEditOpeningHours,
     onCancelEditOpeningHours,
     onDeleteOpeningHours,
     onDeleteDialogOpenChange,
   } = useOpeningHoursPage()
-
-  const hasOpeningHours = openingHours.length > 0
-  const hasNoOpeningHours =
-    !isLoadingOpeningHours && !openingHoursError && !hasOpeningHours
 
   return (
     <Box key={openingHoursScopeKey} spaceY={{ base: '4', lg: '6' }} pb="4">
@@ -69,8 +75,12 @@ function OpeningHoursPage() {
         <Header.Title>Horários</Header.Title>
       </Header.Root>
 
-      <SimpleGrid columns={{ base: 1, lg: 5 }} gap="4" alignItems="start">
-        <GridItem colSpan={{ base: 1, lg: 2 }}>
+      <Box
+        display="flex"
+        flexDirection={{ base: 'column', lg: 'row' }}
+        alignItems="start"
+      >
+        <Box w={{ base: 'full', lg: 'auto' }} flex={{ lg: '1 1 0%' }} minW="0">
           <Card.Root variant="outline" {...cardSectionCss}>
             <Card.Header px="0" pt="0" mb="4">
               <Card.Title>Horários de Funcionamento</Card.Title>
@@ -114,34 +124,105 @@ function OpeningHoursPage() {
             {hasOpeningHours && (
               <ListOpeningHours
                 openingHours={openingHours}
-                selectedOpeningHoursId={openingHoursInEdition?.id}
+                selectedOpeningHoursId={hourSelectedEdition}
                 onEdit={onEditOpeningHours}
                 onDelete={onDeleteOpeningHours}
               />
             )}
           </Card.Root>
-        </GridItem>
+          <AnimatePresence>
+            {showOpeningHoursLimitAlert && (
+              <motion.div
+                key="opening-hours-limit"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{
+                  duration: openingHoursMotionDuration,
+                  ease: 'easeInOut',
+                }}
+                style={{ overflow: 'hidden' }}
+              >
+                <Alert.Root
+                  status="info"
+                  variant="surface"
+                  rounded="xl"
+                  shadow="xs"
+                  border="1px solid"
+                  borderColor="blue.muted"
+                  mt="4"
+                  mb="2"
+                >
+                  <Alert.Indicator />
+                  <Alert.Title>Limite de horários atingido</Alert.Title>
+                  <Alert.Description>
+                    Você não pode adicionar mais horários de funcionamento.
+                  </Alert.Description>
+                </Alert.Root>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Box>
 
-        <GridItem colSpan={{ base: 1, lg: 3 }}>
-          {openingHoursInEdition && (
-            <FormUpdateOpeningHoursPage
-              key={openingHoursInEdition.id}
-              openingHours={openingHoursInEdition}
-              establishmentId={establishmentId}
-              onCancel={onCancelEditOpeningHours}
-              onSaved={onCancelEditOpeningHours}
-            />
-          )}
+        <MotionBox
+          initial={false}
+          animate={{ width: openingHoursFormWidth }}
+          transition={{
+            duration: openingHoursMotionDuration,
+            ease: 'easeInOut',
+          }}
+          flexShrink="0"
+          minW="0"
+          overflowX="clip"
+          inert={!showOpeningHoursForm}
+        >
+          <AnimatePresence initial={false}>
+            {showOpeningHoursForm && (
+              <MotionBox
+                key="opening-hours-form"
+                exit={{ height: 0, opacity: 0, overflow: 'hidden' }}
+                transition={{
+                  duration: openingHoursMotionDuration,
+                  ease: 'easeInOut',
+                }}
+              >
+                <Box pt={{ base: '4', lg: '0' }} ps={{ lg: '4' }}>
+                  {isEditingOpeningHours && (
+                    <MotionBox
+                      key={hourSelectedEdition}
+                      initial={
+                        shouldReduceOpeningHoursMotion
+                          ? false
+                          : { opacity: 0, y: -8 }
+                      }
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: openingHoursMotionDuration,
+                        ease: 'easeInOut',
+                      }}
+                    >
+                      <UpdateOpeningHoursPage
+                        openingHoursId={hourSelectedEdition}
+                        establishmentId={establishmentId}
+                        onCancel={onCancelEditOpeningHours}
+                      />
+                    </MotionBox>
+                  )}
 
-          {!openingHoursInEdition && (
-            <FormCreateOpeningHoursPage establishmentId={establishmentId} />
-          )}
-        </GridItem>
-      </SimpleGrid>
+                  {showFormCreateOpeningHour && (
+                    <FormCreateOpeningHoursPage
+                      establishmentId={establishmentId}
+                    />
+                  )}
+                </Box>
+              </MotionBox>
+            )}
+          </AnimatePresence>
+        </MotionBox>
+      </Box>
 
       <DialogDeleteOpeningHours
-        openingHours={openingHoursToDelete}
-        establishmentId={establishmentId}
+        openingHoursId={openingHourIdToDelete}
         open={isDeleteDialogOpen}
         onOpen={onDeleteDialogOpenChange}
       />

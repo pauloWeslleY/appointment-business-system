@@ -18,4 +18,16 @@ export const openingHoursQueryKeys = {
 
   detail: (scope: OpeningHoursQueryScope, openingHoursId?: string) =>
     [...openingHoursQueryKeys.scope(scope), 'detail', openingHoursId] as const,
+
+  customTimes: (
+    scope: OpeningHoursQueryScope,
+    openingHoursId?: string,
+    establishmentId?: string,
+  ) =>
+    [
+      ...openingHoursQueryKeys.scope(scope),
+      'custom-times',
+      openingHoursId,
+      establishmentId ?? null,
+    ] as const,
 } as const
