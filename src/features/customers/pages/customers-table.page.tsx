@@ -68,45 +68,57 @@ const CustomersTable = ({ customers, total }: CustomerTableProps) => {
               borderBottomWidth={
                 index === loadTablePagination.length - 1 ? '0' : '1px'
               }
-              borderColor="border.muted"
+              borderColor={{ _light: 'gray.200', _dark: 'slate.700/60' }}
             >
-              {[
-                { label: 'Nome', value: row.name },
-                { label: 'E-mail', value: row.email },
-                {
-                  label: 'Sexo',
-                  value: row.gender
-                    ? (mapGenderLabel[row.gender] ?? row.gender)
-                    : 'Não informado',
-                },
-                {
-                  label: 'Celulares',
-                  value: formattedPhoneCustomer(row.phones),
-                },
-                {
-                  label: 'Ativos',
-                  value: (
-                    <Status value={row.status ? 'success' : 'error'}>
-                      {row.status ? 'Ativo' : 'Inativo'}
-                    </Status>
-                  ),
-                },
-                {
-                  label: 'Data de Nasc.',
-                  value: formattedDateAndHours(row.birthDate),
-                },
-              ].map(({ label, value }) => (
-                <Box
-                  key={label}
-                  minW="0"
-                  gridColumn={{ xl: label === 'E-mail' ? 'span 2' : undefined }}
-                >
-                  <Text fontSize="xs" color="fg.muted" mb="1">
-                    {label}
-                  </Text>
-                  <Box overflowWrap="anywhere">{value}</Box>
-                </Box>
-              ))}
+              <For
+                each={[
+                  {
+                    label: 'Nome',
+                    value: row.name,
+                  },
+                  {
+                    label: 'E-mail',
+                    value: row.email,
+                  },
+                  {
+                    label: 'Sexo',
+                    value: row.gender
+                      ? (mapGenderLabel[row.gender] ?? row.gender)
+                      : 'Não informado',
+                  },
+                  {
+                    label: 'Celulares',
+                    value: formattedPhoneCustomer(row.phones),
+                  },
+                  {
+                    label: 'Ativos',
+                    value: (
+                      <Status value={row.status ? 'success' : 'error'}>
+                        {row.status ? 'Ativo' : 'Inativo'}
+                      </Status>
+                    ),
+                  },
+                  {
+                    label: 'Data de Nasc.',
+                    value: formattedDateAndHours(row.birthDate),
+                  },
+                ]}
+              >
+                {({ label, value }) => (
+                  <Box
+                    key={label}
+                    minW="0"
+                    gridColumn={{
+                      xl: label === 'E-mail' ? 'span 2' : undefined,
+                    }}
+                  >
+                    <Text fontSize="xs" color="fg.muted" mb="1">
+                      {label}
+                    </Text>
+                    <Box overflowWrap="anywhere">{value}</Box>
+                  </Box>
+                )}
+              </For>
 
               <Flex justify={{ xl: 'flex-end' }}>
                 <MenuActionsTableCustomers customer={row} />

@@ -1,4 +1,4 @@
-import { Badge, Box, Table } from '@chakra-ui/react'
+import { Badge, Box, chakra, For, Table } from '@chakra-ui/react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useMemo } from 'react'
 
@@ -11,6 +11,12 @@ import type { DailyAppointmentsDashboardApiResponse } from '../types/get-daily-a
 interface TableDailyBookingsEstablishmentDashboardProps {
   bookings: DailyAppointmentsDashboardApiResponse
 }
+
+const TableCell = chakra(Table.Cell, {
+  base: {
+    borderBottomColor: { _light: 'slate.200', _dark: 'slate.500/20' },
+  },
+})
 
 const TableDailyBookingsEstablishmentDashboard = ({
   bookings,
@@ -41,21 +47,30 @@ const TableDailyBookingsEstablishmentDashboard = ({
         <Table.Root size="sm" variant="line" minW="32rem">
           <Table.Header>
             <Table.Row bg="transparent">
-              <Table.ColumnHeader>Cliente</Table.ColumnHeader>
-              <Table.ColumnHeader>Data</Table.ColumnHeader>
-              <Table.ColumnHeader>Serviço</Table.ColumnHeader>
-              <Table.ColumnHeader>Status</Table.ColumnHeader>
+              <For each={['Cliente', 'Data', 'Serviço', 'Status']}>
+                {(header) => (
+                  <Table.ColumnHeader
+                    color={{ _light: 'sea.600', _dark: 'sea.500' }}
+                    borderBottomColor={{
+                      _light: 'slate.200',
+                      _dark: 'slate.500/20',
+                    }}
+                  >
+                    {header}
+                  </Table.ColumnHeader>
+                )}
+              </For>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {getTableDailyBookingsEstablishmentDashboard.map((booking) => (
               <Table.Row key={booking.id} bg="transparent">
-                <Table.Cell>{booking.user}</Table.Cell>
-                <Table.Cell>
+                <TableCell>{booking.user}</TableCell>
+                <TableCell>
                   {formattedDateAndHours(booking.dateAppointment, true)}
-                </Table.Cell>
-                <Table.Cell>{booking.service}</Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>{booking.service}</TableCell>
+                <TableCell>
                   <Badge
                     colorPalette={
                       dashboardAppointmentStatusLabels[booking.status].color
@@ -64,7 +79,7 @@ const TableDailyBookingsEstablishmentDashboard = ({
                   >
                     {dashboardAppointmentStatusLabels[booking.status].label}
                   </Badge>
-                </Table.Cell>
+                </TableCell>
               </Table.Row>
             ))}
           </Table.Body>

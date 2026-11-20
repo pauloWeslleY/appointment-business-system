@@ -2,7 +2,8 @@ import {
   Avatar,
   Badge,
   Button,
-  Flex,
+  // Flex,
+  Grid,
   HStack,
   Icon,
   SimpleGrid,
@@ -60,13 +61,12 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
   )
 
   return (
-    <Flex
+    <Grid
+      templateColumns={{ base: '1fr', md: '100px 1fr' }}
       as="li"
-      align="center"
       py="4"
       px={{ base: '4', md: '6' }}
       gap={{ base: '3', md: '6' }}
-      flexWrap={{ base: 'wrap', md: 'nowrap' }}
       _notLast={{
         borderBottomWidth: '1px',
         borderColor: { _light: 'gray.300', _dark: 'secondary.500/20' },
@@ -74,8 +74,8 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
     >
       <Stack
         gap="0"
+        // w="min(100px, 100%)"
         color={{ _light: 'gray.700', _dark: 'gray.200' }}
-        minW="16"
         pe={{ base: '0', md: '6' }}
         borderRightWidth={{ base: '0', md: '1px' }}
         borderColor={{ _light: 'gray.300', _dark: 'secondary.500/20' }}
@@ -128,7 +128,7 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
           )}
         </div>
 
-        <HStack gap="3" justify="center">
+        <HStack gap="2" justify="center">
           <Avatar.Root size="sm" variant="subtle">
             <Avatar.Fallback name={appointment.customerName} />
           </Avatar.Root>
@@ -170,7 +170,7 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
           <MenuCardAppointment appointment={appointment} />
         </HStack>
       </SimpleGrid>
-    </Flex>
+    </Grid>
   )
 }
 
