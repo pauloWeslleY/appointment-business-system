@@ -40,11 +40,16 @@ export function useOpeningHoursPage() {
       hour_to_delete: openingHourIdToDelete,
     },
     setSearchParamsOpeningHours,
-  ] = useQueryStates({
-    is_open_dialog_delete: parseAsBoolean.withDefault(false),
-    hour_edition: parseAsString.withDefault(''),
-    hour_to_delete: parseAsString.withDefault(''),
-  })
+  ] = useQueryStates(
+    {
+      is_open_dialog_delete: parseAsBoolean.withDefault(false),
+      hour_edition: parseAsString.withDefault(''),
+      hour_to_delete: parseAsString.withDefault(''),
+    },
+    {
+      shallow: false,
+    },
+  )
 
   const establishmentId = establishment.id
   const openingHours = openingHoursData ?? []
