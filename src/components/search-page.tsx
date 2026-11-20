@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react'
 import { SearchIcon, X } from 'lucide-react'
 import { debounce, parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
-import type { ChangeEvent } from 'react'
+import { type ChangeEvent } from 'react'
 
 import InputField from '@/components/input-field'
 
@@ -21,24 +21,20 @@ const SearchPage = ({ resetPagination = false, ...props }: SearchPageProps) => {
   })
 
   function handleSearchPage(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(
-      { q: event.target.value, ...(resetPagination ? { page: 1 } : {}) },
-      {
-        shallow: resetPagination,
-        limitUrlUpdates:
-          event.target.value.length !== 0 ? debounce(500) : undefined,
-      },
-    )
+    setSearch((prevState) => ({
+      ...(resetPagination ? { page: 1 } : { ...prevState }),
+      q: event.target.value,
+      limitUrlUpdates:
+        event.target.value.length !== 0 ? debounce(500) : undefined,
+    }))
   }
 
   function handleClearSearchPage() {
-    setSearch(
-      { q: '', ...(resetPagination ? { page: 1 } : {}) },
-      {
-        shallow: resetPagination,
-        limitUrlUpdates: debounce(500),
-      },
-    )
+    setSearch((prevState) => ({
+      ...(resetPagination ? { page: 1 } : { ...prevState }),
+      q: '',
+      limitUrlUpdates: debounce(500),
+    }))
   }
 
   return (

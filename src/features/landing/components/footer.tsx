@@ -13,10 +13,9 @@ import { ArrowRight } from 'lucide-react'
 import Logotipo from '@/components/logotipo'
 import { getAdminHref, getCustomerHref } from '@/shared/config/site-domains'
 
-import { navigation } from '../constants/data-landing-page'
+import { landingWhatsAppHref, navigation } from '../constants/data-landing-page'
 
 const yearFooter = new Date().getFullYear()
-const mensagem = encodeURIComponent('Olá! Gostaria de mais informações.')
 
 const Footer = () => {
   return (
@@ -37,9 +36,7 @@ const Footer = () => {
               mb="3"
             />
             <Text fontSize="xs" color="navy.200">
-              Mais organização para o seu negócio.
-              <br />
-              Mais tempo para o que importa.
+              Agendamento online e gestão da agenda da equipe.
             </Text>
             <Button
               asChild
@@ -49,12 +46,8 @@ const Footer = () => {
               px="0"
               mt="2"
             >
-              <Link
-                href={`https://wa.me/5511958908360?text=${mensagem}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Fale diretamente com o desenvolvedor.
+              <Link href={landingWhatsAppHref} target="_blank" rel="noreferrer">
+                Falar pelo WhatsApp
               </Link>
             </Button>
           </Flex>
@@ -91,7 +84,7 @@ const Footer = () => {
               align={{ base: 'center', lg: 'flex-start' }}
             >
               <Link href="#recursos" color="navy.200">
-                Sobre nós
+                Conheça a Agendros
               </Link>
               <Link href={getCustomerHref()} color="navy.200">
                 Área do cliente
@@ -113,10 +106,10 @@ const Footer = () => {
 
           <Box>
             <Text fontSize="12px" fontWeight="600" mb="3">
-              Seu negócio mais organizado
+              Experimente a Agendros
             </Text>
             <Text fontSize="11px" color="navy.200" mb="3">
-              Comece a transformar sua rotina.
+              7 dias de teste, sem cartão de crédito.
             </Text>
             <Button
               rounded="lg"
@@ -126,7 +119,7 @@ const Footer = () => {
               color="brand.navy"
             >
               <Link href={getAdminHref('/register')}>
-                Experimente grátis
+                Testar grátis por 7 dias
                 <ArrowRight size={14} />
               </Link>
             </Button>

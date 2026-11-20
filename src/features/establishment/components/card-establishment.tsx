@@ -28,18 +28,12 @@ import { cardCss } from '@/theme/styles/global-styles'
 import { formattedDateAndHours } from '../../../shared/utils/formatted-date'
 import { mapStatusEstablishment } from '../types/establishment-status.type'
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
+import { getEstablishmentStorageImageKey } from '../utils/establishment-storage-image'
 import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hours-establishment'
 import SidebarInfoEstablishment from './sidebar-info-establishment'
 
 interface CardEstablishmentProps {
   establishment: EstablishmentOrganizationProfileApiResponse
-}
-
-const getEstablishmentStorageImageKey = (imageUrl?: string | null) => {
-  if (!imageUrl) {
-    return null
-  }
-  return imageUrl.startsWith('establishment/') ? imageUrl : null
 }
 
 const CardEstablishment = ({ establishment }: CardEstablishmentProps) => {

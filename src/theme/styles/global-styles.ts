@@ -62,8 +62,10 @@ export const inputFieldStyles = defineStyle({
 
 export const cssTableColumns = defineStyle({
   color: { _light: 'sea.600', _dark: 'sea.500' },
+  borderBottomColor: { _light: 'slate.200', _dark: 'slate.900/60' },
 })
 
 export const cssTableRows = defineStyle({
   bg: { _light: 'slate.100', _dark: 'slate.950/80' },
+  borderBottomColor: { _light: 'slate.200', _dark: 'slate.900/60' },
 })

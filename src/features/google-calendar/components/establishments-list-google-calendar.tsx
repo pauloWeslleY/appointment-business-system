@@ -42,7 +42,6 @@ const EstablishmentsListGoogleCalendar = () => {
         maxW="full"
         aria-label="Integrações de calendário: role para ver todas as colunas"
         rounded="lg"
-        borderColor={{ _light: 'slate.200', _dark: 'slate.900/60' }}
       >
         <Table.Root variant="outline" minW="36rem">
           <Table.Header>

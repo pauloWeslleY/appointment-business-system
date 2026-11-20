@@ -8,7 +8,12 @@ export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
       {
-        title: 'Início | Agendros',
+        title: 'Sistema de agendamento online para empresas | Agendros',
+      },
+      {
+        name: 'description',
+        content:
+          'Seus clientes escolhem um horário pelo seu link, e você acompanha a agenda da equipe. Teste a Agendros por 7 dias, sem cartão.',
       },
     ],
   }),

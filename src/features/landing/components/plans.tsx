@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Flex,
   For,
@@ -11,9 +12,10 @@ import {
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'
-import { Gift } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa'
 
-import { plans, summayPlans } from '../constants/data-plans'
+import { landingSetupHelpWhatsAppHref } from '../constants/data-landing-page'
+import { planBenefits, plans } from '../constants/data-plans'
 import Eyebrow from './evebrow'
 import PlanCard from './plan-card'
 
@@ -27,68 +29,88 @@ const Plans = () => {
       py="9"
     >
       <Eyebrow>Planos</Eyebrow>
-      <Box>
-        <Heading as="h2" fontSize="28px">
-          Escolha o plano ideal para o seu negócio.
-        </Heading>
-        <Text fontSize="13px" color="brand.slate" mt="2">
-          Todos os planos incluem os recursos essenciais. Cancele quando quiser.
-        </Text>
-      </Box>
+      <Heading
+        as="h2"
+        color="brand.navy"
+        fontSize={{ base: '28px', md: '34px' }}
+      >
+        Um plano, duas formas de pagar
+      </Heading>
+      <Text fontSize={{ base: 'sm', md: 'md' }} color="brand.slate" mt="2">
+        Escolha a cobrança mensal ou anual. O plano inclui os mesmos recursos
+        nas duas opções.
+      </Text>
 
       <Grid
-        templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }}
-        gap="10"
-        py="8"
+        templateColumns={{
+          base: '1fr',
+          xl: 'minmax(0, 2fr) minmax(220px, 1fr)',
+        }}
+        gap={{ base: '8', xl: '10' }}
+        pt="7"
       >
-        <GridItem placeContent="center" spaceY="4">
-          <For each={summayPlans}>
-            {(plan, index) => (
-              <HStack key={index} gap={{ base: '2', md: '4' }}>
-                <Flex placeContent="center" p="4" rounded="full" bg="purple.50">
-                  <Icon as={plan.icon} boxSize="6" color="purple.600" />
-                </Flex>
+        <GridItem minW="0">
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
+            <For each={plans}>
+              {(plan) => <PlanCard key={plan.type} plan={plan} />}
+            </For>
+          </SimpleGrid>
 
+          <Flex mt="5" gap="3" align="center" wrap="wrap">
+            <Text color="brand.slate" fontSize="sm">
+              Quer ajuda para configurar a agenda do seu negócio?
+            </Text>
+            <Button
+              asChild
+              variant="outline"
+              rounded="lg"
+              borderColor="slate.200"
+              color="brand.navy"
+              transition="background-color 150ms ease-out"
+              _hover={{ bg: 'slate.50' }}
+              _active={{ bg: 'slate.100' }}
+            >
+              <a
+                href={landingSetupHelpWhatsAppHref}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaWhatsapp aria-hidden="true" />
+                Pedir ajuda pelo WhatsApp
+              </a>
+            </Button>
+          </Flex>
+        </GridItem>
+
+        <GridItem spaceY="4">
+          <Heading as="h3" color="brand.navy" fontSize="xl">
+            O que está incluído
+          </Heading>
+          <For each={planBenefits}>
+            {(planBenefit) => (
+              <HStack key={planBenefit.title} gap="3">
+                <Flex
+                  align="center"
+                  justify="center"
+                  boxSize="11"
+                  flexShrink="0"
+                  rounded="full"
+                  bg="sea.50"
+                  color="sea.800"
+                >
+                  <Icon as={planBenefit.icon} boxSize="5" />
+                </Flex>
                 <Box>
-                  <Text fontSize="lg" fontWeight="bold">
-                    {plan.title}
+                  <Text color="brand.navy" fontWeight="semibold">
+                    {planBenefit.title}
                   </Text>
-                  <Text fontSize="sm" color="gray.400">
-                    {plan.description}
+                  <Text fontSize="sm" color="brand.slate">
+                    {planBenefit.description}
                   </Text>
                 </Box>
               </HStack>
             )}
           </For>
-        </GridItem>
-
-        <GridItem asChild w="full">
-          <SimpleGrid columns={{ base: 1, lg: 2 }} gap="2" w="full">
-            {plans.map((plan, index) => (
-              <PlanCard key={index} plan={plan} index={index} />
-            ))}
-          </SimpleGrid>
-
-          <Flex
-            mt="4"
-            align="center"
-            gap="4"
-            colorPalette="green"
-            p="4"
-            bg="green.100/40"
-            rounded="xl"
-          >
-            <Icon as={Gift} boxSize="10" color="colorPalette.800" />
-
-            <Box>
-              <Text color="colorPalette.900" fontSize="xl" fontWeight="bold">
-                3 dias grátis
-              </Text>
-              <Text color="gray.600">
-                Teste todos os recurso s sem cartão de crédito.
-              </Text>
-            </Box>
-          </Flex>
         </GridItem>
       </Grid>
     </Container>

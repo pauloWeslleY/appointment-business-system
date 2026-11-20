@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Flex,
+  For,
   Grid,
   Heading,
   HStack,
@@ -12,16 +13,60 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Check, CirclePlay } from 'lucide-react'
+import {
+  motion,
+  useAnimationControls,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from 'motion/react'
+import { useEffect, useRef } from 'react'
+import { FaWhatsapp } from 'react-icons/fa'
 
+import {
+  backToTopScrollThreshold,
+  landingWhatsAppHref,
+} from '../constants/data-landing-page'
 import SignupButton from './signup-button'
 
 const trialList = [
-  'Teste grátis por 7 dias',
-  'Sem cartão de crédito',
-  'Cancelamento a qualquer momento',
+  'Crie sua conta e ative o teste sem cartão de crédito.',
+  'Sem cobrança automática ao fim do teste.',
 ]
 
 const Banner = () => {
+  const prefersReducedMotion = useReducedMotion()
+  const bannerImageAnimation = useAnimationControls()
+  const hasScrolledDown = useRef(false)
+  const { scrollY } = useScroll()
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      bannerImageAnimation.stop()
+      bannerImageAnimation.set({ y: 0 })
+      return
+    }
+
+    void bannerImageAnimation.start({ y: 0 })
+  }, [bannerImageAnimation, prefersReducedMotion])
+
+  useMotionValueEvent(scrollY, 'change', (pageScrollOffset) => {
+    if (pageScrollOffset > backToTopScrollThreshold) {
+      hasScrolledDown.current = true
+    }
+
+    if (pageScrollOffset > 1 || !hasScrolledDown.current) {
+      return
+    }
+
+    hasScrolledDown.current = false
+
+    if (!prefersReducedMotion) {
+      bannerImageAnimation.set({ y: 8 })
+      void bannerImageAnimation.start({ y: 0 })
+    }
+  })
+
   return (
     <Box
       overflow="hidden"
@@ -35,20 +80,6 @@ const Banner = () => {
           gap={{ base: 6, md: 0 }}
         >
           <Box py={{ base: 10, md: 12 }} zIndex="1">
-            <Text
-              display="inline-block"
-              rounded="full"
-              bg="slate.100"
-              color="brand.slate"
-              fontSize="11px"
-              fontWeight="600"
-              px="4"
-              py="1"
-              mb="4"
-            >
-              Gestão de agendamentos para o seu negócio
-            </Text>
-
             <Heading
               as="h1"
               fontSize={{ base: '38px', lg: '48px' }}
@@ -56,11 +87,9 @@ const Banner = () => {
               fontWeight="800"
               maxW="460px"
             >
-              Mais tempo para
-              <br />o que realmente
-              <br />
+              Sistema de agendamento online{' '}
               <Box as="span" color="sea.500">
-                importa.
+                para empresas de serviços
               </Box>
             </Heading>
 
@@ -72,13 +101,12 @@ const Banner = () => {
               mt="5"
               mb="6"
             >
-              Organize seus agendamentos, gerencie clientes, sua equipe e faça
-              seu negócio crescer com uma plataforma simples, completa e
-              moderna.
+              Seus clientes escolhem um horário pelo seu link. Você acompanha os
+              agendamentos da equipe em uma só agenda.
             </Text>
 
             <Flex gap="3" wrap="wrap">
-              <SignupButton />
+              <SignupButton>Testar grátis por 7 dias</SignupButton>
 
               <Button
                 rounded="lg"
@@ -87,35 +115,54 @@ const Banner = () => {
                 borderColor="slate.200"
                 color="brand.slate"
                 h="11"
-                transition="colors"
+                transition="background-color 150ms ease-out"
                 _hover={{ bg: 'slate.100' }}
+                _active={{ bg: 'slate.200' }}
               >
-                <Link href="#como-funciona">
-                  <CirclePlay size={17} />
-                  Ver como funciona
+                <Link
+                  href={landingWhatsAppHref}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FaWhatsapp size={17} />
+                  Falar pelo WhatsApp
                 </Link>
               </Button>
             </Flex>
 
             <Stack gap="2" mt="5" color="brand.slate" fontSize="12px">
-              {trialList.map((text) => (
-                <HStack key={text} gap="2">
-                  <Box rounded="full" bg="sea.600" color="white" p="0.5">
-                    <Check size={10} />
-                  </Box>
-                  {text}
-                </HStack>
-              ))}
+              <For each={trialList}>
+                {(trialBenefit) => (
+                  <HStack key={trialBenefit} gap="2">
+                    <Box rounded="full" bg="sea.600" color="white" p="0.5">
+                      <Check size={10} />
+                    </Box>
+                    {trialBenefit}
+                  </HStack>
+                )}
+              </For>
             </Stack>
+
+            <Link
+              href="#como-funciona"
+              mt="4"
+              color="brand.slate"
+              fontSize="sm"
+            >
+              <CirclePlay size={17} />
+              Ver como funciona
+            </Link>
           </Box>
 
-          <Image
-            src="/banner.png"
-            alt="Sistema Agendros"
-            w="full"
-            h="auto"
-            objectFit="contain"
-          />
+          <Image asChild w="full" h="auto" objectFit="contain">
+            <motion.img
+              src="/banner.png"
+              alt="Sistema Agendros"
+              initial={prefersReducedMotion ? false : { y: 8 }}
+              animate={bannerImageAnimation}
+              transition={{ duration: 0.36, ease: 'easeOut' }}
+            />
+          </Image>
         </Grid>
       </Container>
     </Box>

@@ -35,13 +35,11 @@ const SessionSummary = () => {
           lineHeight="1.15"
           maxW="390px"
         >
-          Tudo o que você precisa
-          <br />
-          em um só lugar.
+          Agenda, equipe e clientes no mesmo painel
         </Heading>
         <Text color="brand.slate" fontSize="14px" mt="3" maxW="400px">
-          Do agendamento ao pagamento, o Agendros centraliza a gestão do seu
-          negócio de forma prática e eficiente.
+          Veja quem atende em cada horário e consulte os registros dos clientes
+          antes do próximo atendimento.
         </Text>
 
         <Stack gap="3" my="6">
@@ -62,7 +60,7 @@ const SessionSummary = () => {
           </For>
         </Stack>
 
-        <SignupButton>Conhecer todos os recursos</SignupButton>
+        <SignupButton>Testar grátis por 7 dias</SignupButton>
       </Box>
 
       <Image

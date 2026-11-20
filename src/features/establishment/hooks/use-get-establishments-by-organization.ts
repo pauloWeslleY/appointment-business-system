@@ -10,9 +10,9 @@ import { validateOpeningHoursEstablishment } from '../utils/validate-opening-hou
 export function useGetEstablishmentsByOrganization(
   searchTerm?: string,
   opening?: string,
+  status?: string,
 ) {
   const { data: session, error: sessionError, isPending } = useAppSession()
-
   const {
     data: establishments = [],
     error: errorEstablishments,
@@ -29,10 +29,8 @@ export function useGetEstablishmentsByOrganization(
   const filteredEstablishments = useMemo<
     EstablishmentOrganizationProfileApiResponse[]
   >(() => {
-    const normalizedSearchTerm = searchTerm?.toLowerCase() ?? ''
-
     const matchesSearchTerm = (text: string) =>
-      text.toLowerCase().includes(normalizedSearchTerm)
+      text.toLowerCase().includes(searchTerm?.toLowerCase() ?? '')
 
     const matchesOpeningFilter = (
       establishment: EstablishmentOrganizationProfileApiResponse,
@@ -52,9 +50,12 @@ export function useGetEstablishmentsByOrganization(
         matchesSearchTerm(establishment.name) ||
         matchesSearchTerm(establishment.description)
 
-      return matchesNameOrDescription && matchesOpeningFilter(establishment)
+      const matchesStatus = !status || establishment.status === status
+      const matchesOpening = matchesOpeningFilter(establishment)
+
+      return matchesNameOrDescription && matchesOpening && matchesStatus
     })
-  }, [establishments, searchTerm, opening])
+  }, [establishments, searchTerm, opening, status])
 
   return {
     establishments,

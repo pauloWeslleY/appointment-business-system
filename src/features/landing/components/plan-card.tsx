@@ -1,132 +1,94 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-} from '@chakra-ui/react'
-import { Check } from 'lucide-react'
+import { Badge, Button, Heading, Stack, Text } from '@chakra-ui/react'
 
 import { getAdminHref } from '@/shared/config/site-domains'
+import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 
-import type { plans } from '../constants/data-plans'
+import { monthlyPlanPrice, type plans } from '../constants/data-plans'
 
 interface PlanCardProps {
-  index: number
   plan: (typeof plans)[number]
 }
 
-const mapLabelTypePlan = (type: string) => {
-  const labels: Record<string, { label: string; value: string }> = {
-    monthly: { label: '/Mês', value: 'Mensal' },
-    annual: { label: '/Ano', value: 'Anual' },
-  }
+const PlanCard = ({ plan }: PlanCardProps) => {
+  const isAnnualPlan = plan.type === 'annual'
+  const planPriceInCents = Math.round(plan.price * 100)
+  const annualSavingsInCents =
+    Math.round(monthlyPlanPrice * 12 * 100) - planPriceInCents
 
-  return labels[type] || { label: 'Sem plano', value: 'sem plano' }
-}
-
-const PlanCard = ({ plan, index }: PlanCardProps) => {
   return (
-    <Box
-      borderWidth={index === 1 ? '2px' : '1px'}
-      borderColor={index === 1 ? 'purple.500' : 'slate.100'}
-      shadow={index === 1 ? 'sm' : undefined}
-      rounded="xl"
-      p="5"
-      flex="1"
+    <Stack
+      as="article"
+      gap="5"
+      p={{ base: '5', lg: '6' }}
+      borderWidth="1px"
+      borderColor={isAnnualPlan ? 'sea.400' : 'slate.200'}
+      bg={isAnnualPlan ? 'sea.50' : 'white'}
+      rounded="2xl"
+      shadow={isAnnualPlan ? 'sm' : undefined}
+      minW="0"
       h="full"
     >
-      {index === 1 && (
-        <Text
-          textAlign="center"
-          fontSize="lg"
-          bg="purple.500"
-          color="white"
-          rounded="full"
-          px="3"
-          py="1"
-          mt="-10"
-        >
-          Mais econômico
-        </Text>
-      )}
-
-      <Box mt="4">
-        <Heading
-          as="h3"
-          fontSize="xl"
-          fontWeight="bold"
-          textAlign="center"
-          lineHeight="short"
-        >
+      <Stack gap="2">
+        <Heading as="h3" fontSize="xl" color="brand.navy">
           {plan.title}
         </Heading>
-        <Text fontSize="sm" textAlign="center">
-          {mapLabelTypePlan(plan.type).value}
-        </Text>
-      </Box>
-
-      <HStack
-        align="center"
-        gap="1"
-        justify="center"
-        mb={index === 0 ? '10' : '0'}
-      >
-        <strong>R$</strong>
-
-        <Flex align="baseline">
-          <Text fontSize="5xl" fontWeight="bold" letterSpacing="-1px">
-            {plan.price.toLocaleString('pt-BR', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
-            })}
-          </Text>
-
-          <Text fontSize="lg" alignSelf="flex-end" mb="4">
-            {mapLabelTypePlan(plan.type).label}
-          </Text>
-        </Flex>
-      </HStack>
-
-      {index === 1 && (
-        <Flex
-          placeContent="center"
-          bg="purple.500/10"
-          rounded="xl"
-          mb="5"
-          mx="auto"
-          w={{ base: 'fit', md: '2xs' }}
+        {isAnnualPlan && (
+          <Badge
+            alignSelf="flex-start"
+            bg="sea.100"
+            color="sea.900"
+            rounded="full"
+            px="3"
+            py="1"
+          >
+            Economize {formatCurrencyInCents(annualSavingsInCents)} por ano
+          </Badge>
+        )}
+        <Text
+          color="brand.navy"
+          fontSize={{ base: '3xl', lg: '4xl' }}
+          lineHeight="short"
+          fontWeight="bold"
         >
-          <Text fontSize="sm" color="purple.500">
-            Equivalente <strong>R$ 29,17 por mês</strong>
+          {formatCurrencyInCents(planPriceInCents)}{' '}
+          <Text as="span" color="brand.slate" fontSize="md" fontWeight="medium">
+            por {isAnnualPlan ? 'ano' : 'mês'}
           </Text>
-        </Flex>
-      )}
-
-      <Stack gap="2" mb="5">
-        {plan.items.map((item) => (
-          <HStack key={item} fontSize="12px" color="brand.slate">
-            <Flex rounded="full" bg="sea.100" p="1">
-              <Check size={15} color="#20ada6" />
-            </Flex>
-            {item}
-          </HStack>
-        ))}
+        </Text>
+        {isAnnualPlan && (
+          <Text color="sea.900" fontSize="sm">
+            Equivale a cerca de{' '}
+            <Text as="strong" fontSize="md">
+              R$ {Math.round(plan.price / 12)} por mês
+            </Text>
+            .
+          </Text>
+        )}
       </Stack>
 
-      <Button
-        asChild
-        w="full"
-        colorPalette="brand"
-        _hover={{ bg: 'brand.navy', color: 'white' }}
-        size="sm"
-        rounded="lg"
-      >
-        <a href={getAdminHref('/register')}>Começar agora</a>
-      </Button>
-    </Box>
+      <Stack gap="2" mt="auto">
+        <Button
+          asChild
+          w="full"
+          size="sm"
+          minH="11"
+          rounded="lg"
+          whiteSpace="normal"
+          bg={isAnnualPlan ? 'brand.navy' : 'white'}
+          color={isAnnualPlan ? 'white' : 'brand.navy'}
+          borderWidth="1px"
+          borderColor={isAnnualPlan ? 'brand.navy' : 'slate.200'}
+          transition="background-color 150ms ease-out"
+          _hover={{ bg: isAnnualPlan ? 'navy.800' : 'slate.50' }}
+          _active={{ bg: isAnnualPlan ? 'navy.900' : 'slate.100' }}
+        >
+          <a href={getAdminHref('/register')}>Testar grátis por 7 dias</a>
+        </Button>
+        <Text color="brand.slate" fontSize="sm" textAlign="center">
+          Sem cartão de crédito
+        </Text>
+      </Stack>
+    </Stack>
   )
 }
 

@@ -28,6 +28,7 @@ import {
   ESTABLISHMENT_WEBSITE_BASE,
   ESTABLISHMENT_WEBSITE_PATH_MAX_LENGTH,
 } from '../constants/establishment-website'
+import { loadSelectStatusUpdateEstablishment } from '../constants/options-status-establishment'
 import { useFormUpdateEstablishment } from '../hooks/use-form-update-establishment'
 
 interface FormUpdateEstablishmentPageProps {
@@ -42,7 +43,6 @@ const FormUpdateEstablishmentPage = ({
     isLoadingEstablishment,
     isPendingUpdateEstablishment,
     formUpdateEstablishment,
-    loadSelectStatusUpdateEstablishment,
     handleUpdateEstablishment,
     handleCopyWebsiteUrlUpdateEstablishment,
     handleUpdateInputUrlAtSlugUpdateFormEstablishment,
@@ -143,9 +143,6 @@ const FormUpdateEstablishmentPage = ({
                     w="full"
                     size="sm"
                     variant="subtle"
-                    disabled={
-                      loadSelectStatusUpdateEstablishment.items.length === 0
-                    }
                     collection={loadSelectStatusUpdateEstablishment}
                     value={field.value}
                     onValueChange={(e) => field.onChange(e.value)}
@@ -163,13 +160,13 @@ const FormUpdateEstablishmentPage = ({
                       <Select.Positioner>
                         <Select.Content css={contentCss}>
                           {loadSelectStatusUpdateEstablishment.items.map(
-                            (hour) => (
+                            (status) => (
                               <Select.Item
-                                key={hour.value}
-                                item={hour}
+                                key={status.value}
+                                item={status}
                                 {...menuItemCss}
                               >
-                                {hour.label}
+                                {status.label}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ),
