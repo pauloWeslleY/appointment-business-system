@@ -26,8 +26,6 @@ export function useGetEstablishmentsByOrganization(
   const errorGetEstablishments = sessionError ?? errorEstablishments
   const isLoadingGetEstablishments = isPending || isLoadingEstablishments
 
-  console.log(status)
-
   const filteredEstablishments = useMemo<
     EstablishmentOrganizationProfileApiResponse[]
   >(() => {
