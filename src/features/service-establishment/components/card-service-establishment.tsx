@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { FileImageIcon } from 'lucide-react'
+import { ClockIcon, FileImageIcon } from 'lucide-react'
 
 import { Tooltip } from '@/components/ui/tooltip'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
@@ -113,13 +113,21 @@ const CardServiceEstablishment = ({
               {service.description}
             </Text>
           </Tooltip>
-          <Text
-            fontSize="sm"
-            letterSpacing="wide"
-            color={{ _light: 'gray.700', _dark: 'gray.400' }}
-          >
-            {formattedDuration}
-          </Text>
+          <Flex align="center" gap="1">
+            <Icon
+              as={ClockIcon}
+              boxSize="4"
+              color={{ _light: 'sea.700', _dark: 'sea.400' }}
+            />
+            <Text
+              lineHeight="1.8"
+              fontSize="sm"
+              letterSpacing="wide"
+              color={{ _light: 'gray.700', _dark: 'gray.400' }}
+            >
+              {formattedDuration}
+            </Text>
+          </Flex>
           <Badge size="sm" variant="surface" colorPalette="emerald">
             {formatCurrencyInCents(service.servicePriceInCents)}
           </Badge>
