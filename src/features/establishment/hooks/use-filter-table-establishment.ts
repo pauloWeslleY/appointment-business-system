@@ -10,23 +10,25 @@ import {
   type EstablishmentStatusType,
   STATUSES_APPOINTMENT,
 } from '../types/establishment-status.type'
-import type { FilterSearchEstablishmentType } from '../types/filter-search-establishment.type'
 
 export function useFilterTableEstablishment(
   startTransition: React.TransitionStartFunction,
-  search: Pick<FilterSearchEstablishmentType, 'opening' | 'status'>,
+  // search: Pick<FilterSearchEstablishmentType, 'opening' | 'status'>,
 ) {
   const [
     filterSearchParamsTableEstablishment,
-    setFlterSearchParamsTableEstablishment,
-  ] = useQueryStates({
-    opening: parseAsString.withDefault(search.opening ?? ''),
-    status: parseAsArrayOf(parseAsStringLiteral(STATUSES_APPOINTMENT))
-      .withDefault([])
-      .withOptions({
-        shallow: false,
-      }),
-  })
+    setFilterSearchParamsTableEstablishment,
+  ] = useQueryStates(
+    {
+      opening: parseAsString.withDefault(''),
+      status: parseAsArrayOf(
+        parseAsStringLiteral(STATUSES_APPOINTMENT),
+      ).withDefault([]),
+    },
+    {
+      shallow: false,
+    },
+  )
 
   const mapColorOpeningEstablishment: Record<string, ColorPalette> = {
     true: 'green',
@@ -35,10 +37,7 @@ export function useFilterTableEstablishment(
 
   const onChangeOpeningEstablishment = (opening: string | null) => {
     startTransition(() => {
-      setFlterSearchParamsTableEstablishment((prev) => ({
-        ...prev,
-        opening: opening ?? '',
-      }))
+      void setFilterSearchParamsTableEstablishment({ opening: opening ?? '' })
     })
   }
 
@@ -46,19 +45,13 @@ export function useFilterTableEstablishment(
     statusSelected: EstablishmentStatusType[],
   ) => {
     startTransition(() => {
-      setFlterSearchParamsTableEstablishment((prevState) => ({
-        ...prevState,
-        status: statusSelected,
-      }))
+      void setFilterSearchParamsTableEstablishment({ status: statusSelected })
     })
   }
 
   const clearStatusEstablishment = () => {
     startTransition(() => {
-      setFlterSearchParamsTableEstablishment((prev) => ({
-        ...prev,
-        status: [],
-      }))
+      void setFilterSearchParamsTableEstablishment({ status: null })
     })
   }
 

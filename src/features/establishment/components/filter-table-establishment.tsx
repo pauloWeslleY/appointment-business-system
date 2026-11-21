@@ -20,14 +20,10 @@ import { useFilterTableEstablishment } from '../hooks/use-filter-table-establish
 import type { EstablishmentStatusType } from '../types/establishment-status.type'
 
 interface FilterTableEstablishmentProps {
-  opening?: string
-  status?: string
   startTransition: React.TransitionStartFunction
 }
 
 const FilterTableEstablishment = ({
-  opening,
-  status,
   startTransition,
 }: FilterTableEstablishmentProps) => {
   const {
@@ -36,7 +32,7 @@ const FilterTableEstablishment = ({
     clearStatusEstablishment,
     onChangeStatusEstablishment,
     onChangeOpeningEstablishment,
-  } = useFilterTableEstablishment(startTransition, { opening, status })
+  } = useFilterTableEstablishment(startTransition)
 
   return (
     <Box spaceY="2">

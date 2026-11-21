@@ -26,6 +26,8 @@ export function useGetEstablishmentsByOrganization(
   const errorGetEstablishments = sessionError ?? errorEstablishments
   const isLoadingGetEstablishments = isPending || isLoadingEstablishments
 
+  console.log(status)
+
   const filteredEstablishments = useMemo<
     EstablishmentOrganizationProfileApiResponse[]
   >(() => {
@@ -45,12 +47,15 @@ export function useGetEstablishmentsByOrganization(
       return String(establishmentOpen) === opening
     }
 
+    const matchesStatusFilter = new Set(status?.split(',') ?? [])
+
     return establishments.filter((establishment) => {
       const matchesNameOrDescription =
         matchesSearchTerm(establishment.name) ||
         matchesSearchTerm(establishment.description)
 
-      const matchesStatus = !status || establishment.status === status
+      const matchesStatus =
+        !status || matchesStatusFilter.has(establishment.status)
       const matchesOpening = matchesOpeningFilter(establishment)
 
       return matchesNameOrDescription && matchesOpening && matchesStatus

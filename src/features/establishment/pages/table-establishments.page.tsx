@@ -37,11 +37,7 @@ const TableEstablishmentsPage = ({
       css={cardSectionCss}
       spaceY={{ base: '4', lg: '6' }}
     >
-      <FilterTableEstablishment
-        opening={search.opening}
-        status={search.status}
-        startTransition={startTransition}
-      />
+      <FilterTableEstablishment startTransition={startTransition} />
 
       {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
 
