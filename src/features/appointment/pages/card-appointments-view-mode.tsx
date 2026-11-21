@@ -1,13 +1,15 @@
 import {
-  Alert,
   Box,
   Card,
+  EmptyState,
   Flex,
   type PaginationPageChangeDetails,
   SimpleGrid,
   Text,
+  VStack,
 } from '@chakra-ui/react'
 import { useSearch } from '@tanstack/react-router'
+import { CalendarIcon } from 'lucide-react'
 import { parseAsInteger, useQueryStates } from 'nuqs'
 import { useTransition } from 'react'
 
@@ -57,12 +59,19 @@ const CardsAppointmentsViewMode = ({
 
   if (total === 0) {
     return (
-      <Alert.Root status="info" rounded="xl" w="fit-content">
-        <Alert.Indicator />
-        <Alert.Title>
-          Não há agendamentos para o período ou filtros selecionados
-        </Alert.Title>
-      </Alert.Root>
+      <EmptyState.Root>
+        <EmptyState.Content>
+          <EmptyState.Indicator>
+            <CalendarIcon />
+          </EmptyState.Indicator>
+          <VStack textAlign="center">
+            <EmptyState.Title>Sem agendamentos</EmptyState.Title>
+            <EmptyState.Description>
+              Não há agendamentos para o período ou filtros selecionados
+            </EmptyState.Description>
+          </VStack>
+        </EmptyState.Content>
+      </EmptyState.Root>
     )
   }
 

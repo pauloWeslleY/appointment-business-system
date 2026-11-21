@@ -9,7 +9,6 @@ import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
 
 export const Route = createFileRoute('/_app/_authenticated/dashboard/$slug')({
-  pendingComponent: LoaderFull,
   beforeLoad: ({ context }) => {
     validateRoutePermission(context.memberContext, {
       resource: RESOURCES.ESTABLISHMENT,
@@ -35,6 +34,7 @@ export const Route = createFileRoute('/_app/_authenticated/dashboard/$slug')({
     return { organizationProfile, establishment }
   },
   component: DashboardLayout,
+  pendingComponent: LoaderFull,
 })
 
 function DashboardLayout() {

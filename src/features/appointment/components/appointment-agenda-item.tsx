@@ -119,7 +119,7 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
                 as="span"
                 fontWeight="semibold"
                 letterSpacing="wider"
-                color={{ _light: 'sea.700', _dark: 'sea.200' }}
+                color={{ _light: 'navy.700', _dark: 'navy.200' }}
               >
                 {detailedProfessional.professional.displayName}
               </Text>

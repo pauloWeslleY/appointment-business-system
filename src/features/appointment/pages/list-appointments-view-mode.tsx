@@ -1,14 +1,16 @@
 import {
-  Alert,
   Box,
   Card,
+  EmptyState,
   Flex,
   For,
   HStack,
   Stack,
   Text,
+  VStack,
 } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
+import { CalendarIcon } from 'lucide-react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
@@ -45,12 +47,19 @@ const ListAppointmentsViewMode = ({
 
   if (!hasAppointments) {
     return (
-      <Alert.Root status="info" rounded="xl" w="fit-content">
-        <Alert.Indicator />
-        <Alert.Title>
-          Não há agendamentos para o período ou filtros selecionados
-        </Alert.Title>
-      </Alert.Root>
+      <EmptyState.Root>
+        <EmptyState.Content>
+          <EmptyState.Indicator>
+            <CalendarIcon />
+          </EmptyState.Indicator>
+          <VStack textAlign="center">
+            <EmptyState.Title>Sem agendamentos</EmptyState.Title>
+            <EmptyState.Description>
+              Não há agendamentos para o período ou filtros selecionados
+            </EmptyState.Description>
+          </VStack>
+        </EmptyState.Content>
+      </EmptyState.Root>
     )
   }
 

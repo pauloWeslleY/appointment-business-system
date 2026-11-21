@@ -7,8 +7,6 @@ import {
   AppointmentStatusSchema,
 } from '../types/appointment-status.type'
 
-// Usado como valor da aba "Todos" e como seleção quando não há status na URL;
-// as duas referências precisam permanecer iguais.
 const ALL_APPOINTMENTS_TAB_VALUE = 'all'
 
 interface AppointmentStatusTabsProps {

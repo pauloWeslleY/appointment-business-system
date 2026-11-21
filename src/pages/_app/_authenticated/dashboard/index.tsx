@@ -5,7 +5,6 @@ import useGetEstablishmentById from '@/features/establishment/hooks/use-get-esta
 
 export const Route = createFileRoute('/_app/_authenticated/dashboard/')({
   component: DashboardLayout,
-  pendingComponent: LoaderFull,
   head: () => ({
     meta: [
       {
