@@ -6,6 +6,7 @@ import { useMemberContext } from '@/features/members/hooks/use-member-context'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
+import { avatarRingCss } from '@/theme/styles/global-styles'
 
 interface SidebarCurrentUserProps {
   expanded?: boolean
@@ -33,12 +34,11 @@ const SidebarCurrentUser = ({ expanded = false }: SidebarCurrentUserProps) => {
         gap={collapsed ? '4' : '0'}
         justify={collapsed ? 'center' : 'space-between'}
       >
-        <HStack align="center" gap="2">
+        <HStack align="center" gap="4">
           <Avatar.Root
             shape="full"
             size="xs"
-            borderWidth="1px"
-            borderColor="colorPalette.500"
+            css={avatarRingCss}
             bg={{ _light: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
             color={{ _light: 'colorPalette.400', _dark: 'colorPalette.500' }}
           >

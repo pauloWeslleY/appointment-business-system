@@ -7,6 +7,7 @@ import {
   RadioGroup,
   SimpleGrid,
 } from '@chakra-ui/react'
+import { getRouteApi } from '@tanstack/react-router'
 import { SaveIcon, Settings2 } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
@@ -15,9 +16,15 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
+import DialogActiveOrganization from '../components/dialog-active-organization'
 import { useFormUpdateOrganizationProfile } from '../hooks/use-form-update-organization-profile'
 
+const organizationRoute = getRouteApi(
+  '/_app/_authenticated/_admin/organization/',
+)
+
 const FormUpdateOrganizationProfile = () => {
+  const { organizationProfile } = organizationRoute.useLoaderData()
   const {
     errors,
     control,
@@ -26,7 +33,7 @@ const FormUpdateOrganizationProfile = () => {
     register,
     handleSubmit,
     handleUpdateOrganizationProfile,
-  } = useFormUpdateOrganizationProfile()
+  } = useFormUpdateOrganizationProfile(organizationProfile)
 
   return (
     <Card.Root variant="outline" h="fit" css={cardSectionCss}>
@@ -142,18 +149,21 @@ const FormUpdateOrganizationProfile = () => {
           </Field>
         </SimpleGrid>
 
-        <Button
-          type="submit"
-          w="fit"
-          size="sm"
-          rounded="lg"
-          colorPalette="brand"
-          alignSelf="flex-end"
-          loading={isPendingUpdateOrganizationProfile}
-        >
-          <Icon as={SaveIcon} boxSize="5" />
-          Salvar
-        </Button>
+        <HStack justify="flex-end">
+          <DialogActiveOrganization />
+
+          <Button
+            type="submit"
+            w="fit"
+            size="sm"
+            rounded="lg"
+            colorPalette="brand"
+            loading={isPendingUpdateOrganizationProfile}
+          >
+            <Icon as={SaveIcon} boxSize="5" />
+            Salvar
+          </Button>
+        </HStack>
       </chakra.form>
     </Card.Root>
   )
