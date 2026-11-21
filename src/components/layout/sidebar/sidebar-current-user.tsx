@@ -3,7 +3,6 @@ import { LogOutIcon } from 'lucide-react'
 
 import { Tooltip } from '@/components/ui/tooltip'
 import { useMemberContext } from '@/features/members/hooks/use-member-context'
-import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useLogout } from '@/shared/hooks/use-logout'
 import { useMenuCollapse } from '@/shared/store/menu-collapse'
@@ -59,12 +58,14 @@ const SidebarCurrentUser = ({ expanded = false }: SidebarCurrentUserProps) => {
                 {member.user.name}
               </Text>
               <Text
+                w="32"
                 fontSize="sm"
                 fontWeight="light"
                 color={{ _light: 'gray.500', _dark: 'gray.300' }}
                 lineHeight="shorter"
+                truncate
               >
-                {mapLabelMemberRole(member.role).label}
+                {member.user.email}
               </Text>
             </div>
           )}
