@@ -5,33 +5,23 @@ import {
   Flex,
   For,
   HStack,
-  type PaginationPageChangeDetails,
   Stack,
   Text,
 } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
-import { parseAsInteger, useQueryStates } from 'nuqs'
-import { useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
 import Loader from '@/components/loader'
 
 import AppointmentAgendaItem from '../components/appointment-agenda-item'
-import { groupAppointmentsByDay } from '../helpers/group-appointments-by-day'
+import { useListAppointmentViewMode } from '../hooks/use-list-appointment-view-mode'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 
 const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 const appointmentRoute = getRouteApi(
   '/_app/_authenticated/dashboard/$slug/appointment/',
 )
-
-const formatAppointmentsCount = (appointmentsCount: number): string => {
-  const appointmentsLabel =
-    appointmentsCount === 1 ? 'agendamento' : 'agendamentos'
-
-  return `${appointmentsCount} ${appointmentsLabel}`
-}
 
 interface AppointmentsAgendaPageProps {
   appointments: GetAppointmentByEstablishmentModel[]
@@ -44,34 +34,14 @@ const ListAppointmentsViewMode = ({
 }: AppointmentsAgendaPageProps) => {
   const { establishment } = dashboardRoute.useLoaderData()
   const appointmentSearch = appointmentRoute.useSearch()
-  const [isChangingAppointmentsPage, startAppointmentsPageTransition] =
-    useTransition()
-  const [appointmentsPagination, setAppointmentsPagination] = useQueryStates(
-    {
-      page: parseAsInteger.withDefault(1),
-      page_size: parseAsInteger
-        .withDefault(12)
-        .withOptions({ clearOnDefault: false }),
-    },
-    { shallow: true },
-  )
-
-  const appointmentDayGroups = groupAppointmentsByDay(
-    appointments,
-    establishment.timezone,
-  )
-  const hasAppointments = totalAppointments > 0
-
-  const changeAppointmentsPage = (
-    pageChangeDetails: PaginationPageChangeDetails,
-  ): void => {
-    startAppointmentsPageTransition(() => {
-      setAppointmentsPagination({
-        page: pageChangeDetails.page,
-        page_size: pageChangeDetails.pageSize,
-      })
-    })
-  }
+  const {
+    appointmentDayGroups,
+    appointmentsPagination,
+    hasAppointments,
+    changeAppointmentsPage,
+    formatAppointmentsCount,
+    isChangingAppointmentsPage,
+  } = useListAppointmentViewMode(totalAppointments, establishment, appointments)
 
   if (!hasAppointments) {
     return (

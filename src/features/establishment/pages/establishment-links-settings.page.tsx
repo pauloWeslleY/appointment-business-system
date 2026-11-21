@@ -5,7 +5,6 @@ import {
   Fieldset,
   HStack,
   Icon,
-  Separator,
   Skeleton,
   Stack,
   Text,
@@ -14,6 +13,7 @@ import { Save } from 'lucide-react'
 import { FormProvider } from 'react-hook-form'
 
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
+import { skeletonStyles } from '@/theme/styles/global-styles'
 
 import EstablishmentPaymentFields from '../components/establishment-payment-fields'
 import EstablishmentSocialLinksFields from '../components/establishment-social-links-fields'
@@ -29,38 +29,44 @@ export default function EstablishmentLinksSettingsPage({
   memberContext,
 }: EstablishmentLinksSettingsPageProps) {
   const {
-    query,
-    form,
-    scopeIdentity,
-    canUpdate,
-    onSubmit,
-    isSaving,
-    discardChanges,
+    establishmentLinksQuery,
+    formEstablishmentLinks,
+    establishmentLinksScopeIdentity,
+    canUpdateEstablishmentLinks,
+    isPendingSaveEstablishmentLinks,
+    isEstablishmentLinksFormDirty,
+    isEstablishmentLinksFieldsetDisabled,
+    isSaveEstablishmentLinksDisabled,
+    handleSaveEstablishmentLinks,
+    handleDiscardEstablishmentLinks,
+    retryEstablishmentLinks,
   } = useFormEstablishmentLinks(establishmentSlug, memberContext)
 
-  if (query.isPending) {
+  if (establishmentLinksQuery.isPending) {
     return (
       <Stack role="status" aria-label="Carregando links">
-        <Skeleton height="12" />
-        <Skeleton height="32" />
-        <Skeleton height="32" />
+        <Skeleton h="12" css={skeletonStyles} />
+        <Skeleton h="32" css={skeletonStyles} />
+        <Skeleton h="32" css={skeletonStyles} />
       </Stack>
     )
   }
 
-  if (query.error) {
+  if (establishmentLinksQuery.error) {
     return (
       <Alert.Root status="error" variant="surface" rounded="lg">
         <Alert.Indicator />
         <Stack>
           <Alert.Title>Não foi possível carregar os links.</Alert.Title>
-          <Alert.Description>{query.error.message}</Alert.Description>
+          <Alert.Description>
+            {establishmentLinksQuery.error.message}
+          </Alert.Description>
           <Button
             rounded="lg"
             type="button"
             size="sm"
             variant="outline"
-            onClick={() => query.refetch()}
+            onClick={retryEstablishmentLinks}
           >
             Tentar novamente
           </Button>
@@ -69,7 +75,7 @@ export default function EstablishmentLinksSettingsPage({
     )
   }
 
-  if (!query.data) {
+  if (!establishmentLinksQuery.data) {
     return (
       <Alert.Root status="info" variant="surface" rounded="lg">
         <Alert.Indicator />
@@ -79,9 +85,9 @@ export default function EstablishmentLinksSettingsPage({
   }
 
   return (
-    <FormProvider {...form}>
-      <chakra.form w="full" onSubmit={onSubmit} noValidate>
-        {!canUpdate && (
+    <FormProvider {...formEstablishmentLinks}>
+      <chakra.form w="full" onSubmit={handleSaveEstablishmentLinks} noValidate>
+        {!canUpdateEstablishmentLinks && (
           <Alert.Root status="info" variant="surface" rounded="lg" mb="4">
             <Alert.Indicator />
             <Alert.Title>
@@ -91,21 +97,18 @@ export default function EstablishmentLinksSettingsPage({
           </Alert.Root>
         )}
 
-        <Fieldset.Root disabled={!canUpdate || isSaving}>
+        <Fieldset.Root disabled={isEstablishmentLinksFieldsetDisabled}>
           <Fieldset.Content gap="6">
             <EstablishmentSocialLinksFields />
 
-            <Separator
-              borderColor={{ _light: 'slate.200', _dark: 'slate.800' }}
-            />
-
             <EstablishmentPaymentFields
-              scopeIdentity={scopeIdentity}
-              isSaving={isSaving}
+              scopeIdentity={establishmentLinksScopeIdentity}
+              isSaving={isPendingSaveEstablishmentLinks}
             />
 
             <Text fontSize="sm">
-              Os links são salvos apenas para {query.data.name}.
+              Os links são salvos apenas para{' '}
+              {establishmentLinksQuery.data.name}.
             </Text>
 
             <HStack justify="end" flexWrap="wrap" gap="3">
@@ -116,8 +119,8 @@ export default function EstablishmentLinksSettingsPage({
                 size="sm"
                 rounded="lg"
                 alignSelf="start"
-                disabled={!form.formState.isDirty}
-                onClick={discardChanges}
+                disabled={!isEstablishmentLinksFormDirty}
+                onClick={handleDiscardEstablishmentLinks}
               >
                 Descartar alterações
               </Button>
@@ -128,9 +131,9 @@ export default function EstablishmentLinksSettingsPage({
                 rounded="lg"
                 alignSelf="start"
                 colorPalette="brand"
-                loading={isSaving}
+                loading={isPendingSaveEstablishmentLinks}
                 loadingText="Salvando links"
-                disabled={!canUpdate || !form.formState.isDirty}
+                disabled={isSaveEstablishmentLinksDisabled}
               >
                 <Icon as={Save} boxSize="5" />
                 Salvar links

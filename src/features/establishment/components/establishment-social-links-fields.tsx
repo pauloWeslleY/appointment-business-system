@@ -11,10 +11,9 @@ import type { EstablishmentLinksForm } from '../types/establishment-links-form.t
 
 const EstablishmentSocialLinksFields = () => {
   const form = useFormContext<EstablishmentLinksForm>()
-  const errors = form.formState.errors
 
   return (
-    <Fieldset.Root css={cardSectionCss} borderWidth="1px">
+    <Fieldset.Root css={cardSectionCss} shadow="none" borderWidth="1px">
       <Fieldset.Legend fontSize="lg">Redes sociais</Fieldset.Legend>
       <Fieldset.HelperText mt="0">
         Opcional. Deixe um campo em branco para remover o contato cadastrado.
@@ -27,8 +26,8 @@ const EstablishmentSocialLinksFields = () => {
       >
         <Field
           label="Instagram"
-          invalid={Boolean(errors.instagram)}
-          errorText={errors.instagram?.message}
+          invalid={Boolean(form.formState.errors.instagram)}
+          errorText={form.formState.errors.instagram?.message}
         >
           <InputField
             {...form.register('instagram')}
@@ -41,8 +40,8 @@ const EstablishmentSocialLinksFields = () => {
 
         <Field
           label="Facebook"
-          invalid={Boolean(errors.facebook)}
-          errorText={errors.facebook?.message}
+          invalid={Boolean(form.formState.errors.facebook)}
+          errorText={form.formState.errors.facebook?.message}
         >
           <InputField
             {...form.register('facebook')}

@@ -69,3 +69,8 @@ export const cssTableRows = defineStyle({
   bg: { _light: 'slate.100', _dark: 'slate.950/80' },
   borderBottomColor: { _light: 'slate.200', _dark: 'slate.900/60' },
 })
+
+export const skeletonStyles = defineStyle({
+  rounded: 'lg',
+  bg: { _light: 'gray.200', _dark: 'gray.600/70' },
+})

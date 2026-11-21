@@ -17,6 +17,7 @@ import type { UpdateStatusAppointmentFormType } from '../types/appointment-form.
 import {
   AppointmentStatus,
   AppointmentStatusSchema,
+  appointmentStatusUpdateErrorTitle,
 } from '../types/appointment-status.type'
 import { loadSelectStatusAppointment } from '../utils/select-appointment'
 
@@ -42,10 +43,13 @@ export function useUpdateStatusAppointmentForm(appointment: AppointmentModel) {
       await appointmentMutationOptions.status().onSuccess?.(...args)
       toaster.success({ title: 'Status atualizado com sucesso.' })
     },
-    onError: (error) => {
+    onError: (updateStatusAppointmentError, updateStatusAppointmentRequest) => {
       toaster.error({
-        title: 'Erro ao atualizar status.',
-        description: error.message,
+        title:
+          appointmentStatusUpdateErrorTitle[
+            updateStatusAppointmentRequest.status
+          ],
+        description: updateStatusAppointmentError.message,
       })
     },
   })
@@ -89,13 +93,18 @@ export function useUpdateStatusAppointmentForm(appointment: AppointmentModel) {
   const onSubmitUpdateStatusAppointment = handleSubmit((data) => {
     if (session?.session.activeOrganizationId !== appointment.organizationId) {
       toaster.error({
-        title: 'A organização foi alterada. Reabra o agendamento.',
+        title: 'Você trocou de organização.',
+        description:
+          'Este agendamento é de outra organização. Reabra a lista para alterar os agendamentos da organização atual.',
       })
       return
     }
 
     if (!hasAppointmentStatusChanges) {
-      toaster.warning({ title: 'Nenhuma alteração foi feita.' })
+      toaster.warning({
+        title: 'Nenhuma alteração foi feita.',
+        description: 'Escolha um status diferente do atual para salvar.',
+      })
       return
     }
 

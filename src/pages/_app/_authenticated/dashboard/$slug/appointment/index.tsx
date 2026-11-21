@@ -24,7 +24,7 @@ import SidebarCreateAppointment from '@/features/appointment/components/sidebar-
 import { useAppointmentPage } from '@/features/appointment/hooks/use-appointment-page'
 import { useAppointmentViewMode } from '@/features/appointment/hooks/use-appointment-view-mode'
 import CardsAppointmentsViewMode from '@/features/appointment/pages/card-appointments-view-mode'
-import ListAppointmentsViewMode from '@/features/appointment/pages/list-appointments-view-mode.page'
+import ListAppointmentsViewMode from '@/features/appointment/pages/list-appointments-view-mode'
 import { AppointmentRouteSearchSchema } from '@/features/appointment/schemas/appointment-route-search.schema'
 import {
   AppointmentViewMode,
@@ -34,7 +34,7 @@ import { validationAppointmentRouteHome } from '@/features/appointment/validatio
 import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
-import { cardSectionCss } from '@/theme/styles/global-styles'
+import { cardSectionCss, skeletonStyles } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/appointment/',
@@ -73,6 +73,7 @@ function AppointmentPage() {
     hasPendingAppointments,
     retryAppointments,
   } = useAppointmentPage()
+
   const { appointmentViewMode, changeAppointmentViewMode } =
     useAppointmentViewMode()
 
@@ -102,7 +103,14 @@ function AppointmentPage() {
           <Header.Title>Agendamentos</Header.Title>
         </HStack>
 
-        {appointmentPermissions.canCreate && <SidebarCreateAppointment />}
+        <Flex gap="4" align="center">
+          {appointmentPermissions.canCreate && <SidebarCreateAppointment />}
+
+          <AppointmentViewModeToggle
+            appointmentViewMode={appointmentViewMode}
+            onAppointmentViewModeChange={changeAppointmentViewMode}
+          />
+        </Flex>
       </Header.Root>
 
       <Box spaceY="4">
@@ -120,21 +128,9 @@ function AppointmentPage() {
           </Stack>
         </Card.Root>
 
-        <Flex
-          align={{ base: 'stretch', md: 'center' }}
-          justify="space-between"
-          flexDir={{ base: 'column-reverse', md: 'row' }}
-          gap="3"
-        >
-          {appointmentsSummary && (
-            <AppointmentStatusTabs appointmentsSummary={appointmentsSummary} />
-          )}
-
-          <AppointmentViewModeToggle
-            appointmentViewMode={appointmentViewMode}
-            onAppointmentViewModeChange={changeAppointmentViewMode}
-          />
-        </Flex>
+        {appointmentsSummary && (
+          <AppointmentStatusTabs appointmentsSummary={appointmentsSummary} />
+        )}
 
         {appointmentsError && (
           <Alert.Root status="error" rounded="lg">
@@ -149,20 +145,13 @@ function AppointmentPage() {
         {isLoadingAppointments && (
           <Stack gap="2" w="full">
             <For each={[1, 2, 3]}>
-              {(item) => (
-                <Skeleton
-                  key={item}
-                  height="60px"
-                  rounded="lg"
-                  bg={{ _light: 'gray.200', _dark: 'gray.700/70' }}
-                />
-              )}
+              {(item) => <Skeleton key={item} h="60px" {...skeletonStyles} />}
             </For>
           </Stack>
         )}
 
         {!isLoadingAppointments && !appointmentsError && (
-          <Box spaceY="6">
+          <Box spaceY="4">
             {hasPendingAppointments && (
               <PendingAppointmentsAlert
                 pendingAppointmentsCount={pendingAppointmentsCount}

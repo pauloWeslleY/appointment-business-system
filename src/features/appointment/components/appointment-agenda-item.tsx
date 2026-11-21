@@ -74,7 +74,6 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
     >
       <Stack
         gap="0"
-        // w="min(100px, 100%)"
         color={{ _light: 'gray.700', _dark: 'gray.200' }}
         pe={{ base: '0', md: '6' }}
         borderRightWidth={{ base: '0', md: '1px' }}
@@ -98,7 +97,7 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
           <Text
             fontWeight="semibold"
             truncate
-            color={{ _light: 'navy.700', _dark: 'navy.200' }}
+            color={{ _light: 'sea.700', _dark: 'sea.200' }}
           >
             {appointment.serviceName}
           </Text>
@@ -144,8 +143,9 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
           ms={{ base: 'auto', md: '0' }}
         >
           <Badge
-            rounded="full"
             px="3"
+            size="sm"
+            rounded="lg"
             variant="subtle"
             colorPalette={appointmentStatusColor}
           >
@@ -154,9 +154,9 @@ const AppointmentAgendaItem = ({ appointment }: AppointmentAgendaItemProps) => {
 
           {appointmentStatusAction && (
             <Button
-              colorPalette="primary"
+              colorPalette={appointmentStatusAction.color}
               size="2xs"
-              variant="outline"
+              variant="ghost"
               rounded="lg"
               minW="28"
               loading={isUpdatingAppointmentStatus}
