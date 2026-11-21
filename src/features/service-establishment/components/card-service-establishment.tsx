@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { FileImageIcon } from 'lucide-react'
 
+import { Tooltip } from '@/components/ui/tooltip'
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 import { cardCss } from '@/theme/styles/global-styles'
 
@@ -100,14 +101,18 @@ const CardServiceEstablishment = ({
         </Box>
 
         <VStack align="start" gap="1" minW="0" overflowWrap="anywhere">
-          <Text
-            truncate
-            fontSize="sm"
-            letterSpacing="wide"
-            color={{ _light: 'gray.700', _dark: 'gray.400' }}
-          >
-            {service.description}
-          </Text>
+          <Tooltip content={service.description}>
+            <Text
+              fontSize="sm"
+              fontWeight="normal"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              whiteSpace="nowrap"
+              maxW="full"
+            >
+              {service.description}
+            </Text>
+          </Tooltip>
           <Text
             fontSize="sm"
             letterSpacing="wide"
