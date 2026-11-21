@@ -15,23 +15,19 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Plus, Trash2 } from 'lucide-react'
-import { Controller, useFieldArray, useWatch } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { PatternFormat } from 'react-number-format'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { toaster } from '@/components/ui/toaster'
 import { Tooltip } from '@/components/ui/tooltip'
 import {
   createListWeekDays,
   weekDaysLabels,
 } from '@/shared/utils/create-list-weekdays'
 
-import { MAX_WORK_SCHEDULE_PERIODS } from '../schemas/professional-form.schema'
+import { useWorkScheduleFieldsProfissional } from '../hooks/use-work-schedule-fields-profissional'
 import type { ProfessionalFormMethods } from '../types/professional-form.type'
-
-const DEFAULT_WORK_PERIOD = { startsAt: '08:00', endsAt: '18:00' }
-const EMPTY_WORK_PERIOD = { startsAt: '', endsAt: '' }
 
 interface ProfessionalWorkScheduleFieldsProps {
   form: ProfessionalFormMethods
@@ -40,52 +36,15 @@ interface ProfessionalWorkScheduleFieldsProps {
 const ProfessionalWorkScheduleFields = ({
   form,
 }: ProfessionalWorkScheduleFieldsProps) => {
-  const { errors } = form.formState
-
   const {
-    fields: workScheduleFields,
-    append: appendWorkPeriod,
-    remove: removeWorkPeriod,
-  } = useFieldArray({
-    control: form.control,
-    name: 'workSchedule',
-  })
-
-  const workSchedule =
-    useWatch({ control: form.control, name: 'workSchedule' }) ?? []
-
-  const selectedWorkDays = [
-    ...new Set(workSchedule.map((period) => String(period.dayOfWeek))),
-  ]
-
-  const hasReachedWorkPeriodsLimit =
-    workScheduleFields.length >= MAX_WORK_SCHEDULE_PERIODS
-
-  const handleSelectedWorkDaysChange = (days: string[]) => {
-    const addedDays = days.filter((day) => !selectedWorkDays.includes(day))
-    const removedDays = selectedWorkDays.filter((day) => !days.includes(day))
-
-    const removedPeriodIndexes = workScheduleFields.flatMap((field, index) =>
-      removedDays.includes(String(field.dayOfWeek)) ? [index] : [],
-    )
-
-    removeWorkPeriod(removedPeriodIndexes)
-
-    for (const day of addedDays) {
-      appendWorkPeriod({ dayOfWeek: Number(day), ...DEFAULT_WORK_PERIOD })
-    }
-  }
-
-  const addWorkPeriodToDay = (dayOfWeek: number) => {
-    if (workScheduleFields.length >= 4) {
-      toaster.warning({
-        title: 'Limite de períodos atingido',
-        description: 'Você não pode adicionar mais de 4 períodos de trabalho.',
-      })
-      return
-    }
-    appendWorkPeriod({ dayOfWeek, ...EMPTY_WORK_PERIOD })
-  }
+    errors,
+    workScheduleFields,
+    selectedWorkDays,
+    hasReachedWorkPeriodsLimit,
+    addWorkPeriodToDay,
+    removeWorkPeriod,
+    handleSelectedWorkDaysChange,
+  } = useWorkScheduleFieldsProfissional(form)
 
   return (
     <Stack aria-label="Horário de trabalho" gap="4">

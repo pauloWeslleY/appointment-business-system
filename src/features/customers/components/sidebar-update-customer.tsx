@@ -1,4 +1,5 @@
-import { Button, CloseButton, Drawer, Portal } from '@chakra-ui/react'
+import { Button, CloseButton, Drawer, Icon, Portal } from '@chakra-ui/react'
+import { SaveIcon } from 'lucide-react'
 
 import { contentCss } from '@/theme/styles/global-styles'
 
@@ -39,7 +40,7 @@ const SidebarUpdateCustomer = ({
               <Drawer.ActionTrigger asChild>
                 <Button
                   size="sm"
-                  variant="surface"
+                  variant="ghost"
                   colorPalette="red"
                   rounded="lg"
                 >
@@ -49,13 +50,13 @@ const SidebarUpdateCustomer = ({
 
               <Button
                 size="sm"
-                variant="surface"
-                colorPalette="primary"
+                colorPalette="brand"
                 rounded="lg"
                 onClick={onSubmitUpdateCustomer}
                 loading={isPendingUpdateCustomer}
               >
-                Editar
+                <Icon as={SaveIcon} boxSize="4" />
+                Salvar alterações
               </Button>
             </Drawer.Footer>
             <Drawer.CloseTrigger asChild>

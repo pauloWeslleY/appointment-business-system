@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import ProgressBarPassword from '@/components/progress-bar-password'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
-import { inputFieldStyles } from '@/theme/styles/global-styles'
+import { inputFieldCss } from '@/theme/styles/global-styles'
 
 import { useResetPasswordPage } from '../hooks/use-reset-password-page'
 
@@ -59,7 +59,7 @@ const FormResetPassword = ({ token }: FormResetPasswordProps) => {
               placeholder="Digite sua nova senha"
               size="sm"
               variant="subtle"
-              css={inputFieldStyles}
+              css={inputFieldCss}
             />
           </Field>
 

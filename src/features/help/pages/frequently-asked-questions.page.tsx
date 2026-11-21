@@ -13,7 +13,7 @@ import { CircleHelp } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import Header from '@/components/layout/header'
-import { cardSectionCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import { cardSectionCss, inputFieldCss } from '@/theme/styles/global-styles'
 
 import ItemGroupQuestions from '../components/item-group-questions'
 import { frequentlyAskedQuestionGroups } from '../constants/frequently-asked-questions'
@@ -83,7 +83,7 @@ export default function FrequentlyAskedQuestionsPage() {
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             variant="subtle"
-            {...inputFieldStyles}
+            {...inputFieldCss}
           />
           <Text fontSize="sm" color="fg.muted" role="status" aria-live="polite">
             {listGroupQuestions.questionCount === 1

@@ -1,8 +1,9 @@
 import { queryOptions, skipToken } from '@tanstack/react-query'
 
 import {
+  getCustomTimesOpeningHoursByIdService,
   getOpeningHoursByIdService,
-  listEstablishmentOpeningHoursService,
+  listOpeningHoursEstablishmentService,
 } from '../services/opening-hours.service'
 import {
   openingHoursQueryKeys,
@@ -27,7 +28,45 @@ export function getOpeningHoursByIdQueryOptions(
   })
 }
 
-export function establishmentOpeningHoursQueryOptions(
+interface GetCustomTimesOpeningHoursQueryParams extends OpeningHoursQueryScope {
+  establishmentId: string
+  openingHoursId: string
+}
+
+export function getCustomTimesOpeningHoursQueryOptions(
+  queryString: GetCustomTimesOpeningHoursQueryParams,
+) {
+  const { userId, organizationId, establishmentId, openingHoursId } =
+    queryString
+
+  const hasRequiredParams =
+    userId.trim() !== '' &&
+    organizationId.trim() !== '' &&
+    establishmentId !== undefined &&
+    establishmentId.trim() !== '' &&
+    openingHoursId !== undefined &&
+    openingHoursId.trim() !== ''
+
+  return queryOptions({
+    queryKey: openingHoursQueryKeys.customTimes(
+      {
+        userId,
+        organizationId,
+      },
+      openingHoursId,
+      establishmentId,
+    ),
+    queryFn: hasRequiredParams
+      ? () =>
+          getCustomTimesOpeningHoursByIdService({
+            establishmentId,
+            openingHoursId,
+          })
+      : skipToken,
+  })
+}
+
+export function listOpeningHoursEstablishmentQueryOptions(
   scope: OpeningHoursQueryScope,
   establishmentId?: string,
 ) {
@@ -40,7 +79,7 @@ export function establishmentOpeningHoursQueryOptions(
   return queryOptions({
     queryKey: openingHoursQueryKeys.establishment(scope, establishmentId),
     queryFn: hasRequiredParams
-      ? () => listEstablishmentOpeningHoursService(establishmentId)
+      ? () => listOpeningHoursEstablishmentService(establishmentId)
       : skipToken,
   })
 }

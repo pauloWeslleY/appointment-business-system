@@ -101,8 +101,8 @@ export default function EstablishmentColorsSettingsPage({
       >
         <Fieldset.Content gap="6">
           <EstablishmentColorFields
-            form={formEstablishmentColors}
-            values={establishmentColorsValues}
+            formEstablishmentColors={formEstablishmentColors}
+            establishmentColorsValues={establishmentColorsValues}
           />
 
           <Text fontSize="sm">

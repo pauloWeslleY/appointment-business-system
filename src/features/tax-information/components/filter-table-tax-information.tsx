@@ -5,7 +5,7 @@ import SearchPage from '@/components/search-page'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -40,7 +40,7 @@ const FilterTableTaxInformation = ({ children }: { children?: ReactNode }) => {
       >
         <Select.HiddenSelect />
         <Select.Control>
-          <Select.Trigger {...inputFieldStyles}>
+          <Select.Trigger {...inputFieldCss}>
             <Select.ValueText placeholder="Itens por página" />
           </Select.Trigger>
           <Select.IndicatorGroup>
@@ -81,7 +81,7 @@ const FilterTableTaxInformation = ({ children }: { children?: ReactNode }) => {
       >
         <Select.HiddenSelect />
         <Select.Control>
-          <Select.Trigger {...inputFieldStyles}>
+          <Select.Trigger {...inputFieldCss}>
             <Select.ValueText placeholder="Status" />
           </Select.Trigger>
           <Select.IndicatorGroup>

@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { Calendar } from 'lucide-react'
 
-import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldCss } from '@/theme/styles/global-styles'
 
 import { useFilterDatePicker } from './use-filter-date-picker'
 
@@ -45,9 +45,9 @@ const FilterDatePicker = ({
           size="sm"
           maxW="full"
           whiteSpace="normal"
-          borderColor={inputFieldStyles.borderColor}
-          rounded={inputFieldStyles.rounded}
-          bg={inputFieldStyles.bg}
+          borderColor={inputFieldCss.borderColor}
+          rounded={inputFieldCss.rounded}
+          bg={inputFieldCss.bg}
           transition="backgrounds"
           color={{ _light: 'gray.700', _dark: 'gray.100' }}
           _hover={{

@@ -1,6 +1,6 @@
 import { Box, Flex, Icon, type IconProps, Text } from '@chakra-ui/react'
 import { BuildingComplex, CalendarCheck, Users } from 'lucide-react'
-import type { ElementType } from 'react'
+import { type ElementType } from 'react'
 
 interface ItemContentAuthLayoutProps {
   index: number
@@ -19,17 +19,17 @@ interface ItemContentIconProps {
 const iconsSummary: Record<string, ItemContentIconProps> = {
   '0': {
     icon: CalendarCheck,
-    bg: { base: 'green.200', _dark: 'green.400/20' },
+    bg: { base: 'green.200', _dark: 'green.900/20' },
     color: { base: 'green.700', _dark: 'green.300' },
   },
   '1': {
     icon: Users,
-    bg: { base: 'blue.200', _dark: 'blue.400/20' },
+    bg: { base: 'blue.200', _dark: 'blue.900/20' },
     color: { base: 'blue.700', _dark: 'blue.300' },
   },
   '2': {
     icon: BuildingComplex,
-    bg: { base: 'purple.200', _dark: 'purple.400/20' },
+    bg: { base: 'purple.200', _dark: 'purple.900/20' },
     color: { base: 'purple.700', _dark: 'purple.300' },
   },
 } as const
@@ -48,7 +48,7 @@ const ItemContentAuthLayout = ({ index, item }: ItemContentAuthLayoutProps) => {
       px="6"
       borderWidth="1px"
       borderColor={{ base: 'slate.500/20', _dark: 'slate.200/10' }}
-      bg={{ base: 'whiteAlpha.300', _dark: 'blackAlpha.400' }}
+      bg={{ base: 'whiteAlpha.300', _dark: 'blackAlpha.300' }}
     >
       <Flex
         align="center"
@@ -66,7 +66,7 @@ const ItemContentAuthLayout = ({ index, item }: ItemContentAuthLayoutProps) => {
       <Box spaceY="1">
         <Text
           fontWeight="semibold"
-          fontSize="md"
+          fontSize="lg"
           lineHeight="short"
           color={{ base: 'slate.950', _dark: 'navy.800' }}
         >

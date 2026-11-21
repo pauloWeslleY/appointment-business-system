@@ -5,15 +5,11 @@ import { ListOpeningHoursSummaryApiResponseSchema } from './opening-hours-respon
 
 export const CreateOpeningHoursApiRequestSchema = z.object({
   ...OpeningHoursFormDataSchema.shape,
-  establishmentId: z.uuid({
-    error: 'O ID do estabelecimento deve ser um UUID válido',
-  }),
+  establishmentId: z.uuid('O ID do estabelecimento deve ser um UUID válido'),
 })
 
 export const CreateOpeningHoursApiResponseSchema = z.object({
-  id: z.uuid({ error: 'O ID do endereço deve ser um UUID válido' }),
-  establishmentId: z.uuid({
-    error: 'O ID do estabelecimento deve ser um UUID válido',
-  }),
+  id: z.uuid('O ID do endereço deve ser um UUID válido'),
+  establishmentId: z.uuid('O ID do estabelecimento deve ser um UUID válido'),
   openingHours: ListOpeningHoursSummaryApiResponseSchema,
 })

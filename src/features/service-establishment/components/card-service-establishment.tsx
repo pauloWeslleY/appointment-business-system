@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   Card,
+  Flex,
   HStack,
   Icon,
   Image,
@@ -9,13 +10,14 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { FileImage } from 'lucide-react'
+import { FileImageIcon } from 'lucide-react'
 
 import { formatCurrencyInCents } from '@/shared/utils/formatted-price'
 import { cardCss } from '@/theme/styles/global-styles'
 
 import { mapColorStatusServiceEstablishment } from '../helpers/status-service-establishement'
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
+import { formattedDurationInMinutesService } from '../utils/formatted-duration-in-minutes-service'
 import MenuActionServicesTable from './menu-action-services-table'
 import StatusServiceEstablishment from './status-service-establishment'
 
@@ -27,6 +29,9 @@ const CardServiceEstablishment = ({
   service,
 }: CardServiceEstablishmentProps) => {
   const mapStatus = mapColorStatusServiceEstablishment(service.status, 'color')
+  const formattedDuration = formattedDurationInMinutesService(
+    service.durationInMinutes ?? 0,
+  )
 
   return (
     <Card.Root variant="outline" css={cardCss}>
@@ -37,9 +42,9 @@ const CardServiceEstablishment = ({
         justifyContent="space-between"
         alignItems="center"
         pb="1.5"
-        borderBottomWidth="5px"
+        borderBottomWidth="4px"
         borderColor={{
-          base: `${mapStatus.color}.500`,
+          _light: `${mapStatus.color}.500`,
           _dark: `${mapStatus.color}.300`,
         }}
       >
@@ -49,15 +54,15 @@ const CardServiceEstablishment = ({
           <Separator
             orientation="vertical"
             height="6"
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+            borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
           />
 
           <StatusServiceEstablishment status={service.status} color="color" />
         </HStack>
 
-        <Box>
+        <div>
           <MenuActionServicesTable service={service} />
-        </Box>
+        </div>
       </Card.Header>
 
       <Card.Body
@@ -68,7 +73,7 @@ const CardServiceEstablishment = ({
         gap="4"
         py="2"
       >
-        <Box>
+        <Box flexShrink="0">
           {service.imageUrl && (
             <Image
               src={service.imageUrl}
@@ -80,26 +85,37 @@ const CardServiceEstablishment = ({
           )}
 
           {!service.imageUrl && (
-            <Box
+            <Flex
+              justify="center"
+              align="center"
+              bg={{ _light: 'gray.200', _dark: 'slate.800/30' }}
+              rounded="xl"
               p="2"
-              bg={{ base: 'gray.200', _dark: 'gray.800' }}
-              rounded="full"
-              w="fit-content"
+              h="20"
+              w="28"
             >
-              <Icon as={FileImage} boxSize="6" />
-            </Box>
+              <Icon as={FileImageIcon} boxSize="12" />
+            </Flex>
           )}
         </Box>
 
         <VStack align="start" gap="1" minW="0" overflowWrap="anywhere">
           <Text
+            truncate
             fontSize="sm"
-            color={{ base: 'gray.700', _dark: 'gray.400' }}
             letterSpacing="wide"
+            color={{ _light: 'gray.700', _dark: 'gray.400' }}
           >
             {service.description}
           </Text>
-          <Badge size="sm" variant="surface">
+          <Text
+            fontSize="sm"
+            letterSpacing="wide"
+            color={{ _light: 'gray.700', _dark: 'gray.400' }}
+          >
+            {formattedDuration}
+          </Text>
+          <Badge size="sm" variant="surface" colorPalette="emerald">
             {formatCurrencyInCents(service.servicePriceInCents)}
           </Badge>
         </VStack>

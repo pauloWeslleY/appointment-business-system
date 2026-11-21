@@ -1,4 +1,4 @@
-import { Box, For, Icon, Tabs, useBreakpointValue } from '@chakra-ui/react'
+import { Box, For, Icon, Tabs } from '@chakra-ui/react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import {
   ClipboardIcon,
@@ -61,12 +61,6 @@ function EstablishmentSettingsPage() {
 
   const { member } = Route.useRouteContext()
   const establishmentSlug = Route.useParams({ select: (params) => params.slug })
-  const settingsTabsOrientation = useBreakpointValue<'horizontal' | 'vertical'>(
-    {
-      base: 'horizontal',
-      lg: 'vertical',
-    },
-  )
 
   return (
     <Box spaceY={{ base: '4', lg: '8' }} pb="4">
@@ -75,162 +69,137 @@ function EstablishmentSettingsPage() {
         <Header.Title>Configurações</Header.Title>
       </Header.Root>
 
-      <Box spaceY="4">
-        <Tabs.Root
-          value={tabConfigEstablishment}
-          onValueChange={(tabsValueChange) =>
-            setTabConfigEstablishment(
-              tabsValueChange.value as MenuSettingsEstablishmentType,
-            )
-          }
-          orientation={settingsTabsOrientation}
-          variant="plain"
-          gap="4"
-          minW="0"
+      <Tabs.Root
+        size="sm"
+        value={tabConfigEstablishment}
+        onValueChange={(tabsValueChange) =>
+          setTabConfigEstablishment(
+            tabsValueChange.value as MenuSettingsEstablishmentType,
+          )
+        }
+      >
+        <Tabs.List
+          aria-label="Menu de settings"
+          flexWrap="wrap"
+          borderColor={{ _light: 'gray.100', _dark: 'slate.900' }}
+          mb="2"
+          mx="1.5"
         >
-          <Tabs.List
-            {...cardSectionCss}
-            gap="2"
-            bg={{ _light: 'slate.100', _dark: 'slate.950/40' }}
-            border="1px solid"
-            p="1.5"
-            h="fit"
-            w={{ base: 'full', lg: 'auto' }}
-            maxW="full"
-            minW={{ base: '0', lg: '200px' }}
-            mb={{ base: '2', md: '0' }}
-            overflowX={{ base: 'auto', lg: 'visible' }}
-            overflowY="hidden"
-            scrollSnapType={{ base: 'x mandatory', lg: 'none' }}
-            scrollbarWidth="none"
-            css={{
-              '&::-webkit-scrollbar': { display: 'none' },
-            }}
+          <For
+            each={[
+              {
+                label: 'Resumo',
+                value: MenuSettingsEstablishment.SUMMARY,
+                icon: ClipboardIcon,
+              },
+              {
+                label: 'Editar',
+                value: MenuSettingsEstablishment.EDIT,
+                icon: PencilIcon,
+              },
+              {
+                label: 'Upload',
+                value: MenuSettingsEstablishment.UPLOAD,
+                icon: UploadCloud,
+              },
+              {
+                label: 'Links',
+                value: MenuSettingsEstablishment.LINKS,
+                icon: LinkIcon,
+              },
+              {
+                label: 'Cores',
+                value: MenuSettingsEstablishment.COLORS,
+                icon: PaletteIcon,
+              },
+              {
+                label: 'Endereço',
+                value: MenuSettingsEstablishment.ADDRESS,
+                icon: MapPin,
+              },
+            ]}
           >
-            <For
-              each={[
-                {
-                  label: 'Resumo',
-                  value: MenuSettingsEstablishment.SUMMARY,
-                  icon: ClipboardIcon,
-                },
-                {
-                  label: 'Editar',
-                  value: MenuSettingsEstablishment.EDIT,
-                  icon: PencilIcon,
-                },
-                {
-                  label: 'Upload',
-                  value: MenuSettingsEstablishment.UPLOAD,
-                  icon: UploadCloud,
-                },
-                {
-                  label: 'Links',
-                  value: MenuSettingsEstablishment.LINKS,
-                  icon: LinkIcon,
-                },
-                {
-                  label: 'Cores',
-                  value: MenuSettingsEstablishment.COLORS,
-                  icon: PaletteIcon,
-                },
-                {
-                  label: 'Endereço',
-                  value: MenuSettingsEstablishment.ADDRESS,
-                  icon: MapPin,
-                },
-              ]}
-            >
-              {(item) => (
-                <Tabs.Trigger
-                  key={item.value}
-                  value={item.value}
-                  rounded="lg"
-                  flexShrink="0"
-                  minW="max-content"
-                  whiteSpace="nowrap"
-                  scrollSnapAlign="start"
-                >
-                  <Icon as={item.icon} boxSize="4" />
-                  {item.label}
-                </Tabs.Trigger>
-              )}
-            </For>
-            <Tabs.Indicator
-              shadow="none"
-              rounded="lg"
-              bg={{ _light: 'navy.100', _dark: 'navy.950/40' }}
-              borderLeft="4px solid"
-              borderLeftColor={{ _light: 'navy.300', _dark: 'navy.700' }}
-            />
-          </Tabs.List>
+            {(item) => (
+              <Tabs.Trigger
+                key={item.value}
+                value={item.value}
+                justifyContent="center"
+                rounded="lg"
+              >
+                <Icon
+                  as={item.icon}
+                  boxSize="4"
+                  color={{ _light: 'sea.700', _dark: 'sea.300' }}
+                />
+                {item.label}
+              </Tabs.Trigger>
+            )}
+          </For>
+        </Tabs.List>
 
-          <Tabs.Content
-            value={MenuSettingsEstablishment.SUMMARY}
-            w="full"
-            border="1px solid"
-            {...cardSectionCss}
-          >
-            <SummaryEstablishment />
-          </Tabs.Content>
+        <Tabs.Content
+          value={MenuSettingsEstablishment.SUMMARY}
+          w="full"
+          border="1px solid"
+          {...cardSectionCss}
+        >
+          <SummaryEstablishment />
+        </Tabs.Content>
 
-          <Tabs.Content
-            value={MenuSettingsEstablishment.EDIT}
-            w="full"
-            border="1px solid"
-            {...cardSectionCss}
-          >
-            <FormUpdateEstablishmentPage
-              establishmentSlug={establishmentSlug}
-            />
-          </Tabs.Content>
+        <Tabs.Content
+          value={MenuSettingsEstablishment.EDIT}
+          w="full"
+          border="1px solid"
+          {...cardSectionCss}
+        >
+          <FormUpdateEstablishmentPage establishmentSlug={establishmentSlug} />
+        </Tabs.Content>
 
-          <Tabs.Content
-            value={MenuSettingsEstablishment.UPLOAD}
-            w="full"
-            border="1px solid"
-            {...cardSectionCss}
-          >
-            <UploadImageEstablishment establishmentSlug={establishmentSlug} />
-          </Tabs.Content>
+        <Tabs.Content
+          value={MenuSettingsEstablishment.UPLOAD}
+          w="full"
+          border="1px solid"
+          {...cardSectionCss}
+        >
+          <UploadImageEstablishment establishmentSlug={establishmentSlug} />
+        </Tabs.Content>
 
-          <Tabs.Content
-            value={MenuSettingsEstablishment.ADDRESS}
-            w="full"
-            border="1px solid"
-            {...cardSectionCss}
-          >
-            <FormUpdateEstablishmentAddressPage
-              establishmentSlug={establishmentSlug}
-              member={member.memberContext}
-            />
-          </Tabs.Content>
+        <Tabs.Content
+          value={MenuSettingsEstablishment.ADDRESS}
+          w="full"
+          border="1px solid"
+          {...cardSectionCss}
+        >
+          <FormUpdateEstablishmentAddressPage
+            establishmentSlug={establishmentSlug}
+            member={member.memberContext}
+          />
+        </Tabs.Content>
 
-          <Tabs.Content
-            value={MenuSettingsEstablishment.LINKS}
-            w="full"
-            border="1px solid"
-            {...cardSectionCss}
-          >
-            <EstablishmentLinksSettingsPage
-              establishmentSlug={establishmentSlug}
-              memberContext={member.memberContext}
-            />
-          </Tabs.Content>
+        <Tabs.Content
+          value={MenuSettingsEstablishment.LINKS}
+          w="full"
+          border="1px solid"
+          {...cardSectionCss}
+        >
+          <EstablishmentLinksSettingsPage
+            establishmentSlug={establishmentSlug}
+            memberContext={member.memberContext}
+          />
+        </Tabs.Content>
 
-          <Tabs.Content
-            value={MenuSettingsEstablishment.COLORS}
-            w="full"
-            border="1px solid"
-            {...cardSectionCss}
-          >
-            <EstablishmentColorsSettingsPage
-              establishmentSlug={establishmentSlug}
-              memberContext={member.memberContext}
-            />
-          </Tabs.Content>
-        </Tabs.Root>
-      </Box>
+        <Tabs.Content
+          value={MenuSettingsEstablishment.COLORS}
+          w="full"
+          border="1px solid"
+          {...cardSectionCss}
+        >
+          <EstablishmentColorsSettingsPage
+            establishmentSlug={establishmentSlug}
+            memberContext={member.memberContext}
+          />
+        </Tabs.Content>
+      </Tabs.Root>
     </Box>
   )
 }

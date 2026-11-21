@@ -7,7 +7,7 @@ import {
   Users,
 } from 'lucide-react'
 
-export const summayPlans = [
+export const planBenefits = [
   {
     icon: BuildingComplex,
     title: '1 organização',
@@ -40,26 +40,17 @@ export const summayPlans = [
   },
 ]
 
-const itemsSummaryPlans = [
-  '1 organização',
-  'Até 3 estabelecimentos',
-  '10 profissionais',
-  'Serviços ilimitados',
-  'Agendamentos ilimitados',
-  'Clientes ilimitados',
-]
+export const monthlyPlanPrice = 35
 
 export const plans = [
   {
-    title: 'Plano Básico',
+    title: 'Pagamento mensal',
     type: 'monthly',
-    price: 35,
-    items: itemsSummaryPlans,
+    price: monthlyPlanPrice,
   },
   {
-    title: 'Plano Básico',
+    title: 'Pagamento anual',
     type: 'annual',
     price: 350,
-    items: itemsSummaryPlans,
   },
 ]

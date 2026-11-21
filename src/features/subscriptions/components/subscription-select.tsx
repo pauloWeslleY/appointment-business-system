@@ -3,7 +3,7 @@ import { Portal, Select } from '@chakra-ui/react'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -37,7 +37,7 @@ export function SubscriptionSelect({
       <Select.Label>{label}</Select.Label>
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger css={inputFieldStyles}>
+        <Select.Trigger css={inputFieldCss}>
           <Select.ValueText placeholder="Selecione uma organização" />
         </Select.Trigger>
         <Select.IndicatorGroup>

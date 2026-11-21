@@ -22,6 +22,7 @@ const PendingAppointmentsAlert = ({
 
   const isShowingPendingAppointments =
     selectedAppointmentStatus === AppointmentStatus.PENDING
+
   const pendingAppointmentsLabel =
     pendingAppointmentsCount === 1 ? 'agendamento' : 'agendamentos'
 

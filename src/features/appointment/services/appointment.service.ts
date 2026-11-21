@@ -17,6 +17,7 @@ import {
 import { AppointmentServiceListRequestSchema } from '../schemas/appointment-service-list-api-request.schema'
 import type { AppointmentModel } from '../types/appointment.model'
 import type { AppointmentListApiResponse } from '../types/appointment-list-api-response.type'
+import { AppointmentStatus } from '../types/appointment-status.type'
 import type { CreateAppointmentRequest } from '../types/create-appointment-request'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 import type { GetAppointmentByEstablishmentQueryParams } from '../types/get-appointment-by-establishment-query-params'
@@ -110,11 +111,14 @@ export async function updateStatusAppointmentService(
   input: UpdateStatusAppointmentRequest,
 ): Promise<AppointmentModel> {
   const body = UpdateStatusAppointmentApiRequestSchema.parse(input)
-  if (
-    body.status === 'cancelled' &&
+  const isCancellationWithoutRequiredData =
+    body.status === AppointmentStatus.CANCELLED &&
     (!body.serviceId || !body.cancellationReason)
-  ) {
-    throw new Error('Informe o serviço e o motivo do cancelamento.')
+
+  if (isCancellationWithoutRequiredData) {
+    throw new Error(
+      'Para cancelar, informe o motivo do cancelamento. O serviço do agendamento também precisa ser enviado; se o erro continuar, recarregue a lista de agendamentos.',
+    )
   }
   const { api, validate } = httpDependencies<AppointmentModel>()
   const response = await api.request({

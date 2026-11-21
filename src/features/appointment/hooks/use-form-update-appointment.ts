@@ -2,6 +2,7 @@ import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -33,11 +34,7 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
     },
   })
   const { isDirty: hasAppointmentChanges } = form.formState
-
-  const date = useWatch({
-    control: form.control,
-    name: 'date',
-  })
+  const date = useWatch({ control: form.control, name: 'date' })
 
   const validadeDate = /^\d{4}-\d{2}-\d{2}$/.test(date) && dayjs(date).isValid()
   const selectedDate = validadeDate
@@ -47,14 +44,37 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
   const {
     data: selectedTime,
     error: errorAvailableHours,
-    isLoading: isLoadingAvailableHours,
+    isFetching: isLoadingAvailableHours,
   } = useQuery(
-    establishmentAvailabilityQueryOptions({
-      establishmentId: appointment.establishmentId,
-      serviceId: appointment.serviceId,
-      selectedDate,
-    }),
+    establishmentAvailabilityQueryOptions(
+      {
+        establishmentId: appointment.establishmentId,
+        serviceId: appointment.serviceId,
+        professionalId: appointment.professionalId ?? undefined,
+        excludeAppointmentId: appointment.id,
+        selectedDate,
+      },
+      {
+        userId: session?.user.id,
+        organizationId: session?.session.activeOrganizationId,
+      },
+    ),
   )
+
+  const changeRescheduleDate = (rescheduleDate: string) => {
+    if (rescheduleDate === date) {
+      return
+    }
+
+    form.setValue('date', rescheduleDate, { shouldDirty: true })
+    form.setValue('hour', [], { shouldDirty: true })
+  }
+
+  const hasNoAvailableHours =
+    Boolean(selectedDate) &&
+    !isLoadingAvailableHours &&
+    !errorAvailableHours &&
+    selectedTime?.length === 0
 
   const mutationOptions = appointmentMutationOptions.update()
   const { mutate: updateAppointment, isPending: isPendingUpdateAppointment } =
@@ -101,9 +121,10 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
 
   const errors = form.formState.errors
   const isPendingAppointment = isPendingUpdateAppointment
-  const loadSelectTimeAppointment = createListCollection({
-    items: selectedTime ?? [],
-  })
+  const loadSelectTimeAppointment = useMemo(
+    () => createListCollection({ items: selectedTime ?? [] }),
+    [selectedTime],
+  )
 
   return {
     form,
@@ -113,5 +134,7 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
     onSubmitUpdateAppointment,
     errorAvailableHours,
     isLoadingAvailableHours,
+    changeRescheduleDate,
+    hasNoAvailableHours,
   }
 }

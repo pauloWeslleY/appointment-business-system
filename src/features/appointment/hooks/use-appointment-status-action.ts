@@ -1,3 +1,4 @@
+import type { ColorPalette } from '@chakra-ui/react'
 import { useMutation } from '@tanstack/react-query'
 
 import { toaster } from '@/components/ui/toaster'
@@ -7,6 +8,7 @@ import { appointmentMutationOptions } from '../queries/appointment.mutation-opti
 import {
   AppointmentStatus,
   type AppointmentStatusType,
+  appointmentStatusUpdateErrorTitle,
 } from '../types/appointment-status.type'
 import type { GetAppointmentByEstablishmentModel } from '../types/get-appointment-by-establishment.model'
 
@@ -14,6 +16,7 @@ interface AppointmentStatusAction {
   nextStatus: AppointmentStatusType
   label: string
   successMessage: string
+  color: ColorPalette
 }
 
 export function useAppointmentStatusAction(
@@ -28,11 +31,13 @@ export function useAppointmentStatusAction(
       nextStatus: AppointmentStatus.CONFIRMED,
       label: 'Confirmar',
       successMessage: 'Agendamento confirmado.',
+      color: 'blue',
     },
     [AppointmentStatus.CONFIRMED]: {
       nextStatus: AppointmentStatus.CONCLUDED,
       label: 'Concluir',
       successMessage: 'Agendamento concluído.',
+      color: 'green',
     },
   }
   const appointmentStatusAction =
@@ -49,9 +54,12 @@ export function useAppointmentStatusAction(
         title: appointmentStatusAction?.successMessage,
       })
     },
-    onError: (updateAppointmentStatusError) => {
+    onError: (updateAppointmentStatusError, updateAppointmentStatusRequest) => {
       toaster.error({
-        title: 'Erro ao atualizar status.',
+        title:
+          appointmentStatusUpdateErrorTitle[
+            updateAppointmentStatusRequest.status
+          ],
         description: updateAppointmentStatusError.message,
       })
     },
@@ -67,7 +75,9 @@ export function useAppointmentStatusAction(
 
     if (!isAppointmentFromActiveOrganization) {
       toaster.error({
-        title: 'A organização foi alterada. Recarregue os agendamentos.',
+        title: 'Você trocou de organização.',
+        description:
+          'Este agendamento é de outra organização. Recarregue a lista para alterar os agendamentos da organização atual.',
       })
       return
     }

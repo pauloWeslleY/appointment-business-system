@@ -16,7 +16,9 @@ const SignupButton = ({
       rounded="lg"
       px="6"
       h="11"
-      _hover={{ bg: 'navy.800', transform: 'translateY(-1px)' }}
+      transition="background-color 150ms ease-out"
+      _hover={{ bg: 'navy.800' }}
+      _active={{ bg: 'navy.900' }}
     >
       <a href={getAdminHref('/register')}>
         {children}

@@ -1,7 +1,7 @@
 import { createListCollection, Portal, Select } from '@chakra-ui/react'
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 
-import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldCss } from '@/theme/styles/global-styles'
 
 const selectMaxCustomers = createListCollection({
   items: [
@@ -34,7 +34,7 @@ const FilterCustomerSex = () => {
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger {...inputFieldStyles}>
+        <Select.Trigger {...inputFieldCss}>
           <Select.ValueText placeholder="Selecione o sexo" />
         </Select.Trigger>
         <Select.IndicatorGroup>

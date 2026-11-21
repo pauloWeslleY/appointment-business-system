@@ -10,6 +10,8 @@ export const EstablishmentStatus = {
   SUSPENDED: 'suspended',
 } as const
 
+export const STATUSES_APPOINTMENT = Object.values(EstablishmentStatus)
+
 export const EstablishmentStatusSchema = z.enum(EstablishmentStatus)
 
 export type EstablishmentStatusType = z.infer<typeof EstablishmentStatusSchema>
@@ -30,11 +32,9 @@ export const mapStatusEstablishment = (status?: EstablishmentStatusType) => {
   return status ? statusMap[status] : { label: 'Desconhecido', color: 'gray' }
 }
 
-type StatusColorMapEstablishmentType = StatusProps['value']
-
 export const mapStatusColorEstablishment: Record<
   EstablishmentStatusType,
-  StatusColorMapEstablishmentType
+  StatusProps['value']
 > = {
   [EstablishmentStatus.DRAFT]: 'info',
   [EstablishmentStatus.ACTIVE]: 'success',

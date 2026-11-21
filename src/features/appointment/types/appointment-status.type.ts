@@ -17,3 +17,14 @@ export const appointmentStatusLabel: Record<AppointmentStatusType, string> = {
   cancelled: 'Cancelado',
   concluded: 'Concluído',
 }
+
+export const appointmentStatusUpdateErrorTitle: Record<
+  AppointmentStatusType,
+  string
+> = {
+  [AppointmentStatus.PENDING]:
+    'Não foi possível voltar o agendamento para pendente.',
+  [AppointmentStatus.CONFIRMED]: 'Não foi possível confirmar o agendamento.',
+  [AppointmentStatus.CANCELLED]: 'Não foi possível cancelar o agendamento.',
+  [AppointmentStatus.CONCLUDED]: 'Não foi possível concluir o agendamento.',
+}

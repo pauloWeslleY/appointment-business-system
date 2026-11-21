@@ -108,6 +108,7 @@ const FormCreateEstablishmentPage = () => {
                   size: 'sm',
                   roundedTopLeft: 'xl',
                   roundedBottomLeft: 'xl',
+                  bg: { base: 'gray.300', _dark: 'blackAlpha.500' },
                 }}
               >
                 <InputField

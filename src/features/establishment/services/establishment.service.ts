@@ -17,8 +17,10 @@ import {
   GetOpeningHoursResponseSchema,
 } from '../schemas/get-opening-hours.schema'
 import { UpdateEstablishmentRequestSchema } from '../schemas/update-establishment.api.schema'
-import { UploadImageEstablishmentInputSchema } from '../schemas/upload-image-establishment.schema'
-import { UploadImageEstablishmentRequestSchema } from '../schemas/upload-image-establishment.schema'
+import {
+  UploadImageEstablishmentInputSchema,
+  UploadImageEstablishmentRequestSchema,
+} from '../schemas/upload-image-establishment.schema'
 import type { CreateEstablishmentRequest } from '../types/create-establishment-request.type'
 import type {
   EstablishmentAdminApiResponse,
@@ -31,8 +33,10 @@ import type {
 import type { GetOpeningHoursRequest } from '../types/opening-hours-request.type'
 import type { GetOpeningHoursResponse } from '../types/opening-hours-response.type'
 import type { UpdateEstablishmentRequest } from '../types/update-establishment-request.type'
-import type { UploadImageEstablishmentInput } from '../types/upload-image-establishment.type'
-import type { UploadImageEstablishmentRequestParams } from '../types/upload-image-establishment.type'
+import type {
+  UploadImageEstablishmentInput,
+  UploadImageEstablishmentRequestParams,
+} from '../types/upload-image-establishment.type'
 import { buildEstablishmentWebsite } from '../utils/establishment-website'
 
 export const getEstablishmentBySlugService = async (
@@ -203,7 +207,7 @@ export const getListOpeningHoursEstablishmentService = async (
   const { api, validate } = httpDependencies<GetOpeningHoursResponse>()
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/establishments/${establishmentId}/availability`,
+    url: `/admin/establishments/${establishmentId}/availability`,
     params: query,
   })
 

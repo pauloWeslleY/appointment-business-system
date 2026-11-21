@@ -1,10 +1,17 @@
-import { Button, CloseButton, DataList, Dialog, Portal } from '@chakra-ui/react'
-import dayjs from 'dayjs'
+import {
+  Button,
+  CloseButton,
+  DataList,
+  Dialog,
+  For,
+  Portal,
+} from '@chakra-ui/react'
 
 import { Status } from '@/components/ui/status'
 import { mapGenderLabel } from '@/shared/constants/map-label-gender-customer'
+import { formattedDateAndHours } from '@/shared/utils/formatted-date'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
-import { cardSectionCss, contentCss } from '@/theme/styles/global-styles'
+import { contentCss } from '@/theme/styles/global-styles'
 
 import type { CustomerApiResponse } from '../types/customer-response.api.type'
 
@@ -19,28 +26,6 @@ const SidebarInfoCustomer = ({
   open,
   onOpen,
 }: SidebarInfoCustomerProps) => {
-  const loadInfoCustomer = [
-    { label: 'Nome', value: customer.name },
-    { label: 'E-mail', value: customer.email },
-    {
-      label: 'Sexo',
-      value: customer.gender
-        ? (mapGenderLabel[customer.gender] ?? customer.gender)
-        : 'Não informado',
-    },
-    { label: 'Status', value: customer.status },
-    { label: 'Data de Nascimento', value: customer.birthDate },
-    {
-      label: 'Data de Cadastro',
-      value: dayjs(customer?.createdAt).format('DD/MM/YYYY'),
-    },
-    {
-      label: 'Telefone',
-      value: customer.phones.map(formattedPhone).join(', '),
-    },
-    { label: 'Observações', value: customer.notes ?? 'Nenhuma observação' },
-  ]
-
   return (
     <Dialog.Root
       placement="center"
@@ -62,29 +47,69 @@ const SidebarInfoCustomer = ({
                 gap="4"
                 display="grid"
                 gridTemplateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
-                css={cardSectionCss}
-                p="2"
-                borderWidth="1px"
               >
-                {loadInfoCustomer.map((item) => (
-                  <DataList.Item
-                    key={item.label}
-                    gridColumn={{
-                      md: item.label === 'Observações' ? 'span 2' : 'span 1',
-                    }}
-                  >
-                    <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
-                    <DataList.ItemValue>
-                      {typeof item.value === 'boolean' ? (
-                        <Status value={item.value ? 'success' : 'error'}>
-                          {item.value ? 'Ativo' : 'Inativo'}
-                        </Status>
-                      ) : (
-                        item.value
-                      )}
-                    </DataList.ItemValue>
-                  </DataList.Item>
-                ))}
+                <For
+                  each={[
+                    {
+                      label: 'Nome',
+                      value: customer.name,
+                    },
+                    {
+                      label: 'E-mail',
+                      value: customer.email,
+                    },
+                    {
+                      label: 'Sexo',
+                      value: customer.gender
+                        ? mapGenderLabel[customer.gender]
+                        : 'N/A',
+                    },
+                    {
+                      label: 'Status',
+                      value: customer.status,
+                    },
+                    {
+                      label: 'Data de Nascimento',
+                      value: customer.birthDate
+                        ? formattedDateAndHours(customer.birthDate)
+                        : 'N/A',
+                    },
+                    {
+                      label: 'Data de Cadastro',
+                      value: formattedDateAndHours(customer.createdAt),
+                    },
+                    {
+                      label: 'Telefone',
+                      value:
+                        customer.phones.length > 0
+                          ? customer.phones.map(formattedPhone).join(', ')
+                          : 'N/A',
+                    },
+                    {
+                      label: 'Observações',
+                      value: customer.notes ?? 'N/A',
+                      fullWidth: true,
+                    },
+                  ]}
+                >
+                  {(item) => (
+                    <DataList.Item
+                      key={item.label}
+                      gridColumn={{ md: item.fullWidth ? '1 / -1' : 'auto' }}
+                    >
+                      <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
+                      <DataList.ItemValue>
+                        {typeof item.value === 'boolean' ? (
+                          <Status value={item.value ? 'success' : 'error'}>
+                            {item.value ? 'Ativo' : 'Inativo'}
+                          </Status>
+                        ) : (
+                          item.value
+                        )}
+                      </DataList.ItemValue>
+                    </DataList.Item>
+                  )}
+                </For>
               </DataList.Root>
             </Dialog.Body>
             <Dialog.Footer flexWrap="wrap" gap="2">

@@ -9,6 +9,11 @@ import {
   CreateOpeningHoursApiResponseSchema,
 } from '../schemas/create-opening-hours.api.schema'
 import {
+  CustomTimesOpeningHoursRequestApiSchema,
+  CustomTimesOpeningHoursResponseApiSchema,
+  GetCustomTimesOpeningHoursRequestApiSchema,
+} from '../schemas/custom-times-opening-hours.api.schema'
+import {
   DeleteOpeningHoursApiRequestSchema,
   DeleteOpeningHoursApiResponseSchema,
 } from '../schemas/delete-opening-hours.api.schema'
@@ -25,6 +30,11 @@ import type {
   CreateOpeningHoursApiResponse,
 } from '../types/create-opening-hours.api.type'
 import type {
+  CustomTimesOpeningHoursRequestApi,
+  CustomTimesOpeningHoursResponseApi,
+  GetCustomTimesOpeningHoursRequestApi,
+} from '../types/customer-times-opening-hours.api.type'
+import type {
   DeleteOpeningHoursApiRequest,
   DeleteOpeningHoursApiResponse,
 } from '../types/delete-opening-hours.api.type'
@@ -37,17 +47,16 @@ import type {
   UpdateOpeningHoursApiResponse,
 } from '../types/update-opening-hours.api.type'
 
-export const listEstablishmentOpeningHoursService = async (
+export const listOpeningHoursEstablishmentService = async (
   establishmentId: string,
 ): Promise<EstablishmentOpeningHoursItemApiResponse[]> => {
   const { api, validate } =
     httpDependencies<EstablishmentOpeningHoursItemApiResponse[]>()
-
+  const establishmentIdParsed = z.uuid().parse(establishmentId)
   const response = await api.request({
     method: HttpMethod.GET,
-    url: `/admin/opening-hours/establishment/${z.uuid().parse(establishmentId)}`,
+    url: `/admin/opening-hours/establishment/${establishmentIdParsed}`,
   })
-
   const validatedResponse =
     EstablishmentOpeningHoursListApiResponseSchema.safeParse(
       validate.errors(response),
@@ -60,16 +69,33 @@ export const listEstablishmentOpeningHoursService = async (
   return validatedResponse.data
 }
 
+export const getCustomTimesOpeningHoursByIdService = async (
+  params: GetCustomTimesOpeningHoursRequestApi,
+): Promise<CustomTimesOpeningHoursResponseApi> => {
+  const { api, validate } =
+    httpDependencies<CustomTimesOpeningHoursResponseApi>()
+  const data = GetCustomTimesOpeningHoursRequestApiSchema.parse(params)
+  const response = await api.request({
+    method: HttpMethod.GET,
+    url: `/admin/opening-hours/establishment/${data.establishmentId}/${data.openingHoursId}/custom-times`,
+  })
+
+  const validatedResponse = CustomTimesOpeningHoursResponseApiSchema.safeParse(
+    validate.errors(response),
+  )
+
+  if (!validatedResponse.success) {
+    throw new BadRequestError(z.prettifyError(validatedResponse.error))
+  }
+
+  return validatedResponse.data
+}
+
 export const getOpeningHoursByIdService = async (
-  data: string,
+  id: string,
 ): Promise<OpeningHoursSummaryApiResponse> => {
   const { api, validate } = httpDependencies<OpeningHoursSummaryApiResponse>()
-  const openingHoursId = z
-    .string()
-    .trim()
-    .min(1, 'ID do horário de funcionamento é obrigatório')
-    .parse(data)
-
+  const openingHoursId = z.uuid().parse(id)
   const response = await api.request({
     method: HttpMethod.GET,
     url: `/admin/opening-hours/${openingHoursId}`,
@@ -118,6 +144,31 @@ export const updateOpeningHoursService = async (
   })
 
   const validatedResponse = UpdateOpeningHoursApiResponseSchema.safeParse(
+    validate.errors(response),
+  )
+
+  if (!validatedResponse.success) {
+    throw new BadRequestError(z.prettifyError(validatedResponse.error))
+  }
+
+  return validatedResponse.data
+}
+
+export const updateCustomTimesOpeningHoursService = async (
+  data: CustomTimesOpeningHoursRequestApi,
+): Promise<CustomTimesOpeningHoursResponseApi> => {
+  const { api, validate } =
+    httpDependencies<CustomTimesOpeningHoursResponseApi>()
+  const request = CustomTimesOpeningHoursRequestApiSchema.parse(data)
+  const response = await api.request({
+    method: HttpMethod.PUT,
+    url: `/admin/opening-hours/establishment/${request.establishmentId}/${request.openingHoursId}/custom-times`,
+    body: {
+      customTimes: request.customTimes,
+    },
+  })
+
+  const validatedResponse = CustomTimesOpeningHoursResponseApiSchema.safeParse(
     validate.errors(response),
   )
 

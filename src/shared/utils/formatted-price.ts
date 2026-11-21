@@ -1,8 +1,9 @@
 export const formatCurrencyInCents = (amount: number) => {
   const price = amount / 100
-
-  return new Intl.NumberFormat('pt-BR', {
+  const formattedPrice = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-  }).format(price)
+  })
+
+  return formattedPrice.format(price)
 }

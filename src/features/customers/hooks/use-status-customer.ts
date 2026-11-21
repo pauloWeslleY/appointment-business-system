@@ -9,24 +9,27 @@ export function useStatusCustomer(
   customer: CustomerApiResponse,
   onClose: () => void,
 ) {
-  const { mutateAsync: updateStatus, isPending: isPendingStatusCustomer } =
-    useMutation(customersMutationOptions.status())
-  const handleStatusCustomer = async () => {
-    if (isPendingStatusCustomer) {
-      return
-    }
+  const { mutate: updateStatus, isPending: isPendingStatusCustomer } =
+    useMutation({
+      ...customersMutationOptions.status(),
+      onSuccess: () => {
+        toaster.success({ title: 'Status do cliente atualizado com sucesso' })
+        onClose()
+      },
+      onError: (error) => {
+        toaster.error({
+          title: 'Erro ao atualizar status do cliente',
+          description: error.message || 'Tente novamente',
+        })
+      },
+    })
 
-    try {
-      await updateStatus({ id: customer.id, status: !customer.status })
-      toaster.success({ title: 'Status do cliente atualizado com sucesso' })
-      onClose()
-    } catch (error) {
-      toaster.error({
-        title: 'Erro ao atualizar status do cliente',
-        description: error instanceof Error ? error.message : 'Tente novamente',
-      })
-    }
+  const handleStatusCustomer = () => {
+    updateStatus({ id: customer.id, status: !customer.status })
   }
 
-  return { handleStatusCustomer, isPendingStatusCustomer }
+  return {
+    handleStatusCustomer,
+    isPendingStatusCustomer,
+  }
 }

@@ -1,4 +1,13 @@
-import { Box, Card, Flex, For, Icon, Image, SimpleGrid } from '@chakra-ui/react'
+import {
+  AspectRatio,
+  Box,
+  Card,
+  Flex,
+  For,
+  Icon,
+  Image,
+  SimpleGrid,
+} from '@chakra-ui/react'
 import { FileImage } from 'lucide-react'
 
 import { ItemDetails } from '@/components/item-details'
@@ -29,15 +38,15 @@ const CardInfoServiceEstablishement = ({
     >
       <Box w="52" maxW="full" flexShrink="0">
         {serviceEstablishment?.imageUrl && (
-          <Image
-            border="1px solid"
-            borderColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
-            rounded="xl"
-            h="auto"
-            w="full"
-            fit="contain"
-            src={serviceEstablishment.imageUrl}
-          />
+          <AspectRatio maxW="400px" ratio={4 / 3}>
+            <Image
+              border="1px solid"
+              borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
+              rounded="xl"
+              fit="cover"
+              src={serviceEstablishment.imageUrl}
+            />
+          </AspectRatio>
         )}
 
         {!serviceEstablishment?.imageUrl && (
@@ -63,7 +72,11 @@ const CardInfoServiceEstablishement = ({
       >
         <For each={loadServiceEstablishmentInfo}>
           {(service) => (
-            <ItemDetails.Root key={service.label} direction="column">
+            <ItemDetails.Root
+              key={service.label}
+              direction="column"
+              gridColumn={service.fullWidth ? '1 / -1' : undefined}
+            >
               <ItemDetails.Label>{service.label}</ItemDetails.Label>
               <ItemDetails.Value>{service.content}</ItemDetails.Value>
             </ItemDetails.Root>

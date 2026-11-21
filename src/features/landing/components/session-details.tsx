@@ -9,8 +9,7 @@ const SessionDetails = () => {
       <Container maxW="breakpoint-2xl" px={{ base: 6, md: 10 }}>
         <Eyebrow>Por que escolher</Eyebrow>
         <Heading as="h2" fontSize="30px" lineHeight="1.15" mb="6">
-          Um sistema feito para a<br />
-          realidade dos profissionais.
+          Para negócios que atendem com hora marcada
         </Heading>
 
         <Grid

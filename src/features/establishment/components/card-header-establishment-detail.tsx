@@ -18,6 +18,7 @@ interface CardHeaderEstablishmentDetailProps extends BoxProps {
   establishment: {
     name: string
     status: EstablishmentStatusType
+    timezone: string
     openingHours: {
       day: number
       intervals: { open: string; close: string }[]

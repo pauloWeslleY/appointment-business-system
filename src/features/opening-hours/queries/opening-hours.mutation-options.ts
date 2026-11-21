@@ -5,6 +5,7 @@ import { establishmentQueryKeys } from '@/features/establishment/queries/establi
 import {
   createOpeningHoursService,
   deleteOpeningHoursService,
+  updateCustomTimesOpeningHoursService,
   updateOpeningHoursService,
 } from '../services/opening-hours.service'
 import { openingHoursQueryKeys } from './opening-hours.query-key'
@@ -32,6 +33,15 @@ export const openingHoursMutationOptions = {
     mutationOptions({
       mutationKey: [...openingHoursQueryKeys.all, 'update'],
       mutationFn: updateOpeningHoursService,
+      onSuccess: async (_data, _variables, _result, context) => {
+        await invalidateOpeningHoursQueries(context.client)
+      },
+    }),
+
+  customTimes: () =>
+    mutationOptions({
+      mutationKey: [...openingHoursQueryKeys.all, 'custom-times'],
+      mutationFn: updateCustomTimesOpeningHoursService,
       onSuccess: async (_data, _variables, _result, context) => {
         await invalidateOpeningHoursQueries(context.client)
       },

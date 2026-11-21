@@ -1,5 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Outlet, useMatches } from '@tanstack/react-router'
+import { createFileRoute, Outlet, useMatches } from '@tanstack/react-router'
 
 import Loader from '@/components/loader'
 import LoaderFull from '@/components/loader-full'
@@ -11,7 +10,6 @@ import {
 import { subscriptionAccessQueryOptions } from '@/features/subscriptions/queries/subscription.query-options'
 
 export const Route = createFileRoute('/_app')({
-  pendingComponent: AppPendingLoader,
   beforeLoad: async ({ context, location }) => {
     const session = await validateEnsureSessionRoute(
       context.queryClient,
@@ -24,8 +22,6 @@ export const Route = createFileRoute('/_app')({
 
     const activeOrganizationId = session.session.activeOrganizationId
 
-    // Sem organização ativa a query de acesso usa skipToken; executá-la
-    // imperativamente rejeita com "Missing queryFn" e derruba a rota.
     if (!activeOrganizationId) {
       await authorization
 
@@ -48,11 +44,11 @@ export const Route = createFileRoute('/_app')({
     }
   },
   component: AppLayout,
+  pendingComponent: AppPendingLoader,
 })
 
 function AppLayout() {
   const hasSessionChanged = useRefreshSessionContext()
-
   return hasSessionChanged ? <AppPendingLoader /> : <Outlet />
 }
 

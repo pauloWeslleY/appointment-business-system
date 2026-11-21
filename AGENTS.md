@@ -5,6 +5,7 @@ Estas instruções se aplicam a `appointment-business-system` e seus subdiretór
 ## Escopo e preservação do trabalho
 
 - Execute o pedido atual do usuário. Não transforme uma análise ou atualização documental em implementação.
+- Antes de cada alteração, leia este `AGENTS.md` e os `AGENTS.md` aplicáveis ao diretório. Use as regras lidas como contexto para a implementação e a revisão.
 - Antes de editar, confira `git status` e leia os arquivos envolvidos. Preserve alterações concorrentes, inclusive no mesmo arquivo. Não reverta, sobrescreva, faça commit ou descarte trabalho alheio sem solicitação.
 - Limite alterações aos arquivos necessários. Não refatore outras features, atualize dependências ou altere configurações por conveniência.
 - Não altere `.env`, banco compartilhado, configurações Stripe, publicação ou deploy como efeito colateral de uma mudança de interface.
@@ -31,6 +32,7 @@ A segregação obrigatória é: **route page (`src/pages`) → `feature/pages` �
 
 - Todo arquivo de rota em `src/pages` declara o `Route` e o **componente da tela no mesmo arquivo** (`component: CustomersPage`, com `function CustomersPage()` logo abaixo). Não use `component: XPage` importado de `feature/pages`.
 - O componente da rota compõe a tela: `Header`, filtros, estados de carregamento/erro/vazio e as seções, obtendo os dados por um hook da feature (ex.: `useCustomersPage`).
+- Ao revisar uma tela, identifique a lógica de estado, os valores derivados e as condições de interação ou layout. Quando essa lógica crescer ou acumular variáveis no componente, mova-a para o hook que coordena a tela. Se esse hook já existir, reúna nele os hooks relacionados e exponha os valores de que a interface precisa.
 - A rota também concentra `beforeLoad` (permissão), `validateSearch` (schema importado de `feature/schemas`) e `head`.
 - `feature/pages` contém blocos de tela (ex.: `customers-table.page.tsx`) que servem para ser chamados dentro do componente da rota; não são telas completas nem são registrados diretamente como `component` de rota.
 - `feature/components` contém os componentes visuais usados por `feature/pages` e pelo componente da rota.
@@ -56,6 +58,22 @@ Não crie diretórios vazios nem uma arquitetura paralela para uma funcionalidad
 - Em objetos retornados por hooks, declare valores derivados e callbacks antes do `return` e exponha apenas referências nomeadas com sintaxe abreviada.
 - Antes de concluir qualquer alteração de código, leia os nomes no ponto de uso e corrija os que exigem rastrear a implementação para entender seu significado.
 
+### Desestruturação de `useMutation`
+
+- Sempre desestruture o retorno de `useMutation` e de hooks que o retornam, como `useSaveEstablishmentSettings`. Não use `const mutation = useMutation(...)` seguido de `mutation.mutate` ou `mutation.isPending`.
+- Declare `mutate` primeiro e `isPending` em seguida. Desestruture `mutateAsync`, `error`, `data` ou `reset` somente quando forem usados.
+- Nomeie os aliases com a operação e o domínio, sem termos redundantes como `New`, `Mutation` ou `Data`: `mutate: createAppointment`, `isPending: isPendingCreateAppointment`, `error: createAppointmentError`, `reset: resetCreateAppointment`. Use `mutateAsync` somente quando o resultado precisar ser aguardado, com o mesmo padrão de nome.
+
+```ts
+const { mutate: createAppointment, isPending: isPendingCreateAppointment } =
+  useMutation(appointmentMutationOptions.create())
+```
+
+- Ao compor callbacks, guarde as options em uma constante com operação e domínio, como `createAppointmentMutationOptions`. Chame o callback original antes do novo e dê contexto aos parâmetros, como `createAppointmentError` e `...createAppointmentSuccessParams`.
+- Use o alias de `isPending` para bloquear envio duplicado no handler do formulário e para controlar `loading` e `disabled` dos botões.
+- Exponha no retorno do hook o mesmo nome do alias, sem renomear dentro do `return`.
+- Hooks que apenas encapsulam uma mutation podem retornar `useMutation(...)` diretamente; o consumidor aplica a desestruturação.
+
 ## Código e React
 
 - Escreva funções e componentes coesos, com nomes que expressem intenção. Extraia etapas independentes e evite duplicação.
@@ -67,11 +85,12 @@ Não crie diretórios vazios nem uma arquitetura paralela para uma funcionalidad
 - Reutilize componentes e tokens do tema. Preserve responsividade, modo claro/escuro, labels, navegação por teclado e feedback acessível.
 - Em `Dialog` e `Drawer`, defina as dimensões pela prop `size` do `Root`. Não sobrescreva `maxW`, `maxH` ou `overflowY` no `Content`.
 - Toda operação assíncrona deve apresentar estados de carregamento, erro, vazio e sucesso quando aplicáveis. Evite cliques duplicados durante mutations.
-- Para renderizar listas em JSX, use sempre o componente `<For>` do Chakra UI, com `key` estável em cada item. Não use `.map()` diretamente no JSX para repetir elementos.
+- Para renderizar listas, use sempre o componente `<For>` do Chakra UI v3, com `key` estável em cada item. Reserve `.map()` para transformar dados e derive esses dados fora da renderização da lista.
 
 ### Constantes
 
 - Não crie constantes soltas no módulo para valores usados em um único lugar. Use o valor diretamente no ponto de uso, de forma que o nome da prop, do parâmetro ou da variável já dê o contexto.
+- Passe objetos literais de configuração diretamente à prop JSX que os recebe, inclusive configurações de estilo, responsividade e animação. Quando uma propriedade depender do estado da tela, calcule o valor no hook e use esse valor dentro do objeto inline.
 - Coloque em `feature/constants` somente valores compartilhados por mais de um componente, hook, schema ou arquivo da feature. Valores compartilhados entre features ficam em `src/shared/constants`.
 - Quando um valor for reutilizado em mais de um ponto do mesmo componente, avalie antes de criar a constante: crie-a no próprio arquivo somente se a repetição for da mesma regra e a constante, com nome descritivo, deixar a intenção mais clara. Caso contrário, mantenha o valor no ponto de uso.
 - Status, tipos e demais valores de negócio continuam vindo das constantes agrupadas do conceito correspondente, mesmo quando usados em um único lugar.

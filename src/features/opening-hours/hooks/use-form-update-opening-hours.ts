@@ -6,21 +6,19 @@ import { toaster } from '@/components/ui/toaster'
 
 import { openingHoursMutationOptions } from '../queries/opening-hours.mutation-options'
 import { OpeningHoursFormDataSchema } from '../schemas/form-opening-hours.schema'
+import type { CustomTimesOpeningHoursResponseApi } from '../types/customer-times-opening-hours.api.type'
 import type { OpeningHoursFormData } from '../types/opening-hours-form.type'
-import type { EstablishmentOpeningHoursItemApiResponse } from '../types/opening-hours-response.api.type'
 
 const toOpeningHoursFormValues = (
-  openingHours: EstablishmentOpeningHoursItemApiResponse,
+  openingHours: CustomTimesOpeningHoursResponseApi,
 ): OpeningHoursFormData => ({
   day: openingHours.day,
-  open: openingHours.intervals[0]?.open ?? '',
-  close: openingHours.intervals[0]?.close ?? '',
+  open: openingHours.open,
+  close: openingHours.close,
 })
 
 export function useFormUpdateOpeningHours(
-  openingHours: EstablishmentOpeningHoursItemApiResponse,
-  establishmentId: string,
-  onSaved?: () => void,
+  openingHours: CustomTimesOpeningHoursResponseApi,
 ) {
   const formUpdateOpeningHours = useForm<OpeningHoursFormData>({
     resolver: zodResolver(OpeningHoursFormDataSchema),
@@ -44,16 +42,16 @@ export function useFormUpdateOpeningHours(
     }
 
     updateOpeningHours(
-      { ...data, id: openingHours.id, establishmentId },
+      {
+        ...data,
+        id: openingHours.id,
+        establishmentId: openingHours.establishmentId,
+      },
       {
         onSuccess: () => {
           toaster.success({
             title: 'Horário de funcionamento atualizado com sucesso',
           })
-
-          if (onSaved) {
-            onSaved()
-          }
         },
         onError: (error) => {
           toaster.error({

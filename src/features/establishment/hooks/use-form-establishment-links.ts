@@ -18,22 +18,22 @@ export function useFormEstablishmentLinks(
 ) {
   const {
     establishmentSettingsScope,
-    establishmentSettingsScopeIdentity: scopeIdentity,
-    establishmentSettingsQuery: query,
-    canUpdateEstablishmentSettings: canUpdate,
+    establishmentSettingsScopeIdentity: establishmentLinksScopeIdentity,
+    establishmentSettingsQuery: establishmentLinksQuery,
+    canUpdateEstablishmentSettings: canUpdateEstablishmentLinks,
     isCurrentEstablishmentSettingsScope,
     resolveEstablishmentIdToSave,
   } = useEstablishmentSettings(establishmentSlug, memberContext)
 
-  const form = useForm<EstablishmentLinksForm>({
+  const formEstablishmentLinks = useForm<EstablishmentLinksForm>({
     resolver: zodResolver(EstablishmentLinksFormSchema),
     defaultValues: getEstablishmentLinksFormValues(),
   })
 
   useSyncEstablishmentSettingsForm(
-    form,
-    query.data,
-    scopeIdentity,
+    formEstablishmentLinks,
+    establishmentLinksQuery.data,
+    establishmentLinksScopeIdentity,
     getEstablishmentLinksFormValues,
   )
 
@@ -43,43 +43,65 @@ export function useFormEstablishmentLinks(
   } = useSaveEstablishmentSettings({
     isCurrentEstablishmentSettingsScope,
     successMessage: 'Links salvos com sucesso.',
-    onSaved: (settings) =>
-      form.reset(getEstablishmentLinksFormValues(settings)),
+    onSaved: (savedSettings) =>
+      formEstablishmentLinks.reset(
+        getEstablishmentLinksFormValues(savedSettings),
+      ),
   })
 
-  const onSubmit = form.handleSubmit((links) => {
-    if (isPendingSaveEstablishmentLinks) {
+  const isEstablishmentLinksFormDirty = formEstablishmentLinks.formState.isDirty
+  const isEstablishmentLinksFieldsetDisabled =
+    !canUpdateEstablishmentLinks || isPendingSaveEstablishmentLinks
+  const isSaveEstablishmentLinksDisabled =
+    !canUpdateEstablishmentLinks || !isEstablishmentLinksFormDirty
+
+  const handleSaveEstablishmentLinks = formEstablishmentLinks.handleSubmit(
+    (establishmentLinks) => {
+      if (isPendingSaveEstablishmentLinks) {
+        return
+      }
+
+      const establishmentId = resolveEstablishmentIdToSave(
+        isEstablishmentLinksFormDirty,
+      )
+
+      if (!establishmentId) {
+        return
+      }
+
+      saveEstablishmentLinks({
+        scope: establishmentSettingsScope,
+        establishmentId,
+        settings: establishmentLinks,
+      })
+    },
+  )
+
+  function handleDiscardEstablishmentLinks() {
+    if (!establishmentLinksQuery.data) {
       return
     }
 
-    const establishmentId = resolveEstablishmentIdToSave(form.formState.isDirty)
+    formEstablishmentLinks.reset(
+      getEstablishmentLinksFormValues(establishmentLinksQuery.data),
+    )
+  }
 
-    if (!establishmentId) {
-      return
-    }
-
-    saveEstablishmentLinks({
-      scope: establishmentSettingsScope,
-      establishmentId,
-      settings: links,
-    })
-  })
-
-  function discardChanges() {
-    if (!query.data) {
-      return
-    }
-
-    form.reset(getEstablishmentLinksFormValues(query.data))
+  function retryEstablishmentLinks() {
+    void establishmentLinksQuery.refetch()
   }
 
   return {
-    query,
-    form,
-    scopeIdentity,
-    canUpdate,
-    onSubmit,
-    isSaving: isPendingSaveEstablishmentLinks,
-    discardChanges,
+    establishmentLinksQuery,
+    formEstablishmentLinks,
+    establishmentLinksScopeIdentity,
+    canUpdateEstablishmentLinks,
+    isPendingSaveEstablishmentLinks,
+    isEstablishmentLinksFormDirty,
+    isEstablishmentLinksFieldsetDisabled,
+    isSaveEstablishmentLinksDisabled,
+    handleSaveEstablishmentLinks,
+    handleDiscardEstablishmentLinks,
+    retryEstablishmentLinks,
   }
 }

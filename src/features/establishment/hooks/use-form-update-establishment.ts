@@ -1,4 +1,3 @@
-import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo } from 'react'
@@ -11,19 +10,8 @@ import { establishmentMutationOptions } from '../queries/establishment.mutation-
 import { establishmentAdminSlugQueryOptions } from '../queries/establishment.query-options'
 import { UpdateEstablishmentFormDataSchema } from '../schemas/establishment-form.schema'
 import type { UpdateEstablishmentFormData } from '../types/establishment-form-data.type'
-import {
-  EstablishmentStatus,
-  mapStatusEstablishment,
-} from '../types/establishment-status.type'
 import type { UpdateEstablishmentRequest } from '../types/update-establishment-request.type'
 import { getEstablishmentWebsitePath } from '../utils/establishment-website'
-
-const loadSelectStatusUpdateEstablishment = createListCollection({
-  items: Object.values(EstablishmentStatus).map((status) => ({
-    label: mapStatusEstablishment(status).label,
-    value: status,
-  })),
-})
 
 export function useFormUpdateEstablishment(establishmentSlug: string) {
   const {
@@ -158,7 +146,6 @@ export function useFormUpdateEstablishment(establishmentSlug: string) {
     isLoadingEstablishment,
     isPendingUpdateEstablishment,
     formUpdateEstablishment,
-    loadSelectStatusUpdateEstablishment,
     handleUpdateEstablishment,
     handleCopyWebsiteUrlUpdateEstablishment,
     handleUpdateInputUrlAtSlugUpdateFormEstablishment,

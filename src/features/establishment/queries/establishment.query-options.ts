@@ -8,7 +8,10 @@ import {
   getListOpeningHoursEstablishmentService,
 } from '../services/establishment.service'
 import type { GetOpeningHoursRequest } from '../types/opening-hours-request.type'
-import { establishmentQueryKeys } from './establishment.query-key'
+import {
+  type EstablishmentAvailabilityScope,
+  establishmentQueryKeys,
+} from './establishment.query-key'
 
 export const establishmentSlugQueryOptions = (slug: string) => {
   return queryOptions({
@@ -39,9 +42,10 @@ export const establishmentByIdQueryOptions = (establishmentId: string) => {
 
 export const establishmentAvailabilityQueryOptions = (
   params: GetOpeningHoursRequest,
+  scope?: EstablishmentAvailabilityScope,
 ) => {
   return queryOptions({
-    queryKey: establishmentQueryKeys.availability(params),
+    queryKey: establishmentQueryKeys.availability(params, scope),
     queryFn:
       params.establishmentId.trim() !== '' &&
       params.serviceId.trim() !== '' &&

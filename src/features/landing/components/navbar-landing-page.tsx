@@ -17,7 +17,6 @@ import Logotipo from '@/components/logotipo'
 import { getAdminHref, getCustomerHref } from '@/shared/config/site-domains'
 
 import { navigation } from '../constants/data-landing-page'
-import SignupButton from './signup-button'
 
 const NavBarLandingPage = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -82,12 +81,6 @@ const NavBarLandingPage = () => {
               Área empresarial
             </Link>
           </Button>
-
-          <Button asChild bg="brand.navy" color="white" size="sm" rounded="lg">
-            <Link to={getAdminHref('/register') as LinkProps['to']}>
-              Criar conta
-            </Link>
-          </Button>
         </HStack>
 
         <IconButton
@@ -150,8 +143,6 @@ const NavBarLandingPage = () => {
                 Área do cliente
               </Link>
             </Button>
-
-            <SignupButton>Criar conta</SignupButton>
           </Stack>
         )}
       </Flex>

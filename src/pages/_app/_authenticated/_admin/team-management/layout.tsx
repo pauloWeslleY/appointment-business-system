@@ -1,10 +1,5 @@
 import { Box, Card, HStack, Icon, Tabs } from '@chakra-ui/react'
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  useLocation,
-} from '@tanstack/react-router'
+import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router'
 import { MailsIcon, Users2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
@@ -17,7 +12,6 @@ import { cardSectionCss } from '@/theme/styles/global-styles'
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management',
 )({
-  pendingComponent: PageLoader,
   loader: async ({ context }) => {
     const organizationId =
       context.session?.session.activeOrganizationId ?? undefined
@@ -34,14 +28,20 @@ export const Route = createFileRoute(
         invitationsResult?.invitations?.length.toString() ?? '0',
     }
   },
+  pendingComponent: PageLoader,
   component: RouteComponent,
   head: () => ({
-    meta: [{ title: 'Equipe e acessos | Agendros' }],
+    meta: [
+      {
+        title: 'Equipe e acessos | Agendros',
+      },
+    ],
   }),
 })
 
 function RouteComponent() {
   const { totalMembers, totalInvitations } = Route.useLoaderData()
+  const navigate = Route.useNavigate()
   const pathname = useLocation({
     select: (location) => location.pathname,
   })
@@ -65,33 +65,33 @@ function RouteComponent() {
           flexDir="column"
           gap="3"
         >
-          <Tabs.Root value={pathname} size="sm">
+          <Tabs.Root
+            size="sm"
+            value={pathname}
+            onValueChange={(e) => navigate({ to: e.value })}
+          >
             <Tabs.List
               flexWrap="wrap"
               borderColor={{ _light: 'gray.100', _dark: 'slate.900' }}
             >
-              <Tabs.Trigger value="/team-management/members" asChild>
-                <Link to="/team-management/members">
-                  <Icon
-                    as={Users2}
-                    boxSize="4"
-                    color={{ _light: 'sea.700', _dark: 'sea.300' }}
-                    mr="2"
-                  />
-                  {`Membros (${totalMembers})`}
-                </Link>
+              <Tabs.Trigger value="/team-management/members">
+                <Icon
+                  as={Users2}
+                  boxSize="4"
+                  color={{ _light: 'sea.700', _dark: 'sea.300' }}
+                  mr="2"
+                />
+                {`Membros (${totalMembers})`}
               </Tabs.Trigger>
 
-              <Tabs.Trigger value="/team-management/invitations" asChild>
-                <Link to="/team-management/invitations">
-                  <Icon
-                    as={MailsIcon}
-                    boxSize="4"
-                    color={{ _light: 'sea.700', _dark: 'sea.300' }}
-                    mr="2"
-                  />
-                  {`Convites (${totalInvitations})`}
-                </Link>
+              <Tabs.Trigger value="/team-management/invitations">
+                <Icon
+                  as={MailsIcon}
+                  boxSize="4"
+                  color={{ _light: 'sea.700', _dark: 'sea.300' }}
+                  mr="2"
+                />
+                {`Convites (${totalInvitations})`}
               </Tabs.Trigger>
             </Tabs.List>
           </Tabs.Root>

@@ -9,12 +9,12 @@ export const featuresLandingPage = [
   {
     icon: CalendarCheck,
     title: 'Agendamentos online',
-    text: 'Organize sua agenda de forma simples e visual.',
+    text: 'Receba solicitações de horário pelo seu link de agendamento.',
   },
   {
     icon: UsersRound,
     title: 'Gestão de clientes',
-    text: 'Mantenha o histórico completo de atendimentos.',
+    text: 'Consulte o histórico de atendimentos de cada cliente.',
   },
   {
     icon: Scissors,
@@ -24,14 +24,14 @@ export const featuresLandingPage = [
   {
     icon: ChartNoAxesCombined,
     title: 'Relatórios',
-    text: 'Acompanhe o crescimento do seu negócio.',
+    text: 'Consulte os relatórios do negócio pelo painel.',
   },
 ]
 
 export const listFeaturesLandingPage = [
-  'Agenda visual e intuitiva',
+  'Agenda com os horários da equipe',
   'Cadastro de clientes e histórico',
   'Gestão de serviços e profissionais',
-  'Confirmação de agendamentos com sinal',
-  'Relatórios e indicadores do seu negócio',
+  'Opção de solicitar sinal no agendamento',
+  'Relatórios com os indicadores do negócio',
 ] as const

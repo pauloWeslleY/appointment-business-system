@@ -17,7 +17,7 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -101,7 +101,7 @@ const DialogSendInvite = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger {...inputFieldStyles}>
+                          <Select.Trigger {...inputFieldCss}>
                             <Select.ValueText placeholder="Selecione o escopo de acesso" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>
@@ -150,7 +150,7 @@ const DialogSendInvite = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger {...inputFieldStyles}>
+                          <Select.Trigger {...inputFieldCss}>
                             <Select.ValueText placeholder="Selecione o papel" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>
@@ -203,7 +203,7 @@ const DialogSendInvite = () => {
                       >
                         <Select.HiddenSelect />
                         <Select.Control>
-                          <Select.Trigger {...inputFieldStyles}>
+                          <Select.Trigger {...inputFieldCss}>
                             <Select.ValueText placeholder="Selecione os estabelecimentos" />
                           </Select.Trigger>
                           <Select.IndicatorGroup>

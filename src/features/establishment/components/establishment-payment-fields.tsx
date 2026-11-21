@@ -3,6 +3,7 @@ import {
   Button,
   Fieldset,
   FileUpload,
+  For,
   Grid,
   Image,
   QrCode,
@@ -11,17 +12,14 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Upload } from 'lucide-react'
-import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 
 import FileUploadCardItem from '@/components/file-upload-item'
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import { useEstablishmentPaymentQrCode } from '../hooks/use-establishment-payment-qr-code'
-import { useQrCodePreview } from '../hooks/use-qr-code-preview'
-import { PaymentHttpsUrlSchema } from '../schemas/establishment-settings.schema'
-import type { EstablishmentLinksForm } from '../types/establishment-links-form.type'
+import { useEstablishmentPaymentFields } from '../hooks/use-establishment-payment-fields'
 
 interface EstablishmentPaymentFieldsProps {
   scopeIdentity: string
@@ -32,33 +30,29 @@ const EstablishmentPaymentFields = ({
   scopeIdentity,
   isSaving,
 }: EstablishmentPaymentFieldsProps) => {
-  const form = useFormContext<EstablishmentLinksForm>()
-  const values = useWatch({ control: form.control })
-  const errors = form.formState.errors
-
   const {
-    qrFrameRef,
-    isGeneratingQrCode,
-    generateQrCode,
-    onPaymentLinkChange,
-    onQrCodeFileChange,
-  } = useEstablishmentPaymentQrCode({ scopeIdentity, isSaving })
-
-  const paymentLink = values.paymentLink?.trim() ?? ''
-  const isValidPaymentLink =
-    PaymentHttpsUrlSchema.safeParse(paymentLink).success
-  const previewRef = useQrCodePreview(values.qrCodeFile)
-  const remotePreview = values.paymentQrCodeUrl?.trim() ?? ''
-  const previewUrl = PaymentHttpsUrlSchema.safeParse(remotePreview).success
-    ? remotePreview
-    : undefined
-  const hasPreview = Boolean(values.qrCodeFile || previewUrl)
+    paymentForm,
+    paymentFieldErrors,
+    paymentLink,
+    isValidPaymentLink,
+    isBookingDepositRequired,
+    isPaymentQrCodeUrlRequired,
+    qrCodeFilePreviewRef,
+    qrCodePreviewImageSrc,
+    hasQrCodePreview,
+    paymentLinkQrCodeFrameRef,
+    isGeneratingPaymentLinkQrCode,
+    generatePaymentLinkQrCode,
+    changePaymentLink,
+    changeQrCodeFile,
+  } = useEstablishmentPaymentFields({ scopeIdentity, isSaving })
 
   return (
     <Fieldset.Root
       css={cardSectionCss}
       borderWidth="1px"
-      disabled={isGeneratingQrCode}
+      shadow="none"
+      disabled={isGeneratingPaymentLinkQrCode}
     >
       <Fieldset.Legend fontSize="lg">
         Sinal e formas de pagamento
@@ -70,18 +64,22 @@ const EstablishmentPaymentFields = ({
 
       <Fieldset.Content gap="5">
         <Controller
-          control={form.control}
+          control={paymentForm.control}
           name="requiresBookingDeposit"
-          render={({ field }) => (
+          render={({ field: requiresBookingDepositField }) => (
             <Switch.Root
-              checked={field.value}
-              onCheckedChange={(details) => field.onChange(details.checked)}
+              checked={requiresBookingDepositField.value}
+              onCheckedChange={(switchCheckedDetails) =>
+                requiresBookingDepositField.onChange(
+                  switchCheckedDetails.checked,
+                )
+              }
               colorPalette="brand"
             >
               <Switch.HiddenInput
-                name={field.name}
-                onBlur={field.onBlur}
-                ref={field.ref}
+                name={requiresBookingDepositField.name}
+                onBlur={requiresBookingDepositField.onBlur}
+                ref={requiresBookingDepositField.ref}
               />
               <Switch.Control>
                 <Switch.Thumb />
@@ -97,14 +95,16 @@ const EstablishmentPaymentFields = ({
         >
           <Field
             label="Link de pagamento"
-            required={values.requiresBookingDeposit}
-            invalid={Boolean(errors.paymentLink)}
-            errorText={errors.paymentLink?.message}
+            required={isBookingDepositRequired}
+            invalid={Boolean(paymentFieldErrors.paymentLink)}
+            errorText={paymentFieldErrors.paymentLink?.message}
             helperText="Cole o link HTTPS fornecido pelo seu meio de pagamento."
           >
             <InputField
-              {...form.register('paymentLink')}
-              onChange={(event) => onPaymentLinkChange(event.target.value)}
+              {...paymentForm.register('paymentLink')}
+              onChange={(paymentLinkChangeEvent) =>
+                changePaymentLink(paymentLinkChangeEvent.target.value)
+              }
               type="url"
               placeholder="https://..."
               autoComplete="off"
@@ -114,13 +114,13 @@ const EstablishmentPaymentFields = ({
 
           <Field
             label="URL da imagem do QR Code"
-            required={values.requiresBookingDeposit && !values.qrCodeFile}
-            invalid={Boolean(errors.paymentQrCodeUrl)}
-            errorText={errors.paymentQrCodeUrl?.message}
+            required={isPaymentQrCodeUrlRequired}
+            invalid={Boolean(paymentFieldErrors.paymentQrCodeUrl)}
+            errorText={paymentFieldErrors.paymentQrCodeUrl?.message}
             helperText="Use uma URL HTTPS da imagem, envie um arquivo ou gere o QR Code do link abaixo."
           >
             <InputField
-              {...form.register('paymentQrCodeUrl')}
+              {...paymentForm.register('paymentQrCodeUrl')}
               type="url"
               placeholder="https://.../qr-code.png"
               autoComplete="off"
@@ -131,18 +131,20 @@ const EstablishmentPaymentFields = ({
 
         <Field
           label="Enviar imagem do QR Code"
-          invalid={Boolean(errors.qrCodeFile)}
-          errorText={errors.qrCodeFile?.message}
+          invalid={Boolean(paymentFieldErrors.qrCodeFile)}
+          errorText={paymentFieldErrors.qrCodeFile?.message}
           helperText="PNG, JPG ou WebP de até 5 MB."
         >
           <Controller
-            control={form.control}
+            control={paymentForm.control}
             name="qrCodeFile"
             render={() => (
               <FileUpload.Root placeContent="flex-end">
                 <FileUpload.HiddenInput
-                  onChange={(event) =>
-                    onQrCodeFileChange(event.target?.files?.[0] ?? null)
+                  onChange={(qrCodeFileChangeEvent) =>
+                    changeQrCodeFile(
+                      qrCodeFileChangeEvent.target?.files?.[0] ?? null,
+                    )
                   }
                 />
                 <FileUpload.Trigger asChild>
@@ -153,11 +155,16 @@ const EstablishmentPaymentFields = ({
 
                 <FileUpload.ItemGroup mt="1" gap="2">
                   <FileUpload.Context>
-                    {({ acceptedFiles }) =>
-                      acceptedFiles.map((file) => (
-                        <FileUploadCardItem key={file.name} file={file} />
-                      ))
-                    }
+                    {({ acceptedFiles: acceptedQrCodeFiles }) => (
+                      <For each={acceptedQrCodeFiles}>
+                        {(qrCodeFile) => (
+                          <FileUploadCardItem
+                            key={qrCodeFile.name}
+                            file={qrCodeFile}
+                          />
+                        )}
+                      </For>
+                    )}
                   </FileUpload.Context>
                 </FileUpload.ItemGroup>
               </FileUpload.Root>
@@ -171,14 +178,14 @@ const EstablishmentPaymentFields = ({
           align="start"
           flexWrap="wrap"
         >
-          {hasPreview && (
+          {hasQrCodePreview && (
             <Box>
               <Text fontSize="sm" mb="2">
                 Imagem a ser salva
               </Text>
               <Image
-                ref={previewRef}
-                src={values.qrCodeFile ? undefined : previewUrl}
+                ref={qrCodeFilePreviewRef}
+                src={qrCodePreviewImageSrc}
                 alt="Prévia do QR Code de pagamento"
                 boxSize="48"
                 objectFit="contain"
@@ -195,7 +202,12 @@ const EstablishmentPaymentFields = ({
                 QR Code do link informado
               </Text>
               <QrCode.Root value={paymentLink} encoding={{ ecc: 'M' }}>
-                <QrCode.Frame ref={qrFrameRef} bg="white" color="black" p="2">
+                <QrCode.Frame
+                  ref={paymentLinkQrCodeFrameRef}
+                  bg="white"
+                  color="black"
+                  p="2"
+                >
                   <QrCode.Pattern fill="#000000" />
                 </QrCode.Frame>
               </QrCode.Root>
@@ -204,8 +216,8 @@ const EstablishmentPaymentFields = ({
                 type="button"
                 size="sm"
                 variant="outline"
-                onClick={generateQrCode}
-                loading={isGeneratingQrCode}
+                onClick={generatePaymentLinkQrCode}
+                loading={isGeneratingPaymentLinkQrCode}
               >
                 Usar QR Code deste link
               </Button>

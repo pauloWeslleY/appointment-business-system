@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
-import { Route as ErrorRouteImport } from './pages/error'
 import { Route as AppAuthenticatedLayoutRouteImport } from './pages/_app/_authenticated/layout'
 import { Route as AppSubscriptionLayoutRouteImport } from './pages/_app/_subscription/layout'
 import { Route as LegalPrivacyPolicyRouteImport } from './pages/_legal/privacy-policy'
@@ -70,11 +69,6 @@ const AppLayoutRoute = AppLayoutRouteImport.update({
 } as any)
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ErrorRoute = ErrorRouteImport.update({
-  id: '/error',
-  path: '/error',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppAuthenticatedLayoutRoute = AppAuthenticatedLayoutRouteImport.update({
@@ -347,7 +341,6 @@ const AppAuthenticatedDashboardSlugServicesPagesServiceEstablishmentIdInfoIndexR
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/error': typeof ErrorRoute
   '/privacy-policy': typeof LegalPrivacyPolicyRoute
   '/terms-of-use': typeof LegalTermsOfUseRoute
   '/business-access-required/': typeof BusinessAccessRequiredIndexRoute
@@ -393,7 +386,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/error': typeof ErrorRoute
   '/privacy-policy': typeof LegalPrivacyPolicyRoute
   '/terms-of-use': typeof LegalTermsOfUseRoute
   '/business-access-required': typeof BusinessAccessRequiredIndexRoute
@@ -441,7 +433,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
-  '/error': typeof ErrorRoute
   '/_app/_authenticated': typeof AppAuthenticatedLayoutRouteWithChildren
   '/_app/_subscription': typeof AppSubscriptionLayoutRouteWithChildren
   '/_legal/privacy-policy': typeof LegalPrivacyPolicyRoute
@@ -492,7 +483,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/error'
     | '/privacy-policy'
     | '/terms-of-use'
     | '/business-access-required/'
@@ -538,7 +528,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/error'
     | '/privacy-policy'
     | '/terms-of-use'
     | '/business-access-required'
@@ -585,7 +574,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/_auth'
-    | '/error'
     | '/_app/_authenticated'
     | '/_app/_subscription'
     | '/_legal/privacy-policy'
@@ -637,7 +625,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
-  ErrorRoute: typeof ErrorRoute
   LegalPrivacyPolicyRoute: typeof LegalPrivacyPolicyRoute
   LegalTermsOfUseRoute: typeof LegalTermsOfUseRoute
   BusinessAccessRequiredIndexRoute: typeof BusinessAccessRequiredIndexRoute
@@ -666,13 +653,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/error': {
-      id: '/error'
-      path: '/error'
-      fullPath: '/error'
-      preLoaderRoute: typeof ErrorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/_authenticated': {
@@ -1197,7 +1177,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
-  ErrorRoute: ErrorRoute,
   LegalPrivacyPolicyRoute: LegalPrivacyPolicyRoute,
   LegalTermsOfUseRoute: LegalTermsOfUseRoute,
   BusinessAccessRequiredIndexRoute: BusinessAccessRequiredIndexRoute,

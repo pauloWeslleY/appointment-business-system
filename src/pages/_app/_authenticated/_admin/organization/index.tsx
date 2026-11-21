@@ -1,12 +1,10 @@
 import { Box, Button, Grid, HStack, Icon } from '@chakra-ui/react'
-import { createFileRoute } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { Building2, PlusIcon, UserSquare2 } from 'lucide-react'
 
 import Header from '@/components/layout/header'
 import PageLoader from '@/components/page-loader'
 import { validateEnsureOrganizationExists } from '@/features/authentication/validations/validate-organization-exists'
-import ActiveOrganization from '@/features/organization-profile/components/active-organization'
 import CardOrganizationProfileSummary from '@/features/organization-profile/components/card-organization-profile-stats'
 import SummaryOrganizationProfile from '@/features/organization-profile/components/summary-organization-profile'
 import ErrorOrganizationPage from '@/features/organization-profile/pages/error-page'
@@ -60,17 +58,6 @@ function OrganizationPage() {
     [RESOURCES.ORGANIZATION_PROFILE],
   )
 
-  const loadListDataOrganizationProfile = [
-    { label: 'Razão Social', value: organizationProfile.legalName },
-    { label: 'Nome Fantasia', value: organizationProfile.tradeName },
-    { label: 'E-mail', value: organizationProfile.email },
-    { label: 'Telefone', value: formattedPhone(organizationProfile.phone) },
-    {
-      label: 'Criada em',
-      value: formattedDateAndHours(organization.createdAt, true),
-    },
-  ]
-
   return (
     <Box spaceY={{ base: '4', lg: '6' }}>
       <Header.Root align="center" justify="space-between">
@@ -105,15 +92,34 @@ function OrganizationPage() {
           <SummaryOrganizationProfile
             title="Dados empresariais"
             icon={UserSquare2}
-            data={loadListDataOrganizationProfile}
+            data={[
+              {
+                label: 'Razão Social',
+                value: organizationProfile.legalName,
+              },
+              {
+                label: 'Nome Fantasia',
+                value: organizationProfile.tradeName,
+              },
+              {
+                label: 'E-mail',
+                value: organizationProfile.email,
+              },
+              {
+                label: 'Telefone',
+                value: formattedPhone(organizationProfile.phone),
+              },
+              {
+                label: 'Criada em',
+                value: formattedDateAndHours(organization.createdAt, true),
+              },
+            ]}
           />
 
           {organizationProfilePermission.canUpdate && (
             <FormUpdateOrganizationProfile />
           )}
         </Grid>
-
-        {organizationProfilePermission.canUpdate && <ActiveOrganization />}
       </>
     </Box>
   )

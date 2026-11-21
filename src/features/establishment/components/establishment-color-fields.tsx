@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Fieldset,
+  For,
   HStack,
   SimpleGrid,
   Stack,
@@ -10,58 +11,30 @@ import {
 import type { UseFormReturn } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
-import { useColorMode } from '@/components/ui/color-mode'
 import { Field } from '@/components/ui/field'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
-import { EstablishmentHexColorSchema } from '../schemas/establishment-settings.schema'
+import { useEstablishmentColorFields } from '../hooks/use-establishment-color-fields'
 import type { EstablishmentColorsForm } from '../types/establishment-colors-form.type'
-import {
-  defaultEstablishmentColors,
-  establishmentThemeStyle,
-} from '../utils/establishment-theme'
 
 interface EstablishmentColorFieldsProps {
-  form: UseFormReturn<EstablishmentColorsForm>
-  values: Partial<EstablishmentColorsForm>
+  formEstablishmentColors: UseFormReturn<EstablishmentColorsForm>
+  establishmentColorsValues: Partial<EstablishmentColorsForm>
 }
 
 const EstablishmentColorFields = ({
-  form,
-  values,
+  formEstablishmentColors,
+  establishmentColorsValues,
 }: EstablishmentColorFieldsProps) => {
-  const { colorMode } = useColorMode()
-  const colors = [
-    { name: 'primaryColor', label: 'Cor primária' },
-    { name: 'secondaryColor', label: 'Cor secundária' },
-    { name: 'tertiaryColor', label: 'Cor terciária' },
-  ] as const
-
-  function restoreDefaultColors() {
-    for (const color of colors) {
-      form.setValue(color.name, '', {
-        shouldDirty: true,
-        shouldValidate: true,
-      })
-    }
-  }
-
-  function getColorValue(colorName: keyof EstablishmentColorsForm) {
-    const value = values[colorName]
-    return EstablishmentHexColorSchema.safeParse(value).success
-      ? value
-      : defaultEstablishmentColors[colorName]
-  }
-
-  function onChangeColor(
-    colorName: keyof EstablishmentColorsForm,
-    value: string,
-  ) {
-    form.setValue(colorName, value, {
-      shouldDirty: true,
-      shouldValidate: true,
-    })
-  }
+  const {
+    establishmentColorFields,
+    establishmentColorsPreviewStyle,
+    changeEstablishmentColor,
+    restoreDefaultEstablishmentColors,
+  } = useEstablishmentColorFields({
+    formEstablishmentColors,
+    establishmentColorsValues,
+  })
 
   return (
     <Fieldset.Root css={cardSectionCss} borderWidth="1px">
@@ -72,36 +45,43 @@ const EstablishmentColorFields = ({
 
       <Fieldset.Content>
         <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap="4">
-          {colors.map((color) => (
-            <Field
-              key={color.name}
-              label={color.label}
-              invalid={Boolean(form.formState.errors[color.name])}
-              errorText={form.formState.errors[color.name]?.message}
-            >
-              <HStack w="full">
-                <InputField
-                  type="color"
-                  aria-label={'Selecionar ' + color.label.toLowerCase()}
-                  w="14"
-                  flexShrink="0"
-                  p="1"
-                  value={getColorValue(color.name)}
-                  onChange={(event) =>
-                    onChangeColor(color.name, event.target.value)
-                  }
-                />
-                <InputField
-                  {...form.register(color.name)}
-                  minW="0"
-                  placeholder={defaultEstablishmentColors[color.name]}
-                  maxLength={7}
-                  autoComplete="off"
-                  aria-label={color.label + ' em hexadecimal'}
-                />
-              </HStack>
-            </Field>
-          ))}
+          <For each={establishmentColorFields}>
+            {(establishmentColorField) => (
+              <Field
+                key={establishmentColorField.name}
+                label={establishmentColorField.label}
+                invalid={establishmentColorField.isInvalidColor}
+                errorText={establishmentColorField.colorErrorMessage}
+              >
+                <HStack w="full">
+                  <InputField
+                    type="color"
+                    aria-label={establishmentColorField.colorPickerAriaLabel}
+                    flexShrink="0"
+                    w="14"
+                    p="1"
+                    value={establishmentColorField.colorPickerValue}
+                    onChange={(colorPickerChangeEvent) =>
+                      changeEstablishmentColor(
+                        establishmentColorField.name,
+                        colorPickerChangeEvent.target.value,
+                      )
+                    }
+                  />
+                  <InputField
+                    {...formEstablishmentColors.register(
+                      establishmentColorField.name,
+                    )}
+                    minW="0"
+                    placeholder={establishmentColorField.defaultColorValue}
+                    maxLength={7}
+                    autoComplete="off"
+                    aria-label={establishmentColorField.hexColorInputAriaLabel}
+                  />
+                </HStack>
+              </Field>
+            )}
+          </For>
         </SimpleGrid>
 
         <Button
@@ -110,13 +90,13 @@ const EstablishmentColorFields = ({
           variant="outline"
           size="sm"
           alignSelf="start"
-          onClick={restoreDefaultColors}
+          onClick={restoreDefaultEstablishmentColors}
         >
           Restaurar cores padrão
         </Button>
 
         <Box
-          style={establishmentThemeStyle(values, colorMode)}
+          style={establishmentColorsPreviewStyle}
           borderWidth="1px"
           borderColor="primary.border"
           borderRadius="xl"

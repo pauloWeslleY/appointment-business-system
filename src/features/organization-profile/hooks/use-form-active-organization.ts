@@ -1,7 +1,8 @@
 import { createListCollection } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
+import { parseAsBoolean, useQueryState } from 'nuqs'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -18,6 +19,14 @@ import { ActiveOrganizationSchema } from '../schemas/active-organization.schema'
 import type { FormActiveOrganizationType } from '../types/active-organization.type'
 
 export function useFormActiveOrganization() {
+  const [isDialogOpenActiveOrganization, setIsDialogOpenActiveOrganization] =
+    useQueryState(
+      'is_open',
+      parseAsBoolean.withDefault(false).withOptions({
+        shallow: false,
+      }),
+    )
+
   const router = useRouter()
   const { data: userAuth } = useAppSession()
   const { data: organizations, isLoading: isLoadingOrganizations } = useQuery({
@@ -26,10 +35,9 @@ export function useFormActiveOrganization() {
   })
 
   const {
-    isPending: isPendingUpdateActiveOrganization,
     mutate: activeOrganization,
+    isPending: isPendingUpdateActiveOrganization,
   } = useMutation(memberMutationOptions.create())
-  const queryClient = useQueryClient()
 
   const {
     reset,
@@ -52,31 +60,30 @@ export function useFormActiveOrganization() {
     })
   }, [organizations])
 
-  const handleUpdateOrganizationProfile = async ({
-    organizationId,
-  }: FormActiveOrganizationType) => {
+  const handleActiveOrganizationProfile = handleSubmit(({ organizationId }) => {
     if (!isDirty) {
       toaster.error({ title: 'Nenhuma alteração detectada' })
       return
     }
 
     activeOrganization(
-      { organizationId: organizationId[0] },
       {
-        onSuccess: async ({ organization }) => {
+        organizationId: organizationId[0],
+      },
+      {
+        onSuccess: async ({ organization }, _variables, _result, context) => {
           await router.invalidate()
-          reset({
-            organizationId: [organization.id],
-          })
+          reset({ organizationId: [organization.id] })
 
           toaster.success({
             title: 'Perfil da organização ativado com sucesso',
             description: `O perfil da organização ${organization.name} foi ativado com sucesso.`,
           })
 
-          await queryClient.invalidateQueries({
+          await context.client.invalidateQueries({
             queryKey: organizationProfileQueryKeys.summary(),
           })
+          setIsDialogOpenActiveOrganization(false)
         },
         onError: (error) => {
           toaster.error({
@@ -92,7 +99,7 @@ export function useFormActiveOrganization() {
         },
       },
     )
-  }
+  })
 
   return {
     errors,
@@ -100,7 +107,8 @@ export function useFormActiveOrganization() {
     loadSelectOrganizations,
     isLoadingOrganizations,
     isPendingUpdateActiveOrganization,
-    handleSubmit,
-    handleUpdateOrganizationProfile,
+    isDialogOpenActiveOrganization,
+    setIsDialogOpenActiveOrganization,
+    handleActiveOrganizationProfile,
   }
 }

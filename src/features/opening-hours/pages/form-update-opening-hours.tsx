@@ -1,39 +1,25 @@
-import {
-  Alert,
-  Button,
-  Card,
-  chakra,
-  HStack,
-  Icon,
-  Stack,
-} from '@chakra-ui/react'
+import { Alert, Button, Card, chakra, Icon, Stack } from '@chakra-ui/react'
 import { SaveIcon } from 'lucide-react'
 
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import FormOpeningHoursFields from '../components/form-opening-hours-fields'
 import { useFormUpdateOpeningHours } from '../hooks/use-form-update-opening-hours'
-import type { EstablishmentOpeningHoursItemApiResponse } from '../types/opening-hours-response.api.type'
+import type { CustomTimesOpeningHoursResponseApi } from '../types/customer-times-opening-hours.api.type'
 
-interface FormUpdateOpeningHoursPageProps {
-  openingHours: EstablishmentOpeningHoursItemApiResponse
-  establishmentId: string
-  onCancel: () => void
-  onSaved?: () => void
+interface FormUpdateOpeningHoursProps {
+  openingHours: CustomTimesOpeningHoursResponseApi
 }
 
-const FormUpdateOpeningHoursPage = ({
+const FormUpdateOpeningHours = ({
   openingHours,
-  establishmentId,
-  onCancel,
-  onSaved,
-}: FormUpdateOpeningHoursPageProps) => {
+}: FormUpdateOpeningHoursProps) => {
   const {
     formUpdateOpeningHours,
     handleUpdateOpeningHours,
     updateOpeningHoursError,
     isPendingUpdateOpeningHours,
-  } = useFormUpdateOpeningHours(openingHours, establishmentId, onSaved)
+  } = useFormUpdateOpeningHours(openingHours)
 
   return (
     <Card.Root variant="outline" {...cardSectionCss}>
@@ -58,30 +44,17 @@ const FormUpdateOpeningHoursPage = ({
             <FormOpeningHoursFields form={formUpdateOpeningHours} />
           </chakra.fieldset>
 
-          <HStack justify="end" flexWrap="wrap" gap="2">
-            <Button
-              type="button"
-              size="sm"
-              rounded="lg"
-              variant="ghost"
-              colorPalette="red"
-              disabled={isPendingUpdateOpeningHours}
-              onClick={onCancel}
-            >
-              Cancelar
-            </Button>
-
-            <Button
-              type="submit"
-              size="sm"
-              rounded="lg"
-              colorPalette="brand"
-              loading={isPendingUpdateOpeningHours}
-            >
-              <Icon as={SaveIcon} boxSize="5" />
-              Salvar alterações
-            </Button>
-          </HStack>
+          <Button
+            type="submit"
+            size="sm"
+            rounded="lg"
+            colorPalette="brand"
+            alignSelf="flex-end"
+            loading={isPendingUpdateOpeningHours}
+          >
+            <Icon as={SaveIcon} boxSize="5" />
+            Salvar alterações
+          </Button>
         </Stack>
       </chakra.form>
 
@@ -95,4 +68,4 @@ const FormUpdateOpeningHoursPage = ({
   )
 }
 
-export default FormUpdateOpeningHoursPage
+export default FormUpdateOpeningHours

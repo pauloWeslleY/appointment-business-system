@@ -1,11 +1,26 @@
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+
+import { calculateCurrentDayOpeningHours } from '@/features/opening-hours/helpers/calculate-current-day-opening-hours'
 
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
+const getEstablishmentCurrentDate = (establishmentTimezone: string) => {
+  try {
+    return dayjs().tz(establishmentTimezone)
+  } catch {
+    return null
+  }
+}
 
 export const validateOpeningHoursEstablishment = (
   establishment?: Pick<
     EstablishmentOrganizationProfileApiResponse,
-    'openingHours'
+    'openingHours' | 'timezone'
   >,
 ) => {
   const erroMessage = 'Sem horário de funcionamento'
@@ -17,12 +32,26 @@ export const validateOpeningHoursEstablishment = (
     }
   }
 
-  const dateCurrency = dayjs()
-  const today = dateCurrency.toDate()
-  const dayOfWeek = today.toLocaleDateString('pt-BR', { weekday: 'long' })
+  const establishmentCurrentDate = getEstablishmentCurrentDate(
+    establishment.timezone,
+  )
+
+  if (!establishmentCurrentDate) {
+    return {
+      establishmentOpen: false,
+      openingHours: 'Fuso horário do estabelecimento inválido',
+    }
+  }
+
+  const dayOfWeek = establishmentCurrentDate
+    .toDate()
+    .toLocaleDateString('pt-BR', {
+      weekday: 'long',
+      timeZone: establishment.timezone,
+    })
 
   const filteredOpeningHours = establishment.openingHours.filter(
-    (item) => item.day === today.getDay(),
+    (item) => item.day === establishmentCurrentDate.day(),
   )
 
   if (filteredOpeningHours.length === 0) {
@@ -32,11 +61,13 @@ export const validateOpeningHoursEstablishment = (
     }
   }
 
+  const establishmentOpen = calculateCurrentDayOpeningHours(
+    filteredOpeningHours,
+    establishmentCurrentDate.format('HH:mm'),
+  )
+
   const intervals = filteredOpeningHours.map((item) => item.intervals).flat()
   const hoursOpening = intervals.map((item) => `${item.open} ás ${item.close}`)
-  const timeNow = dateCurrency.format('HH:mm')
-  const establishmentOpen =
-    timeNow >= intervals[0].open && timeNow <= intervals[0].close
   const dayOfWeekFormatted =
     dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)
   const openingHours = `${dayOfWeekFormatted} das ${hoursOpening.join(', ')}`

@@ -2,7 +2,7 @@ import { For, Icon, IconButton, Table } from '@chakra-ui/react'
 import { UserRoundCog } from 'lucide-react'
 
 import { Tooltip } from '@/components/ui/tooltip'
-import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
+import { tableColumnsCss, tableRowsCss } from '@/theme/styles/global-styles'
 
 import type { ProfessionalListItemApiResponse } from '../types/professional-api.type'
 
@@ -24,15 +24,15 @@ export default function ProfessionalTable({
     >
       <Table.Root variant="outline" minW="36rem">
         <Table.Header>
-          <Table.Row {...cssTableRows}>
+          <Table.Row {...tableRowsCss}>
             <For each={['Nome', 'Especialidade', 'Sobre']}>
               {(column) => (
-                <Table.ColumnHeader key={column} {...cssTableColumns}>
+                <Table.ColumnHeader key={column} {...tableColumnsCss}>
                   {column}
                 </Table.ColumnHeader>
               )}
             </For>
-            <Table.ColumnHeader textAlign="right" {...cssTableColumns}>
+            <Table.ColumnHeader textAlign="right" {...tableColumnsCss}>
               Ações
             </Table.ColumnHeader>
           </Table.Row>
@@ -40,7 +40,7 @@ export default function ProfessionalTable({
 
         <Table.Body>
           {professionals.map((professional) => (
-            <Table.Row key={professional.id} {...cssTableRows}>
+            <Table.Row key={professional.id} {...tableRowsCss}>
               <Table.Cell>{professional.displayName}</Table.Cell>
               <Table.Cell>{professional.specialty}</Table.Cell>
               <Table.Cell>{professional.bio ?? '—'}</Table.Cell>

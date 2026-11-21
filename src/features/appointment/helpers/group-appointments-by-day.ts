@@ -10,7 +10,6 @@ export interface AppointmentDayGroup {
 const capitalizeFirstLetter = (text: string): string =>
   `${text.charAt(0).toUpperCase()}${text.slice(1)}`
 
-// "segunda-feira, 23 de novembro" → "Segunda, 23 de novembro"
 const formatAppointmentDayLabel = (
   startsAt: string,
   establishmentTimezone: string,
@@ -19,15 +18,13 @@ const formatAppointmentDayLabel = (
     startsAt,
     establishmentTimezone,
   )
-    .locale('pt-br')
-    .format('dddd, D [de] MMMM')
-    .replace('-feira', '')
 
-  return capitalizeFirstLetter(appointmentDayLabel)
+  const appointmentDayLabelLocale = appointmentDayLabel.locale('pt-br')
+  const formattadAppointmentDay =
+    appointmentDayLabelLocale.format('dddd, D [de] MMMM')
+  return capitalizeFirstLetter(formattadAppointmentDay.replace('-feira', ''))
 }
 
-// A API já devolve os agendamentos ordenados por início; a ordem dos grupos
-// segue a primeira ocorrência de cada dia.
 export function groupAppointmentsByDay(
   appointments: GetAppointmentByEstablishmentModel[],
   establishmentTimezone: string,
@@ -38,16 +35,17 @@ export function groupAppointmentsByDay(
     const dayKey = appointmentLocalDate(
       appointment.startsAt,
       establishmentTimezone,
-    ).format('YYYY-MM-DD')
-    const existingDayGroup = appointmentDayGroups.get(dayKey)
+    )
+    const formattedDayKey = dayKey.format('YYYY-MM-DD')
+    const existingDayGroup = appointmentDayGroups.get(formattedDayKey)
 
     if (existingDayGroup) {
       existingDayGroup.appointments.push(appointment)
       continue
     }
 
-    appointmentDayGroups.set(dayKey, {
-      dayKey,
+    appointmentDayGroups.set(formattedDayKey, {
+      dayKey: formattedDayKey,
       dayLabel: formatAppointmentDayLabel(
         appointment.startsAt,
         establishmentTimezone,

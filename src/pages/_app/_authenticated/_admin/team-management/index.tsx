@@ -1,6 +1,8 @@
 import { Skeleton, Stack } from '@chakra-ui/react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
+import { skeletonCss } from '@/theme/styles/global-styles'
+
 export const Route = createFileRoute(
   '/_app/_authenticated/_admin/team-management/',
 )({
@@ -23,9 +25,9 @@ export const Route = createFileRoute(
 function RouteComponent() {
   return (
     <Stack>
-      <Skeleton height="20px" />
-      <Skeleton height="20px" />
-      <Skeleton height="20px" />
+      <Skeleton h="20px" {...skeletonCss} />
+      <Skeleton h="20px" {...skeletonCss} />
+      <Skeleton h="20px" {...skeletonCss} />
     </Stack>
   )
 }

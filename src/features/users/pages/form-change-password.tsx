@@ -21,7 +21,7 @@ import PasswordStrengthMeter from '@/components/password-strength-meter'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
 import { PASSWORD_MIN_LENGTH } from '@/shared/utils/regex-password-requirement'
-import { cardSectionCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import { cardSectionCss, inputFieldCss } from '@/theme/styles/global-styles'
 
 import PasswordRequirementsChecklist from '../components/password-requirements-checklist'
 import { useFormChangePassword } from '../hooks/use-form-change-password'
@@ -113,7 +113,7 @@ const FormChangePassword = () => {
                   placeholder="Digite sua senha atual"
                   size="sm"
                   variant="subtle"
-                  {...inputFieldStyles}
+                  {...inputFieldCss}
                 />
               </Field>
 
@@ -136,7 +136,7 @@ const FormChangePassword = () => {
                     placeholder="Digite a nova senha"
                     size="sm"
                     variant="subtle"
-                    {...inputFieldStyles}
+                    {...inputFieldCss}
                   />
                 </Field>
 
@@ -155,7 +155,7 @@ const FormChangePassword = () => {
                   placeholder="Repita a nova senha"
                   size="sm"
                   variant="subtle"
-                  {...inputFieldStyles}
+                  {...inputFieldCss}
                 />
               </Field>
 

@@ -1,11 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { type DefaultValues, useForm } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
 
-import { organizationProfileQueryKeys } from '../queries/organization-profile-query-key'
 import { UpdateOrganizationProfileFormSchema } from '../schemas/update-organization-profile.schema'
 import type { GetOrganizationProfileResponse } from '../types/get-organization-profile.model'
 import {
@@ -16,17 +14,9 @@ import {
 import type { UpdateProfileOrganizationRequest } from '../types/update-organization-profile.api'
 import { useMutationPatchOrganizationProfile } from './use-mutation-patch-organization-profile'
 
-export function useFormUpdateOrganizationProfile() {
-  const queryClient = useQueryClient()
-  const organizationProfile =
-    queryClient.getQueryData<GetOrganizationProfileResponse>(
-      organizationProfileQueryKeys.summary(),
-    )
-  const {
-    mutate: updateOrganizationProfile,
-    isPending: isPendingUpdateOrganizationProfile,
-  } = useMutationPatchOrganizationProfile()
-
+export function useFormUpdateOrganizationProfile(
+  organizationProfile: GetOrganizationProfileResponse,
+) {
   const filteredStatusOptions = useMemo(() => {
     const blockedStatus = new Set<StatusOrganizationProfileType>([
       StatusOrganizationProfile.SUSPENDED,
@@ -62,6 +52,11 @@ export function useFormUpdateOrganizationProfile() {
     resolver: zodResolver(UpdateOrganizationProfileFormSchema),
     defaultValues: defaultValuesFormUpdateOrganizationProfile,
   })
+
+  const {
+    mutate: updateOrganizationProfile,
+    isPending: isPendingUpdateOrganizationProfile,
+  } = useMutationPatchOrganizationProfile()
 
   const handleUpdateOrganizationProfile = (
     data: UpdateProfileOrganizationRequest,

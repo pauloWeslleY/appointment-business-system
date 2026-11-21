@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 
-import { establishmentOpeningHoursQueryOptions } from '../queries/opening-hours.query-options'
+import { listOpeningHoursEstablishmentQueryOptions } from '../queries/opening-hours.query-options'
 
 export function useEstablishmentOpeningHours(establishmentId: string) {
   const { data: session } = useAppSession()
@@ -12,5 +12,7 @@ export function useEstablishmentOpeningHours(establishmentId: string) {
     organizationId: session?.session.activeOrganizationId ?? '',
   }
 
-  return useQuery(establishmentOpeningHoursQueryOptions(scope, establishmentId))
+  return useQuery(
+    listOpeningHoursEstablishmentQueryOptions(scope, establishmentId),
+  )
 }

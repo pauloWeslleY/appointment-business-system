@@ -5,7 +5,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardSectionCss,
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -60,7 +60,7 @@ const FormUpadteRoleMember = ({ memberId }: FormUpadteRoleMemberProps) => {
             >
               <Select.HiddenSelect />
               <Select.Control>
-                <Select.Trigger css={inputFieldStyles}>
+                <Select.Trigger css={inputFieldCss}>
                   <Select.ValueText placeholder="Selecione o papel" />
                 </Select.Trigger>
                 <Select.IndicatorGroup>

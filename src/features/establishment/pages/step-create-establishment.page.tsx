@@ -38,9 +38,20 @@ const StepCreateEstablishmentPage = () => {
         <For each={steps}>
           {(step, index) => (
             <Steps.Item key={index} index={index} title={step.title}>
-              <Steps.Indicator />
+              <Steps.Indicator
+                _current={{
+                  bg: { _light: 'sea.300', _dark: 'sea.700' },
+                  color: { _light: 'navy.600', _dark: 'navy.900' },
+                }}
+                _incomplete={{
+                  bg: { _light: 'slate.400/30', _dark: 'slate.900' },
+                  color: { _light: 'gray.800', _dark: 'navy.200' },
+                }}
+              />
               <Steps.Title>{step.title}</Steps.Title>
-              <Steps.Separator />
+              <Steps.Separator
+                bg={{ _light: 'slate.200', _dark: 'slate.900' }}
+              />
             </Steps.Item>
           )}
         </For>

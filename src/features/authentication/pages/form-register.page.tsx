@@ -18,7 +18,7 @@ import Logotipo from '@/components/logotipo'
 import ProgressBarPassword from '@/components/progress-bar-password'
 import { Field } from '@/components/ui/field'
 import { PasswordInput } from '@/components/ui/password-input'
-import { inputFieldStyles } from '@/theme/styles/global-styles'
+import { inputFieldCss } from '@/theme/styles/global-styles'
 
 import LegalDocumentsReference from '../components/legal-documents-reference'
 import { useRegisterPage } from '../hooks/use-register-page'
@@ -113,7 +113,7 @@ const FormRegister = () => {
               placeholder="Digite sua senha"
               size="sm"
               variant="subtle"
-              css={inputFieldStyles}
+              css={inputFieldCss}
             />
           </Field>
 

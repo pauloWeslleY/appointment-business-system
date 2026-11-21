@@ -1,4 +1,4 @@
-import { Alert, Button, chakra, Flex, Stack } from '@chakra-ui/react'
+import { Alert, Box, Button, Flex, For, Stack, VStack } from '@chakra-ui/react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { toaster } from '@/components/ui/toaster'
@@ -28,52 +28,51 @@ const FormPhonesCustomer = () => {
   const removeTelephoneByIndex = (index: number) => removeTelephone(index)
 
   return (
-    <Flex
-      aria-label="Telefones do cliente"
-      gridColumn={{ base: 'span 1', md: '1 / -1' }}
-      w="full"
-      minW="0"
-      flexDir="row"
-      gap="4"
-      borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
-      borderWidth="1px"
-      rounded="lg"
-      shadow={{ _light: 'shape', _dark: '2xs' }}
-      p={{ base: '2', md: '4' }}
-    >
-      <chakra.div
-        display="flex"
-        flexDir="column"
-        alignItems="center"
-        gap={{ base: '2', md: '4' }}
+    <Box gridColumn={{ base: 'span 1', md: '1 / -1' }} spaceY="4">
+      <Flex
+        aria-label="Telefones do cliente"
+        flexDir="row"
+        gap="2"
+        w="full"
+        minW="0"
+        borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
+        borderWidth="1px"
+        rounded="lg"
+        p="2"
       >
-        Contato
-        <Button
-          type="button"
-          size="xs"
-          rounded="lg"
-          variant="ghost"
-          colorPalette="green"
-          onClick={addNewTelephone}
-        >
-          Adicionar Contato
-        </Button>
-      </chakra.div>
+        <VStack justify="flex-start" gap="2">
+          Contato
+          <Button
+            type="button"
+            size="xs"
+            rounded="lg"
+            variant="ghost"
+            colorPalette="green"
+            onClick={addNewTelephone}
+          >
+            Adicionar Contato
+          </Button>
+        </VStack>
 
-      <Stack direction="row" wrap="wrap" flex="1" minW="0">
-        {telephoneFields.map((input, index) => (
-          <TelephoneContactCustomerField
-            key={input.id}
-            index={index}
-            canRemove={telephoneFields.length > 1}
-            onRemove={() => removeTelephoneByIndex(index)}
-          />
-        ))}
-      </Stack>
+        <Stack wrap="wrap" flex="1" minW="0">
+          <For each={telephoneFields}>
+            {(input, index) => (
+              <TelephoneContactCustomerField
+                key={input.id}
+                index={index}
+                canRemove={telephoneFields.length > 1}
+                onRemove={() => removeTelephoneByIndex(index)}
+              />
+            )}
+          </For>
+        </Stack>
+      </Flex>
 
       {form.formState.errors.phones?.message && (
         <Alert.Root
+          w="full"
           status="error"
+          rounded="xl"
           variant="surface"
           data-state="open"
           _open={{
@@ -90,7 +89,7 @@ const FormPhonesCustomer = () => {
           </Alert.Content>
         </Alert.Root>
       )}
-    </Flex>
+    </Box>
   )
 }
 
