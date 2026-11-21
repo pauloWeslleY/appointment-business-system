@@ -17,7 +17,12 @@ import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { MenuAccount } from '@/features/users/constants/menu-account'
 import { useAccountImage } from '@/shared/hooks/use-account-image'
 import { useLogout } from '@/shared/hooks/use-logout'
-import { contentCss, menuItemCss } from '@/theme/styles/global-styles'
+import {
+  avatarRingCss,
+  contentCss,
+  menuItemCss,
+  skeletonCss,
+} from '@/theme/styles/global-styles'
 
 const MenuProfile = () => {
   const { handleLogout } = useLogout()
@@ -25,7 +30,7 @@ const MenuProfile = () => {
   const userImage = useAccountImage()
 
   if (!member) {
-    return <Skeleton h="40px" w="28" rounded="2xl" />
+    return <Skeleton h="40px" w="28" rounded="xl" css={skeletonCss} />
   }
 
   return (
@@ -45,8 +50,7 @@ const MenuProfile = () => {
             <Avatar.Root
               shape="full"
               size="xs"
-              borderWidth="1px"
-              borderColor="colorPalette.500"
+              css={avatarRingCss}
               bg={{ _light: 'colorPalette.100', _dark: 'colorPalette.700/40' }}
               color={{ _light: 'colorPalette.400', _dark: 'colorPalette.500' }}
             >
