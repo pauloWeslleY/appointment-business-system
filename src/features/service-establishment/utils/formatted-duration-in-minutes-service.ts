@@ -12,6 +12,10 @@ export function formattedDurationInMinutesService(durationInMinutes: number) {
   const validDurationInHours = durationInHours > 0
   const validDurationInMinutes = durationMinutes > 0
 
+  if (!validDurationInHours && !validDurationInMinutes) {
+    return '0h 0min'
+  }
+
   if (validDurationInHours && !validDurationInMinutes) {
     return `${durationInHours}h`
   }
