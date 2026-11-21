@@ -34,7 +34,7 @@ import { validationAppointmentRouteHome } from '@/features/appointment/validatio
 import { PERMISSION_ACTIONS, RESOURCES } from '@/shared/constants/permission'
 import { usePermissions } from '@/shared/hooks/use-permissions'
 import { validateRoutePermission } from '@/shared/validations/validate-route-permission'
-import { cardSectionCss, skeletonStyles } from '@/theme/styles/global-styles'
+import { cardSectionCss, skeletonCss } from '@/theme/styles/global-styles'
 
 export const Route = createFileRoute(
   '/_app/_authenticated/dashboard/$slug/appointment/',
@@ -145,7 +145,7 @@ function AppointmentPage() {
         {isLoadingAppointments && (
           <Stack gap="2" w="full">
             <For each={[1, 2, 3]}>
-              {(item) => <Skeleton key={item} h="60px" {...skeletonStyles} />}
+              {(item) => <Skeleton key={item} h="60px" {...skeletonCss} />}
             </For>
           </Stack>
         )}

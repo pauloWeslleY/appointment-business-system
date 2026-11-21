@@ -26,7 +26,7 @@ export const cardCss = defineStyle({
   rounded: 'lg',
   shadow: 'xs',
   bg: { _light: 'primary.100/40', _dark: 'primary.900/50' },
-  borderColor: { _light: 'gray.200', _dark: 'secondary.500/20' },
+  borderColor: { _light: 'gray.200', _dark: 'secondary.400/20' },
   p: '2',
 })
 
@@ -40,12 +40,7 @@ export const cardSectionCss = defineStyle({
   borderColor: { _light: 'gray.200', _dark: 'slate.800/80' },
 })
 
-export const inputStyles = defineStyle({
-  rounded: 'lg',
-  borderColor: { _light: 'slate.400', _dark: 'slate.600' },
-})
-
-export const inputFieldStyles = defineStyle({
+export const inputFieldCss = defineStyle({
   minW: '0',
   maxW: 'full',
   rounded: 'lg',
@@ -60,17 +55,17 @@ export const inputFieldStyles = defineStyle({
   },
 })
 
-export const cssTableColumns = defineStyle({
+export const tableColumnsCss = defineStyle({
   color: { _light: 'sea.600', _dark: 'sea.500' },
   borderBottomColor: { _light: 'slate.200', _dark: 'slate.900/60' },
 })
 
-export const cssTableRows = defineStyle({
+export const tableRowsCss = defineStyle({
   bg: { _light: 'slate.100', _dark: 'slate.950/80' },
   borderBottomColor: { _light: 'slate.200', _dark: 'slate.900/60' },
 })
 
-export const skeletonStyles = defineStyle({
+export const skeletonCss = defineStyle({
   rounded: 'lg',
   bg: { _light: 'gray.200', _dark: 'gray.600/70' },
 })

@@ -5,6 +5,8 @@ import { useAppSession } from '@/features/authentication/hooks/use-app-session'
 import { useDebouncedSearch } from '@/shared/hooks/use-debounced-search'
 
 import { servicePageQueryOptions } from '../queries/service-page.query-options'
+import { ServiceEstablishmentViewMode } from '../types/service-establishment-view-mode.type'
+import { useServiceEstablishmentViewMode } from './use-service-establishment-view-mode'
 
 export function useServicePage(establishmentId: string) {
   const [search] = useQueryStates({
@@ -47,9 +49,17 @@ export function useServicePage(establishmentId: string) {
   const servicesSummary = servicesPageData?.summary
   const servicesScopeKey = `${session?.user.id ?? ''}:${session?.session.activeOrganizationId ?? ''}:${establishmentId}`
 
+  const { serviceEstablishmentViewMode, changeServiceEstablishmentViewMode } =
+    useServiceEstablishmentViewMode()
+  const isServicesTableViewMode =
+    serviceEstablishmentViewMode === ServiceEstablishmentViewMode.TABLE
+
   const retryServices = () => refetchServices()
 
   return {
+    serviceEstablishmentViewMode,
+    isServicesTableViewMode,
+    changeServiceEstablishmentViewMode,
     services,
     totalServices,
     servicesSummary,

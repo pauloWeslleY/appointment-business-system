@@ -1,16 +1,19 @@
-import { Alert, Icon, Text } from '@chakra-ui/react'
 import {
+  Alert,
   Button,
   CloseButton,
   DatePicker,
   Dialog,
   HStack,
+  Icon,
   parseDate,
   Portal,
   Select,
+  Spinner,
   Stack,
+  Text,
 } from '@chakra-ui/react'
-import { Calendar, SaveIcon } from 'lucide-react'
+import { Calendar, CalendarClockIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 
 import InputField from '@/components/input-field'
@@ -18,7 +21,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardCss,
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -89,6 +92,7 @@ const DialogEditAppointment = ({
                     name="date"
                     render={({ field }) => (
                       <Field
+                        label="Data"
                         invalid={Boolean(errors.date)}
                         errorText={errors.date?.message}
                       >
@@ -104,7 +108,7 @@ const DialogEditAppointment = ({
                         >
                           <DatePicker.Control>
                             <DatePicker.Input
-                              {...inputFieldStyles}
+                              {...inputFieldCss}
                               placeholder="Selecione a data"
                             />
                             <DatePicker.IndicatorGroup>
@@ -141,6 +145,7 @@ const DialogEditAppointment = ({
                     name="hour"
                     render={({ field }) => (
                       <Field
+                        label="Horário"
                         invalid={Boolean(errors.hour)}
                         errorText={errors.hour?.message}
                       >
@@ -159,10 +164,17 @@ const DialogEditAppointment = ({
                         >
                           <Select.HiddenSelect />
                           <Select.Control>
-                            <Select.Trigger {...inputFieldStyles}>
+                            <Select.Trigger {...inputFieldCss}>
                               <Select.ValueText placeholder="Selecione o horário" />
                             </Select.Trigger>
                             <Select.IndicatorGroup>
+                              {isLoadingAvailableHours && (
+                                <Spinner
+                                  size="xs"
+                                  borderWidth="1.5px"
+                                  color="fg.muted"
+                                />
+                              )}
                               <Select.Indicator />
                             </Select.IndicatorGroup>
                           </Select.Control>
@@ -189,6 +201,7 @@ const DialogEditAppointment = ({
                 </HStack>
 
                 <Field
+                  label="Observações"
                   invalid={Boolean(errors.notes)}
                   errorText={errors.notes?.message}
                 >
@@ -210,8 +223,8 @@ const DialogEditAppointment = ({
                   }
                   onClick={onSubmitUpdateAppointment}
                 >
-                  <Icon as={SaveIcon} boxSize="5" />
-                  Salvar
+                  <Icon as={CalendarClockIcon} boxSize="5" />
+                  Reagendar
                 </Button>
               </Stack>
 

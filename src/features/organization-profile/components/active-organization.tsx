@@ -14,7 +14,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardSectionCss,
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
 } from '@/theme/styles/global-styles'
 
 import { useFormActiveOrganization } from '../hooks/use-form-active-organization'
@@ -75,7 +75,7 @@ const ActiveOrganization = () => {
               >
                 <Select.HiddenSelect />
                 <Select.Control>
-                  <Select.Trigger {...inputFieldStyles}>
+                  <Select.Trigger {...inputFieldCss}>
                     <Select.ValueText placeholder="Selecione a organização" />
                   </Select.Trigger>
                   <Select.IndicatorGroup>

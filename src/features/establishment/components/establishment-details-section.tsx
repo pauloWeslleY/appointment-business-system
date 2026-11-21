@@ -1,7 +1,7 @@
 import { Card } from '@chakra-ui/react'
 import type { ReactNode } from 'react'
 
-import { cardCss, cssTableColumns } from '@/theme/styles/global-styles'
+import { cardCss, tableColumnsCss } from '@/theme/styles/global-styles'
 
 interface EstablishmentDetailsSectionProps {
   title: string
@@ -19,7 +19,7 @@ const EstablishmentDetailsSection = ({
       borderBottomWidth="1px"
       borderColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
     >
-      <Card.Title fontSize="md" fontWeight="medium" {...cssTableColumns}>
+      <Card.Title fontSize="md" fontWeight="medium" {...tableColumnsCss}>
         {title}
       </Card.Title>
     </Card.Header>

@@ -16,6 +16,7 @@ import { BriefcaseBusiness, Plus } from 'lucide-react'
 import Header from '@/components/layout/header'
 import SearchPage from '@/components/search-page'
 import FilterServicesEstablishmentStatus from '@/features/service-establishment/components/filter-services-status'
+import ServiceEstablishmentViewModeToggle from '@/features/service-establishment/components/service-establishment-view-mode-toggle'
 import StatInfoServiceEstablishment from '@/features/service-establishment/components/stat-info-service-establishment'
 import { useServicePage } from '@/features/service-establishment/hooks/use-service-page'
 import ServicesListPage from '@/features/service-establishment/pages/services.page'
@@ -56,6 +57,9 @@ function ServicesPage() {
     isLoadingServices,
     retryServices,
     servicesScopeKey,
+    serviceEstablishmentViewMode,
+    isServicesTableViewMode,
+    changeServiceEstablishmentViewMode,
   } = useServicePage(establishment.id)
 
   const navigateToCreateService = () =>
@@ -84,9 +88,18 @@ function ServicesPage() {
       </Header.Root>
 
       <Box spaceY="4">
-        <Flex align="center" gap="2" flexWrap="wrap">
-          <SearchPage resetPagination />
-          <FilterServicesEstablishmentStatus />
+        <Flex align="center" justify="space-between" gap="2" flexWrap="wrap">
+          <Flex align="center" gap="2" flexWrap="wrap">
+            <SearchPage resetPagination />
+            <FilterServicesEstablishmentStatus />
+          </Flex>
+
+          <ServiceEstablishmentViewModeToggle
+            serviceEstablishmentViewMode={serviceEstablishmentViewMode}
+            onServiceEstablishmentViewModeChange={
+              changeServiceEstablishmentViewMode
+            }
+          />
         </Flex>
 
         {servicesError && (
@@ -121,7 +134,11 @@ function ServicesPage() {
             )}
 
             <Card.Root variant="outline" css={cardSectionCss}>
-              <ServicesListPage services={services} total={totalServices} />
+              <ServicesListPage
+                services={services}
+                totalServices={totalServices}
+                isServicesTableViewMode={isServicesTableViewMode}
+              />
             </Card.Root>
           </Box>
         )}

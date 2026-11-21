@@ -1,20 +1,12 @@
-import { Card, DataList, For, Stack, Text } from '@chakra-ui/react'
+import { Card, Stack, Text } from '@chakra-ui/react'
 import { getRouteApi } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
-import { Status, type StatusProps } from '@/components/ui/status'
-import { AppointmentStatus } from '@/features/appointment/types/appointment-status.type'
 import { cardSectionCss } from '@/theme/styles/global-styles'
 
 import CardInfoServiceEstablishement from '../components/card-info-service-establishment'
+import ServiceAppointmentsSummary from '../components/service-appointments-summary'
 import HistoryBookingServiceTable from '../components/table-history-bookings-service'
-
-interface DetailHistoryBookingsSummary {
-  all: number
-  upcoming: number
-  concluded: number
-  cancelled: number
-}
+import { buildServiceAppointmentsSummaryItems } from '../helpers/service-appointments-summary'
 
 const serviceEstablishmentRoute = getRouteApi(
   '/_app/_authenticated/dashboard/$slug/services/_pages/$serviceEstablishmentId',
@@ -23,37 +15,9 @@ const serviceEstablishmentRoute = getRouteApi(
 const ServiceEstablishmentDetails = () => {
   const serviceEstablishment = serviceEstablishmentRoute.useLoaderData()
   const hasHistoryBookings = serviceEstablishment.appointments.length > 0
-
-  const getDetailHistoryBookingsSummary = useMemo(() => {
-    return serviceEstablishment.appointments.reduce<DetailHistoryBookingsSummary>(
-      (summary, appointment) => {
-        summary.all += 1
-
-        if (appointment.status === AppointmentStatus.CONCLUDED) {
-          summary.concluded += 1
-        }
-
-        if (appointment.status === AppointmentStatus.CANCELLED) {
-          summary.cancelled += 1
-        }
-
-        if (
-          appointment.status === AppointmentStatus.CONFIRMED &&
-          new Date(appointment.date) >= new Date()
-        ) {
-          summary.upcoming += 1
-        }
-
-        return summary
-      },
-      {
-        all: 0,
-        upcoming: 0,
-        concluded: 0,
-        cancelled: 0,
-      },
-    )
-  }, [serviceEstablishment.appointments])
+  const serviceAppointmentsSummaryItems = buildServiceAppointmentsSummaryItems(
+    serviceEstablishment.appointments,
+  )
 
   return (
     <Stack gap={{ base: '2', lg: '4' }} w="full">
@@ -70,53 +34,9 @@ const ServiceEstablishmentDetails = () => {
           Histórico de agendamentos do serviço
         </Text>
 
-        <DataList.Root
-          orientation="vertical"
-          display="flex"
-          flexDirection="row"
-          flexWrap="wrap"
-          gap="10"
-          mt="4"
-        >
-          <For
-            each={[
-              {
-                label: 'Total de agendamentos',
-                value: getDetailHistoryBookingsSummary.all,
-              },
-              {
-                label: 'Agendamentos concluídos',
-                value: getDetailHistoryBookingsSummary.concluded,
-                status: 'success',
-              },
-              {
-                label: 'Agendamentos cancelados',
-                value: getDetailHistoryBookingsSummary.cancelled,
-                status: 'error',
-              },
-              {
-                label: 'Agendamentos futuros',
-                value: getDetailHistoryBookingsSummary.upcoming,
-                status: 'info',
-              },
-            ]}
-          >
-            {(item) => (
-              <DataList.Item key={item.label}>
-                <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
-                <DataList.ItemValue>
-                  {item.status ? (
-                    <Status value={item.status as StatusProps['value']}>
-                      {item.value}
-                    </Status>
-                  ) : (
-                    item.value
-                  )}
-                </DataList.ItemValue>
-              </DataList.Item>
-            )}
-          </For>
-        </DataList.Root>
+        <ServiceAppointmentsSummary
+          serviceAppointmentsSummaryItems={serviceAppointmentsSummaryItems}
+        />
 
         {!hasHistoryBookings && (
           <Text mt="2" fontSize="sm" color="colorPalette.500">

@@ -13,7 +13,7 @@ import { Save } from 'lucide-react'
 import { FormProvider } from 'react-hook-form'
 
 import type { GetMeContextResponse } from '@/features/members/types/member-response.type'
-import { skeletonStyles } from '@/theme/styles/global-styles'
+import { skeletonCss } from '@/theme/styles/global-styles'
 
 import EstablishmentPaymentFields from '../components/establishment-payment-fields'
 import EstablishmentSocialLinksFields from '../components/establishment-social-links-fields'
@@ -45,9 +45,9 @@ export default function EstablishmentLinksSettingsPage({
   if (establishmentLinksQuery.isPending) {
     return (
       <Stack role="status" aria-label="Carregando links">
-        <Skeleton h="12" css={skeletonStyles} />
-        <Skeleton h="32" css={skeletonStyles} />
-        <Skeleton h="32" css={skeletonStyles} />
+        <Skeleton h="12" css={skeletonCss} />
+        <Skeleton h="32" css={skeletonCss} />
+        <Skeleton h="32" css={skeletonCss} />
       </Stack>
     )
   }

@@ -14,7 +14,7 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -86,7 +86,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
             >
               <DatePicker.Control>
                 <DatePicker.Input
-                  {...inputFieldStyles}
+                  {...inputFieldCss}
                   placeholder="Selecione a data"
                 />
                 <DatePicker.IndicatorGroup>
@@ -137,7 +137,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
             >
               <Select.HiddenSelect />
               <Select.Control>
-                <Select.Trigger {...inputFieldStyles}>
+                <Select.Trigger {...inputFieldCss}>
                   <Select.ValueText placeholder="Selecione o sexo" />
                 </Select.Trigger>
                 <Select.IndicatorGroup>
@@ -181,7 +181,7 @@ const FieldsCustomer = ({ form }: FieldsCustomerProps) => {
           placeholder="Digite as observações"
           size="sm"
           rows={5}
-          {...inputFieldStyles}
+          {...inputFieldCss}
         />
       </Field>
     </SimpleGrid>

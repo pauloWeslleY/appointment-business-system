@@ -16,7 +16,7 @@ import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 
 import { Field } from '@/components/ui/field'
-import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldCss } from '@/theme/styles/global-styles'
 
 import { useFormCreateAppointment } from '../hooks/use-form-create-appointment'
 import ProfessionalAvailabilityAlert from './professional-availability-alert'
@@ -202,7 +202,7 @@ const SidebarCreateAppointment = () => {
                         >
                           <DatePicker.Control>
                             <DatePicker.Input
-                              {...inputFieldStyles}
+                              {...inputFieldCss}
                               placeholder="Selecione a data"
                             />
                             <DatePicker.IndicatorGroup>
@@ -294,7 +294,7 @@ const SidebarCreateAppointment = () => {
                     size="sm"
                     rows={4}
                     maxLength={500}
-                    {...inputFieldStyles}
+                    {...inputFieldCss}
                   />
                 </Field>
               </Stack>

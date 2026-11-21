@@ -10,7 +10,7 @@ import {
   mapLabelResource,
 } from '@/shared/constants/permission'
 import type { GroupedPermissions } from '@/shared/types/permissions.type'
-import { cssTableRows } from '@/theme/styles/global-styles'
+import { tableRowsCss } from '@/theme/styles/global-styles'
 
 interface TablePermissionProps {
   tabs: TabsPermissionsType
@@ -58,7 +58,7 @@ const TablePermission = ({ tabs, permissions }: TablePermissionProps) => {
     <Table.ScrollArea tabIndex={0} maxW="full" rounded="lg">
       <Table.Root variant="outline" minW="36rem">
         <Table.Header>
-          <Table.Row {...cssTableRows}>
+          <Table.Row {...tableRowsCss}>
             <Table.ColumnHeader textAlign="left">Recurso</Table.ColumnHeader>
 
             <For each={['Criar', 'Ler', 'Editar', 'Excluir']}>
@@ -71,7 +71,7 @@ const TablePermission = ({ tabs, permissions }: TablePermissionProps) => {
         <Table.Body>
           <For each={filteredPermissions}>
             {(permission) => (
-              <Table.Row key={permission.resource} {...cssTableRows}>
+              <Table.Row key={permission.resource} {...tableRowsCss}>
                 <Table.Cell>{permission.resourceLabel}</Table.Cell>
                 <Table.Cell>
                   <IconTablePermission

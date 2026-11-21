@@ -20,27 +20,37 @@ const DialogEditAppointmentInfo = ({
   const appointmentStatusLabelText = appointmentStatusLabel[appointment.status]
 
   return (
-    <DataList.Root mb="4" orientation="horizontal">
+    <DataList.Root
+      mb="4"
+      orientation="vertical"
+      display="grid"
+      gap="4"
+      gridTemplateColumns="repeat(auto-fit, minmax(min(50px, 100%), 1fr))"
+    >
       <For
         each={[
           {
-            title: 'Status:',
+            title: 'Status',
             content: appointmentStatusLabelText,
           },
           {
-            title: 'Data:',
+            title: 'Data',
             content: appointmentDateCurrent.format('DD/MM/YYYY'),
           },
           {
-            title: 'Horário:',
+            title: 'Horário',
             content: appointmentDateCurrent.format('HH:mm'),
+          },
+          {
+            title: 'Cliente',
+            content: appointment.customerNameSnapshot,
           },
         ]}
       >
         {(data) => (
           <DataList.Item key={data.title}>
             <DataList.ItemLabel>{data.title}</DataList.ItemLabel>
-            {data.title === 'Status:' ? (
+            {data.title === 'Status' ? (
               <DataList.ItemLabel>
                 <Badge
                   colorPalette={appointmentStatusColor}

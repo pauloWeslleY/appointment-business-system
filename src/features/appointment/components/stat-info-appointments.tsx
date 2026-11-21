@@ -40,10 +40,10 @@ const StatInfoAppointments = ({
             p="4"
             shadow="xs"
             rounded="xl"
-            bg={{ base: 'white', _dark: 'gray.950/40' }}
+            bg={{ _light: 'white', _dark: 'gray.950/40' }}
             outlineWidth="1px"
             outlineStyle="solid"
-            outlineColor={{ base: 'gray.200', _dark: 'secondary.500/20' }}
+            outlineColor={{ _light: 'gray.200', _dark: 'secondary.500/20' }}
             borderLeftWidth="5px"
             borderLeftColor={`${statService.color}.500`}
           >

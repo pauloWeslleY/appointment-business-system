@@ -2,7 +2,7 @@ import { Flex, For, Table, Text } from '@chakra-ui/react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import Loader from '@/components/loader'
-import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
+import { tableColumnsCss, tableRowsCss } from '@/theme/styles/global-styles'
 
 import { DialogGoogleCalendar } from '../helpers/dialog-google-calendar'
 import { useEstablishmentsListGoogleCalendar } from '../hooks/use-establishments-list-google-calendar'
@@ -45,7 +45,7 @@ const EstablishmentsListGoogleCalendar = () => {
       >
         <Table.Root variant="outline" minW="36rem">
           <Table.Header>
-            <Table.Row {...cssTableRows}>
+            <Table.Row {...tableRowsCss}>
               <For
                 each={[
                   'Estabelecimento',
@@ -55,12 +55,12 @@ const EstablishmentsListGoogleCalendar = () => {
                 ]}
               >
                 {(header) => (
-                  <Table.ColumnHeader {...cssTableColumns}>
+                  <Table.ColumnHeader {...tableColumnsCss}>
                     {header}
                   </Table.ColumnHeader>
                 )}
               </For>
-              <Table.ColumnHeader textAlign="right" {...cssTableColumns}>
+              <Table.ColumnHeader textAlign="right" {...tableColumnsCss}>
                 Ações
               </Table.ColumnHeader>
             </Table.Row>

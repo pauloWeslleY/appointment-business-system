@@ -13,14 +13,14 @@ import { useProfessionalsList } from '@/features/professionals/hooks/use-profess
 import { professionalAvailabilityQueryOptions } from '@/features/professionals/queries/professionals.query-options'
 import { useGetServiceByEstablishment } from '@/features/service-establishment/hooks/use-get-service-by-establishment'
 
-import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
-import { CreateAppointmentSchema } from '../schemas/create-appointment-form.schema'
-import type { CreateAppointmentFormType } from '../types/appointment-form.type'
 import {
   appointmentDateTime,
   appointmentToday,
   calculateAppointmentEndsAt,
 } from '../helpers/appointment-date'
+import { appointmentMutationOptions } from '../queries/appointment.mutation-options'
+import { CreateAppointmentSchema } from '../schemas/create-appointment-form.schema'
+import type { CreateAppointmentFormType } from '../types/appointment-form.type'
 
 const dashboardRoute = getRouteApi('/_app/_authenticated/dashboard/$slug')
 

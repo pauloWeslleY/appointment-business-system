@@ -6,7 +6,7 @@ import {
   type EstablishmentStatusType,
   mapStatusEstablishment,
 } from '@/features/establishment/types/establishment-status.type'
-import { cssTableRows } from '@/theme/styles/global-styles'
+import { tableRowsCss } from '@/theme/styles/global-styles'
 
 import { getConnectionGoogleCalendarQueryOptions } from '../queries/google-calendar.query-options'
 
@@ -34,7 +34,7 @@ const EstablishmentItemGoogleCalendar = ({
   )
 
   return (
-    <Table.Row key={establishment.id} {...cssTableRows}>
+    <Table.Row key={establishment.id} {...tableRowsCss}>
       <Table.Cell>{establishment.name}</Table.Cell>
 
       <Table.Cell>

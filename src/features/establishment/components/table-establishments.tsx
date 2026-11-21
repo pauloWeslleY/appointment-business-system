@@ -2,7 +2,7 @@ import { For, Table, Text } from '@chakra-ui/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Fragment, useState } from 'react'
 
-import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
+import { tableColumnsCss, tableRowsCss } from '@/theme/styles/global-styles'
 
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
 import EstablishmentTableRow from './establishment-table-row'
@@ -41,8 +41,8 @@ const TableEstablishments = ({ establishments }: TableEstablishmentsProps) => {
     >
       <Table.Root variant="outline" minW="56rem">
         <Table.Header>
-          <Table.Row {...cssTableRows}>
-            <Table.ColumnHeader w="12" {...cssTableColumns}>
+          <Table.Row {...tableRowsCss}>
+            <Table.ColumnHeader w="12" {...tableColumnsCss}>
               <Text srOnly>Expandir detalhes</Text>
             </Table.ColumnHeader>
 
@@ -52,7 +52,7 @@ const TableEstablishments = ({ establishments }: TableEstablishmentsProps) => {
                   key={establishmentTableColumn}
                   textTransform="uppercase"
                   fontSize="xs"
-                  {...cssTableColumns}
+                  {...tableColumnsCss}
                 >
                   {establishmentTableColumn}
                 </Table.ColumnHeader>
@@ -63,7 +63,7 @@ const TableEstablishments = ({ establishments }: TableEstablishmentsProps) => {
               textAlign="right"
               textTransform="uppercase"
               fontSize="xs"
-              {...cssTableColumns}
+              {...tableColumnsCss}
             >
               Ações
             </Table.ColumnHeader>
@@ -88,7 +88,7 @@ const TableEstablishments = ({ establishments }: TableEstablishmentsProps) => {
 
                   <AnimatePresence initial={false}>
                     {isEstablishmentExpanded && (
-                      <Table.Row id={establishmentDetailsId} {...cssTableRows}>
+                      <Table.Row id={establishmentDetailsId} {...tableRowsCss}>
                         <Table.Cell
                           colSpan={establishmentTableColumns.length + 2}
                           p="0"

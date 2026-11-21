@@ -5,7 +5,7 @@ import { PatternFormat } from 'react-number-format'
 
 import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
-import { inputFieldStyles } from '@/theme/styles/global-styles'
+import { inputFieldCss } from '@/theme/styles/global-styles'
 
 import { useFormCreateOrganizationProfile } from '../hooks/use-form-create-organization-profile'
 
@@ -50,7 +50,7 @@ const FormCreateOrganizationProfile = () => {
             <InputField
               {...register('profile.legalName')}
               placeholder="Ex: Minha Empresa LTDA"
-              css={inputFieldStyles}
+              css={inputFieldCss}
             />
           </Field>
 
@@ -63,7 +63,7 @@ const FormCreateOrganizationProfile = () => {
             <InputField
               {...register('profile.tradeName')}
               placeholder="Ex: Minha Empresa"
-              css={inputFieldStyles}
+              css={inputFieldCss}
             />
           </Field>
 
@@ -76,7 +76,7 @@ const FormCreateOrganizationProfile = () => {
             <InputField
               {...register('profile.email')}
               placeholder="contato@minhaempresa.com"
-              css={inputFieldStyles}
+              css={inputFieldCss}
             />
           </Field>
 
@@ -97,7 +97,7 @@ const FormCreateOrganizationProfile = () => {
                   placeholder="(00) 00000-0000"
                   mask="_"
                   customInput={InputField}
-                  css={inputFieldStyles}
+                  css={inputFieldCss}
                 />
               </Field>
             )}
@@ -119,7 +119,7 @@ const FormCreateOrganizationProfile = () => {
             <InputField
               {...register('name')}
               placeholder="Ex: Minha Empresa"
-              css={inputFieldStyles}
+              css={inputFieldCss}
             />
             <Button size="xs" rounded="lg" onClick={syncNameFromTradeName}>
               Utilizar nome fantasia

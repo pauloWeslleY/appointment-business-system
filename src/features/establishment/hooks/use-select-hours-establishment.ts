@@ -24,7 +24,6 @@ export function useSelectHoursEstablishment({
   selectedDay,
 }: UseSelectHoursEstablishmentParams) {
   const queryClient = useQueryClient()
-
   const loadEstablishment =
     queryClient.getQueryData<EstablishmentOrganizationProfileApiResponse>(
       establishmentQueryKeys.detail(establishmentId),

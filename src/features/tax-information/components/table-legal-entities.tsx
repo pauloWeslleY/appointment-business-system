@@ -17,8 +17,8 @@ import { EllipsisVertical, Eye, Pencil } from 'lucide-react'
 
 import {
   contentCss,
-  cssTableColumns,
-  cssTableRows,
+  tableColumnsCss,
+  tableRowsCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -93,7 +93,7 @@ const LegalEntitiesTable = () => {
         >
           <Table.Root variant="outline" minW="36rem">
             <Table.Header>
-              <Table.Row {...cssTableRows}>
+              <Table.Row {...tableRowsCss}>
                 <For
                   each={[
                     'Razão Social',
@@ -103,12 +103,12 @@ const LegalEntitiesTable = () => {
                   ]}
                 >
                   {(column) => (
-                    <Table.ColumnHeader {...cssTableColumns}>
+                    <Table.ColumnHeader {...tableColumnsCss}>
                       {column}
                     </Table.ColumnHeader>
                   )}
                 </For>
-                <Table.ColumnHeader textAlign="right" {...cssTableColumns}>
+                <Table.ColumnHeader textAlign="right" {...tableColumnsCss}>
                   Ações
                 </Table.ColumnHeader>
               </Table.Row>
@@ -120,7 +120,7 @@ const LegalEntitiesTable = () => {
                 )
 
                 return (
-                  <Table.Row key={taxInformation.id} {...cssTableRows}>
+                  <Table.Row key={taxInformation.id} {...tableRowsCss}>
                     <Table.Cell>{taxInformation.legalName}</Table.Cell>
                     <Table.Cell>{taxInformation.tradeName}</Table.Cell>
                     <Table.Cell>{taxInformation.maskedTaxId}</Table.Cell>

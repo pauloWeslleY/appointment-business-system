@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react'
+import { Grid, GridItem, InputGroup } from '@chakra-ui/react'
 import {
   type Control,
   Controller,
@@ -14,6 +14,7 @@ import type {
   ServiceEstablishmentFormData,
   ServiceEstablishmentFormInput,
 } from '../types/form-service-establishment.type'
+import { formattedDurationInMinutesService } from '../utils/formatted-duration-in-minutes-service'
 
 interface FieldsServiceEstablishmentProps {
   control: Control<
@@ -90,19 +91,30 @@ const FieldsServiceEstablishment = ({
             invalid={Boolean(errors.durationInMinutes)}
             errorText={errors.durationInMinutes?.message}
           >
-            <NumericFormat
-              name={field.name}
-              value={field.value ?? ''}
-              onBlur={field.onBlur}
-              onValueChange={(value) => field.onChange(value.floatValue)}
-              decimalScale={0}
-              allowNegative={false}
-              allowLeadingZeros={false}
-              customInput={InputField}
-              suffix=" min"
-              placeholder="Ex.: 30 min"
-              inputMode="numeric"
-            />
+            <InputGroup
+              endAddon={formattedDurationInMinutesService(field.value)}
+              endAddonProps={{
+                size: 'sm',
+                variant: 'subtle',
+                roundedTopRight: 'lg',
+                roundedBottomRight: 'lg',
+                bg: { _light: 'slate.200', _dark: 'slate.800' },
+              }}
+            >
+              <NumericFormat
+                name={field.name}
+                value={field.value ?? ''}
+                onBlur={field.onBlur}
+                onValueChange={(value) => field.onChange(value.floatValue)}
+                decimalScale={0}
+                allowNegative={false}
+                allowLeadingZeros={false}
+                customInput={InputField}
+                suffix=" min"
+                placeholder="Ex.: 30 min"
+                inputMode="numeric"
+              />
+            </InputGroup>
           </Field>
         )}
       />

@@ -11,7 +11,7 @@ import { Field } from '@/components/ui/field'
 import {
   cardSectionCss,
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -60,7 +60,7 @@ const FormUpadteStatusMember = ({ memberId }: FormUpadteStatusMemberProps) => {
             >
               <Select.HiddenSelect />
               <Select.Control>
-                <Select.Trigger {...inputFieldStyles}>
+                <Select.Trigger {...inputFieldCss}>
                   <Select.ValueText placeholder="Selecione o status" />
                 </Select.Trigger>
                 <Select.IndicatorGroup>

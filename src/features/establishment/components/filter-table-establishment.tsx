@@ -11,7 +11,7 @@ import {
 import SearchPage from '@/components/search-page'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -58,7 +58,7 @@ const FilterTableEstablishment = ({
         >
           <Select.HiddenSelect />
           <Select.Control>
-            <Select.Trigger {...inputFieldStyles}>
+            <Select.Trigger {...inputFieldCss}>
               <Select.ValueText placeholder="Selecione o status" />
             </Select.Trigger>
             <Select.IndicatorGroup>

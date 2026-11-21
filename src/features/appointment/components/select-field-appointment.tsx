@@ -2,7 +2,7 @@ import { type ListCollection, Portal, Select, Spinner } from '@chakra-ui/react'
 import type { ReactNode } from 'react'
 
 import { Field } from '@/components/ui/field'
-import { contentCss, inputFieldStyles } from '@/theme/styles/global-styles'
+import { contentCss, inputFieldCss } from '@/theme/styles/global-styles'
 
 interface SelectOption {
   label: string
@@ -55,7 +55,7 @@ const SelectFieldAppointment = ({
       >
         <Select.HiddenSelect />
         <Select.Control>
-          <Select.Trigger {...inputFieldStyles}>
+          <Select.Trigger {...inputFieldCss}>
             <Select.ValueText placeholder={placeholder} />
           </Select.Trigger>
           <Select.IndicatorGroup>

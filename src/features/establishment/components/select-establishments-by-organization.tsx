@@ -2,7 +2,7 @@ import { Portal, Select, Spinner } from '@chakra-ui/react'
 
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -40,7 +40,7 @@ const SelectEstablishmentsByOrganization = ({
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger {...inputFieldStyles}>
+        <Select.Trigger {...inputFieldCss}>
           <Select.ValueText placeholder="Selecione o serviço" />
         </Select.Trigger>
         <Select.IndicatorGroup>

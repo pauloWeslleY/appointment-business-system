@@ -4,56 +4,40 @@ import {
   Flex,
   For,
   HStack,
-  type PaginationPageChangeDetails,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
-import { parseAsInteger, useQueryStates } from 'nuqs'
-import { useTransition } from 'react'
 
 import PaginationTable from '@/components/layout/pagination-table'
 import SelectPageSize from '@/components/layout/select-page-size'
 import Loader from '@/components/loader'
 
 import CardServiceEstablishment from '../components/card-service-establishment'
+import TableServicesEstablishment from '../components/table-services-establishment'
+import { useServicesListPage } from '../hooks/use-services-list-page'
 import type { ListServicesEstablishmentModel } from '../types/list-services-establishment.model'
 
 interface ServicesListPageProps {
   services: ListServicesEstablishmentModel[]
-  total: number
+  totalServices: number
+  isServicesTableViewMode: boolean
 }
 
-const ServicesListPage = ({ services, total }: ServicesListPageProps) => {
-  const [isPendingPagination, startTransition] = useTransition()
-  const [pagination, setPagination] = useQueryStates(
-    {
-      page: parseAsInteger.withDefault(1),
-      page_size: parseAsInteger.withDefault(12).withOptions({
-        clearOnDefault: false,
-      }),
-    },
-    {
-      shallow: true,
-    },
-  )
+const ServicesListPage = ({
+  services,
+  totalServices,
+  isServicesTableViewMode,
+}: ServicesListPageProps) => {
+  const {
+    servicesPagination,
+    servicesSearch,
+    hasServices,
+    isChangingServicesPage,
+    visibleServicesCountLabel,
+    changeServicesPage,
+  } = useServicesListPage(services, totalServices)
 
-  const search = useSearch({
-    from: '/_app/_authenticated/dashboard/$slug/services/',
-  })
-
-  const visibleServices = services
-
-  const handlePageChange = (details: PaginationPageChangeDetails) => {
-    startTransition(() => {
-      setPagination({
-        page: details.page,
-        page_size: details.pageSize,
-      })
-    })
-  }
-
-  if (total === 0) {
+  if (!hasServices) {
     return (
       <Alert.Root status="info" rounded="xl">
         <Alert.Indicator />
@@ -69,15 +53,21 @@ const ServicesListPage = ({ services, total }: ServicesListPageProps) => {
 
   return (
     <Box spaceY="4" w="full">
-      {isPendingPagination && <Loader h="28" message="Carregando dados..." />}
+      {isChangingServicesPage && (
+        <Loader h="28" message="Carregando dados..." />
+      )}
 
-      {!isPendingPagination && (
+      {!isChangingServicesPage && isServicesTableViewMode && (
+        <TableServicesEstablishment services={services} />
+      )}
+
+      {!isChangingServicesPage && !isServicesTableViewMode && (
         <SimpleGrid
           columns={{ base: 1, md: 2, xl: 3, '2xl': 4 }}
           gap="2"
           w="full"
         >
-          <For each={visibleServices}>
+          <For each={services}>
             {(service) => (
               <CardServiceEstablishment key={service.id} service={service} />
             )}
@@ -85,33 +75,31 @@ const ServicesListPage = ({ services, total }: ServicesListPageProps) => {
         </SimpleGrid>
       )}
 
-      {total > 0 && (
-        <HStack justify="space-between" w="full" flexWrap="wrap" gap="3">
-          <Flex align="center" gap="2" flexWrap="wrap" maxW="full">
-            <PaginationTable
-              count={total}
-              pageSize={pagination.page_size}
-              page={pagination.page}
-              onPageChange={handlePageChange}
-            />
+      <HStack justify="space-between" w="full" flexWrap="wrap" gap="3">
+        <Flex align="center" gap="2" flexWrap="wrap" maxW="full">
+          <PaginationTable
+            count={totalServices}
+            pageSize={servicesPagination.page_size}
+            page={servicesPagination.page}
+            onPageChange={changeServicesPage}
+          />
 
-            <SelectPageSize
-              shallow
-              pages={[12, 24, 48]}
-              search={{
-                page: search?.page ?? 1,
-                pageSize: search?.page_size ?? 12,
-              }}
-            />
-          </Flex>
+          <SelectPageSize
+            shallow
+            pages={[12, 24, 48]}
+            search={{
+              page: servicesSearch.page,
+              pageSize: servicesSearch.page_size,
+            }}
+          />
+        </Flex>
 
-          <Box>
-            <Text fontSize="sm" color="gray.400">
-              {`Exibindo ${visibleServices.length} de ${total} serviços`}
-            </Text>
-          </Box>
-        </HStack>
-      )}
+        <Box>
+          <Text fontSize="sm" color="gray.400">
+            {visibleServicesCountLabel}
+          </Text>
+        </Box>
+      </HStack>
     </Box>
   )
 }

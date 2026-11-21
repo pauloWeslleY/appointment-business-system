@@ -12,8 +12,6 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isoWeek)
 
-const ROUTE_DATE_FORMAT = 'YYYY-MM-DD'
-
 export interface AppointmentPeriodRange {
   from: string
   to: string
@@ -23,8 +21,8 @@ const formatPeriodRange = (
   periodStart: Dayjs,
   periodEnd: Dayjs,
 ): AppointmentPeriodRange => ({
-  from: periodStart.format(ROUTE_DATE_FORMAT),
-  to: periodEnd.format(ROUTE_DATE_FORMAT),
+  from: periodStart.format('YYYY-MM-DD'),
+  to: periodEnd.format('YYYY-MM-DD'),
 })
 
 export function appointmentPeriodRange(
@@ -54,7 +52,6 @@ export function appointmentPeriodRange(
     case AppointmentPeriod.NEXT_THIRTY_DAYS: {
       return formatPeriodRange(
         establishmentToday,
-        // Hoje conta como o primeiro dos 30 dias, então o último fica 29 dias à frente.
         establishmentToday.add(29, 'day'),
       )
     }
@@ -67,6 +64,5 @@ export function isAppointmentPeriodSelected(
 ): boolean {
   const isSameStart = periodRange.from === selectedRange.from
   const isSameEnd = periodRange.to === selectedRange.to
-
   return isSameStart && isSameEnd
 }

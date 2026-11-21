@@ -12,7 +12,7 @@ import {
 import SearchPage from '@/components/search-page'
 import { mapLabelMemberRole } from '@/features/members/types/member-role.type'
 import { formattedDateAndHours } from '@/shared/utils/formatted-date'
-import { cssTableColumns, cssTableRows } from '@/theme/styles/global-styles'
+import { tableColumnsCss, tableRowsCss } from '@/theme/styles/global-styles'
 
 import DialogCancelInvite from '../components/dialog-cancel-invite'
 import DialogSendInvite from '../components/dialog-send-invite'
@@ -58,15 +58,15 @@ const ListInvitesSendPage = () => {
       >
         <Table.Root variant="outline" minW="36rem">
           <Table.Header>
-            <Table.Row {...cssTableRows}>
+            <Table.Row {...tableRowsCss}>
               <For each={['E-mail', 'Papel', 'Status', 'Data de expiração']}>
                 {(column) => (
-                  <Table.ColumnHeader {...cssTableColumns}>
+                  <Table.ColumnHeader {...tableColumnsCss}>
                     {column}
                   </Table.ColumnHeader>
                 )}
               </For>
-              <Table.ColumnHeader textAlign="right" {...cssTableColumns}>
+              <Table.ColumnHeader textAlign="right" {...tableColumnsCss}>
                 Ações
               </Table.ColumnHeader>
             </Table.Row>
@@ -78,7 +78,7 @@ const ListInvitesSendPage = () => {
               const expireDate = formattedDateAndHours(invite.expiresAt, true)
 
               return (
-                <Table.Row key={invite.id} {...cssTableRows}>
+                <Table.Row key={invite.id} {...tableRowsCss}>
                   <Table.Cell>{invite.email}</Table.Cell>
                   <Table.Cell>
                     <Badge

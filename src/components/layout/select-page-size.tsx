@@ -4,7 +4,7 @@ import { parseAsInteger, useQueryStates } from 'nuqs'
 import { colorDefaultTheme } from '@/shared/constants/color-default-theme'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -61,7 +61,7 @@ const SelectPageSize = ({
     >
       <Select.HiddenSelect />
       <Select.Control>
-        <Select.Trigger {...inputFieldStyles}>
+        <Select.Trigger {...inputFieldCss}>
           <Select.ValueText placeholder="Itens por página" />
         </Select.Trigger>
         <Select.IndicatorGroup>

@@ -17,7 +17,7 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -144,7 +144,7 @@ const ProfessionalFormFields = ({
               >
                 <Select.HiddenSelect name={field.name} />
                 <Select.Control>
-                  <Select.Trigger {...inputFieldStyles}>
+                  <Select.Trigger {...inputFieldCss}>
                     <Select.ValueText placeholder="Selecione o status" />
                   </Select.Trigger>
                   <Select.IndicatorGroup>

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { AppointmentStatusSchema } from '../types/appointment-status.type'
 
-export const AppointmentApiResponseSchema = z.object({
+export const AppointmentApiResponseSchema = z.strictObject({
   id: z.uuid(),
   createdByUserId: z.string(),
   organizationId: z.string(),

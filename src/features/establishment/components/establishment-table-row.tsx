@@ -19,7 +19,7 @@ import {
 
 import { Tooltip } from '@/components/ui/tooltip'
 import { formattedPhone } from '@/shared/utils/formatted-mask'
-import { cssTableRows } from '@/theme/styles/global-styles'
+import { tableRowsCss } from '@/theme/styles/global-styles'
 
 import { useEstablishmentTableRow } from '../hooks/use-establishment-table-row'
 import type { EstablishmentOrganizationProfileApiResponse } from '../types/get-establishment-api.response.type'
@@ -47,7 +47,7 @@ export default function EstablishmentTableRow({
   } = useEstablishmentTableRow(establishment)
 
   return (
-    <Table.Row {...cssTableRows}>
+    <Table.Row {...tableRowsCss}>
       <Table.Cell>
         <IconButton
           size="xs"

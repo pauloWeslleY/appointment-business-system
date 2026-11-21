@@ -1,6 +1,5 @@
 import { Icon, IconButton, Menu, Portal } from '@chakra-ui/react'
-import { useNavigate } from '@tanstack/react-router'
-import { useParams } from '@tanstack/react-router'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
 import { useState } from 'react'
 
@@ -13,9 +12,13 @@ import DialogStatusServiceEstablishment from './dialog-status-service-establishm
 
 interface MenuActionServicesTableProps {
   service: ListServicesEstablishmentModel
+  isViewServiceActionVisible?: boolean
 }
 
-const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
+const MenuActionServicesTable = ({
+  service,
+  isViewServiceActionVisible = true,
+}: MenuActionServicesTableProps) => {
   const [
     isOpenDialogStatusServiceEstablishment,
     setIsOpenDialogStatusServiceEstablishment,
@@ -74,13 +77,15 @@ const MenuActionServicesTable = ({ service }: MenuActionServicesTableProps) => {
               >
                 Editar serviço
               </Menu.Item>
-              <Menu.Item
-                value="info"
-                onClick={() => handleNavigateToService('info')}
-                {...menuItemCss}
-              >
-                Visualizar serviço
-              </Menu.Item>
+              {isViewServiceActionVisible && (
+                <Menu.Item
+                  value="info"
+                  onClick={() => handleNavigateToService('info')}
+                  {...menuItemCss}
+                >
+                  Visualizar serviço
+                </Menu.Item>
+              )}
               <Menu.Item
                 value="status"
                 onClick={() => setIsOpenDialogStatusServiceEstablishment(true)}

@@ -19,7 +19,7 @@ import InputField from '@/components/input-field'
 import { Field } from '@/components/ui/field'
 import {
   contentCss,
-  inputFieldStyles,
+  inputFieldCss,
   menuItemCss,
 } from '@/theme/styles/global-styles'
 
@@ -149,7 +149,7 @@ const FormUpdateEstablishmentPage = ({
                   >
                     <Select.HiddenSelect />
                     <Select.Control>
-                      <Select.Trigger {...inputFieldStyles}>
+                      <Select.Trigger {...inputFieldCss}>
                         <Select.ValueText placeholder="Selecione o horário" />
                       </Select.Trigger>
                       <Select.IndicatorGroup>
