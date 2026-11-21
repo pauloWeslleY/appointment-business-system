@@ -31,7 +31,7 @@ const FormCustomTimesOpeningHours = ({
   return (
     <Card.Root variant="outline" {...cardSectionCss}>
       <Card.Header px="0" pt="0" mb="4">
-        <Card.Title>Horários de customizados</Card.Title>
+        <Card.Title>Horários personalizados</Card.Title>
         <Card.Description>
           Este período comporta até{' '}
           {customTimesCapacity.toLocaleString('pt-BR')}{' '}
