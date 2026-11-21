@@ -44,14 +44,37 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
   const {
     data: selectedTime,
     error: errorAvailableHours,
-    isLoading: isLoadingAvailableHours,
+    isFetching: isLoadingAvailableHours,
   } = useQuery(
-    establishmentAvailabilityQueryOptions({
-      establishmentId: appointment.establishmentId,
-      serviceId: appointment.serviceId,
-      selectedDate,
-    }),
+    establishmentAvailabilityQueryOptions(
+      {
+        establishmentId: appointment.establishmentId,
+        serviceId: appointment.serviceId,
+        professionalId: appointment.professionalId ?? undefined,
+        excludeAppointmentId: appointment.id,
+        selectedDate,
+      },
+      {
+        userId: session?.user.id,
+        organizationId: session?.session.activeOrganizationId,
+      },
+    ),
   )
+
+  const changeRescheduleDate = (rescheduleDate: string) => {
+    if (rescheduleDate === date) {
+      return
+    }
+
+    form.setValue('date', rescheduleDate, { shouldDirty: true })
+    form.setValue('hour', [], { shouldDirty: true })
+  }
+
+  const hasNoAvailableHours =
+    Boolean(selectedDate) &&
+    !isLoadingAvailableHours &&
+    !errorAvailableHours &&
+    selectedTime?.length === 0
 
   const mutationOptions = appointmentMutationOptions.update()
   const { mutate: updateAppointment, isPending: isPendingUpdateAppointment } =
@@ -111,5 +134,7 @@ export function useUpdateAppointmentForm(appointment: AppointmentModel) {
     onSubmitUpdateAppointment,
     errorAvailableHours,
     isLoadingAvailableHours,
+    changeRescheduleDate,
+    hasNoAvailableHours,
   }
 }

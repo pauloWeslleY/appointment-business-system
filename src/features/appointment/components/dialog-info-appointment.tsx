@@ -33,14 +33,6 @@ const DialogInfoAppointment = ({
     appointment.timezone,
   )
 
-  const loadAppointmentInfo = [
-    { label: 'Nome do cliente', value: appointment.customerNameSnapshot },
-    { label: 'Status', value: appointment.status },
-    { label: 'Data', value: formatAppointmentDate.format('DD/MM/YYYY') },
-    { label: 'Horário', value: formatAppointmentDate.format('HH:mm') },
-    { label: 'Observações', value: appointment.notes ?? 'Nenhuma observação' },
-  ]
-
   return (
     <Dialog.Root
       size="md"
@@ -58,7 +50,30 @@ const DialogInfoAppointment = ({
             </Dialog.Header>
             <Dialog.Body pb="8">
               <DataList.Root orientation="horizontal">
-                <For each={loadAppointmentInfo}>
+                <For
+                  each={[
+                    {
+                      label: 'Nome do cliente',
+                      value: appointment.customerNameSnapshot,
+                    },
+                    {
+                      label: 'Status',
+                      value: appointment.status,
+                    },
+                    {
+                      label: 'Data',
+                      value: formatAppointmentDate.format('DD/MM/YYYY'),
+                    },
+                    {
+                      label: 'Horário',
+                      value: formatAppointmentDate.format('HH:mm'),
+                    },
+                    {
+                      label: 'Observações',
+                      value: appointment.notes ?? 'N/A',
+                    },
+                  ]}
+                >
                   {(item) => (
                     <React.Fragment key={item.label}>
                       {['Nome do cliente', 'Status'].includes(
@@ -92,7 +107,7 @@ const DialogInfoAppointment = ({
                               colorPalette={
                                 getBadgeAppointmentColor[appointment.status]
                               }
-                              w="fit-content"
+                              w="fit"
                             >
                               {appointmentStatusLabel[appointment.status]}
                             </Badge>

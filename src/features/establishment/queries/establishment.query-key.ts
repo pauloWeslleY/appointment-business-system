@@ -1,5 +1,10 @@
 import type { GetOpeningHoursRequest } from '../types/opening-hours-request.type'
 
+export interface EstablishmentAvailabilityScope {
+  userId?: string
+  organizationId?: string | null
+}
+
 export const establishmentQueryKeys = {
   all: ['establishment'] as const,
 
@@ -28,14 +33,21 @@ export const establishmentQueryKeys = {
     ] as const
   },
 
-  availability: (params: GetOpeningHoursRequest) => {
+  availability: (
+    params: GetOpeningHoursRequest,
+    scope?: EstablishmentAvailabilityScope,
+  ) => {
     return [
       ...establishmentQueryKeys.all,
       'availability',
       {
         establishmentId: params.establishmentId,
         serviceId: params.serviceId,
+        professionalId: params.professionalId,
+        excludeAppointmentId: params.excludeAppointmentId,
         selectedDate: params.selectedDate,
+        userId: scope?.userId,
+        organizationId: scope?.organizationId,
       },
     ] as const
   },

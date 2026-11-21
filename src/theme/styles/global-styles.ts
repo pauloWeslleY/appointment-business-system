@@ -69,3 +69,10 @@ export const skeletonCss = defineStyle({
   rounded: 'lg',
   bg: { _light: 'gray.200', _dark: 'gray.600/70' },
 })
+
+export const avatarRingCss = defineStyle({
+  outlineWidth: '2px',
+  outlineColor: 'colorPalette.500',
+  outlineOffset: '2px',
+  outlineStyle: 'solid',
+})

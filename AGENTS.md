@@ -58,6 +58,22 @@ Não crie diretórios vazios nem uma arquitetura paralela para uma funcionalidad
 - Em objetos retornados por hooks, declare valores derivados e callbacks antes do `return` e exponha apenas referências nomeadas com sintaxe abreviada.
 - Antes de concluir qualquer alteração de código, leia os nomes no ponto de uso e corrija os que exigem rastrear a implementação para entender seu significado.
 
+### Desestruturação de `useMutation`
+
+- Sempre desestruture o retorno de `useMutation` e de hooks que o retornam, como `useSaveEstablishmentSettings`. Não use `const mutation = useMutation(...)` seguido de `mutation.mutate` ou `mutation.isPending`.
+- Declare `mutate` primeiro e `isPending` em seguida. Desestruture `mutateAsync`, `error`, `data` ou `reset` somente quando forem usados.
+- Nomeie os aliases com a operação e o domínio, sem termos redundantes como `New`, `Mutation` ou `Data`: `mutate: createAppointment`, `isPending: isPendingCreateAppointment`, `error: createAppointmentError`, `reset: resetCreateAppointment`. Use `mutateAsync` somente quando o resultado precisar ser aguardado, com o mesmo padrão de nome.
+
+```ts
+const { mutate: createAppointment, isPending: isPendingCreateAppointment } =
+  useMutation(appointmentMutationOptions.create())
+```
+
+- Ao compor callbacks, guarde as options em uma constante com operação e domínio, como `createAppointmentMutationOptions`. Chame o callback original antes do novo e dê contexto aos parâmetros, como `createAppointmentError` e `...createAppointmentSuccessParams`.
+- Use o alias de `isPending` para bloquear envio duplicado no handler do formulário e para controlar `loading` e `disabled` dos botões.
+- Exponha no retorno do hook o mesmo nome do alias, sem renomear dentro do `return`.
+- Hooks que apenas encapsulam uma mutation podem retornar `useMutation(...)` diretamente; o consumidor aplica a desestruturação.
+
 ## Código e React
 
 - Escreva funções e componentes coesos, com nomes que expressem intenção. Extraia etapas independentes e evite duplicação.

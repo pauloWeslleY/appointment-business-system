@@ -49,6 +49,8 @@ const DialogEditAppointment = ({
     onSubmitUpdateAppointment,
     errorAvailableHours,
     isLoadingAvailableHours,
+    changeRescheduleDate,
+    hasNoAvailableHours,
   } = useUpdateAppointmentForm(appointment)
 
   return (
@@ -77,6 +79,11 @@ const DialogEditAppointment = ({
               {isLoadingAvailableHours && (
                 <Text role="status">Carregando horários disponíveis...</Text>
               )}
+              {hasNoAvailableHours && (
+                <Text role="status">
+                  Nenhum horário disponível para este serviço na data selecionada.
+                </Text>
+              )}
 
               <Stack
                 aria-label="form-update-appointment"
@@ -103,7 +110,7 @@ const DialogEditAppointment = ({
                           invalid={Boolean(errors.date)}
                           value={field.value ? [parseDate(field.value)] : []}
                           onValueChange={(e) =>
-                            field.onChange(e.value[0]?.toString() ?? '')
+                            changeRescheduleDate(e.value[0]?.toString() ?? '')
                           }
                         >
                           <DatePicker.Control>
